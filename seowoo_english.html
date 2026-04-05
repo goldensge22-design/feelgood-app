@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Seowoo Song · K-PASS Training</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
+  :root {
+    --navy: #1a2a4a;
+    --green: #1D9E75;
+    --amber: #BA7517;
+    --purple: #7F77DD;
+    --bg: #f5f7fa;
+    --card: #fff;
+    --border: rgba(0,0,0,0.1);
+    --text: #1a1a1a;
+    --muted: #6b7280;
+  }
+  body { background: var(--bg); max-width: 420px; margin: 0 auto; min-height: 100vh; }
+
+  /* Header */
+  .header { background: var(--navy); color: #fff; padding: 14px 16px 12px; display: flex; align-items: center; gap: 10px; }
+  .avatar { width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,0.15); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 600; color: #fff; border: 1.5px solid rgba(255,255,255,0.3); flex-shrink: 0; }
+  .header-info h1 { font-size: 15px; font-weight: 600; color: #fff; }
+  .header-info p { font-size: 11px; color: rgba(255,255,255,0.65); margin-top: 1px; }
+  .badge { margin-left: auto; background: rgba(255,215,0,0.2); border: 1px solid rgba(255,215,0,0.4); color: #ffd700; font-size: 10px; padding: 3px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; }
+
+  /* Score bar */
+  .scores-bar { background: #fff; padding: 14px 16px; border-bottom: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; }
+  .score-item label { font-size: 9px; color: var(--muted); display: block; margin-bottom: 3px; text-transform: uppercase; letter-spacing: .4px; }
+  .score-item .val { font-size: 20px; font-weight: 600; color: var(--text); }
+  .score-item .tag { font-size: 9px; margin-top: 2px; }
+  .tag.strong { color: var(--green); }
+  .tag.weak { color: var(--amber); }
+  .tag.top { color: var(--purple); }
+
+  /* XP bar */
+  .xp-bar-wrap { background: #fff; padding: 10px 16px; border-bottom: 1px solid var(--border); }
+  .xp-bar-wrap p { font-size: 11px; color: var(--muted); margin-bottom: 5px; display: flex; justify-content: space-between; }
+  .xp-bar { height: 6px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+  .xp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), #5DCAA5); border-radius: 4px; }
+
+  /* Section */
+  .section { padding: 14px 16px; border-bottom: 1px solid var(--border); background: #fff; }
+  .section-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+
+  /* Mission card */
+  .mission-card { background: var(--bg); border-radius: 10px; padding: 12px; display: flex; align-items: center; gap: 10px; border: 1px solid var(--border); }
+  .mission-icon { width: 36px; height: 36px; border-radius: 8px; background: #e1f5ee; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .mission-info h3 { font-size: 13px; font-weight: 600; color: var(--text); }
+  .mission-info p { font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .mission-btn { margin-left: auto; background: var(--navy); color: #fff; border: none; border-radius: 7px; padding: 7px 14px; font-size: 11px; font-weight: 600; cursor: pointer; flex-shrink: 0; }
+  .mission-btn:active { opacity: 0.8; }
+
+  /* Schedule */
+  .schedule-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; text-align: center; }
+  .day-label { font-size: 9px; color: var(--muted); padding-bottom: 4px; font-weight: 500; }
+  .day-cell { font-size: 10px; padding: 6px 2px; border-radius: 5px; background: var(--bg); color: var(--muted); }
+  .day-cell.active { background: #e1f5ee; color: #0F6E56; font-weight: 600; }
+  .day-cell.today { background: var(--navy); color: #fff; font-weight: 600; }
+
+  /* Stats */
+  .peer-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-bottom: 10px; }
+  .stat-box { background: var(--bg); border-radius: 8px; padding: 10px 8px; text-align: center; border: 1px solid var(--border); }
+  .stat-box .n { font-size: 20px; font-weight: 600; color: var(--text); }
+  .stat-box .l { font-size: 10px; color: var(--muted); margin-top: 2px; }
+  .empty-note { font-size: 12px; color: var(--muted); padding: 14px 0; text-align: center; }
+
+  /* Growth */
+  .growth-area { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 14px; }
+  .kpass-bar-row { margin-bottom: 9px; }
+  .kpass-bar-row label { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 3px; }
+  .kpass-bar-bg { height: 7px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+  .kpass-fill { height: 100%; border-radius: 4px; }
+
+  /* Level roadmap */
+  .level-road { display: flex; flex-direction: column; gap: 6px; }
+  .level-row { display: flex; align-items: center; gap: 8px; }
+  .lv-dot { width: 26px; height: 26px; border-radius: 50%; background: var(--bg); border: 1.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--muted); flex-shrink: 0; }
+  .lv-dot.current { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 600; }
+  .lv-label { font-size: 12px; color: var(--muted); }
+  .lv-label.current { color: var(--text); font-weight: 600; }
+
+  /* Report */
+  .report-box { background: var(--bg); border-radius: 10px; padding: 12px; border: 1px solid var(--border); margin-bottom: 8px; }
+  .report-box h4 { font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 5px; }
+  .report-box p { font-size: 11px; color: var(--muted); line-height: 1.6; }
+
+  /* How it works box */
+  .how-box { font-size: 11px; color: var(--muted); line-height: 1.7; background: var(--bg); border-radius: 8px; padding: 10px 12px; border: 1px solid var(--border); }
+  .how-box strong { display: block; margin-bottom: 4px; color: var(--text); font-size: 12px; }
+
+  /* Nav */
+  .nav { position: fixed; bottom: 0; left: 50%; transform: translateX(-50%); width: 100%; max-width: 420px; background: #fff; border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(5, 1fr); padding: 8px 0 env(safe-area-inset-bottom, 10px); z-index: 100; }
+  .nav-item { display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 9px; color: var(--muted); cursor: pointer; padding: 4px 0; transition: color .15s; }
+  .nav-item.active { color: var(--navy); }
+  .nav-icon { font-size: 18px; line-height: 1; }
+  .spacer { height: 75px; }
+
+  /* Tabs */
+  .tab-content { display: none; }
+  .tab-content.visible { display: block; }
+
+  /* Modal overlay */
+  .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; }
+  .modal-overlay.show { display: flex; }
+  .modal { background: #fff; border-radius: 16px; padding: 20px; width: 300px; text-align: center; }
+  .modal h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 8px; }
+  .modal p { font-size: 12px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+  .modal-btn { background: var(--navy); color: #fff; border: none; border-radius: 8px; padding: 10px 24px; font-size: 13px; font-weight: 600; cursor: pointer; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <div class="avatar">SW</div>
+  <div class="header-info">
+    <h1>Seowoo Song</h1>
+    <p>Simultaneous Processing Dominant · Age 9 · Female</p>
+  </div>
+  <div class="badge">★ Gifted · Planning 99.9%</div>
+</div>
+
+<!-- K-PASS Score Bar -->
+<div class="scores-bar">
+  <div class="score-item">
+    <label>Sequential</label>
+    <div class="val">95</div>
+    <div class="tag weak">Personal low</div>
+  </div>
+  <div class="score-item">
+    <label>Simultaneous</label>
+    <div class="val">117</div>
+    <div class="tag strong">Above norm</div>
+  </div>
+  <div class="score-item">
+    <label>Planning</label>
+    <div class="val">145</div>
+    <div class="tag top">★ Top 0.1%</div>
+  </div>
+  <div class="score-item">
+    <label>Attention</label>
+    <div class="val">131</div>
+    <div class="tag strong">Personal high</div>
+  </div>
+</div>
+
+<!-- XP Bar -->
+<div class="xp-bar-wrap">
+  <p><span>Lv.1 Sprout</span><span>0 / 30 XP</span></p>
+  <div class="xp-bar"><div class="xp-fill"></div></div>
+</div>
+
+<!-- HOME TAB -->
+<div id="tab-home" class="tab-content visible">
+  <div class="section">
+    <div class="section-title">Today's Mission</div>
+    <div class="mission-card">
+      <div class="mission-icon">📚</div>
+      <div class="mission-info">
+        <h3>Peer Verification</h3>
+        <p>Photo → Peer checks → XP earned</p>
+      </div>
+      <button class="mission-btn" onclick="showModal()">Start</button>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Weekly Interleaving Schedule</div>
+    <div class="schedule-grid">
+      <div class="day-label">Mon</div>
+      <div class="day-label">Tue</div>
+      <div class="day-label">Wed</div>
+      <div class="day-label">Thu</div>
+      <div class="day-label">Fri</div>
+      <div class="day-label">Sat</div>
+      <div class="day-label">Sun</div>
+      <div class="day-cell active">✓</div>
+      <div class="day-cell active">Seq.</div>
+      <div class="day-cell today">Sim.</div>
+      <div class="day-cell">—</div>
+      <div class="day-cell active">Pres.</div>
+      <div class="day-cell">—</div>
+      <div class="day-cell">—</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">K-PASS Assessment Results</div>
+    <div class="kpass-bar-row">
+      <label><span>Sequential Processing</span><span style="color:var(--amber);font-weight:600;">95</span></label>
+      <div class="kpass-bar-bg"><div class="kpass-fill" style="width:65%;background:var(--amber);"></div></div>
+    </div>
+    <div class="kpass-bar-row">
+      <label><span>Simultaneous Processing</span><span style="color:var(--green);font-weight:600;">117</span></label>
+      <div class="kpass-bar-bg"><div class="kpass-fill" style="width:80%;background:var(--green);"></div></div>
+    </div>
+    <div class="kpass-bar-row">
+      <label><span>Planning</span><span style="color:var(--purple);font-weight:600;">145</span></label>
+      <div class="kpass-bar-bg"><div class="kpass-fill" style="width:99%;background:var(--purple);"></div></div>
+    </div>
+    <div class="kpass-bar-row">
+      <label><span>Attention</span><span style="color:var(--green);font-weight:600;">131</span></label>
+      <div class="kpass-bar-bg"><div class="kpass-fill" style="width:90%;background:var(--green);"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MISSION / PEER TAB -->
+<div id="tab-mission" class="tab-content">
+  <div class="section">
+    <div class="section-title">Peer Verification System</div>
+    <div class="peer-stats">
+      <div class="stat-box"><div class="n">0</div><div class="l">Photos sent</div></div>
+      <div class="stat-box"><div class="n">0</div><div class="l">Received</div></div>
+      <div class="stat-box"><div class="n">0</div><div class="l">Confirmed</div></div>
+    </div>
+    <div class="how-box">
+      <strong>How it works</strong>
+      1. Complete your mission → Take a photo of your work<br>
+      2. Send it → Arrives in your peer's inbox<br>
+      3. Peer confirms → XP is credited to your account
+    </div>
+  </div>
+  <div class="section">
+    <div class="section-title">Inbox (0)</div>
+    <div class="empty-note">No requests yet</div>
+  </div>
+  <div class="section">
+    <div class="section-title">Sent</div>
+    <div class="empty-note">No missions sent yet</div>
+  </div>
+</div>
+
+<!-- GROWTH TAB -->
+<div id="tab-growth" class="tab-content">
+  <div class="section">
+    <div class="section-title">Growth Record</div>
+    <div class="growth-area">
+      <div class="stat-box"><div class="n">0</div><div class="l">Missions done</div></div>
+      <div class="stat-box"><div class="n">0</div><div class="l">Day streak</div></div>
+      <div class="stat-box"><div class="n">0</div><div class="l">Peer checks</div></div>
+      <div class="stat-box"><div class="n">Lv.1</div><div class="l">Current level</div></div>
+    </div>
+    <div class="section-title">Level Roadmap (10 Stages)</div>
+    <div class="level-road">
+      <div class="level-row"><div class="lv-dot current">1</div><div class="lv-label current">Sprout — you are here</div></div>
+      <div class="level-row"><div class="lv-dot">2</div><div class="lv-label">Seedling</div></div>
+      <div class="level-row"><div class="lv-dot">3</div><div class="lv-label">Explorer</div></div>
+      <div class="level-row"><div class="lv-dot">4</div><div class="lv-label">Achiever</div></div>
+      <div class="level-row"><div class="lv-dot">5</div><div class="lv-label">Champion</div></div>
+      <div class="level-row"><div class="lv-dot">6</div><div class="lv-label">Scholar</div></div>
+      <div class="level-row"><div class="lv-dot">7</div><div class="lv-label">Strategist</div></div>
+      <div class="level-row"><div class="lv-dot">8</div><div class="lv-label">Innovator</div></div>
+      <div class="level-row"><div class="lv-dot">9</div><div class="lv-label">Visionary</div></div>
+      <div class="level-row"><div class="lv-dot">10</div><div class="lv-label">Genius</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER TAB -->
+<div id="tab-teacher" class="tab-content">
+  <div class="section">
+    <div class="section-title">Teacher's Report — Seowoo Song</div>
+
+    <div class="report-box">
+      <h4>★ Gifted Level — Planning 145 (Top 0.1%)</h4>
+      <p>Simultaneous processing dominant type. Sequential processing (95) is her personal weak area relative to her own scores.</p>
+    </div>
+
+    <div class="report-box">
+      <h4>Interleaving Schedule Design</h4>
+      <p>Sequential processing: 2× per week only (Tue + Wed). Daily practice leads to interest drop — the optimal interval is 1–2 days. All remaining sessions should reinforce strengths to build positive success experiences.</p>
+    </div>
+
+    <div class="report-box">
+      <h4>Maximize Planning Strength (145)</h4>
+      <p>Use her exceptional planning ability to compensate for the sequential processing weakness — guide her to "plan around it." Wednesday's class is the critical anchor session.</p>
+    </div>
+
+    <div class="report-box">
+      <h4>Friday Peer Presentation Check</h4>
+      <p>Every Friday: explain the mission to her peer → peer confirms. This applies the Protégé Effect strategy, which maximizes the planning strength further.</p>
+    </div>
+
+    <div class="report-box">
+      <h4>Peer Verification Status</h4>
+      <p>Photos exchanged: 0 · Pending: 0 · Confirmed: 0</p>
+    </div>
+  </div>
+</div>
+
+<div class="spacer"></div>
+
+<!-- Nav -->
+<nav class="nav">
+  <div class="nav-item active" onclick="switchTab('home',this)">
+    <div class="nav-icon">🏠</div>Home
+  </div>
+  <div class="nav-item" onclick="switchTab('mission',this)">
+    <div class="nav-icon">📋</div>Missions
+  </div>
+  <div class="nav-item" onclick="switchTab('mission',this)">
+    <div class="nav-icon">👥</div>Peers
+  </div>
+  <div class="nav-item" onclick="switchTab('growth',this)">
+    <div class="nav-icon">📈</div>Growth
+  </div>
+  <div class="nav-item" onclick="switchTab('teacher',this)">
+    <div class="nav-icon">👩‍🏫</div>Teacher
+  </div>
+</nav>
+
+<!-- Modal -->
+<div class="modal-overlay" id="modalOverlay" onclick="hideModal(event)">
+  <div class="modal">
+    <h3>📸 Start Mission</h3>
+    <p>Take a photo of your completed work and send it to your peer for verification. Once they confirm, XP will be added to your account!</p>
+    <button class="modal-btn" onclick="hideModal()">Got it!</button>
+  </div>
+</div>
+
+<script>
+  function switchTab(name, el) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('visible'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById('tab-' + name).classList.add('visible');
+    el.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function showModal() {
+    document.getElementById('modalOverlay').classList.add('show');
+  }
+  function hideModal(e) {
+    if (!e || e.target === document.getElementById('modalOverlay')) {
+      document.getElementById('modalOverlay').classList.remove('show');
+    }
+  }
+</script>
+</body>
+</html>
