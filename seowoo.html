@@ -1,0 +1,854 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>송서우 · K-PASS 맞춤 훈련</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3f1f8;--surface:#fff;--border:#e2dde8;--border2:#c5bdd0;
+  --text:#1a1620;--sub:#7a7088;--hint:#b5afc0;
+  --p1:#5c3de0;--p1b:#eeebfd;--p1t:#3a26b0;
+  --p2:#0a6a8c;--p2b:#ddf0f8;--p2t:#064f6a;
+  --p3:#b83ab0;--p3b:#fde8fc;--p3t:#7a1a72;
+  --p4:#1a7838;--p4b:#e2f5e8;--p4t:#0d4d22;
+  --p5:#8a4a00;--p5b:#fdeede;--p5t:#5c3000;
+  --warn:#be5e00;--warnb:#fdf0e0;
+  --gold:#9a6e00;--goldb:#fdf5dc;
+  --peer:#0e7490;--peerb:#e0f5fa;--peert:#0a4f62;
+  --r:14px;--rs:9px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);overscroll-behavior:none}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--text);font-size:14px;line-height:1.55}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;background:var(--bg);overflow:hidden}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:80px}
+.screen{display:none;animation:rise .25s ease}.screen.active{display:block}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 18px 10px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:40}
+.tb-title{font-family:'Gmarket Sans',sans-serif;font-size:16px;font-weight:700;letter-spacing:-.3px}
+.tb-sub{font-size:11px;color:var(--sub);margin-top:1px}
+.chip{font-size:11px;font-weight:700;padding:4px 11px;border-radius:20px}
+.pad{padding:16px}
+.sec{font-size:10px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--sub);margin:14px 0 8px}
+.sec:first-child{margin-top:0}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:14px 16px;margin-bottom:10px}
+.card-accent{border-left:4px solid;border-radius:0 var(--rs) var(--rs) 0;padding:11px 14px;margin-bottom:8px;background:var(--surface);border-top:.5px solid var(--border);border-right:.5px solid var(--border);border-bottom:.5px solid var(--border)}
+.hero{background:linear-gradient(135deg,#2d1f6e 0%,#4c3de0 100%);border-radius:var(--r);padding:18px;margin-bottom:12px;overflow:hidden;position:relative}
+.hero::after{content:'';position:absolute;right:-20px;top:-20px;width:110px;height:110px;border-radius:50%;background:rgba(255,255,255,.05)}
+.hero-gift{display:inline-flex;gap:4px;align-items:center;background:rgba(255,215,0,.2);color:#ffd700;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;margin-bottom:8px;border:1px solid rgba(255,215,0,.4)}
+.hero-name{font-family:'Gmarket Sans',sans-serif;font-size:22px;font-weight:700;color:#fff;margin-bottom:1px}
+.hero-type{font-size:11px;color:rgba(255,255,255,.55);margin-bottom:12px}
+.score-row{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.si{background:rgba(255,255,255,.1);border-radius:8px;padding:7px 4px;text-align:center}
+.si-l{font-size:9px;color:rgba(255,255,255,.5);margin-bottom:3px}
+.si-v{font-size:17px;font-weight:900;line-height:1}
+.si-b{height:3px;border-radius:2px;background:rgba(255,255,255,.15);margin-top:4px;overflow:hidden}
+.si-bf{height:100%;border-radius:2px}
+.today-box{border-radius:var(--r);overflow:hidden;margin-bottom:12px;border:2px solid}
+.tb-day-header{padding:10px 16px;display:flex;align-items:center;justify-content:space-between}
+.tb-day-name{font-family:'Gmarket Sans',sans-serif;font-size:15px;font-weight:700}
+.tb-missions{background:var(--surface)}
+.tb-mi{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-bottom:1px solid var(--border);cursor:pointer}
+.tb-mi:last-child{border-bottom:none}
+.tb-mi:active{background:var(--bg)}
+.tb-mi.done-mi{opacity:.5}
+.tb-chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;transition:all .2s;margin-top:1px}
+.tb-chk.chk-on{color:#fff;border-color:transparent}
+.tb-chk.chk-wait{background:rgba(154,110,0,.15);border-color:var(--gold)}
+.tb-body{flex:1}
+.tb-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+.tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:7px}
+.tb-text{font-size:13px;line-height:1.5;margin-bottom:2px}
+.tb-guide{font-size:11px;color:var(--sub);line-height:1.45;border-top:1px dashed var(--border);margin-top:5px;padding-top:5px}
+.lv-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:12px}
+.lv-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.lv-badge{font-family:'Gmarket Sans',sans-serif;font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px}
+.xp-bg{height:9px;border-radius:5px;background:var(--border);overflow:hidden;margin-bottom:5px}
+.xp-fill{height:100%;border-radius:5px;transition:width .7s cubic-bezier(.4,0,.2,1)}
+.lv-dots{display:flex;gap:3px}
+.lv-dot{flex:1;height:4px;border-radius:2px;background:var(--border);transition:background .3s}
+.lv-dot.on{background:var(--gold)}
+.kpass-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.kpass-row{display:flex;align-items:center;gap:9px;padding:9px 13px;border-bottom:1px solid var(--border)}
+.kpass-row:last-child{border-bottom:none}
+.kpass-bar-bg{flex:1;height:7px;border-radius:4px;background:var(--border);overflow:hidden}
+.kpass-bar-fill{height:100%;border-radius:4px}
+.week-sched{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-bottom:8px}
+.ws-day{border:.5px solid var(--border);border-radius:var(--rs);overflow:hidden}
+.ws-head{font-size:10px;font-weight:700;text-align:center;padding:5px 2px;border-bottom:.5px solid var(--border)}
+.ws-slot{font-size:10px;padding:5px 5px;line-height:1.35;border-bottom:.5px solid var(--border);color:var(--sub)}
+.ws-slot:last-child{border-bottom:none}
+.ws-slot.slot-strong{color:var(--p4t);font-weight:700}
+.ws-slot.slot-weak{color:var(--warn);font-weight:700}
+.ws-slot.slot-fusion{color:var(--p1t);font-weight:700}
+.ws-day.today-col{border:2px solid var(--p1)}
+.ws-day.today-col .ws-head{background:var(--p1);color:#fff}
+.peer-banner{background:var(--peerb);border:1.5px solid rgba(14,116,144,.3);border-radius:var(--r);padding:13px 15px;margin-bottom:12px;display:flex;gap:10px;align-items:center}
+.prog-row{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:11px 13px;margin-bottom:7px;display:flex;gap:9px;align-items:center;cursor:pointer}
+.prog-row:active{background:var(--bg)}
+.prog-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.prog-bar-bg{height:4px;border-radius:2px;background:var(--border);overflow:hidden;margin-top:4px}
+.prog-bar-fill{height:100%;border-radius:2px;transition:width .5s}
+.ph{border-radius:var(--r);padding:14px 16px;margin-bottom:12px}
+.mission-wrap{border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.mw-head{padding:8px 13px;background:var(--bg);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:11px;font-weight:700;color:var(--sub)}
+.mi{display:flex;gap:9px;align-items:flex-start;padding:11px 13px;border-bottom:1px solid var(--border);cursor:pointer}
+.mi:last-child{border-bottom:none}
+.mi:active{background:var(--bg)}
+.mi.done-item{opacity:.5}
+.mi-chk{width:22px;height:22px;border-radius:6px;border:2px solid var(--border2);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:900;transition:all .2s;margin-top:1px}
+.mi-chk.chk-done{color:#fff;border-color:transparent}
+.mi-chk.chk-pending{background:rgba(154,110,0,.15);border-color:var(--gold)}
+.mi-body{flex:1}
+.mi-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:4px}
+.mi-text{font-size:13px;color:var(--text);line-height:1.5;margin-bottom:2px}
+.mi-text.crossed{text-decoration:line-through;color:var(--hint)}
+.mi-guide{font-size:11px;color:var(--sub);line-height:1.45;border-top:1px dashed var(--border);margin-top:5px;padding-top:5px}
+.diary-form{border:1.5px dashed var(--border2);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.df-hd{padding:8px 13px;background:var(--bg);border-bottom:1.5px dashed var(--border2);display:flex;justify-content:space-between;align-items:center}
+.df-sec{padding:4px 13px;background:rgba(0,0,0,.02);font-size:10px;font-weight:700;letter-spacing:.05em;color:var(--hint);border-bottom:1px solid var(--border);text-transform:uppercase}
+.df-row{padding:8px 13px;border-bottom:1px dashed var(--border);display:flex;gap:9px;align-items:flex-start}
+.df-row:last-child{border-bottom:none}
+.df-num{font-size:11px;font-weight:700;color:var(--hint);width:15px;flex-shrink:0;margin-top:2px}
+.df-label{font-size:12px;font-weight:700;color:var(--sub);min-width:62px;flex-shrink:0;margin-top:2px}
+.df-input{flex:1;border:none;background:transparent;font-family:inherit;font-size:13px;color:var(--text);outline:none;resize:none;min-height:21px;line-height:1.5}
+.df-input::placeholder{color:var(--hint)}
+.pv-flow{background:var(--peerb);border:1.5px solid rgba(14,116,144,.25);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.pv-head{padding:9px 13px;border-bottom:1px solid rgba(14,116,144,.2);display:flex;align-items:center;gap:7px}
+.pv-head-ico{width:26px;height:26px;border-radius:7px;background:var(--peer);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+.photo-zone{border:2px dashed rgba(14,116,144,.4);border-radius:var(--r);padding:18px;text-align:center;cursor:pointer;background:rgba(14,116,144,.03);margin-bottom:10px}
+.photo-zone:active{background:rgba(14,116,144,.08)}
+.inbox-item{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);margin-bottom:10px;overflow:hidden}
+.inbox-header{padding:11px 13px;display:flex;gap:9px;align-items:center;border-bottom:1px solid var(--border)}
+.inbox-av{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.inbox-photo{width:100%;border-radius:var(--rs);margin-bottom:8px;border:1px solid var(--border)}
+.inbox-diary{background:var(--bg);border-radius:var(--rs);padding:9px 11px;font-size:12px;color:var(--sub);line-height:1.6;margin-bottom:9px}
+.streak-row{display:flex;gap:3px}
+.sd{flex:1;aspect-ratio:1;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:1.5px solid var(--border);font-size:9px;font-weight:700}
+.sd.sd-done{border-color:transparent;color:#fff}
+.sd.sd-today{border-width:2px}
+.sd-lbl{color:var(--sub)}.sd.sd-done .sd-lbl{color:rgba(255,255,255,.85)}
+.stat3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:12px}
+.sbox{background:var(--bg);border-radius:var(--rs);padding:11px;text-align:center}
+.sval{font-family:'Gmarket Sans',sans-serif;font-size:21px;font-weight:700}
+.slbl{font-size:10px;color:var(--sub);margin-top:2px}
+.btn{display:block;width:100%;padding:12px;border-radius:var(--rs);border:none;font-size:14px;font-weight:700;font-family:inherit;cursor:pointer;text-align:center;transition:all .15s}
+.btn:active{transform:scale(.98)}
+.btn-purple{background:var(--p1);color:#fff}
+.btn-peer{background:var(--peer);color:#fff}
+.btn-green{background:var(--p4);color:#fff}
+.btn-outline{background:transparent;border:1.5px solid var(--border2);color:var(--sub)}
+.nav{background:var(--surface);border-top:1px solid var(--border);display:flex;padding-bottom:env(safe-area-inset-bottom,0);position:sticky;bottom:0;z-index:40}
+.nb{flex:1;padding:10px 2px 11px;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:transparent;cursor:pointer;position:relative}
+.nb:active{opacity:.6}
+.nb-ico{font-size:18px;transition:transform .2s}
+.nb-lbl{font-size:9px;font-weight:700;color:var(--hint)}
+.nb.active .nb-ico{transform:translateY(-2px)}
+.nb.active .nb-lbl{color:var(--text)}
+.nb-badge{position:absolute;top:6px;right:50%;margin-right:-18px;background:var(--p3);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.toast{position:fixed;bottom:86px;left:50%;transform:translateX(-50%) translateY(14px);background:var(--text);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:all .28s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:300;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border-radius:var(--r);width:100%;max-width:380px;overflow:hidden;animation:pop .28s cubic-bezier(.34,1.56,.64,1)}
+@keyframes pop{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-head{padding:15px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:9px}
+.modal-body{padding:15px}
+.modal-footer{padding:11px 15px;border-top:1px solid var(--border);display:flex;gap:7px}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="toast" id="toast"></div>
+
+<div class="modal-bg" id="approve-modal">
+  <div class="modal">
+    <div class="modal-head">
+      <div style="width:34px;height:34px;border-radius:50%;background:var(--peerb);display:flex;align-items:center;justify-content:center;font-size:17px">👁</div>
+      <div><div style="font-size:14px;font-weight:700" id="modal-title">미션 확인</div><div style="font-size:11px;color:var(--sub)" id="modal-sub"></div></div>
+    </div>
+    <div class="modal-body">
+      <img id="modal-img" style="width:100%;border-radius:var(--rs);margin-bottom:10px;display:none">
+      <div style="background:var(--bg);border-radius:var(--rs);padding:9px 11px;margin-bottom:7px">
+        <div style="font-size:11px;font-weight:700;color:var(--sub);margin-bottom:3px" id="modal-prog-label"></div>
+        <div style="font-size:13px;font-weight:700" id="modal-mission-text"></div>
+      </div>
+      <div style="background:var(--bg);border-radius:var(--rs);padding:9px 11px;font-size:12px;color:var(--sub);line-height:1.6" id="modal-diary-text"></div>
+      <div style="font-size:11px;color:var(--hint);margin-top:7px">사진 확인 후 완료 버튼을 눌러주세요!</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" style="flex:1;padding:10px" onclick="document.getElementById('approve-modal').classList.remove('show')">닫기</button>
+      <button class="btn btn-green" style="flex:1;padding:10px" onclick="approveMission()">✓ 확인 완료</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="lv-modal">
+  <div class="modal">
+    <div class="modal-body" style="text-align:center;padding:26px 18px">
+      <div style="font-size:48px;margin-bottom:7px" id="lv-modal-ico">🎉</div>
+      <div style="font-family:'Gmarket Sans',sans-serif;font-size:21px;font-weight:700;margin-bottom:5px" id="lv-modal-title">레벨 업!</div>
+      <div style="font-size:13px;color:var(--sub);line-height:1.5;margin-bottom:16px" id="lv-modal-sub"></div>
+      <button class="btn btn-purple" onclick="document.getElementById('lv-modal').classList.remove('show')">확인</button>
+    </div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen active scroll" id="sc-home">
+  <div class="pad" style="padding-top:16px">
+    <div class="hero">
+      <div class="hero-gift">★ 영재 수준 · 계획력 99.9%</div>
+      <div class="hero-name">송서우</div>
+      <div class="hero-type">동시처리 우세형(우뇌우세형) · 만 9세 · 여</div>
+      <div class="score-row">
+        <div class="si"><div class="si-l">순차처리</div><div class="si-v" style="color:#ffb366">95</div><div class="si-b"><div class="si-bf" style="width:63%;background:#ffb366"></div></div></div>
+        <div class="si"><div class="si-l">동시처리</div><div class="si-v" style="color:#7dd4fc">117</div><div class="si-b"><div class="si-bf" style="width:78%;background:#7dd4fc"></div></div></div>
+        <div class="si"><div class="si-l">계획력</div><div class="si-v" style="color:#ffd700">145</div><div class="si-b"><div class="si-bf" style="width:97%;background:#ffd700"></div></div></div>
+        <div class="si"><div class="si-l">주의력</div><div class="si-v" style="color:#86efac">131</div><div class="si-b"><div class="si-bf" style="width:87%;background:#86efac"></div></div></div>
+      </div>
+    </div>
+
+    <div class="lv-card">
+      <div class="lv-top">
+        <div class="lv-badge" id="home-lv-badge">Lv.1 새싹</div>
+        <div style="font-size:11px;color:var(--sub)"><span id="home-xp">0</span>/<span id="home-xp-max">30</span> XP</div>
+      </div>
+      <div class="xp-bg"><div class="xp-fill" id="home-xp-fill" style="width:0%"></div></div>
+      <div class="lv-dots" id="lv-dots"></div>
+    </div>
+
+    <div class="sec">K-PASS 검사 결과</div>
+    <div class="kpass-card">
+      <div class="kpass-row">
+        <div style="font-size:12px;font-weight:700;width:62px;flex-shrink:0;color:var(--warn)">순차처리</div>
+        <div class="kpass-bar-bg"><div class="kpass-bar-fill" style="width:63%;background:var(--warn)"></div></div>
+        <div style="font-size:13px;font-weight:700;color:var(--warn);width:30px;text-align:right">95</div>
+        <div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--warnb);color:var(--warn);flex-shrink:0">개인내 약</div>
+      </div>
+      <div class="kpass-row">
+        <div style="font-size:12px;font-weight:700;width:62px;flex-shrink:0;color:var(--p2)">동시처리</div>
+        <div class="kpass-bar-bg"><div class="kpass-bar-fill" style="width:78%;background:var(--p2)"></div></div>
+        <div style="font-size:13px;font-weight:700;color:var(--p2);width:30px;text-align:right">117</div>
+        <div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--p2b);color:var(--p2t);flex-shrink:0">규준적 강</div>
+      </div>
+      <div class="kpass-row">
+        <div style="font-size:12px;font-weight:700;width:62px;flex-shrink:0;color:var(--gold)">계획력</div>
+        <div class="kpass-bar-bg"><div class="kpass-bar-fill" style="width:97%;background:var(--gold)"></div></div>
+        <div style="font-size:13px;font-weight:700;color:var(--gold);width:30px;text-align:right">145</div>
+        <div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--goldb);color:var(--gold);flex-shrink:0">99.9% ★</div>
+      </div>
+      <div class="kpass-row">
+        <div style="font-size:12px;font-weight:700;width:62px;flex-shrink:0;color:var(--p4)">주의력</div>
+        <div class="kpass-bar-bg"><div class="kpass-bar-fill" style="width:87%;background:var(--p4)"></div></div>
+        <div style="font-size:13px;font-weight:700;color:var(--p4);width:30px;text-align:right">131</div>
+        <div style="font-size:10px;font-weight:700;padding:2px 8px;border-radius:8px;background:var(--p4b);color:var(--p4t);flex-shrink:0">개인내 강</div>
+      </div>
+    </div>
+
+    <div class="sec">오늘의 미션 <span id="today-label" style="font-size:10px;color:var(--sub)"></span></div>
+    <div id="today-missions-wrap"></div>
+
+    <div class="peer-banner">
+      <div style="display:flex;flex-shrink:0">
+        <div style="width:36px;height:36px;border-radius:50%;border:2.5px solid #fff;background:var(--p1b);color:var(--p1);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700">서</div>
+        <div style="width:36px;height:36px;border-radius:50%;border:2.5px solid #fff;background:var(--p2b);color:var(--p2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;margin-left:-10px">짝</div>
+      </div>
+      <div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--peer);margin-bottom:2px">짝 확인제</div><div style="font-size:11px;color:var(--peert)">사진 전송 → 짝 확인 → XP 획득</div></div>
+    </div>
+
+    <div class="sec">주간 인터리빙 스케줄</div>
+    <div class="card" id="week-sched-home"></div>
+
+    <div class="sec">전체 프로그램</div>
+    <div id="home-prog-list"></div>
+  </div>
+</div>
+
+<!-- PROGRAM -->
+<div class="screen scroll" id="sc-program"><div id="prog-content"></div></div>
+
+<!-- PEER -->
+<div class="screen scroll" id="sc-peer">
+  <div class="topbar">
+    <div><div class="tb-title">짝 확인함</div><div class="tb-sub">사진 증거 교환</div></div>
+    <div class="chip" style="background:var(--peerb);color:var(--peer)" id="inbox-count-chip">0건</div>
+  </div>
+  <div class="pad">
+    <div class="pv-flow">
+      <div class="pv-head"><div class="pv-head-ico">👥</div><div style="font-size:13px;font-weight:700;color:var(--peer)">짝 확인 시스템</div></div>
+      <div style="padding:12px 13px;display:flex;flex-direction:column;gap:7px">
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--peer);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">1</div><span style="color:var(--peert)">미션 완료 후 결과물 사진 촬영</span></div>
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--peer);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">2</div><span style="color:var(--peert)">전송 → 짝의 확인함에 도착</span></div>
+        <div style="display:flex;gap:9px;font-size:12px"><div style="width:20px;height:20px;border-radius:50%;background:var(--peer);color:#fff;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">3</div><span style="color:var(--peert)">짝이 확인 완료 → XP 지급</span></div>
+      </div>
+    </div>
+    <div class="sec">받은 요청 (<span id="inbox-count">0</span>건)</div>
+    <div id="inbox-list"><div style="text-align:center;padding:22px;color:var(--hint);font-size:13px">아직 받은 요청이 없어요</div></div>
+    <div class="sec">보낸 요청</div>
+    <div id="sent-list"><div style="text-align:center;padding:18px;color:var(--hint);font-size:13px">아직 전송한 미션이 없어요</div></div>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="screen scroll" id="sc-progress">
+  <div class="topbar"><div><div class="tb-title">성장 기록</div><div class="tb-sub">10단계 레벨</div></div></div>
+  <div class="pad">
+    <div class="stat3">
+      <div class="sbox"><div class="sval" id="p-done">0</div><div class="slbl">완료 미션</div></div>
+      <div class="sbox"><div class="sval" id="p-streak">0일</div><div class="slbl">연속 훈련</div></div>
+      <div class="sbox"><div class="sval" id="p-approved">0</div><div class="slbl">짝 확인</div></div>
+    </div>
+    <div class="sec">10단계 레벨 로드맵</div>
+    <div class="card" id="lv-roadmap"></div>
+    <div class="sec">K-PASS 영역 현재 → 목표</div>
+    <div class="card" id="area-bars"></div>
+    <div class="sec">이번 주 달력</div>
+    <div class="card"><div class="streak-row" id="week-cal"></div></div>
+    <div class="card" style="background:var(--p1b);border-color:rgba(92,61,224,.15)">
+      <div style="font-size:12px;font-weight:700;color:var(--p1);margin-bottom:5px">다음 달 예고</div>
+      <div style="font-size:12px;color:var(--text);line-height:1.7" id="next-prev"></div>
+    </div>
+  </div>
+</div>
+
+<!-- TEACHER -->
+<div class="screen scroll" id="sc-teacher">
+  <div class="topbar"><div><div class="tb-title">선생님 리포트</div><div class="tb-sub">송서우 · K-PASS 분석</div></div></div>
+  <div class="pad">
+    <div class="card-accent" style="border-color:var(--gold)">
+      <strong style="color:var(--gold)">★ 영재 수준 — 계획력 145 (상위 0.1%)</strong><br>
+      <span style="font-size:12px;color:var(--sub)">동시처리 우세형. 순차처리(95)가 개인 내적 약점.</span>
+    </div>
+    <div class="sec">인터리빙 스케줄 설계 원칙</div>
+    <div class="card" style="font-size:12px;line-height:1.8" id="schedule-rationale"></div>
+    <div class="sec">짝 확인 현황</div>
+    <div class="card" id="t-peer-status"></div>
+    <div class="sec">K-PASS 영역별 현황</div>
+    <div class="card" id="t-bars"></div>
+    <div class="sec">프로그램 완료 현황</div>
+    <div class="card" id="t-prog"></div>
+    <div class="sec">코칭 포인트</div>
+    <div class="card-accent" style="border-color:var(--gold)"><strong style="color:var(--gold)">계획력(145) 강점 극대화</strong><br><span style="font-size:12px">계획 능력을 활용해 순차처리 약점을 "계획으로 보완"하게 유도. 수요일 수업이 핵심.</span></div>
+    <div class="card-accent" style="border-color:var(--warn)"><strong style="color:var(--warn)">순차처리(95) — 주 2회만</strong><br><span style="font-size:12px">매일 하면 흥미 저하. 화·수 이틀, 1~2일 간격 최적. 나머지는 강점으로 성공 경험 쌓기.</span></div>
+    <div class="card-accent" style="border-color:var(--peer)"><strong style="color:var(--peert)">금요일 발표 확인제</strong><br><span style="font-size:12px">금요일 짝에게 설명 발표 → 짝이 확인. 가르치기 전략(Protégé Effect)으로 계획력 극대화.</span></div>
+  </div>
+</div>
+
+<div class="nav">
+  <button class="nb active" onclick="nav('home',this)"><span class="nb-ico">🏠</span><span class="nb-lbl">홈</span></button>
+  <button class="nb" onclick="nav('program',this)"><span class="nb-ico">📋</span><span class="nb-lbl">미션</span></button>
+  <button class="nb" onclick="nav('peer',this)"><span class="nb-ico">👥</span><span class="nb-lbl">짝 확인</span><div class="nb-badge" id="nav-badge" style="display:none">0</div></button>
+  <button class="nb" onclick="nav('progress',this)"><span class="nb-ico">📈</span><span class="nb-lbl">성장</span></button>
+  <button class="nb" onclick="nav('teacher',this)"><span class="nb-ico">👩‍🏫</span><span class="nb-lbl">선생님</span></button>
+</div>
+</div>
+
+<script>
+const LEVELS=[
+  {lv:1,name:'새싹',xp:30,c:'#639922',bg:'#EAF3DE',ico:'🌱'},
+  {lv:2,name:'도전자',xp:60,c:'#BA7517',bg:'#FAEEDA',ico:'🔥'},
+  {lv:3,name:'훈련생',xp:100,c:'#185FA5',bg:'#E6F1FB',ico:'📚'},
+  {lv:4,name:'집중러',xp:150,c:'#534AB7',bg:'#EEEDFE',ico:'🎯'},
+  {lv:5,name:'성장러',xp:220,c:'#993C1D',bg:'#FAECE7',ico:'⚡'},
+  {lv:6,name:'실력자',xp:310,c:'#0F6E56',bg:'#E1F5EE',ico:'💎'},
+  {lv:7,name:'고수',xp:420,c:'#712B13',bg:'#FAECE7',ico:'🏅'},
+  {lv:8,name:'마스터',xp:560,c:'#3C3489',bg:'#EEEDFE',ico:'🧠'},
+  {lv:9,name:'전문가',xp:730,c:'#085041',bg:'#E1F5EE',ico:'🏆'},
+  {lv:10,name:'인지 마스터',xp:999,c:'#9a6e00',bg:'#FDF5DC',ico:'👑'},
+];
+const getLvNum=xp=>{const i=LEVELS.findIndex(l=>xp<l.xp);return i===-1?10:i+1};
+
+const PROGS=[
+  {id:0,key:'p1',code:'P1',ico:'🔢',name:'순차처리 강화 훈련',sub:'개인 내적 약점 · 순차처리 95',c:'var(--warn)',bg:'var(--warnb)',tc:'var(--warn)',type:'weak'},
+  {id:1,key:'p2',code:'P2',ico:'🗺',name:'동시처리 심화 다이어리',sub:'강점 극대화 · 동시처리 117',c:'var(--p2)',bg:'var(--p2b)',tc:'var(--p2t)',type:'strong'},
+  {id:2,key:'p3',code:'P3',ico:'🎯',name:'계획력 천재 프로젝트',sub:'최강점 · 계획력 145 (99.9%)',c:'var(--gold)',bg:'var(--goldb)',tc:'var(--gold)',type:'strong'},
+  {id:3,key:'p4',code:'P4',ico:'🔬',name:'주의력 딥워크 훈련',sub:'개인 내적 강점 · 주의력 131',c:'var(--p4)',bg:'var(--p4b)',tc:'var(--p4t)',type:'strong'},
+  {id:4,key:'p5',code:'P5',ico:'🌈',name:'우뇌 통합 창의 다이어리',sub:'동시처리 우세형 통합 루틴',c:'var(--p3)',bg:'var(--p3b)',tc:'var(--p3t)',type:'fusion'},
+];
+
+/* ─── 인터리빙 주간 스케줄 (강점 우선형)
+   원칙: 강점 60%, 약점 25%, 융합 15%
+   월: 계획력 심화(P3) + 순차처리 경량(P1)
+   화: 주의력 심화(P4) + 동시처리(P2)
+   수: 순차처리 집중(P1) + 계획력으로 순서 설계
+   목: 동시처리 심화(P2) + 강점 융합(P5)
+   금: 주간 프로젝트 + 짝에게 설명 발표
+─── */
+const WEEKLY_SCHEDULE=[
+  {day:'월',slots:[
+    {progKey:'p3',progId:2,label:'계획력 심화',color:'var(--gold)',bg:'var(--goldb)',tc:'var(--gold)',type:'strong',mIdx:0},
+    {progKey:'p1',progId:0,label:'순차처리 경량',color:'var(--warn)',bg:'var(--warnb)',tc:'var(--warn)',type:'weak',mIdx:0},
+  ],rule:'강점 우선 → 약점 경량'},
+  {day:'화',slots:[
+    {progKey:'p4',progId:3,label:'주의력 심화',color:'var(--p4)',bg:'var(--p4b)',tc:'var(--p4t)',type:'strong',mIdx:0},
+    {progKey:'p2',progId:1,label:'동시처리',color:'var(--p2)',bg:'var(--p2b)',tc:'var(--p2t)',type:'strong',mIdx:0},
+  ],rule:'강점 2영역 집중'},
+  {day:'수',slots:[
+    {progKey:'p1',progId:0,label:'순차처리 집중',color:'var(--warn)',bg:'var(--warnb)',tc:'var(--warn)',type:'weak',mIdx:1},
+    {progKey:'p3',progId:2,label:'계획으로 순서 설계',color:'var(--gold)',bg:'var(--goldb)',tc:'var(--gold)',type:'support',mIdx:1},
+  ],rule:'약점 집중 + 계획력 보조'},
+  {day:'목',slots:[
+    {progKey:'p2',progId:1,label:'동시처리 심화',color:'var(--p2)',bg:'var(--p2b)',tc:'var(--p2t)',type:'strong',mIdx:1},
+    {progKey:'p5',progId:4,label:'강점 융합',color:'var(--p3)',bg:'var(--p3b)',tc:'var(--p3t)',type:'fusion',mIdx:0},
+  ],rule:'강점 심화 + 융합'},
+  {day:'금',slots:[
+    {progKey:'p3',progId:2,label:'주간 프로젝트',color:'var(--gold)',bg:'var(--goldb)',tc:'var(--gold)',type:'strong',mIdx:2},
+    {progKey:'p3',progId:2,label:'짝에게 발표',color:'var(--peer)',bg:'var(--peerb)',tc:'var(--peert)',type:'peer',mIdx:3},
+  ],rule:'프로젝트 + 짝 발표'},
+];
+
+/* ─── 일별 미션 데이터 ─── */
+const DAY_MISSIONS={
+  p1:[
+    {idx:0,low:{id:'p1_sw_d1',text:'수업 내용 번호 1~5로 순서대로 나눠 쓰기',guide:'계획력(145) 강점으로 "1번이 가장 먼저"를 판단해봐요. 노트 사진 → 짝에게!',xp:10,tag:'기초',needPeer:true},
+         high:{id:'p1_sw_d1h',text:'10단계 순서도 + 각 단계 이유 달기',guide:'단계마다 "왜냐하면" 한 줄. 완성본 → 짝 확인.',xp:25,tag:'심화',needPeer:true}},
+    {idx:1,low:{id:'p1_sw_d2',text:'수학 풀이 5단계 서술 + 이유',guide:'각 단계 옆 이유 한 줄. 계획력으로 순서를 "먼저 설계"하면 더 쉬워요!',xp:15,tag:'논리',needPeer:true},
+         high:{id:'p1_sw_d2h',text:'역사·과학 타임라인 그리기',guide:'날짜 순서 정확히. 짝에게 설명하면 추가 XP!',xp:30,tag:'심화',needPeer:true}},
+  ],
+  p2:[
+    {idx:0,low:{id:'p2_sw_d1',text:'오늘 배운 것으로 가지 5개 마인드맵',guide:'동시처리(117) 강점을 마음껏 발휘! 색깔 2가지+. 사진 → 짝에게!',xp:10,tag:'기초',needPeer:true},
+         high:{id:'p2_sw_d1h',text:'두 과목 융합 마인드맵 (가지 8개+)',guide:'공통점 가지로 연결. 가지 8개 이상. 사진 → 짝 확인.',xp:20,tag:'심화',needPeer:true}},
+    {idx:1,low:{id:'p2_sw_d2',text:'교과서 한 단원 핵심어 7개로 요약',guide:'7개 핵심어만으로 전체 표현. 동시처리의 진수! 자체 기록.',xp:15,tag:'통합',needPeer:false},
+         high:{id:'p2_sw_d2h',text:'4주 누적 마인드맵 새 레이어 3개',guide:'성장이 보이는 사진 → 짝 확인.',xp:25,tag:'심화',needPeer:true}},
+  ],
+  p3:[
+    {idx:0,low:{id:'p3_sw_d1',text:'이번 주 목표 1개 + 역산 계획표',guide:'목표일부터 역순으로! 계획력(145) 강점 최대 발휘. 사진 → 짝 확인.',xp:15,tag:'계획',needPeer:true},
+         high:{id:'p3_sw_d1h',text:'2주 학습 역산 계획표 + 중간 점검',guide:'상위 0.1% 계획력으로 완성. 중간 점검 포함. 짝 공유 필수.',xp:30,tag:'심화',needPeer:true}},
+    {idx:1,low:{id:'p3_sw_d2',text:'플랜 A, B, C 3가지 시나리오 계획',guide:'같은 목표를 3가지 방법으로! 영재형 계획력 훈련.',xp:20,tag:'전략',needPeer:true},
+         high:{id:'p3_sw_d2h',text:'짝의 목표를 위한 코칭 계획 짜기',guide:'내 계획력으로 짝을 도와주기! 짝의 목표를 듣고 로드맵 작성.',xp:35,tag:'심화',needPeer:true}},
+    {idx:2,low:{id:'p3_sw_d3',text:'주간 달성률 계산 + 다음 주 계획',guide:'이번 주 달성률 % 계산. 다음 주 개선 계획 1가지. 사진 → 짝.',xp:20,tag:'점검',needPeer:true},
+         high:{id:'p3_sw_d3h',text:'주간 프로젝트 종합 보고서',guide:'이번 주 훈련 결과를 계획력으로 정리. A4 1장. 짝에게 공유.',xp:35,tag:'심화',needPeer:true}},
+    {idx:3,low:{id:'p3_sw_d4',text:'짝에게 이번 주 배운 것 3분 설명',guide:'가르치기 효과! 짝이 이해하면 확인 완료. Protégé Effect 발동!',xp:25,tag:'발표',needPeer:true},
+         high:{id:'p3_sw_d4h',text:'짝에게 마인드맵으로 심화 발표',guide:'마인드맵 활용 5분 발표. 계획력+동시처리 강점 총동원!',xp:35,tag:'발표',needPeer:true}},
+  ],
+  p4:[
+    {idx:0,low:{id:'p4_sw_d1',text:'포모도로 25분 집중 + 집중 일지',guide:'주의력(131) 강점! 25분 집중 → "집중도/방해요소/공부내용" 기록.',xp:15,tag:'집중',needPeer:false},
+         high:{id:'p4_sw_d1h',text:'딥워크 40분 + 집중 환경 보고서',guide:'강점을 극한까지! 40분 딥워크 + "나의 최적 집중 환경" 보고서.',xp:30,tag:'심화',needPeer:true}},
+  ],
+  p5:[
+    {idx:0,low:{id:'p5_sw_d1',text:'4컷 그림 일기 + 순서 번호 달기',guide:'우뇌우세형 강점! 4컷에 1·2·3·4 순서 번호 필수. 사진 → 짝!',xp:10,tag:'통합',needPeer:true},
+         high:{id:'p5_sw_d1h',text:'마인드맵+계획표+집중기록 하루에',guide:'3강점 총동원! 동시처리+계획력+주의력을 하루에 통합.',xp:25,tag:'심화',needPeer:true}},
+  ],
+};
+
+const DIARY={
+  p1:{title:'순차처리 스텝 저널',secs:[
+    {name:'Step 1 — 분해',fields:['주제/과목','1단계','2단계','3단계','4단계','5단계']},
+    {name:'Step 2 — 이유',fields:['핵심 단계','왜 중요?']},
+    {name:'Step 3 — 내일 절차',fields:['내일 할 것','Step 1','Step 2','Step 3']},
+  ]},
+  p2:{title:'동시처리 비주얼 다이어리',secs:[
+    {name:'마인드맵',fields:['중심 주제','가지 1','가지 2','가지 3','가지 4','가지 5']},
+    {name:'통합 & 발견',fields:['연결 고리','새로 발견한 것','다음에 추가']},
+  ]},
+  p3:{title:'계획력 마스터 플래너',secs:[
+    {name:'목표',fields:['이번 주 목표','최종 날짜','중간 체크']},
+    {name:'역산 계획',fields:['Day 5','Day 4','Day 3','Day 2','Day 1']},
+    {name:'점검',fields:['달성률(%)','안 된 이유','플랜 B']},
+  ]},
+  p4:{title:'주의력 딥워크 트래커',secs:[
+    {name:'환경',fields:['공부 장소','핸드폰 위치','소음']},
+    {name:'집중',fields:['집중 시간','공부 내용','집중도(1~10)']},
+    {name:'발견',fields:['최고 집중 순간','나만의 집중 비법']},
+  ]},
+  p5:{title:'우뇌 통합 창의 다이어리',secs:[
+    {name:'그림',fields:['장면 1','장면 2','장면 3','장면 4']},
+    {name:'강점 활용',fields:['계획력으로 한 것','동시처리 발견','주의력 집중']},
+    {name:'성찰',fields:['오늘 잘 한 것','순차처리 결과','내일 목표']},
+  ]},
+};
+
+const S={xp:0,streak:0,totalDone:0,approvedCount:0,curProg:0,completions:{},diary:{},inbox:[],sent:[],currentApproveIdx:-1,photoData:null};
+
+function toast(msg){const e=document.getElementById('toast');e.textContent=msg;e.classList.add('show');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('show'),2400)}
+function ar(el){el.style.height='auto';el.style.height=el.scrollHeight+'px'}
+function isHighLv(){return getLvNum(S.xp)>=6}
+function getMissions(key){const dm=DAY_MISSIONS[key];if(!dm)return[];return dm.map(d=>isHighLv()?d.high:d.low)}
+function saveDiaryField(key,f,val){if(!S.diary[key])S.diary[key]={};S.diary[key][f]=val}
+function getDiarySummary(key){const d=S.diary[key];if(!d)return'다이어리 미작성';const v=Object.values(d).filter(x=>x&&x.trim());return v.length?v.slice(0,2).join(' / ')+'...':'다이어리 미작성'}
+function getTodayIdx(){const d=new Date().getDay();return d>=1&&d<=5?d-1:-1}
+
+function updateLvUI(){
+  const n=getLvNum(S.xp);const lv=LEVELS[n-1];
+  const prev=n>1?LEVELS[n-2].xp:0;
+  const pct=Math.min(100,Math.round((S.xp-prev)/(lv.xp-prev)*100));
+  const b=document.getElementById('home-lv-badge');
+  b.textContent=`${lv.ico} Lv.${n} ${lv.name}`;b.style.background=lv.bg;b.style.color=lv.c;
+  document.getElementById('home-xp').textContent=S.xp;
+  document.getElementById('home-xp-max').textContent=lv.xp;
+  const f=document.getElementById('home-xp-fill');f.style.width=pct+'%';f.style.background=lv.c;
+  document.getElementById('lv-dots').innerHTML=LEVELS.map((_,i)=>`<div class="lv-dot${S.xp>=LEVELS[i].xp?' on':''}"></div>`).join('');}
+
+function checkLvUp(o,n){
+  const on=getLvNum(o),nn=getLvNum(n);
+  if(nn>on){const lv=LEVELS[nn-1];
+    document.getElementById('lv-modal-ico').textContent=lv.ico;
+    document.getElementById('lv-modal-title').textContent=`Lv.${nn} ${lv.name} 달성!`;
+    document.getElementById('lv-modal-sub').textContent=nn<=5?'📌 기초 가이드 미션 계속!':'🔓 영재형 심화 미션 해금!';
+    document.getElementById('lv-modal').classList.add('show');}}
+
+function renderHome(){
+  const ti=getTodayIdx();
+  const dayNames=['월요일','화요일','수요일','목요일','금요일'];
+  const wrap=document.getElementById('today-missions-wrap');
+  const lbl=document.getElementById('today-label');
+
+  if(ti<0){
+    lbl.textContent='(주말 — 완전 휴식)';
+    wrap.innerHTML=`<div class="card" style="text-align:center;padding:20px;color:var(--sub)">
+      <div style="font-size:24px;margin-bottom:8px">✨</div>
+      <div style="font-weight:700;margin-bottom:4px">오늘은 휴식일!</div>
+      <div style="font-size:12px">뇌가 이번 주 배운 것을 통합하는 시간이에요. 푹 쉬어요!</div>
+    </div>`;
+  } else {
+    const sched=WEEKLY_SCHEDULE[ti];
+    lbl.textContent=`${dayNames[ti]} · ${sched.rule}`;
+    wrap.innerHTML=sched.slots.map((slot,si)=>{
+      const dm=DAY_MISSIONS[slot.progKey];
+      const mission=dm&&dm[slot.mIdx]?(isHighLv()?dm[slot.mIdx].high:dm[slot.mIdx].low):null;
+      if(!mission)return'';
+      const st=S.completions[mission.id];
+      const isDone=st==='approved'||st==='done';
+      const isPending=st==='pending';
+      const typeLabel=slot.type==='weak'?'약점 보완':slot.type==='strong'?'강점 심화':slot.type==='fusion'?'강점 융합':slot.type==='support'?'강점 보조':'짝 발표';
+      return`<div class="today-box" style="border-color:${slot.color};margin-bottom:${si<sched.slots.length-1?'8px':'12px'}">
+        <div class="tb-day-header" style="background:${slot.bg}">
+          <div class="tb-day-name" style="color:${slot.tc}">${slot.label}</div>
+          <div style="font-size:10px;font-weight:700;color:${slot.tc};background:rgba(0,0,0,.07);padding:2px 8px;border-radius:10px">${typeLabel}</div>
+        </div>
+        <div class="tb-missions">
+          <div class="tb-mi${isDone?' done-mi':''}" onclick="handleTodayMi('${mission.id}','${mission.xp}','${slot.progId}','${mission.needPeer}')">
+            <div class="tb-chk${isDone?' chk-on':isPending?' chk-wait':''}" style="${isDone?`background:${slot.color};border-color:${slot.color}`:''}">${isDone?'✓':isPending?'⏳':''}</div>
+            <div class="tb-body">
+              <div class="tb-tags">
+                <span class="tag" style="background:${slot.bg};color:${slot.tc}">${mission.tag}</span>
+                ${mission.needPeer?`<span class="tag" style="background:var(--peerb);color:var(--peer)">👥 짝</span>`:'<span class="tag" style="background:var(--bg);color:var(--sub)">✍️</span>'}
+                <span class="tag" style="background:var(--goldb);color:var(--gold)">+${mission.xp}XP</span>
+                ${isPending?'<span class="tag" style="background:#fff3cd;color:#856404">⏳</span>':''}
+                ${isDone&&st==='approved'?'<span class="tag" style="background:var(--p4b);color:var(--p4t)">✅</span>':''}
+              </div>
+              <div class="tb-text${isDone?' crossed':''}">${mission.text}</div>
+              ${!isDone&&!isPending?`<div class="tb-guide">📌 ${mission.guide}</div>`:''}
+            </div>
+          </div>
+          <div style="padding:9px 13px;background:var(--bg);border-top:1px solid var(--border);font-size:12px;color:var(--sub);display:flex;align-items:center;gap:7px">
+            <span>📔 다이어리</span>
+            <button onclick="goProgram(${slot.progId})" style="font-size:11px;font-weight:700;padding:4px 12px;border-radius:20px;border:1.5px solid ${slot.color};color:${slot.tc};background:${slot.bg};cursor:pointer">상세 보기 →</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('');
+    if(sched.day==='금'){
+      wrap.innerHTML+=`<div class="card-accent" style="border-color:var(--peer)"><strong style="color:var(--peert)">📣 금요일 — 짝에게 이번 주 발표!</strong><br><span style="font-size:12px">이번 주 배운 것을 짝에게 3분 설명. 짝이 확인 완료하면 XP 획득!</span></div>`;
+    }
+  }
+
+  /* 주간 스케줄 */
+  document.getElementById('week-sched-home').innerHTML=`
+    <div style="font-size:11px;font-weight:700;color:var(--sub);margin-bottom:8px">강점 우선 인터리빙 — 순차처리 주 2회만</div>
+    <div class="week-sched">
+      ${WEEKLY_SCHEDULE.map((s,i)=>`
+        <div class="ws-day${i===ti?' today-col':''}">
+          <div class="ws-head" style="${i!==ti?`background:${s.slots[0].bg};color:${s.slots[0].tc}`:''}">
+            ${s.day}
+          </div>
+          ${s.slots.map(sl=>`<div class="ws-slot ${sl.type==='weak'?'slot-weak':sl.type==='strong'?'slot-strong':'slot-fusion'}">${sl.label}</div>`).join('')}
+        </div>`).join('')}
+    </div>
+    <div style="font-size:10px;color:var(--hint);margin-top:3px">토·일 완전 휴식 · 강점 60% / 약점 25% / 융합 15%</div>`;
+
+  /* 전체 프로그램 */
+  document.getElementById('home-prog-list').innerHTML=PROGS.map(p=>{
+    const ms=getMissions(p.key);
+    const done=ms.filter(m=>S.completions[m.id]==='approved'||S.completions[m.id]==='done').length;
+    const pct=ms.length?Math.round(done/ms.length*100):0;
+    return`<div class="prog-row" onclick="goProgram(${p.id})">
+      <div class="prog-ico" style="background:${p.bg}">${p.ico}</div>
+      <div style="flex:1">
+        <div style="display:flex;justify-content:space-between;margin-bottom:1px">
+          <span style="font-size:13px;font-weight:700">${p.code} ${p.name}</span>
+          <span style="font-size:11px;font-weight:700;color:${p.tc}">${done}/${ms.length}</span>
+        </div>
+        <div style="font-size:11px;color:var(--sub);margin-bottom:4px">${p.sub}</div>
+        <div class="prog-bar-bg"><div class="prog-bar-fill" style="width:${pct}%;background:${p.c}"></div></div>
+      </div>
+    </div>`}).join('');
+  updateNavBadge();}
+
+function handleTodayMi(mId,xp,progIdx,needPeer){
+  const st=S.completions[mId];
+  if(st==='pending'){toast('⏳ 짝 확인 중!');return}
+  if(st==='approved'||st==='done'){delete S.completions[mId];S.xp-=parseInt(xp);S.totalDone--;updateLvUI();renderHome();return}
+  if(needPeer==='true'){toast('📷 미션 탭에서 사진 찍고 전송해요!');setTimeout(()=>goProgram(parseInt(progIdx)),600);}
+  else{const o=S.xp;S.completions[mId]='done';S.xp+=parseInt(xp);S.totalDone++;S.streak=Math.min(7,S.streak+1);updateLvUI();renderHome();checkLvUp(o,S.xp);toast(`+${xp} XP!`);}}
+
+function goProgram(idx){S.curProg=idx;renderProgram(idx);nav('program',document.querySelectorAll('.nb')[1]);}
+function renderProgram(idx){
+  const p=PROGS[idx];const ms=getMissions(p.key);
+  const done=ms.filter(m=>S.completions[m.id]==='approved'||S.completions[m.id]==='done').length;
+  const df=DIARY[p.key];const lvN=getLvNum(S.xp);
+  const el=document.getElementById('prog-content');
+  const ti=getTodayIdx();
+  const isTodayProg=ti>=0&&WEEKLY_SCHEDULE[ti].slots.some(s=>s.progId===idx);
+  el.innerHTML=`
+    <div class="topbar">
+      <div><div class="tb-title">${p.code} ${p.name}</div><div class="tb-sub">${p.sub}${isTodayProg?' · 오늘 미션':''}</div></div>
+      <div class="chip" style="background:${p.bg};color:${p.tc}">${done}/${ms.length}</div>
+    </div>
+    <div class="pad">
+      <div class="ph" style="background:${p.bg}">
+        <div style="font-size:10px;font-weight:700;color:${p.tc};opacity:.7;margin-bottom:3px">${p.code}</div>
+        <div style="font-family:'Gmarket Sans',sans-serif;font-size:17px;font-weight:700;color:${p.tc};margin-bottom:3px">${p.name}</div>
+        <div style="font-size:11px;color:${p.tc};opacity:.85;line-height:1.5">${getPWhy(p.key)}</div>
+        ${isTodayProg?`<div style="display:inline-block;margin-top:7px;font-size:10px;font-weight:700;padding:2px 9px;border-radius:9px;background:rgba(0,0,0,.1);color:${p.tc}">오늘의 훈련 영역 ✓</div>`:''}
+      </div>
+      <div class="sec">미션 목록</div>
+      <div class="mission-wrap">
+        <div class="mw-head"><span>${lvN<=5?'🌱 기초':'⚡ 심화'}</span><span>${done}/${ms.length}</span></div>
+        ${ms.map(m=>{
+          const st=S.completions[m.id];const isDone=st==='approved'||st==='done';const isPending=st==='pending';
+          let cc='',ct='';if(isDone){cc='chk-done';ct='✓';}else if(isPending){cc='chk-pending';ct='⏳';}
+          return`<div class="mi${isDone?' done-item':''}" onclick="handleMiClick('${m.id}','${m.xp}','${idx}','${m.needPeer}')">
+            <div class="mi-chk ${cc}" style="${isDone?`background:${p.c};border-color:${p.c}`:isPending?'':`border-color:${p.c}`}">${ct}</div>
+            <div class="mi-body">
+              <div class="mi-tags">
+                <span class="tag" style="background:${p.bg};color:${p.tc}">${m.tag}</span>
+                ${m.needPeer?`<span class="tag" style="background:var(--peerb);color:var(--peer)">👥</span>`:'<span class="tag" style="background:var(--bg);color:var(--sub)">✍️</span>'}
+                <span class="tag" style="background:var(--goldb);color:var(--gold)">+${m.xp}XP</span>
+                ${isPending?'<span class="tag" style="background:#fff3cd;color:#856404">⏳</span>':''}
+                ${isDone&&st==='approved'?'<span class="tag" style="background:var(--p4b);color:var(--p4t)">✅</span>':''}
+              </div>
+              <div class="mi-text${isDone?' crossed':''}">${m.text}</div>
+              ${!isDone&&!isPending?`<div class="mi-guide">📌 ${m.guide}</div>`:''}
+              ${isPending?`<div class="mi-guide" style="color:var(--peer)">👥 짝 확인 중!</div>`:''}
+            </div>
+          </div>`}).join('')}
+      </div>
+      <div class="sec">활동 다이어리</div>
+      <div class="diary-form">
+        <div class="df-hd">
+          <span style="font-size:12px;font-weight:700;color:var(--sub)">${df.title}</span>
+          <span style="font-size:11px;color:var(--hint)">${new Date().getMonth()+1}월 ${new Date().getDate()}일</span>
+        </div>
+        ${df.secs.map(sec=>`
+          <div class="df-sec">${sec.name}</div>
+          ${sec.fields.map((f,fi)=>`
+            <div class="df-row">
+              <div class="df-num">${fi+1}</div>
+              <div class="df-label">${f.length>6?f.slice(0,6)+'…':f}</div>
+              <textarea class="df-input" placeholder="${f}" rows="1"
+                oninput="ar(this);saveDiaryField('${p.key}','${f}',this.value)">${(S.diary[p.key]&&S.diary[p.key][f])||''}</textarea>
+            </div>`).join('')}`).join('')}
+      </div>
+      <div class="sec">📷 사진 → 짝에게 전송</div>
+      <div class="pv-flow">
+        <div class="pv-head"><div class="pv-head-ico">📤</div><div style="font-size:13px;font-weight:700;color:var(--peer)">짝 확인 전송</div></div>
+        <div style="padding:13px">
+          <div class="photo-zone" onclick="document.getElementById('photo-inp-${idx}').click()">
+            <div style="font-size:24px;margin-bottom:4px">📷</div>
+            <div style="font-size:13px;color:var(--peer);font-weight:700">다이어리 사진 촬영</div>
+            <div style="font-size:11px;color:var(--peert);margin-top:2px">완성된 결과물을 찍어 짝에게 보내요</div>
+          </div>
+          <input type="file" id="photo-inp-${idx}" accept="image/*" capture="environment" style="display:none" onchange="handlePhoto(this,${idx})">
+          <img id="prog-photo-prev-${idx}" style="width:100%;border-radius:var(--rs);margin-bottom:9px;display:none;border:2px solid var(--p4)">
+          <button class="btn btn-peer" id="send-btn-${idx}" style="display:none" onclick="sendToPeer(${idx})">👥 짝에게 전송하기</button>
+        </div>
+      </div>
+      <div class="sec">이번 주 스트릭</div>
+      <div class="card">${renderStreakHTML(p.c)}</div>
+      <div style="display:flex;gap:7px">
+        <button class="btn btn-peer" style="flex:1" onclick="saveDiaryBtn(${idx})">다이어리 저장 +5XP</button>
+        <button class="btn btn-outline" style="flex:1" onclick="goProgram(${(idx+1)%5})">다음 ▶</button>
+      </div>
+    </div>`;}
+
+function getPWhy(k){return({
+  p1:'순차처리(95) 개인 내적 약점. 계획력(145) 강점으로 "순서를 먼저 계획"하는 방식으로 보완해요.',
+  p2:'동시처리(117) 규준적 강점! 마인드맵·시각화로 더 키워요.',
+  p3:'계획력(145) — 또래 상위 0.1%! 프로젝트·역산 계획으로 극대화해요.',
+  p4:'주의력(131) 개인 내적 강점. 딥워크로 더 깊이 훈련해요.',
+  p5:'동시처리 우세형 맞춤 통합 루틴. 3강점을 하루에 함께 키워요.',
+})[k]}
+
+function renderStreakHTML(c){
+  const days=['월','화','수','목','금','토','일'];
+  return`<div class="streak-row">${days.map((d,i)=>{
+    const done=i<S.streak;const today=i===getTodayIdx()&&i<5;
+    return`<div class="sd${done?' sd-done':''}${today?' sd-today':''}" style="${done?`background:${c};border-color:${c}`:today?`border-color:${c};border-width:2px`:''}">
+      <span class="sd-lbl">${d}</span>${done?'<span style="font-size:8px;color:rgba(255,255,255,.9)">✓</span>':''}
+    </div>`}).join('')}</div>`;}
+
+function saveDiaryBtn(idx){const o=S.xp;S.xp+=5;updateLvUI();renderHome();checkLvUp(o,S.xp);toast('다이어리 저장 +5XP')}
+
+function handleMiClick(mId,xp,progIdx,needPeer){
+  const st=S.completions[mId];
+  if(st==='pending'){toast('⏳ 짝 확인 중!');return}
+  if(st==='approved'||st==='done'){delete S.completions[mId];S.xp-=parseInt(xp);S.totalDone--;updateLvUI();renderHome();renderProgram(parseInt(progIdx));return}
+  if(needPeer==='true'){toast('📷 아래 사진 전송을 이용해요!');}
+  else{const o=S.xp;S.completions[mId]='done';S.xp+=parseInt(xp);S.totalDone++;S.streak=Math.min(7,S.streak+1);updateLvUI();renderHome();checkLvUp(o,S.xp);renderProgram(parseInt(progIdx));toast(`+${xp} XP!`);}}
+
+function handlePhoto(input,idx){
+  if(!input.files||!input.files[0])return;
+  const r=new FileReader();
+  r.onload=e=>{S.photoData=e.target.result;
+    const pv=document.getElementById(`prog-photo-prev-${idx}`);if(pv){pv.src=e.target.result;pv.style.display='block';}
+    const sb=document.getElementById(`send-btn-${idx}`);if(sb)sb.style.display='block';
+    toast('사진 준비 완료!');};r.readAsDataURL(input.files[0]);}
+
+function sendToPeer(progIdx){
+  if(!S.photoData){toast('사진을 먼저 찍어주세요!');return}
+  const p=PROGS[progIdx];const ms=getMissions(p.key);
+  const target=ms.find(m=>m.needPeer&&!S.completions[m.id]);
+  if(!target){toast('전송할 미션이 없어요');return}
+  const item={id:`sent_${Date.now()}`,mId:target.id,progKey:p.key,progCode:p.code,
+    missionText:target.text,photo:S.photoData,diary:getDiarySummary(p.key),
+    xp:target.xp,status:'pending',time:new Date().toLocaleTimeString('ko',{hour:'2-digit',minute:'2-digit'})};
+  S.sent.unshift(item);S.completions[target.id]='pending';
+  S.inbox.unshift({...item,fromName:'송서우'});
+  updateNavBadge();renderHome();renderProgram(progIdx);
+  S.photoData=null;toast('📤 전송 완료!');
+  const pv=document.getElementById(`prog-photo-prev-${progIdx}`);if(pv)pv.style.display='none';
+  const sb=document.getElementById(`send-btn-${progIdx}`);if(sb)sb.style.display='none';}
+
+function renderInbox(){
+  const cnt=S.inbox.filter(i=>i.status==='pending').length;
+  document.getElementById('inbox-count').textContent=cnt;
+  document.getElementById('inbox-count-chip').textContent=`${cnt}건`;
+  if(!S.inbox.length){document.getElementById('inbox-list').innerHTML='<div style="text-align:center;padding:22px;color:var(--hint);font-size:13px">아직 받은 요청이 없어요</div>';return}
+  document.getElementById('inbox-list').innerHTML=S.inbox.map((item,i)=>{
+    const ip=item.status==='pending';
+    return`<div class="inbox-item">
+      <div class="inbox-header">
+        <div class="inbox-av" style="background:var(--p1b);color:var(--p1)">${(item.fromName||'짝').slice(0,1)}</div>
+        <div style="flex:1"><div style="font-size:13px;font-weight:700">${item.fromName||'짝꿍'}</div><div style="font-size:11px;color:var(--hint)">${item.time}</div></div>
+        <div style="font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;${ip?'background:#fff3cd;color:#856404':'background:var(--p4b);color:var(--p4t)'}">${ip?'⏳ 대기':'✅ 완료'}</div>
+      </div>
+      <div style="padding:11px 13px">
+        <div style="font-size:11px;font-weight:700;color:var(--peer);margin-bottom:3px">${item.progCode}</div>
+        <div style="font-size:13px;margin-bottom:7px">${item.missionText}</div>
+        ${item.photo?`<img class="inbox-photo" src="${item.photo}" onclick="openApproveModal(${i})">`:''}
+        <div class="inbox-diary">📝 ${item.diary}</div>
+        ${ip?`<button class="btn btn-peer" style="padding:10px;font-size:13px" onclick="openApproveModal(${i})">사진 보고 확인하기 ✓</button>`:'<div style="font-size:12px;color:var(--p4t);font-weight:700;text-align:center">✅ 확인 완료</div>'}
+      </div>
+    </div>`}).join('');}
+
+function renderSent(){
+  if(!S.sent.length){document.getElementById('sent-list').innerHTML='<div style="text-align:center;padding:18px;color:var(--hint);font-size:13px">아직 전송한 미션이 없어요</div>';return}
+  document.getElementById('sent-list').innerHTML=S.sent.map(item=>{
+    const ip=item.status==='pending';
+    return`<div class="card" style="margin-bottom:7px;display:flex;gap:9px;align-items:center;padding:11px 13px">
+      <div style="width:42px;height:42px;border-radius:var(--rs);overflow:hidden;flex-shrink:0;background:var(--border)">
+        ${item.photo?`<img src="${item.photo}" style="width:100%;height:100%;object-fit:cover">`:'<div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:17px">📷</div>'}
+      </div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:var(--peer);margin-bottom:2px">${item.progCode}</div>
+        <div style="font-size:12px;margin-bottom:3px">${item.missionText}</div>
+        <div style="font-size:11px;padding:2px 8px;border-radius:8px;display:inline-block;${ip?'background:#fff3cd;color:#856404':'background:var(--p4b);color:var(--p4t)'}">${ip?'⏳ 확인 중':'✅ 완료'}</div>
+      </div>
+    </div>`}).join('');}
+
+function openApproveModal(i){
+  S.currentApproveIdx=i;const item=S.inbox[i];
+  document.getElementById('modal-title').textContent=`${item.fromName||'짝꿍'}의 미션`;
+  document.getElementById('modal-sub').textContent=`${item.progCode} · ${item.time}`;
+  const img=document.getElementById('modal-img');
+  if(item.photo){img.src=item.photo;img.style.display='block';}else img.style.display='none';
+  document.getElementById('modal-prog-label').textContent=item.progCode;
+  document.getElementById('modal-mission-text').textContent=item.missionText;
+  document.getElementById('modal-diary-text').textContent='📝 '+item.diary;
+  document.getElementById('approve-modal').classList.add('show');}
+
+function approveMission(){
+  const item=S.inbox[S.currentApproveIdx];item.status='approved';
+  const si=S.sent.find(s=>s.mId===item.mId);if(si)si.status='approved';
+  const o=S.xp;S.completions[item.mId]='approved';S.xp+=item.xp;S.totalDone++;S.approvedCount++;S.streak=Math.min(7,S.streak+1);
+  updateLvUI();renderHome();checkLvUp(o,S.xp);renderInbox();renderSent();
+  document.getElementById('approve-modal').classList.remove('show');
+  document.getElementById('p-approved').textContent=S.approvedCount;
+  updateNavBadge();toast(`✅ 확인 완료! +${item.xp} XP!`);}
+
+function updateNavBadge(){
+  const c=S.inbox.filter(i=>i.status==='pending').length;
+  const b=document.getElementById('nav-badge');b.style.display=c>0?'flex':'none';b.textContent=c;}
+
+function renderProgress(){
+  document.getElementById('p-done').textContent=S.totalDone;
+  document.getElementById('p-streak').textContent=S.streak+'일';
+  document.getElementById('p-approved').textContent=S.approvedCount;
+  const n=getLvNum(S.xp);
+  document.getElementById('lv-roadmap').innerHTML=LEVELS.map((l,i)=>{
+    const cur=i+1===n;
+    return`<div style="display:flex;align-items:center;gap:9px;padding:6px 0;border-bottom:.5px solid var(--border)${i===9?';border-bottom:none':''}">
+      <div style="width:26px;height:26px;border-radius:50%;background:${S.xp>=l.xp?l.c:l.bg};color:${S.xp>=l.xp?'#fff':l.c};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0">${S.xp>=l.xp&&!cur?'✓':i+1}</div>
+      <div style="flex:1">
+        <div style="font-size:12px;font-weight:700;color:${cur?l.c:'var(--text)'}">${l.ico} Lv.${i+1} ${l.name}${cur?' ← 현재':''}</div>
+        <div style="font-size:10px;color:var(--sub)">${l.xp} XP · ${i+1<=5?'기초 단계':'영재형 심화'}</div>
+      </div>
+    </div>`}).join('');
+  const areas=[
+    {n:'순차처리',v:95,t:115,c:'var(--warn)',desc:'개인 내 약 → 보통 목표'},
+    {n:'동시처리',v:117,t:130,c:'var(--p2)',desc:'규준 강 → 심화'},
+    {n:'계획력',v:145,t:150,c:'var(--gold)',desc:'99.9% → 마스터'},
+    {n:'주의력',v:131,t:140,c:'var(--p4)',desc:'개인 내 강 → 심화'},
+  ];
+  document.getElementById('area-bars').innerHTML=areas.map(a=>`
+    <div style="margin-bottom:9px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px">
+        <span style="font-weight:700">${a.n}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span>
+        <span style="font-weight:700;color:${a.c}">${a.v} → ${a.t}</span>
+      </div>
+      <div style="height:7px;border-radius:4px;background:var(--border);overflow:hidden">
+        <div style="height:100%;border-radius:4px;background:${a.c};width:${Math.min(100,(a.v/160*100).toFixed(0))}%"></div>
+      </div>
+    </div>`).join('');
+  const days=['월','화','수','목','금','토','일'];
+  document.getElementById('week-cal').innerHTML=days.map((d,i)=>{
+    const done=i<S.streak;const today=i===getTodayIdx()&&i<5;
+    return`<div class="sd${done?' sd-done':''}${today?' sd-today':''}" style="${done?'background:var(--p1);border-color:var(--p1)':today?'border-color:var(--p1);border-width:2px':''}">
+      <span class="sd-lbl">${d}</span>${done?'<span style="font-size:8px;color:rgba(255,255,255,.9)">✓</span>':''}
+    </div>`}).join('');
+  document.getElementById('next-prev').innerHTML=
+    `순차처리 95→115: <b>타임라인+계획 보조 훈련</b><br>동시처리 117→130: <b>융합 마인드맵 심화</b><br>계획력 145→150: <b>짝 코칭 프로젝트</b><br>주의력 131→140: <b>딥워크 40분 루틴</b>`;}
+
+function renderTeacher(){
+  document.getElementById('schedule-rationale').innerHTML=
+    `<strong>강점 우선 인터리빙 (강점 60% / 약점 25% / 융합 15%)</strong><br>
+    · 월: 계획력 심화(P3) + 순차처리 경량(P1)<br>
+    · 화: 주의력 심화(P4) + 동시처리(P2)<br>
+    · 수: 순차처리 집중(P1) + 계획력 보조<br>
+    · 목: 동시처리 심화(P2) + 강점 융합(P5)<br>
+    · 금: 주간 프로젝트 + 짝 발표 (Protégé Effect)<br>
+    · 토·일: 완전 휴식`;
+  document.getElementById('t-peer-status').innerHTML=`
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--border);font-size:12px"><span style="color:var(--sub)">전송 미션</span><span style="font-weight:700">${S.sent.length}건</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0;border-bottom:.5px solid var(--border);font-size:12px"><span style="color:var(--sub)">짝 확인 완료</span><span style="font-weight:700;color:var(--p4)">${S.approvedCount}건</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 0;font-size:12px"><span style="color:var(--sub)">누적 XP</span><span style="font-weight:700;color:var(--gold)">${S.xp} XP</span></div>`;
+  const areas=[{n:'순차처리',v:95,c:'var(--warn)'},{n:'동시처리',v:117,c:'var(--p2)'},{n:'계획력',v:145,c:'var(--gold)'},{n:'주의력',v:131,c:'var(--p4)'}];
+  document.getElementById('t-bars').innerHTML=areas.map(a=>`
+    <div style="display:flex;align-items:center;gap:7px;margin-bottom:6px">
+      <div style="font-size:12px;font-weight:700;width:58px;flex-shrink:0">${a.n}</div>
+      <div style="flex:1;height:7px;border-radius:4px;background:var(--border);overflow:hidden"><div style="height:100%;border-radius:4px;background:${a.c};width:${Math.min(100,(a.v/160*100).toFixed(0))}%"></div></div>
+      <div style="font-size:12px;font-weight:700;color:${a.c};width:32px;text-align:right">${a.v}</div>
+    </div>`).join('');
+  document.getElementById('t-prog').innerHTML=PROGS.map(p=>{
+    const ms=getMissions(p.key);const done=ms.filter(m=>S.completions[m.id]==='approved'||S.completions[m.id]==='done').length;
+    return`<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:.5px solid var(--border)">
+      <span style="font-size:13px;font-weight:700">${p.ico} ${p.code} ${p.name}</span>
+      <span style="font-size:12px;font-weight:700;color:${p.tc}">${done}/${ms.length}</span>
+    </div>`}).join('');}
+
+function nav(name,btn){
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sc-'+name).classList.add('active');btn.classList.add('active');
+  if(name==='peer'){renderInbox();renderSent();}
+  if(name==='progress')renderProgress();
+  if(name==='teacher')renderTeacher();}
+
+renderHome();updateLvUI();renderProgress();renderTeacher();
+</script>
+</body>
+</html>
