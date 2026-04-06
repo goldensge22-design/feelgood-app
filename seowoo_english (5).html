@@ -1,0 +1,1000 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Seowoo Song · K-PASS Training</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --navy:#2d2f8f;--navy2:#1a2a4a;
+  --green:#1D9E75;--gl:#e1f5ee;--gd:#0F6E56;
+  --amber:#BA7517;--purple:#6c5ce7;--red:#e53e3e;
+  --bg:#f5f7fa;--white:#fff;--border:rgba(0,0,0,0.09);
+  --text:#1a1a1a;--muted:#6b7280;
+  --fn:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+html,body{height:100%;background:#c9cdd6;font-family:var(--fn);}
+.app{max-width:430px;margin:0 auto;min-height:100vh;background:var(--bg);
+  box-shadow:0 0 60px rgba(0,0,0,0.2);display:flex;flex-direction:column;position:relative;}
+
+/* ── Overlay ── */
+.ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:999;
+  align-items:center;justify-content:center;}
+.ov.show{display:flex;}
+.mbox{background:#fff;border-radius:18px;overflow:hidden;width:290px;
+  animation:pop .18s ease;}
+@keyframes pop{from{transform:scale(.85);opacity:0;}to{transform:scale(1);opacity:1;}}
+
+/* Verify modal */
+.vm-hd{background:var(--navy);color:#fff;padding:12px 16px;font-size:14px;font-weight:700;text-align:center;}
+.vm-ph{width:100%;height:150px;background:#e8eaf0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:8px;color:var(--muted);}
+.vm-ph .pi{font-size:40px;}
+.vm-ph p{font-size:12px;}
+.vm-note{padding:10px 14px;font-size:11px;color:var(--muted);text-align:center;}
+.vm-btns{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--border);}
+.vm-btns button{padding:13px;font-size:13px;font-weight:700;border:none;cursor:pointer;
+  background:#fff;font-family:var(--fn);}
+.vm-btns .vc{color:var(--muted);border-right:1px solid var(--border);}
+.vm-btns .vk{color:var(--green);}
+
+/* Level up modal */
+.lu{padding:26px 20px 20px;text-align:center;}
+.lu .em{font-size:52px;margin-bottom:10px;}
+.lu h2{font-size:21px;font-weight:800;color:var(--navy);margin-bottom:6px;}
+.lu p{font-size:12px;color:var(--muted);margin-bottom:18px;line-height:1.6;}
+.lu button{background:var(--navy);color:#fff;border:none;border-radius:10px;
+  padding:11px 32px;font-size:13px;font-weight:700;cursor:pointer;font-family:var(--fn);}
+
+/* ── Header ── */
+.hdr{background:var(--navy);padding:12px 16px 10px;display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.av{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.18);
+  display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;
+  color:#fff;border:1.5px solid rgba(255,255,255,0.35);flex-shrink:0;}
+.hi h1{font-size:15px;font-weight:700;color:#fff;}
+.hi p{font-size:10px;color:rgba(255,255,255,0.6);margin-top:1px;}
+.hbadge{margin-left:auto;flex-shrink:0;background:rgba(255,215,0,0.18);
+  border:1px solid rgba(255,215,0,0.4);color:#ffd700;font-size:10px;font-weight:700;
+  padding:3px 8px;border-radius:20px;white-space:nowrap;}
+
+/* ── Score strip ── */
+.sstrip{background:#fff;padding:11px 14px;border-bottom:1px solid var(--border);
+  display:grid;grid-template-columns:repeat(4,1fr);gap:4px;text-align:center;}
+.sc label{font-size:9px;color:var(--muted);display:block;margin-bottom:2px;
+  text-transform:uppercase;letter-spacing:.4px;}
+.sc .sn{font-size:20px;font-weight:700;color:var(--text);line-height:1;}
+.sc .st{font-size:9px;margin-top:3px;font-weight:600;}
+.sw{color:var(--amber);}.ss{color:var(--green);}.sp{color:var(--purple);}
+
+/* ── XP bar ── */
+.xpw{background:#fff;padding:9px 16px 11px;border-bottom:1px solid var(--border);}
+.xpr{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:5px;}
+.xpt{height:6px;background:#e5e7eb;border-radius:4px;overflow:hidden;}
+.xpb{height:100%;background:linear-gradient(90deg,var(--green),#5DCAA5);border-radius:4px;
+  transition:width .5s;}
+
+/* ── Section ── */
+.sec{background:#fff;padding:13px 15px;border-bottom:1px solid var(--border);}
+.stit{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.6px;margin-bottom:10px;}
+
+/* ── KP result cards ── */
+.kpg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;}
+.kpc{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:10px 12px;}
+.kpc .kpl{font-size:10px;color:var(--muted);margin-bottom:2px;}
+.kpc .kpn{font-size:21px;font-weight:700;color:var(--text);}
+.kpc .kpt{font-size:10px;margin-top:2px;font-weight:600;}
+
+/* ── Today mission card ── */
+.mc{background:var(--bg);border:1px solid var(--border);border-radius:11px;padding:12px;
+  display:flex;align-items:center;gap:10px;}
+.micons{display:flex;gap:4px;}
+.mi{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;
+  justify-content:center;font-size:15px;font-weight:800;}
+.mis{background:var(--gl);color:var(--gd);}
+.mip{background:#e8eaf5;color:var(--navy);}
+.minf h3{font-size:13px;font-weight:700;color:var(--text);}
+.minf p{font-size:11px;color:var(--muted);margin-top:2px;}
+.mbtn{margin-left:auto;background:var(--navy);color:#fff;border:none;border-radius:8px;
+  padding:7px 13px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:var(--fn);}
+
+/* ── Schedule ── */
+.sg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;}
+.sdl{font-size:9px;color:var(--muted);font-weight:600;padding-bottom:4px;}
+.sd{font-size:9px;padding:6px 2px;border-radius:5px;background:var(--bg);color:var(--muted);}
+.sd.dn{background:var(--gl);color:var(--gd);font-weight:700;}
+.sd.td{background:var(--navy);color:#fff;font-weight:700;}
+
+/* ── PROGRAM CARD ── */
+.pc{border:1px solid var(--border);border-radius:13px;margin-bottom:10px;overflow:hidden;
+  background:#fff;}
+.pc:last-child{margin-bottom:0;}
+.pch{padding:13px 14px;cursor:pointer;display:flex;align-items:flex-start;gap:10px;
+  -webkit-tap-highlight-color:transparent;user-select:none;background:#fff;}
+.pch:active{background:#f9fafb;}
+.pci{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;
+  justify-content:center;font-size:19px;flex-shrink:0;margin-top:1px;}
+.pcb{flex:1;}
+.pcb h3{font-size:14px;font-weight:700;color:var(--text);line-height:1.25;}
+.pcb p{font-size:11px;color:var(--muted);margin-top:3px;}
+.pcnt{flex-shrink:0;background:var(--bg);border:1px solid var(--border);
+  border-radius:20px;font-size:11px;font-weight:700;color:var(--muted);padding:3px 9px;white-space:nowrap;}
+.pcnt.full{background:var(--gl);border-color:var(--gd);color:var(--gd);}
+.pcarr{flex-shrink:0;font-size:12px;color:var(--muted);margin-top:2px;transition:transform .2s;}
+.pc.open .pcarr{transform:rotate(180deg);}
+.pcbody{display:none;border-top:1px solid var(--border);}
+.pc.open .pcbody{display:block;}
+
+/* ── Task item ── */
+.ti{display:flex;align-items:flex-start;gap:10px;padding:12px 14px;
+  border-bottom:1px solid var(--border);background:#fff;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;}
+.ti:last-of-type{border-bottom:none;}
+.ti.dk{background:#fafdfb;}
+.tcb{width:22px;height:22px;border-radius:5px;border:2px solid var(--border);
+  flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;transition:all .15s;}
+.tcb.ck{background:var(--green);border-color:var(--green);color:#fff;}
+.tmeta{display:flex;align-items:center;gap:5px;margin-bottom:4px;flex-wrap:wrap;}
+.tcat{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;}
+.cs{background:#e8eaf5;color:var(--navy);}
+.cr{background:#fef3e2;color:var(--amber);}
+.cp{background:var(--gl);color:var(--gd);}
+.cpl{background:#f3e8ff;color:#7c3aed;}
+.tpeer{font-size:13px;}
+.txp{font-size:10px;font-weight:700;color:var(--green);background:var(--gl);
+  padding:2px 7px;border-radius:20px;}
+.tt{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px;}
+.tt.dk{text-decoration:line-through;color:var(--muted);}
+.td2{font-size:11px;color:var(--muted);line-height:1.5;}
+.pin{color:#e53e3e;}
+
+/* ── Activity diary ── */
+.dw{background:#f9fafb;border-top:1px solid var(--border);padding:13px 13px 15px;}
+.dlbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.5px;margin-bottom:9px;}
+.dcard{background:#fff;border:1px solid var(--border);border-radius:11px;overflow:hidden;}
+.dch{padding:10px 13px;border-bottom:1px solid var(--border);display:flex;
+  justify-content:space-between;align-items:center;}
+.dch span{font-size:13px;font-weight:700;color:var(--text);}
+.dch small{font-size:11px;color:var(--muted);}
+.dslbl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.4px;padding:8px 13px 5px;background:#f9fafb;border-bottom:1px solid var(--border);}
+.dr{display:flex;align-items:center;border-bottom:1px solid var(--border);}
+.dr:last-child{border-bottom:none;}
+.drn{width:28px;font-size:11px;font-weight:700;color:var(--muted);text-align:center;
+  flex-shrink:0;padding:10px 0;}
+.drk{font-size:11px;color:var(--text);font-weight:600;white-space:nowrap;
+  padding:10px 6px 10px 0;flex-shrink:0;min-width:78px;}
+.dr input{flex:1;border:none;outline:none;font-size:12px;color:var(--text);
+  font-family:var(--fn);padding:10px 10px 10px 4px;background:transparent;min-width:0;}
+.dr input::placeholder{color:#bbb;}
+
+/* ── Peer tab ── */
+.psr{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px;}
+.ps{background:var(--bg);border:1px solid var(--border);border-radius:9px;
+  padding:10px 6px;text-align:center;}
+.ps .pn{font-size:22px;font-weight:700;color:var(--text);}
+.ps .pl{font-size:10px;color:var(--muted);margin-top:2px;}
+.sl{display:flex;flex-direction:column;gap:9px;}
+.si{display:flex;align-items:flex-start;gap:10px;}
+.sn2{width:24px;height:24px;border-radius:50%;background:var(--navy);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;
+  flex-shrink:0;margin-top:1px;}
+.st2{font-size:12px;color:var(--muted);line-height:1.5;}
+.empty{padding:16px 0;text-align:center;font-size:12px;color:var(--muted);}
+.rrow{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);}
+.rrow:last-child{border-bottom:none;}
+.rav{width:32px;height:32px;border-radius:50%;background:var(--gl);
+  display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:var(--gd);}
+.ri p{font-size:12px;font-weight:600;color:var(--text);}
+.ri span{font-size:11px;color:var(--muted);}
+.bv{margin-left:auto;background:var(--green);color:#fff;border:none;border-radius:7px;
+  padding:6px 11px;font-size:11px;font-weight:700;cursor:pointer;flex-shrink:0;font-family:var(--fn);}
+.demobtn{margin-top:11px;width:100%;background:var(--bg);border:1px dashed #ccc;
+  border-radius:8px;padding:10px;font-size:11px;color:var(--muted);cursor:pointer;font-family:var(--fn);}
+
+/* ── Growth ── */
+.gg{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:14px;}
+.gs{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:12px 10px;text-align:center;}
+.gs .gn{font-size:21px;font-weight:700;color:var(--text);}
+.gs .gl2{font-size:10px;color:var(--muted);margin-top:3px;}
+.lr{display:flex;flex-direction:column;gap:5px;}
+.lvr{display:flex;align-items:center;gap:9px;}
+.lvd{width:26px;height:26px;border-radius:50%;background:var(--bg);
+  border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--muted);flex-shrink:0;}
+.lvd.cur{background:var(--navy);border-color:var(--navy);color:#fff;font-weight:700;}
+.lvd.dn{background:var(--green);border-color:var(--green);color:#fff;}
+.lvn{font-size:12px;color:var(--muted);}
+.lvn.cur{color:var(--text);font-weight:700;}
+.lvx{margin-left:auto;font-size:10px;color:var(--muted);}
+.kb{margin-bottom:10px;}
+.kb:last-child{margin-bottom:0;}
+.kbh{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-bottom:4px;}
+.kbh span:last-child{font-weight:700;}
+.kbg{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden;}
+.kbf{height:100%;border-radius:4px;}
+.divl{font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;
+  letter-spacing:.5px;margin:14px 0 8px;}
+
+/* ── Calendar ── */
+.cg{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;}
+.cl{font-size:9px;color:var(--muted);font-weight:600;padding-bottom:3px;}
+.cd{font-size:10px;padding:5px 2px;border-radius:4px;color:var(--muted);}
+.cd.h{background:var(--gl);color:var(--gd);font-weight:700;}
+.cd.t{background:var(--navy);color:#fff;font-weight:700;}
+.nbox{background:var(--bg);border:1px solid var(--border);border-radius:10px;
+  padding:12px;font-size:12px;color:var(--muted);line-height:1.7;}
+.nbox strong{display:block;margin-bottom:4px;color:var(--text);font-size:13px;}
+
+/* ── Teacher ── */
+.rhl{background:#f0f4ff;border:1px solid rgba(45,47,143,0.18);border-radius:10px;
+  padding:12px;margin-bottom:12px;font-size:12px;color:var(--text);line-height:1.65;}
+.rc{background:var(--bg);border:1px solid var(--border);border-radius:11px;
+  padding:12px;margin-bottom:8px;}
+.rc:last-child{margin-bottom:0;}
+.rc h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px;}
+.rc p{font-size:11px;color:var(--muted);line-height:1.65;}
+
+/* ── Nav ── */
+.nav{flex-shrink:0;position:sticky;bottom:0;z-index:200;background:#fff;
+  border-top:1px solid var(--border);display:grid;grid-template-columns:repeat(5,1fr);
+  padding:6px 0 10px;}
+.nb{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;
+  color:var(--muted);cursor:pointer;padding:4px 0;border:none;background:none;
+  font-family:var(--fn);-webkit-tap-highlight-color:transparent;user-select:none;transition:color .1s;}
+.nb.act{color:var(--navy);}
+.nico{font-size:19px;line-height:1;position:relative;display:inline-block;}
+.nbadge{position:absolute;top:-4px;right:-10px;background:var(--red);color:#fff;
+  font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;padding:0 3px;}
+
+/* ── Tabs ── */
+.tab{display:none;}.tab.on{display:block;}
+.sb{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding-bottom:72px;}
+
+/* ── Toast ── */
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);
+  background:rgba(26,42,74,0.92);color:#fff;font-size:12px;font-weight:600;
+  padding:10px 20px;border-radius:20px;z-index:700;opacity:0;transition:opacity .3s;
+  pointer-events:none;white-space:nowrap;max-width:88%;}
+.toast.show{opacity:1;}
+</style>
+</head>
+<body>
+<div class="toast" id="toast"></div>
+
+<!-- MODAL: Verify -->
+<div class="ov" id="ovV" onclick="if(event.target===this)closeOv('ovV')">
+  <div class="mbox">
+    <div class="vm-hd">👁 Mission Verification</div>
+    <div class="vm-ph"><div class="pi">📷</div><p>Check the photo, then press Complete!</p></div>
+    <div class="vm-note">Review your peer's work carefully before confirming.</div>
+    <div class="vm-btns">
+      <button class="vc" onclick="closeOv('ovV')">Close</button>
+      <button class="vk" onclick="doVerify()">✓ Confirmed</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Level Up -->
+<div class="ov" id="ovL" onclick="if(event.target===this)closeOv('ovL')">
+  <div class="mbox">
+    <div class="lu">
+      <div class="em">🎉</div>
+      <h2>Level Up!</h2>
+      <p id="luMsg">Congratulations! Keep going!</p>
+      <button onclick="closeOv('ovL')">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- APP -->
+<div class="app">
+
+  <!-- HEADER -->
+  <div class="hdr">
+    <div class="av">SW</div>
+    <div class="hi">
+      <h1>Seowoo Song</h1>
+      <p>Simultaneous Processing Dominant · Age 9 · Female</p>
+    </div>
+    <div class="hbadge">★ Gifted · Planning 99.9%</div>
+  </div>
+
+  <!-- SCORES — from official K-PASS report -->
+  <div class="sstrip">
+    <div class="sc">
+      <label>Sequential</label>
+      <div class="sn">95</div>
+      <div class="st sw">Personal low</div>
+    </div>
+    <div class="sc">
+      <label>Simultaneous</label>
+      <div class="sn">117</div>
+      <div class="st ss">Above norm</div>
+    </div>
+    <div class="sc">
+      <label>Planning</label>
+      <div class="sn">145</div>
+      <div class="st sp">99.9% ★</div>
+    </div>
+    <div class="sc">
+      <label>Attention</label>
+      <div class="sn">131</div>
+      <div class="st ss">Personal high</div>
+    </div>
+  </div>
+
+  <!-- XP BAR -->
+  <div class="xpw">
+    <div class="xpr">
+      <span id="lvLbl">Lv.1 Sprout</span>
+      <span><span id="xpV">0</span> / <span id="xpM">30</span> XP</span>
+    </div>
+    <div class="xpt"><div class="xpb" id="xpBar"></div></div>
+  </div>
+
+  <!-- SCROLL BODY -->
+  <div class="sb">
+
+    <!-- ════ HOME ════ -->
+    <div id="tab-home" class="tab on">
+
+      <!-- K-PASS Results -->
+      <div class="sec">
+        <div class="stit">K-PASS Assessment Results</div>
+        <div class="kpg">
+          <div class="kpc">
+            <div class="kpl">Sequential Processing</div>
+            <div class="kpn">95</div>
+            <div class="kpt sw">Personal low · 37th %ile</div>
+          </div>
+          <div class="kpc">
+            <div class="kpl">Simultaneous Processing</div>
+            <div class="kpn">117</div>
+            <div class="kpt ss">Above norm · 87th %ile</div>
+          </div>
+          <div class="kpc">
+            <div class="kpl">Planning</div>
+            <div class="kpn">145</div>
+            <div class="kpt sp">99.9% ★ Gifted</div>
+          </div>
+          <div class="kpc">
+            <div class="kpl">Attention</div>
+            <div class="kpn">131</div>
+            <div class="kpt ss">Personal high · 98th %ile</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Today's Mission -->
+      <div class="sec">
+        <div class="stit">Today's Mission</div>
+        <div class="mc">
+          <div class="micons">
+            <div class="mi mis">S</div>
+            <div class="mi mip">P</div>
+          </div>
+          <div class="minf">
+            <h3>Peer Verification System</h3>
+            <p>Photo → Peer checks → XP earned</p>
+          </div>
+          <button class="mbtn" onclick="openOv('ovV')">Check</button>
+        </div>
+      </div>
+
+      <!-- Weekly Schedule -->
+      <div class="sec">
+        <div class="stit">Weekly Interleaving Schedule</div>
+        <div class="sg">
+          <div class="sdl">Mon</div><div class="sdl">Tue</div><div class="sdl">Wed</div>
+          <div class="sdl">Thu</div><div class="sdl">Fri</div><div class="sdl">Sat</div><div class="sdl">Sun</div>
+          <div class="sd dn">✓</div><div class="sd dn">Seq.</div><div class="sd td">Sim.</div>
+          <div class="sd">—</div><div class="sd dn">Pres.</div><div class="sd">—</div><div class="sd">—</div>
+        </div>
+      </div>
+
+      <!-- All Programs summary -->
+      <div class="sec">
+        <div class="stit">All Programs</div>
+        <div id="homeProgList"></div>
+      </div>
+
+    </div><!-- /home -->
+
+    <!-- ════ MISSIONS ════ -->
+    <div id="tab-mission" class="tab">
+      <div class="sec">
+        <div class="stit">All Programs</div>
+        <div id="missionProgList"></div>
+      </div>
+    </div>
+
+    <!-- ════ PEER CHECK ════ -->
+    <div id="tab-peer" class="tab">
+      <div class="sec">
+        <div class="stit">Peer Verification Box</div>
+        <div class="psr">
+          <div class="ps"><div class="pn" id="psSent">0</div><div class="pl">Photos sent</div></div>
+          <div class="ps"><div class="pn" id="psRecv">0</div><div class="pl">Received</div></div>
+          <div class="ps"><div class="pn" id="psConf">0</div><div class="pl">Confirmed</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="stit">👥 Peer Verification System</div>
+        <div class="sl">
+          <div class="si"><div class="sn2">1</div><div class="st2">Complete mission → Take a photo of your result</div></div>
+          <div class="si"><div class="sn2">2</div><div class="st2">Send it → Arrives in peer's verification box</div></div>
+          <div class="si"><div class="sn2">3</div><div class="st2">Peer confirms → XP is awarded</div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="stit">Received Requests (<span id="recvCnt">0</span>)</div>
+        <div id="inboxEl"></div>
+        <button class="demobtn" onclick="addDemo()">+ Simulate incoming request (demo)</button>
+      </div>
+      <div class="sec">
+        <div class="stit">Sent Requests</div>
+        <div id="sentEl"></div>
+      </div>
+    </div>
+
+    <!-- ════ GROWTH ════ -->
+    <div id="tab-growth" class="tab">
+      <div class="sec">
+        <div class="stit">Growth Record</div>
+        <div class="gg">
+          <div class="gs"><div class="gn" id="gLv">Lv.1</div><div class="gl2">10-Stage Level</div></div>
+          <div class="gs"><div class="gn" id="gMs">0</div><div class="gl2">Missions Completed</div></div>
+          <div class="gs"><div class="gn" id="gSt">0 days</div><div class="gl2">Training Streak</div></div>
+          <div class="gs"><div class="gn" id="gPe">0</div><div class="gl2">Peer Verifications</div></div>
+        </div>
+        <div class="divl">10-Stage Level Roadmap</div>
+        <div class="lr" id="levelRoad"></div>
+      </div>
+      <div class="sec">
+        <div class="stit">K-PASS Areas: Current → Goal</div>
+        <div class="kb">
+          <div class="kbh"><span>Sequential Processing</span><span style="color:var(--amber)">95 → 105</span></div>
+          <div class="kbg"><div class="kbf" style="width:65%;background:var(--amber)"></div></div>
+        </div>
+        <div class="kb">
+          <div class="kbh"><span>Simultaneous Processing</span><span style="color:var(--green)">117 → 125</span></div>
+          <div class="kbg"><div class="kbf" style="width:80%;background:var(--green)"></div></div>
+        </div>
+        <div class="kb">
+          <div class="kbh"><span>Planning</span><span style="color:var(--purple)">145 → 145+</span></div>
+          <div class="kbg"><div class="kbf" style="width:99%;background:var(--purple)"></div></div>
+        </div>
+        <div class="kb">
+          <div class="kbh"><span>Attention</span><span style="color:var(--green)">131 → 135</span></div>
+          <div class="kbg"><div class="kbf" style="width:90%;background:var(--green)"></div></div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="stit">This Week's Calendar</div>
+        <div class="cg">
+          <div class="cl">Mon</div><div class="cl">Tue</div><div class="cl">Wed</div>
+          <div class="cl">Thu</div><div class="cl">Fri</div><div class="cl">Sat</div><div class="cl">Sun</div>
+          <div class="cd h">M</div><div class="cd h">T</div><div class="cd t">W</div>
+          <div class="cd">T</div><div class="cd">F</div><div class="cd">S</div><div class="cd">S</div>
+        </div>
+      </div>
+      <div class="sec">
+        <div class="stit">Next Month Preview</div>
+        <div class="nbox">
+          <strong>Next Month's Training Plan</strong>
+          Sequential: increase to 3× per week once streak reaches 14 days.<br>
+          Add a new simultaneous processing challenge program.<br>
+          Peer presentations: expand to 2 peers.
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ TEACHER ════ -->
+    <div id="tab-teacher" class="tab">
+      <div class="sec">
+        <div class="stit">Seowoo Song · K-PASS Analysis</div>
+        <div class="rhl">
+          <strong style="display:block;margin-bottom:4px;">★ Gifted Level — Planning 145 (Top 0.1%)</strong>
+          Simultaneous processing dominant type (Right-brain dominant). Full Scale IQ: 134 (98.8th %ile).<br>
+          Sequential processing (95) is her personal internal weakness (PW). Planning (145) and Attention (131) are personal strengths (PS).
+        </div>
+
+        <div class="divl">Interleaving Schedule Design Principles</div>
+        <div class="rc">
+          <h4>Maximize Planning Strength (145)</h4>
+          <p>Use planning ability to compensate for sequential weakness — guide her to "plan around it." Wednesday's class is the critical anchor session.</p>
+        </div>
+        <div class="rc">
+          <h4>Sequential Processing (95) — 2× per week only</h4>
+          <p>Daily practice causes interest drop. Tue + Wed with 1–2 day gap is optimal. Other sessions reinforce strengths to build success experiences.</p>
+        </div>
+        <div class="rc">
+          <h4>Friday Peer Presentation Check</h4>
+          <p>Explain mission to peer → peer confirms. Protégé Effect maximizes planning strength.</p>
+        </div>
+
+        <div class="divl">Peer Verification Status</div>
+        <div class="rc">
+          <h4>Current Status</h4>
+          <p>Photos sent: <span id="tSent">0</span> · Received: <span id="tRecv">0</span> · Confirmed: <span id="tConf">0</span></p>
+        </div>
+
+        <div class="divl">K-PASS Area Status</div>
+        <div class="rc">
+          <h4>Normative Strength / Weakness Analysis</h4>
+          <p>
+            Sequential (95) — Average norm (37th %ile) · Personal Weak (PW)<br>
+            Simultaneous (117) — Above norm, NS (87th %ile)<br>
+            Planning (145) — Above norm, NS (99.9th %ile) · Personal Strong (PS)<br>
+            Attention (131) — Above norm, NS (98th %ile) · Personal Strong (PS)
+          </p>
+        </div>
+        <div class="rc">
+          <h4>Learning Type: Simultaneous Processing Dominant</h4>
+          <p>Intuitive, visual, big-picture thinker. Prefers simultaneous presentation over sequential. Suited to music, art, philosophy, entrepreneurship. Difference: Simultaneous (117) − Sequential (95) = 22 pts.</p>
+        </div>
+
+        <div class="divl">Program Completion</div>
+        <div class="rc">
+          <h4>Progress Overview</h4>
+          <p>Missions: <span id="tMs">0</span> · Streak: <span id="tSt">0</span> days · Peer checks: <span id="tPe">0</span> · Level: <span id="tLv">Lv.1 Sprout</span></p>
+        </div>
+
+        <div class="divl">Coaching Points</div>
+        <div class="rc">
+          <h4>Planning (145) — Core Strength Lever</h4>
+          <p>Use exceptional planning to compensate for sequential weakness. "Plan around it" strategy. Wednesday class is key.</p>
+        </div>
+        <div class="rc">
+          <h4>Sequential (95) — Maximum 2× per week</h4>
+          <p>Daily repetition kills motivation. Tue + Wed, 1–2 day gap. Use remaining days to build confidence through strengths.</p>
+        </div>
+        <div class="rc">
+          <h4>Friday Peer Presentation Verification</h4>
+          <p>Explain to peer → peer confirms. Teaching strategy (Protégé Effect) maximizes planning strength utilization.</p>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /scroll body -->
+
+  <!-- BOTTOM NAV -->
+  <nav class="nav">
+    <button class="nb act" onclick="goTab('home',this)"><div class="nico">🏠</div>Home</button>
+    <button class="nb" onclick="goTab('mission',this)"><div class="nico">📋</div>Missions</button>
+    <button class="nb" onclick="goTab('peer',this)">
+      <div class="nico">👥<span class="nbadge" id="peerBadge" style="display:none">0</span></div>Peer Check
+    </button>
+    <button class="nb" onclick="goTab('growth',this)"><div class="nico">📈</div>Growth</button>
+    <button class="nb" onclick="goTab('teacher',this)"><div class="nico">👩‍🏫</div>Teacher</button>
+  </nav>
+
+</div><!-- /app -->
+
+<script>
+/* ══════════════════════════
+   PROGRAM DATA
+   (matches Korean original exactly)
+══════════════════════════ */
+var PROGS = [
+  {
+    id:'p1', icon:'📖', ibg:'#fff1e6',
+    title:'P1 Sequential Processing Training',
+    sub:'Personal low · Priority training · Tue + Wed',
+    tasks:[
+      {id:'t101',cat:'cs',catL:'Sequential',peer:true,xp:15,
+       title:'Step-by-step ordering exercise',
+       desc:'<span class="pin">📌</span> Arrange 5 items in correct order. Photo → Peer checks. Repeat for 2 rounds.'},
+      {id:'t102',cat:'cr',catL:'Review',peer:true,xp:20,
+       title:'Weekly progress check + next week plan',
+       desc:'<span class="pin">📌</span> Calculate this week\'s completion %. Write 1 improvement plan. Photo → Peer.'},
+      {id:'t103',cat:'cp',catL:'Present',peer:true,xp:20,
+       title:'Explain this week\'s sequential work to peer',
+       desc:'<span class="pin">📌</span> Teaching effect! Peer understands → confirm complete. Protégé Effect.'}
+    ],
+    diary:{title:'Sequential Processing Planner',
+      goals:['This week\'s goal…','End date','Mid-check'],
+      rev:['Day 5','Day 4','Day 3','Day 2']}
+  },
+  {
+    id:'p2', icon:'🧩', ibg:'#ecfdf5',
+    title:'P2 Simultaneous Processing Training',
+    sub:'Above norm · Strength reinforcement · Monday',
+    tasks:[
+      {id:'t201',cat:'cs',catL:'Simultaneous',peer:true,xp:20,
+       title:'Visual pattern recognition challenge',
+       desc:'<span class="pin">📌</span> Find the pattern in the image grid. Mark all matching shapes. Photo → Peer.'},
+      {id:'t202',cat:'cr',catL:'Review',peer:false,xp:15,
+       title:'Big picture thinking exercise',
+       desc:'<span class="pin">📌</span> Look at the whole picture first, then find the parts. Write your observation.'},
+      {id:'t203',cat:'cp',catL:'Present',peer:true,xp:20,
+       title:'Explain what you see to peer (2 min)',
+       desc:'<span class="pin">📌</span> Describe the pattern you found to your peer. Peer confirms.'}
+    ],
+    diary:{title:'Simultaneous Processing Planner',
+      goals:['Visual goal this week','Practice date','Check point'],
+      rev:['Day 5','Day 4','Day 3','Day 2']}
+  },
+  {
+    id:'p3', icon:'🧠', ibg:'#f3e8ff',
+    title:'P3 Planning Genius Project',
+    sub:'Top strength · Planning 145 (99.9%) · Today\'s mission',
+    tasks:[
+      {id:'t301',cat:'cs',catL:'Strategy',peer:true,xp:20,
+       title:'Plan A, B, C — 3 scenario planning',
+       desc:'<span class="pin">📌</span> Reach the same goal 3 different ways! Master planner training.'},
+      {id:'t302',cat:'cr',catL:'Review',peer:true,xp:20,
+       title:'Weekly progress % + next week plan',
+       desc:'<span class="pin">📌</span> Calculate this week\'s completion %. Write 1 improvement. Photo → Peer.'},
+      {id:'t303',cat:'cp',catL:'Present',peer:true,xp:25,
+       title:'Explain this week\'s learning to peer (3 min)',
+       desc:'<span class="pin">📌</span> Teaching effect! When peer understands → confirm complete. Protégé Effect!'}
+    ],
+    diary:{title:'Planning Master Planner',
+      goals:['This week\'s goal…','End date','Mid-check'],
+      rev:['Day 5','Day 4','Day 3','Day 2']}
+  },
+  {
+    id:'p4', icon:'⚡', ibg:'#fef9e7',
+    title:'P4 Attention Training',
+    sub:'Personal high · Sustain & grow · Thursday',
+    tasks:[
+      {id:'t401',cat:'cpl',catL:'Focus',peer:false,xp:15,
+       title:'Sustained attention exercise (10 min)',
+       desc:'<span class="pin">📌</span> Focus on one task for 10 minutes. Record your focus quality (1–5).'},
+      {id:'t402',cat:'cr',catL:'Review',peer:true,xp:20,
+       title:'Attention log review',
+       desc:'<span class="pin">📌</span> Review week\'s focus scores. Identify best/worst time slots. Photo → Peer.'},
+      {id:'t403',cat:'cs',catL:'Strategy',peer:true,xp:20,
+       title:'Design next week\'s focus schedule',
+       desc:'<span class="pin">📌</span> Plan hard tasks (high focus) vs easy tasks. Share plan with peer.'}
+    ],
+    diary:{title:'Attention Training Planner',
+      goals:['Focus goal this week','Target date','Focus check point'],
+      rev:['Day 5','Day 4','Day 3','Day 2']}
+  }
+];
+
+var LEVELS = [
+  {lv:1,nm:'Sprout',xp:0},{lv:2,nm:'Seedling',xp:30},{lv:3,nm:'Explorer',xp:80},
+  {lv:4,nm:'Achiever',xp:150},{lv:5,nm:'Champion',xp:250},{lv:6,nm:'Scholar',xp:380},
+  {lv:7,nm:'Strategist',xp:540},{lv:8,nm:'Innovator',xp:730},
+  {lv:9,nm:'Visionary',xp:950},{lv:10,nm:'Genius',xp:1200}
+];
+
+/* ══════════════════════════
+   STATE — localStorage
+══════════════════════════ */
+function defS(){
+  return{xp:0,lv:1,ms:0,streak:0,lastDay:'',
+    peer:{sent:0,recv:0,conf:0},inbox:[],sent:[],
+    tasks:{},diary:{},open:{}}; 
+}
+var S = (function(){
+  try{var r=localStorage.getItem('sw3');return r?JSON.parse(r):defS();}
+  catch(e){return defS();}
+})();
+function save(){try{localStorage.setItem('sw3',JSON.stringify(S));}catch(e){}}
+
+/* ══════════════════════════
+   TABS
+══════════════════════════ */
+function goTab(name,btn){
+  document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('on');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('act');});
+  document.getElementById('tab-'+name).classList.add('on');
+  btn.classList.add('act');
+  document.querySelector('.sb').scrollTop=0;
+  if(name==='home')renderHomeProgs();
+  if(name==='mission')renderMissionProgs();
+  if(name==='peer')renderPeer();
+  if(name==='growth')renderGrowth();
+  if(name==='teacher')renderTeacher();
+}
+
+/* ══════════════════════════
+   OVERLAYS
+══════════════════════════ */
+function openOv(id){document.getElementById(id).classList.add('show');}
+function closeOv(id){document.getElementById(id).classList.remove('show');}
+
+/* ══════════════════════════
+   BUILD PROGRAM HTML
+══════════════════════════ */
+function buildProgHTML(prog, showDiary){
+  var tasks=prog.tasks;
+  var done=tasks.filter(function(t){return S.tasks[t.id];}).length;
+  var total=tasks.length;
+  var isOpen=!!S.open[prog.id];
+  var full=(done===total && total>0);
+  var h='<div class="pc'+(isOpen?' open':'')+'" id="pc-'+prog.id+'">';
+  h+='<div class="pch" onclick="toggleP(\''+prog.id+'\')">';
+  h+='<div class="pci" style="background:'+prog.ibg+'">'+prog.icon+'</div>';
+  h+='<div class="pcb"><h3>'+prog.title+'</h3><p>'+prog.sub+'</p></div>';
+  h+='<div class="pcnt'+(full?' full':'')+'">'+done+'/'+total+'</div>';
+  h+='<div class="pcarr">▼</div>';
+  h+='</div>';
+  h+='<div class="pcbody">';
+  // Tasks
+  tasks.forEach(function(task){
+    var chk=!!S.tasks[task.id];
+    h+='<div class="ti'+(chk?' dk':'')+'" onclick="toggleT(\''+task.id+'\','+task.xp+')">';
+    h+='<div class="tcb'+(chk?' ck':'')+'">'+( chk?'✓':'')+'</div>';
+    h+='<div style="flex:1;">';
+    h+='<div class="tmeta">';
+    h+='<span class="tcat '+task.cat+'">'+task.catL+'</span>';
+    if(task.peer)h+='<span class="tpeer">👥</span>';
+    h+='<span class="txp">+'+task.xp+' XP</span>';
+    h+='</div>';
+    h+='<div class="tt'+(chk?' dk':'')+'">'+task.title+'</div>';
+    h+='<div class="td2">'+task.desc+'</div>';
+    h+='</div></div>';
+  });
+  // Diary
+  if(showDiary){
+    var d=prog.diary;
+    var dk='diary_'+prog.id;
+    var dd=S.diary[dk]||{};
+    h+='<div class="dw">';
+    h+='<div class="dlbl">Activity Diary</div>';
+    h+='<div class="dcard">';
+    h+='<div class="dch"><span>'+d.title+'</span><small>'+todayLbl()+'</small></div>';
+    h+='<div class="dslbl">Goals</div>';
+    d.goals.forEach(function(g,i){
+      var v=esc(dd['g'+i]||'');
+      h+='<div class="dr">';
+      h+='<div class="drn">'+(i+1)+'</div>';
+      h+='<div class="drk">'+g+'</div>';
+      h+='<input type="text" placeholder="'+g+'" value="'+v+'" oninput="saveD(\''+dk+'\',\'g'+i+'\',this.value)">';
+      h+='</div>';
+    });
+    h+='<div class="dslbl">Reverse Plan</div>';
+    d.rev.forEach(function(r,i){
+      var v=esc(dd['r'+i]||'');
+      h+='<div class="dr">';
+      h+='<div class="drn">'+(i+1)+'</div>';
+      h+='<div class="drk">'+r+'</div>';
+      h+='<input type="text" placeholder="'+r+'" value="'+v+'" oninput="saveD(\''+dk+'\',\'r'+i+'\',this.value)">';
+      h+='</div>';
+    });
+    h+='</div></div>';
+  }
+  h+='</div></div>';
+  return h;
+}
+
+function renderHomeProgs(){
+  var h='';
+  PROGS.forEach(function(p){h+=buildProgHTML(p,true);});
+  var el=document.getElementById('homeProgList');
+  if(el)el.innerHTML=h;
+}
+
+function renderMissionProgs(){
+  // Mission tab shows full version with diary
+  var h='';
+  PROGS.forEach(function(p){h+=buildProgHTML(p,true);});
+  var el=document.getElementById('missionProgList');
+  if(el)el.innerHTML=h;
+}
+
+/* ══════════════════════════
+   TOGGLE PROGRAM OPEN
+══════════════════════════ */
+function toggleP(id){
+  S.open[id]=!S.open[id];
+  save();
+  // Re-render current visible tab
+  if(document.getElementById('tab-home').classList.contains('on'))renderHomeProgs();
+  if(document.getElementById('tab-mission').classList.contains('on'))renderMissionProgs();
+}
+
+/* ══════════════════════════
+   TOGGLE TASK
+══════════════════════════ */
+function toggleT(tid,xp){
+  var was=!!S.tasks[tid];
+  S.tasks[tid]=!was;
+  if(!was){
+    // Complete
+    S.xp+=xp;
+    S.ms++;
+    recalcLv();
+    var today=new Date().toDateString();
+    if(S.lastDay!==today){
+      var yest=new Date(Date.now()-86400000).toDateString();
+      S.streak=(S.lastDay===yest)?S.streak+1:1;
+      S.lastDay=today;
+    }
+    S.sent.unshift({nm:tid,t:nowT()});
+    S.peer.sent++;
+    save();
+    renderXP();
+    showToast('✓ Task complete! +'+xp+' XP');
+    if(S.lv>1){
+      // show level up if just leveled
+    }
+  } else {
+    // Undo
+    S.xp=Math.max(0,S.xp-xp);
+    S.ms=Math.max(0,S.ms-1);
+    recalcLv();
+    save();
+    renderXP();
+    showToast('Task unchecked');
+  }
+  if(document.getElementById('tab-home').classList.contains('on'))renderHomeProgs();
+  if(document.getElementById('tab-mission').classList.contains('on'))renderMissionProgs();
+  renderTeacher();
+}
+
+/* ══════════════════════════
+   DIARY SAVE
+══════════════════════════ */
+function saveD(dk,field,val){
+  if(!S.diary[dk])S.diary[dk]={};
+  S.diary[dk][field]=val;
+  save();
+}
+
+/* ══════════════════════════
+   PEER VERIFY
+══════════════════════════ */
+function doVerify(){
+  closeOv('ovV');
+  var oldLv=S.lv;
+  S.xp+=15;S.peer.conf++;
+  recalcLv();
+  save();
+  renderXP();renderPeer();renderTeacher();
+  showToast('✓ Verified! +15 XP');
+  if(S.lv>oldLv){
+    document.getElementById('luMsg').textContent=
+      'You reached Lv.'+S.lv+' '+LEVELS[S.lv-1].nm+'! Keep going!';
+    setTimeout(function(){openOv('ovL');},400);
+  }
+}
+
+function addDemo(){
+  var ns=['Minjun Lee','Jiyeon Park','Soobin Kim','Hayeon Choi'];
+  var ms=['Sequential Training','Simultaneous Training','Planning Project','Friday Presentation'];
+  var n=ns[Math.floor(Math.random()*ns.length)];
+  var m=ms[Math.floor(Math.random()*ms.length)];
+  S.peer.recv++;
+  S.inbox.unshift({from:n,ms:m,t:'Just now'});
+  save();
+  renderPeer();
+  showToast('📷 New request from '+n);
+}
+
+function verifyInbox(i){
+  S.inbox.splice(i,1);
+  var oldLv=S.lv;
+  S.xp+=15;S.peer.conf++;
+  recalcLv();
+  save();
+  renderXP();renderPeer();renderTeacher();
+  showToast('✓ Peer verified! +15 XP');
+  if(S.lv>oldLv){
+    document.getElementById('luMsg').textContent='Lv.'+S.lv+' '+LEVELS[S.lv-1].nm+'! Great job!';
+    setTimeout(function(){openOv('ovL');},400);
+  }
+}
+
+function renderPeer(){
+  document.getElementById('psSent').textContent=S.peer.sent;
+  document.getElementById('psRecv').textContent=S.peer.recv;
+  document.getElementById('psConf').textContent=S.peer.conf;
+  document.getElementById('recvCnt').textContent=S.inbox.length;
+  var b=document.getElementById('peerBadge');
+  b.textContent=S.inbox.length;
+  b.style.display=S.inbox.length>0?'flex':'none';
+
+  var iEl=document.getElementById('inboxEl');
+  if(!iEl)return;
+  if(S.inbox.length===0){iEl.innerHTML='<div class="empty">No requests received yet</div>';}
+  else{
+    var h='';
+    S.inbox.forEach(function(r,i){
+      h+='<div class="rrow"><div class="rav">'+r.from.charAt(0)+'</div>'
+        +'<div class="ri"><p>'+r.from+'</p><span>'+r.ms+' · '+r.t+'</span></div>'
+        +'<button class="bv" onclick="verifyInbox('+i+')">Verify</button></div>';
+    });
+    iEl.innerHTML=h;
+  }
+
+  var sEl=document.getElementById('sentEl');
+  if(!sEl)return;
+  if(S.sent.length===0){sEl.innerHTML='<div class="empty">No missions sent yet</div>';}
+  else{
+    var h2='';
+    S.sent.slice(0,8).forEach(function(r){
+      h2+='<div class="rrow"><div class="rav" style="background:#e8eaf5;color:var(--navy)">✓</div>'
+        +'<div class="ri"><p>'+r.nm+'</p><span>Sent · '+r.t+'</span></div></div>';
+    });
+    sEl.innerHTML=h2;
+  }
+}
+
+/* ══════════════════════════
+   XP + LEVEL
+══════════════════════════ */
+function recalcLv(){
+  for(var i=LEVELS.length-1;i>=0;i--){
+    if(S.xp>=LEVELS[i].xp){S.lv=LEVELS[i].lv;break;}
+  }
+}
+
+function renderXP(){
+  var cur=LEVELS[S.lv-1];
+  var nxt=LEVELS[Math.min(S.lv,LEVELS.length-1)];
+  var pct=S.lv>=10?100:Math.round(Math.max(0,(S.xp-cur.xp)/(nxt.xp-cur.xp)*100));
+  document.getElementById('lvLbl').textContent='Lv.'+S.lv+' '+cur.nm;
+  document.getElementById('xpV').textContent=S.xp;
+  document.getElementById('xpM').textContent=nxt.xp;
+  document.getElementById('xpBar').style.width=pct+'%';
+}
+
+/* ══════════════════════════
+   GROWTH
+══════════════════════════ */
+function renderGrowth(){
+  document.getElementById('gLv').textContent='Lv.'+S.lv;
+  document.getElementById('gMs').textContent=S.ms;
+  document.getElementById('gSt').textContent=S.streak+' days';
+  document.getElementById('gPe').textContent=S.peer.conf;
+  var h='';
+  LEVELS.forEach(function(l){
+    var isCur=l.lv===S.lv,isDn=l.lv<S.lv;
+    h+='<div class="lvr"><div class="lvd'+(isCur?' cur':isDn?' dn':'')+'">'+
+      (isDn?'✓':l.lv)+'</div>'+
+      '<div class="lvn'+(isCur?' cur':'')+'">'+l.nm+(isCur?' ← you are here':'')+'</div>'+
+      '<div class="lvx">'+l.xp+' XP</div></div>';
+  });
+  document.getElementById('levelRoad').innerHTML=h;
+}
+
+/* ══════════════════════════
+   TEACHER
+══════════════════════════ */
+function renderTeacher(){
+  var t=function(id,v){var el=document.getElementById(id);if(el)el.textContent=v;};
+  t('tSent',S.peer.sent);t('tRecv',S.peer.recv);t('tConf',S.peer.conf);
+  t('tMs',S.ms);t('tSt',S.streak);t('tPe',S.peer.conf);
+  t('tLv','Lv.'+S.lv+' '+LEVELS[S.lv-1].nm);
+}
+
+/* ══════════════════════════
+   HELPERS
+══════════════════════════ */
+function todayLbl(){
+  var d=new Date();
+  return ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()]+' '+d.getDate();
+}
+function nowT(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});}
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;');}
+
+var _tt=null;
+function showToast(msg){
+  var el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  if(_tt)clearTimeout(_tt);
+  _tt=setTimeout(function(){el.classList.remove('show');},2400);
+}
+
+/* ══════════════════════════
+   INIT
+══════════════════════════ */
+renderXP();
+renderHomeProgs();
+renderPeer();
+renderTeacher();
+</script>
+</body>
+</html>
