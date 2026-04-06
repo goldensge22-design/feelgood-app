@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Seowoo Song · K-PASS Training</title>
+<style>
+/* ── Reset & Base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy:   #1a2a4a;
+  --green:  #1D9E75;
+  --amber:  #BA7517;
+  --purple: #7F77DD;
+  --red:    #c0392b;
+  --bg:     #f5f7fa;
+  --card:   #ffffff;
+  --border: rgba(0,0,0,0.09);
+  --text:   #1a1a1a;
+  --muted:  #6b7280;
+  --font:   -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+html, body { height: 100%; background: #dde1ea; font-family: var(--font); }
+
+/* ── App shell: phone-width container ── */
+.app {
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: var(--bg);
+  box-shadow: 0 0 50px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+}
+.scroll-area { flex: 1; overflow-y: auto; padding-bottom: 70px; }
+
+/* ── Modals backdrop ── */
+.modal-back {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.55); z-index: 300;
+  align-items: center; justify-content: center;
+}
+.modal-back.show { display: flex; }
+
+/* ── Modal: Mission Verification ── */
+.verify-modal {
+  background: #fff; border-radius: 18px; width: 310px;
+  overflow: hidden; text-align: center;
+}
+.verify-modal .vm-header {
+  background: var(--navy); color: #fff;
+  padding: 14px 16px; font-size: 14px; font-weight: 600;
+  display: flex; align-items: center; gap: 6px;
+}
+.verify-modal .vm-img {
+  width: 100%; height: 180px; background: #e8eaf0;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  color: var(--muted); font-size: 13px; gap: 8px;
+}
+.verify-modal .vm-img span { font-size: 36px; }
+.verify-modal .vm-msg { padding: 12px 16px; font-size: 12px; color: var(--muted); }
+.verify-modal .vm-btns { display: grid; grid-template-columns: 1fr 1fr; border-top: 1px solid var(--border); }
+.verify-modal .vm-btns button {
+  padding: 12px; font-size: 13px; font-weight: 600;
+  border: none; cursor: pointer; background: #fff;
+}
+.verify-modal .vm-btns .btn-close { color: var(--muted); border-right: 1px solid var(--border); }
+.verify-modal .vm-btns .btn-confirm { color: var(--green); }
+
+/* ── Modal: Level Up ── */
+.levelup-modal {
+  background: #fff; border-radius: 20px;
+  width: 260px; padding: 30px 20px; text-align: center;
+}
+.levelup-modal .lu-emoji { font-size: 52px; margin-bottom: 12px; }
+.levelup-modal h2 { font-size: 20px; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+.levelup-modal p { font-size: 12px; color: var(--muted); margin-bottom: 18px; }
+.levelup-modal button {
+  background: var(--navy); color: #fff; border: none;
+  border-radius: 10px; padding: 10px 32px;
+  font-size: 13px; font-weight: 600; cursor: pointer;
+}
+
+/* ── Header ── */
+.app-header {
+  background: var(--navy); padding: 13px 16px 11px;
+  display: flex; align-items: center; gap: 10px; flex-shrink: 0;
+}
+.avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.18);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.35); flex-shrink: 0;
+}
+.header-info h1 { font-size: 15px; font-weight: 700; color: #fff; }
+.header-info p  { font-size: 11px; color: rgba(255,255,255,0.62); margin-top: 1px; }
+.hdr-badge {
+  margin-left: auto; flex-shrink: 0;
+  background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.45);
+  color: #ffd700; font-size: 10px; font-weight: 600;
+  padding: 3px 9px; border-radius: 20px; white-space: nowrap;
+}
+
+/* ── Score bar ── */
+.score-bar {
+  background: #fff; padding: 13px 16px;
+  border-bottom: 1px solid var(--border);
+  display: grid; grid-template-columns: repeat(4,1fr); gap: 4px; text-align: center;
+}
+.sc { }
+.sc label { font-size: 9px; color: var(--muted); display: block; margin-bottom: 2px; text-transform: uppercase; letter-spacing: .4px; }
+.sc .num  { font-size: 21px; font-weight: 700; color: var(--text); line-height: 1; }
+.sc .stag { font-size: 9px; margin-top: 3px; font-weight: 500; }
+.stag.weak   { color: var(--amber); }
+.stag.strong { color: var(--green); }
+.stag.top    { color: var(--purple); }
+
+/* ── XP bar ── */
+.xp-wrap {
+  background: #fff; padding: 9px 16px 11px;
+  border-bottom: 1px solid var(--border);
+}
+.xp-row { font-size: 11px; color: var(--muted); display: flex; justify-content: space-between; margin-bottom: 5px; }
+.xp-track { height: 6px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.xp-fill  { height: 100%; width: 0%; background: linear-gradient(90deg,var(--green),#5DCAA5); border-radius: 4px; }
+
+/* ── Section ── */
+.sec { background: #fff; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.sec-title {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .6px; margin-bottom: 11px;
+}
+
+/* ── K-PASS Result cards ── */
+.kpass-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.kp-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 11px 12px;
+}
+.kp-card .kp-label { font-size: 10px; color: var(--muted); margin-bottom: 3px; }
+.kp-card .kp-num   { font-size: 22px; font-weight: 700; color: var(--text); }
+.kp-card .kp-tag   { font-size: 10px; margin-top: 2px; font-weight: 600; }
+
+/* ── Today's Mission card ── */
+.mission-row {
+  display: flex; align-items: center; gap: 11px;
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 11px; padding: 12px;
+}
+.mission-icons { display: flex; gap: 4px; }
+.mico {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px; font-weight: 700;
+}
+.mico.student { background: #e1f5ee; color: #0F6E56; }
+.mico.peer    { background: #e8eaf5; color: var(--navy); }
+.mission-info h3 { font-size: 13px; font-weight: 700; color: var(--text); }
+.mission-info p  { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.mission-info .mission-sub { font-size: 10px; color: var(--muted); }
+.btn-mission {
+  margin-left: auto; background: var(--navy); color: #fff;
+  border: none; border-radius: 8px; padding: 7px 14px;
+  font-size: 11px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+}
+
+/* ── Schedule grid ── */
+.sched { display: grid; grid-template-columns: repeat(7,1fr); gap: 4px; text-align: center; }
+.sday-lbl { font-size: 9px; color: var(--muted); font-weight: 600; padding-bottom: 4px; }
+.sday {
+  font-size: 9px; padding: 6px 2px; border-radius: 5px;
+  background: var(--bg); color: var(--muted);
+}
+.sday.done  { background: #e1f5ee; color: #0F6E56; font-weight: 700; }
+.sday.today { background: var(--navy); color: #fff; font-weight: 700; }
+
+/* ── Program list ── */
+.prog-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.prog-item:last-child { border-bottom: none; }
+.prog-ico {
+  width: 34px; height: 34px; border-radius: 8px;
+  background: #e1f5ee; display: flex; align-items: center;
+  justify-content: center; font-size: 16px; flex-shrink: 0;
+}
+.prog-info h4 { font-size: 13px; font-weight: 600; color: var(--text); }
+.prog-info p  { font-size: 11px; color: var(--muted); margin-top: 1px; }
+.prog-badge {
+  margin-left: auto; font-size: 10px; font-weight: 600;
+  padding: 3px 8px; border-radius: 20px; flex-shrink: 0;
+}
+.badge-done { background: #e1f5ee; color: #0F6E56; }
+.badge-todo { background: #f3f4f6; color: var(--muted); }
+.badge-key  { background: rgba(26,42,74,0.1); color: var(--navy); }
+
+/* ── Peer check tab ── */
+.peer-stat-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 12px; }
+.pstat {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 9px; padding: 10px 6px; text-align: center;
+}
+.pstat .pn { font-size: 20px; font-weight: 700; color: var(--text); }
+.pstat .pl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.step-list { display: flex; flex-direction: column; gap: 8px; }
+.step-item { display: flex; align-items: flex-start; gap: 10px; }
+.step-num {
+  width: 24px; height: 24px; border-radius: 50%;
+  background: var(--navy); color: #fff;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 700; flex-shrink: 0; margin-top: 1px;
+}
+.step-txt { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.request-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 1px solid var(--border);
+}
+.request-row:last-child { border-bottom: none; }
+.req-avatar {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: #e1f5ee; display: flex; align-items: center;
+  justify-content: center; font-size: 13px; font-weight: 700; color: #0F6E56;
+  flex-shrink: 0;
+}
+.req-info p  { font-size: 12px; color: var(--text); font-weight: 600; }
+.req-info span { font-size: 11px; color: var(--muted); }
+.btn-verify {
+  margin-left: auto; background: var(--green); color: #fff;
+  border: none; border-radius: 7px; padding: 6px 12px;
+  font-size: 11px; font-weight: 700; cursor: pointer; flex-shrink: 0;
+}
+.empty-state { padding: 18px 0; text-align: center; font-size: 12px; color: var(--muted); }
+
+/* ── Growth tab ── */
+.growth-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; margin-bottom: 14px; }
+.gstat {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px 10px; text-align: center;
+}
+.gstat .gn { font-size: 22px; font-weight: 700; color: var(--text); }
+.gstat .gl { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.level-road { display: flex; flex-direction: column; gap: 5px; }
+.lv-row { display: flex; align-items: center; gap: 9px; }
+.lv-dot {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--bg); border: 1.5px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: var(--muted); flex-shrink: 0;
+}
+.lv-dot.cur { background: var(--navy); border-color: var(--navy); color: #fff; font-weight: 700; }
+.lv-name { font-size: 12px; color: var(--muted); }
+.lv-name.cur { color: var(--text); font-weight: 700; }
+.lv-xp { margin-left: auto; font-size: 10px; color: var(--muted); }
+
+/* ── K-PASS bar chart ── */
+.kbar-row { margin-bottom: 10px; }
+.kbar-row:last-child { margin-bottom: 0; }
+.kbar-hdr { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-bottom: 4px; }
+.kbar-hdr span:last-child { font-weight: 700; }
+.kbar-bg { height: 7px; background: #e5e7eb; border-radius: 4px; overflow: hidden; }
+.kbar-fill { height: 100%; border-radius: 4px; }
+
+/* ── Mini calendar ── */
+.cal-grid { display: grid; grid-template-columns: repeat(7,1fr); gap: 3px; text-align: center; }
+.cal-lbl { font-size: 9px; color: var(--muted); font-weight: 600; padding-bottom: 3px; }
+.cal-day { font-size: 10px; padding: 5px 2px; border-radius: 4px; color: var(--muted); }
+.cal-day.has    { background: #e1f5ee; color: #0F6E56; font-weight: 700; }
+.cal-day.today2 { background: var(--navy); color: #fff; font-weight: 700; }
+.cal-day.empty  { opacity: 0; }
+.next-month-box {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 10px; padding: 12px;
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+.next-month-box strong { color: var(--text); display: block; margin-bottom: 4px; font-size: 13px; }
+
+/* ── Teacher report ── */
+.report-card {
+  background: var(--bg); border: 1px solid var(--border);
+  border-radius: 11px; padding: 13px; margin-bottom: 9px;
+}
+.report-card:last-child { margin-bottom: 0; }
+.report-card h4 { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 5px; }
+.report-card p  { font-size: 11px; color: var(--muted); line-height: 1.65; }
+.report-section { margin-bottom: 14px; }
+.report-section .rsub { font-size: 11px; color: var(--muted); margin-bottom: 8px; line-height: 1.5; }
+
+/* ── Bottom nav ── */
+.bottom-nav {
+  flex-shrink: 0;
+  background: #fff; border-top: 1px solid var(--border);
+  display: grid; grid-template-columns: repeat(5,1fr);
+  padding: 6px 0 10px; position: sticky; bottom: 0; z-index: 200;
+}
+.nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 2px;
+  font-size: 9px; color: var(--muted); cursor: pointer;
+  padding: 4px 0; transition: color .12s;
+  -webkit-tap-highlight-color: transparent; user-select: none;
+  border: none; background: none; font-family: var(--font);
+}
+.nav-btn.active { color: var(--navy); }
+.nav-ico { font-size: 19px; line-height: 1; position: relative; }
+.nav-badge {
+  position: absolute; top: -4px; right: -8px;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 700; min-width: 16px; height: 16px;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  padding: 0 3px;
+}
+
+/* ── Tabs ── */
+.tab { display: none; }
+.tab.on { display: block; }
+
+/* ── Divider label ── */
+.div-label {
+  font-size: 10px; font-weight: 700; color: var(--muted);
+  text-transform: uppercase; letter-spacing: .5px;
+  margin: 14px 0 8px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- ═══════════════════════════════════════
+     MODAL 1 · Mission Verification
+════════════════════════════════════════ -->
+<div class="modal-back" id="mdVerify">
+  <div class="verify-modal">
+    <div class="vm-header">👁 Mission Verification</div>
+    <div class="vm-img">
+      <span>📷</span>
+      <p>Please check the photo and press Complete!</p>
+    </div>
+    <div class="vm-msg">Review your peer's completed work photo carefully before confirming.</div>
+    <div class="vm-btns">
+      <button class="btn-close" onclick="closeModal('mdVerify')">Close</button>
+      <button class="btn-confirm" onclick="confirmVerify()">✓ Confirmed</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     MODAL 2 · Level Up
+════════════════════════════════════════ -->
+<div class="modal-back" id="mdLevelUp">
+  <div class="levelup-modal">
+    <div class="lu-emoji">🎉</div>
+    <h2>Level Up!</h2>
+    <p>Congratulations! You've reached the next level. Keep up the great work!</p>
+    <button onclick="closeModal('mdLevelUp')">Confirm</button>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<div class="app-header">
+  <div class="avatar">SW</div>
+  <div class="header-info">
+    <h1>Seowoo Song</h1>
+    <p>Simultaneous Processing Dominant (Right-Brain) · Age 9 · Female</p>
+  </div>
+  <div class="hdr-badge">★ Gifted · Planning 99.9%</div>
+</div>
+
+<!-- K-PASS Scores -->
+<div class="score-bar">
+  <div class="sc">
+    <label>Sequential</label>
+    <div class="num">95</div>
+    <div class="stag weak">Personal low</div>
+  </div>
+  <div class="sc">
+    <label>Simultaneous</label>
+    <div class="num">117</div>
+    <div class="stag strong">Above norm</div>
+  </div>
+  <div class="sc">
+    <label>Planning</label>
+    <div class="num">145</div>
+    <div class="stag top">99.9% ★</div>
+  </div>
+  <div class="sc">
+    <label>Attention</label>
+    <div class="num">131</div>
+    <div class="stag strong">Personal high</div>
+  </div>
+</div>
+
+<!-- XP Bar -->
+<div class="xp-wrap">
+  <div class="xp-row">
+    <span>Lv.1 Sprout</span>
+    <span>0 / 30 XP</span>
+  </div>
+  <div class="xp-track"><div class="xp-fill" id="xpFill"></div></div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SCROLL AREA
+════════════════════════════════════════ -->
+<div class="scroll-area">
+
+  <!-- ════ HOME TAB ════ -->
+  <div id="tab-home" class="tab on">
+
+    <!-- K-PASS Results -->
+    <div class="sec">
+      <div class="sec-title">K-PASS Assessment Results</div>
+      <div class="kpass-grid">
+        <div class="kp-card">
+          <div class="kp-label">Sequential Processing</div>
+          <div class="kp-num">95</div>
+          <div class="kp-tag" style="color:var(--amber);">Personal low</div>
+        </div>
+        <div class="kp-card">
+          <div class="kp-label">Simultaneous Processing</div>
+          <div class="kp-num">117</div>
+          <div class="kp-tag" style="color:var(--green);">Above norm</div>
+        </div>
+        <div class="kp-card">
+          <div class="kp-label">Planning</div>
+          <div class="kp-num">145</div>
+          <div class="kp-tag" style="color:var(--purple);">99.9% ★</div>
+        </div>
+        <div class="kp-card">
+          <div class="kp-label">Attention</div>
+          <div class="kp-num">131</div>
+          <div class="kp-tag" style="color:var(--green);">Personal high</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Today's Mission -->
+    <div class="sec">
+      <div class="sec-title">Today's Mission</div>
+      <div class="mission-row">
+        <div class="mission-icons">
+          <div class="mico student">S</div>
+          <div class="mico peer">P</div>
+        </div>
+        <div class="mission-info">
+          <h3>Peer Verification System</h3>
+          <p>Photo → Peer checks → XP earned</p>
+          <div class="mission-sub">Photo evidence exchange</div>
+        </div>
+        <button class="btn-mission" onclick="openModal('mdVerify')">Check</button>
+      </div>
+    </div>
+
+    <!-- Weekly Schedule -->
+    <div class="sec">
+      <div class="sec-title">Weekly Interleaving Schedule</div>
+      <div class="sched">
+        <div class="sday-lbl">Mon</div>
+        <div class="sday-lbl">Tue</div>
+        <div class="sday-lbl">Wed</div>
+        <div class="sday-lbl">Thu</div>
+        <div class="sday-lbl">Fri</div>
+        <div class="sday-lbl">Sat</div>
+        <div class="sday-lbl">Sun</div>
+        <div class="sday done">✓</div>
+        <div class="sday done">Seq.</div>
+        <div class="sday today">Sim.</div>
+        <div class="sday">—</div>
+        <div class="sday done">Pres.</div>
+        <div class="sday">—</div>
+        <div class="sday">—</div>
+      </div>
+    </div>
+
+    <!-- All Programs -->
+    <div class="sec">
+      <div class="sec-title">All Programs</div>
+      <div class="prog-item">
+        <div class="prog-ico">📖</div>
+        <div class="prog-info">
+          <h4>Sequential Processing Training</h4>
+          <p>Tue + Wed · 1–2 day gap · 2× per week</p>
+        </div>
+        <div class="prog-badge badge-done">Active</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-ico">🧩</div>
+        <div class="prog-info">
+          <h4>Simultaneous Processing Training</h4>
+          <p>Strength reinforcement · Monday</p>
+        </div>
+        <div class="prog-badge badge-done">Active</div>
+      </div>
+      <div class="prog-item">
+        <div class="prog-ico">🎤</div>
+        <div class="prog-info">
+          <h4>Friday Peer Presentation</h4>
+          <p>Explain to peer → Peer confirms · Protégé Effect</p>
+        </div>
+        <div class="prog-badge badge-key">Key</div>
+      </div>
+    </div>
+
+  </div><!-- /tab-home -->
+
+  <!-- ════ MISSIONS TAB ════ -->
+  <div id="tab-mission" class="tab">
+
+    <!-- Peer check summary -->
+    <div class="sec">
+      <div class="sec-title">Peer Verification Box</div>
+      <div class="peer-stat-row">
+        <div class="pstat">
+          <div class="pn">0</div>
+          <div class="pl">Photo exchanges</div>
+        </div>
+        <div class="pstat">
+          <div class="pn">0</div>
+          <div class="pl">Received</div>
+        </div>
+        <div class="pstat">
+          <div class="pn">0</div>
+          <div class="pl">Confirmed</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- How it works -->
+    <div class="sec">
+      <div class="sec-title">👥 Peer Verification System</div>
+      <div class="step-list">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <div class="step-txt">Complete the mission → Take a photo of your result</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <div class="step-txt">Send → Arrives in peer's verification box</div>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <div class="step-txt">Peer confirms → XP is awarded</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Inbox -->
+    <div class="sec">
+      <div class="sec-title">Received Requests (0)</div>
+      <div class="empty-state">No requests received yet</div>
+    </div>
+
+    <!-- Sent -->
+    <div class="sec">
+      <div class="sec-title">Sent Requests</div>
+      <div class="empty-state">No missions sent yet</div>
+    </div>
+
+  </div><!-- /tab-mission -->
+
+  <!-- ════ GROWTH TAB ════ -->
+  <div id="tab-growth" class="tab">
+
+    <!-- Stats -->
+    <div class="sec">
+      <div class="sec-title">Growth Record</div>
+      <div class="growth-grid">
+        <div class="gstat"><div class="gn">Lv.1</div><div class="gl">10-Stage Level</div></div>
+        <div class="gstat"><div class="gn">0</div><div class="gl">Missions Completed</div></div>
+        <div class="gstat"><div class="gn">0 days</div><div class="gl">Training Streak</div></div>
+        <div class="gstat"><div class="gn">0</div><div class="gl">Peer Verifications</div></div>
+      </div>
+
+      <!-- Level roadmap -->
+      <div class="div-label">10-Stage Level Roadmap</div>
+      <div class="level-road">
+        <div class="lv-row"><div class="lv-dot cur">1</div><div class="lv-name cur">Sprout</div><div class="lv-xp">0 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">2</div><div class="lv-name">Seedling</div><div class="lv-xp">30 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">3</div><div class="lv-name">Explorer</div><div class="lv-xp">80 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">4</div><div class="lv-name">Achiever</div><div class="lv-xp">150 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">5</div><div class="lv-name">Champion</div><div class="lv-xp">250 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">6</div><div class="lv-name">Scholar</div><div class="lv-xp">380 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">7</div><div class="lv-name">Strategist</div><div class="lv-xp">540 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">8</div><div class="lv-name">Innovator</div><div class="lv-xp">730 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">9</div><div class="lv-name">Visionary</div><div class="lv-xp">950 XP</div></div>
+        <div class="lv-row"><div class="lv-dot">10</div><div class="lv-name">Genius</div><div class="lv-xp">1200 XP</div></div>
+      </div>
+    </div>
+
+    <!-- K-PASS current → goal -->
+    <div class="sec">
+      <div class="sec-title">K-PASS Areas: Current → Goal</div>
+      <div class="kbar-row">
+        <div class="kbar-hdr"><span>Sequential Processing</span><span style="color:var(--amber);">95 → 105</span></div>
+        <div class="kbar-bg"><div class="kbar-fill" style="width:65%;background:var(--amber);"></div></div>
+      </div>
+      <div class="kbar-row">
+        <div class="kbar-hdr"><span>Simultaneous Processing</span><span style="color:var(--green);">117 → 125</span></div>
+        <div class="kbar-bg"><div class="kbar-fill" style="width:80%;background:var(--green);"></div></div>
+      </div>
+      <div class="kbar-row">
+        <div class="kbar-hdr"><span>Planning</span><span style="color:var(--purple);">145 → 145+</span></div>
+        <div class="kbar-bg"><div class="kbar-fill" style="width:99%;background:var(--purple);"></div></div>
+      </div>
+      <div class="kbar-row">
+        <div class="kbar-hdr"><span>Attention</span><span style="color:var(--green);">131 → 135</span></div>
+        <div class="kbar-bg"><div class="kbar-fill" style="width:90%;background:var(--green);"></div></div>
+      </div>
+    </div>
+
+    <!-- This week's calendar -->
+    <div class="sec">
+      <div class="sec-title">This Week's Calendar</div>
+      <div class="cal-grid">
+        <div class="cal-lbl">Mon</div>
+        <div class="cal-lbl">Tue</div>
+        <div class="cal-lbl">Wed</div>
+        <div class="cal-lbl">Thu</div>
+        <div class="cal-lbl">Fri</div>
+        <div class="cal-lbl">Sat</div>
+        <div class="cal-lbl">Sun</div>
+        <div class="cal-day has">M</div>
+        <div class="cal-day has">T</div>
+        <div class="cal-day today2">W</div>
+        <div class="cal-day">T</div>
+        <div class="cal-day">F</div>
+        <div class="cal-day">S</div>
+        <div class="cal-day">S</div>
+      </div>
+    </div>
+
+    <!-- Next month preview -->
+    <div class="sec">
+      <div class="sec-title">Next Month Preview</div>
+      <div class="next-month-box">
+        <strong>Next Month's Training Plan</strong>
+        Sequential Processing: increase to 3× per week once streak hits 14 days.<br>
+        Add a new simultaneous processing challenge program.<br>
+        Peer presentation: expand to 2 peers.
+      </div>
+    </div>
+
+  </div><!-- /tab-growth -->
+
+  <!-- ════ TEACHER TAB ════ -->
+  <div id="tab-teacher" class="tab">
+
+    <div class="sec">
+      <div class="sec-title">Seowoo Song · K-PASS Analysis</div>
+
+      <div class="report-section">
+        <div class="rsub"><strong style="color:var(--text);">★ Gifted Level — Planning 145 (Top 0.1%)</strong><br>
+        Simultaneous processing dominant type. Sequential processing (95) is her personal internal weakness.</div>
+      </div>
+
+      <div class="div-label">Interleaving Schedule Design Principles</div>
+      <div class="report-card">
+        <h4>Maximize Planning Strength (145)</h4>
+        <p>Use planning ability to compensate for sequential processing weakness — guide her to "plan around it." Wednesday's class is the critical anchor session.</p>
+      </div>
+      <div class="report-card">
+        <h4>Sequential Processing (95) — 2× per week only</h4>
+        <p>Daily practice leads to interest drop. Tue + Wed with a 1–2 day gap is optimal. All other sessions should reinforce strengths to build success experiences.</p>
+      </div>
+      <div class="report-card">
+        <h4>Friday Peer Presentation Check</h4>
+        <p>Every Friday: explain mission to peer → peer confirms. Applying the Protégé Effect strategy maximizes planning strength.</p>
+      </div>
+
+      <div class="div-label" style="margin-top:16px;">Peer Verification Status</div>
+      <div class="report-card">
+        <h4>Current Peer Check Status</h4>
+        <p>Photo exchanges: 0 · Received: 0 · Confirmed: 0</p>
+      </div>
+
+      <div class="div-label">K-PASS Area Status</div>
+      <div class="report-card">
+        <h4>Area-by-Area Summary</h4>
+        <p>
+          Sequential (95) — Personal low, priority training area<br>
+          Simultaneous (117) — Above norm, reinforce as strength<br>
+          Planning (145) — Top 0.1%, core coaching lever<br>
+          Attention (131) — Personal high, sustain with consistency
+        </p>
+      </div>
+
+      <div class="div-label">Program Completion Status</div>
+      <div class="report-card">
+        <h4>Progress Overview</h4>
+        <p>Total missions completed: 0 · Current streak: 0 days<br>
+        Peer verifications confirmed: 0 · Current level: Lv.1 Sprout</p>
+      </div>
+
+      <div class="div-label">Coaching Points</div>
+      <div class="report-card">
+        <h4>Maximize Planning (145) — Core Strength</h4>
+        <p>Use planning ability to guide sequential weakness compensation. "Plan around it" strategy. Wednesday class is the key.</p>
+      </div>
+      <div class="report-card">
+        <h4>Sequential (95) — 2× per week maximum</h4>
+        <p>Daily repetition kills motivation. Tue + Wed, 1–2 day gap is optimal. Use remaining days to build confidence through strengths.</p>
+      </div>
+      <div class="report-card">
+        <h4>Friday Peer Presentation Verification</h4>
+        <p>Friday: explain mission to peer → peer confirms. Teaching strategy (Protégé Effect) maximizes planning strength utilization.</p>
+      </div>
+
+    </div>
+  </div><!-- /tab-teacher -->
+
+</div><!-- /scroll-area -->
+
+<!-- ═══════════════════════════════════════
+     BOTTOM NAV
+════════════════════════════════════════ -->
+<nav class="bottom-nav">
+  <button class="nav-btn active" onclick="goTab('home',this)">
+    <div class="nav-ico">🏠</div>Home
+  </button>
+  <button class="nav-btn" onclick="goTab('mission',this)">
+    <div class="nav-ico">📋</div>Missions
+  </button>
+  <button class="nav-btn" id="navPeer" onclick="goTab('mission',this)">
+    <div class="nav-ico">👥<span class="nav-badge" id="peerBadge">0</span></div>Peer Check
+  </button>
+  <button class="nav-btn" onclick="goTab('growth',this)">
+    <div class="nav-ico">📈</div>Growth
+  </button>
+  <button class="nav-btn" onclick="goTab('teacher',this)">
+    <div class="nav-ico">👩‍🏫</div>Teacher
+  </button>
+</nav>
+
+</div><!-- /app -->
+
+<script>
+/* ── Tab switching ── */
+function goTab(name, btn) {
+  document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('on'); });
+  document.querySelectorAll('.nav-btn').forEach(function(b){ b.classList.remove('active'); });
+  var t = document.getElementById('tab-' + name);
+  if (t) t.classList.add('on');
+  btn.classList.add('active');
+  document.querySelector('.scroll-area').scrollTop = 0;
+}
+
+/* ── Modals ── */
+function openModal(id) { document.getElementById(id).classList.add('show'); }
+function closeModal(id) { document.getElementById(id).classList.remove('show'); }
+
+function confirmVerify() {
+  closeModal('mdVerify');
+  // Show level-up modal as demo feedback
+  setTimeout(function(){ openModal('mdLevelUp'); }, 300);
+}
+
+/* Close modals when clicking backdrop */
+document.querySelectorAll('.modal-back').forEach(function(el){
+  el.addEventListener('click', function(e){
+    if (e.target === el) el.classList.remove('show');
+  });
+});
+</script>
+</body>
+</html>
