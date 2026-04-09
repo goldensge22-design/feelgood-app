@@ -1,0 +1,1469 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학급 두뇌맞춤 교안 생성기 v3</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --brain:#7C5CBF; --brain-bg:#F0EDFB; --brain-mid:#A688D8; --brain-border:#C4BEF5;
+  --pass:#2563EB;  --pass-bg:#EEF3FF;  --pass-mid:#5B8DEF;  --pass-border:#93B4FB;
+  --sup:#0F766E;   --sup-bg:#E6F7F6;   --sup-mid:#2DD4C2;   --sup-border:#5EEAD4;
+  --hi:#0F766E;--hi-bg:#E6F7F6;
+  --mid-c:#B45309;--mid-bg:#FEF9EE;
+  --lo:#B91C1C;--lo-bg:#FEF2F2;
+  --purple:#3C3489;--purple-light:#EEEDFE;--purple-mid:#7F77DD;
+  --gold:#CA8A04;--gold-bg:#FEFCE8;
+  --S:#7C5CBF;--P:#2563EB;--A:#0F766E;--Ss:#C2500A;
+  --border:#E4E2DC;--text:#18181A;--text-2:#52525B;--text-3:#A1A1AA;
+  --white:#fff;--bg:#F4F3EF;
+}
+body{font-family:'Apple SD Gothic Neo',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;
+     background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+
+/* ─── HEADER ─── */
+.header{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;
+        height:60px;display:flex;align-items:center;justify-content:space-between;
+        position:sticky;top:0;z-index:40;}
+.logo-row{display:flex;align-items:center;gap:11px;}
+.logo{width:36px;height:36px;background:var(--purple);border-radius:10px;
+      display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;}
+.header-title{font-size:15px;font-weight:700;}
+.header-sub{font-size:11px;color:var(--text-3);}
+.hbadge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:600;
+        background:var(--purple-light);color:var(--purple);}
+
+/* ─── TABS ─── */
+.tabs{background:var(--white);border-bottom:1px solid var(--border);padding:0 24px;
+      display:flex;position:sticky;top:60px;z-index:35;overflow-x:auto;}
+.tab{padding:12px 16px;font-size:13px;font-weight:500;color:var(--text-3);cursor:pointer;
+     border-bottom:2px solid transparent;margin-bottom:-1px;white-space:nowrap;transition:all .15s;}
+.tab.active{color:var(--purple);border-bottom-color:var(--purple);font-weight:700;}
+.tab:hover:not(.active){color:var(--text-2);}
+.page{display:none;}.page.active{display:block;}
+.tab-count{display:inline-flex;align-items:center;justify-content:center;
+           width:18px;height:18px;background:var(--gold);color:#fff;
+           border-radius:99px;font-size:10px;font-weight:700;margin-left:5px;}
+
+/* ─── SHARED LAYOUT ─── */
+.page-inner{padding:24px 28px;}
+.panel-2col{display:grid;grid-template-columns:360px 1fr;gap:0;min-height:calc(100vh - 108px);}
+.panel-left{background:var(--white);border-right:1px solid var(--border);padding:22px 18px;overflow-y:auto;}
+.panel-right{padding:26px;overflow-y:auto;background:var(--bg);}
+
+/* ─── FORM ATOMS ─── */
+.sec{margin-bottom:20px;}
+.sec-label{font-size:11px;font-weight:700;color:var(--text-3);letter-spacing:.07em;
+            text-transform:uppercase;margin-bottom:9px;display:flex;align-items:center;gap:7px;}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border);}
+select,input[type="text"]{width:100%;padding:9px 12px;border:1px solid var(--border);
+  border-radius:8px;font-size:13px;background:var(--white);color:var(--text);
+  font-family:inherit;outline:none;transition:border-color .15s;}
+select:focus,input:focus{border-color:var(--purple-mid);box-shadow:0 0 0 3px rgba(127,119,221,.12);}
+select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23888' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+       background-repeat:no-repeat;background-position:right 12px center;padding-right:30px;cursor:pointer;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:9px;}
+.fg{display:flex;flex-direction:column;gap:5px;}
+.fg label{font-size:12px;color:var(--text-2);font-weight:500;}
+.gen-btn{width:100%;padding:13px;background:var(--purple);color:#fff;border:none;
+         border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;
+         font-family:inherit;transition:all .15s;display:flex;align-items:center;
+         justify-content:center;gap:8px;margin-top:4px;}
+.gen-btn:hover{background:#534AB7;}
+.gen-btn:disabled{background:#b0aee0;cursor:not-allowed;}
+.spin{display:inline-block;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ─── 반 카드 ─── */
+.class-card{background:#f8f7f3;border:1px solid var(--border);border-radius:12px;padding:14px 15px;margin-bottom:18px;}
+.class-row{display:flex;gap:7px;align-items:center;margin-bottom:10px;}
+.del-btn{padding:9px 11px;background:#fff5f5;color:var(--lo);border:1px solid #fecaca;
+         border-radius:8px;font-size:13px;cursor:pointer;flex-shrink:0;transition:all .15s;}
+.del-btn:hover{background:var(--lo-bg);border-color:var(--lo);}
+.load-btn{padding:9px 14px;background:var(--purple);color:#fff;border:none;border-radius:8px;
+          font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;font-family:inherit;}
+.class-loaded{background:var(--white);border:1px solid var(--border);border-radius:9px;padding:12px 13px;display:none;}
+.class-name{font-size:14px;font-weight:800;margin-bottom:2px;}
+.class-meta{font-size:11px;color:var(--text-3);margin-bottom:11px;}
+.pass-gauges{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:11px;}
+.gauge-item{text-align:center;background:#f8f7f3;border-radius:8px;padding:7px 4px;}
+.gauge-key{font-size:10px;font-weight:700;margin-bottom:4px;}
+.gauge-bar-wrap{height:40px;background:#e8e7e2;border-radius:4px;overflow:hidden;display:flex;align-items:flex-end;}
+.gauge-bar{width:100%;border-radius:4px 4px 0 0;}
+.gauge-val{font-size:12px;font-weight:800;margin-top:3px;}
+.gauge-lvl{font-size:9px;margin-top:1px;}
+.brain-dist{display:flex;gap:6px;margin-bottom:10px;}
+.brain-chip{flex:1;text-align:center;border-radius:7px;padding:7px 4px;border:1px solid var(--border);}
+.brain-chip-key{font-size:9px;font-weight:700;margin-bottom:2px;}
+.brain-chip-val{font-size:15px;font-weight:800;}
+.brain-chip-pct{font-size:9px;}
+.mgmt-bar{font-size:12px;color:var(--lo);font-weight:600;padding:7px 10px;background:var(--lo-bg);border-radius:7px;}
+
+/* ─── 그룹 버튼 ─── */
+.group-cfg{background:var(--purple-light);border-radius:9px;padding:11px 13px;}
+.group-cfg-title{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:9px;}
+.group-row{display:flex;gap:6px;}
+.group-btn{flex:1;padding:8px 4px;border:1.5px solid #c4bef5;border-radius:8px;
+           background:var(--white);font-size:12px;color:var(--text-2);cursor:pointer;
+           text-align:center;font-family:inherit;line-height:1.3;transition:all .13s;}
+.group-btn small{font-size:10px;display:block;color:var(--text-3);}
+.group-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+.group-btn.active small{color:rgba(255,255,255,.7);}
+
+/* ─── 생성 옵션 ─── */
+.gen-opts{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.go-check{display:flex;align-items:center;gap:7px;padding:7px 10px;
+           border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--white);}
+.go-check input{width:14px;height:14px;accent-color:var(--purple);cursor:pointer;}
+.go-check span{font-size:12px;color:var(--text-2);}
+.go-check:has(input:checked){background:var(--purple-light);border-color:var(--purple-mid);}
+.go-check:has(input:checked) span{color:var(--purple);font-weight:600;}
+
+/* ─── 누리과정 ─── */
+.nuri-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;}
+.nuri-check{display:flex;align-items:center;gap:7px;padding:8px 10px;
+            border:1px solid var(--border);border-radius:8px;cursor:pointer;background:var(--white);}
+.nuri-check input{width:14px;height:14px;accent-color:var(--purple);cursor:pointer;}
+.nuri-check span{font-size:12px;color:var(--text-2);}
+.nuri-check:has(input:checked){background:var(--purple-light);border-color:var(--purple-mid);}
+.nuri-check:has(input:checked) span{color:var(--purple);font-weight:600;}
+
+/* ─── 교안 결과 ─── */
+.result-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:16px;}
+.result-title{font-size:18px;font-weight:800;}
+.result-meta{font-size:12px;color:var(--text-3);margin-top:3px;}
+.act-btns{display:flex;gap:7px;flex-wrap:wrap;}
+.act-btn{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;
+         background:var(--white);cursor:pointer;color:var(--text-2);font-family:inherit;
+         white-space:nowrap;transition:background .1s;}
+.act-btn:hover{background:#f0f0ee;}
+.act-btn.primary{background:var(--purple);color:#fff;border-color:var(--purple);}
+.class-summary-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;
+               background:#f8f7f3;border-radius:11px;padding:14px 16px;margin-bottom:18px;}
+.cs-item{text-align:center;}
+.cs-label{font-size:10px;font-weight:700;margin-bottom:4px;}
+.cs-track{height:52px;background:var(--white);border-radius:4px;overflow:hidden;display:flex;align-items:flex-end;}
+.cs-fill{width:100%;border-radius:4px 4px 0 0;}
+.cs-val{font-size:13px;font-weight:800;margin-top:4px;}
+.cs-sub{font-size:10px;color:var(--text-3);}
+.r-pills{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:16px;}
+.r-pill{font-size:11px;padding:3px 9px;background:#f0f0ee;color:var(--text-2);
+        border-radius:99px;border:1px solid var(--border);}
+.prep-panel{background:var(--white);border:1px solid var(--border);border-radius:11px;
+            padding:14px 16px;margin-bottom:14px;display:none;}
+.prep-title{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:7px;}
+.check-items{display:flex;flex-direction:column;gap:6px;}
+.check-item{display:flex;align-items:center;gap:9px;padding:7px 10px;
+            border:1px solid var(--border);border-radius:7px;cursor:pointer;}
+.check-item input{width:15px;height:15px;accent-color:var(--A);cursor:pointer;flex-shrink:0;}
+.check-item span{font-size:13px;color:var(--text-2);}
+.check-item:has(input:checked){background:var(--sup-bg);border-color:var(--sup-mid);}
+.check-item:has(input:checked) span{color:var(--sup);text-decoration:line-through;opacity:.6;}
+.notice-panel{background:var(--white);border:1px solid var(--border);border-radius:11px;
+              padding:14px 16px;margin-bottom:14px;display:none;}
+.notice-title{font-size:13px;font-weight:700;margin-bottom:10px;
+              display:flex;align-items:center;justify-content:space-between;}
+.notice-text{font-size:13px;line-height:1.85;color:var(--text-2);background:#f8f7f3;
+             border-radius:8px;padding:12px 14px;border-left:3px solid var(--purple-mid);}
+.notice-copy{padding:6px 12px;background:var(--purple);color:#fff;border:none;
+             border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+/* MD 렌더링 */
+.lesson-section{margin-bottom:16px;}
+.lesson-sec-title{font-size:12px;font-weight:700;color:var(--purple);
+                  padding:5px 11px;background:var(--purple-light);
+                  border-radius:6px;margin-bottom:9px;display:inline-block;}
+.lesson-sec-body{font-size:13px;line-height:1.85;color:var(--text-2);}
+.lesson-sec-body p{margin-bottom:5px;}
+.lesson-sec-body ul{padding-left:18px;}
+.lesson-sec-body li{margin-bottom:4px;}
+.lesson-sec-body li::marker{color:var(--purple-mid);}
+.time-block{border-left:3px solid var(--purple-mid);padding-left:13px;margin-bottom:11px;}
+.time-head{font-size:12px;font-weight:700;color:var(--purple);margin-bottom:4px;}
+.rubric-table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0 12px;}
+.rubric-table th{background:var(--mid-bg);color:var(--mid-c);padding:7px 10px;text-align:left;
+                 font-weight:700;border:1px solid var(--border);}
+.rubric-table td{padding:7px 10px;border:1px solid var(--border);line-height:1.6;vertical-align:top;}
+.rubric-table tr:nth-child(even) td{background:#f8f7f3;}
+/* 피드백 */
+.feedback-box{margin-top:26px;background:var(--white);border:1px solid var(--border);
+              border-radius:14px;padding:20px 22px;}
+.fb-title{font-size:14px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.fb-icon{width:28px;height:28px;background:var(--gold-bg);border-radius:8px;
+         display:flex;align-items:center;justify-content:center;font-size:15px;}
+.stars{display:flex;gap:6px;align-items:center;margin-bottom:14px;}
+.star{font-size:28px;cursor:pointer;color:#ddd;transition:color .1s,transform .1s;user-select:none;}
+.star:hover,.star.on{color:var(--gold);}
+.star:hover{transform:scale(1.2);}
+.star-desc{font-size:12px;color:var(--text-3);margin-left:8px;}
+.fb-comment{width:100%;padding:10px 13px;border:1px solid var(--border);border-radius:8px;
+            font-size:13px;font-family:inherit;resize:none;outline:none;line-height:1.6;}
+.fb-submit{margin-top:10px;padding:10px 20px;background:var(--purple);color:#fff;border:none;
+           border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;}
+.fb-submit:disabled{background:#b0aee0;cursor:not-allowed;}
+.fb-done{display:none;align-items:center;gap:8px;padding:11px;background:var(--sup-bg);
+         border-radius:8px;color:var(--sup);font-size:13px;font-weight:600;margin-top:10px;}
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;
+       min-height:380px;gap:14px;text-align:center;}
+.empty-icon{font-size:36px;width:64px;height:64px;background:#f0f0ee;border-radius:16px;
+            display:flex;align-items:center;justify-content:center;}
+.empty h2{font-size:15px;font-weight:700;color:var(--text-2);}
+.empty p{font-size:13px;color:var(--text-3);max-width:300px;line-height:1.7;}
+
+/* ═══════════════════════════════
+   월간 자동설계 탭
+═══════════════════════════════ */
+.monthly-page{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 108px);}
+.monthly-left{background:var(--white);border-right:1px solid var(--border);padding:22px 18px;overflow-y:auto;}
+.monthly-right{padding:24px;overflow-y:auto;background:var(--bg);}
+
+/* 빈도 비율 카드 */
+.freq-header{font-size:14px;font-weight:800;margin-bottom:14px;}
+.freq-cards{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.freq-card{border-radius:10px;padding:12px 14px;position:relative;}
+.freq-card.brain-fc{background:var(--brain-bg);border:1px solid var(--brain-border);}
+.freq-card.pass-fc{background:var(--pass-bg);border:1px solid var(--pass-border);}
+.freq-card.sup-fc{background:var(--sup-bg);border:1px solid var(--sup-border);}
+.fc-row{display:flex;align-items:center;justify-content:space-between;}
+.fc-name{font-size:13px;font-weight:700;}
+.fc-count{font-size:22px;font-weight:900;line-height:1;}
+.fc-unit{font-size:10px;font-weight:600;opacity:.6;margin-top:1px;}
+.fc-desc{font-size:11px;opacity:.7;margin-top:5px;line-height:1.5;}
+.fc-days{font-size:10px;font-weight:600;margin-top:4px;opacity:.8;}
+.freq-bar{height:6px;border-radius:3px;margin-top:8px;background:rgba(0,0,0,.08);}
+.freq-bar-fill{height:100%;border-radius:3px;}
+
+/* 범례 */
+.legend{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.leg-item{display:flex;align-items:center;gap:8px;font-size:12px;}
+.leg-dot{width:10px;height:10px;border-radius:3px;flex-shrink:0;}
+
+/* 자동설계 설정 */
+.auto-cfg{background:var(--purple-light);border-radius:10px;padding:13px 14px;margin-bottom:16px;}
+.auto-cfg-title{font-size:11px;font-weight:700;color:var(--purple);margin-bottom:10px;}
+.cfg-row{display:flex;gap:8px;margin-bottom:8px;}
+.cfg-row:last-child{margin-bottom:0;}
+
+/* 달력 */
+.cal-container{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-bottom:20px;}
+.cal-header{padding:18px 22px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.cal-month{font-size:20px;font-weight:900;}
+.cal-stats{display:flex;gap:12px;}
+.cal-stat{text-align:center;}
+.cal-stat-n{font-size:18px;font-weight:800;}
+.cal-stat-l{font-size:10px;color:var(--text-3);font-weight:600;}
+.cal-controls{display:flex;align-items:center;gap:8px;}
+.cal-nav{width:32px;height:32px;border:1px solid var(--border);border-radius:8px;
+         background:var(--white);cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;}
+.cal-nav:hover{background:#f0f0ee;}
+.cal-body{padding:16px 18px;}
+.cal-dow{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;margin-bottom:8px;}
+.dow-label{text-align:center;font-size:11px;font-weight:700;color:var(--text-3);padding:4px 0;}
+.cal-grid{display:flex;flex-direction:column;gap:6px;}
+.cal-week{display:grid;grid-template-columns:repeat(5,1fr);gap:6px;}
+.cal-day{border-radius:10px;overflow:hidden;border:1.5px solid transparent;cursor:pointer;
+         transition:all .15s;position:relative;min-height:72px;}
+.cal-day:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.1);}
+.cal-day.empty-day{background:transparent;border-color:transparent;cursor:default;}
+.cal-day.empty-day:hover{transform:none;box-shadow:none;}
+.cal-day.past{opacity:.55;}
+.cal-day.today .day-num{background:var(--purple);color:#fff;border-radius:6px;}
+.cal-day.has-plan{border-color:var(--gold);}
+.cal-day.has-plan::after{content:'✓';position:absolute;bottom:5px;right:7px;
+                         font-size:10px;color:var(--gold);font-weight:700;}
+
+/* 날짜 유형별 색상 */
+.cal-day.m-brain{background:var(--brain-bg);border-color:var(--brain-border);}
+.cal-day.m-pass{background:var(--pass-bg);border-color:var(--pass-border);}
+.cal-day.m-sup{background:var(--sup-bg);border-color:var(--sup-border);}
+
+.day-top{padding:6px 8px 4px;display:flex;align-items:center;justify-content:space-between;}
+.day-num{font-size:13px;font-weight:700;padding:2px 5px;}
+.day-method-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:99px;}
+.day-body{padding:0 8px 8px;}
+.day-theme{font-size:11px;font-weight:600;line-height:1.4;margin-bottom:3px;}
+.day-nuri{font-size:9px;opacity:.65;line-height:1.3;}
+.day-gen-btn{display:none;position:absolute;bottom:0;left:0;right:0;
+             padding:5px;text-align:center;font-size:10px;font-weight:700;
+             color:#fff;background:rgba(60,52,137,.85);}
+.cal-day:hover .day-gen-btn{display:block;}
+
+/* AI 기획 결과 */
+.ai-plan-result{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:18px;}
+.aip-title{font-size:15px;font-weight:800;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.aip-weeks{display:flex;flex-direction:column;gap:16px;}
+.aip-week{border-radius:10px;border:1px solid var(--border);overflow:hidden;}
+.aip-week-head{padding:10px 14px;font-size:12px;font-weight:700;background:#f8f7f3;
+               display:flex;align-items:center;justify-content:space-between;}
+.aip-week-theme{font-size:11px;font-weight:600;color:var(--purple);}
+.aip-days-row{display:flex;border-top:1px solid var(--border);}
+.aip-day-cell{flex:1;padding:10px 10px;border-right:1px solid var(--border);font-size:12px;}
+.aip-day-cell:last-child{border-right:none;}
+.aip-dow{font-size:10px;font-weight:700;color:var(--text-3);margin-bottom:4px;}
+.aip-method-tag{display:inline-block;font-size:9px;font-weight:700;padding:2px 6px;
+                border-radius:99px;margin-bottom:4px;}
+.aip-theme-name{font-size:11px;font-weight:600;line-height:1.4;}
+.aip-note{font-size:10px;color:var(--text-3);margin-top:2px;line-height:1.4;}
+
+/* 진행 상황 */
+.progress-bar-wrap{height:8px;background:var(--border);border-radius:4px;overflow:hidden;margin-top:6px;}
+.progress-bar-fill{height:100%;border-radius:4px;background:var(--purple);transition:width .4s;}
+
+/* ═══════════════════════════════
+   보고서 탭
+═══════════════════════════════ */
+.report-layout{display:grid;grid-template-columns:320px 1fr;min-height:calc(100vh - 108px);}
+.report-left{background:var(--white);border-right:1px solid var(--border);padding:22px 18px;}
+.report-right{padding:26px;background:var(--bg);}
+.rtype-btns{display:flex;flex-direction:column;gap:6px;margin-bottom:18px;}
+.rtype-btn{padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;
+           font-size:13px;font-weight:500;cursor:pointer;font-family:inherit;
+           background:var(--white);color:var(--text-2);text-align:left;transition:all .13s;
+           display:flex;align-items:center;gap:10px;}
+.rtype-btn.active{background:var(--purple-light);border-color:var(--purple-mid);color:var(--purple);font-weight:700;}
+.rtype-icon{width:28px;height:28px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.tone-btns{display:flex;gap:6px;margin-bottom:12px;}
+.tone-btn{flex:1;padding:7px 8px;border:1.5px solid var(--border);border-radius:8px;
+          font-size:12px;cursor:pointer;font-family:inherit;background:var(--white);
+          color:var(--text-2);text-align:center;transition:all .13s;}
+.tone-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+.report-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:20px 22px;margin-bottom:16px;}
+.report-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.report-card-title{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;}
+.report-copy-btn{padding:6px 12px;background:var(--purple);color:#fff;border:none;
+                 border-radius:7px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;}
+.report-text{font-size:13px;line-height:1.95;color:var(--text-2);background:#f8f7f3;
+             border-radius:9px;padding:14px 16px;border-left:3px solid var(--purple-mid);white-space:pre-wrap;}
+
+/* ═══════════════════════════════
+   우수교안 탭
+═══════════════════════════════ */
+.best-page{padding:24px;}
+.best-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.best-header h2{font-size:16px;font-weight:800;}
+.sort-btns{display:flex;gap:6px;}
+.sort-btn{padding:6px 12px;border:1px solid var(--border);border-radius:8px;font-size:12px;
+          background:var(--white);cursor:pointer;font-family:inherit;color:var(--text-2);}
+.sort-btn.active{background:var(--purple);color:#fff;border-color:var(--purple);}
+.plan-cards{display:flex;flex-direction:column;gap:11px;}
+.plan-card{background:var(--white);border:1px solid var(--border);border-radius:12px;
+           padding:15px 17px;cursor:pointer;transition:all .15s;position:relative;}
+.plan-card:hover{border-color:var(--purple-mid);box-shadow:0 2px 12px rgba(60,52,137,.08);}
+.plan-card.top{border-left:3px solid var(--gold);}
+.plan-card-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+.plan-card-title{font-size:14px;font-weight:700;}
+.plan-card-meta{font-size:12px;color:var(--text-3);margin-top:2px;}
+.plan-card-right{display:flex;flex-direction:column;align-items:flex-end;gap:3px;flex-shrink:0;}
+.star-display{display:flex;gap:2px;font-size:15px;}
+.star-display span{color:#ddd;}
+.star-display span.on{color:var(--gold);}
+.plan-avg{font-size:13px;font-weight:700;color:var(--gold);}
+.plan-count{font-size:11px;color:var(--text-3);}
+.plan-comment{font-size:12px;color:var(--text-3);margin-top:7px;padding-top:7px;
+              border-top:1px solid var(--border);font-style:italic;
+              white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.rank-badge{position:absolute;top:11px;right:11px;font-size:10px;font-weight:700;padding:3px 8px;border-radius:99px;}
+.r1{background:#FFF3C4;color:#8a6000;}.r2{background:#f0f0ee;color:var(--text-2);}
+.r3{background:#FAECE7;color:#C05B30;}
+.no-data{display:flex;flex-direction:column;align-items:center;justify-content:center;
+         padding:60px 20px;gap:12px;text-align:center;color:var(--text-3);}
+.no-data-icon{font-size:30px;opacity:.4;}
+
+@media print{
+  .header,.tabs,.panel-left,.monthly-left,.report-left,.feedback-box,.act-btns,.r-pills{display:none!important;}
+  .panel-2col,.monthly-page,.report-layout{display:block;}
+  .panel-right,.monthly-right,.report-right{padding:0;}
+}
+@media(max-width:960px){
+  .panel-2col,.monthly-page,.report-layout{grid-template-columns:1fr;}
+  .panel-left,.monthly-left,.report-left{border-right:none;border-bottom:1px solid var(--border);}
+  .cal-week{grid-template-columns:repeat(5,1fr);}
+}
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-row">
+    <div class="logo">K</div>
+    <div>
+      <div class="header-title">학급 두뇌맞춤 교안 생성기</div>
+      <div class="header-sub">D-CAS 월간 자동설계 · 20~25일 수업 기반 빈도 최적화 v3</div>
+    </div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center;">
+    <span class="hbadge" style="background:var(--sup-bg);color:var(--sup);">유치원·어린이집</span>
+    <span class="hbadge">v3</span>
+  </div>
+</header>
+
+<div class="tabs">
+  <div class="tab active" onclick="showPage('monthly')">📅 월간 자동설계</div>
+  <div class="tab" onclick="showPage('gen')">✦ 교안 생성</div>
+  <div class="tab" onclick="showPage('report')">📋 보고서 생성</div>
+  <div class="tab" onclick="showPage('best')">⭐ 우수 교안 <span class="tab-count" id="bestCount">0</span></div>
+</div>
+
+<!-- ════════════════════════════
+     월간 자동설계 탭
+════════════════════════════ -->
+<div class="page active" id="page-monthly">
+<div class="monthly-page">
+
+  <!-- 좌측 설정 -->
+  <aside class="monthly-left">
+
+    <!-- 빈도 재설계 안내 -->
+    <div class="freq-header">📊 월간 수업 빈도 설계</div>
+    <div style="font-size:11px;color:var(--text-3);margin-bottom:12px;line-height:1.6;">
+      월 20~25일 (5일 수업) 기준 · Das et al.(1994) · Naglieri & Johnson(2000) 근거
+    </div>
+    <div class="freq-cards">
+      <div class="freq-card brain-fc">
+        <div class="fc-row">
+          <div>
+            <div class="fc-name" style="color:var(--brain);">🧠 두뇌유형별</div>
+            <div class="fc-days" style="color:var(--brain);">월·화·목 (매주 3회)</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="fc-count" style="color:var(--brain);">12</div>
+            <div class="fc-unit">회/월 · 60%</div>
+          </div>
+        </div>
+        <div class="fc-desc">PASS 처리 방식은 안정적 신경인지 특성 → 모든 수업의 기본 scaffold</div>
+        <div class="freq-bar"><div class="freq-bar-fill" style="width:60%;background:var(--brain);"></div></div>
+      </div>
+      <div class="freq-card pass-fc">
+        <div class="fc-row">
+          <div>
+            <div class="fc-name" style="color:var(--pass);">📊 PASS수준별</div>
+            <div class="fc-days" style="color:var(--pass);">수 (매주) + 금 (2·4주)</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="fc-count" style="color:var(--pass);">6</div>
+            <div class="fc-unit">회/월 · 25%</div>
+          </div>
+        </div>
+        <div class="fc-desc">ZPD 기반 난이도 차별화 · 주 2회 이상 시 낙인 효과 위험</div>
+        <div class="freq-bar"><div class="freq-bar-fill" style="width:25%;background:var(--pass);"></div></div>
+      </div>
+      <div class="freq-card sup-fc">
+        <div class="fc-row">
+          <div>
+            <div class="fc-name" style="color:var(--sup);">🎯 지원필요별</div>
+            <div class="fc-days" style="color:var(--sup);">금 (1·3주) + 4주차 수</div>
+          </div>
+          <div style="text-align:right;">
+            <div class="fc-count" style="color:var(--sup);">4</div>
+            <div class="fc-unit">회/월 · 15%</div>
+          </div>
+        </div>
+        <div class="fc-desc">Naglieri(2000): 주1회 집중 시 효과크기 1.4 · 관찰·기록 병행</div>
+        <div class="freq-bar"><div class="freq-bar-fill" style="width:15%;background:var(--sup);"></div></div>
+      </div>
+    </div>
+
+    <div class="legend">
+      <div style="font-size:11px;font-weight:700;color:var(--text-3);margin-bottom:4px;">요일별 배치 패턴</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--brain);"></div><span style="color:var(--brain);font-weight:600;">월·화·목</span> — 두뇌유형별 (고정)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--pass);"></div><span style="color:var(--pass);font-weight:600;">수 (매주)</span> — PASS수준별 (3,4주: 지원필요별)</div>
+      <div class="leg-item"><div class="leg-dot" style="background:var(--sup);"></div><span style="color:var(--sup);font-weight:600;">금 (격주)</span> — 1,3주: 지원필요별 / 2,4주: PASS수준별</div>
+    </div>
+
+    <!-- 자동설계 설정 -->
+    <div class="sec-label">자동설계 설정</div>
+    <div class="auto-cfg">
+      <div class="cfg-row">
+        <div class="fg" style="flex:1;">
+          <label>반 선택</label>
+          <select id="mClassSelect">
+            <option value="">-- 반 선택 --</option>
+          </select>
+        </div>
+      </div>
+      <div class="cfg-row">
+        <div class="fg" style="flex:1;">
+          <label>대주제</label>
+          <select id="mMainTheme">
+            <option value="봄/자연/나와 가족">봄/자연/나와 가족 (4~5월)</option>
+            <option value="여름/물/동물">여름/물·바다/동물 (6~7월)</option>
+            <option value="가을/추수/지역사회">가을/추수/지역사회 (9~10월)</option>
+            <option value="겨울/우주/교통기관">겨울/우주·과학/교통기관 (11~12월)</option>
+            <option value="직접입력">직접 입력</option>
+          </select>
+        </div>
+      </div>
+      <div class="cfg-row" id="customThemeRow" style="display:none;">
+        <div class="fg" style="flex:1;">
+          <label>주제 직접 입력</label>
+          <input type="text" id="mCustomTheme" placeholder="예: 우리 몸, 안전교육"/>
+        </div>
+      </div>
+    </div>
+
+    <button class="gen-btn" id="autoDesignBtn" onclick="autoDesignMonth()" style="margin-top:14px;">
+      🗓 이번 달 월간 계획 자동설계
+    </button>
+
+    <div style="margin-top:12px;" id="planProgress" style="display:none;">
+      <div style="font-size:11px;color:var(--text-3);margin-bottom:4px;" id="planProgressLabel">생성 중...</div>
+      <div class="progress-bar-wrap"><div class="progress-bar-fill" id="planProgressBar" style="width:0%;"></div></div>
+    </div>
+  </aside>
+
+  <!-- 우측 달력 -->
+  <main class="monthly-right">
+    <div id="calArea">
+      <div class="empty" style="min-height:500px;">
+        <div class="empty-icon">📅</div>
+        <h2>반을 선택하고<br>월간 자동설계를 시작하세요</h2>
+        <p>20~25일 수업 기반으로<br>D-CAS 맞춤 월간 교안 계획을 자동 생성합니다</p>
+      </div>
+    </div>
+  </main>
+
+</div>
+</div>
+
+<!-- ════════════════════════════
+     교안 생성 탭
+════════════════════════════ -->
+<div class="page" id="page-gen">
+<div class="panel-2col">
+
+<aside class="panel-left">
+  <div class="class-card">
+    <div class="sec-label" style="margin-bottom:10px;">반별 D-CAS 데이터 <span style="font-size:10px;padding:2px 8px;background:var(--sup-bg);color:var(--sup);border-radius:99px;font-weight:700;margin-left:6px;">어드민</span></div>
+    <div class="class-row">
+      <select id="classSelect" style="flex:1;" onchange="onClassChange()">
+        <option value="">-- 반 선택 --</option>
+      </select>
+      <button class="del-btn" onclick="deleteClass()" title="삭제">🗑</button>
+      <button class="load-btn" onclick="loadClassData()">불러오기</button>
+    </div>
+    <div class="class-loaded" id="adminLoaded">
+      <div class="class-name" id="al-name"></div>
+      <div class="class-meta" id="al-meta"></div>
+      <div class="pass-gauges" id="al-gauges"></div>
+      <div style="font-size:10px;font-weight:700;color:var(--text-3);margin-bottom:6px;">두뇌 유형 분포</div>
+      <div class="brain-dist" id="al-brain"></div>
+      <div id="al-mgmt" style="display:none;" class="mgmt-bar"></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">수업 설정</div>
+    <div class="fg" style="margin-bottom:9px;">
+      <label>기관 유형</label>
+      <select id="instType">
+        <option>유치원</option><option>어린이집</option><option>발달·치료 센터</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="fg"><label>활동 주제</label>
+        <select id="theme">
+          <option>봄 / 자연</option><option>여름 / 물·바다</option><option>가을 / 추수</option>
+          <option>겨울 / 눈</option><option>우리 몸</option><option>동물 친구</option>
+          <option>교통기관</option><option>지역사회</option><option>나와 가족</option><option>우주 / 과학</option>
+        </select>
+      </div>
+      <div class="fg"><label>수업 형태</label>
+        <select id="classForm">
+          <option>대집단 활동</option><option>소집단 (3~5명)</option>
+          <option>자유놀이 연계</option><option>바깥놀이</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg" style="margin-top:9px;">
+      <label>교사 메모 (선택)</label>
+      <input type="text" id="memo" placeholder="예: 이번 주 주의력 집중 지원 필요"/>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">그룹 분류 방식</div>
+    <div class="group-cfg">
+      <div class="group-cfg-title">수업 중 그룹 분류 방식</div>
+      <div class="group-row">
+        <button class="group-btn active" data-g="brain" onclick="setGroup('brain',this)">두뇌유형별<small>우뇌/균형/좌뇌</small></button>
+        <button class="group-btn" data-g="pass" onclick="setGroup('pass',this)">PASS수준별<small>상·중·하</small></button>
+        <button class="group-btn" data-g="support" onclick="setGroup('support',this)">지원필요별<small>전체/집중</small></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">생성 항목</div>
+    <div class="gen-opts">
+      <label class="go-check"><input type="checkbox" name="genOpt" value="activity" checked><span>🎮 활동카드</span></label>
+      <label class="go-check"><input type="checkbox" name="genOpt" value="question" checked><span>💬 그룹별 질문</span></label>
+      <label class="go-check"><input type="checkbox" name="genOpt" value="rubric" checked><span>📊 평가 루브릭</span></label>
+      <label class="go-check"><input type="checkbox" name="genOpt" value="notice" checked><span>📬 알림장</span></label>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-label">누리과정 영역</div>
+    <div class="nuri-grid">
+      <label class="nuri-check"><input type="checkbox" name="nuri" value="신체운동·건강" checked><span>신체운동·건강</span></label>
+      <label class="nuri-check"><input type="checkbox" name="nuri" value="의사소통" checked><span>의사소통</span></label>
+      <label class="nuri-check"><input type="checkbox" name="nuri" value="사회관계"><span>사회관계</span></label>
+      <label class="nuri-check"><input type="checkbox" name="nuri" value="예술경험"><span>예술경험</span></label>
+      <label class="nuri-check"><input type="checkbox" name="nuri" value="자연탐구"><span>자연탐구</span></label>
+    </div>
+  </div>
+
+  <button class="gen-btn" id="genBtn" onclick="generateLesson()">✦ AI 맞춤 교안 생성</button>
+</aside>
+
+<main class="panel-right" id="rightPanel">
+  <div class="empty" id="emptyState">
+    <div class="empty-icon">🧠</div>
+    <h2>반 D-CAS 데이터로<br>그룹별 교안을 설계합니다</h2>
+    <p>반 데이터를 불러오고 수업 설정 후<br>AI 교안을 생성하세요</p>
+  </div>
+  <div id="resultArea" style="display:none;"></div>
+</main>
+</div>
+</div>
+
+<!-- ════════════════════════════
+     보고서 생성 탭
+════════════════════════════ -->
+<div class="page" id="page-report">
+<div class="report-layout">
+  <aside class="report-left">
+    <div class="sec-label" style="margin-bottom:12px;">보고서 유형</div>
+    <div class="rtype-btns">
+      <button class="rtype-btn active" id="rtype-parent" onclick="setReportType('parent',this)">
+        <div class="rtype-icon" style="background:#FEF9EE;">👨‍👩‍👧</div>
+        <div><div style="font-size:13px;font-weight:600;">학부모 보고서</div><div style="font-size:11px;color:var(--text-3);">두뇌유형별 가정 연계 문구</div></div>
+      </button>
+      <button class="rtype-btn" id="rtype-director" onclick="setReportType('director',this)">
+        <div class="rtype-icon" style="background:#EEF3FF;">🏫</div>
+        <div><div style="font-size:13px;font-weight:600;">원장님 보고서</div><div style="font-size:11px;color:var(--text-3);">반 전체 현황 요약 · 운영 방향</div></div>
+      </button>
+      <button class="rtype-btn" id="rtype-both" onclick="setReportType('both',this)">
+        <div class="rtype-icon" style="background:var(--sup-bg);">📄</div>
+        <div><div style="font-size:13px;font-weight:600;">둘 다 생성</div><div style="font-size:11px;color:var(--text-3);">한 번에 모두 생성</div></div>
+      </button>
+    </div>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>반 선택</label>
+      <select id="reportClassSelect"><option value="">-- 반 선택 --</option></select>
+    </div>
+    <div class="fg" style="margin-bottom:12px;">
+      <label>기준 월</label>
+      <select id="reportMonth">
+        <option>2026년 4월</option><option>2026년 5월</option><option>2026년 6월</option>
+      </select>
+    </div>
+    <div style="font-size:12px;color:var(--text-2);font-weight:500;margin-bottom:6px;">문체</div>
+    <div class="tone-btns">
+      <button class="tone-btn active" onclick="setTone('formal',this)">공식체</button>
+      <button class="tone-btn" onclick="setTone('warm',this)">친근한체</button>
+    </div>
+    <div class="fg" style="margin-bottom:16px;">
+      <label>특이사항 메모</label>
+      <input type="text" id="reportMemo" placeholder="예: 야외활동 주력, 신입 원아 적응"/>
+    </div>
+    <button class="gen-btn" id="reportGenBtn" onclick="generateReport()">📋 보고서 문구 생성</button>
+  </aside>
+  <main class="report-right">
+    <div class="empty" id="reportEmpty">
+      <div class="empty-icon">📋</div>
+      <h2>반을 선택하고<br>보고서를 생성하세요</h2>
+      <p>학부모용·원장님용 문구를<br>D-CAS 데이터 기반으로 자동 작성합니다</p>
+    </div>
+    <div id="reportResults"></div>
+  </main>
+</div>
+</div>
+
+<!-- ════════════════════════════
+     우수교안 탭
+════════════════════════════ -->
+<div class="page" id="page-best">
+<div class="best-page">
+  <div class="best-header">
+    <div><h2>⭐ 우수 교안 모음</h2><p style="font-size:12px;color:var(--text-3);">별점 피드백 기반 · 반별 누적</p></div>
+    <div class="sort-btns">
+      <button class="sort-btn active" onclick="setSortMode('rating',this)">별점순</button>
+      <button class="sort-btn" onclick="setSortMode('recent',this)">최신순</button>
+    </div>
+  </div>
+  <div class="plan-cards" id="planCards">
+    <div class="no-data"><div class="no-data-icon">⭐</div><div>아직 피드백이 없어요</div></div>
+  </div>
+</div>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  상태
+// ══════════════════════════════════════
+let groupMode = 'brain';
+let reportType = 'parent';
+let reportTone = 'formal';
+let currentMeta = null;
+let currentClassData = null;
+let extractedNotice = '';
+let sortMode = 'rating';
+let selectedStar = 0;
+let currentCalYear = new Date().getFullYear();
+let currentCalMonth = new Date().getMonth(); // 0-indexed
+let monthPlanData = {}; // key: "YYYY-MM-DD", value: {method, theme, nuri, note, hasPlan}
+
+// ══════════════════════════════════════
+//  반 데이터
+// ══════════════════════════════════════
+let ADMIN_CLASSES = [
+  { id:'k7-bunhong', label:'분홍반 (만 7세)', inst:'유치원', total:22, testDate:'2026-04-05',
+    pass:{S:51,P:48,A:67,Ss:50}, support50:{S:56,P:64,A:16,Ss:48},
+    brain:{right:44,balanced:32,left:24}, mgmt:{count:9,pct:41}, weakest:'P',
+    note:'계획력 전반 취약, 우뇌우세형 다수' },
+  { id:'k6-chorok', label:'초록반 (만 6세)', inst:'유치원', total:20, testDate:'2026-04-03',
+    pass:{S:62,P:55,A:70,Ss:58}, support50:{S:40,P:45,A:15,Ss:35},
+    brain:{right:35,balanced:40,left:25}, mgmt:{count:6,pct:30}, weakest:'P',
+    note:'전반적 양호, 계획력 중간 지원 필요' },
+  { id:'k5-norang', label:'노랑반 (만 5세)', inst:'어린이집', total:18, testDate:'2026-04-04',
+    pass:{S:44,P:38,A:61,Ss:42}, support50:{S:67,P:72,A:28,Ss:61},
+    brain:{right:50,balanced:28,left:22}, mgmt:{count:10,pct:56}, weakest:'P',
+    note:'만 5세 특성상 계획력·동시처리 집중 지원 필요' }
+];
+
+// ══════════════════════════════════════
+//  날짜별 그룹 방식 자동 배정 로직
+//  월·화·목 → 두뇌유형별 (60%)
+//  수 → PASS(1,2,3주) / 지원(4주)
+//  금 → 지원(1,3주) / PASS(2,4주)
+// ══════════════════════════════════════
+function assignMethod(date) {
+  const dow = date.getDay(); // 0=일 1=월...5=금 6=토
+  // 주차 계산 (해당 월에서 몇 번째 주인가)
+  const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+  const weekNum = Math.ceil((date.getDate() + firstDay.getDay() - 1) / 7); // 1-based
+  const isOdd = weekNum % 2 === 1;
+
+  if (dow === 1 || dow === 2 || dow === 4) return 'brain'; // 월,화,목
+  if (dow === 3) return (weekNum <= 3) ? 'pass' : 'sup';   // 수: 4주차만 지원
+  if (dow === 5) return isOdd ? 'sup' : 'pass';             // 금: 홀수주 지원, 짝수주 PASS
+  return null; // 토,일
+}
+
+const METHOD_INFO = {
+  brain: { label:'두뇌유형별', icon:'🧠', cls:'m-brain', badge:'brain', color:'var(--brain)', bg:'var(--brain-bg)' },
+  pass:  { label:'PASS수준별', icon:'📊', cls:'m-pass',  badge:'pass',  color:'var(--pass)',  bg:'var(--pass-bg)' },
+  sup:   { label:'지원필요별', icon:'🎯', cls:'m-sup',   badge:'sup',   color:'var(--sup)',   bg:'var(--sup-bg)'  }
+};
+
+// 월별 누리과정 주제 풀 (주 단위)
+const THEME_POOL = {
+  '봄/자연/나와 가족':     ['봄 / 자연 탐색','나와 가족','봄 동물 친구','씨앗과 식물','봄 소풍·나들이'],
+  '여름/물/동물':          ['여름 / 물·바다','동물 친구','우리 몸·건강','환경과 재활용','여름 과일·채소'],
+  '가을/추수/지역사회':    ['가을 / 추수','지역사회 탐방','가을 자연','직업 세계','안전한 생활'],
+  '겨울/우주/교통기관':    ['겨울 / 눈','교통기관','우주 / 과학','세계 여러 나라','연말 · 새해'],
+  '직접입력':              ['주제1','주제2','주제3','주제4','주제5']
+};
+
+// ══════════════════════════════════════
+//  달력 렌더링
+// ══════════════════════════════════════
+function renderCalendar(year, month, classData, planMap) {
+  const monthNames = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
+  const today = new Date();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+
+  // 통계
+  let stats = {brain:0, pass:0, sup:0, total:0};
+  const allDays = [];
+  for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
+    const dow = d.getDay();
+    if (dow >= 1 && dow <= 5) {
+      const key = dateKey(d);
+      const method = (planMap[key] && planMap[key].method) || assignMethod(new Date(d));
+      if (method) { stats[method]++; stats.total++; }
+      allDays.push({ date: new Date(d), key, method });
+    }
+  }
+
+  // 주 단위로 묶기
+  const weeks = [];
+  let week = [];
+  const startDow = firstDay.getDay();
+  // 첫 주 빈 칸 (첫날이 월요일이 아닌 경우)
+  // 월~금만 표시하므로 첫날의 dow 조정
+  let ptr = new Date(firstDay);
+  // 첫 월요일 찾기
+  while (ptr.getDay() !== 1) ptr.setDate(ptr.getDate() - 1);
+  // 달력은 월~금 5칸
+  while (ptr.getMonth() <= month || ptr <= lastDay) {
+    const w = [];
+    for (let d = 0; d < 5; d++) {
+      const cur = new Date(ptr);
+      cur.setDate(cur.getDate() + d);
+      if (cur.getMonth() === month) {
+        const key = dateKey(cur);
+        const info = planMap[key] || {};
+        const method = info.method || assignMethod(cur);
+        w.push({ date: cur, key, method, theme: info.theme, nuri: info.nuri, hasPlan: info.hasPlan });
+      } else {
+        w.push(null);
+      }
+    }
+    if (w.some(x => x !== null)) weeks.push(w);
+    ptr.setDate(ptr.getDate() + 7);
+    if (ptr.getMonth() > month && ptr.getFullYear() >= year) break;
+  }
+
+  // 진행된 교안 수
+  const donePlans = Object.values(planMap).filter(v => v.hasPlan).length;
+
+  let calHTML = `
+    <div class="cal-container">
+      <div class="cal-header">
+        <div>
+          <div class="cal-month">${year}년 ${monthNames[month]}</div>
+          <div style="font-size:11px;color:var(--text-3);margin-top:2px;">${classData ? classData.label : ''} · 총 수업일 ${stats.total}일</div>
+        </div>
+        <div class="cal-stats">
+          <div class="cal-stat"><div class="cal-stat-n" style="color:var(--brain);">${stats.brain}</div><div class="cal-stat-l">두뇌유형</div></div>
+          <div class="cal-stat"><div class="cal-stat-n" style="color:var(--pass);">${stats.pass}</div><div class="cal-stat-l">PASS</div></div>
+          <div class="cal-stat"><div class="cal-stat-n" style="color:var(--sup);">${stats.sup}</div><div class="cal-stat-l">지원</div></div>
+          <div class="cal-stat"><div class="cal-stat-n" style="color:var(--gold);">${donePlans}</div><div class="cal-stat-l">교안완료</div></div>
+        </div>
+        <div class="cal-controls">
+          <button class="cal-nav" onclick="navMonth(-1)">‹</button>
+          <button class="cal-nav" onclick="navMonth(1)">›</button>
+        </div>
+      </div>
+      <div class="cal-body">
+        <div class="cal-dow">
+          ${['월','화','수','목','금'].map(d=>`<div class="dow-label">${d}</div>`).join('')}
+        </div>
+        <div class="cal-grid">
+          ${weeks.map((w,wi) => `
+            <div class="cal-week">
+              ${w.map((day,di) => {
+                if (!day) return `<div class="cal-day empty-day"></div>`;
+                const m = METHOD_INFO[day.method] || METHOD_INFO.brain;
+                const isPast = day.date < today && day.date.toDateString() !== today.toDateString();
+                const isToday = day.date.toDateString() === today.toDateString();
+                const hasP = day.hasPlan ? 'has-plan' : '';
+                const pastCls = isPast ? 'past' : '';
+                const todayCls = isToday ? 'today' : '';
+                return `<div class="cal-day ${m.cls} ${hasP} ${pastCls} ${todayCls}"
+                          onclick="onDayClick('${day.key}','${day.method}','${(day.theme||'').replace(/'/g,"\\'")}')">
+                  <div class="day-top">
+                    <span class="day-num">${day.date.getDate()}</span>
+                    <span class="day-method-badge" style="background:${m.color};color:#fff;">${m.icon} ${m.label}</span>
+                  </div>
+                  <div class="day-body">
+                    ${day.theme ? `<div class="day-theme">${day.theme}</div>` : `<div class="day-theme" style="color:var(--text-3);font-weight:400;">주제 미배정</div>`}
+                    ${day.nuri ? `<div class="day-nuri">${day.nuri}</div>` : ''}
+                  </div>
+                  <div class="day-gen-btn">→ 교안 생성</div>
+                </div>`;
+              }).join('')}
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  return calHTML;
+}
+
+function dateKey(d) {
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+
+function navMonth(delta) {
+  currentCalMonth += delta;
+  if (currentCalMonth > 11) { currentCalMonth = 0; currentCalYear++; }
+  if (currentCalMonth < 0)  { currentCalMonth = 11; currentCalYear--; }
+  const cid = document.getElementById('mClassSelect').value;
+  const c = ADMIN_CLASSES.find(x => x.id === cid);
+  if (c) updateCalendarView(c);
+}
+
+function updateCalendarView(classData) {
+  const calArea = document.getElementById('calArea');
+  calArea.innerHTML = renderCalendar(currentCalYear, currentCalMonth, classData, monthPlanData);
+}
+
+function onDayClick(dateKey, method, theme) {
+  showPage('gen');
+  // 방식에 맞게 그룹 모드 설정
+  setGroup(method, document.querySelector(`[data-g="${method}"]`));
+  // 주제 설정
+  const themeSelect = document.getElementById('theme');
+  if (theme) {
+    for (let i = 0; i < themeSelect.options.length; i++) {
+      if (themeSelect.options[i].text.includes(theme.split('/')[0].trim())) {
+        themeSelect.selectedIndex = i; break;
+      }
+    }
+  }
+}
+
+// ══════════════════════════════════════
+//  월간 자동설계 AI 호출
+// ══════════════════════════════════════
+async function autoDesignMonth() {
+  const cid = document.getElementById('mClassSelect').value;
+  if (!cid) { alert('반을 선택해주세요.'); return; }
+  const c = ADMIN_CLASSES.find(x => x.id === cid);
+  if (!c) return;
+
+  const mainTheme = document.getElementById('mMainTheme').value;
+  const customTheme = document.getElementById('mCustomTheme').value;
+  const themeLabel = mainTheme === '직접입력' ? customTheme : mainTheme;
+
+  const btn = document.getElementById('autoDesignBtn');
+  btn.disabled = true; btn.innerHTML = '<span class="spin">⟳</span> 월간 설계 중...';
+
+  const progEl = document.getElementById('planProgress');
+  const progBar = document.getElementById('planProgressBar');
+  const progLabel = document.getElementById('planProgressLabel');
+  progEl.style.display = 'block';
+
+  // 진행 애니메이션
+  let prog = 0;
+  const progTimer = setInterval(() => {
+    prog = Math.min(prog + 2, 85);
+    progBar.style.width = prog + '%';
+    progLabel.textContent = prog < 30 ? '달력 분석 중...' : prog < 60 ? 'D-CAS 기반 주제 배정 중...' : '최적화 중...';
+  }, 150);
+
+  // 해당 월의 수업일 목록 만들기
+  const year = currentCalYear, month = currentCalMonth;
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const schoolDays = [];
+  for (let d = new Date(firstDay); d <= lastDay; d.setDate(d.getDate() + 1)) {
+    const dow = d.getDay();
+    if (dow >= 1 && dow <= 5) {
+      const method = assignMethod(new Date(d));
+      schoolDays.push({ date: dateKey(new Date(d)), dow: ['일','월','화','수','목','금','토'][dow], method });
+    }
+  }
+
+  const passLabels = {S:'동시처리',P:'계획력',A:'주의력',Ss:'순차처리'};
+  const weakest = Object.entries(c.pass).sort((a,b)=>a[1]-b[1])[0];
+
+  const prompt = `당신은 유아교육 D-CAS 전문 교육과정 설계자입니다.
+
+[반 정보]
+${c.label} | ${c.inst} | ${c.total}명 | 검사일: ${c.testDate}
+PASS: 동시처리${c.pass.S}% 계획력${c.pass.P}% 주의력${c.pass.A}% 순차처리${c.pass.Ss}%
+두뇌유형: 우뇌${c.brain.right}% 균형${c.brain.balanced}% 좌뇌${c.brain.left}%
+최취약: ${passLabels[weakest[0]]}(${weakest[1]}%) | 관리필요: ${c.mgmt.count}명
+
+[이달 수업일 목록 - 총 ${schoolDays.length}일]
+${schoolDays.map(d=>`${d.date}(${d.dow}) → ${d.method==='brain'?'두뇌유형별':d.method==='pass'?'PASS수준별':'지원필요별'}`).join('\n')}
+
+[이달 대주제]: ${themeLabel}
+[빈도 배치 규칙]
+- 월·화·목: 두뇌유형별 (60%) — 개인 처리 특성 기반 기본 scaffold
+- 수(1~3주): PASS수준별, 수(4주): 지원필요별
+- 금(1,3주): 지원필요별, 금(2,4주): PASS수준별
+
+각 수업일에 대해 아래 형식으로 JSON 배열만 반환하세요 (코드블록 없이 순수 JSON):
+[
+  {
+    "date": "YYYY-MM-DD",
+    "theme": "세부 주제 (10자 이내)",
+    "nuri": "누리과정 영역 1~2개",
+    "activity": "핵심 활동 한 줄 설명",
+    "note": "이 방식을 쓰는 이유 (15자 이내)"
+  }
+]
+
+주의: 주별로 연계성 있는 주제를 배치하고, 최취약 영역(${passLabels[weakest[0]]})을 보완하는 활동을 수요일 PASS수준별 수업에 집중 배치하세요.`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514', max_tokens: 3000,
+        messages: [{ role: 'user', content: prompt }]
+      })
+    });
+    const data = await res.json();
+    const raw = data.content?.map(b=>b.text||'').join('') || '[]';
+    const clean = raw.replace(/```json|```/g,'').trim();
+    const planArr = JSON.parse(clean);
+
+    // monthPlanData 업데이트
+    monthPlanData = {};
+    schoolDays.forEach(sd => {
+      const planItem = planArr.find(p => p.date === sd.date);
+      monthPlanData[sd.date] = {
+        method: sd.method,
+        theme: planItem?.theme || '',
+        nuri: planItem?.nuri || '',
+        activity: planItem?.activity || '',
+        note: planItem?.note || '',
+        hasPlan: false
+      };
+    });
+
+    clearInterval(progTimer);
+    progBar.style.width = '100%';
+    progLabel.textContent = `✓ ${schoolDays.length}일 설계 완료`;
+    setTimeout(() => { progEl.style.display = 'none'; progBar.style.width = '0%'; }, 2000);
+
+    updateCalendarView(c);
+    await savePlanData();
+
+  } catch(e) {
+    clearInterval(progTimer);
+    progEl.style.display = 'none';
+    alert('오류: ' + e.message);
+  }
+
+  btn.disabled = false; btn.innerHTML = '🗓 이번 달 월간 계획 자동설계';
+}
+
+// ══════════════════════════════════════
+//  반 관리
+// ══════════════════════════════════════
+async function loadDeletedIds() {
+  try { const r = await window.storage.get('deleted-class-ids'); return r ? JSON.parse(r.value) : []; } catch { return []; }
+}
+async function saveDeletedIds(ids) {
+  try { await window.storage.set('deleted-class-ids', JSON.stringify(ids)); } catch {}
+}
+async function savePlanData() {
+  try {
+    const key = `plan-${currentCalYear}-${currentCalMonth}`;
+    await window.storage.set(key, JSON.stringify(monthPlanData));
+  } catch {}
+}
+async function loadPlanData() {
+  try {
+    const key = `plan-${currentCalYear}-${currentCalMonth}`;
+    const r = await window.storage.get(key);
+    if (r) monthPlanData = JSON.parse(r.value);
+  } catch {}
+}
+
+async function initAllSelects() {
+  const deleted = await loadDeletedIds();
+  const active = ADMIN_CLASSES.filter(c => !deleted.includes(c.id));
+  ['classSelect','mClassSelect','reportClassSelect'].forEach(id => {
+    const sel = document.getElementById(id);
+    const firstOpt = sel.querySelector('option[value=""]');
+    sel.innerHTML = '';
+    if (firstOpt) sel.appendChild(firstOpt);
+    else { const o = document.createElement('option'); o.value=''; o.textContent='-- 반 선택 --'; sel.appendChild(o); }
+    active.forEach(c => {
+      const o = document.createElement('option'); o.value=c.id; o.textContent=c.label; sel.appendChild(o);
+    });
+  });
+}
+
+async function deleteClass() {
+  const id = document.getElementById('classSelect').value;
+  if (!id) { alert('삭제할 반을 먼저 선택해주세요.'); return; }
+  const c = ADMIN_CLASSES.find(x => x.id === id);
+  if (!c || !confirm(`"${c.label}"을(를) 목록에서 삭제할까요?`)) return;
+  const deleted = await loadDeletedIds(); deleted.push(id);
+  await saveDeletedIds(deleted);
+  currentClassData = null;
+  document.getElementById('adminLoaded').style.display = 'none';
+  await initAllSelects();
+}
+
+function onClassChange() {
+  document.getElementById('adminLoaded').style.display = 'none';
+}
+
+function loadClassData(idOverride) {
+  const id = idOverride || document.getElementById('classSelect').value;
+  if (!id) { alert('반을 선택해주세요.'); return; }
+  const c = ADMIN_CLASSES.find(x => x.id === id);
+  if (!c) return;
+  currentClassData = c;
+  document.getElementById('instType').value = c.inst;
+  document.getElementById('al-name').textContent = `${c.label} · ${c.total}명`;
+  document.getElementById('al-meta').textContent = `${c.inst} | 검사일: ${c.testDate}${c.note?' | '+c.note:''}`;
+  const gC={S:'var(--S)',P:'var(--P)',A:'var(--A)',Ss:'var(--Ss)'};
+  const gL={S:'동시처리',P:'계획력',A:'주의력',Ss:'순차처리'};
+  document.getElementById('al-gauges').innerHTML=Object.entries(c.pass).map(([k,v])=>{
+    const lv=v>=70?'우수':v>=50?'보통':'지원';
+    const lc=v>=70?'var(--hi)':v>=50?'var(--mid-c)':'var(--lo)';
+    return`<div class="gauge-item"><div class="gauge-key" style="color:${gC[k]}">${gL[k]}</div>
+      <div class="gauge-bar-wrap"><div class="gauge-bar" style="height:${v}%;background:${gC[k]};"></div></div>
+      <div class="gauge-val" style="color:${gC[k]}">${v}%</div>
+      <div class="gauge-lvl" style="color:${lc}">${lv}</div></div>`;
+  }).join('');
+  const bC={right:'var(--brain)',balanced:'var(--pass)',left:'var(--sup)'};
+  const bL={right:'우뇌',balanced:'균형',left:'좌뇌'};
+  document.getElementById('al-brain').innerHTML=Object.entries(c.brain).map(([k,v])=>
+    `<div class="brain-chip"><div class="brain-chip-key" style="color:${bC[k]}">${bL[k]}</div>
+     <div class="brain-chip-val" style="color:${bC[k]}">${Math.round(c.total*v/100)}명</div>
+     <div class="brain-chip-pct" style="color:${bC[k]}">${v}%</div></div>`
+  ).join('');
+  const mg=document.getElementById('al-mgmt');
+  mg.textContent=`⚠ 관리필요 ${c.mgmt.count}명(${c.mgmt.pct}%) — 구조화 루틴 시급`;
+  mg.style.display='block';
+  document.getElementById('adminLoaded').style.display='block';
+}
+
+function setGroup(m,el) {
+  groupMode=m;
+  document.querySelectorAll('.group-btn').forEach(b=>b.classList.remove('active'));
+  if(el) el.classList.add('active');
+}
+
+// ══════════════════════════════════════
+//  교안 생성
+// ══════════════════════════════════════
+async function generateLesson() {
+  if (!currentClassData) { alert('먼저 반 데이터를 불러오세요.'); return; }
+  const c=currentClassData;
+  const theme=document.getElementById('theme').value;
+  const classForm=document.getElementById('classForm').value;
+  const memo=document.getElementById('memo').value;
+  const nuri=[...document.querySelectorAll('input[name="nuri"]:checked')].map(e=>e.value);
+  const opts=[...document.querySelectorAll('input[name="genOpt"]:checked')].map(e=>e.value);
+
+  const btn=document.getElementById('genBtn');
+  btn.disabled=true; btn.innerHTML='<span class="spin">⟳</span> 생성 중...';
+  document.getElementById('emptyState').style.display='none';
+  document.getElementById('resultArea').style.display='block';
+  currentMeta={classId:c.id,label:c.label,theme,classForm,nuri,ts:Date.now()};
+
+  const groupDesc={
+    brain:`두뇌유형별 3그룹 — ①우뇌우세형(${c.brain.right}%) ②균형형(${c.brain.balanced}%) ③좌뇌우세형(${c.brain.left}%)`,
+    pass:`PASS 수준별 3그룹 — ①상(70↑) ②중(50~69) ③하(50미만, 집중지원)`,
+    support:`지원필요별 2그룹 — ①전체 ②관리필요 ${c.mgmt.count}명 집중지원`
+  }[groupMode];
+
+  const weakest=Object.entries(c.pass).sort((a,b)=>a[1]-b[1])[0];
+  const passLabels={S:'동시처리',P:'계획력',A:'주의력',Ss:'순차처리'};
+  const actSec=opts.includes('activity')?`\n## 🎮 그룹별 활동카드\n(각 그룹 #### 그룹A/B/C 형식. 활동명·소요시간·준비물·3단계 진행방법·확장아이디어)`:'';
+  const qSec=opts.includes('question')?`\n## 💬 그룹별 발문\n(그룹 특성별 열린 질문 2개씩)`:'';
+  const rubricSec=opts.includes('rubric')?`\n## 📊 평가 루브릭\n(누리과정 기반 평가기준 3개 × 3단계. 마크다운 표 형식)`:'';
+  const noticeSec=opts.includes('notice')?`\n## 📬 알림장\n(학부모용 한 줄. 큰따옴표로 감싸기)`:'';
+
+  const prompt=`D-CAS 기반 유아교육 교안 전문가. 아래 데이터로 학급 맞춤 교안 작성.
+
+[반] ${c.label} | ${c.inst} | ${c.total}명 | 주제: ${theme} | ${classForm}
+[누리과정] ${nuri.join(', ')} ${memo?'| '+memo:''}
+[PASS] 동시${c.pass.S}% 계획${c.pass.P}% 주의${c.pass.A}% 순차${c.pass.Ss}%
+[두뇌] 우뇌${c.brain.right}% 균형${c.brain.balanced}% 좌뇌${c.brain.left}%
+[최취약] ${passLabels[weakest[0]]}(${weakest[1]}%) | [관리필요] ${c.mgmt.count}명
+[그룹] ${groupDesc}
+
+## 🧠 두뇌 특성 분석
+## ✅ 준비물 (- bullet)
+## 🎯 수업 목표 (3개)
+## ⏱ 수업 흐름 (30분)
+### 도입 (5분) — 전체
+### 전개 1 (10분) — 기본 활동
+### 전개 2 (10분) — 그룹별 (#### 그룹A/B/C 필수)
+### 마무리 (5분)
+${actSec}${qSec}${rubricSec}
+## 💡 교사 운영 전략 (3가지)
+## ⚠️ 주의사항
+${noticeSec}
+[참고연구 3개]`;
+
+  document.getElementById('resultArea').innerHTML=`
+    <div class="result-head">
+      <div>
+        <div class="result-title">${c.label} · ${theme}</div>
+        <div class="result-meta">${c.inst} | ${classForm} | ${{brain:'두뇌유형별',pass:'PASS수준별',support:'지원필요별'}[groupMode]}</div>
+      </div>
+      <div class="act-btns">
+        <button class="act-btn" onclick="copyResult()">📋 복사</button>
+        <button class="act-btn primary" onclick="window.print()">🖨 인쇄</button>
+      </div>
+    </div>
+    <div class="class-summary-bar" id="classSummary"></div>
+    <div class="r-pills">
+      <span class="r-pill">Asonitou & Koutsouki 2024</span>
+      <span class="r-pill">Cai et al. 2024</span>
+      <span class="r-pill">Naglieri & Johnson 2000</span>
+      <span class="r-pill">Das et al. PREP 1995</span>
+    </div>
+    <div class="prep-panel" id="prepPanel"><div class="prep-title"><span>✅</span>준비물 체크리스트</div><div class="check-items" id="checkItems"></div></div>
+    <div class="notice-panel" id="noticePanel">
+      <div class="notice-title"><span>📬 알림장 문구</span><button class="notice-copy" onclick="copyNotice()">복사</button></div>
+      <div class="notice-text" id="noticeText"></div>
+    </div>
+    <div id="lessonOut" style="font-size:13.5px;line-height:1.85;"><em style="color:var(--text-3);">교안 생성 중...</em></div>
+    <div class="feedback-box" id="fbBox" style="display:none;"></div>`;
+
+  renderClassSummary(c);
+
+  try {
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:3200,messages:[{role:'user',content:prompt}]})
+    });
+    const data=await res.json();
+    const text=data.content?.map(b=>b.text||'').join('')||'응답 오류';
+    extractChecklist(text); extractNotice(text);
+    document.getElementById('lessonOut').innerHTML=renderMD(text);
+    showFeedback(); await saveLessonHistory();
+  } catch(e) {
+    document.getElementById('lessonOut').innerHTML=`<span style="color:var(--lo);">오류: ${e.message}</span>`;
+  }
+  btn.disabled=false; btn.innerHTML='✦ AI 맞춤 교안 생성';
+}
+
+function renderClassSummary(c) {
+  const cols={S:'var(--S)',P:'var(--P)',A:'var(--A)',Ss:'var(--Ss)'};
+  const lbl={S:'동시처리',P:'계획력',A:'주의력',Ss:'순차처리'};
+  document.getElementById('classSummary').innerHTML=Object.entries(c.pass).map(([k,v])=>`
+    <div class="cs-item">
+      <div class="cs-label" style="color:${cols[k]}">${lbl[k]}</div>
+      <div class="cs-track"><div class="cs-fill" style="height:${v}%;background:${cols[k]};opacity:${v>=70?1:v<50?.45:.72};"></div></div>
+      <div class="cs-val" style="color:${cols[k]}">${v}%</div>
+      <div class="cs-sub">${v>=70?'우수':v>=50?'보통':'지원필요'}</div>
+    </div>`).join('');
+}
+
+function extractChecklist(text) {
+  const lines=text.split('\n'); let inSec=false; const items=[];
+  for(const l of lines){
+    if(l.includes('준비물')){inSec=true;continue;}
+    if(inSec&&l.startsWith('##'))break;
+    if(inSec&&/^[-•]\s/.test(l)){const t=l.replace(/^[-•]\s+/,'').trim();if(t)items.push(t);}
+  }
+  if(!items.length)return;
+  document.getElementById('checkItems').innerHTML=items.map(t=>`<label class="check-item"><input type="checkbox"><span>${t}</span></label>`).join('');
+  document.getElementById('prepPanel').style.display='block';
+}
+
+function extractNotice(text) {
+  const lines=text.split('\n'); let inN=false;
+  for(const l of lines){
+    if(l.includes('알림장')){inN=true;continue;}
+    if(inN&&l.includes('참고연구'))break;
+    if(inN&&l.trim()){
+      extractedNotice=l.replace(/^[-•]\s+/,'').trim();
+      if(extractedNotice){
+        document.getElementById('noticeText').textContent=extractedNotice;
+        document.getElementById('noticePanel').style.display='block';
+      }
+      break;
+    }
+  }
+}
+
+function copyNotice(){navigator.clipboard.writeText(extractedNotice).then(()=>{const b=document.querySelector('.notice-copy');if(b){b.textContent='복사됨 ✓';setTimeout(()=>b.textContent='복사',1500);}});}
+function copyResult(){navigator.clipboard.writeText(document.getElementById('lessonOut')?.innerText||'').then(()=>{const b=document.querySelector('.act-btn');if(b){b.textContent='복사됨 ✓';setTimeout(()=>b.textContent='📋 복사',1500);}});}
+
+function renderMD(text){
+  let html='',inUl=false,inGroup=false,inTable=false;
+  text.split('\n').forEach((line,idx,arr)=>{
+    if(line.startsWith('|')){
+      if(!inTable){if(inUl){html+='</ul>';inUl=false;}if(inGroup){html+='</div>';inGroup=false;}html+='<div style="overflow-x:auto;margin-bottom:12px;"><table class="rubric-table">';inTable=true;}
+      const isSep=line.match(/^\|[\s\-|]+\|/);if(isSep)return;
+      const isHead=arr[idx+1]&&arr[idx+1].match(/^\|[\s\-|]+\|/);
+      const cells=line.split('|').filter((_,i,a)=>i>0&&i<a.length-1);
+      html+=`<tr>${cells.map(c=>`<${isHead?'th':'td'}>${c.trim()}</${isHead?'th':'td'}>`).join('')}</tr>`;
+      return;
+    }else if(inTable){html+='</table></div>';inTable=false;}
+    if(line.startsWith('#### ')){
+      if(inUl){html+='</ul>';inUl=false;}
+      const t=line.replace(/^####\s+/,'');
+      const isA=t.includes('A'),isB=t.includes('B');
+      const col=isA?'var(--brain)':isB?'var(--pass)':'var(--sup)';
+      html+=`<div style="background:#f8f7f3;border-left:3px solid ${col};border-radius:0 8px 8px 0;padding:10px 13px;margin-bottom:10px;"><div style="font-size:12px;font-weight:700;color:${col};margin-bottom:5px;">${t}</div>`;
+      inGroup=true;
+    }else if(line.startsWith('## ')){
+      if(inGroup){html+='</div>';inGroup=false;}if(inUl){html+='</ul>';inUl=false;}
+      html+=`<div class="lesson-section"><div class="lesson-sec-title">${line.replace(/^##\s+/,'')}</div><div class="lesson-sec-body">`;
+    }else if(line.startsWith('### ')){
+      if(inGroup){html+='</div>';inGroup=false;}if(inUl){html+='</ul>';inUl=false;}
+      html+=`<div class="time-block"><div class="time-head">${line.replace(/^###\s+/,'')}</div>`;
+    }else if(/^[-•]\s/.test(line)){
+      if(!inUl){html+='<ul>';inUl=true;}
+      html+=`<li>${line.replace(/^[-•]\s+/,'')}</li>`;
+    }else if(line.trim()===''){
+      if(inUl){html+='</ul>';inUl=false;}if(inGroup){html+='</div>';inGroup=false;}html+='</div>';
+    }else{
+      if(inUl){html+='</ul>';inUl=false;}
+      html+=`<p>${line.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</p>`;
+    }
+  });
+  if(inUl)html+='</ul>';if(inTable)html+='</table></div>';
+  return html+'</div>';
+}
+
+// ══════════════════════════════════════
+//  보고서 생성
+// ══════════════════════════════════════
+function setReportType(t,el){reportType=t;document.querySelectorAll('.rtype-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function setTone(t,el){reportTone=t;document.querySelectorAll('.tone-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+
+async function generateReport() {
+  const id=document.getElementById('reportClassSelect').value;
+  if(!id){alert('반을 선택해주세요.');return;}
+  const c=ADMIN_CLASSES.find(x=>x.id===id);
+  if(!c)return;
+  const month=document.getElementById('reportMonth').value;
+  const memo=document.getElementById('reportMemo').value;
+  const tone=reportTone==='formal'?'공식적이고 정중한 경어체':'따뜻하고 친근한 경어체';
+  const passLabels={S:'동시처리',P:'계획력',A:'주의력',Ss:'순차처리'};
+  const weakest=Object.entries(c.pass).sort((a,b)=>a[1]-b[1])[0];
+  const strongest=Object.entries(c.pass).sort((a,b)=>b[1]-a[1])[0];
+
+  const btn=document.getElementById('reportGenBtn');
+  btn.disabled=true;btn.innerHTML='<span class="spin">⟳</span> 생성 중...';
+  document.getElementById('reportEmpty').style.display='none';
+  document.getElementById('reportResults').innerHTML='<div style="padding:20px;color:var(--text-3);font-style:italic;">보고서 생성 중...</div>';
+
+  const types=reportType==='both'?['parent','director']:[reportType];
+  const baseInfo=`[반] ${c.label} | ${c.inst} | ${c.total}명 | ${month}\n[PASS] 동시처리:${c.pass.S}% 계획력:${c.pass.P}% 주의력:${c.pass.A}% 순차처리:${c.pass.Ss}%\n[두뇌] 우뇌:${c.brain.right}% 균형:${c.brain.balanced}% 좌뇌:${c.brain.left}%\n[강점] ${passLabels[strongest[0]]}(${strongest[1]}%) [취약] ${passLabels[weakest[0]]}(${weakest[1]}%) [관리필요] ${c.mgmt.count}명\n${memo?'[메모] '+memo:''}`;
+
+  const prompts={
+    parent:`유아교육 전문 원감으로서 학부모에게 보내는 ${month} 월간 보고서 문구 작성.\n${baseInfo}\n문체: ${tone}\n\n### 👁 우뇌우세형 가정에\n(전체·시각처리 강점 설명 + 가정 활동 1가지, 150~180자)\n### ⚖️ 균형형 가정에\n(균형 처리 강점 + 다양한 참여 격려, 150~180자)\n### 📝 좌뇌우세형 가정에\n(순서·논리 강점 + 단계적 활동 권장, 150~180자)\n### 📌 공통 안내\n(${passLabels[weakest[0]]} 집중 지원 내용 + 가정 연계 활동 1가지)`,
+    director:`원장님께 드리는 ${month} 반별 D-CAS 운영 보고서 작성.\n${baseInfo}\n문체: ${tone}\n\n### 📊 ${month} 반 현황 요약\n(3~4줄, PASS 핵심 특징 + 강점과 과제)\n### 🎯 이달 중점 운영 방향\n(3가지, 20~25일 수업 기반 구체적 전략)\n### ⚠️ 특별 관리 사항\n(관리필요 현황 + 교사 지원 방향)\n### 📈 다음 달 제안\n(향상 목표 + 필요 지원)`
+  };
+
+  try {
+    const results={};
+    for(const t of types){
+      const res=await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',headers:{'Content-Type':'application/json'},
+        body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1600,messages:[{role:'user',content:prompts[t]}]})
+      });
+      const data=await res.json();
+      results[t]=data.content?.map(b=>b.text||'').join('')||'응답 오류';
+    }
+    const typeLabels={parent:'👨‍👩‍👧 학부모 보고서',director:'🏫 원장님 보고서'};
+    document.getElementById('reportResults').innerHTML=Object.entries(results).map(([t,text])=>`
+      <div class="report-card">
+        <div class="report-card-head">
+          <div class="report-card-title">${typeLabels[t]} <span style="font-size:12px;color:var(--text-3);font-weight:400;">${c.label} · ${month}</span></div>
+          <button class="report-copy-btn" onclick="copyReportCard(this,'${t}')">복사</button>
+        </div>
+        <div class="report-text" id="rtext-${t}">${renderMDReport(text)}</div>
+      </div>`).join('');
+  } catch(e) {
+    document.getElementById('reportResults').innerHTML=`<div style="color:var(--lo);padding:20px;">오류: ${e.message}</div>`;
+  }
+  btn.disabled=false;btn.innerHTML='📋 보고서 문구 생성';
+}
+
+function renderMDReport(text){
+  return text.split('\n').map(line=>{
+    if(line.startsWith('### ')) return`<div style="font-size:13px;font-weight:700;color:var(--purple);margin:12px 0 5px;">${line.replace(/^###\s+/,'')}</div>`;
+    if(/^[-•]\s/.test(line)) return`<div style="padding-left:14px;margin-bottom:3px;">• ${line.replace(/^[-•]\s+/,'')}</div>`;
+    if(line.trim()==='') return'<div style="height:5px;"></div>';
+    return`<div>${line.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>')}</div>`;
+  }).join('');
+}
+function copyReportCard(btn,t){
+  navigator.clipboard.writeText(document.getElementById('rtext-'+t)?.innerText||'').then(()=>{btn.textContent='복사됨 ✓';setTimeout(()=>btn.textContent='복사',1500);});
+}
+
+// ══════════════════════════════════════
+//  피드백
+// ══════════════════════════════════════
+function showFeedback(){
+  const box=document.getElementById('fbBox'); box.style.display='block'; selectedStar=0;
+  box.innerHTML=`<div class="fb-title"><div class="fb-icon">⭐</div>이 교안이 도움이 되었나요?</div>
+    <div class="stars" id="starRow">
+      ${[1,2,3,4,5].map(i=>`<span class="star" data-v="${i}" onclick="pickStar(${i})" onmouseover="hoverS(${i})" onmouseout="unhoverS()">★</span>`).join('')}
+      <span class="star-desc" id="starDesc">별점을 선택하세요</span>
+    </div>
+    <textarea class="fb-comment" id="fbComment" rows="3" placeholder="개선할 점을 적어주세요"></textarea>
+    <div style="display:flex;gap:10px;align-items:center;margin-top:10px;">
+      <button class="fb-submit" id="fbSub" onclick="submitFb()" disabled>피드백 제출</button>
+      <div class="fb-done" id="fbDone">✓ 피드백 감사합니다!</div>
+    </div>`;
+}
+const starTxt=['','별로였어요','아쉬웠어요','보통이에요','좋았어요','아주 좋았어요 ⭐'];
+function hoverS(v){document.querySelectorAll('.star').forEach(s=>s.style.color=parseInt(s.dataset.v)<=(selectedStar||v)?'var(--gold)':'#ddd');document.getElementById('starDesc').textContent=starTxt[v];}
+function unhoverS(){document.querySelectorAll('.star').forEach(s=>s.style.color=parseInt(s.dataset.v)<=selectedStar?'var(--gold)':'#ddd');document.getElementById('starDesc').textContent=selectedStar?starTxt[selectedStar]:'별점을 선택하세요';}
+function pickStar(v){selectedStar=v;document.getElementById('fbSub').disabled=false;document.querySelectorAll('.star').forEach(s=>s.style.color=parseInt(s.dataset.v)<=v?'var(--gold)':'#ddd');document.getElementById('starDesc').textContent=starTxt[v];}
+async function submitFb(){
+  if(!selectedStar||!currentMeta)return;
+  const btn=document.getElementById('fbSub');btn.disabled=true;btn.textContent='저장 중...';
+  const comment=document.getElementById('fbComment').value.trim();
+  const entry={id:Date.now(),rating:selectedStar,comment,...currentMeta};
+  const list=await loadFbs();list.push(entry);
+  await saveFbs(list);updateBestCount(list);
+  btn.style.display='none';document.getElementById('fbDone').style.display='flex';
+}
+
+// ══════════════════════════════════════
+//  스토리지
+// ══════════════════════════════════════
+async function loadFbs(){try{const r=await window.storage.get('class-feedbacks');return r?JSON.parse(r.value):[];}catch{return[];}}
+async function saveFbs(l){try{await window.storage.set('class-feedbacks',JSON.stringify(l));}catch{}}
+async function saveLessonHistory(){
+  if(!currentMeta)return;
+  try{
+    const r=await window.storage.get('class-lesson-history');
+    const h=r?JSON.parse(r.value):[];
+    h.push({...currentMeta,pass:{...currentClassData.pass},date:new Date().toISOString().slice(0,10)});
+    await window.storage.set('class-lesson-history',JSON.stringify(h));
+  }catch{}
+}
+function updateBestCount(list){document.getElementById('bestCount').textContent=list.filter(f=>f.rating>=4).length;}
+
+// ══════════════════════════════════════
+//  우수교안
+// ══════════════════════════════════════
+function setSortMode(m,el){sortMode=m;document.querySelectorAll('.sort-btn').forEach(b=>b.classList.remove('active'));el.classList.add('active');renderBestPage();}
+async function renderBestPage(){
+  const list=await loadFbs();
+  if(!list.length){document.getElementById('planCards').innerHTML=`<div class="no-data"><div class="no-data-icon">⭐</div><div>아직 피드백이 없어요</div></div>`;return;}
+  const groups={};
+  list.forEach(f=>{const key=`${f.classId}||${f.theme}`;if(!groups[key])groups[key]={key,label:f.label,theme:f.theme,classForm:f.classForm,entries:[]};groups[key].entries.push(f);});
+  let cards=Object.values(groups).map(g=>{const avg=g.entries.reduce((s,e)=>s+e.rating,0)/g.entries.length;return{...g,avg:Math.round(avg*10)/10,count:g.entries.length,latest:g.entries[g.entries.length-1]};});
+  if(sortMode==='rating')cards.sort((a,b)=>b.avg-a.avg);else cards.sort((a,b)=>b.latest.ts-a.latest.ts);
+  document.getElementById('planCards').innerHTML=cards.map((c,i)=>{
+    const stars=[1,2,3,4,5].map(n=>`<span class="${n<=Math.round(c.avg)?'on':''}">★</span>`).join('');
+    const rb=i===0?`<span class="rank-badge r1">🥇 1위</span>`:i===1?`<span class="rank-badge r2">🥈</span>`:i===2?`<span class="rank-badge r3">🥉</span>`:'';
+    return`<div class="plan-card ${i<3?'top':''}" onclick="reloadPlan('${c.key}')">
+      ${rb}
+      <div class="plan-card-top">
+        <div><div class="plan-card-title">${c.label} · ${c.theme}</div><div class="plan-card-meta">${c.classForm||''}</div></div>
+        <div class="plan-card-right"><div class="star-display">${stars}</div><div class="plan-avg">★ ${c.avg.toFixed(1)}</div><div class="plan-count">${c.count}건</div></div>
+      </div>
+      ${c.latest.comment?`<div class="plan-comment">"${c.latest.comment}"</div>`:''}
+    </div>`;
+  }).join('');
+}
+function reloadPlan(key){showPage('gen');const[cid,theme]=key.split('||');document.getElementById('classSelect').value=cid;document.getElementById('theme').value=theme;loadClassData(cid);}
+
+// ══════════════════════════════════════
+//  탭 전환
+// ══════════════════════════════════════
+function showPage(p){
+  document.querySelectorAll('.page').forEach(e=>e.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(e=>e.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  const tabs={monthly:0,gen:1,report:2,best:3};
+  document.querySelectorAll('.tab')[tabs[p]].classList.add('active');
+  if(p==='best') renderBestPage();
+}
+
+// 직접입력 토글
+document.getElementById('mMainTheme').addEventListener('change',function(){
+  document.getElementById('customThemeRow').style.display=this.value==='직접입력'?'flex':'none';
+});
+
+// ══════════════════════════════════════
+//  초기화
+// ══════════════════════════════════════
+async function init(){
+  await initAllSelects();
+  await loadPlanData();
+  const list=await loadFbs();updateBestCount(list);
+}
+init();
+</script>
+</body>
+</html>
