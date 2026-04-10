@@ -1,0 +1,2147 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>필굿 두뇌맞춤 교육 시스템 v6 | 교안·발문·관찰·성장·보고서</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --p:#534AB7;--p2:#3C3489;--pl:#EEEDFE;--pm:#AFA9EC;
+  --t:#0F6E56;--tl:#E1F5EE;--tm:#5DCAA5;
+  --a:#854F0B;--al:#FAEEDA;--am:#EF9F27;
+  --b:#185FA5;--bl:#E6F1FB;--bm:#85B7EB;
+  --co:#993C1D;--col:#FAECE7;
+  --g:#3B6D11;--gl:#EAF3DE;
+  --r:#A32D2D;--rl:#FCEBEB;
+  --bg:#f4f3ef;--sur:#fff;--bor:#dddbd4;--bor2:#ccc9c0;
+  --tx:#1a1a18;--mu:#7a7972;--hi:#b4b2a9;
+}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--tx);font-size:13px;line-height:1.6}
+
+/* ── Shell ── */
+.shell{display:grid;grid-template-columns:200px 1fr;min-height:100vh}
+.sidebar{background:var(--sur);border-right:1px solid var(--bor);padding:16px 0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.main{padding:20px 24px 60px}
+
+/* ── Sidebar ── */
+.logo{padding:0 16px 16px;border-bottom:1px solid var(--bor);margin-bottom:12px}
+.logo-t{font-size:13px;font-weight:700;color:var(--p)}
+.logo-s{font-size:10px;color:var(--mu);margin-top:2px}
+.nav-sec{padding:0 8px;margin-bottom:6px}
+.nav-lbl{font-size:9px;font-weight:700;color:var(--hi);text-transform:uppercase;letter-spacing:.08em;padding:0 6px;margin-bottom:3px}
+.nbtn{display:flex;align-items:center;gap:7px;width:100%;padding:7px 8px;border:none;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--mu);border-radius:7px;text-align:left;transition:all .12s}
+.nbtn:hover{background:var(--bg);color:var(--tx)}
+.nbtn.on{background:var(--pl);color:var(--p);font-weight:600}
+.ndot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.class-mini{margin:12px 8px 0;padding:10px;background:var(--pl);border-radius:8px;font-size:11px}
+.class-mini-t{font-weight:700;color:var(--p);margin-bottom:5px}
+.cm-grid{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.cm-box{text-align:center;padding:5px;background:#fff;border-radius:5px}
+.cm-n{font-size:15px;font-weight:700;color:var(--p)}
+.cm-l{font-size:9px;color:var(--mu)}
+
+/* ── Pages ── */
+.page{display:none}.page.on{display:block}
+.ph{margin-bottom:18px}
+.ph h1{font-size:18px;font-weight:700;letter-spacing:-.3px;margin-bottom:3px}
+.ph p{font-size:11px;color:var(--mu)}
+
+/* ── Cards ── */
+.card{background:var(--sur);border:0.5px solid var(--bor);border-radius:11px;padding:16px 18px;margin-bottom:12px}
+.ct{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+
+/* ── Controls ── */
+.ctrl-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:0}
+.ctrl-label{font-size:12px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.sel{width:100%;padding:8px 10px;border:0.5px solid var(--bor);border-radius:8px;font-size:12px;font-family:inherit;background:var(--sur);color:var(--tx)}
+.pill-row{display:flex;gap:5px;flex-wrap:wrap}
+.pill{padding:5px 12px;border:0.5px solid var(--bor);border-radius:15px;font-size:11px;font-weight:500;cursor:pointer;background:var(--sur);color:var(--mu);transition:all .12s}
+.pill:hover{border-color:var(--p);color:var(--p)}
+.pill.on{background:var(--p);color:#fff;border-color:var(--p)}
+.pill.on-t{background:var(--t);color:#fff;border-color:var(--t)}
+.pill.on-c{background:var(--co);color:#fff;border-color:var(--co)}
+
+/* ── Option Cards ── */
+.opt-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.opt-c{padding:12px;border:1.5px solid var(--bor);border-radius:10px;cursor:pointer;transition:all .15s}
+.opt-c:hover{border-color:var(--p)}
+.opt-c.sel-A{border-color:var(--p);background:var(--pl)}
+.opt-c.sel-B{border-color:var(--t);background:var(--tl)}
+.opt-c.sel-C{border-color:var(--co);background:var(--col)}
+.opt-tag{font-size:10px;font-weight:700;margin-bottom:3px}
+.opt-name{font-size:12px;font-weight:600;margin-bottom:3px}
+.opt-desc{font-size:10px;color:var(--mu);line-height:1.4}
+.rec-badge{font-size:9px;padding:1px 6px;border-radius:6px;background:var(--t);color:#fff;margin-left:5px}
+
+/* ── Buttons ── */
+.btn{padding:8px 16px;font-size:12px;font-weight:600;border:0.5px solid var(--bor);border-radius:7px;background:var(--sur);cursor:pointer;transition:all .12s;color:var(--tx)}
+.btn:hover{background:var(--bg)}
+.btn-p{background:var(--p);color:#fff;border-color:var(--p)}.btn-p:hover{background:var(--p2)}
+.btn-t{background:var(--t);color:#fff;border-color:var(--t)}
+.btn-row{display:flex;gap:7px;margin-top:14px;flex-wrap:wrap}
+
+/* ── LESSON OUTPUT ── */
+.lo{background:var(--sur);border:0.5px solid var(--bor);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.lo-head{padding:18px 22px;background:var(--p);color:#fff}
+.lo-title{font-size:17px;font-weight:700;margin-bottom:5px}
+.lo-meta{display:flex;gap:10px;flex-wrap:wrap}
+.lo-meta span{font-size:10px;opacity:.8}
+.lo-body{padding:18px 22px}
+
+/* Section inside lesson */
+.ls{margin-bottom:18px}
+.ls-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ls-title{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.08em}
+.ls-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px}
+.ls-time{background:var(--pl);color:var(--p)}
+.ls-pass{font-size:10px;font-weight:600;padding:2px 8px;border-radius:6px}
+
+/* Group block */
+.gb{margin-bottom:10px;border-radius:9px;overflow:hidden}
+.gb-head{padding:8px 12px;font-size:11px;font-weight:600;display:flex;align-items:center;gap:6px}
+.gb-body{padding:10px 12px;border:0.5px solid var(--bor);border-top:none;border-radius:0 0 9px 9px}
+.act{display:flex;gap:7px;font-size:12px;padding:3px 0;align-items:flex-start;border-bottom:0.5px solid #f5f3ed}
+.act:last-child{border-bottom:none}
+.an{min-width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.an-p{background:var(--pl);color:var(--p)}
+.an-t{background:var(--tl);color:var(--t)}
+.an-b{background:var(--bl);color:var(--b)}
+
+/* ── QUESTIONING SCRIPT ── */
+.qs-section{margin-bottom:14px}
+.qs-tabs{display:flex;gap:5px;margin-bottom:10px;flex-wrap:wrap}
+.qs-tab{padding:5px 12px;border:0.5px solid var(--bor);border-radius:12px;font-size:11px;font-weight:500;cursor:pointer;background:var(--sur);color:var(--mu);transition:all .12s}
+.qs-tab.on{background:var(--p);color:#fff;border-color:var(--p)}
+.qs-panel{display:none}.qs-panel.on{display:block}
+.qs-phase{margin-bottom:12px}
+.qs-phase-title{font-size:10px;font-weight:700;color:var(--mu);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px;padding-bottom:4px;border-bottom:0.5px solid var(--bor)}
+.q-item{display:flex;gap:8px;padding:6px 10px;background:var(--bg);border-radius:6px;margin-bottom:5px;font-size:12px;align-items:flex-start}
+.q-num{min-width:18px;height:18px;background:var(--p);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;flex-shrink:0;margin-top:1px}
+.q-num-t{background:var(--t)}
+.q-num-a{background:var(--a)}
+.q-num-b{background:var(--b)}
+.q-text{flex:1;line-height:1.5}
+.q-why{font-size:10px;color:var(--mu);margin-top:2px}
+.qs-tip{padding:8px 12px;background:#fffbf0;border:0.5px solid #f0d890;border-radius:7px;font-size:11px;color:#6b5800;line-height:1.6;margin-top:8px}
+
+/* ── BOOK CURATION ── */
+.book-tabs{display:flex;gap:5px;margin-bottom:12px}
+.book-tab{padding:5px 12px;border:0.5px solid var(--bor);border-radius:12px;font-size:11px;font-weight:500;cursor:pointer;background:var(--sur);color:var(--mu);transition:all .12s}
+.book-tab.on{background:var(--t);color:#fff;border-color:var(--t)}
+.book-panel{display:none}.book-panel.on{display:block}
+.book-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:10px}
+.book-card{border:0.5px solid var(--bor);border-radius:9px;padding:12px;background:var(--sur)}
+.book-type-badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:5px;margin-bottom:7px;display:inline-block}
+.book-title{font-size:12px;font-weight:600;margin-bottom:4px;color:var(--tx)}
+.book-author{font-size:10px;color:var(--mu);margin-bottom:5px}
+.book-why{font-size:11px;color:var(--mu);line-height:1.5;border-top:0.5px solid var(--bor);padding-top:5px}
+.media-row{display:flex;flex-direction:column;gap:6px}
+.media-item{display:flex;gap:8px;padding:7px 10px;background:var(--bg);border-radius:7px;align-items:flex-start;font-size:11px}
+.media-type{font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;flex-shrink:0;margin-top:1px}
+
+/* ── MATERIALS ── */
+.mat-tabs{display:flex;gap:5px;margin-bottom:12px}
+.mat-tab{padding:5px 12px;border:0.5px solid var(--bor);border-radius:12px;font-size:11px;font-weight:500;cursor:pointer;background:var(--sur);color:var(--mu);transition:all .12s}
+.mat-tab.on{background:var(--a);color:#fff;border-color:var(--a)}
+.mat-panel{display:none}.mat-panel.on{display:block}
+.mat-list{display:flex;flex-direction:column;gap:5px}
+.mat-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;transition:all .12s;border:0.5px solid transparent}
+.mat-item:hover{background:var(--bg)}
+.mat-item.done{background:var(--tl);border-color:var(--tm)}
+.mat-cb{width:16px;height:16px;border:1.5px solid var(--hi);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .12s;margin-top:1px}
+.mat-item.done .mat-cb{background:var(--t);border-color:var(--t);color:#fff}
+.mat-name{font-size:12px;flex:1;line-height:1.4}
+.mat-item.done .mat-name{color:var(--t);text-decoration:line-through;opacity:.7}
+.mat-detail{font-size:10px;color:var(--mu)}
+.mat-urgent{font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--rl);color:var(--r);flex-shrink:0;margin-top:2px}
+.mat-print{font-size:9px;font-weight:700;padding:1px 6px;border-radius:4px;background:var(--bl);color:var(--b);flex-shrink:0;margin-top:2px}
+.print-calc{padding:10px 12px;background:var(--bl);border-radius:8px;font-size:11px;color:var(--b);margin-top:10px;display:flex;align-items:center;gap:8px}
+.mat-summary{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.ms-box{padding:10px;border-radius:8px;text-align:center;border:0.5px solid var(--bor)}
+.ms-num{font-size:18px;font-weight:700;margin-bottom:2px}
+.ms-lbl{font-size:10px;color:var(--mu)}
+
+/* ── NOTICE BOX ── */
+.notice{padding:9px 12px;background:#fffbf0;border:0.5px solid #f0d890;border-radius:7px;font-size:11px;color:#6b5800;line-height:1.6}
+.divider{height:1px;background:var(--bor);margin:14px 0}
+
+/* ── Dashboard ── */
+.hbar{display:flex;flex-direction:column;gap:7px}
+.hb-row{display:flex;align-items:center;gap:7px}
+.hb-lbl{min-width:60px;font-size:11px;color:var(--mu)}
+.hb-tr{flex:1;height:16px;background:#f0ede5;border-radius:3px;overflow:hidden}
+.hb-fi{height:100%;border-radius:3px;display:flex;align-items:center;padding-left:6px;font-size:9px;font-weight:600;color:#fff}
+.hb-v{font-size:11px;font-weight:600;min-width:30px;text-align:right}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.stat-box{background:var(--sur);border:0.5px solid var(--bor);border-radius:9px;padding:12px;text-align:center}
+.sn{font-size:20px;font-weight:700}.sl{font-size:10px;color:var(--mu);margin-top:2px}
+.badge{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:600}
+.b-wr{background:var(--pl);color:var(--p2)} .b-bal{background:var(--tl);color:var(--t)} .b-lr{background:var(--bl);color:var(--b)} .b-ok{background:var(--gl);color:var(--g)} .b-warn{background:var(--rl);color:var(--r)}
+.stbl{width:100%;border-collapse:collapse;font-size:11px}
+.stbl th{text-align:left;padding:6px 8px;border-bottom:1px solid var(--bor);font-weight:600;color:var(--mu);font-size:9px;text-transform:uppercase}
+.stbl td{padding:6px 8px;border-bottom:0.5px solid #f0ede5;vertical-align:middle}
+.stbl tr:last-child td{border-bottom:none}
+.stbl tr:hover td{background:#fafaf7}
+.pmini{display:flex;flex-direction:column;gap:2px}
+.prow{display:flex;align-items:center;gap:4px}
+.ptr{flex:1;height:4px;background:#ede;border-radius:2px;overflow:hidden}
+.pfi{height:100%;border-radius:2px}
+.pfi-low{background:var(--r)} .pfi-mid{background:var(--a)} .pfi-ok{background:var(--t)}
+.ppc{font-size:9px;font-weight:600;min-width:26px;text-align:right}
+.alert{padding:9px 12px;border-radius:7px;font-size:11px;line-height:1.6;margin-bottom:9px;display:flex;gap:7px;border:0.5px solid}
+.al-w{background:var(--rl);color:var(--r);border-color:#f09595}
+.al-i{background:var(--bl);color:var(--b);border-color:var(--bm)}
+.al-ok{background:var(--tl);color:var(--t);border-color:var(--tm)}
+.ai{font-size:13px;flex-shrink:0;margin-top:1px}
+
+/* ── Print ── */
+@media print{
+  .sidebar,.btn-row,.no-print{display:none!important}
+  .shell{display:block}
+  .main{padding:0}
+  .page{display:block!important}
+  .lo,.card{break-inside:avoid;margin-bottom:16px}
+}
+@media(max-width:680px){
+  .shell{display:block}
+  .sidebar{display:none}
+  .ctrl-grid,.opt-grid,.book-grid,.g2,.g4{grid-template-columns:1fr}
+  .mat-summary{grid-template-columns:1fr 1fr}
+}
+
+
+/* ── v5 추가 CSS ── */
+.stu-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:0.5px solid var(--bor);border-radius:9px;cursor:pointer;transition:all .12s;background:var(--sur);margin-bottom:5px}
+.stu-item:hover{border-color:var(--p);background:var(--pl)}.stu-item.active{border-color:var(--p);background:var(--pl)}
+.stu-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
+.comment-card{padding:11px 13px;border:0.5px solid var(--bor);border-radius:9px;margin-bottom:7px;background:var(--sur)}
+.cc-head{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.cc-date{font-size:10px;color:var(--mu)}.cc-body{font-size:12px;line-height:1.6;color:var(--tx)}
+.suggest-box{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:10px}
+.suggest-btn{display:inline-block;padding:4px 9px;border:0.5px solid var(--bor);border-radius:10px;font-size:11px;background:var(--sur);cursor:pointer;margin:2px;transition:all .12s}
+.suggest-btn:hover{background:var(--pl);border-color:var(--p);color:var(--p)}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;border:0.5px solid var(--bor);transition:all .12s;background:var(--sur);margin-bottom:5px}
+.check-item:hover{background:var(--pl)}.check-item.checked{background:var(--tl);border-color:var(--tm)}
+.cb{width:16px;height:16px;border:1.5px solid var(--hi);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .12s;margin-top:1px}
+.check-item.checked .cb{background:var(--t);border-color:var(--t);color:#fff}
+.inp{width:100%;padding:8px 10px;border:0.5px solid var(--bor);border-radius:8px;font-size:12px;font-family:inherit;background:var(--sur);color:var(--tx)}.inp:focus{outline:none;border-color:var(--p)}
+.textarea{width:100%;padding:9px 11px;border:0.5px solid var(--bor);border-radius:8px;font-size:12px;font-family:inherit;background:var(--sur);resize:vertical;min-height:70px;color:var(--tx)}.textarea:focus{outline:none;border-color:var(--p)}
+.hbar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.hb-lbl{font-size:11px;min-width:70px;color:var(--mu)}
+.hb-tr{flex:1;height:14px;background:var(--bg);border-radius:3px;overflow:hidden}
+.hb-fi{height:100%;border-radius:3px;transition:width .5s}
+.hb-v{font-size:11px;font-weight:600;min-width:36px;text-align:right}
+.report-output{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:24px;margin-top:12px;font-size:13px;line-height:1.9}
+.report-header{border-bottom:2px solid var(--p);padding-bottom:12px;margin-bottom:16px}
+.rh-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.rh-meta{font-size:11px;color:var(--mu);display:flex;gap:14px;flex-wrap:wrap}
+.rs-title{font-size:12px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;padding-bottom:4px;border-bottom:0.5px solid var(--bor);margin-top:14px}
+.tl{display:flex;align-items:center;overflow-x:auto;padding:6px 0;margin-bottom:14px;gap:0}
+.tl-item{display:flex;flex-direction:column;align-items:center;min-width:90px}
+.tl-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid;flex-shrink:0}
+.tl-line{height:2px;flex:1;min-width:16px;background:var(--bor)}
+.tl-lbl{font-size:10px;margin-top:4px;text-align:center;font-weight:600}
+.tl-sub{font-size:9px;color:var(--mu);text-align:center}
+.al-g{background:var(--tl);border-color:var(--tm);color:var(--t)}
+.al-b{background:var(--bl);border-color:#85B7EB;color:var(--b)}
+.al-p{background:var(--pl);border-color:#AFA9EC;color:var(--p)}
+.al-r{background:var(--rl);border-color:#f09595;color:var(--r)}
+
+
+:root { --pk:#993556; --pkl:#FBEAF0; --co:#993C1D; --col:#FAECE7; }
+.al-g{background:var(--tl);border-color:var(--tm);color:var(--t)}
+.al-b{background:var(--bl);border-color:#85B7EB;color:var(--b)}
+.al-p{background:var(--pl);border-color:#AFA9EC;color:var(--p)}
+.al-w2{background:var(--al);border-color:var(--am);color:var(--a)}
+.al-r{background:var(--rl);border-color:#f09595;color:var(--r)}
+.stu-item{display:flex;align-items:center;gap:10px;padding:9px 12px;border:0.5px solid var(--bor);border-radius:9px;cursor:pointer;transition:all .12s;background:var(--sur);margin-bottom:5px}
+.stu-item:hover{border-color:var(--p);background:var(--pl)}.stu-item.active{border-color:var(--p);background:var(--pl)}
+.stu-avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px}
+.comment-card{padding:11px 13px;border:0.5px solid var(--bor);border-radius:9px;margin-bottom:7px;background:var(--sur)}
+.cc-head{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.cc-date{font-size:10px;color:var(--mu)}.cc-body{font-size:12px;line-height:1.6;color:var(--tx)}
+.suggest-box{background:var(--bg);border-radius:8px;padding:10px;margin-bottom:10px}
+.suggest-btn{display:inline-block;padding:4px 9px;border:0.5px solid var(--bor);border-radius:10px;font-size:11px;background:var(--sur);cursor:pointer;margin:2px;transition:all .12s}
+.suggest-btn:hover{background:var(--pl);border-color:var(--p);color:var(--p)}
+.check-item{display:flex;align-items:flex-start;gap:8px;padding:7px 10px;border-radius:7px;cursor:pointer;border:0.5px solid var(--bor);transition:all .12s;background:var(--sur);margin-bottom:5px}
+.check-item:hover{background:var(--pl)}.check-item.checked{background:var(--tl);border-color:var(--tm)}
+.cb{width:16px;height:16px;border:1.5px solid var(--hi);border-radius:3px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:9px;transition:all .12s;margin-top:1px}
+.check-item.checked .cb{background:var(--t);border-color:var(--t);color:#fff}
+.inp{width:100%;padding:8px 10px;border:0.5px solid var(--bor);border-radius:8px;font-size:12px;font-family:inherit;background:var(--sur);color:var(--tx)}.inp:focus{outline:none;border-color:var(--p)}
+.textarea{width:100%;padding:9px 11px;border:0.5px solid var(--bor);border-radius:8px;font-size:12px;font-family:inherit;background:var(--sur);resize:vertical;min-height:70px;color:var(--tx)}.textarea:focus{outline:none;border-color:var(--p)}
+.hbar-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.hb-lbl{font-size:11px;min-width:70px;color:var(--mu)}
+.hb-tr{flex:1;height:14px;background:var(--bg);border-radius:3px;overflow:hidden}
+.hb-fi{height:100%;border-radius:3px;transition:width .5s}
+.hb-v{font-size:11px;font-weight:600;min-width:36px;text-align:right}
+.report-output{background:var(--sur);border:1px solid var(--bor);border-radius:12px;padding:24px;margin-top:12px;font-size:13px;line-height:1.9}
+.report-header{border-bottom:2px solid var(--p);padding-bottom:12px;margin-bottom:16px}
+.rh-title{font-size:16px;font-weight:700;margin-bottom:4px}
+.rh-meta{font-size:11px;color:var(--mu);display:flex;gap:14px;flex-wrap:wrap}
+.rs-title{font-size:12px;font-weight:700;color:var(--p);text-transform:uppercase;letter-spacing:.06em;margin-bottom:7px;padding-bottom:4px;border-bottom:0.5px solid var(--bor);margin-top:14px}
+.tl{display:flex;align-items:center;overflow-x:auto;padding:6px 0;margin-bottom:14px;gap:0}
+.tl-item{display:flex;flex-direction:column;align-items:center;min-width:90px}
+.tl-dot{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;border:2px solid;flex-shrink:0}
+.tl-line{height:2px;flex:1;min-width:16px;background:var(--bor)}
+.tl-lbl{font-size:10px;margin-top:4px;text-align:center;font-weight:600}
+.tl-sub{font-size:9px;color:var(--mu);text-align:center}
+
+</style>
+</head>
+<body>
+<div class="shell">
+
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-t">필굿 두뇌맞춤 시스템</div>
+    <div class="logo-s">K-PASS × 누리과정 통합 v6</div>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">현황</div>
+    <button class="nbtn on" onclick="go('dash',this)"><span class="ndot" style="background:var(--p)"></span>학급 현황</button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">교안 자동생성</div>
+    <button class="nbtn" onclick="go('gen',this)"><span class="ndot" style="background:var(--t)"></span>교안 + 발문 스크립트</button>
+    <button class="nbtn" onclick="go('books',this)"><span class="ndot" style="background:var(--a)"></span>그림책 큐레이션</button>
+    <button class="nbtn" onclick="go('mats',this)"><span class="ndot" style="background:var(--b)"></span>준비물 자동취합</button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">기록 · 분석 · 보고</div>
+    <button class="nbtn" onclick="go('comments',this)"><span class="ndot" style="background:var(--pk)"></span>학생 관찰 기록</button>
+    <button class="nbtn" onclick="go('growth',this)"><span class="ndot" style="background:var(--g)"></span>성장 분석</button>
+    <button class="nbtn" onclick="go('reports',this)"><span class="ndot" style="background:var(--co)"></span>보고서 생성</button>
+  </div>
+  <div class="nav-sec">
+    <div class="nav-lbl">출력</div>
+    <button class="nbtn" onclick="go('sheets',this)"><span class="ndot" style="background:var(--mu)"></span>활동지 출력</button>
+  </div>
+  <div class="class-mini">
+    <div class="class-mini-t">앱 테스트 반</div>
+    <div class="cm-grid">
+      <div class="cm-box"><div class="cm-n">9</div><div class="cm-l">전체</div></div>
+      <div class="cm-box"><div class="cm-n" style="color:var(--r)">6</div><div class="cm-l">관리필요</div></div>
+      <div class="cm-box"><div class="cm-n">4</div><div class="cm-l">우뇌우세</div></div>
+      <div class="cm-box"><div class="cm-n" style="color:var(--t)">73%</div><div class="cm-l">주의력↑</div></div>
+    </div>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- ══ PAGE: DASHBOARD ══ -->
+<div id="pg-dash" class="page on">
+  <div class="ph"><h1>학급 현황 대시보드</h1><p>앱 테스트 반 · 9명 · 2026.4.10 검사 결과</p></div>
+  <div class="g4" style="margin-bottom:10px">
+    <div class="stat-box"><div class="sn" style="color:var(--p)">9명</div><div class="sl">전체</div></div>
+    <div class="stat-box"><div class="sn" style="color:var(--r)">6명</div><div class="sl">관리필요 67%</div></div>
+    <div class="stat-box"><div class="sn" style="color:var(--t)">73%</div><div class="sl">주의력 ↑강점</div></div>
+    <div class="stat-box"><div class="sn" style="color:var(--a)">50%</div><div class="sl">순차처리 ↓약점</div></div>
+  </div>
+  <div class="alert al-w"><span class="ai">⚠</span><div><strong>집중 지원:</strong> 박민아 전 척도 1~5% — 주 1회 개별 PREP 필수</div></div>
+  <div class="alert al-i"><span class="ai">i</span><div><strong>추천 옵션:</strong> B(균형혼합) + 순차처리·계획력 PREP 집중 · 발문은 주의력(73%) 강점 적극 활용</div></div>
+  <div class="g2">
+    
+  <div class="card" style="margin-bottom:12px"><div class="ct">학생 목록 — 클릭하면 관찰 기록으로</div><div id="dashStuList"></div></div>
+<div class="card">
+      <div class="ct">두뇌 유형 분포</div>
+      <div class="hbar">
+        <div class="hb-row"><span class="hb-lbl">우뇌우세형</span><div class="hb-tr"><div class="hb-fi" style="width:44%;background:var(--p)">4명</div></div><span class="hb-v" style="color:var(--p)">44%</span></div>
+        <div class="hb-row"><span class="hb-lbl">좌우뇌균형</span><div class="hb-tr"><div class="hb-fi" style="width:33%;background:var(--t)">3명</div></div><span class="hb-v" style="color:var(--t)">33%</span></div>
+        <div class="hb-row"><span class="hb-lbl">좌뇌우세형</span><div class="hb-tr"><div class="hb-fi" style="width:22%;background:var(--b)">2명</div></div><span class="hb-v" style="color:var(--b)">22%</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="ct">PASS 4축 학급 평균</div>
+      <div class="hbar">
+        <div class="hb-row"><span class="hb-lbl">동시처리</span><div class="hb-tr"><div class="hb-fi" style="width:54%;background:var(--p)"></div></div><span class="hb-v">54%</span></div>
+        <div class="hb-row"><span class="hb-lbl">계획력</span><div class="hb-tr"><div class="hb-fi" style="width:54%;background:var(--a)"></div></div><span class="hb-v">54%</span></div>
+        <div class="hb-row"><span class="hb-lbl">주의력</span><div class="hb-tr"><div class="hb-fi" style="width:73%;background:var(--t)"></div></div><span class="hb-v" style="color:var(--t)">73%</span></div>
+        <div class="hb-row"><span class="hb-lbl">순차처리</span><div class="hb-tr"><div class="hb-fi" style="width:50%;background:var(--co)"></div></div><span class="hb-v">50%</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="ct">학생별 결과</div>
+    <table class="stbl"><thead><tr><th>이름</th><th>나이</th><th>유형</th><th>PASS 4축</th><th>취약</th><th>비고</th></tr></thead>
+    <tbody id="stTbl"></tbody></table>
+  </div>
+</div>
+
+<!-- ══ PAGE: GENERATE ══ -->
+<div id="pg-gen" class="page">
+  <div class="ph"><h1>교안 + 발문 스크립트 자동생성</h1><p>활동 교안과 PASS 기반 발문 스크립트가 함께 출력됩니다</p></div>
+
+  <div class="card">
+    <div class="ct">1단계 — 수업 조건 선택</div>
+    <div class="ctrl-grid">
+      <div>
+        <div class="ctrl-label">월</div>
+        <select id="selMonth" class="sel" onchange="refreshWeeks(); buildAll();">
+          <option value="3">3월 — 나와 친구</option><option value="4">4월 — 봄과 생명</option>
+          <option value="5">5월 — 가족과 공동체</option><option value="6">6월 — 여름과 건강</option>
+          <option value="7">7월 — 교통과 여행</option><option value="8">8월 — 방학 준비</option>
+          <option value="9">9월 — 가을과 추수</option><option value="10">10월 — 도구와 기계</option>
+          <option value="11">11월 — 환경과 지구</option><option value="12">12월 — 겨울과 축제</option>
+          <option value="1">1월 — 새해와 전통</option><option value="2">2월 — 졸업과 성장</option>
+        </select>
+      </div>
+      <div>
+        <div class="ctrl-label">주차</div>
+        <div id="weekPills" class="pill-row"></div>
+      </div>
+      <div>
+        <div class="ctrl-label">교과</div>
+        <div class="pill-row">
+          <button class="pill on" onclick="setSub('누리과정',this)">누리과정</button>
+          <button class="pill" onclick="setSub('국어',this)">국어</button>
+          <button class="pill" onclick="setSub('수학',this)">수학</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="ct">2단계 — 교안 옵션</div>
+    <div class="opt-grid">
+      <div class="opt-c" id="oA" onclick="setOpt('A')">
+        <div class="opt-tag" style="color:var(--p)">옵션 A</div>
+        <div class="opt-name">활동 중심형</div>
+        <div class="opt-desc">그림·놀이·체험 위주<br>우뇌우세 그룹 주도</div>
+      </div>
+      <div class="opt-c sel-B" id="oB" onclick="setOpt('B')">
+        <div class="opt-tag" style="color:var(--t)">옵션 B <span class="rec-badge">이 반 추천</span></div>
+        <div class="opt-name">균형 혼합형</div>
+        <div class="opt-desc">강점 활용 + 약점 보완<br>전체 학급 표준</div>
+      </div>
+      <div class="opt-c" id="oC" onclick="setOpt('C')">
+        <div class="opt-tag" style="color:var(--co)">옵션 C</div>
+        <div class="opt-name">구조화형</div>
+        <div class="opt-desc">단계·순서 중심<br>좌뇌우세 그룹 주도</div>
+      </div>
+    </div>
+    <div class="btn-row no-print">
+      <button class="btn btn-p" onclick="buildAll()">교안 + 발문 스크립트 생성</button>
+      <button class="btn btn-t" onclick="window.print()">전체 인쇄 / PDF</button>
+    </div>
+  </div>
+
+  <!-- OUTPUT AREA -->
+  <div id="genOut"></div>
+</div>
+
+<!-- ══ PAGE: BOOKS ══ -->
+<div id="pg-books" class="page">
+  <div class="ph"><h1>그림책 큐레이션</h1><p>월별 주제 × 뇌 유형별 맞춤 추천 — PASS 이론 연계</p></div>
+  <div class="card">
+    <div class="ct">월 선택</div>
+    <div class="pill-row" id="bookMonthPills"></div>
+  </div>
+  <div id="bookOut"></div>
+</div>
+
+<!-- ══ PAGE: MATERIALS ══ -->
+<div id="pg-mats" class="page">
+  <div class="ph"><h1>준비물 자동 취합</h1><p>교안 선택 → 시점별 분류 체크리스트 자동 생성</p></div>
+  <div class="card">
+    <div class="ct">교안 선택 (월 · 주차)</div>
+    <div style="display:flex;gap:10px;align-items:flex-end;flex-wrap:wrap">
+      <div>
+        <div class="ctrl-label">월</div>
+        <select id="matMonth" class="sel" style="width:160px" onchange="buildMats()">
+          <option value="3">3월</option><option value="4">4월</option><option value="5">5월</option>
+          <option value="6">6월</option><option value="7">7월</option><option value="8">8월</option>
+          <option value="9">9월</option><option value="10">10월</option><option value="11">11월</option>
+          <option value="12">12월</option><option value="1">1월</option><option value="2">2월</option>
+        </select>
+      </div>
+      <div>
+        <div class="ctrl-label">주차</div>
+        <div id="matWeekPills" class="pill-row"></div>
+      </div>
+      <div>
+        <div class="ctrl-label">학생 수</div>
+        <input id="stuCount" type="number" value="25" min="1" max="40" style="width:70px;padding:7px 10px;border:0.5px solid var(--bor);border-radius:7px;font-size:12px;font-family:inherit" onchange="buildMats()">
+      </div>
+    </div>
+  </div>
+  <div id="matOut"></div>
+</div>
+
+<!-- ══ PAGE: COMMENTS ══ -->
+<div id="pg-comments" class="page">
+  <div class="ph"><h1>학생 관찰 기록</h1><p>코멘트 누적 → 자동 멘트 제안 → 보고서 연동</p></div>
+  <div class="alert al-p"><span style="font-size:13px;flex-shrink:0">i</span><div>코멘트 5개 이상 → 자주 쓰는 표현 ★ 우선 노출. 기록은 브라우저에 자동 저장.</div></div>
+  <div class="g2">
+    <div>
+      <div class="card">
+        <div class="ct">학생 선택</div>
+        <div id="cmtStuList"></div>
+      </div>
+    </div>
+    <div>
+      <!-- 선택 전 안내 -->
+      <div id="cmtPlaceholder" style="padding:40px 20px;text-align:center;color:var(--mu);font-size:13px">← 학생을 선택해 주세요</div>
+      <!-- 코멘트 폼 -->
+      <div id="cmtFormArea" style="display:none">
+        <div class="card">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+            <div id="cmtAvatar" class="stu-avatar"></div>
+            <div>
+              <div id="cmtStuName" style="font-size:14px;font-weight:700"></div>
+              <div id="cmtStuType" style="font-size:11px;color:var(--mu)"></div>
+            </div>
+            <div id="cmtCountBadge" style="margin-left:auto;font-size:11px;color:var(--mu)"></div>
+          </div>
+          <!-- PASS 축 선택 -->
+          <div style="margin-bottom:10px">
+            <div class="ct" style="margin-bottom:5px">PASS 축</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap">
+              <button class="pill on" id="axBtn_전체" onclick="selAxis('전체')">전체</button>
+              <button class="pill" id="axBtn_동시처리" onclick="selAxis('동시처리')">동시처리</button>
+              <button class="pill" id="axBtn_순차처리" onclick="selAxis('순차처리')">순차처리</button>
+              <button class="pill" id="axBtn_계획력" onclick="selAxis('계획력')">계획력</button>
+              <button class="pill" id="axBtn_주의력" onclick="selAxis('주의력')">주의력</button>
+            </div>
+          </div>
+          <!-- 유형 선택 -->
+          <div style="margin-bottom:10px">
+            <div class="ct" style="margin-bottom:5px">관찰 유형</div>
+            <div style="display:flex;gap:4px;flex-wrap:wrap">
+              <button class="pill on" id="typeBtn_positive" onclick="selType('positive')" style="background:var(--tl);color:var(--t);border-color:var(--t)">긍정 관찰</button>
+              <button class="pill" id="typeBtn_concern" onclick="selType('concern')">지원 필요</button>
+              <button class="pill" id="typeBtn_neutral" onclick="selType('neutral')">중립 기록</button>
+            </div>
+          </div>
+          <!-- 자동 제안 뱅크 -->
+          <div id="suggestBank" class="suggest-box" style="display:none">
+            <div style="font-size:10px;font-weight:700;color:var(--mu);margin-bottom:6px">빠른 입력 (클릭하면 채워집니다)</div>
+            <div id="suggestBtns"></div>
+          </div>
+          <!-- 입력창 -->
+          <textarea id="cmtText" class="textarea" placeholder="관찰 내용을 입력하세요..."></textarea>
+          <!-- 날짜 + 누리 영역 -->
+          <div style="display:flex;gap:8px;align-items:center;margin-top:8px;flex-wrap:wrap">
+            <input type="date" id="cmtDate" class="inp" style="width:140px">
+            <div style="display:flex;gap:4px;flex-wrap:wrap">
+              <button class="pill" id="nuriBtn_신체" onclick="selNuri('신체')">신체</button>
+              <button class="pill" id="nuriBtn_의사소통" onclick="selNuri('의사소통')">의사소통</button>
+              <button class="pill" id="nuriBtn_사회관계" onclick="selNuri('사회관계')">사회관계</button>
+              <button class="pill" id="nuriBtn_예술" onclick="selNuri('예술')">예술</button>
+              <button class="pill" id="nuriBtn_자연탐구" onclick="selNuri('자연탐구')">자연탐구</button>
+            </div>
+            <button class="btn btn-p" onclick="saveComment()" style="margin-left:auto">저장</button>
+          </div>
+        </div>
+        <!-- 이력 -->
+        <div class="card">
+          <div class="ct">관찰 기록 이력 <span id="histCount" style="font-weight:400;color:var(--mu)"></span></div>
+          <div id="commentHistory"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: GROWTH ══ -->
+<div id="pg-growth" class="page">
+  <div class="ph"><h1>성장 분석</h1><p>PASS 이론 연구 기반 · 3개월·6개월·1년 성장 추적</p></div>
+  <div class="alert al-g"><span style="font-size:13px;flex-shrink:0">★</span><div><strong>연구 근거:</strong> Naglieri &amp; Johnson(2000) — 21회기(3개월) 후 계획력 변화 · Carlson &amp; Das(1997) — 6개월 PREP 효과 · CAS2 Manual — K-PASS 재검사 12개월 권장</div></div>
+  <!-- 타임라인 -->
+  <div class="card">
+    <div class="ct">연간 성장 체크포인트</div>
+    <div class="tl">
+      <div class="tl-item"><div class="tl-dot" style="background:var(--p);color:#fff;border-color:var(--p)">K</div><div class="tl-lbl" style="color:var(--p)">3월</div><div class="tl-sub">K-PASS 초기검사</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--bg);color:var(--t);border-color:var(--t)">✓</div><div class="tl-lbl" style="color:var(--t)">6월</div><div class="tl-sub">3개월 행동체크</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--a);color:#fff;border-color:var(--a)">M</div><div class="tl-lbl" style="color:var(--a)">9월</div><div class="tl-sub">6개월 중간분석</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--bg);color:var(--b);border-color:var(--b)">✓</div><div class="tl-lbl" style="color:var(--b)">12월</div><div class="tl-sub">9개월 관찰기록</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-item"><div class="tl-dot" style="background:var(--pk);color:#fff;border-color:var(--pk)">K</div><div class="tl-lbl" style="color:var(--pk)">2월</div><div class="tl-sub">1년 K-PASS비교</div></div>
+    </div>
+  </div>
+  <!-- 학생 선택 -->
+  <div class="card">
+    <div class="ct">학생 선택</div>
+    <div id="growthStuBtns" style="display:flex;gap:6px;flex-wrap:wrap"></div>
+  </div>
+  <!-- 탭 -->
+  <div style="display:flex;gap:5px;margin-bottom:12px" class="no-print">
+    <button class="pill on" id="gtab_3m" onclick="switchGrowthTab('3m')">3개월 행동 체크리스트</button>
+    <button class="pill" id="gtab_6m" onclick="switchGrowthTab('6m')">6개월 중간 분석</button>
+    <button class="pill" id="gtab_1y" onclick="switchGrowthTab('1y')">1년 종합 성장</button>
+  </div>
+  <!-- 3개월 패널 -->
+  <div id="gpanel_3m">
+    <div class="card">
+      <div class="ct">3개월 행동 변화 체크리스트 (교사 관찰 기반)</div>
+      <div class="alert al-b" style="margin-bottom:10px"><span style="flex-shrink:0">i</span><div>수업 관찰로 변화된 행동을 체크합니다. Das &amp; Naglieri(1994) PASS 행동 지표 기반.</div></div>
+      <div id="checklistGrid" class="g2"></div>
+      <div id="checklistSummary" style="margin-top:12px;padding:10px 12px;background:var(--bg);border-radius:8px;font-size:11px;color:var(--mu)">학생을 선택하면 체크리스트가 활성화됩니다.</div>
+    </div>
+  </div>
+  <!-- 6개월 패널 -->
+  <div id="gpanel_6m" style="display:none">
+    <div class="card">
+      <div class="ct">6개월 중간 성장 분석 — 교사 관찰 PASS 추정</div>
+      <div class="alert al-w" style="margin-bottom:10px"><span style="flex-shrink:0">i</span><div>슬라이더로 현재 수준을 평가하세요. 초기 K-PASS 점수와 비교해 변화 추세를 확인합니다.</div></div>
+      <div id="sixMonthSliders"></div>
+      <div id="sixMonthChart" style="margin-top:12px"></div>
+    </div>
+  </div>
+  <!-- 1년 패널 -->
+  <div id="gpanel_1y" style="display:none">
+    <div class="card">
+      <div class="ct">1년 종합 성장 리포트</div>
+      <div class="alert al-g" style="margin-bottom:10px"><span style="flex-shrink:0">★</span><div><strong>K-PASS 재검사 시기:</strong> 연 1회 권장 (CAS2 Manual). 초기 점수 + 교사 관찰 추이 통합 리포트.</div></div>
+      <div id="yearReport"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ PAGE: REPORTS ══ -->
+<div id="pg-reports" class="page">
+  <div class="ph"><h1>보고서 생성</h1><p>누적 관찰 코멘트 기반 · 학부모용 / 원 보고용 자동 생성</p></div>
+  <div class="g3" style="margin-bottom:12px">
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:5px">학생 선택</div>
+      <select id="rptStudent" class="sel" onchange="loadReportPreview()">
+        <option value="">-- 학생 선택 --</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:5px">보고서 유형</div>
+      <select id="rptType" class="sel">
+        <option value="parent">학부모 보고서 (가정통신문)</option>
+        <option value="school">원 내부 보고서 (전문 형식)</option>
+        <option value="consult">학부모 상담 자료 (면담용)</option>
+      </select>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;margin-bottom:5px">기간</div>
+      <select id="rptPeriod" class="sel">
+        <option value="3m">3개월</option>
+        <option value="6m">6개월</option>
+        <option value="1y">1년</option>
+      </select>
+    </div>
+  </div>
+  <div id="rptPreview"></div>
+  <div class="btn-row no-print">
+    <button class="btn btn-p" onclick="generateReport()">보고서 생성</button>
+    <button class="btn btn-t" onclick="window.print()">인쇄 / PDF</button>
+    <button class="btn" onclick="copyReportText()">텍스트 복사</button>
+  </div>
+  <div id="reportOutput"></div>
+</div>
+
+<!-- ══ PAGE: SHEETS ══ -->
+<div id="pg-sheets" class="page">
+  <div class="ph"><h1>그룹별 활동지</h1><p>탭 선택 후 인쇄 → 배부</p></div>
+  <div class="pill-row no-print" style="margin-bottom:14px">
+    <button class="pill on" onclick="showSheet('sA',this)">그룹 A (우뇌우세)</button>
+    <button class="pill" onclick="showSheet('sB',this)">그룹 B (밸런스)</button>
+    <button class="pill" onclick="showSheet('sC',this)">그룹 C (좌뇌우세)</button>
+    <button class="pill" onclick="showSheet('sP',this)">PREP 소그룹</button>
+  </div>
+  <div id="sA"><div id="sheetA"></div></div>
+  <div id="sB" style="display:none"><div id="sheetB"></div></div>
+  <div id="sC" style="display:none"><div id="sheetC"></div></div>
+  <div id="sP" style="display:none"><div id="sheetP"></div></div>
+  <div class="btn-row no-print"><button class="btn btn-t" onclick="window.print()">활동지 인쇄</button></div>
+</div>
+
+</main>
+</div>
+<script>
+
+/* ═══════════════ DATA ═══════════════ */
+const STUDENTS = [
+  {n:'테디샘플1',age:'만 8세9개월',type:'우뇌우세형',sim:99,pln:99,att:99,suc:99,warn:false,c:[]},
+  {n:'A1',age:'만 13세',type:'좌우뇌균형형',sim:66,pln:74,att:65,suc:65,warn:false,c:[]},
+  {n:'A2',age:'만 15세',type:'좌뇌우세형',sim:83,pln:79,att:74,suc:84,warn:false,c:[]},
+  {n:'A4',age:'만 17세',type:'좌우뇌균형형',sim:51,pln:37,att:68,suc:54,warn:true,c:['계획력']},
+  {n:'A3',age:'만 16세',type:'좌우뇌균형형',sim:23,pln:34,att:68,suc:43,warn:true,c:['동시처리','계획력','순차처리']},
+  {n:'정상중',age:'만 46세',type:'좌뇌우세형',sim:63,pln:47,att:84,suc:81,warn:true,c:['계획력']},
+  {n:'박하빈',age:'만 7세1개월',type:'우뇌우세형',sim:21,pln:18,att:68,suc:0,warn:true,c:['동시처리','계획력','순차처리']},
+  {n:'박건호',age:'만 16세',type:'우뇌우세형',sim:83,pln:92,att:84,suc:27,warn:true,c:['순차처리']},
+  {n:'박민아',age:'만 12세1개월',type:'우뇌우세형',sim:1,pln:5,att:47,suc:1,warn:true,c:['동시처리','계획력','주의력','순차처리']},
+];
+
+const WEEKS = {
+  3:[{t:'나의 몸 탐험',pass:'동시처리',nuri:'신체운동·건강'},{t:'감정 표현하기',pass:'순차처리',nuri:'의사소통'},{t:'나의 친구 소개',pass:'계획력',nuri:'사회관계'},{t:'우리 반 규칙',pass:'주의력',nuri:'사회관계'}],
+  4:[{t:'봄꽃 관찰',pass:'동시처리',nuri:'자연탐구'},{t:'씨앗의 여행',pass:'순차처리',nuri:'자연탐구'},{t:'텃밭 계획하기',pass:'계획력',nuri:'자연탐구'},{t:'봄 날씨 관찰',pass:'주의력',nuri:'자연탐구'}],
+  5:[{t:'우리 가족 이야기',pass:'동시처리',nuri:'사회관계'},{t:'함께하는 놀이',pass:'순차처리',nuri:'신체운동·건강'},{t:'우리 동네 탐험',pass:'계획력',nuri:'사회관계'},{t:'어버이날 감사',pass:'주의력',nuri:'예술경험'}],
+  6:[{t:'여름 날씨 탐구',pass:'동시처리',nuri:'자연탐구'},{t:'물놀이와 안전',pass:'순차처리',nuri:'신체운동·건강'},{t:'건강한 음식',pass:'계획력',nuri:'신체운동·건강'},{t:'여름 운동',pass:'주의력',nuri:'신체운동·건강'}],
+  7:[{t:'탈것 탐구',pass:'동시처리',nuri:'사회관계'},{t:'교통안전 규칙',pass:'순차처리',nuri:'신체운동·건강'},{t:'여행 계획 세우기',pass:'계획력',nuri:'사회관계'},{t:'세계 여러 나라',pass:'주의력',nuri:'사회관계'}],
+  8:[{t:'방학 계획 발표',pass:'계획력',nuri:'의사소통'},{t:'여름 예술 표현',pass:'동시처리',nuri:'예술경험'},{t:'여름 노래와 음악',pass:'순차처리',nuri:'예술경험'},{t:'1학기 성장 돌아보기',pass:'주의력',nuri:'사회관계'}],
+  9:[{t:'가을 자연 탐구',pass:'동시처리',nuri:'자연탐구'},{t:'추수 감사 이야기',pass:'순차처리',nuri:'사회관계'},{t:'요리 활동',pass:'계획력',nuri:'신체운동·건강'},{t:'가을 체육 활동',pass:'주의력',nuri:'신체운동·건강'}],
+  10:[{t:'도구의 역할',pass:'동시처리',nuri:'자연탐구'},{t:'기계 작동 원리',pass:'순차처리',nuri:'자연탐구'},{t:'나만의 발명품',pass:'계획력',nuri:'자연탐구'},{t:'환경과 기술',pass:'주의력',nuri:'자연탐구'}],
+  11:[{t:'지구 환경 탐구',pass:'동시처리',nuri:'자연탐구'},{t:'재활용 실천',pass:'순차처리',nuri:'신체운동·건강'},{t:'자연 보호 계획',pass:'계획력',nuri:'사회관계'},{t:'겨울 준비',pass:'주의력',nuri:'자연탐구'}],
+  12:[{t:'겨울 예술 표현',pass:'동시처리',nuri:'예술경험'},{t:'크리스마스 준비',pass:'순차처리',nuri:'사회관계'},{t:'한 해 돌아보기',pass:'계획력',nuri:'사회관계'},{t:'겨울방학 계획',pass:'주의력',nuri:'의사소통'}],
+  1:[{t:'새해 소망 표현',pass:'계획력',nuri:'의사소통'},{t:'전통 놀이 탐구',pass:'동시처리',nuri:'사회관계'},{t:'우리 문화 자랑',pass:'순차처리',nuri:'사회관계'},{t:'1년 성장 축하',pass:'주의력',nuri:'예술경험'}],
+  2:[{t:'한 해 나의 성장',pass:'계획력',nuri:'사회관계'},{t:'친구에게 편지',pass:'순차처리',nuri:'의사소통'},{t:'졸업 작품 전시',pass:'동시처리',nuri:'예술경험'},{t:'새 친구에게 인사',pass:'주의력',nuri:'의사소통'}],
+};
+
+/* ─── 발문 스크립트 DB ─── */
+const QS = {
+  동시처리:{
+    도입:[
+      {q:'이 그림을 한눈에 보면 어떤 느낌이 들어요?',why:'전체 인상 포착 → 동시처리 활성화'},
+      {q:'여기서 가장 눈에 띄는 게 뭐예요?',why:'시각적 주의 집중 → 동시처리 시작점'},
+      {q:'이 그림이 뭘 말하려는 것 같아요?',why:'전체 의미 추론 → 동시처리 심화'},
+    ],
+    전개:[
+      {q:'이 조각들이 다 모이면 어떤 모양이 될 것 같아요?',why:'부분→전체 통합 → 동시처리 핵심'},
+      {q:'이것들 사이에 어떤 공통점이 있어요?',why:'패턴 인식 → 동시처리 강화'},
+      {q:'그림으로 설명하면 어떻게 그릴 것 같아요?',why:'시각적 표현 → 동시처리 출력'},
+      {q:'이걸 친구한테 몸짓으로 보여줄 수 있어요?',why:'비언어 표현 → 동시처리 응용'},
+    ],
+    마무리:[
+      {q:'오늘 배운 걸 그림 하나로 표현하면 어떻게 그릴까요?',why:'통합 정리 → 동시처리 완성'},
+      {q:'오늘 중에서 가장 인상적인 장면은?',why:'시각 기억 강화 → 동시처리 정착'},
+    ],
+  },
+  순차처리:{
+    도입:[
+      {q:'오늘 활동을 어떤 순서로 할까요?',why:'순서 인식 → 순차처리 준비'},
+      {q:'1번, 2번, 3번 순서로 생각해볼까요?',why:'순차 구조화 → 순차처리 시작'},
+      {q:'먼저 할 것, 나중에 할 것을 나눠봐요',why:'시간적 순서 → 순차처리 활성화'},
+    ],
+    전개:[
+      {q:'지금 몇 번째 단계를 하고 있어요?',why:'진행 위치 인식 → 순차처리 확인'},
+      {q:'다음에 뭐가 와야 해요?',why:'다음 예측 → 순차처리 연결'},
+      {q:'순서가 바뀌면 어떻게 달라질까요?',why:'순서 중요성 이해 → 순차처리 심화'},
+      {q:'이 순서에서 빠진 게 있나요?',why:'순서 점검 → 순차처리 강화'},
+    ],
+    마무리:[
+      {q:'오늘 한 것을 처음부터 순서대로 말해볼까요?',why:'순서 회상 → 순차처리 정착'},
+      {q:'어떤 순서가 제일 중요했어요?',why:'핵심 순서 인식 → 순차처리 완성'},
+    ],
+  },
+  계획력:{
+    도입:[
+      {q:'이걸 해내려면 어떻게 해야 할까요?',why:'전략 수립 → 계획력 활성화'},
+      {q:'오늘 목표가 뭔지 말해볼 수 있어요?',why:'목표 설정 → 계획력 시작'},
+      {q:'어떤 방법이 가장 좋을 것 같아요?',why:'전략 선택 → 계획력 준비'},
+    ],
+    전개:[
+      {q:'지금 하는 방법이 잘 되고 있어요?',why:'자기 점검 → 계획력 핵심'},
+      {q:'잘 안됐을 때 다른 방법은 뭐가 있어요?',why:'유연한 전략 수정 → 계획력 심화'},
+      {q:'다음에 뭘 해야 할지 알고 있어요?',why:'계획 지속 → 계획력 유지'},
+      {q:'이 방법을 쓰면 어떤 결과가 나올까요?',why:'결과 예측 → 계획력 강화'},
+    ],
+    마무리:[
+      {q:'오늘 계획대로 됐어요? 어떤 점이 달랐어요?',why:'계획 평가 → 계획력 완성'},
+      {q:'다음에 더 잘하려면 뭘 바꾸면 좋을까요?',why:'반성과 개선 → 계획력 정착'},
+    ],
+  },
+  주의력:{
+    도입:[
+      {q:'오늘 꼭 기억해야 할 것이 딱 하나라면 뭘까요?',why:'선택적 주의 → 주의력 집중'},
+      {q:'지금 이 순간 가장 중요한 것은 무엇이에요?',why:'집중 방향 설정 → 주의력 활성화'},
+      {q:'이것만 집중하면 오늘 잘 할 수 있어요!',why:'주의 집중 동기 → 주의력 준비'},
+    ],
+    전개:[
+      {q:'지금 뭘 하고 있는지 말해볼 수 있어요?',why:'메타인지 → 주의력 유지 확인'},
+      {q:'방해되는 것들을 빼고 중요한 것만 찾아봐요',why:'선택적 주의 → 주의력 훈련'},
+      {q:'10까지 세는 동안 이것만 봐요 — 준비!',why:'지속적 주의 → 주의력 강화'},
+      {q:'잠깐 멈추고 — 지금 집중이 되고 있어요?',why:'주의 회복 신호 → 주의력 재집중'},
+    ],
+    마무리:[
+      {q:'오늘 제일 집중이 잘 됐던 순간은 언제예요?',why:'주의 성공 경험 → 주의력 강화'},
+      {q:'뭐가 있을 때 집중이 잘 돼요?',why:'자기 이해 → 주의력 메타인지'},
+    ],
+  },
+};
+
+/* ─── 교안 활동 DB ─── */
+const LESSON_ACTS = {
+  A:{
+    grpA:['전체 시각 자료 한꺼번에 펼쳐보기 (3~5분 자유 탐색)','느낌·직관으로 핵심 파악 → 그림·색으로 표현','짝에게 그림이나 몸짓으로 발견한 것 설명하기'],
+    grpB:['시각 자료 탐색 후 선택지 2개 중 하나 고르기','그림 + 한 단어로 정리하기','모둠에서 역할 나눠 짧게 발표'],
+    grpC:['순서 카드 제공 → 단계별 탐색','각 단계 완료마다 스탬프 찍기','1번→2번→3번 순서로 결과 발표'],
+    intro:['전체 주제 이미지 자유 감상 (3분)','그룹별 첫 반응 나누기 (4분)','오늘 목표 공유 (3분)'],
+    close:['그룹별 결과물 3분 전시','친구 작품 한 가지 칭찬하기 (3분)','오늘 새로 안 것 한 줄씩 (4분)'],
+    prep:{sim:'조각 그림 → 완성 그림 맞추기',suc:'그림 카드 순서 배열 게임',pln:'"다음에 뭘 할까?" 자기점검 카드',att:'방해 자극 속 목표 찾기 게임'},
+    notice:'그룹A: 자유 탐색 충분히. 박민아·박하빈: PREP 병행. 그룹C: 순서카드 사전 배부.'
+  },
+  B:{
+    grpA:['시각 자료 제공 → 전체 맥락 먼저 파악','교사 개방형 발문 → 그림·색으로 결과 표현','짝과 발견한 것 나누기 (1분)'],
+    grpB:['선택 카드 2종 제공 (시각형/순서형) → 본인 선택','중간 체크포인트: "지금 어느 단계?"','그림 + 한 문장으로 정리 후 발표'],
+    grpC:['1→2→3 순서 카드 배부','각 단계 완료 시 체크 표시','순서대로 발표 준비'],
+    intro:['핵심 질문 제시 (3분)','그룹별 예측 (그룹A:그림, B:선택, C:순서카드) (4분)','오늘 목표 공유 (3분)'],
+    close:['그룹별 대표 1명 발표 (6분)','교사 피드백 + 누리과정 체크 (4분)','다음 시간 예고 (5분)'],
+    prep:{sim:'패턴 완성 게임 (그림 규칙)',suc:'단어 순서 배열 게임',pln:'"내일 할 일 3가지" 계획 카드',att:'소음 속 특정 소리 찾기'},
+    notice:'이 반 기본 옵션. 주의력 73% 강점 활용. 박민아 개별 과제 크기 조절 필수.'
+  },
+  C:{
+    grpA:['순서 카드 제공하되 자유 탐색 허용','교사 순서 확인 발문 → 그림으로 표현','완성 후 자유 공유'],
+    grpB:['순서 따르되 각 단계에서 선택지 제공','체크리스트 자기 점검 → 정리 양식 채우기','순서대로 발표'],
+    grpC:['엄격한 순서 준수 (1→2→3→4)','각 단계 완료 스티커','1번부터 순서대로 발표'],
+    intro:['오늘 순서 5단계 판서 (3분)','순서 카드 배부 → 확인 (3분)','핵심 단어 3개 함께 확인 (4분)'],
+    close:['순서대로 발표 (8분)','체크리스트 자기 점검 (4분)','다음 시간 예고 + 숙제 순서 설명 (3분)'],
+    prep:{sim:'조각 순서 맞추기',suc:'이야기 순서 카드 배열',pln:'오늘 한 일 순서대로 말하기',att:'집중 듣기 받아쓰기'},
+    notice:'그룹A 약한 구조화로 완화. 박하빈(만 7세) 단계 수 3단계 이하 제한.'
+  },
+};
+
+/* ─── 그림책 DB ─── */
+const BOOKS_DB = {
+  '나와 친구':{
+    우뇌우세:[
+      {title:'나는 강물처럼 말해요',author:'조던 스콧 글 / 시드니 스미스 그림',why:'말더듬이 주인공의 감정을 풍부한 시각 이미지로 표현. 전체 분위기를 직관적으로 느끼는 동시처리 강점과 잘 맞아요.',tag:'동시처리'},
+      {title:'나의 감정 사전',author:'파울라 핸드퍼드 글·그림',why:'다양한 감정을 색깔·표정으로 표현. 우뇌우세 아이가 그림을 보며 자신의 감정을 자유롭게 연결할 수 있어요.',tag:'동시처리'},
+      {title:'온 세상 국수',author:'강경수 글·그림',why:'한국적 정서가 담긴 따뜻한 그림. 전체 장면에서 의미를 파악하는 동시처리 방식으로 내용을 이해해요.',tag:'동시처리'},
+    ],
+    밸런스:[
+      {title:'친구에게',author:'안녕달 글·그림',why:'짧은 글과 따뜻한 그림의 균형. 텍스트로도 그림으로도 이해할 수 있어 밸런스형에게 최적이에요.',tag:'균형'},
+      {title:'100살 나무',author:'안녕달 글·그림',why:'시간의 흐름(순차)과 전체적인 자연 이미지(동시)가 함께 담긴 책. 두 가지 처리 방식을 모두 활용해요.',tag:'균형'},
+      {title:'알사탕',author:'백희나 글·그림',why:'판타지적 상상과 현실의 균형. 시각적 즐거움과 이야기 흐름이 동시에 있어 밸런스형이 좋아해요.',tag:'균형'},
+    ],
+    좌뇌우세:[
+      {title:'나의 몸',author:'질 맥도날드 글·그림',why:'신체 각 부위를 순서대로 설명. 명확한 설명과 단계적 구성이 좌뇌우세 아이의 순차처리 방식과 잘 맞아요.',tag:'순차처리'},
+      {title:'어린이 인체 사전',author:'DK 출판사',why:'순서와 체계가 명확한 정보 그림책. 궁금한 것을 찾아가며 순차적으로 탐구하는 방식을 자연스럽게 익혀요.',tag:'순차처리'},
+      {title:'뼈다귀가 왔어요',author:'이지은 글·그림',why:'이야기 구조가 명확하고 순서가 뚜렷해 좌뇌우세 아이가 내용을 체계적으로 파악할 수 있어요.',tag:'순차처리'},
+    ],
+    media:[
+      {type:'YouTube',title:'[EBS 누리나라] 내 몸을 알아보아요',why:'신체 부위 노래로 리듬감 있게 반복 학습. 주의력 약한 학생도 집중하기 쉬운 포맷이에요.'},
+      {type:'노래',title:'머리 어깨 무릎 발 (업그레이드 버전)',why:'몸 전체를 순서대로 짚어가며 동시에 인지하는 PASS 통합 활동이에요.'},
+      {type:'YouTube',title:'[뽀로로] 내 친구야 (우정 노래)',why:'친구 관계 주제의 감성적 접근. 도입부 분위기 전환에 효과적이에요.'},
+    ],
+  },
+  '봄과 생명':{
+    우뇌우세:[
+      {title:'꽃들에게 희망을',author:'트리나 폴러스 글·그림',why:'나비의 변화를 아름다운 그림으로 표현. 전체적인 삶의 의미를 느끼는 동시처리 방식으로 깊이 공감해요.',tag:'동시처리'},
+      {title:'봄이 오면',author:'김규정 글·그림',why:'봄의 감각적 변화를 풍부한 색감으로 표현. 봄을 전체적으로 느끼는 우뇌우세 아이에게 최적이에요.',tag:'동시처리'},
+      {title:'씨앗은 무엇이 되고 싶을까',author:'사토 마도카 글 / 오가타 나루에 그림',why:'씨앗의 상상력 넘치는 이야기. 시각적 상상을 자극하는 동시처리 그림책이에요.',tag:'동시처리'},
+    ],
+    밸런스:[
+      {title:'봄봄봄',author:'서지원 글 / 홍기한 그림',why:'봄의 변화를 계절 순서와 감성 이미지로 균형 있게 표현해요.',tag:'균형'},
+      {title:'씨앗에서 꽃까지',author:'제럴딘 버니어 글·그림',why:'씨앗 성장 과정을 순서(순차)와 그림(동시) 두 가지로 표현. 밸런스형에게 딱 맞아요.',tag:'균형'},
+      {title:'나는 꽃이야',author:'박현주 글·그림',why:'꽃의 성장과 정체성 탐구. 이야기 흐름과 시각적 아름다움이 균형을 이뤄요.',tag:'균형'},
+    ],
+    좌뇌우세:[
+      {title:'식물의 한살이',author:'와카타 이쿠에 글·그림',why:'씨앗→싹→꽃→열매 순서가 명확하게 정리된 과학 그림책. 순차처리 강점을 최대로 활용해요.',tag:'순차처리'},
+      {title:'봄 여름 가을 겨울 나무',author:'피터 시스 글·그림',why:'사계절 순서대로 변하는 나무의 이야기. 명확한 시간 순서가 순차처리를 강화해요.',tag:'순차처리'},
+      {title:'어린이 식물 도감',author:'DK 출판사',why:'식물을 분류하고 순서대로 설명하는 정보책. 좌뇌우세 아이의 탐구 욕구를 채워줘요.',tag:'순차처리'},
+    ],
+    media:[
+      {type:'YouTube',title:'[EBS 누리나라] 봄이 왔어요 노래',why:'봄 주제 동요. 반복 구조로 주의력 약한 아이도 따라 부르기 쉬워요.'},
+      {type:'노래',title:'씨앗 (고릴라 팩토리)',why:'씨앗의 성장을 순서대로 노래. 순차처리 강화에 효과적이에요.'},
+      {type:'YouTube',title:'봄꽃 타임랩스 영상 (국립수목원)',why:'꽃이 피는 과정 30초 압축 영상. 동시처리 아이에게 강렬한 시각 자극이 돼요.'},
+    ],
+  },
+};
+// 기본값 fallback
+const DEFAULT_BOOKS = BOOKS_DB['나와 친구'];
+
+/* ─── 준비물 DB ─── */
+const MATS_DB = {
+  3:{
+    1:{
+      사전3일:[{n:'신체 실루엣 용지 (A3)',d:'1인 1장 · 사전 인쇄 필요',urgent:true},{n:'거울 소품',d:'모둠당 1개 · 비품실 확인'}],
+      전날:[{n:'크레파스 / 색연필',d:'1인 1세트'},{n:'풀 / 가위',d:'모둠당 1개'},{n:'스티커 (표정, 색깔)',d:'1인 10개 이상'},{n:'그룹C 순서 카드',d:'인쇄 후 코팅',print:true}],
+      당일:[{n:'그림책 (주제 관련)',d:'1권'},{n:'마커펜',d:'교사용'},{n:'전시용 테이프',d:'1롤'},{n:'그룹별 활동지',d:'A/B/C 각 그룹 매수',print:true}],
+    },
+    2:{
+      사전3일:[{n:'감정 카드 세트',d:'프린트 후 코팅 필요',urgent:true}],
+      전날:[{n:'도화지 A4',d:'1인 2장'},{n:'크레파스',d:'1인 1세트'},{n:'감정 관련 그림책',d:'2~3권 준비'}],
+      당일:[{n:'감정 스티커',d:'1인 5개'},{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'전시 클립',d:'모둠당 2개'}],
+    },
+    3:{
+      사전3일:[{n:'우리 동네 지도 프린트',d:'A3 확대 출력',urgent:true},{n:'동네 사진 자료',d:'프린트 또는 태블릿 준비'}],
+      전날:[{n:'색연필 / 사인펜',d:'1인 1세트'},{n:'동네 관련 그림책',d:'2권'},{n:'포스트잇 (여러 색)',d:'1인 5장 이상'}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'마커펜',d:'교사용'},{n:'전시 공간 확보',d:'칠판 또는 벽면'}],
+    },
+    4:{
+      사전3일:[{n:'규칙 그림 카드',d:'프린트 후 코팅',urgent:true}],
+      전날:[{n:'투표용 스티커',d:'1인 3개 (색 구분)'},{n:'규칙 포스터 종이',d:'A2 1장'},{n:'사인펜 (굵은 것)',d:'5색 이상'}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'역할극 소품',d:'간단한 소품 2~3개'},{n:'칭찬 스티커',d:'1인 2개'}],
+    },
+  },
+  4:{
+    1:{
+      사전3일:[{n:'봄꽃 사진 자료',d:'A4 컬러 프린트 10장 이상',urgent:true},{n:'돋보기',d:'모둠당 1개 · 비품실 확인'}],
+      전날:[{n:'도화지 A4',d:'1인 2장'},{n:'수채화 물감 / 크레파스',d:'1인 1세트'},{n:'봄꽃 그림책',d:'3권'},{n:'관찰 기록지',d:'1인 1장',print:true}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'꽃 실물 (가능하면)',d:'화분 또는 꺾은 꽃 3~5종'},{n:'색연필',d:'1인 1세트'}],
+    },
+    2:{
+      사전3일:[{n:'씨앗 순서 카드 (4단계)',d:'프린트 후 코팅',urgent:true},{n:'다양한 씨앗 실물',d:'5종 이상 · 이마트/종묘상'}],
+      전날:[{n:'씨앗 관찰 트레이',d:'모둠당 1개'},{n:'루페/돋보기',d:'1인 1개'},{n:'씨앗 일기장',d:'1인 1권 · 프린트',print:true}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'씨앗 분류 바구니',d:'5개'},{n:'붙임딱지',d:'1인 10장'}],
+    },
+    3:{
+      사전3일:[{n:'텃밭 계획 양식',d:'A4 프린트',urgent:false,print:true},{n:'식물 카드 (10종)',d:'프린트 후 코팅',urgent:false}],
+      전날:[{n:'색연필',d:'1인 1세트'},{n:'줄자',d:'2개 · 실측 활동용'},{n:'씨앗 카탈로그 사진',d:'출력 또는 태블릿'}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'발표용 포스트잇',d:'1인 3장'},{n:'칠판 공간',d:'계획표 게시용'}],
+    },
+    4:{
+      사전3일:[{n:'날씨 관찰표',d:'주간 기록용 · 프린트',urgent:false,print:true}],
+      전날:[{n:'온도계',d:'1개'},{n:'날씨 기호 카드',d:'5종 (맑음/흐림/비/눈/바람)',print:true},{n:'색연필',d:'1인 1세트'}],
+      당일:[{n:'그룹별 활동지',d:'각 그룹 매수',print:true},{n:'날씨 관찰 기록지',d:'1인 1장'},{n:'그래프 용지',d:'선택 활용'}],
+    },
+  },
+};
+const DEFAULT_MATS = {
+  사전3일:[{n:'주제 관련 시각 자료',d:'A4 컬러 프린트',urgent:false},{n:'활동 카드 세트',d:'프린트 후 코팅',urgent:true}],
+  전날:[{n:'크레파스 / 색연필',d:'1인 1세트'},{n:'도화지 A4',d:'1인 2장'},{n:'그룹C 순서 카드',d:'인쇄 필요',print:true}],
+  당일:[{n:'그림책 (주제 관련)',d:'2~3권'},{n:'전시용 테이프',d:'1롤'},{n:'그룹별 활동지',d:'A/B/C 각 그룹 매수',print:true}],
+};
+
+/* ─── 월별 테마 ─── */
+const MONTH_THEME = {3:'나와 친구',4:'봄과 생명',5:'가족과 공동체',6:'여름과 건강',7:'교통과 여행',8:'방학 준비',9:'가을과 추수',10:'도구와 기계',11:'환경과 지구',12:'겨울과 축제',1:'새해와 전통',2:'졸업과 성장'};
+const PASS_C = {동시처리:'var(--p)',순차처리:'var(--t)',계획력:'var(--a)',주의력:'var(--b)'};
+const PASS_LT = {동시처리:'var(--pl)',순차처리:'var(--tl)',계획력:'var(--al)',주의력:'var(--bl)'};
+
+/* ═══════════════ STATE ═══════════════ */
+let curMonth=3, curWeek=1, curOpt='B', curSub='누리과정';
+let matMonth=3, matWeek=1;
+let matChecked = {};
+let bookMonth=3;
+
+/* ═══════════════ INIT ═══════════════ */
+/* DOMContentLoaded: 아래 통합버전 */
+
+/* ── Navigation ── */
+function go(id, btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.nbtn').forEach(b=>b.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  if(btn) btn.classList.add('on');
+  if(id==='gen') buildAll();
+}
+
+/* ── Student Table ── */
+function renderStudentTable(){
+  const tc = {우뇌우세형:'b-wr',좌우뇌균형형:'b-bal',좌뇌우세형:'b-lr'};
+  const bc = v => v>=70?'pfi-ok':v>=50?'pfi-mid':'pfi-low';
+  document.getElementById('stTbl').innerHTML = [...STUDENTS].sort((a,b)=>b.warn-a.warn).map(s=>`
+    <tr>
+      <td style="font-weight:600">${s.n}</td>
+      <td style="color:var(--mu)">${s.age}</td>
+      <td><span class="badge ${tc[s.type]||'b-bal'}">${s.type}</span></td>
+      <td>
+        <div class="pmini">
+          <div class="prow"><span style="font-size:9px;min-width:30px;color:var(--mu)">동시</span><div class="ptr"><div class="pfi ${bc(s.sim)}" style="width:${s.sim}%"></div></div><span class="ppc">${s.sim}%</span></div>
+          <div class="prow"><span style="font-size:9px;min-width:30px;color:var(--mu)">계획</span><div class="ptr"><div class="pfi ${bc(s.pln)}" style="width:${s.pln}%"></div></div><span class="ppc">${s.pln}%</span></div>
+          <div class="prow"><span style="font-size:9px;min-width:30px;color:var(--mu)">주의</span><div class="ptr"><div class="pfi ${bc(s.att)}" style="width:${s.att}%"></div></div><span class="ppc">${s.att}%</span></div>
+          <div class="prow"><span style="font-size:9px;min-width:30px;color:var(--mu)">순차</span><div class="ptr"><div class="pfi ${bc(s.suc)}" style="width:${s.suc}%"></div></div><span class="ppc">${s.suc}%</span></div>
+        </div>
+      </td>
+      <td>${s.sim}%</td><td>${s.pln}%</td><td>${s.att}%</td><td>${s.suc}%</td>
+      <td>${s.c.map(x=>`<span style="font-size:9px;padding:1px 5px;border-radius:4px;background:var(--rl);color:var(--r);margin-right:2px">${x}</span>`).join('')||'-'}</td>
+      <td><span class="badge ${s.warn?'b-warn':'b-ok'}">${s.warn?'관리필요':'양호'}</span></td>
+    </tr>`).join('');
+}
+
+/* ── Week Pills ── */
+function refreshWeeks(){
+  curMonth = parseInt(document.getElementById('selMonth').value);
+  const ws = WEEKS[curMonth]||[];
+  curWeek = 1;
+  const cont = document.getElementById('weekPills');
+  cont.innerHTML = ws.map((w,i)=>`<button class="pill ${i===0?'on':''}" onclick="setWeek(${i+1},this)">${i+1}주: ${w.t}</button>`).join('');
+}
+function setWeek(w,btn){
+  curWeek=w;
+  document.querySelectorAll('#weekPills .pill').forEach(b=>b.className='pill');
+  btn.className='pill on';
+  buildAll();
+}
+function setSub(s,btn){
+  curSub=s;
+  document.querySelectorAll('.ctrl-grid .pill-row:last-child .pill').forEach(b=>b.className='pill');
+  btn.className='pill on';
+}
+function setOpt(o){
+  curOpt=o;
+  ['A','B','C'].forEach(x=>{
+    const el = document.getElementById('o'+x);
+    el.className = 'opt-c' + (x===o ? ` sel-${x}` : '');
+  });
+  buildAll();
+}
+
+/* ═══════════════ BUILD ALL ═══════════════ */
+function buildAll(){
+  const ws = WEEKS[curMonth]||[];
+  const w = ws[curWeek-1]||ws[0];
+  const d = LESSON_ACTS[curOpt];
+  const qs = QS[w.pass]||QS['동시처리'];
+  const pc = PASS_C[w.pass]||'var(--p)';
+  const pl = PASS_LT[w.pass]||'var(--pl)';
+  const mn = {3:'3월',4:'4월',5:'5월',6:'6월',7:'7월',8:'8월',9:'9월',10:'10월',11:'11월',12:'12월',1:'1월',2:'2월'};
+  const optName = {A:'활동 중심형',B:'균형 혼합형',C:'구조화형'};
+
+  /* ── helper ── */
+  const actHTML = (items, cls) => items.map((a,i)=>`
+    <div class="act"><div class="an ${cls}">${i+1}</div><span>${a}</span></div>`).join('');
+  const qHTML = (items, ncls) => items.map((q,i)=>`
+    <div class="q-item">
+      <div class="q-num ${ncls}">${i+1}</div>
+      <div class="q-text">${q.q}<div class="q-why">${q.why}</div></div>
+    </div>`).join('');
+
+  /* PASS 색상 클래스 */
+  const nCls = {동시처리:'',순차처리:'q-num-t',계획력:'q-num-a',주의력:'q-num-b'}[w.pass]||'';
+
+  const html = `
+  <!-- 교안 본문 -->
+  <div class="lo">
+    <div class="lo-head">
+      <div class="lo-title">${w.t}</div>
+      <div class="lo-meta">
+        <span>앱 테스트 반 · 9명</span>
+        <span>${mn[curMonth]} ${curWeek}주차</span>
+        <span>주제: ${MONTH_THEME[curMonth]}</span>
+        <span>누리과정: ${w.nuri}</span>
+        <span>PASS 포커스: ${w.pass}</span>
+        <span>옵션 ${curOpt} — ${optName[curOpt]}</span>
+        <span>총 60분</span>
+      </div>
+    </div>
+    <div class="lo-body">
+
+      <div class="ls">
+        <div class="ls-head">
+          <span class="ls-title">도입</span>
+          <span class="ls-badge ls-time">10분</span>
+          <span class="ls-badge ls-pass" style="background:${pl};color:${pc}">${w.pass} 활성화</span>
+        </div>
+        ${actHTML(d.intro,'an-p')}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ls">
+        <div class="ls-head">
+          <span class="ls-title">전개</span>
+          <span class="ls-badge ls-time">35분</span>
+          <span style="font-size:10px;color:var(--mu)">3그룹 동시 진행</span>
+        </div>
+        <div class="gb">
+          <div class="gb-head" style="background:var(--pl)">
+            <span style="color:var(--p)">그룹 A — 우뇌우세형</span>
+            <span style="margin-left:auto;font-size:9px;color:var(--p);opacity:.7">발판: 전체 맥락 먼저</span>
+          </div>
+          <div class="gb-body">${actHTML(d.grpA,'an-p')}</div>
+        </div>
+        <div class="gb">
+          <div class="gb-head" style="background:var(--tl)">
+            <span style="color:var(--t)">그룹 B — 밸런스형</span>
+            <span style="margin-left:auto;font-size:9px;color:var(--t);opacity:.7">발판: 선택지 + 중간 체크</span>
+          </div>
+          <div class="gb-body">${actHTML(d.grpB,'an-t')}</div>
+        </div>
+        <div class="gb">
+          <div class="gb-head" style="background:var(--bl)">
+            <span style="color:var(--b)">그룹 C — 좌뇌우세형</span>
+            <span style="margin-left:auto;font-size:9px;color:var(--b);opacity:.7">발판: 순서카드 + 단계 확인</span>
+          </div>
+          <div class="gb-body">${actHTML(d.grpC,'an-b')}</div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ls">
+        <div class="ls-head">
+          <span class="ls-title">마무리</span>
+          <span class="ls-badge ls-time">15분</span>
+        </div>
+        ${actHTML(d.close,'an-p')}
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="ls">
+        <div class="ls-head"><span class="ls-title">PREP 소그룹 (주 1회 15분 별도)</span></div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:7px">
+          <div style="padding:8px 10px;border-radius:7px;border:0.5px solid var(--bor)"><div style="font-size:9px;font-weight:700;color:var(--p);margin-bottom:3px">동시처리 약점</div><div style="font-size:11px;color:var(--mu)">${d.prep.sim}</div></div>
+          <div style="padding:8px 10px;border-radius:7px;border:0.5px solid var(--bor)"><div style="font-size:9px;font-weight:700;color:var(--t);margin-bottom:3px">순차처리 약점</div><div style="font-size:11px;color:var(--mu)">${d.prep.suc}</div></div>
+          <div style="padding:8px 10px;border-radius:7px;border:0.5px solid var(--bor)"><div style="font-size:9px;font-weight:700;color:var(--a);margin-bottom:3px">계획력 약점</div><div style="font-size:11px;color:var(--mu)">${d.prep.pln}</div></div>
+          <div style="padding:8px 10px;border-radius:7px;border:0.5px solid var(--bor)"><div style="font-size:9px;font-weight:700;color:var(--b);margin-bottom:3px">주의력 약점</div><div style="font-size:11px;color:var(--mu)">${d.prep.att}</div></div>
+        </div>
+      </div>
+
+      <div class="notice" style="margin-top:10px"><strong>유의사항:</strong> ${d.notice}</div>
+    </div>
+  </div>
+
+  <!-- 발문 스크립트 -->
+  <div class="card">
+    <div class="ct">PASS 기반 발문 스크립트 — ${w.pass} 포커스 차시</div>
+    <div style="font-size:11px;color:var(--mu);margin-bottom:10px;padding:7px 10px;background:var(--bg);border-radius:6px">
+      이 차시의 PASS 포커스는 <strong style="color:${pc}">${w.pass}</strong>입니다. 아래 탭에서 원하는 PASS 축 발문을 선택해 활용하세요. <strong>${w.pass}</strong>를 먼저 확인하세요.
+    </div>
+    <div class="qs-tabs">
+      ${['동시처리','순차처리','계획력','주의력'].map((p,i)=>`
+        <button class="qs-tab ${p===w.pass?'on':''}" onclick="switchQS('${p}',this)">${p}${p===w.pass?' ★':''}</button>`).join('')}
+    </div>
+    ${['동시처리','순차처리','계획력','주의력'].map(p=>{
+      const qd = QS[p];
+      const nc = {동시처리:'',순차처리:'q-num-t',계획력:'q-num-a',주의력:'q-num-b'}[p];
+      return `
+      <div class="qs-panel ${p===w.pass?'on':''}" id="qsp-${p}">
+        <div class="qs-phase">
+          <div class="qs-phase-title">도입 발문 (10분)</div>
+          ${qHTML(qd.도입, nc)}
+        </div>
+        <div class="qs-phase">
+          <div class="qs-phase-title">전개 발문 (35분)</div>
+          ${qHTML(qd.전개, nc)}
+        </div>
+        <div class="qs-phase">
+          <div class="qs-phase-title">마무리 발문 (15분)</div>
+          ${qHTML(qd.마무리, nc)}
+        </div>
+        <div class="qs-tip">
+          <strong>${p} 발문 핵심 원칙:</strong>
+          ${{동시처리:'답을 유도하지 말고 "어떻게 느껴져요?"처럼 열린 질문으로. 시각적 단서를 먼저 제시한 뒤 발문하면 효과가 2배예요.',순차처리:'"먼저"·"다음"·"마지막으로" 단어를 발문에 자주 사용하세요. 순서를 어기면 어떻게 되는지 물어보면 더 깊이 생각해요.',계획력:'잘못됐을 때 바로 정답을 주지 마세요. "다른 방법은?"이라는 발문이 계획력을 키우는 핵심이에요.',주의력:'발문 전 잠깐 멈추고 눈 맞춤 후 질문하세요. 이름을 먼저 부르면 주의 집중 효과가 높아요.'}[p]}
+        </div>
+      </div>`}).join('')}
+  </div>`;
+
+  document.getElementById('genOut').innerHTML = html;
+}
+
+function switchQS(p, btn){
+  document.querySelectorAll('.qs-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.qs-panel').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById('qsp-'+p).classList.add('on');
+}
+
+/* ═══════════════ BOOKS ═══════════════ */
+function buildBookMonthPills(){
+  const months = [3,4,5,6,7,8,9,10,11,12,1,2];
+  const cont = document.getElementById('bookMonthPills');
+  cont.innerHTML = months.map((m,i)=>`
+    <button class="pill ${m===3?'on-t on':''}" onclick="setBookMonth(${m},this)">${m}월 ${MONTH_THEME[m]}</button>`).join('');
+  renderBooks();
+}
+function setBookMonth(m, btn){
+  bookMonth = m;
+  document.querySelectorAll('#bookMonthPills .pill').forEach(b=>b.className='pill');
+  btn.className='pill on-t on';
+  renderBooks();
+}
+function renderBooks(){
+  const theme = MONTH_THEME[bookMonth]||'나와 친구';
+  const bk = BOOKS_DB[theme] || DEFAULT_BOOKS;
+  const tagColor = {동시처리:'var(--pl);color:var(--p)',순차처리:'var(--tl);color:var(--t)',균형:'var(--bl);color:var(--b)'};
+  const bookCard = (b) => `
+    <div class="book-card">
+      <div class="book-type-badge" style="background:${(tagColor[b.tag]||'var(--bg);color:var(--mu)')}">${b.tag}</div>
+      <div class="book-title">${b.title}</div>
+      <div class="book-author">${b.author}</div>
+      <div class="book-why">${b.why}</div>
+    </div>`;
+
+  const mediaCard = (m) => `
+    <div class="media-item">
+      <div class="media-type" style="${m.type==='YouTube'?'background:var(--rl);color:var(--r)':m.type==='노래'?'background:var(--pl);color:var(--p)':'background:var(--tl);color:var(--t)'}">${m.type}</div>
+      <div><div style="font-size:12px;font-weight:500;margin-bottom:2px">${m.title}</div><div style="font-size:10px;color:var(--mu)">${m.why}</div></div>
+    </div>`;
+
+  document.getElementById('bookOut').innerHTML = `
+    <div class="card">
+      <div class="ct">${bookMonth}월 — ${theme} 그림책 큐레이션</div>
+      <div style="font-size:11px;color:var(--mu);margin-bottom:12px;padding:7px 10px;background:var(--bg);border-radius:6px">
+        뇌 유형별로 다른 그림책이 필요합니다. 각 그룹 도입 활동 시 해당 그룹 추천 책을 준비하세요.
+      </div>
+      <div class="book-tabs">
+        <button class="book-tab on" onclick="switchBook('bWR',this)">우뇌우세형 추천</button>
+        <button class="book-tab" onclick="switchBook('bBal',this)">밸런스형 추천</button>
+        <button class="book-tab" onclick="switchBook('bLR',this)">좌뇌우세형 추천</button>
+        <button class="book-tab" onclick="switchBook('bMedia',this)">미디어·노래</button>
+      </div>
+
+      <div class="book-panel on" id="bWR">
+        <div style="font-size:11px;color:var(--p);font-weight:600;margin-bottom:8px">동시처리 강점 활용 — 시각·전체 감성 중심 그림책</div>
+        <div class="book-grid">${(bk.우뇌우세||[]).map(bookCard).join('')}</div>
+        <div class="notice">우뇌우세형 그림책 선택 기준: 글이 적고 그림이 풍부한 것 / 전체 분위기로 의미를 전달하는 것 / 색감이 풍부한 것</div>
+      </div>
+      <div class="book-panel" id="bBal">
+        <div style="font-size:11px;color:var(--b);font-weight:600;margin-bottom:8px">시각 + 서사 균형 — 그림과 이야기가 함께 있는 그림책</div>
+        <div class="book-grid">${(bk.밸런스||[]).map(bookCard).join('')}</div>
+        <div class="notice">밸런스형 그림책 선택 기준: 이야기 흐름(순차)과 그림 감상(동시)이 함께 있는 것 / 적당한 글 양 / 장면 전환이 자연스러운 것</div>
+      </div>
+      <div class="book-panel" id="bLR">
+        <div style="font-size:11px;color:var(--t);font-weight:600;margin-bottom:8px">순차처리 강점 활용 — 단계·설명·순서가 명확한 그림책</div>
+        <div class="book-grid">${(bk.좌뇌우세||[]).map(bookCard).join('')}</div>
+        <div class="notice">좌뇌우세형 그림책 선택 기준: 순서와 설명이 명확한 것 / 정보 그림책 / 이야기 구조가 단계적인 것</div>
+      </div>
+      <div class="book-panel" id="bMedia">
+        <div style="font-size:11px;color:var(--a);font-weight:600;margin-bottom:8px">영상·음악 보조 자료 — 모든 그룹 공통 활용 가능</div>
+        <div class="media-row">${(bk.media||[]).map(mediaCard).join('')}</div>
+        <div class="notice" style="margin-top:10px">미디어 활용 팁: YouTube 영상은 도입 3분 이내로 제한. 노래는 그룹 전환 시 또는 정리 시간에 활용하면 주의력 재집중에 효과적이에요.</div>
+      </div>
+    </div>`;
+}
+
+function switchBook(id, btn){
+  document.querySelectorAll('.book-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.book-panel').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+/* ═══════════════ MATERIALS ═══════════════ */
+function refreshMatWeeks(){
+  matMonth = parseInt(document.getElementById('matMonth').value);
+  const ws = WEEKS[matMonth]||[];
+  matWeek = 1;
+  const cont = document.getElementById('matWeekPills');
+  cont.innerHTML = ws.map((w,i)=>`
+    <button class="pill ${i===0?'on':''}" onclick="setMatWeek(${i+1},this)">${i+1}주</button>`).join('');
+}
+function setMatWeek(w,btn){
+  matWeek=w;
+  document.querySelectorAll('#matWeekPills .pill').forEach(b=>b.className='pill');
+  btn.className='pill on';
+  buildMats();
+}
+
+function buildMats(){
+  matMonth = parseInt(document.getElementById('matMonth').value||3);
+  const stuN = parseInt(document.getElementById('stuCount').value||25);
+  const ws = WEEKS[matMonth]||[];
+  const w = ws[matWeek-1]||ws[0];
+  const mData = (MATS_DB[matMonth]||{})[matWeek] || DEFAULT_MATS;
+  const mn = {3:'3월',4:'4월',5:'5월',6:'6월',7:'7월',8:'8월',9:'9월',10:'10월',11:'11월',12:'12월',1:'1월',2:'2월'};
+
+  const total3 = (mData.사전3일||[]).length;
+  const total전 = (mData.전날||[]).length;
+  const total당 = (mData.당일||[]).length;
+  const totalAll = total3+total전+total당;
+
+  const itemHTML = (items, key) => (items||[]).map((m,i)=>{
+    const ck = `${key}-${i}`;
+    const done = matChecked[ck];
+    return `<div class="mat-item ${done?'done':''}" onclick="toggleMat('${ck}',this)">
+      <div class="mat-cb">${done?'✓':''}</div>
+      <div>
+        <div class="mat-name">${m.n}${m.urgent?` <span class="mat-urgent">사전 준비 필수</span>`:''}${m.print?` <span class="mat-print">인쇄 필요</span>`:''}</div>
+        <div class="mat-detail">${m.d}</div>
+      </div>
+    </div>`;}).join('');
+
+  const doneCount = Object.values(matChecked).filter(Boolean).length;
+
+  document.getElementById('matOut').innerHTML = `
+    <div class="card">
+      <div class="ct">${mn[matMonth]} ${matWeek}주차 — ${w?w.t:''} 준비물 체크리스트</div>
+      <div class="mat-summary">
+        <div class="ms-box" style="border-color:var(--r)"><div class="ms-num" style="color:var(--r)">${total3}</div><div class="ms-lbl">3일 전 준비</div></div>
+        <div class="ms-box" style="border-color:var(--a)"><div class="ms-num" style="color:var(--a)">${total전}</div><div class="ms-lbl">전날 준비</div></div>
+        <div class="ms-box" style="border-color:var(--t)"><div class="ms-num" style="color:var(--t)">${total당}</div><div class="ms-lbl">당일 준비</div></div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+        <div style="flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden">
+          <div style="height:100%;background:var(--t);border-radius:4px;width:${totalAll>0?Math.round(doneCount/totalAll*100):0}%;transition:width .3s"></div>
+        </div>
+        <span style="font-size:11px;color:var(--mu);min-width:60px">${doneCount}/${totalAll} 완료</span>
+      </div>
+
+      <div class="mat-tabs">
+        <button class="mat-tab on" onclick="switchMat('m3',this)">3일 전 준비 (${total3})</button>
+        <button class="mat-tab" onclick="switchMat('m전',this)">전날 준비 (${total전})</button>
+        <button class="mat-tab" onclick="switchMat('m당',this)">당일 준비 (${total당})</button>
+      </div>
+
+      <div class="mat-panel on" id="m3">
+        <div style="font-size:11px;color:var(--r);font-weight:600;margin-bottom:8px;padding:6px 10px;background:var(--rl);border-radius:6px">수업 3일 전까지 — 구매·제작·코팅이 필요한 항목</div>
+        <div class="mat-list">${itemHTML(mData.사전3일,'d3')}</div>
+      </div>
+      <div class="mat-panel" id="m전">
+        <div style="font-size:11px;color:var(--a);font-weight:600;margin-bottom:8px;padding:6px 10px;background:var(--al);border-radius:6px">수업 전날 — 꺼내두기·인쇄 필요 항목</div>
+        <div class="mat-list">${itemHTML(mData.전날,'d전')}</div>
+      </div>
+      <div class="mat-panel" id="m당">
+        <div style="font-size:11px;color:var(--t);font-weight:600;margin-bottom:8px;padding:6px 10px;background:var(--tl);border-radius:6px">수업 당일 — 수업 시작 전 배치</div>
+        <div class="mat-list">${itemHTML(mData.당일,'d당')}</div>
+        <div class="print-calc">
+          <span style="font-weight:600">인쇄 매수 자동 계산 (학생 ${stuN}명 기준)</span>
+          <span style="margin-left:auto">그룹A 활동지 ${Math.round(stuN*0.44)}장 · 그룹B ${Math.round(stuN*0.33)}장 · 그룹C ${Math.round(stuN*0.22)}장 · 예비 2장</span>
+        </div>
+      </div>
+    </div>`;
+}
+
+function toggleMat(ck, el){
+  matChecked[ck] = !matChecked[ck];
+  el.classList.toggle('done');
+  el.querySelector('.mat-cb').textContent = matChecked[ck]?'✓':'';
+  // update progress bar without full rebuild
+  const all = Object.keys(matChecked).length;
+  const done = Object.values(matChecked).filter(Boolean).length;
+}
+function switchMat(id, btn){
+  document.querySelectorAll('.mat-tab').forEach(b=>b.classList.remove('on'));
+  document.querySelectorAll('.mat-panel').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  document.getElementById(id).classList.add('on');
+}
+
+/* ═══════════════ SHEETS ═══════════════ */
+function showSheet(id, btn){
+  ['sA','sB','sC','sP'].forEach(s=>document.getElementById(s).style.display=s===id?'block':'none');
+  document.querySelectorAll('.pill-row .pill').forEach(b=>{
+    b.className='pill';
+    if(b.getAttribute('onclick')&&b.getAttribute('onclick').includes(`'${id}'`)) b.className='pill on';
+  });
+}
+function toggleCheck(el){
+  el.classList.toggle('done');
+  el.querySelector('.mat-cb').textContent=el.classList.contains('done')?'✓':'';
+}
+function renderSheets(){
+  const sheetA = `
+    <div class="lo" style="margin-bottom:14px">
+      <div class="lo-head" style="background:var(--p)">
+        <div class="lo-title">그룹 A 활동지 — 동시처리 우세형 (우뇌우세)</div>
+        <div class="lo-meta"><span>테디샘플1 · 박하빈 · 박건호 · 박민아</span></div>
+      </div>
+      <div class="lo-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:12px">이름: <input style="border:none;border-bottom:1px solid var(--bor);width:100px;font-size:13px;padding:2px;font-family:inherit"> &nbsp; 날짜: <input style="border:none;border-bottom:1px solid var(--bor);width:80px;font-size:13px;padding:2px;font-family:inherit"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">활동 1 — 전체 그림 먼저 보기</div>
+          <p style="font-size:12px;margin-bottom:7px">오늘 주제를 그림으로 자유롭게 표현해 보세요. 순서 없이 떠오르는 대로!</p>
+          <div style="border:1.5px dashed var(--bor);border-radius:8px;min-height:100px;background:#fafaf8;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--hi)">여기에 그림을 그려요</div>
+          <p style="font-size:11px;color:var(--mu);margin-top:5px">그림에서 가장 중요한 것: <input style="border:none;border-bottom:1px solid var(--bor);width:200px;font-size:12px;padding:2px;font-family:inherit"></p>
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">활동 2 — 발견한 것 표현하기</div>
+          <div style="border:1.5px dashed var(--bor);border-radius:8px;min-height:70px;background:#fafaf8;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--hi)">발견한 것을 그려요</div>
+          <p style="font-size:12px;margin-top:7px">느낀 점: <input style="border:none;border-bottom:1px solid var(--bor);width:250px;font-size:12px;padding:2px;font-family:inherit"></p>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--p);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">자기 점검</div>
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px">
+            ${['잘 할 수 있어요','조금 해요','잘 모르겠어요','도움이 필요해요'].map(t=>`<div onclick="this.style.background=this.style.background?'':'var(--pl)'" style="padding:8px;text-align:center;border:0.5px solid var(--bor);border-radius:7px;font-size:10px;cursor:pointer">${t}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>`;
+
+  const sheetB = `
+    <div class="lo" style="margin-bottom:14px">
+      <div class="lo-head" style="background:var(--t)">
+        <div class="lo-title">그룹 B 활동지 — 밸런스형</div>
+        <div class="lo-meta"><span>A4 · A3 · A1</span></div>
+      </div>
+      <div class="lo-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:12px">이름: <input style="border:none;border-bottom:1px solid var(--bor);width:100px;font-size:13px;padding:2px;font-family:inherit"> &nbsp; 날짜: <input style="border:none;border-bottom:1px solid var(--bor);width:80px;font-size:13px;padding:2px;font-family:inherit"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--t);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">오늘 탐색 방법 선택</div>
+          <div style="display:flex;gap:8px;margin-bottom:10px">
+            ${['그림으로 탐색하기','순서대로 탐색하기'].map(t=>`<div onclick="this.style.background=this.style.background?'':'var(--tl)'" style="flex:1;padding:8px;border:0.5px solid var(--bor);border-radius:7px;font-size:12px;cursor:pointer;text-align:center">${t}</div>`).join('')}
+          </div>
+          <p style="font-size:11px;margin-bottom:4px">오늘 알고 싶은 것:</p>
+          <input style="width:100%;border:none;border-bottom:1px solid var(--bor);font-size:12px;padding:3px;font-family:inherit" placeholder="궁금한 것:">
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--t);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">3단계 탐구</div>
+          ${['관찰하기 — 눈에 띄는 것 3가지 찾기','비교하기 — 비슷한 점·다른 점 각 1가지','표현하기 — 그림 또는 글로 정리하기'].map((s,i)=>`
+            <div style="display:flex;align-items:flex-start;gap:8px;padding:6px 8px;background:var(--bg);border-radius:6px;margin-bottom:5px;font-size:12px">
+              <span style="min-width:20px;height:20px;background:var(--t);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+              <span>${s}</span>
+            </div>`).join('')}
+          <div style="border:1.5px dashed var(--bor);border-radius:7px;min-height:60px;background:#fafaf8;margin-top:8px;display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--hi)">정리 내용</div>
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--t);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">자기 점검</div>
+          ${['목표를 이해했어요','새로 알게 된 것이 있어요','친구에게 설명할 수 있어요','더 알고 싶은 게 생겼어요'].map(t=>`
+            <div class="mat-item" onclick="toggleCheck(this)" style="margin-bottom:4px;border-radius:6px;padding:5px 8px">
+              <div class="mat-cb"></div><span class="mat-name">${t}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  const sheetC = `
+    <div class="lo" style="margin-bottom:14px">
+      <div class="lo-head" style="background:var(--b)">
+        <div class="lo-title">그룹 C 활동지 — 구조화형 (좌뇌우세)</div>
+        <div class="lo-meta"><span>A2 · 정상중</span></div>
+      </div>
+      <div class="lo-body">
+        <div style="font-size:11px;color:var(--mu);margin-bottom:12px">이름: <input style="border:none;border-bottom:1px solid var(--bor);width:100px;font-size:13px;padding:2px;font-family:inherit"> &nbsp; 날짜: <input style="border:none;border-bottom:1px solid var(--bor);width:80px;font-size:13px;padding:2px;font-family:inherit"></div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--b);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">오늘 수업 순서 (반드시 이 순서대로!)</div>
+          ${['도입 10분: 오늘 주제 핵심 단어 3개 찾기','탐색 15분: 순서에 따라 자료 조사하기','정리 10분: 배운 것 순서대로 정리하기','발표 5분: 1번부터 순서대로 발표하기','마무리 5분: 체크리스트 점검'].map((s,i)=>`
+            <div style="display:flex;align-items:flex-start;gap:8px;padding:7px 10px;background:var(--bg);border-radius:6px;margin-bottom:4px;font-size:12px">
+              <span style="min-width:22px;height:22px;background:var(--b);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${i+1}</span>
+              <span>${s}</span>
+            </div>`).join('')}
+        </div>
+        <div style="margin-bottom:14px">
+          <div style="font-size:11px;font-weight:700;color:var(--b);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">핵심 내용 순서 정리</div>
+          ${[1,2,3].map(n=>`
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:7px">
+              <span style="min-width:22px;height:22px;background:var(--b);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">${n}</span>
+              <input style="flex:1;border:none;border-bottom:1px solid var(--bor);font-size:12px;padding:3px;font-family:inherit" placeholder="${n}번째로 배운 것:">
+            </div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:11px;font-weight:700;color:var(--b);margin-bottom:7px;text-transform:uppercase;letter-spacing:.06em">완료 체크</div>
+          ${['순서를 모두 따랐어요','핵심 내용 3가지 정리 완료','발표 준비 완료','다음에 더 잘할 방법을 알아요'].map(t=>`
+            <div class="mat-item" onclick="toggleCheck(this)" style="margin-bottom:4px;border-radius:6px;padding:5px 8px">
+              <div class="mat-cb"></div><span class="mat-name">${t}</span>
+            </div>`).join('')}
+        </div>
+      </div>
+    </div>`;
+
+  const sheetP = `
+    <div class="lo">
+      <div class="lo-head" style="background:var(--r)">
+        <div class="lo-title">PREP 소그룹 활동지 — 관리필요 6명 대상</div>
+        <div class="lo-meta"><span>주 1회 15분 · 순차처리·계획력 집중 · 박민아 개별 지원</span></div>
+      </div>
+      <div class="lo-body">
+        <div class="g2">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--t);margin-bottom:8px">PREP 1 — 순차처리 (A3·박하빈·박민아)</div>
+            <div style="padding:10px;background:var(--tl);border-radius:8px;font-size:12px;margin-bottom:8px">그림 카드 4장을 올바른 순서로 배열해 보세요.</div>
+            <div style="display:flex;gap:6px;margin-bottom:10px">
+              ${[1,2,3,4].map(n=>`<div style="flex:1;height:50px;border:1px dashed var(--bor);border-radius:6px;background:#fafaf8;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--hi)">${n}번째</div>`).join('')}
+            </div>
+            <div style="font-size:10px;color:var(--mu);font-style:italic">교사 발문: "무엇이 먼저 와야 할까?" / "순서가 바뀌면?"</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:var(--a);margin-bottom:8px">PREP 2 — 계획력 (정상중·A4·A3·박하빈·박민아)</div>
+            <div style="padding:10px;background:var(--al);border-radius:8px;font-size:12px;margin-bottom:8px">오늘 활동을 마치기 위한 내 계획:</div>
+            ${[['목표','오늘 내가 할 것:'],['방법','어떻게 할 것인지:'],['확인','잘 됐는지 알 방법:']].map(([l,p])=>`
+              <div style="display:flex;align-items:center;gap:8px;padding:5px 8px;background:var(--bg);border-radius:5px;font-size:11px;margin-bottom:4px">
+                <span style="min-width:28px;font-weight:700;color:var(--a)">${l}:</span>
+                <input style="flex:1;border:none;border-bottom:1px solid var(--bor);font-size:11px;padding:2px;font-family:inherit" placeholder="${p}">
+              </div>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:12px;padding:12px;background:var(--rl);border-radius:8px;border:0.5px solid #f09595">
+          <div style="font-size:11px;font-weight:700;color:var(--r);margin-bottom:6px">박민아 집중 지원 카드 (4개 척도 전체)</div>
+          <div class="g2" style="font-size:11px">
+            <div style="padding:8px;background:#fff;border-radius:6px"><strong style="color:var(--p)">동시처리:</strong> 조각 2개 → 완성 그림 연결</div>
+            <div style="padding:8px;background:#fff;border-radius:6px"><strong style="color:var(--t)">순차처리:</strong> 그림 2장 순서 맞추기 (초간단)</div>
+            <div style="padding:8px;background:#fff;border-radius:6px"><strong style="color:var(--a)">계획력:</strong> 오늘 할 것 1가지만 고르기</div>
+            <div style="padding:8px;background:#fff;border-radius:6px"><strong style="color:var(--b)">주의력(강점):</strong> 찾기 게임으로 성공 경험 먼저</div>
+          </div>
+          <div style="font-size:10px;color:var(--r);margin-top:7px">지도 원칙: 지시 1회에 1가지만 · 완료 즉시 칭찬 · 과제 크기 최소화</div>
+        </div>
+      </div>
+    </div>`;
+
+  document.getElementById('sheetA').innerHTML = sheetA;
+  document.getElementById('sheetB').innerHTML = sheetB;
+  document.getElementById('sheetC').innerHTML = sheetC;
+  document.getElementById('sheetP').innerHTML = sheetP;
+}
+
+
+/* ═══ v5 관찰·성장·보고서 기능 ═══ */
+
+/* ═══ DATA ═══ */
+/* STUDENTS: v4 공유 */
+
+/* TYPE_COLOR: v4 공유 */
+/* TYPE_BG: v4 공유 */
+/* PASS_C: v4 공유 */
+/* PASS_BG: v4 공유 */
+var PASS_AXES = ['동시처리','순차처리','계획력','주의력'];
+
+/* ═══ 제안 뱅크 ═══ */
+var BANK = {
+  '동시처리': {
+    'positive': [
+      '전체적인 상황을 빠르게 파악하고 적절하게 반응함',
+      '그림책을 보며 전체 내용을 직관적으로 이해하는 능력이 향상됨',
+      '여러 정보를 한꺼번에 통합하여 의미를 파악하는 모습이 관찰됨',
+      '시각 자료를 활용한 활동에서 높은 집중도와 이해력을 보임',
+      '미술 신체 표현 활동에서 창의적이고 자유로운 표현이 돋보임'
+    ],
+    'concern': [
+      '세부 사항보다 전체 인상에 집중하여 구체적 내용 파악이 어려움',
+      '시각 자료 없이 언어만으로 설명할 때 이해에 어려움을 보임'
+    ],
+    'neutral': [
+      '동시처리 관련 활동에서 평균적인 수행을 보임',
+      '그림 중심 활동과 언어 중심 활동 간 수행 차이가 관찰됨'
+    ]
+  },
+  '순차처리': {
+    'positive': [
+      '순서대로 지시를 따르는 능력이 점차 향상되고 있음',
+      '이야기의 순서를 기억하고 정확하게 재현하는 능력이 발달함',
+      '단계별 과제를 체계적으로 수행하려는 시도가 늘어남',
+      '수 세기 글자 쓰기 등 순차적 과제에서 안정적인 수행을 보임'
+    ],
+    'concern': [
+      '여러 단계의 지시를 순서대로 따르는 것에 어려움이 있음',
+      '순차적 정보 처리에 시간이 걸리나 꾸준히 노력하는 모습이 보임'
+    ],
+    'neutral': ['순서 관련 활동에서 보통 수준의 참여를 보임']
+  },
+  '계획력': {
+    'positive': [
+      '문제를 해결하기 전에 스스로 계획을 세우려는 시도가 늘어남',
+      '방법이 효과가 없을 때 스스로 다른 방법을 시도하는 유연성이 관찰됨',
+      '오늘 할 일을 미리 생각하고 순서를 정하는 습관이 형성되고 있음',
+      '목표를 설정하고 달성 여부를 스스로 확인하려는 행동이 증가함'
+    ],
+    'concern': [
+      '충동적으로 행동하는 경향이 있어 계획 수립 전 시작하는 경우가 많음',
+      '과제의 목표를 파악하는 데 어려움이 있어 교사 안내가 필요함'
+    ],
+    'neutral': ['계획력 관련 행동에서 보통 수준의 수행을 보임']
+  },
+  '주의력': {
+    'positive': [
+      '집중 지속 시간이 이전보다 길어지는 변화가 관찰됨',
+      '방해 자극이 있는 환경에서도 과제를 유지하는 능력이 향상됨',
+      '교사의 설명을 끝까지 듣고 이해하는 모습이 증가함',
+      '놀이 활동에서 자발적 집중 시간이 눈에 띄게 증가함'
+    ],
+    'concern': [
+      '주의력이 분산되는 경향이 있어 짧은 과제 단위가 필요함',
+      '소음이나 시각적 자극에 쉽게 주의가 흐트러지는 모습이 관찰됨'
+    ],
+    'neutral': ['주의력 관련 행동에서 또래 평균 수준의 수행을 보임']
+  },
+  '전체': {
+    'positive': [
+      '전반적으로 수업 참여도가 높아지고 있음',
+      '친구들과의 협력 활동에서 긍정적인 상호작용이 증가함',
+      '자신감 있게 발표하고 의견을 표현하는 빈도가 늘어남'
+    ],
+    'concern': ['개별 지원이 필요한 상황이 지속되고 있어 PREP 활동을 병행 중'],
+    'neutral': ['이번 달 전반적으로 안정적인 참여를 보임']
+  }
+};
+
+/* ═══ 3개월 체크리스트 ═══ */
+var CL3 = {
+  '동시처리': [
+    '그림이나 시각 자료를 보고 전체 내용을 빠르게 파악함',
+    '여러 정보를 동시에 처리하여 종합적으로 이해하는 모습이 관찰됨',
+    '패턴이나 전체 구조를 직관적으로 파악하는 능력이 향상됨'
+  ],
+  '순차처리': [
+    '여러 단계 지시를 순서대로 따르는 빈도가 증가함',
+    '이야기 또는 사건의 순서를 기억하고 재현할 수 있음',
+    '순서가 필요한 활동에서 단계를 지키려는 노력이 보임'
+  ],
+  '계획력': [
+    '과제 시작 전 방법을 먼저 생각하는 행동이 늘어남',
+    '계획이 잘 안 될 때 다른 방법을 스스로 시도함',
+    '자신의 행동 결과를 평가하는 자기점검 행동이 관찰됨'
+  ],
+  '주의력': [
+    '집중 지속 시간이 이전보다 눈에 띄게 증가함',
+    '방해 자극을 무시하고 과제를 유지하는 능력이 향상됨',
+    '교사의 지시나 설명에 선택적으로 집중하는 모습이 증가함'
+  ]
+};
+
+/* ═══ STATE ═══ */
+var curStu = null;
+var curAxis = '전체';
+var curType = 'positive';
+var curNuri = null;
+var growthStu = null;
+var checkStates = {};
+var sixVals = {};
+
+/* ═══ STORAGE ═══ */
+function getCmts(id) {
+  try { return JSON.parse(localStorage.getItem('v5_cmt_' + id) || '[]'); } catch(e) { return []; }
+}
+function saveCmts(id, arr) {
+  try { localStorage.setItem('v5_cmt_' + id, JSON.stringify(arr)); } catch(e) {}
+}
+
+/* ═══ INIT ═══ */
+/* DOMContentLoaded: 통합버전 사용 */
+
+/* ═══ NAV ═══ */
+/* go(): v4 사용 */
+
+/* ═══ DASHBOARD ═══ */
+function renderDashStuList() {
+  var el = document.getElementById('dashStuList');
+  if (!el) return;
+  var html = '';
+  STUDENTS.sort(function(a,b){ return b.warn - a.warn; }).forEach(function(s) {
+    var cnt = getCmts(s.id).length;
+    var warnBadge = s.warn ? '<span class="badge" style="background:#FCEBEB;color:#A32D2D;font-size:9px">관리필요</span>' : '';
+    html += '<div class="stu-item" onclick="jumpTo(\'' + s.id + '\')">';
+    html += '<div class="stu-avatar" style="background:' + (TYPE_BG[s.type]||'#eee') + ';color:' + (TYPE_COLOR[s.type]||'#333') + '">' + s.n.slice(0,2) + '</div>';
+    html += '<div style="flex:1"><div style="font-size:13px;font-weight:600">' + s.n + '</div>';
+    html += '<div style="font-size:10px;color:var(--mu)">' + s.age + ' · ' + s.type + '</div></div>';
+    html += '<div style="text-align:right"><div style="font-size:10px;color:var(--mu)">' + cnt + '개 기록</div>' + warnBadge + '</div>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function jumpTo(id) {
+  go('comments', document.querySelector('.nbtn[onclick*="comments"]'));
+  setTimeout(function() { selectStu(id); }, 60);
+}
+
+/* ═══ COMMENT SYSTEM ═══ */
+function renderCmtStuList() {
+  var el = document.getElementById('cmtStuList');
+  if (!el) return;
+  var html = '';
+  STUDENTS.forEach(function(s) {
+    var cnt = getCmts(s.id).length;
+    html += '<div class="stu-item" id="cs_' + s.id + '" onclick="selectStu(\'' + s.id + '\')">';
+    html += '<div class="stu-avatar" style="background:' + (TYPE_BG[s.type]||'#eee') + ';color:' + (TYPE_COLOR[s.type]||'#333') + ';font-size:11px">' + s.n.slice(0,2) + '</div>';
+    html += '<div style="flex:1"><div style="font-size:12px;font-weight:600">' + s.n + '</div>';
+    html += '<div style="font-size:10px;color:var(--mu)">' + s.type + '</div></div>';
+    html += '<div id="csCnt_' + s.id + '" style="font-size:10px;color:var(--mu)">' + cnt + '</div>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+}
+
+function selectStu(id) {
+  curStu = null;
+  for (var i = 0; i < STUDENTS.length; i++) {
+    if (STUDENTS[i].id === id) { curStu = STUDENTS[i]; break; }
+  }
+  if (!curStu) return;
+  document.querySelectorAll('.stu-item').forEach(function(el) { el.classList.remove('active'); });
+  var btn = document.getElementById('cs_' + id);
+  if (btn) btn.classList.add('active');
+  document.getElementById('cmtFormArea').style.display = 'block';
+  document.getElementById('cmtPlaceholder').style.display = 'none';
+  var av = document.getElementById('cmtAvatar');
+  av.textContent = curStu.n.slice(0,2);
+  av.style.background = TYPE_BG[curStu.type] || '#eee';
+  av.style.color = TYPE_COLOR[curStu.type] || '#333';
+  document.getElementById('cmtStuName').textContent = curStu.n;
+  document.getElementById('cmtStuType').textContent = curStu.age + ' · ' + curStu.type;
+  refreshCmtCount();
+  renderSuggestBank();
+  renderHistory();
+}
+
+function refreshCmtCount() {
+  if (!curStu) return;
+  var n = getCmts(curStu.id).length;
+  document.getElementById('cmtCountBadge').textContent = n + '개 기록됨';
+  var cntEl = document.getElementById('csCnt_' + curStu.id);
+  if (cntEl) cntEl.textContent = n;
+}
+
+function selAxis(ax) {
+  curAxis = ax;
+  PASS_AXES.concat(['전체']).forEach(function(a) {
+    var btn = document.getElementById('axBtn_' + a);
+    if (btn) btn.className = (a === ax) ? 'pill on' : 'pill';
+  });
+  renderSuggestBank();
+}
+
+function selType(t) {
+  curType = t;
+  var styles = {
+    'positive': 'background:var(--tl);color:var(--t);border-color:var(--t)',
+    'concern': 'background:var(--rl);color:var(--r);border-color:var(--r)',
+    'neutral': ''
+  };
+  ['positive','concern','neutral'].forEach(function(x) {
+    var btn = document.getElementById('typeBtn_' + x);
+    if (!btn) return;
+    btn.className = (x === t) ? 'pill on' : 'pill';
+    btn.style.cssText = (x === t && styles[x]) ? styles[x] : '';
+  });
+  renderSuggestBank();
+}
+
+function selNuri(n) {
+  if (curNuri === n) {
+    curNuri = null;
+    document.getElementById('nuriBtn_' + n).className = 'pill';
+  } else {
+    if (curNuri) {
+      var prev = document.getElementById('nuriBtn_' + curNuri);
+      if (prev) prev.className = 'pill';
+    }
+    curNuri = n;
+    document.getElementById('nuriBtn_' + n).className = 'pill on';
+  }
+}
+
+function renderSuggestBank() {
+  var box = document.getElementById('suggestBank');
+  var btns = document.getElementById('suggestBtns');
+  if (!box || !btns) return;
+  var bankItems = (BANK[curAxis] || BANK['전체'])[curType] || [];
+  var userFreq = getFreqPhrases(curAxis, curType);
+  var starred = userFreq.map(function(p) { return {t: p, star: true}; });
+  var regular = bankItems.map(function(p) { return {t: p, star: false}; });
+  var all = starred.concat(regular).slice(0, 7);
+  if (all.length === 0) { box.style.display = 'none'; return; }
+  box.style.display = 'block';
+  var html = '';
+  all.forEach(function(item) {
+    var label = item.t.length > 28 ? item.t.slice(0, 28) + '…' : item.t;
+    var star = item.star ? ' <span style="color:var(--p)">★</span>' : '';
+    html += '<button class="suggest-btn" data-full="' + encodeURIComponent(item.t) + '" onclick="fillSuggest(this)">' + label + star + '</button>';
+  });
+  btns.innerHTML = html;
+}
+
+function fillSuggest(btn) {
+  var full = decodeURIComponent(btn.getAttribute('data-full'));
+  document.getElementById('cmtText').value = full;
+}
+
+function getFreqPhrases(axis, type) {
+  var all = [];
+  STUDENTS.forEach(function(s) {
+    getCmts(s.id).forEach(function(c) {
+      if (c.axis === axis && c.type === type) all.push(c.content.trim());
+    });
+  });
+  var freq = {};
+  all.forEach(function(t) { freq[t] = (freq[t] || 0) + 1; });
+  var sorted = Object.keys(freq).filter(function(k) { return freq[k] >= 1; });
+  sorted.sort(function(a, b) { return freq[b] - freq[a]; });
+  return sorted.slice(0, 3);
+}
+
+function saveComment() {
+  if (!curStu) { alert('학생을 선택해 주세요.'); return; }
+  var text = document.getElementById('cmtText').value.trim();
+  if (!text) { alert('내용을 입력해 주세요.'); return; }
+  var cmts = getCmts(curStu.id);
+  cmts.unshift({
+    id: 'c' + Date.now(),
+    axis: curAxis,
+    type: curType,
+    nuri: curNuri,
+    content: text,
+    date: document.getElementById('cmtDate').value || new Date().toISOString().split('T')[0]
+  });
+  saveCmts(curStu.id, cmts);
+  document.getElementById('cmtText').value = '';
+  renderHistory();
+  refreshCmtCount();
+  renderSuggestBank();
+  renderDashStuList();
+}
+
+function renderHistory() {
+  if (!curStu) return;
+  var el = document.getElementById('commentHistory');
+  if (!el) return;
+  var cmts = getCmts(curStu.id);
+  if (cmts.length === 0) {
+    el.innerHTML = '<div style="padding:16px;text-align:center;font-size:12px;color:var(--mu)">아직 기록이 없습니다.</div>';
+    document.getElementById('histCount').textContent = '';
+    return;
+  }
+  var typeBg = {'positive': ['#E1F5EE','#0F6E56','긍정 관찰'], 'concern': ['#FCEBEB','#A32D2D','지원 필요'], 'neutral': ['#F1EFE8','#888780','중립']};
+  var html = '';
+  cmts.forEach(function(c) {
+    var tb = typeBg[c.type] || typeBg['neutral'];
+    var axColor = PASS_C[c.axis] || '#888';
+    var axBg = PASS_BG[c.axis] || '#f1efe8';
+    var nuriTag = c.nuri ? '<span class="tag" style="background:#EAF3DE;color:#3B6D11">' + c.nuri + '</span>' : '';
+    html += '<div class="comment-card">';
+    html += '<div class="cc-head">';
+    html += '<span class="tag" style="background:' + axBg + ';color:' + axColor + '">' + c.axis + '</span>';
+    html += '<span class="tag" style="background:' + tb[0] + ';color:' + tb[1] + '">' + tb[2] + '</span>';
+    html += nuriTag;
+    html += '<span class="cc-date">' + c.date + '</span>';
+    html += '<button onclick="delCmt(\'' + curStu.id + '\',\'' + c.id + '\')" style="margin-left:auto;border:none;background:none;cursor:pointer;font-size:11px;color:var(--mu);padding:2px 6px">삭제</button>';
+    html += '</div>';
+    html += '<div class="cc-body">' + c.content + '</div>';
+    html += '</div>';
+  });
+  el.innerHTML = html;
+  document.getElementById('histCount').textContent = '(' + cmts.length + '건)';
+}
+
+function delCmt(stuId, cmtId) {
+  var cmts = getCmts(stuId).filter(function(c) { return c.id !== cmtId; });
+  saveCmts(stuId, cmts);
+  renderHistory();
+  refreshCmtCount();
+  renderDashStuList();
+}
+
+/* ═══ GROWTH ═══ */
+function renderGrowthStuBtns() {
+  var el = document.getElementById('growthStuBtns');
+  if (!el) return;
+  var html = '';
+  STUDENTS.forEach(function(s) {
+    html += '<button class="pill" id="gsb_' + s.id + '" onclick="selectGrowthStu(\'' + s.id + '\')">' + s.n + '</button>';
+  });
+  el.innerHTML = html;
+}
+
+function selectGrowthStu(id) {
+  growthStu = null;
+  for (var i = 0; i < STUDENTS.length; i++) {
+    if (STUDENTS[i].id === id) { growthStu = STUDENTS[i]; break; }
+  }
+  document.querySelectorAll('[id^="gsb_"]').forEach(function(b) { b.className = 'pill'; });
+  var btn = document.getElementById('gsb_' + id);
+  if (btn) btn.className = 'pill on';
+  renderChecklist();
+  renderSixMonth();
+  renderYearReport();
+}
+
+function switchGrowthTab(tab) {
+  ['3m','6m','1y'].forEach(function(t) {
+    var panel = document.getElementById('gpanel_' + t);
+    var tabBtn = document.getElementById('gtab_' + t);
+    if (panel) panel.style.display = (t === tab) ? 'block' : 'none';
+    if (tabBtn) tabBtn.className = (t === tab) ? 'pill on' : 'pill';
+  });
+}
+
+/* ── 3개월 체크 ── */
+function renderChecklist() {
+  var el = document.getElementById('checklistGrid');
+  if (!el) return;
+  var html = '';
+  PASS_AXES.forEach(function(axis) {
+    var items = CL3[axis] || [];
+    html += '<div>';
+    html += '<div style="font-size:11px;font-weight:700;color:' + PASS_C[axis] + ';margin-bottom:7px">' + axis + '</div>';
+    items.forEach(function(item, i) {
+      var key = (growthStu ? growthStu.id : '_') + '_' + axis + '_' + i;
+      var checked = checkStates[key] ? 'checked' : '';
+      html += '<div class="check-item ' + checked + '" onclick="toggleCheck3m(\'' + key + '\',this)">';
+      html += '<div class="cb">' + (checkStates[key] ? '✓' : '') + '</div>';
+      html += '<span style="font-size:11px;line-height:1.4">' + item + '</span>';
+      html += '</div>';
+    });
+    html += '</div>';
+  });
+  el.innerHTML = html;
+  updateClSummary();
+}
+
+function toggleCheck3m(key, el) {
+  checkStates[key] = !checkStates[key];
+  el.classList.toggle('checked');
+  var cb = el.querySelector('.cb');
+  if (cb) cb.textContent = checkStates[key] ? '✓' : '';
+  updateClSummary();
+}
+
+function updateClSummary() {
+  var el = document.getElementById('checklistSummary');
+  if (!el) return;
+  var total = 0;
+  PASS_AXES.forEach(function(ax) { total += (CL3[ax] || []).length; });
+  var prefix = growthStu ? growthStu.id : '_';
+  var done = 0;
+  Object.keys(checkStates).forEach(function(k) {
+    if (k.indexOf(prefix + '_') === 0 && checkStates[k]) done++;
+  });
+  var pct = total > 0 ? Math.round(done / total * 100) : 0;
+  var name = growthStu ? growthStu.n : '학생';
+  var col = pct >= 70 ? 'var(--t)' : pct >= 40 ? 'var(--a)' : 'var(--r)';
+  var msg = pct >= 70 ? '긍정적인 행동 변화가 충분히 관찰됩니다.' : pct >= 40 ? '일부 영역에서 변화가 시작되고 있습니다.' : '지속적인 관찰과 PREP 활동이 필요합니다.';
+  el.innerHTML = '<strong>' + name + '</strong>의 3개월 체크 달성: <strong style="color:' + col + '">' + done + '/' + total + ' (' + pct + '%)</strong> — ' + msg;
+}
+
+/* ── 6개월 ── */
+function getOrig(stu) {
+  return {'동시처리': stu.sim, '순차처리': stu.suc, '계획력': stu.pln, '주의력': stu.att};
+}
+
+function renderSixMonth() {
+  var slEl = document.getElementById('sixMonthSliders');
+  if (!slEl) return;
+  if (!growthStu) { slEl.innerHTML = '<div style="padding:16px;color:var(--mu);font-size:12px">학생을 먼저 선택해 주세요.</div>'; return; }
+  var orig = getOrig(growthStu);
+  if (!sixVals[growthStu.id]) { sixVals[growthStu.id] = {}; PASS_AXES.forEach(function(ax) { sixVals[growthStu.id][ax] = orig[ax]; }); }
+  var html = '';
+  PASS_AXES.forEach(function(ax) {
+    var val = sixVals[growthStu.id][ax];
+    var diff = val - orig[ax];
+    var diffCol = diff > 0 ? 'var(--t)' : diff < 0 ? 'var(--r)' : 'var(--mu)';
+    var diffTxt = (diff > 0 ? '+' : '') + diff + '%';
+    html += '<div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">';
+    html += '<span style="min-width:70px;font-size:12px;color:' + PASS_C[ax] + ';font-weight:600">' + ax + '</span>';
+    html += '<span style="font-size:10px;color:var(--mu);min-width:64px">초기: ' + orig[ax] + '%</span>';
+    html += '<input type="range" min="0" max="100" step="5" value="' + val + '" style="flex:1" data-ax="' + ax + '" data-id="' + growthStu.id + '" oninput="onSixSlide(this)">';
+    html += '<span id="sv_' + ax + '" style="min-width:40px;font-size:12px;font-weight:700;color:' + PASS_C[ax] + '">' + val + '%</span>';
+    html += '<span id="svd_' + ax + '" style="min-width:36px;font-size:11px;color:' + diffCol + '">' + diffTxt + '</span>';
+    html += '</div>';
+  });
+  slEl.innerHTML = html;
+  renderSixChart();
+}
+
+function onSixSlide(input) {
+  var ax = input.getAttribute('data-ax');
+  var id = input.getAttribute('data-id');
+  var val = parseInt(input.value);
+  if (!sixVals[id]) sixVals[id] = {};
+  sixVals[id][ax] = val;
+  var svEl = document.getElementById('sv_' + ax);
+  if (svEl) svEl.textContent = val + '%';
+  if (growthStu) {
+    var orig = getOrig(growthStu);
+    var diff = val - orig[ax];
+    var diffEl = document.getElementById('svd_' + ax);
+    if (diffEl) {
+      diffEl.textContent = (diff > 0 ? '+' : '') + diff + '%';
+      diffEl.style.color = diff > 0 ? 'var(--t)' : diff < 0 ? 'var(--r)' : 'var(--mu)';
+    }
+  }
+  renderSixChart();
+}
+
+function renderSixChart() {
+  var el = document.getElementById('sixMonthChart');
+  if (!el || !growthStu) return;
+  var orig = getOrig(growthStu);
+  var now = sixVals[growthStu.id] || orig;
+  var sumDiff = 0;
+  PASS_AXES.forEach(function(ax) { sumDiff += (now[ax] - orig[ax]); });
+  var avgDiff = Math.round(sumDiff / PASS_AXES.length);
+  var html = '<div style="font-size:12px;font-weight:600;margin-bottom:10px">초기 vs 6개월 비교</div>';
+  PASS_AXES.forEach(function(ax) {
+    html += '<div class="hbar-row">';
+    html += '<span class="hb-lbl" style="color:' + PASS_C[ax] + '">' + ax + '</span>';
+    html += '<div style="flex:1;display:flex;flex-direction:column;gap:3px">';
+    html += '<div style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;min-width:28px;color:var(--mu)">초기</span>';
+    html += '<div class="hb-tr"><div class="hb-fi" style="width:' + orig[ax] + '%;background:' + PASS_C[ax] + ';opacity:.35"></div></div>';
+    html += '<span class="hb-v" style="opacity:.6">' + orig[ax] + '%</span></div>';
+    html += '<div style="display:flex;align-items:center;gap:6px"><span style="font-size:9px;min-width:28px;color:var(--mu)">현재</span>';
+    html += '<div class="hb-tr"><div class="hb-fi" style="width:' + now[ax] + '%;background:' + PASS_C[ax] + '"></div></div>';
+    html += '<span class="hb-v">' + now[ax] + '%</span></div>';
+    html += '</div></div>';
+  });
+  var sumBg = avgDiff >= 5 ? 'var(--tl)' : avgDiff <= -5 ? 'var(--rl)' : 'var(--bg)';
+  var sumCol = avgDiff >= 5 ? 'var(--t)' : avgDiff <= -5 ? 'var(--r)' : 'var(--mu)';
+  var sumMsg = avgDiff >= 10 ? '유의미한 성장 관찰 (CAS2 기준 SS 5점 이상 변화)' : avgDiff >= 5 ? '긍정적인 변화가 시작되고 있습니다.' : avgDiff >= -5 ? '안정적으로 유지되고 있습니다.' : '집중 지원이 필요합니다.';
+  html += '<div style="margin-top:10px;padding:10px 12px;border-radius:8px;background:' + sumBg + ';font-size:12px;color:' + sumCol + '">';
+  html += '<strong>6개월 평균 변화:</strong> ' + (avgDiff > 0 ? '+' : '') + avgDiff + '% — ' + sumMsg + '</div>';
+  el.innerHTML = html;
+}
+
+/* ── 1년 ── */
+function renderYearReport() {
+  var el = document.getElementById('yearReport');
+  if (!el) return;
+  if (!growthStu) { el.innerHTML = '<div style="padding:16px;color:var(--mu);font-size:12px">학생을 선택해 주세요.</div>'; return; }
+  var orig = getOrig(growthStu);
+  var est = sixVals[growthStu.id] || orig;
+  var cmtN = getCmts(growthStu.id).length;
+  var grownAxes = PASS_AXES.filter(function(ax) { return est[ax] - orig[ax] >= 5; }).length;
+  var html = '<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:600;margin-bottom:8px">K-PASS 점수 추이 (초기 → 교사 관찰 추정)</div>';
+  PASS_AXES.forEach(function(ax) {
+    var diff = est[ax] - orig[ax];
+    var arrow = diff >= 5 ? '<span style="font-size:11px;color:var(--t);min-width:40px">↑성장</span>' : diff <= -5 ? '<span style="font-size:11px;color:var(--r);min-width:40px">↓주의</span>' : '<span style="font-size:11px;color:var(--mu);min-width:40px">→유지</span>';
+    html += '<div class="hbar-row">';
+    html += '<span class="hb-lbl" style="color:' + PASS_C[ax] + '">' + ax + '</span>';
+    html += '<div class="hb-tr"><div class="hb-fi" style="width:' + orig[ax] + '%;background:' + PASS_C[ax] + ';opacity:.3"></div></div>';
+    html += '<span style="font-size:10px;color:var(--mu);min-width:28px">' + orig[ax] + '%</span>';
+    html += '<span style="font-size:11px;color:var(--mu);margin:0 4px">→</span>';
+    html += '<div class="hb-tr"><div class="hb-fi" style="width:' + est[ax] + '%;background:' + PASS_C[ax] + '"></div></div>';
+    html += '<span class="hb-v" style="color:' + PASS_C[ax] + '">' + est[ax] + '%</span>' + arrow;
+    html += '</div>';
+  });
+  html += '</div>';
+  html += '<div style="padding:12px;background:var(--bg);border-radius:8px;font-size:12px;line-height:1.8">';
+  html += '<strong>1년 총평:</strong> ' + growthStu.n + '(' + growthStu.type + ')의 1년간 성장 궤적에서 ';
+  html += grownAxes + '개 축에서 긍정적 변화가 관찰됩니다. ' + cmtN + '건의 관찰 기록이 누적되었습니다.<br>';
+  html += '<strong style="color:var(--r)">※</strong> K-PASS 공식 재검사(연 1회)로 정확한 점수 변화를 확인하세요.';
+  html += '</div>';
+  el.innerHTML = html;
+}
+
+/* ═══ REPORTS ═══ */
+function populateRptSelect() {
+  var sel = document.getElementById('rptStudent');
+  if (!sel) return;
+  var html = '<option value="">-- 학생 선택 --</option>';
+  STUDENTS.forEach(function(s) {
+    html += '<option value="' + s.id + '">' + s.n + ' (' + s.type + ')</option>';
+  });
+  sel.innerHTML = html;
+}
+
+function loadReportPreview() {
+  var id = document.getElementById('rptStudent').value;
+  var el = document.getElementById('rptPreview');
+  if (!el) return;
+  if (!id) { el.innerHTML = ''; return; }
+  var n = getCmts(id).length;
+  var warn = n < 3 ? ' <span style="color:var(--r)">3건 이상이면 더 상세한 보고서가 생성됩니다.</span>' : '';
+  el.innerHTML = '<div class="alert al-b"><span style="flex-shrink:0">i</span><div>관찰 기록 <strong>' + n + '건</strong> 기반으로 보고서가 생성됩니다.' + warn + '</div></div>';
+}
+
+function generateReport() {
+  var id = document.getElementById('rptStudent').value;
+  if (!id) { alert('학생을 선택해 주세요.'); return; }
+  var stu = null;
+  for (var i = 0; i < STUDENTS.length; i++) { if (STUDENTS[i].id === id) { stu = STUDENTS[i]; break; } }
+  if (!stu) return;
+  var type = document.getElementById('rptType').value;
+  var period = document.getElementById('rptPeriod').value;
+  var cmts = getCmts(id);
+  var pos = cmts.filter(function(c) { return c.type === 'positive'; }).map(function(c) { return c.content; });
+  var con = cmts.filter(function(c) { return c.type === 'concern'; }).map(function(c) { return c.content; });
+  var nuri = Array.from(new Set(cmts.map(function(c) { return c.nuri; }).filter(Boolean)));
+  var today = new Date().toLocaleDateString('ko-KR');
+  var periodTxt = {'3m':'3개월','6m':'6개월','1y':'1년'}[period] || '3개월';
+  var html = '';
+  if (type === 'parent') html = buildParent(stu, pos, con, today, periodTxt);
+  else if (type === 'school') html = buildSchool(stu, cmts, pos, con, nuri, today, periodTxt);
+  else html = buildConsult(stu, pos, con, today, periodTxt);
+  document.getElementById('reportOutput').innerHTML = html;
+}
+
+function buildParent(stu, pos, con, today, period) {
+  var typeDesc = {
+    '우뇌우세형': '그림이나 전체적인 상황을 직관적으로 파악하는 능력이 뛰어납니다. 시각적 자료를 활용한 학습에서 강점을 보이며 창의적으로 표현합니다.',
+    '좌우뇌균형형': '시각적 이해와 순서적 처리를 균형 있게 활용하는 유형으로 다양한 학습 방식에 고루 참여합니다.',
+    '좌뇌우세형': '순서와 논리적 흐름을 따라 정보를 처리하는 능력이 뛰어나며 단계적 학습에서 강점을 보입니다.'
+  };
+  var homeAct = {
+    '우뇌우세형': '• 그림책 함께 보며 "어떤 느낌이야?" 질문하기\n• 그림 그리기·색칠하기 등 시각 활동 충분히 제공\n• 자유롭게 이야기를 꾸며볼 기회 만들기',
+    '좌우뇌균형형': '• 다양한 방식의 활동 골고루 제공\n• 선택 기회 자주 만들기\n• 그림과 말로 번갈아 표현하게 유도하기',
+    '좌뇌우세형': '• 함께 순서 정하고 계획 세우는 연습\n• "먼저 뭐 하고 다음엔 뭐 할까?" 질문하기\n• 규칙 있는 보드게임이나 카드 놀이'
+  };
+  var posHtml = pos.length > 0 ? pos.slice(0,3).map(function(p) { return '• ' + p; }).join('<br>') : '꾸준한 수업 참여를 통해 긍정적인 성장이 관찰되고 있습니다.';
+  var conHtml = con.length > 0 ? con.slice(0,2).map(function(c) { return '• ' + c; }).join('<br>') + '<br><br>가정에서도 아이의 강점을 살려 응원해 주시면 큰 도움이 됩니다.' : '';
+
+  var html = '<div class="report-output">';
+  html += '<div class="report-header"><div class="rh-title">두뇌 맞춤 성장 보고서 (가정통신문)</div>';
+  html += '<div class="rh-meta"><span>학생: ' + stu.n + '</span><span>나이: ' + stu.age + '</span><span>기간: ' + period + '</span><span>작성일: ' + today + '</span></div></div>';
+  html += '<div class="rs-title">우리 아이 두뇌 유형 안내</div>';
+  html += '<div>' + stu.n + ' 친구는 <strong>' + stu.type + '</strong>으로, ' + (typeDesc[stu.type] || '') + '</div>';
+  if (pos.length > 0) {
+    html += '<div class="rs-title">관찰된 성장 및 강점</div><div>' + posHtml + '</div>';
+  }
+  if (con.length > 0) {
+    html += '<div class="rs-title">성장을 위한 지원 방향</div><div>' + conHtml + '</div>';
+  }
+  html += '<div class="rs-title">가정에서 함께할 수 있는 활동</div>';
+  html += '<div style="white-space:pre-line">' + (homeAct[stu.type] || '') + '</div>';
+  html += '<div style="border-top:0.5px solid var(--bor);padding-top:10px;margin-top:16px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between">';
+  html += '<span>작성: ' + today + ' · 담임교사</span><span>K-PASS 기반 두뇌맞춤 교육 프로그램</span></div>';
+  html += '</div>';
+  return html;
+}
+
+function buildSchool(stu, cmts, pos, con, nuri, today, period) {
+  var scores = [
+    {ax:'동시처리', v:stu.sim},
+    {ax:'순차처리', v:stu.suc},
+    {ax:'계획력', v:stu.pln},
+    {ax:'주의력', v:stu.att}
+  ];
+  var tblHtml = '';
+  scores.forEach(function(s) {
+    var judge = s.v >= 70 ? '규준적 강' : s.v < 50 ? '규준적 약' : '-';
+    tblHtml += '<tr><td style="padding:5px 10px;border-bottom:0.5px solid var(--bor)">' + s.ax + '</td>';
+    tblHtml += '<td style="padding:5px 10px;border-bottom:0.5px solid var(--bor)">' + s.v + '%</td>';
+    tblHtml += '<td style="padding:5px 10px;border-bottom:0.5px solid var(--bor)">' + judge + '</td></tr>';
+  });
+  var html = '<div class="report-output">';
+  html += '<div class="report-header"><div class="rh-title">학생 인지능력 발달 기록 (원 내부 보고서)</div>';
+  html += '<div class="rh-meta"><span>이름: ' + stu.n + '</span><span>나이: ' + stu.age + '</span><span>두뇌유형: ' + stu.type + '</span><span>기간: ' + period + '</span><span>작성일: ' + today + '</span><span>관찰: ' + cmts.length + '건</span></div></div>';
+  html += '<div class="rs-title">K-PASS 초기 검사 결과</div>';
+  html += '<table style="width:100%;border-collapse:collapse;font-size:12px;border:0.5px solid var(--bor);border-radius:6px;overflow:hidden">';
+  html += '<thead><tr style="background:var(--bg)"><th style="padding:6px 10px;text-align:left">척도</th><th style="padding:6px 10px;text-align:left">백분위</th><th style="padding:6px 10px;text-align:left">판정</th></tr></thead>';
+  html += '<tbody>' + tblHtml + '</tbody></table>';
+  if (pos.length > 0) {
+    html += '<div class="rs-title">관찰 기간 내 PASS 행동 지표 변화</div>';
+    html += '<div>' + pos.map(function(p) { return '<div style="padding:4px 0">• ' + p + '</div>'; }).join('') + '</div>';
+  }
+  if (con.length > 0) {
+    html += '<div class="rs-title">지원 필요 영역 및 PREP 활동 현황</div>';
+    html += '<div>' + con.map(function(c) { return '<div style="padding:4px 0">• ' + c + '</div>'; }).join('') + '</div>';
+  }
+  html += '<div class="rs-title">누리과정 연계 달성 영역</div>';
+  html += '<div>' + (nuri.length > 0 ? nuri.join(', ') + ' 영역에서 관찰 기록 확인됨' : '기록 없음') + '</div>';
+  html += '<div class="rs-title">다음 관찰 주기 권고</div>';
+  html += '<div>3개월 행동 체크리스트 재작성 · K-PASS 공식 재검사: 초기 검사 후 12개월 시점 권장 (Das &amp; Naglieri, 2014 CAS2 Technical Manual)</div>';
+  html += '<div style="border-top:0.5px solid var(--bor);padding-top:10px;margin-top:16px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between"><span>담임교사 서명: ___________</span><span>원장 확인: ___________</span><span>' + today + '</span></div>';
+  html += '</div>';
+  return html;
+}
+
+function buildConsult(stu, pos, con, today, period) {
+  var homeAct = {
+    '우뇌우세형': '• 그림책 함께 보며 느낌 나누기 (매일 10분)\n• "이 그림에서 뭐가 보여?" 질문으로 대화 시작\n• 미술·음악·신체 활동 충분히 제공',
+    '좌우뇌균형형': '• 다양한 방식의 활동 제공\n• 선택 기회 자주 제공\n• 규칙 있는 놀이와 자유로운 놀이 균형',
+    '좌뇌우세형': '• 하루 계획 함께 순서대로 정하기\n• 요리나 만들기 등 단계별 활동\n• "먼저 뭐 하고 다음엔?" 질문 루틴화'
+  };
+  var html = '<div class="report-output">';
+  html += '<div class="report-header"><div class="rh-title">학부모 상담 자료 — ' + stu.n + ' 학생</div>';
+  html += '<div class="rh-meta"><span>' + stu.age + ' · ' + stu.type + '</span><span>상담일: ' + today + '</span><span>준비 기간: ' + period + '</span></div></div>';
+  html += '<div class="rs-title">상담 전 확인 사항</div>';
+  html += '<div>• 두뇌 유형: <strong>' + stu.type + '</strong> — 이 유형의 특징을 쉬운 언어로 설명 준비<br>• 관찰 기록 ' + (pos.length + con.length) + '건 확보 — 구체적 사례 2~3가지 선택해 설명<br>• 가정 연계 활동 제안 준비</div>';
+  if (pos.length > 0) {
+    html += '<div class="rs-title">상담 중 활용할 긍정적 사례</div>';
+    html += '<div>' + pos.slice(0,3).map(function(p,i) { return '<div style="padding:5px 0"><strong>' + (i+1) + '.</strong> ' + p + '</div>'; }).join('') + '</div>';
+  }
+  if (con.length > 0) {
+    html += '<div class="rs-title">지원 필요 영역 — 학부모와 공유</div>';
+    html += '<div>' + con.slice(0,2).map(function(c) { return '<div style="padding:4px 0">• ' + c + '</div>'; }).join('');
+    html += '<div style="margin-top:6px;padding:8px;background:var(--al);border-radius:6px;font-size:11px;color:var(--a)">전달 포인트: 약점이 아닌 <strong>성장 가능성</strong>으로 프레이밍 — "현재 이 부분을 함께 훈련 중입니다"로 표현</div></div>';
+  }
+  html += '<div class="rs-title">가정 연계 활동 제안</div>';
+  html += '<div style="white-space:pre-line">' + (homeAct[stu.type] || '') + '</div>';
+  html += '<div style="border-top:0.5px solid var(--bor);padding-top:10px;margin-top:16px;font-size:11px;color:var(--mu);display:flex;justify-content:space-between"><span>상담 교사: ___________</span><span>상담일: ' + today + '</span></div>';
+  html += '</div>';
+  return html;
+}
+
+function copyReportText() {
+  var el = document.getElementById('reportOutput');
+  if (!el || !el.textContent.trim()) { alert('먼저 보고서를 생성해 주세요.'); return; }
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(el.innerText).then(function() { alert('텍스트가 클립보드에 복사되었습니다.'); });
+  }
+}
+
+
+/* ═══ 통합 초기화 ═══ */
+document.addEventListener('DOMContentLoaded', function() {
+  renderStudentTable();
+  refreshWeeks();
+  refreshMatWeeks();
+  buildBookMonthPills();
+  renderSheets();
+  buildMats();
+  buildAll();
+  renderDashStuList();
+  renderCmtStuList();
+  renderGrowthStuBtns();
+  populateRptSelect();
+  var dt = document.getElementById('cmtDate');
+  if (dt) dt.value = new Date().toISOString().split('T')[0];
+});
+
+</script>
+</body>
+</html>
