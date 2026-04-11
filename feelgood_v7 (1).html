@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>필굿 두뇌맞춤 시스템 v7 | K-PASS × 누리과정</title>
+<style>
+/* ============================
+   RESET & ROOT
+   ============================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --teal:#1D9E75;--teal-l:#E1F5EE;--teal-d:#085041;--teal-m:#9FE1CB;
+  --purple:#7F77DD;--purple-l:#EEEDFE;--purple-d:#3C3489;
+  --amber:#EF9F27;--amber-l:#FAEEDA;--amber-d:#633806;
+  --coral:#D85A30;--coral-l:#FAECE7;--coral-d:#712B13;
+  --blue:#378ADD;--blue-l:#E6F1FB;--blue-d:#0C447C;
+  --pink:#D4537E;--pink-l:#FBEAF0;--pink-d:#72243E;
+  --green:#639922;--green-l:#EAF3DE;--green-d:#27500A;
+  --g50:#F1EFE8;--g100:#D3D1C7;--g200:#B4B2A9;--g400:#888780;--g600:#5F5E5A;--g800:#444441;
+  --text:#1a1a18;--text2:#5F5E5A;--text3:#888780;
+  --bg:#fff;--bg2:#F7F6F2;--bg3:#EFEDE8;
+  --border:rgba(0,0,0,.09);--border2:rgba(0,0,0,.16);
+  --r:8px;--rl:12px;
+  --font:'Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif;
+  --sidebar:220px;
+}
+body{font-family:var(--font);color:var(--text);background:var(--bg3);font-size:14px;display:flex;min-height:100vh;}
+
+/* ============================
+   SIDEBAR
+   ============================ */
+.sidebar{width:var(--sidebar);background:var(--bg);border-right:0.5px solid var(--border2);display:flex;flex-direction:column;position:fixed;top:0;left:0;height:100vh;z-index:100;overflow-y:auto;}
+.sb-logo{padding:18px 16px 12px;border-bottom:0.5px solid var(--border);}
+.sb-logo-title{font-size:15px;font-weight:700;color:var(--teal-d);}
+.sb-logo-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+.sb-badge{display:inline-block;font-size:9px;padding:1px 6px;border-radius:8px;background:var(--teal-l);color:var(--teal-d);margin-top:4px;}
+.sb-group{padding:10px 12px 4px;}
+.sb-group-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.06em;padding:0 4px;}
+.sb-item{display:flex;align-items:center;gap:8px;padding:7px 8px;border-radius:var(--r);cursor:pointer;color:var(--text2);font-size:13px;transition:all .12s;margin-bottom:1px;}
+.sb-item:hover{background:var(--bg3);}
+.sb-item.active{background:var(--teal-l);color:var(--teal-d);font-weight:600;}
+.sb-item .icon{width:16px;height:16px;flex-shrink:0;opacity:.7;}
+.sb-item.active .icon{opacity:1;}
+.sb-new-badge{margin-left:auto;font-size:9px;padding:1px 5px;border-radius:6px;background:var(--coral);color:#fff;font-weight:700;}
+.sb-footer{margin-top:auto;padding:12px 16px;border-top:0.5px solid var(--border);font-size:11px;color:var(--text3);}
+
+/* ============================
+   MAIN
+   ============================ */
+.main{margin-left:var(--sidebar);flex:1;min-height:100vh;}
+.topbar{background:var(--bg);border-bottom:0.5px solid var(--border2);padding:0 28px;height:52px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;}
+.topbar-title{font-size:15px;font-weight:700;}
+.topbar-sub{font-size:11px;color:var(--text3);margin-top:1px;}
+.topbar-right{display:flex;align-items:center;gap:10px;}
+.klass-badge{font-size:12px;padding:4px 12px;border-radius:20px;background:var(--teal-l);color:var(--teal-d);font-weight:600;}
+.content{padding:24px 28px 48px;}
+
+/* ============================
+   SECTION VISIBILITY
+   ============================ */
+.section{display:none;}
+.section.active{display:block;}
+
+/* ============================
+   SHARED COMPONENTS
+   ============================ */
+.section-header{margin-bottom:20px;}
+.section-header h2{font-size:18px;font-weight:700;margin-bottom:3px;}
+.section-header p{font-size:12px;color:var(--text2);}
+.card{background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);padding:20px 24px;margin-bottom:16px;}
+.card-title{font-size:14px;font-weight:700;margin-bottom:12px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.row4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+.stat-card{background:var(--bg2);border-radius:var(--r);padding:14px 16px;}
+.stat-lbl{font-size:11px;color:var(--text2);margin-bottom:4px;}
+.stat-val{font-size:24px;font-weight:700;line-height:1;}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:3px;}
+.pill{font-size:10px;padding:2px 9px;border-radius:20px;display:inline-block;}
+.pill-teal{background:var(--teal-l);color:var(--teal-d);border:0.5px solid var(--teal-m);}
+.pill-purple{background:var(--purple-l);color:var(--purple-d);}
+.pill-amber{background:var(--amber-l);color:var(--amber-d);}
+.pill-coral{background:var(--coral-l);color:var(--coral-d);}
+.pill-blue{background:var(--blue-l);color:var(--blue-d);}
+.btn{padding:8px 18px;border-radius:var(--r);border:0.5px solid var(--border2);background:transparent;font-family:var(--font);font-size:13px;cursor:pointer;color:var(--text);transition:all .12s;}
+.btn:hover{background:var(--bg2);}
+.btn-primary{background:var(--teal);color:#fff;border-color:var(--teal);}
+.btn-primary:hover{opacity:.88;background:var(--teal);}
+.divider{border:none;border-top:0.5px solid var(--border);margin:14px 0;}
+select,input[type=text],textarea{border:0.5px solid var(--border2);border-radius:var(--r);padding:7px 10px;font-size:13px;font-family:var(--font);color:var(--text);background:var(--bg);outline:none;width:100%;}
+select:focus,input:focus,textarea:focus{border-color:var(--teal);}
+.info-box{background:var(--blue-l);border-left:3px solid var(--blue);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;font-size:12px;color:var(--blue-d);margin-bottom:14px;}
+.warn-box{background:var(--amber-l);border-left:3px solid var(--amber);border-radius:0 var(--r) var(--r) 0;padding:10px 14px;font-size:12px;color:var(--amber-d);margin-bottom:14px;}
+
+/* ============================
+   1. 학급현황
+   ============================ */
+.student-table{width:100%;border-collapse:collapse;font-size:12px;}
+.student-table th{text-align:left;padding:8px 10px;font-size:10px;font-weight:700;color:var(--text3);letter-spacing:.04em;border-bottom:0.5px solid var(--border2);}
+.student-table td{padding:9px 10px;border-bottom:0.5px solid var(--border);cursor:pointer;}
+.student-table tr:hover td{background:var(--bg2);}
+.brain-tag{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;}
+.pass-bars{display:flex;gap:3px;align-items:center;}
+.mini-bar{width:28px;height:5px;border-radius:2px;background:var(--g100);}
+.mini-fill{height:100%;border-radius:2px;}
+.radar-mini{display:flex;gap:2px;}
+
+/* ============================
+   2. 교안+발문
+   ============================ */
+.option-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px;}
+.option-card{border:0.5px solid var(--border2);border-radius:var(--r);padding:14px;cursor:pointer;transition:all .15s;}
+.option-card:hover{border-color:var(--teal);}
+.option-card.selected{border:2px solid var(--teal);background:var(--teal-l);}
+.option-card .oc-title{font-size:13px;font-weight:700;margin-bottom:4px;}
+.option-card .oc-sub{font-size:11px;color:var(--text2);}
+.lesson-output{background:var(--bg2);border-radius:var(--r);padding:16px;min-height:120px;font-size:12px;line-height:1.8;color:var(--text2);}
+
+/* ============================
+   5. 관찰기록
+   ============================ */
+.quick-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;}
+.q-tag{font-size:11px;padding:4px 10px;border-radius:20px;border:0.5px solid var(--border2);cursor:pointer;background:var(--bg2);transition:all .12s;}
+.q-tag:hover{border-color:var(--teal);background:var(--teal-l);color:var(--teal-d);}
+.obs-list{max-height:200px;overflow-y:auto;}
+.obs-item{display:flex;gap:8px;align-items:flex-start;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px;}
+.obs-axis{font-size:10px;padding:1px 6px;border-radius:4px;flex-shrink:0;margin-top:1px;}
+
+/* ============================
+   6. 성장분석
+   ============================ */
+.timeline{display:flex;align-items:center;margin-bottom:20px;}
+.tl-step{display:flex;flex-direction:column;align-items:center;flex:1;}
+.tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;margin-bottom:4px;}
+.tl-label{font-size:10px;color:var(--text2);text-align:center;line-height:1.4;}
+.tl-month{font-size:11px;font-weight:700;text-align:center;}
+.tl-line{flex:1;height:2px;background:var(--g100);margin:0 -2px;margin-bottom:20px;align-self:flex-start;margin-top:13px;}
+.growth-tabs{display:flex;gap:4px;margin-bottom:16px;}
+.growth-tab{padding:6px 16px;border-radius:20px;border:0.5px solid var(--border2);font-size:12px;cursor:pointer;background:transparent;color:var(--text2);}
+.growth-tab.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600;}
+.slider-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.slider-row label{font-size:12px;color:var(--text2);width:60px;flex-shrink:0;text-align:right;}
+.slider-row input[type=range]{flex:1;accent-color:var(--teal);}
+.slider-row .sv{font-size:12px;font-weight:700;width:30px;color:var(--teal-d);}
+.check-item{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:0.5px solid var(--border);font-size:12px;}
+.check-item input[type=checkbox]{accent-color:var(--teal);width:14px;height:14px;flex-shrink:0;}
+
+/* ============================
+   7. 학부모 리포트 [NEW]
+   ============================ */
+.report-controls{background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);padding:16px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;}
+.rctrl{display:flex;flex-direction:column;gap:5px;}
+.rctrl-lbl{font-size:10px;font-weight:700;color:var(--text2);letter-spacing:.04em;}
+.rctrl select{width:auto;min-width:120px;}
+.period-tabs{display:flex;gap:4px;}
+.period-tab{padding:6px 14px;border-radius:20px;border:0.5px solid var(--border2);font-size:12px;cursor:pointer;background:transparent;color:var(--text2);font-family:var(--font);}
+.period-tab.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:600;}
+.btn-print{padding:8px 20px;background:var(--teal);color:#fff;border:none;border-radius:var(--r);font-size:13px;font-weight:700;font-family:var(--font);cursor:pointer;display:flex;align-items:center;gap:6px;margin-left:auto;}
+.btn-print:hover{opacity:.88;}
+.report-preview{background:var(--bg3);border-radius:var(--rl);padding:20px;display:flex;flex-direction:column;gap:16px;}
+.pg-label{font-size:10px;color:var(--text3);display:flex;justify-content:space-between;margin-bottom:-8px;}
+.pg-label span{font-size:10px;background:var(--g50);border:0.5px solid var(--border);border-radius:4px;padding:1px 7px;color:var(--text2);}
+
+/* A4 pages */
+.a4{background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--rl);overflow:hidden;}
+.a4-inner{padding:26px 30px;}
+.cover-hdr{text-align:center;padding-bottom:18px;border-bottom:0.5px solid var(--border);margin-bottom:18px;}
+.cover-kinder{font-size:11px;color:var(--text2);margin-bottom:5px;}
+.cover-title{font-size:24px;font-weight:700;letter-spacing:-.02em;margin-bottom:5px;}
+.cover-name{font-size:14px;color:var(--text2);margin-bottom:10px;}
+.cover-pills{display:flex;justify-content:center;gap:6px;flex-wrap:wrap;}
+.letter-box{background:var(--bg2);border:0.5px solid var(--border);border-radius:var(--r);padding:13px 15px;margin-bottom:13px;}
+.letter-lbl{font-size:9px;font-weight:700;color:var(--text3);letter-spacing:.06em;margin-bottom:5px;}
+.letter-text{font-size:12px;line-height:1.85;}
+.cover-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:13px;}
+.csum{background:var(--bg2);border-radius:var(--r);padding:10px 12px;text-align:center;}
+.csum-lbl{font-size:10px;color:var(--text2);margin-bottom:3px;}
+.csum-val{font-size:19px;font-weight:700;line-height:1.1;}
+.csum-sub{font-size:9px;color:var(--text3);margin-top:2px;}
+.reply-box{border:0.5px dashed var(--border2);border-radius:var(--r);padding:9px 13px;min-height:52px;}
+.pg-hdr{display:flex;justify-content:space-between;align-items:flex-start;padding-bottom:12px;border-bottom:0.5px solid var(--border);margin-bottom:14px;}
+.pg-title{font-size:15px;font-weight:700;}
+.pg-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.domain-block{margin-bottom:9px;}
+.domain-row{display:flex;gap:7px;align-items:flex-start;margin-bottom:3px;}
+.dtag{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+.dtext{font-size:11.5px;line-height:1.75;flex:1;}
+.star-bar{display:flex;justify-content:flex-end;align-items:center;gap:5px;margin-bottom:2px;}
+.sbar-lbl{font-size:9px;color:var(--text3);}
+.stars{display:flex;gap:1px;}
+.star{width:11px;height:11px;}
+.d-divider{border:none;border-top:0.5px solid var(--border);margin:7px 0;}
+.star-legend{font-size:9px;color:var(--text3);line-height:1.6;margin-top:10px;padding-top:9px;border-top:0.5px solid var(--border);}
+/* dashboard page */
+.dash-hdr-bar{padding:13px 26px;display:flex;justify-content:space-between;align-items:center;}
+.dash-title{font-size:14px;font-weight:700;color:#fff;}
+.dash-sub{font-size:10px;margin-top:1px;}
+.metric-grid4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:13px;}
+.mc{background:var(--bg2);border-radius:var(--r);padding:9px 11px;}
+.mc-lbl{font-size:9px;color:var(--text2);margin-bottom:2px;}
+.mc-val{font-size:18px;font-weight:700;line-height:1;}
+.mc-val span{font-size:10px;font-weight:400;color:var(--text2);}
+.mc-sub{font-size:9px;color:var(--text3);margin-top:2px;}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.slbl{font-size:9px;font-weight:700;color:var(--text2);letter-spacing:.04em;margin:10px 0 6px;}
+.bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;}
+.bar-lbl{font-size:9px;color:var(--text2);width:44px;flex-shrink:0;text-align:right;}
+.bar-track{flex:1;background:var(--bg3);border-radius:3px;height:8px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-val{font-size:9px;font-weight:700;width:22px;}
+.dual-row{margin-bottom:6px;}
+.dual-inner{display:flex;align-items:center;gap:6px;}
+.dual-bars{flex:1;display:flex;flex-direction:column;gap:2px;}
+.dual-bar{display:flex;align-items:center;gap:4px;}
+.d-lbl{font-size:8px;color:var(--text3);width:24px;flex-shrink:0;}
+.d-track{flex:1;background:var(--bg3);border-radius:2px;height:6px;overflow:hidden;}
+.d-fill{height:100%;border-radius:2px;}
+.d-val{font-size:8px;font-weight:700;width:20px;}
+.arrow-row{display:flex;align-items:center;gap:5px;font-size:10px;color:var(--text2);margin-bottom:4px;}
+.up{color:#0F6E56;font-weight:700;}
+.dn{color:#A32D2D;font-weight:700;}
+.sm2{color:var(--g600);}
+.brain-box{background:var(--bg2);border-radius:var(--r);padding:10px 11px;text-align:center;}
+.brain-type{font-size:13px;font-weight:700;color:var(--teal-d);margin:3px 0 2px;}
+.brain-desc{font-size:9px;color:var(--text2);}
+.bbar-row{display:flex;align-items:center;gap:4px;margin-bottom:3px;}
+.bbar-lbl{font-size:8px;color:var(--text2);width:24px;text-align:right;flex-shrink:0;}
+.bbar-track{flex:1;height:6px;background:var(--bg);border-radius:2px;overflow:hidden;border:0.5px solid var(--border);}
+.bbar-fill{height:100%;border-radius:2px;}
+.brain-pills-wrap{display:flex;justify-content:center;gap:3px;flex-wrap:wrap;margin-top:6px;}
+.bpill{font-size:8px;padding:1px 6px;border-radius:8px;}
+.sstar-row{display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+.sstar-lbl{font-size:9px;color:var(--text2);width:36px;flex-shrink:0;text-align:right;}
+.chk-grid2{display:grid;grid-template-columns:1fr 1fr;gap:3px 8px;}
+.chk-row{display:flex;align-items:center;gap:4px;font-size:9px;}
+.chk-dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.legend2{display:flex;gap:8px;font-size:8px;color:var(--text2);margin-top:4px;}
+.legend2 span{display:inline-flex;align-items:center;gap:2px;}
+.ldot{width:5px;height:5px;border-radius:50%;display:inline-block;}
+.radar-wrap2{display:flex;justify-content:center;margin:6px 0 4px;}
+.ai-box{background:var(--purple-l);border-radius:var(--r);padding:10px 12px;font-size:11px;color:var(--purple-d);line-height:1.7;margin-top:9px;}
+.note9{font-size:9px;color:var(--text3);margin-top:2px;}
+.change-badge{font-size:9px;font-weight:700;}
+
+/* ============================
+   8. 활동지
+   ============================ */
+.activity-group{border:0.5px solid var(--border2);border-radius:var(--r);padding:16px;margin-bottom:12px;}
+.ag-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+
+/* ============================
+   PRINT
+   ============================ */
+@media print{
+  .sidebar,.topbar,.report-controls,.report-preview>.pg-label,.section-header{display:none!important;}
+  .main{margin-left:0;}
+  .content{padding:0;}
+  .section{display:block!important;}
+  .section:not(#sec-report){display:none!important;}
+  .a4{border:none;border-radius:0;box-shadow:none;page-break-after:always;}
+  .a4:last-child{page-break-after:auto;}
+  .report-preview{background:#fff;padding:0;gap:0;}
+  .dash-hdr-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  @page{size:A4;margin:12mm 15mm;}
+}
+</style>
+</head>
+<body>
+
+<!-- ========================
+     SIDEBAR
+     ======================== -->
+<nav class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-title">필굿 두뇌맞춤</div>
+    <div class="sb-logo-sub">K-PASS × 누리과정 통합</div>
+    <span class="sb-badge">v7</span>
+  </div>
+
+  <div class="sb-group">
+    <div class="sb-group-lbl">현황</div>
+    <div class="sb-item active" onclick="nav('dashboard',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><rect x="1" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".7"/><rect x="9" y="1" width="6" height="6" rx="1.5" fill="currentColor" opacity=".7"/><rect x="1" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="9" y="9" width="6" height="6" rx="1.5" fill="currentColor" opacity=".4"/></svg>
+      학급 현황
+    </div>
+  </div>
+
+  <div class="sb-group">
+    <div class="sb-group-lbl">교안 자동생성</div>
+    <div class="sb-item" onclick="nav('lesson',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.4"/><line x1="5" y1="6" x2="11" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="5" y1="9" x2="9" y2="9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      교안 + 발문 스크립트
+    </div>
+    <div class="sb-item" onclick="nav('books',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><path d="M2 3C2 2.4 2.4 2 3 2h4v12H3c-.6 0-1-.4-1-1V3z" stroke="currentColor" stroke-width="1.3"/><path d="M7 2h6c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H7V2z" stroke="currentColor" stroke-width="1.3"/></svg>
+      그림책 큐레이션
+    </div>
+    <div class="sb-item" onclick="nav('supplies',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><path d="M4 2h8l1 4H3L4 2z" stroke="currentColor" stroke-width="1.3"/><rect x="2" y="6" width="12" height="8" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="8" y1="9" x2="8" y2="12" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="10.5" x2="10" y2="10.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      준비물 자동취합
+    </div>
+  </div>
+
+  <div class="sb-group">
+    <div class="sb-group-lbl">기록 · 분석 · 보고</div>
+    <div class="sb-item" onclick="nav('observe',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="5.5" stroke="currentColor" stroke-width="1.3"/><circle cx="8" cy="8" r="2" fill="currentColor" opacity=".6"/></svg>
+      학생 관찰 기록
+    </div>
+    <div class="sb-item" onclick="nav('growth',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><polyline points="2,12 6,7 9,9 13,4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/><circle cx="13" cy="4" r="1.5" fill="currentColor"/></svg>
+      성장 분석
+    </div>
+    <div class="sb-item" onclick="nav('report',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><rect x="2" y="1" width="12" height="14" rx="2" stroke="currentColor" stroke-width="1.3"/><line x1="5" y1="5" x2="11" y2="5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="5" y1="11" x2="8" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      학부모 발달평가 출력
+      <span class="sb-new-badge">NEW</span>
+    </div>
+  </div>
+
+  <div class="sb-group">
+    <div class="sb-group-lbl">출력</div>
+    <div class="sb-item" onclick="nav('activity',this)">
+      <svg class="icon" viewBox="0 0 16 16" fill="none"><rect x="3" y="2" width="10" height="12" rx="1.5" stroke="currentColor" stroke-width="1.3"/><line x1="6" y1="6" x2="10" y2="6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="6" y1="9" x2="10" y2="9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      활동지 출력
+    </div>
+  </div>
+
+  <div class="sb-footer">필굿 두뇌맞춤 시스템 v7<br>K-PASS × 누리과정</div>
+</nav>
+
+<!-- ========================
+     TOP BAR
+     ======================== -->
+<div class="main">
+<div class="topbar">
+  <div>
+    <div class="topbar-title" id="topbar-title">학급 현황 대시보드</div>
+    <div class="topbar-sub" id="topbar-sub">앱 테스트 반 · 9명 · 2026.4.10 검사 결과</div>
+  </div>
+  <div class="topbar-right">
+    <span class="klass-badge">앱 테스트 반</span>
+  </div>
+</div>
+
+<div class="content">
+
+<!-- ========================
+     1. 학급 현황
+     ======================== -->
+<div id="sec-dashboard" class="section active">
+  <div class="section-header">
+    <h2>학급 현황 대시보드</h2>
+    <p>앱 테스트 반 · 9명 · K-PASS 검사 기반 분석</p>
+  </div>
+
+  <div class="row4" style="margin-bottom:16px;">
+    <div class="stat-card"><div class="stat-lbl">전체</div><div class="stat-val">9<span style="font-size:14px;font-weight:400;">명</span></div></div>
+    <div class="stat-card"><div class="stat-lbl">관리필요</div><div class="stat-val" style="color:var(--coral);">6<span style="font-size:14px;font-weight:400;">명</span></div><div class="stat-sub">67%</div></div>
+    <div class="stat-card"><div class="stat-lbl">주의력 ↑ 강점</div><div class="stat-val" style="color:var(--teal);">73<span style="font-size:14px;font-weight:400;">%</span></div></div>
+    <div class="stat-card"><div class="stat-lbl">순차처리 ↓ 약점</div><div class="stat-val" style="color:var(--coral);">50<span style="font-size:14px;font-weight:400;">%</span></div></div>
+  </div>
+
+  <div class="warn-box">⚠ <strong>집중 지원:</strong> 박민아 전 척도 1~5% — 주 1회 개별 PREP 필수</div>
+  <div class="info-box">ℹ <strong>추천 옵션:</strong> B(균형혼합) + 순차처리·계획력 PREP 집중 · 발문은 주의력(73%) 강점 적극 활용</div>
+
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">두뇌 유형 분포</div>
+      <div style="display:flex;flex-direction:column;gap:8px;">
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;">
+          <div style="width:80px;color:var(--text2);">우뇌우세형</div>
+          <div style="flex:1;background:var(--bg3);border-radius:4px;height:12px;overflow:hidden;"><div style="width:44%;height:100%;background:var(--teal);border-radius:4px;"></div></div>
+          <div style="width:40px;font-weight:700;">4명 44%</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;">
+          <div style="width:80px;color:var(--text2);">좌우뇌균형</div>
+          <div style="flex:1;background:var(--bg3);border-radius:4px;height:12px;overflow:hidden;"><div style="width:33%;height:100%;background:var(--purple);border-radius:4px;"></div></div>
+          <div style="width:40px;font-weight:700;">3명 33%</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;font-size:12px;">
+          <div style="width:80px;color:var(--text2);">좌뇌우세형</div>
+          <div style="flex:1;background:var(--bg3);border-radius:4px;height:12px;overflow:hidden;"><div style="width:22%;height:100%;background:var(--blue);border-radius:4px;"></div></div>
+          <div style="width:40px;font-weight:700;">2명 22%</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">PASS 4축 학급 평균</div>
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div class="bar-row" style="font-size:12px;"><div class="bar-lbl" style="width:60px;font-size:12px;">동시처리</div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:54%;background:var(--purple);"></div></div><div class="bar-val" style="font-size:12px;width:30px;">54%</div></div>
+        <div class="bar-row" style="font-size:12px;"><div class="bar-lbl" style="width:60px;font-size:12px;">계획력</div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:54%;background:var(--amber);"></div></div><div class="bar-val" style="font-size:12px;width:30px;">54%</div></div>
+        <div class="bar-row" style="font-size:12px;"><div class="bar-lbl" style="width:60px;font-size:12px;">주의력</div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:73%;background:var(--teal);"></div></div><div class="bar-val" style="font-size:12px;color:var(--teal-d);width:30px;">73%</div></div>
+        <div class="bar-row" style="font-size:12px;"><div class="bar-lbl" style="width:60px;font-size:12px;">순차처리</div><div class="bar-track" style="height:10px;"><div class="bar-fill" style="width:50%;background:var(--coral);"></div></div><div class="bar-val" style="font-size:12px;color:var(--coral-d);width:30px;">50%</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">학생별 결과 — 클릭하면 관찰 기록으로</div>
+    <table class="student-table">
+      <thead><tr><th>이름</th><th>나이</th><th>뇌유형</th><th>PASS 4축</th><th>취약</th><th>비고</th></tr></thead>
+      <tbody id="student-tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ========================
+     2. 교안+발문
+     ======================== -->
+<div id="sec-lesson" class="section">
+  <div class="section-header"><h2>교안 + 발문 스크립트 자동생성</h2><p>활동 교안과 PASS 기반 발문 스크립트가 함께 출력됩니다</p></div>
+  <div class="card">
+    <div class="card-title">1단계 — 수업 조건 선택</div>
+    <div class="row3" style="margin-bottom:12px;">
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">월</label>
+        <select id="les-month"><option>3월 — 나와 친구</option><option>4월 — 봄과 생명</option><option>5월 — 가족과 공동체</option><option>6월 — 여름과 건강</option><option>9월 — 가을과 추수</option><option>12월 — 겨울과 축제</option></select></div>
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">주차</label>
+        <select><option>1주차</option><option>2주차</option><option>3주차</option><option>4주차</option></select></div>
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">교과</label>
+        <select><option>누리과정</option><option>국어</option><option>수학</option></select></div>
+    </div>
+    <div class="card-title" style="margin-top:4px;">2단계 — 교안 옵션</div>
+    <div class="option-cards">
+      <div class="option-card" onclick="selectOption(this,'A')"><div class="oc-title">옵션 A — 활동 중심형</div><div class="oc-sub">그림·놀이·체험 위주<br>우뇌우세 그룹 주도</div></div>
+      <div class="option-card selected" onclick="selectOption(this,'B')"><div class="oc-title">옵션 B — 균형 혼합형 ★추천</div><div class="oc-sub">강점 활용 + 약점 보완<br>전체 학급 표준</div></div>
+      <div class="option-card" onclick="selectOption(this,'C')"><div class="oc-title">옵션 C — 구조화형</div><div class="oc-sub">단계·순서 중심<br>좌뇌우세 그룹 주도</div></div>
+    </div>
+    <div style="display:flex;gap:8px;"><button class="btn btn-primary" onclick="genLesson()">교안 + 발문 스크립트 생성</button><button class="btn" onclick="window.print()">전체 인쇄</button></div>
+  </div>
+  <div class="card"><div class="lesson-output" id="lesson-output">월·주차·옵션을 선택하고 [교안 + 발문 스크립트 생성]을 누르세요.</div></div>
+</div>
+
+<!-- ========================
+     3. 그림책
+     ======================== -->
+<div id="sec-books" class="section">
+  <div class="section-header"><h2>그림책 큐레이션</h2><p>월별 주제 × 뇌 유형별 맞춤 추천 — PASS 이론 연계</p></div>
+  <div class="card">
+    <div class="row2" style="margin-bottom:12px;">
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">월 선택</label>
+        <select onchange="genBooks(this.value)"><option>3월</option><option>4월</option><option>5월</option><option>6월</option></select></div>
+    </div>
+    <div id="books-output" class="lesson-output">월을 선택하면 뇌 유형별 추천 그림책이 표시됩니다.</div>
+  </div>
+</div>
+
+<!-- ========================
+     4. 준비물
+     ======================== -->
+<div id="sec-supplies" class="section">
+  <div class="section-header"><h2>준비물 자동 취합</h2><p>교안 선택 → 시점별 분류 체크리스트 자동 생성</p></div>
+  <div class="card">
+    <div class="row3" style="margin-bottom:12px;">
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">월</label><select><option>3월</option><option>4월</option><option>5월</option></select></div>
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">주차</label><select><option>1주차</option><option>2주차</option></select></div>
+      <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">학생 수</label><input type="text" value="9"></div>
+    </div>
+    <button class="btn btn-primary" onclick="genSupplies()">준비물 체크리스트 생성</button>
+    <div id="supplies-output" class="lesson-output" style="margin-top:12px;">교안을 선택하고 생성 버튼을 누르세요.</div>
+  </div>
+</div>
+
+<!-- ========================
+     5. 관찰기록
+     ======================== -->
+<div id="sec-observe" class="section">
+  <div class="section-header"><h2>학생 관찰 기록</h2><p>코멘트 누적 → 자동 멘트 제안 → 보고서 연동</p></div>
+  <div class="info-box">코멘트 5개 이상 → 자주 쓰는 표현 ★ 우선 노출. 기록은 브라우저에 자동 저장.</div>
+  <div class="row2">
+    <div class="card">
+      <div class="card-title">학생 선택</div>
+      <select id="obs-student" onchange="loadObs()">
+        <option value="">-- 학생 선택 --</option>
+      </select>
+      <div style="margin-top:12px;">
+        <div class="card-title">PASS 축</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;" id="obs-axis-tabs">
+          <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setAxis('전체',this)">전체</button>
+          <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setAxis('동시처리',this)">동시처리</button>
+          <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setAxis('순차처리',this)">순차처리</button>
+          <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setAxis('계획력',this)">계획력</button>
+          <button class="btn" style="font-size:11px;padding:4px 10px;" onclick="setAxis('주의력',this)">주의력</button>
+        </div>
+        <div class="card-title">관찰 영역</div>
+        <div class="quick-tags" id="domain-tags">
+          <span class="q-tag" onclick="appendTag('신체')">신체</span>
+          <span class="q-tag" onclick="appendTag('의사소통')">의사소통</span>
+          <span class="q-tag" onclick="appendTag('사회관계')">사회관계</span>
+          <span class="q-tag" onclick="appendTag('예술')">예술</span>
+          <span class="q-tag" onclick="appendTag('자연탐구')">자연탐구</span>
+        </div>
+        <textarea id="obs-text" rows="3" placeholder="관찰 내용을 입력하세요" style="margin-bottom:8px;"></textarea>
+        <button class="btn btn-primary" onclick="saveObs()" style="width:100%;">저장</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">관찰 기록 이력</div>
+      <div class="obs-list" id="obs-list"><div style="font-size:12px;color:var(--text3);">학생을 선택해 주세요.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========================
+     6. 성장분석
+     ======================== -->
+<div id="sec-growth" class="section">
+  <div class="section-header"><h2>성장 분석</h2><p>PASS 이론 연구 기반 · 3개월·6개월·1년 성장 추적</p></div>
+  <div class="info-box">★ 연구 근거: Naglieri & Johnson(2000) — 21회기(3개월) 후 계획력 변화 · Carlson & Das(1997) — 6개월 PREP 효과 · CAS2 Manual — K-PASS 재검사 12개월 권장</div>
+
+  <div class="card">
+    <div class="card-title">연간 성장 체크포인트</div>
+    <div class="timeline">
+      <div class="tl-step"><div class="tl-dot" style="background:var(--teal);">K</div><div class="tl-month">3월</div><div class="tl-label">K-PASS<br>초기검사</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-step"><div class="tl-dot" style="background:var(--purple);">✓</div><div class="tl-month">6월</div><div class="tl-label">3개월<br>행동체크</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-step"><div class="tl-dot" style="background:var(--amber);">M</div><div class="tl-month">9월</div><div class="tl-label">6개월<br>중간분석</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-step"><div class="tl-dot" style="background:var(--purple);opacity:.6;">✓</div><div class="tl-month">12월</div><div class="tl-label">9개월<br>관찰기록</div></div>
+      <div class="tl-line"></div>
+      <div class="tl-step"><div class="tl-dot" style="background:var(--coral);">K</div><div class="tl-month">2월</div><div class="tl-label">1년<br>K-PASS비교</div></div>
+    </div>
+    <select id="growth-student" style="width:180px;margin-bottom:14px;" onchange="loadGrowthStudent()"><option value="">학생 선택</option></select>
+    <div class="growth-tabs">
+      <button class="growth-tab on" onclick="setGrowthTab('3m',this)">3개월 행동 체크</button>
+      <button class="growth-tab" onclick="setGrowthTab('6m',this)">6개월 중간 분석</button>
+      <button class="growth-tab" onclick="setGrowthTab('1y',this)">1년 종합 성장</button>
+    </div>
+    <div id="growth-panel"></div>
+  </div>
+</div>
+
+<!-- ========================
+     7. 학부모 발달평가 출력 [NEW]
+     ======================== -->
+<div id="sec-report" class="section">
+  <div class="section-header">
+    <h2>학부모 발달평가 출력</h2>
+    <p>학생 선택 → 기간 선택 → A4 3장 미리보기 → 인쇄/PDF · 서술 + 5가지 정량 지표 포함</p>
+  </div>
+
+  <div class="report-controls">
+    <div class="rctrl"><span class="rctrl-lbl">학생</span><select id="rep-student" onchange="renderReport()"><option value="">학생 선택</option></select></div>
+    <div class="rctrl"><span class="rctrl-lbl">학년도</span><select id="rep-year" onchange="renderReport()"><option>2025</option><option>2026</option></select></div>
+    <div class="rctrl">
+      <span class="rctrl-lbl">기간</span>
+      <div class="period-tabs">
+        <button class="period-tab on" onclick="setRepPeriod('3m',this)">3개월</button>
+        <button class="period-tab" onclick="setRepPeriod('6m',this)">6개월</button>
+        <button class="period-tab" onclick="setRepPeriod('1y',this)">1년</button>
+      </div>
+    </div>
+    <button class="btn-print" onclick="window.print()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none"><rect x="3" y="1" width="10" height="6" rx="1" stroke="white" stroke-width="1.4"/><rect x="1" y="6" width="14" height="7" rx="1.5" stroke="white" stroke-width="1.4"/><rect x="4" y="10" width="8" height="4" rx=".5" fill="white"/><circle cx="12" cy="9" r="1" fill="white"/></svg>
+      인쇄 / PDF 저장
+    </button>
+  </div>
+
+  <div class="report-preview" id="report-preview">
+    <div style="font-size:13px;color:var(--text3);text-align:center;padding:40px;">학생과 기간을 선택하면 미리보기가 표시됩니다.</div>
+  </div>
+</div>
+
+<!-- ========================
+     8. 활동지
+     ======================== -->
+<div id="sec-activity" class="section">
+  <div class="section-header"><h2>그룹별 활동지</h2><p>탭 선택 후 인쇄 → 배부</p></div>
+
+  <div class="row3" style="margin-bottom:16px;">
+    <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">월</label>
+      <select id="act-month" onchange="renderActivity()">
+        <option>3월 — 나와 친구</option><option>4월 — 봄과 생명</option>
+        <option>5월 — 가족과 공동체</option><option>6월 — 여름과 건강</option>
+        <option>9월 — 가을과 추수</option><option>12월 — 겨울과 축제</option>
+      </select></div>
+    <div><label style="font-size:11px;color:var(--text2);display:block;margin-bottom:4px;">주차</label>
+      <select id="act-week" onchange="renderActivity()">
+        <option>1주차</option><option>2주차</option><option>3주차</option><option>4주차</option>
+      </select></div>
+  </div>
+
+  <div class="growth-tabs" style="margin-bottom:16px;" id="act-tabs">
+    <button class="growth-tab on" onclick="setActTab('A',this)">그룹 A (우뇌우세)</button>
+    <button class="growth-tab" onclick="setActTab('B',this)">그룹 B (밸런스)</button>
+    <button class="growth-tab" onclick="setActTab('C',this)">그룹 C (좌뇌우세)</button>
+    <button class="growth-tab" onclick="setActTab('PREP',this)">PREP 소그룹</button>
+  </div>
+
+  <div id="act-content"></div>
+
+  <div style="display:flex;gap:8px;margin-top:16px;">
+    <button class="btn btn-primary" onclick="printActivity()">
+      <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="display:inline;vertical-align:middle;margin-right:4px;"><rect x="3" y="1" width="10" height="6" rx="1" stroke="white" stroke-width="1.4"/><rect x="1" y="6" width="14" height="7" rx="1.5" stroke="white" stroke-width="1.4"/><rect x="4" y="10" width="8" height="4" rx=".5" fill="white"/><circle cx="12" cy="9" r="1" fill="white"/></svg>
+      활동지 인쇄
+    </button>
+    <button class="btn" onclick="renderActivity()">새로고침</button>
+  </div>
+</div>
+
+</div><!-- /content -->
+</div><!-- /main -->
+
+<!-- ========================
+     CHART.JS
+     ======================== -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+
+<script>
+/* ==============================
+   DATA
+   ============================== */
+const STUDENTS = [
+  { id:'haeyun', name:'황 해 윤', age:'5세', kinder:'명문자연어린이집', klass:'하얀구름반',
+    brainType:'우뇌우세형', brainL:35, brainR:65, brainTags:['창의적 사고','시각-공간','직관적 판단'],
+    pass:{plan:54,sim:64,att:73,seq:41}, passInit:{plan:46,sim:52,att:65,seq:43}, weak:'순차처리',
+    domains:[
+      {name:'신체운동',tag:'신체',bg:'#E1F5EE',tc:'#085041',stars:4,prev:3,text:'소근육 발달이 눈에 띄게 향상되어 가위질과 색연필 잡기가 안정적으로 이루어집니다. 또래와 함께하는 신체 놀이에 즐겁게 참여하며 균형감각도 자연스럽게 발전하고 있습니다.'},
+      {name:'의사소통',tag:'언어',bg:'#EEEDFE',tc:'#3C3489',stars:4,prev:3,text:'자신의 생각을 문장으로 표현하는 능력이 크게 늘었습니다. 그림책을 보며 이야기를 재구성하거나 친구에게 설명하는 장면이 자주 관찰됩니다.'},
+      {name:'사회관계',tag:'사회',bg:'#E6F1FB',tc:'#0C447C',stars:3,prev:3,text:'또래와의 갈등 상황에서 감정을 말로 표현하려는 시도가 늘고 있습니다. 규칙을 이해하고 지키려는 모습이 관찰됩니다.'},
+      {name:'자연탐구',tag:'인지',bg:'#FAEEDA',tc:'#633806',stars:4,prev:3,text:'순차적으로 계획하고 실행하는 과제에서 집중력이 높아졌습니다. K-PASS 기반 수업에서 주의력 강점이 두드러지게 나타납니다.'},
+      {name:'예술경험',tag:'예술',bg:'#FBEAF0',tc:'#72243E',stars:5,prev:3,text:'색과 형태를 조합하는 미술 활동에서 독창적인 표현이 관찰됩니다. 음악 시간에도 적극적으로 참여하며 리듬감이 향상되고 있습니다.'},
+    ],
+    checklist:[
+      {text:'친구 이름 먼저 부르기',s:'done'},{text:'순서 기다리기',s:'done'},
+      {text:'도구 스스로 정리하기',s:'done'},{text:'감정 말로 표현하기',s:'done'},
+      {text:'계획 세우고 실행하기',s:'going'},{text:'순서대로 이야기하기',s:'need'},
+    ],
+    checkPct:82, actCount:24,
+    letter:'안녕하세요, 학부모님^^\n따뜻한 관심과 사랑 속에서 어느덧 1학기를 마무리하게 되었습니다. 새로운 환경에 적응하고, 친구들과 함께 어울리며 하루하루 자라나는 해윤이의 모습을 가까이서 지켜볼 수 있어 참 감사한 시간이었습니다.\n\n한 학기 동안 보여준 성장과 변화의 순간들을 담아 발달 평가를 작성하였습니다. 가정에서도 해윤이의 성장을 함께 기뻐해 주시길 바랍니다. 앞으로도 건강하고 즐겁게 지낼 수 있도록 최선을 다하겠습니다. 감사합니다♡',
+    ai3:'해윤이는 우뇌우세형 학습자로 주의력(73%ile)과 예술 영역에서 뚜렷한 강점을 보입니다. 순차처리 영역은 지속적인 지원이 필요하며, 그림일기·퍼즐 등 순서 기반 가정 연계 활동을 권장합니다.',
+    ai6:'초기 검사 대비 주의력(+8)·동시처리(+12) 영역에서 유의미한 향상이 확인됩니다. 순차처리는 또래 평균 이하로 PREP 활동을 통한 단계별 지원을 계속할 예정입니다.',
+    ai1:'1년간의 관찰과 K-PASS 재검사 결과, 해윤이는 우뇌우세형 특성을 유지하며 주의력·동시처리·예술 세 영역에서 또래 평균 이상의 발달을 이루었습니다. 내년도에는 순차처리 강화를 위한 구조화된 활동을 권장합니다.' },
+  { id:'mina', name:'박 민 아', age:'5세', kinder:'명문자연어린이집', klass:'하얀구름반',
+    brainType:'좌뇌우세형', brainL:68, brainR:32, brainTags:['논리적 사고','순차처리','언어 강점'],
+    pass:{plan:28,sim:22,att:32,seq:45}, passInit:{plan:20,sim:18,att:26,seq:38}, weak:'동시처리',
+    domains:[
+      {name:'신체운동',tag:'신체',bg:'#E1F5EE',tc:'#085041',stars:2,prev:2,text:'신체 활동에 소극적으로 참여하는 경향이 있으나, 소근육 조작 능력은 또래 수준으로 유지되고 있습니다.'},
+      {name:'의사소통',tag:'언어',bg:'#EEEDFE',tc:'#3C3489',stars:3,prev:2,text:'한 단어에서 짧은 문장으로의 전환이 관찰됩니다. 반복적인 언어 모델링이 효과를 보이고 있습니다.'},
+      {name:'사회관계',tag:'사회',bg:'#E6F1FB',tc:'#0C447C',stars:2,prev:2,text:'또래와의 상호작용 기회를 늘리는 구조화된 소그룹 활동이 긍정적 반응을 보이고 있습니다.'},
+      {name:'자연탐구',tag:'인지',bg:'#FAEEDA',tc:'#633806',stars:2,prev:1,text:'단순 인과 관계를 이해하려는 시도가 증가하고 있습니다. 시각적 지원 자료가 효과적입니다.'},
+      {name:'예술경험',tag:'예술',bg:'#FBEAF0',tc:'#72243E',stars:2,prev:2,text:'색칠하기와 같은 구조화된 예술 활동에 안정적으로 참여합니다.'},
+    ],
+    checklist:[
+      {text:'이름에 반응하기',s:'done'},{text:'눈 맞추기',s:'done'},
+      {text:'간단한 지시 따르기',s:'going'},{text:'친구 옆에 앉기',s:'going'},
+      {text:'감정 표현하기',s:'need'},{text:'차례 지키기',s:'need'},
+    ],
+    checkPct:33, actCount:24,
+    letter:'안녕하세요, 학부모님^^\n민아와 함께한 1학기 동안 작지만 소중한 성장의 순간들을 함께 할 수 있어 감사했습니다. 민아의 속도에 맞춘 개별 지원을 통해 조금씩 변화가 나타나고 있습니다.\n\n2학기에도 지속적인 PREP 프로그램과 가정 연계를 통해 함께 성장해 나가겠습니다. 궁금한 점은 언제든지 문의해 주세요. 감사합니다♡',
+    ai3:'민아는 전 척도 1~5% 수준으로 개별 집중 지원이 필요합니다. 주 1회 PREP 소그룹 수업에서 긍정적 반응이 확인되고 있으며, 가정에서의 일관된 루틴 유지를 권장합니다.',
+    ai6:'6개월 관찰 결과, 언어·인지 영역에서 미세한 향상이 관찰됩니다. 감각통합 활동과 병행하여 사회관계 발달을 지원할 계획입니다.',
+    ai1:'연간 관찰 결과, 안정적 애착 형성과 기초 언어 발달에서 의미 있는 진전이 있었습니다. 전문 기관 연계 및 개별화 교육 계획(IEP) 수립을 권장합니다.' },
+  { id:'junho', name:'김 준 호', age:'6세', kinder:'명문자연어린이집', klass:'하얀구름반',
+    brainType:'좌우뇌균형', brainL:51, brainR:49, brainTags:['통합적 사고','유연한 학습','다중 강점'],
+    pass:{plan:58,sim:60,att:62,seq:59}, passInit:{plan:50,sim:52,att:55,seq:51}, weak:'없음',
+    domains:[
+      {name:'신체운동',tag:'신체',bg:'#E1F5EE',tc:'#085041',stars:4,prev:3,text:'대·소근육 발달이 균형 있게 이루어지고 있습니다. 신체 활동에 자신감 있게 참여하며 협응력이 향상되었습니다.'},
+      {name:'의사소통',tag:'언어',bg:'#EEEDFE',tc:'#3C3489',stars:4,prev:3,text:'어휘력이 풍부하고 자신의 생각을 조리 있게 표현합니다. 또래와의 대화를 이끄는 모습이 자주 관찰됩니다.'},
+      {name:'사회관계',tag:'사회',bg:'#E6F1FB',tc:'#0C447C',stars:4,prev:4,text:'또래 관계가 원만하며 갈등 상황에서 협상하려는 시도가 관찰됩니다. 리더십 역할을 즐겨 맡습니다.'},
+      {name:'자연탐구',tag:'인지',bg:'#FAEEDA',tc:'#633806',stars:4,prev:3,text:'논리적 추론과 문제 해결 능력이 또래 수준 이상입니다. 호기심이 많고 탐구 활동에 몰입합니다.'},
+      {name:'예술경험',tag:'예술',bg:'#FBEAF0',tc:'#72243E',stars:3,prev:3,text:'다양한 예술 활동에 균형 있게 참여합니다. 특히 음악과 동작 표현에 관심을 보입니다.'},
+    ],
+    checklist:[
+      {text:'친구 이름 먼저 부르기',s:'done'},{text:'순서 기다리기',s:'done'},
+      {text:'도구 스스로 정리하기',s:'done'},{text:'감정 말로 표현하기',s:'done'},
+      {text:'계획 세우고 실행하기',s:'done'},{text:'순서대로 이야기하기',s:'going'},
+    ],
+    checkPct:91, actCount:24,
+    letter:'안녕하세요, 학부모님^^\n준호와 함께한 1학기는 매일이 즐거운 발견의 연속이었습니다. 고른 발달과 넘치는 에너지로 반 전체에 활기를 불어넣어 주었습니다.\n\n앞으로도 준호의 잠재력이 더욱 꽃피울 수 있도록 다양한 심화 활동을 제공하겠습니다. 감사합니다♡',
+    ai3:'준호는 좌우뇌균형형 학습자로 PASS 4축 전반에서 또래 평균 이상의 고른 발달을 보입니다. 심화 활동과 또래 멘토 역할 부여를 통해 잠재력을 더욱 발휘할 수 있도록 지원할 계획입니다.',
+    ai6:'6개월 관찰 결과, 모든 영역에서 안정적인 성장이 확인됩니다. 언어와 인지 영역의 강점을 활용한 고차원적 사고 활동을 추가로 권장합니다.',
+    ai1:'연간 관찰 결과, 준호는 전 영역에서 또래 평균 이상의 발달을 보이며 내년도 심화 프로그램 참여를 권장합니다.' },
+];
+
+/* 더미 학생 6명 추가 */
+['이서연','최지우','강민준','오하은','윤도현','정수아'].forEach((name,i)=>{
+  const brainTypes = ['우뇌우세형','좌뇌우세형','좌우뇌균형'];
+  const bt = brainTypes[i%3];
+  STUDENTS.push({
+    id:'dummy'+i, name, age:'5세', kinder:'명문자연어린이집', klass:'하얀구름반',
+    brainType:bt, brainL:bt==='좌뇌우세형'?65:bt==='우뇌우세형'?35:50,
+    brainR:bt==='좌뇌우세형'?35:bt==='우뇌우세형'?65:50,
+    brainTags:['강점1','강점2'],
+    pass:{plan:45+i*3,sim:50+i*2,att:55+i*4,seq:48+i},
+    passInit:{plan:38+i*2,sim:42+i*2,att:47+i*3,seq:41+i},
+    weak:'순차처리', domains:STUDENTS[0].domains,
+    checklist:STUDENTS[0].checklist, checkPct:70+i*3, actCount:24,
+    letter:STUDENTS[0].letter.replace('해윤이',name.slice(1)+'이'),
+    ai3:STUDENTS[0].ai3, ai6:STUDENTS[0].ai6, ai1:STUDENTS[0].ai1,
+  });
+});
+
+/* ==============================
+   INIT
+   ============================== */
+const brainColor = {'우뇌우세형':['#E1F5EE','#085041'],'좌뇌우세형':['#E6F1FB','#0C447C'],'좌우뇌균형':['#EEEDFE','#3C3489']};
+
+function init(){
+  // 학생 테이블
+  const tbody = document.getElementById('student-tbody');
+  STUDENTS.forEach(s=>{
+    const bc = brainColor[s.brainType]||['#F1EFE8','#444441'];
+    tbody.innerHTML += `<tr onclick="nav('observe',null);document.getElementById('obs-student').value='${s.id}';loadObs()">
+      <td style="font-weight:600;">${s.name}</td>
+      <td>${s.age}</td>
+      <td><span class="brain-tag" style="background:${bc[0]};color:${bc[1]};">${s.brainType}</span></td>
+      <td>
+        <div style="display:flex;gap:4px;">
+          <div style="display:flex;flex-direction:column;gap:2px;">
+            ${['att','sim','plan','seq'].map((k,i)=>{
+              const colors=['#1D9E75','#7F77DD','#EF9F27','#D85A30'];
+              return `<div style="display:flex;gap:2px;align-items:center;"><div style="width:${s.pass[k]/2}px;height:5px;background:${colors[i]};border-radius:2px;max-width:40px;"></div><span style="font-size:9px;color:var(--text2);">${s.pass[k]}</span></div>`;
+            }).join('')}
+          </div>
+        </div>
+      </td>
+      <td><span class="pill pill-coral">${s.weak}</span></td>
+      <td style="font-size:11px;color:var(--text2);">${s.checkPct}% 달성</td>
+    </tr>`;
+  });
+
+  // 셀렉트 박스들
+  ['obs-student','growth-student','rep-student'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    STUDENTS.forEach(s=>{
+      const opt = document.createElement('option');
+      opt.value = s.id; opt.textContent = s.name;
+      el.appendChild(opt);
+    });
+  });
+
+  // 기본 성장 패널
+  renderGrowthPanel();
+}
+
+/* ==============================
+   NAVIGATION
+   ============================== */
+const sectionMap = {
+  dashboard:'sec-dashboard', lesson:'sec-lesson', books:'sec-books',
+  supplies:'sec-supplies', observe:'sec-observe', growth:'sec-growth',
+  report:'sec-report', activity:'sec-activity'
+};
+const titleMap = {
+  dashboard:'학급 현황 대시보드', lesson:'교안 + 발문 스크립트 자동생성',
+  books:'그림책 큐레이션', supplies:'준비물 자동 취합',
+  observe:'학생 관찰 기록', growth:'성장 분석',
+  report:'학부모 발달평가 출력', activity:'그룹별 활동지'
+};
+
+function nav(key, btnEl){
+  Object.values(sectionMap).forEach(id=>{ const el=document.getElementById(id); if(el) el.classList.remove('active'); });
+  const target = document.getElementById(sectionMap[key]);
+  if(target) target.classList.add('active');
+  document.querySelectorAll('.sb-item').forEach(el=>el.classList.remove('active'));
+  if(btnEl) btnEl.classList.add('active');
+  document.getElementById('topbar-title').textContent = titleMap[key]||key;
+}
+
+/* ==============================
+   교안 생성
+   ============================== */
+function selectOption(el, opt){
+  document.querySelectorAll('.option-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+function genLesson(){
+  const month = document.getElementById('les-month').value.split('—')[0].trim();
+  document.getElementById('lesson-output').innerHTML = `
+    <strong>📋 ${month} 2주차 · 옵션 B 균형혼합형 교안</strong><br><br>
+    <strong>활동명:</strong> 봄 꽃 탐색 및 표현하기<br>
+    <strong>목표:</strong> 봄의 특징을 관찰하고, 다양한 방법으로 표현한다.<br><br>
+    <strong>도입(5분):</strong> 봄 관련 그림책 함께 보기 → 주의력 강점 활용 발문<br>
+    "오늘 책에서 본 것 중 가장 기억에 남는 게 뭐야?" (주의력↑)<br><br>
+    <strong>전개(15분):</strong> 봄 꽃 관찰 → 그림 그리기 → 짝과 이야기 나누기<br>
+    "어떤 순서로 꽃이 피었을까?" (순차처리 PREP)<br><br>
+    <strong>마무리(5분):</strong> 각자 표현한 작품 발표 → 정리<br>
+    <strong>평가포인트:</strong> 관찰 집중도, 순서적 표현 여부, 또래 상호작용`;
+}
+
+/* ==============================
+   그림책
+   ============================== */
+function genBooks(month){
+  document.getElementById('books-output').innerHTML = `
+    <strong>📚 ${month} 추천 그림책</strong><br><br>
+    <strong>우뇌우세형 (4명):</strong> 「알록달록 엘머」 – 색·패턴·공간 동시처리<br>
+    <strong>좌뇌우세형 (2명):</strong> 「100층짜리 집」 – 순서·숫자·계획력<br>
+    <strong>좌우뇌균형 (3명):</strong> 「강아지똥」 – 사회관계·정서·통합사고<br><br>
+    <em>PASS 축 연계: 동시처리↑ 그림책은 페이지 전체 관찰 유도 발문 활용</em>`;
+}
+
+/* ==============================
+   준비물
+   ============================== */
+function genSupplies(){
+  document.getElementById('supplies-output').innerHTML = `
+    <strong>🗂 준비물 체크리스트</strong><br><br>
+    <strong>[수업 전날]</strong> 색연필 세트(9세트) · 도화지 A4(27장) · 봄 꽃 사진 카드<br>
+    <strong>[당일 아침]</strong> 그림책 「알록달록 엘머」 · 풀 9개 · 가위 9개<br>
+    <strong>[예비]</strong> 클레이(2통) · 색종이 1묶음`;
+}
+
+/* ==============================
+   관찰기록
+   ============================== */
+let obsAxis = '전체';
+function setAxis(a, btn){ obsAxis = a; document.querySelectorAll('#obs-axis-tabs .btn').forEach(b=>b.style.background=''); btn.style.background='var(--teal-l)'; }
+function appendTag(t){ const ta=document.getElementById('obs-text'); ta.value += (ta.value?'\n':'')+`[${t}] `; ta.focus(); }
+
+const obsStore = {};
+function saveObs(){
+  const sid = document.getElementById('obs-student').value;
+  const txt = document.getElementById('obs-text').value.trim();
+  if(!sid||!txt) return;
+  if(!obsStore[sid]) obsStore[sid]=[];
+  obsStore[sid].push({axis:obsAxis,text:txt,date:new Date().toLocaleDateString('ko-KR')});
+  document.getElementById('obs-text').value='';
+  loadObs();
+}
+function loadObs(){
+  const sid = document.getElementById('obs-student').value;
+  const list = obsStore[sid]||[];
+  const axisColors = {'전체':'var(--g100)','동시처리':'var(--purple-l)','순차처리':'var(--coral-l)','계획력':'var(--amber-l)','주의력':'var(--teal-l)'};
+  const axisTC = {'전체':'var(--g600)','동시처리':'var(--purple-d)','순차처리':'var(--coral-d)','계획력':'var(--amber-d)','주의력':'var(--teal-d)'};
+  document.getElementById('obs-list').innerHTML = list.length
+    ? list.map(o=>`<div class="obs-item"><span class="obs-axis" style="background:${axisColors[o.axis]||'var(--g100)'};color:${axisTC[o.axis]||'var(--g600)'};">${o.axis}</span><div style="flex:1;">${o.text}</div><div style="font-size:10px;color:var(--text3);flex-shrink:0;">${o.date}</div></div>`).reverse().join('')
+    : '<div style="font-size:12px;color:var(--text3);">기록이 없습니다.</div>';
+}
+
+/* ==============================
+   성장분석
+   ============================== */
+let growthPeriod = '3m';
+function setGrowthTab(p, btn){ growthPeriod=p; document.querySelectorAll('.growth-tab').forEach(b=>b.classList.remove('on')); btn.classList.add('on'); renderGrowthPanel(); }
+function loadGrowthStudent(){ renderGrowthPanel(); }
+
+function renderGrowthPanel(){
+  const sid = document.getElementById('growth-student')?.value;
+  const s = STUDENTS.find(x=>x.id===sid);
+  const panel = document.getElementById('growth-panel');
+  if(!panel) return;
+  if(!s){ panel.innerHTML='<div style="font-size:12px;color:var(--text3);">학생을 선택해 주세요.</div>'; return; }
+
+  if(growthPeriod==='3m'){
+    panel.innerHTML = `<div style="font-size:13px;font-weight:700;margin-bottom:10px;">3개월 행동 변화 체크리스트</div>`+
+      s.checklist.map(c=>`<div class="check-item"><input type="checkbox" ${c.s==='done'?'checked':''}><span>${c.text}</span><span class="pill ${c.s==='done'?'pill-teal':c.s==='going'?'pill-amber':'pill-coral'}" style="margin-left:auto;">${c.s==='done'?'달성':c.s==='going'?'진행중':'지원필요'}</span></div>`).join('');
+  } else if(growthPeriod==='6m'){
+    const axes=[{lbl:'주의력',k:'att',c:'#1D9E75'},{lbl:'동시처리',k:'sim',c:'#7F77DD'},{lbl:'계획력',k:'plan',c:'#EF9F27'},{lbl:'순차처리',k:'seq',c:'#D85A30'}];
+    panel.innerHTML = `<div style="font-size:13px;font-weight:700;margin-bottom:10px;">6개월 중간 성장 분석 — PASS 추정</div>`+
+      axes.map(a=>`<div class="slider-row"><label>${a.lbl}</label><input type="range" min="0" max="100" value="${s.pass[a.k]}" style="accent-color:${a.c};" oninput="this.nextElementSibling.textContent=this.value"><span class="sv">${s.pass[a.k]}</span></div>`).join('');
+  } else {
+    panel.innerHTML = `<div style="font-size:13px;font-weight:700;margin-bottom:10px;">1년 종합 성장 리포트</div>
+      <div class="info-box">K-PASS 재검사 결과를 입력하면 초기 검사와 자동 비교됩니다.</div>
+      <div class="row4" style="margin-bottom:12px;">
+        <div class="stat-card"><div class="stat-lbl">주의력 초기→현재</div><div class="stat-val" style="font-size:16px;">${s.passInit.att}<span style="font-size:12px;">→</span>${s.pass.att}</div></div>
+        <div class="stat-card"><div class="stat-lbl">동시처리</div><div class="stat-val" style="font-size:16px;">${s.passInit.sim}<span style="font-size:12px;">→</span>${s.pass.sim}</div></div>
+        <div class="stat-card"><div class="stat-lbl">계획력</div><div class="stat-val" style="font-size:16px;">${s.passInit.plan}<span style="font-size:12px;">→</span>${s.pass.plan}</div></div>
+        <div class="stat-card"><div class="stat-lbl">순차처리</div><div class="stat-val" style="font-size:16px;">${s.passInit.seq}<span style="font-size:12px;">→</span>${s.pass.seq}</div></div>
+      </div>
+      <div class="ai-box" style="font-size:12px;"><strong>AI 종합 분석</strong><br>${s.ai1}</div>`;
+  }
+}
+
+/* ==============================
+   리포트 출력
+   ============================== */
+let repPeriod = '3m';
+let radarInst = null;
+
+function setRepPeriod(p, btn){
+  repPeriod = p;
+  document.querySelectorAll('.period-tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  renderReport();
+}
+
+function renderReport(){
+  const sid = document.getElementById('rep-student')?.value;
+  const year = document.getElementById('rep-year')?.value||'2025';
+  const s = STUDENTS.find(x=>x.id===sid);
+  const wrap = document.getElementById('report-preview');
+  if(!s){ wrap.innerHTML='<div style="font-size:13px;color:var(--text3);text-align:center;padding:40px;">학생과 기간을 선택하면 미리보기가 표시됩니다.</div>'; return; }
+
+  const p = repPeriod;
+  const accentColor = {p3m:'#1D9E75',p6m:'#534AB7',p1y:'#D85A30'}['p'+p]||'#1D9E75';
+  const periodLabel = {'3m':'3개월 (3월→6월)','6m':'6개월 (3월→9월)','1y':'1년 (3월→2월)'}[p];
+  const periodPill = {'3m':'3개월 리포트','6m':'6개월 중간분석','1y':'1년 종합발달'}[p];
+  const endDate = {'3m':year+'.06','6m':year+'.09','1y':(+year+1)+'.02'}[p];
+  const improved = s.domains.filter(d=>d.stars>d.prev).length;
+  const starColors = ['#1D9E75','#7F77DD','#378ADD','#EF9F27','#D4537E'];
+
+  function stars(n, color){ return Array.from({length:5},(_,i)=>`<svg class="star" viewBox="0 0 12 12"><polygon points="6,1 7.5,4.5 11,5 8.5,7.5 9.2,11 6,9 2.8,11 3.5,7.5 1,5 4.5,4.5" fill="${i<n?color:'#D3D1C7'}"/></svg>`).join(''); }
+  function changeBadge(cur,prev){ const d=cur-prev; return d>0?`<span class="change-badge up">▲ +${d}</span>`:d<0?`<span class="change-badge dn">▽ ${d}</span>`:`<span class="change-badge sm2">— 유지</span>`; }
+
+  /* PAGE 1 */
+  const pg1 = `<div class="a4">
+    <div class="a4-inner">
+      <div class="cover-hdr">
+        <div class="cover-kinder">${s.kinder} · ${s.klass}</div>
+        <div class="cover-title">${year}년도 ${p==='3m'?'1학기 ':''}발달평가${p==='6m'?' — 중간분석':p==='1y'?' — 종합':''}</div>
+        <div class="cover-name">이름 : ${s.name}</div>
+        <div class="cover-pills">
+          <span class="pill pill-teal">${periodPill}</span>
+          <span class="pill pill-blue">${year}.03 – ${endDate}</span>
+          <span class="pill pill-purple">${s.brainType}</span>
+        </div>
+      </div>
+      <div class="letter-box">
+        <div class="letter-lbl">선생님이 부모님께</div>
+        <div class="letter-text">${s.letter.replace(/\n/g,'<br>')}</div>
+      </div>
+      <div class="cover-grid">
+        <div class="csum">
+          <div class="csum-lbl">뇌 유형</div>
+          <div class="csum-val" style="font-size:13px;color:#0F6E56;">${s.brainType}</div>
+          <div class="csum-sub">${s.brainTags.join(' · ')}</div>
+        </div>
+        <div class="csum">
+          <div class="csum-lbl">체크리스트 달성률</div>
+          <div class="csum-val" style="color:#0F6E56;">${s.checkPct}<span style="font-size:11px;font-weight:400;color:var(--text2);">%</span></div>
+          <div class="csum-sub">${s.checklist.filter(c=>c.s==='done').length}/${s.checklist.length} 항목 · 향상영역 ${improved}/5</div>
+        </div>
+      </div>
+      <div class="reply-box">
+        <div class="letter-lbl">부모님이 선생님께</div>
+        <div style="font-size:11px;color:var(--text3);margin-top:4px;">가정에서 느끼신 아이의 변화나 전달 사항을 적어 주세요.</div>
+      </div>
+    </div>
+  </div>`;
+
+  /* PAGE 2 */
+  const domRows = s.domains.map((d,i)=>`
+    <div class="domain-block">
+      <div class="domain-row">
+        <div class="dtag" style="background:${d.bg};color:${d.tc};">${d.tag}</div>
+        <div class="dtext">${d.text}</div>
+      </div>
+      <div class="star-bar">
+        <span class="sbar-lbl">이번 학기</span>
+        <div class="stars">${stars(d.stars,starColors[i])}</div>
+        ${changeBadge(d.stars,d.prev)}
+      </div>
+      <div class="d-divider"></div>
+    </div>`).join('');
+
+  const pg2 = `<div class="a4">
+    <div class="a4-inner">
+      <div class="pg-hdr">
+        <div><div class="pg-title">영역별 성장 서술</div><div class="pg-sub">${s.name} · ${year}년 ${periodLabel}</div></div>
+      </div>
+      ${domRows}
+      <div class="star-legend">★기준: 1=지원필요 · 2=시작단계 · 3=또래수준 · 4=향상 · 5=우수 | ▲향상 — 유지 ▽지원필요: 이전 학기 대비</div>
+    </div>
+  </div>`;
+
+  /* PAGE 3: 대시보드 */
+  const axes=[{lbl:'주의력',k:'att',c:'#1D9E75',tc:'#0F6E56'},{lbl:'동시처리',k:'sim',c:'#7F77DD',tc:'#3C3489'},{lbl:'계획력',k:'plan',c:'#EF9F27',tc:'#633806'},{lbl:'순차처리',k:'seq',c:'#D85A30',tc:'#993C1D'}];
+  const upD = s.domains.filter(d=>d.stars>d.prev).map(d=>d.tag).join(' · ');
+  const smD = s.domains.filter(d=>d.stars===d.prev).map(d=>d.tag).join(' · ');
+  const dnD = s.domains.filter(d=>d.stars<d.prev).map(d=>d.tag).join(' · ');
+  const statusC = {done:'#1D9E75',going:'#EF9F27',need:'#D85A30'};
+  const aiText = {'3m':s.ai3,'6m':s.ai6,'1y':s.ai1}[p];
+  const radarId = 'radar_'+Date.now();
+
+  let passBars = '';
+  if(p==='3m'){
+    passBars = axes.map(a=>`<div class="bar-row"><div class="bar-lbl">${a.lbl}</div><div class="bar-track"><div class="bar-fill" style="width:${s.pass[a.k]}%;background:${a.c};"></div></div><div class="bar-val" style="color:${a.tc};">${s.pass[a.k]}</div></div>`).join('')
+      + `<div class="note9">* 교사 관찰 기반 추정치(백분위)</div>`;
+  } else {
+    passBars = axes.map(a=>{
+      const diff=s.pass[a.k]-s.passInit[a.k];
+      const badge=diff>0?`<span style="font-size:8px;color:#0F6E56;font-weight:700;">▲+${diff}</span>`:diff<0?`<span style="font-size:8px;color:#A32D2D;font-weight:700;">▽${diff}</span>`:`<span style="font-size:8px;color:var(--g600);">—</span>`;
+      return `<div class="dual-row"><div class="dual-inner"><div class="bar-lbl">${a.lbl}</div><div class="dual-bars">
+        <div class="dual-bar"><div class="d-lbl" style="color:var(--text3);">초기</div><div class="d-track"><div class="d-fill" style="width:${s.passInit[a.k]}%;background:${a.c}40;"></div></div><span class="d-val" style="color:var(--text3);">${s.passInit[a.k]}</span></div>
+        <div class="dual-bar"><div class="d-lbl" style="color:${a.tc};font-weight:700;">현재</div><div class="d-track"><div class="d-fill" style="width:${s.pass[a.k]}%;background:${a.c};"></div></div><span class="d-val" style="color:${a.tc};font-weight:700;">${s.pass[a.k]}</span></div>
+      </div>${badge}</div></div>`;
+    }).join('')
+    + `<div class="note9">* 초기: K-PASS 검사(3월) / 현재: 교사 관찰 추정</div>`;
+  }
+
+  const radarSection = p!=='3m' ? `
+    <div class="divider" style="margin:10px 0;"></div>
+    <div class="slbl">PASS 4축 레이더 — 초기 vs 현재</div>
+    <div class="radar-wrap2"><canvas id="${radarId}" width="190" height="190"></canvas></div>` : '';
+
+  const pg3 = `<div class="a4">
+    <div class="dash-hdr-bar" style="background:${accentColor};">
+      <div><div class="dash-title">성장 대시보드</div><div class="dash-sub" style="color:rgba(255,255,255,.75);">${s.name} · ${year}년 · ${periodLabel}</div></div>
+      <div style="text-align:right;color:rgba(255,255,255,.7);font-size:9px;">${s.kinder} ${s.klass}<br>${year}.03 – ${endDate}</div>
+    </div>
+    <div class="a4-inner" style="padding-top:14px;">
+      <div class="metric-grid4">
+        <div class="mc"><div class="mc-lbl">체크리스트 달성률</div><div class="mc-val" style="color:#0F6E56;">${s.checkPct}<span>%</span></div><div class="mc-sub">${s.checklist.filter(c=>c.s==='done').length}/${s.checklist.length} 항목</div></div>
+        <div class="mc"><div class="mc-lbl">주의력 백분위</div><div class="mc-val" style="color:#0F6E56;">${s.pass.att}<span>%ile</span></div><div class="mc-sub">상위 ${100-s.pass.att}%</div></div>
+        <div class="mc"><div class="mc-lbl">활동 참여</div><div class="mc-val">${s.actCount}<span>회</span></div><div class="mc-sub">5개 영역</div></div>
+        <div class="mc"><div class="mc-lbl">향상 영역</div><div class="mc-val" style="color:#0F6E56;">${improved}<span>/5</span></div><div class="mc-sub">전기 대비</div></div>
+      </div>
+      <div class="two-col">
+        <div>
+          <div class="slbl">PASS 4축${p!=='3m'?' — 초기 → 현재':' 발달 수준(백분위)'}</div>
+          ${passBars}
+          <div class="slbl" style="margin-top:8px;">이전 학기 대비 변화</div>
+          ${upD?`<div class="arrow-row"><span class="up">▲ 향상</span>${upD}</div>`:''}
+          ${smD?`<div class="arrow-row"><span class="sm2">— 유지</span>${smD}</div>`:''}
+          ${dnD?`<div class="arrow-row"><span class="dn">▽ 지원</span>${dnD}</div>`:''}
+        </div>
+        <div>
+          <div class="slbl">뇌 유형 시각화</div>
+          <div class="brain-box">
+            <div style="font-size:9px;color:var(--text2);">K-PASS 기반</div>
+            <div class="brain-type">${s.brainType}</div>
+            <div class="brain-desc">${s.brainTags.slice(0,2).join(' · ')} 강점</div>
+            <div style="margin-top:7px;">
+              <div class="bbar-row"><div class="bbar-lbl">좌뇌</div><div class="bbar-track"><div class="bbar-fill" style="width:${s.brainL}%;background:#85B7EB;"></div></div><span style="font-size:8px;color:var(--text2);width:18px;">${s.brainL}</span></div>
+              <div class="bbar-row"><div class="bbar-lbl">우뇌</div><div class="bbar-track"><div class="bbar-fill" style="width:${s.brainR}%;background:#1D9E75;"></div></div><span style="font-size:8px;color:#0F6E56;font-weight:700;width:18px;">${s.brainR}</span></div>
+            </div>
+            <div class="brain-pills-wrap">${s.brainTags.map(t=>`<span class="bpill" style="background:#E1F5EE;color:#085041;">${t}</span>`).join('')}</div>
+          </div>
+          <div class="slbl" style="margin-top:8px;">영역별 별점 요약</div>
+          ${s.domains.map((d,i)=>`<div class="sstar-row"><div class="sstar-lbl">${d.tag}</div><div class="stars">${stars(d.stars,starColors[i])}</div>${changeBadge(d.stars,d.prev)}</div>`).join('')}
+        </div>
+      </div>
+      ${radarSection}
+      <div class="divider" style="margin:10px 0;"></div>
+      <div class="slbl">체크리스트 달성 현황</div>
+      <div class="chk-grid2" style="margin-bottom:4px;">${s.checklist.map(c=>`<div class="chk-row"><div class="chk-dot" style="background:${statusC[c.s]};"></div>${c.text}</div>`).join('')}</div>
+      <div class="legend2"><span><span class="ldot" style="background:#1D9E75;"></span>달성</span><span><span class="ldot" style="background:#EF9F27;"></span>진행중</span><span><span class="ldot" style="background:#D85A30;"></span>지원필요</span></div>
+      <div class="ai-box"><strong>AI 성장 분석 요약</strong><br>${aiText}</div>
+    </div>
+  </div>`;
+
+  wrap.innerHTML = `
+    <div class="pg-label">Page 1 of 3 · 표지 + 선생님 편지<span>A4 인쇄용</span></div>
+    ${pg1}
+    <div class="pg-label">Page 2 of 3 · 영역별 성장 서술<span>A4 인쇄용</span></div>
+    ${pg2}
+    <div class="pg-label">Page 3 of 3 · 성장 대시보드 (정량 분석)<span>A4 인쇄용</span></div>
+    ${pg3}`;
+
+  /* 레이더 차트 (6m/1y) */
+  if(p!=='3m'){
+    setTimeout(()=>{
+      const canvas = document.getElementById(radarId);
+      if(!canvas||typeof Chart==='undefined') return;
+      if(radarInst){ radarInst.destroy(); radarInst=null; }
+      radarInst = new Chart(canvas,{
+        type:'radar',
+        data:{
+          labels:['주의력','동시처리','계획력','순차처리'],
+          datasets:[
+            {label:'현재',data:[s.pass.att,s.pass.sim,s.pass.plan,s.pass.seq],backgroundColor:'rgba(29,158,117,.18)',borderColor:'#1D9E75',borderWidth:2,pointBackgroundColor:'#1D9E75',pointRadius:3},
+            {label:'초기(3월)',data:[s.passInit.att,s.passInit.sim,s.passInit.plan,s.passInit.seq],backgroundColor:'rgba(127,119,221,.1)',borderColor:'#7F77DD',borderWidth:1.5,borderDash:[4,3],pointBackgroundColor:'#7F77DD',pointRadius:2}
+          ]
+        },
+        options:{responsive:false,scales:{r:{min:0,max:100,ticks:{stepSize:25,font:{size:8}},pointLabels:{font:{size:9}},grid:{color:'rgba(0,0,0,.08)'}}},plugins:{legend:{labels:{font:{size:9},boxWidth:9}}}}
+      });
+    },100);
+  }
+}
+
+/* ==============================
+   활동지
+   ============================== */
+let actGroup = 'A';
+
+function setActTab(g, btn) {
+  actGroup = g;
+  document.querySelectorAll('#act-tabs .growth-tab').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  renderActivity();
+}
+
+const ACT_DATA = {
+  A: {
+    label: '그룹 A — 우뇌우세형', pill: 'pill-teal', count: '4명',
+    color: '#1D9E75', bg: '#E1F5EE',
+    desc: '동시처리 강점 활용 · 그림·색·공간·스토리텔링 중심',
+    strategy: '전체 그림 먼저 보여준 뒤 세부 탐색 유도. 색·형태·공간 관계를 한 번에 경험하는 활동 구성.',
+    items: [
+      { title: '그림 지도 그리기', time: '15분', pass: '동시처리', desc: '우리 반 교실을 위에서 내려다보며 그림 지도로 표현합니다. 색과 기호를 자유롭게 사용하도록 안내합니다.', materials: '도화지, 색연필, 크레용' },
+      { title: '이야기 그림책 만들기', time: '20분', pass: '동시처리+계획력', desc: '4칸 만화 형식으로 오늘 있었던 일 또는 상상 이야기를 그림으로 표현합니다.', materials: '4칸 활동지, 색연필, 사인펜' },
+      { title: '색깔 분류 퍼즐', time: '10분', pass: '동시처리', desc: '여러 색깔·모양 카드를 자신만의 기준으로 분류하고 이유를 설명합니다.', materials: '분류 카드 세트(1인 1세트)' },
+    ],
+    questions: [
+      '이 그림에서 가장 먼저 눈에 들어오는 게 뭐야?',
+      '전체 모양이 어떻게 생겼어?',
+      '색깔을 어떻게 나눠볼 수 있을까?',
+    ]
+  },
+  B: {
+    label: '그룹 B — 좌우뇌균형', pill: 'pill-purple', count: '3명',
+    color: '#7F77DD', bg: '#EEEDFE',
+    desc: '강점 활용 + 약점 보완 · 구조+창의 균형 활동',
+    strategy: '단계적 안내와 열린 탐색을 번갈아 제공. 순서 있는 활동 안에 자유 표현 구간을 포함.',
+    items: [
+      { title: '순서 있는 그림 완성하기', time: '15분', pass: '순차처리+동시처리', desc: '1→2→3→4 단계로 나뉜 그리기 활동지를 완성합니다. 각 단계 완성 후 전체를 보며 이야기 만들기.', materials: '단계별 활동지, 색연필' },
+      { title: '규칙 패턴 만들기', time: '15분', pass: '계획력+동시처리', desc: '색·모양·크기 규칙을 스스로 정하고 패턴을 만들어 친구에게 설명합니다.', materials: '패턴 블록, 활동지' },
+      { title: '역할극 대본 쓰기', time: '15분', pass: '계획력+주의력', desc: '짧은 상황카드를 보고 3줄 대화를 만든 뒤 짝과 발표합니다.', materials: '상황카드, 메모지' },
+    ],
+    questions: [
+      '어떤 순서로 하면 좋을까?',
+      '다음엔 어떤 모양이 와야 할까?',
+      '이 친구는 왜 그렇게 말했을까?',
+    ]
+  },
+  C: {
+    label: '그룹 C — 좌뇌우세형', pill: 'pill-blue', count: '2명',
+    color: '#378ADD', bg: '#E6F1FB',
+    desc: '순차처리·계획력 강점 · 단계·순서·언어 중심',
+    strategy: '명확한 단계와 체크리스트 제공. 순서도·표·목록 등 구조화된 형식 활용.',
+    items: [
+      { title: '단계별 요리 순서 카드', time: '15분', pass: '순차처리', desc: '요리 그림 카드를 올바른 순서로 배열하고 이유를 문장으로 씁니다.', materials: '요리 순서카드(4종), 풀, 활동지' },
+      { title: '관찰 기록표 작성', time: '15분', pass: '계획력+주의력', desc: '식물 또는 벌레 사진을 보며 관찰 기록표(색깔·크기·특징)를 채웁니다.', materials: '관찰 기록표, 연필, 색연필' },
+      { title: '숫자 퍼즐 & 패턴 완성', time: '15분', pass: '순차처리+계획력', desc: '수 배열 규칙을 찾아 빈칸을 채우고 다음 규칙을 스스로 만듭니다.', materials: '수 패턴 활동지' },
+    ],
+    questions: [
+      '첫 번째 단계는 뭐야?',
+      '다음에 무엇을 해야 할까?',
+      '어떤 순서로 정리하면 좋을까?',
+    ]
+  },
+  PREP: {
+    label: 'PREP 소그룹', pill: 'pill-coral', count: '3명',
+    color: '#D85A30', bg: '#FAECE7',
+    desc: '순차처리·계획력 집중 지원 · 1:1~1:3 소그룹',
+    strategy: '물리적 조작 활동 우선. 언어 지시는 짧고 명확하게. 성공 경험 반복으로 자기효능감 형성.',
+    items: [
+      { title: '블록 따라 쌓기', time: '10분', pass: '순차처리', desc: '교사 시범을 보고 같은 순서로 블록을 쌓습니다. 완성 후 "어떤 순서로 했어?" 발문.', materials: '유니트 블록(1인 1세트)' },
+      { title: '그림 카드 순서 맞추기', time: '10분', pass: '순차처리+계획력', desc: '아침 일과 그림 카드(일어나기→세수→아침밥→등원)를 올바른 순서로 배열합니다.', materials: '일과 카드 8장, 투명 포켓' },
+      { title: '계획표 채우기', time: '10분', pass: '계획력', desc: '"오늘 할 일" 3가지를 그림+단어로 적고 완료 시 스티커 붙이기.', materials: '계획표 활동지, 스티커, 색연필' },
+    ],
+    questions: [
+      '먼저 뭘 해야 할까?',
+      '다음 순서는?',
+      '다 했어! 다음은 뭐가 남았지?',
+    ]
+  }
+};
+
+function renderActivity() {
+  const month = (document.getElementById('act-month')?.value || '3월 — 나와 친구').split('—')[0].trim();
+  const week = document.getElementById('act-week')?.value || '1주차';
+  const g = ACT_DATA[actGroup];
+  const statusColors = { '동시처리': '#7F77DD', '순차처리': '#D85A30', '계획력': '#EF9F27', '주의력': '#1D9E75', '동시처리+계획력': '#7F77DD', '순차처리+동시처리': '#378ADD', '계획력+동시처리': '#EF9F27', '계획력+주의력': '#1D9E75', '순차처리+계획력': '#D85A30' };
+
+  const itemsHTML = g.items.map((item, i) => `
+    <div style="background:var(--bg2);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+        <div style="width:22px;height:22px;border-radius:50%;background:${g.color};color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i+1}</div>
+        <div style="font-size:13px;font-weight:700;">${item.title}</div>
+        <span style="font-size:10px;padding:2px 7px;border-radius:4px;background:${g.bg};color:${g.color};font-weight:600;margin-left:auto;">${item.pass}</span>
+        <span style="font-size:10px;color:var(--text3);">${item.time}</span>
+      </div>
+      <div style="font-size:12px;line-height:1.7;color:var(--text);margin-bottom:6px;">${item.desc}</div>
+      <div style="font-size:11px;color:var(--text2);display:flex;align-items:center;gap:4px;">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.3"/><line x1="5" y1="8" x2="11" y2="8" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/><line x1="8" y1="5" x2="8" y2="11" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+        준비물: ${item.materials}
+      </div>
+    </div>`).join('');
+
+  const questionsHTML = g.questions.map(q => `
+    <div style="display:flex;align-items:flex-start;gap:7px;padding:5px 0;border-bottom:0.5px solid var(--border);font-size:12px;">
+      <span style="font-size:10px;padding:1px 6px;border-radius:4px;background:${g.bg};color:${g.color};font-weight:600;flex-shrink:0;margin-top:1px;">발문</span>
+      ${q}
+    </div>`).join('');
+
+  const studentsInGroup = STUDENTS.filter(s => {
+    if (actGroup === 'A') return s.brainType === '우뇌우세형';
+    if (actGroup === 'B') return s.brainType === '좌우뇌균형';
+    if (actGroup === 'C') return s.brainType === '좌뇌우세형';
+    if (actGroup === 'PREP') return s.pass.seq < 45 || s.pass.plan < 45;
+    return false;
+  });
+
+  document.getElementById('act-content').innerHTML = `
+    <div class="activity-group">
+      <div class="ag-title">
+        <span style="background:${g.bg};color:${g.color};padding:2px 9px;border-radius:6px;font-size:12px;">${g.label}</span>
+        <span class="pill ${g.pill}">${studentsInGroup.length}명</span>
+        <span style="font-size:11px;color:var(--text2);font-weight:400;">${month} ${week}</span>
+        <span style="font-size:11px;color:var(--text3);font-weight:400;margin-left:4px;">· ${g.desc}</span>
+      </div>
+
+      <div class="info-box" style="margin-bottom:12px;">
+        <strong>교사 전략:</strong> ${g.strategy}
+      </div>
+
+      <div style="margin-bottom:6px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.04em;">대상 학생</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;">
+          ${studentsInGroup.length > 0
+            ? studentsInGroup.map(s => `<span style="font-size:12px;padding:3px 10px;border-radius:6px;background:${g.bg};color:${g.color};font-weight:600;">${s.name}</span>`).join('')
+            : `<span style="font-size:12px;color:var(--text3);">해당 학생 없음</span>`}
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:8px;letter-spacing:.04em;">활동 구성 (총 ${g.items.reduce((a,b)=>a+parseInt(b.time),0)}분)</div>
+      ${itemsHTML}
+
+      <div class="divider"></div>
+
+      <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;letter-spacing:.04em;">PASS 기반 발문 스크립트</div>
+      ${questionsHTML}
+
+      <div style="background:var(--bg2);border-radius:var(--r);padding:12px 14px;margin-top:12px;">
+        <div style="font-size:11px;font-weight:700;color:var(--text2);margin-bottom:6px;">평가 체크리스트</div>
+        ${g.items.map(item => `
+          <div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;">
+            <input type="checkbox" style="accent-color:${g.color};width:13px;height:13px;">
+            <span>${item.title} — 참여도 및 ${item.pass} 행동 관찰</span>
+          </div>`).join('')}
+      </div>
+    </div>`;
+}
+
+function printActivity() {
+  const g = ACT_DATA[actGroup];
+  const month = (document.getElementById('act-month')?.value || '').split('—')[0].trim();
+  const week = document.getElementById('act-week')?.value || '';
+  const win = window.open('', '_blank', 'width=800,height=1000');
+  const content = document.getElementById('act-content').innerHTML;
+  win.document.write(`<!DOCTYPE html><html lang="ko"><head><meta charset="UTF-8">
+    <title>${g.label} 활동지 — ${month} ${week}</title>
+    <style>
+      *{box-sizing:border-box;margin:0;padding:0;}
+      body{font-family:'Apple SD Gothic Neo','Noto Sans KR',sans-serif;padding:20mm 18mm;font-size:13px;color:#1a1a18;background:#fff;}
+      h1{font-size:18px;font-weight:700;margin-bottom:4px;}
+      .sub{font-size:12px;color:#5F5E5A;margin-bottom:20px;}
+      @page{size:A4;margin:0;}
+      @media print{body{padding:15mm;}}
+      .activity-group{border:0.5px solid rgba(0,0,0,.15);border-radius:8px;padding:16px;}
+      .ag-title{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+      .pill{font-size:10px;padding:2px 8px;border-radius:10px;}
+      .info-box{background:#E6F1FB;border-left:3px solid #378ADD;padding:8px 12px;font-size:11px;color:#0C447C;margin-bottom:12px;border-radius:0 6px 6px 0;}
+      .divider{border:none;border-top:0.5px solid rgba(0,0,0,.1);margin:12px 0;}
+      input[type=checkbox]{width:13px;height:13px;}
+    </style>
+    </head><body>
+    <h1>${g.label} 활동지</h1>
+    <div class="sub">${month} ${week} · ${g.desc}</div>
+    ${content}
+    <script>window.onload=function(){window.print();window.close();}<\/script>
+    </body></html>`);
+  win.document.close();
+}
+
+/* ==============================
+   BOOT
+   ============================== */
+document.addEventListener('DOMContentLoaded', () => { init(); renderActivity(); });
+</script>
+</body>
+</html>
