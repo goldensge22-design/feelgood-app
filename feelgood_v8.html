@@ -1,0 +1,2346 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>필굿 두뇌맞춤 시스템 v8 | K-PASS × 누리과정</title>
+<style>
+:root {
+  --primary: #2563eb;
+  --primary-light: #dbeafe;
+  --primary-dark: #1d4ed8;
+  --secondary: #7c3aed;
+  --secondary-light: #ede9fe;
+  --success: #059669;
+  --success-light: #d1fae5;
+  --warning: #d97706;
+  --warning-light: #fef3c7;
+  --danger: #dc2626;
+  --danger-light: #fee2e2;
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5db;
+  --gray-400: #9ca3af;
+  --gray-500: #6b7280;
+  --gray-600: #4b5563;
+  --gray-700: #374151;
+  --gray-800: #1f2937;
+  --gray-900: #111827;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.07), 0 2px 4px rgba(0,0,0,0.06);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.08), 0 4px 6px rgba(0,0,0,0.05);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f0f4ff;
+  color: var(--gray-800);
+  min-height: 100vh;
+}
+
+/* ── Layout ── */
+.app-wrapper { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 240px;
+  background: white;
+  border-right: 1px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 20px 16px 16px;
+  border-bottom: 1px solid var(--gray-100);
+}
+.logo-title { font-size: 18px; font-weight: 800; color: var(--primary); letter-spacing: -0.5px; }
+.logo-sub { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+
+.sidebar-section { padding: 12px 8px 4px; font-size: 10px; font-weight: 700; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; padding-left: 16px; }
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-radius: 8px;
+  margin: 1px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--gray-600);
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.nav-item:hover { background: var(--gray-50); color: var(--gray-900); }
+.nav-item.active { background: var(--primary-light); color: var(--primary-dark); font-weight: 600; }
+.nav-item .icon { font-size: 16px; width: 20px; text-align: center; }
+.nav-badge { margin-left: auto; background: var(--danger); color: white; font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; }
+.nav-badge.new { background: var(--success); }
+
+.main-content {
+  margin-left: 240px;
+  flex: 1;
+  padding: 0;
+}
+
+/* ── Top Bar ── */
+.topbar {
+  background: white;
+  border-bottom: 1px solid var(--gray-200);
+  padding: 14px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+.topbar-title { font-size: 18px; font-weight: 700; color: var(--gray-900); }
+.topbar-class { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ── Page Sections ── */
+.page-section { display: none; padding: 28px; }
+.page-section.active { display: block; }
+
+/* ── Cards ── */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.card-header h3 { font-size: 15px; font-weight: 700; color: var(--gray-900); }
+.card-header .sub { font-size: 12px; color: var(--gray-500); margin-left: auto; }
+.card-body { padding: 20px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+
+/* ── Stat Cards ── */
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  box-shadow: var(--shadow);
+}
+.stat-label { font-size: 12px; color: var(--gray-500); font-weight: 500; }
+.stat-value { font-size: 28px; font-weight: 800; color: var(--gray-900); margin: 4px 0; }
+.stat-sub { font-size: 12px; color: var(--gray-500); }
+.stat-card.primary { border-left: 4px solid var(--primary); }
+.stat-card.success { border-left: 4px solid var(--success); }
+.stat-card.warning { border-left: 4px solid var(--warning); }
+.stat-card.danger { border-left: 4px solid var(--danger); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: var(--primary-dark); }
+.btn-secondary { background: var(--gray-100); color: var(--gray-700); }
+.btn-secondary:hover { background: var(--gray-200); }
+.btn-success { background: var(--success); color: white; }
+.btn-success:hover { background: #047857; }
+.btn-outline { background: white; border: 1px solid var(--gray-300); color: var(--gray-700); }
+.btn-outline:hover { background: var(--gray-50); }
+.btn-sm { padding: 6px 12px; font-size: 12px; }
+.btn-lg { padding: 12px 24px; font-size: 15px; }
+
+/* ── Form ── */
+.form-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 5px; }
+.form-group label { font-size: 12px; font-weight: 600; color: var(--gray-600); }
+.form-control {
+  padding: 8px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  font-size: 13px;
+  color: var(--gray-800);
+  background: white;
+  transition: border-color 0.15s;
+  outline: none;
+}
+.form-control:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
+/* ── Tags ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 600;
+}
+.tag-blue { background: var(--primary-light); color: var(--primary-dark); }
+.tag-green { background: var(--success-light); color: var(--success); }
+.tag-orange { background: var(--warning-light); color: var(--warning); }
+.tag-red { background: var(--danger-light); color: var(--danger); }
+.tag-purple { background: var(--secondary-light); color: var(--secondary); }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  background: var(--gray-50);
+  padding: 10px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-600);
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+.data-table td {
+  padding: 11px 14px;
+  font-size: 13px;
+  border-bottom: 1px solid var(--gray-100);
+  vertical-align: middle;
+}
+.data-table tr:hover td { background: var(--gray-50); }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* ── Rating Stars / Score ── */
+.score-input { display: flex; gap: 4px; align-items: center; }
+.score-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-300);
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-500);
+  transition: all 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.score-btn:hover { border-color: var(--primary); color: var(--primary); }
+.score-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+.score-btn.s1.active { background: #ef4444; border-color: #ef4444; }
+.score-btn.s2.active { background: #f97316; border-color: #f97316; }
+.score-btn.s3.active { background: #eab308; border-color: #eab308; }
+.score-btn.s4.active { background: #22c55e; border-color: #22c55e; }
+.score-btn.s5.active { background: #2563eb; border-color: #2563eb; }
+
+/* ── Progress Bar ── */
+.progress-bar { background: var(--gray-200); border-radius: 4px; height: 8px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width 0.5s; }
+
+/* ── Lesson Plan Output ── */
+.lesson-plan {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 28px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.lesson-plan h2 { font-size: 18px; font-weight: 800; color: var(--gray-900); margin-bottom: 4px; }
+.lesson-plan .meta { color: var(--gray-500); font-size: 12px; margin-bottom: 20px; }
+.lesson-plan .section-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 6px 12px;
+  border-radius: 6px;
+  margin: 16px 0 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.lesson-plan table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+.lesson-plan table th { background: var(--gray-50); padding: 8px 12px; font-size: 12px; font-weight: 700; border: 1px solid var(--gray-200); color: var(--gray-600); }
+.lesson-plan table td { padding: 8px 12px; font-size: 12px; border: 1px solid var(--gray-200); }
+.lesson-plan .activity-block {
+  background: #fafafa;
+  border-left: 3px solid var(--primary);
+  padding: 12px 16px;
+  border-radius: 0 8px 8px 0;
+  margin: 8px 0;
+}
+.lesson-plan .time-tag {
+  display: inline-block;
+  background: var(--primary);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+.lesson-plan .ask-block {
+  background: #fffbf0;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  padding: 10px 14px;
+  margin: 6px 0;
+}
+.lesson-plan .ask-label { font-size: 11px; font-weight: 700; color: var(--warning); margin-bottom: 4px; }
+
+/* ── Eval Sheet ── */
+.eval-area {
+  border: 1px solid var(--gray-200);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 16px;
+}
+.eval-area-header {
+  background: var(--gray-50);
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gray-700);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.eval-row {
+  display: flex;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  gap: 12px;
+}
+.eval-row:last-child { border-bottom: none; }
+.eval-row .item-name { flex: 1; font-size: 13px; color: var(--gray-700); }
+.eval-row .score-label { font-size: 11px; color: var(--gray-400); min-width: 180px; text-align: right; }
+
+/* ── Report Preview ── */
+.report-preview {
+  background: white;
+  border: 1px solid var(--gray-300);
+  border-radius: 8px;
+  padding: 36px 40px;
+  max-width: 760px;
+  margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+  font-size: 13px;
+  line-height: 1.9;
+  color: #1a1a1a;
+}
+.report-preview .rp-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 16px; margin-bottom: 20px; }
+.report-preview .rp-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; }
+.report-preview .rp-sub { font-size: 12px; color: #555; margin-top: 4px; }
+.report-preview .rp-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; font-size: 12px; background: #f8f8f8; padding: 12px 16px; border-radius: 6px; margin-bottom: 16px; }
+.report-preview .rp-meta span { color: #444; }
+.report-preview .rp-meta strong { color: #111; }
+.report-preview .rp-section { font-size: 13px; font-weight: 800; color: #1a1a1a; background: #f0f0f0; padding: 6px 10px; border-radius: 4px; margin: 16px 0 8px; }
+.report-preview .rp-eval-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.report-preview .rp-eval-table th { border: 1px solid #ccc; padding: 6px 10px; background: #f5f5f5; font-weight: 700; text-align: center; }
+.report-preview .rp-eval-table td { border: 1px solid #ccc; padding: 6px 10px; text-align: center; }
+.report-preview .rp-narrative { background: #fafafa; border: 1px solid #e0e0e0; padding: 14px 16px; border-radius: 6px; font-size: 12px; line-height: 2; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--gray-200); margin-bottom: 20px; }
+.tab-btn {
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-500);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+.tab-btn:hover { color: var(--gray-900); }
+.tab-btn.active { color: var(--primary); border-bottom-color: var(--primary); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── Notice ── */
+.notice {
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+.notice-info { background: var(--primary-light); color: var(--primary-dark); }
+.notice-warn { background: var(--warning-light); color: #92400e; }
+.notice-success { background: var(--success-light); color: #065f46; }
+
+/* ── Observation ── */
+.obs-quick-btns { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.obs-quick-btn {
+  padding: 5px 12px;
+  border: 1px solid var(--gray-300);
+  border-radius: 20px;
+  font-size: 12px;
+  cursor: pointer;
+  background: white;
+  color: var(--gray-700);
+  transition: all 0.15s;
+}
+.obs-quick-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+.obs-item { background: var(--gray-50); border-radius: 8px; padding: 10px 14px; margin: 6px 0; font-size: 12px; }
+.obs-item .obs-meta { color: var(--gray-500); font-size: 11px; margin-top: 4px; }
+
+/* ── Option Cards ── */
+.option-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.option-card {
+  border: 2px solid var(--gray-200);
+  border-radius: 10px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.option-card:hover { border-color: var(--primary); background: var(--primary-light); }
+.option-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.option-card .opt-icon { font-size: 24px; margin-bottom: 8px; }
+.option-card .opt-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 4px; }
+.option-card .opt-desc { font-size: 12px; color: var(--gray-500); }
+.option-card .opt-badge { font-size: 10px; font-weight: 700; color: white; background: var(--primary); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 6px; }
+
+/* ── Print ── */
+@media print {
+  .sidebar, .topbar, .no-print { display: none !important; }
+  .main-content { margin-left: 0 !important; }
+  .page-section { display: block !important; padding: 0 !important; }
+  .report-preview { box-shadow: none !important; border: none !important; }
+  body { background: white !important; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .sidebar { width: 60px; }
+  .sidebar .logo-title, .sidebar .logo-sub, .sidebar-section, .nav-item span:not(.icon) { display: none; }
+  .main-content { margin-left: 60px; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+/* Loading spinner */
+.spinner { width: 20px; height: 20px; border: 2px solid var(--gray-200); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.generating-msg { display: flex; align-items: center; gap: 12px; padding: 20px; color: var(--gray-500); }
+
+/* Student avatar */
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+.avatar-blue { background: var(--primary-light); color: var(--primary); }
+.avatar-green { background: var(--success-light); color: var(--success); }
+.avatar-purple { background: var(--secondary-light); color: var(--secondary); }
+
+/* Checklist */
+.checklist-item { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--gray-100); }
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; }
+.checklist-item label { font-size: 13px; color: var(--gray-700); cursor: pointer; flex: 1; }
+.checklist-item .check-status { font-size: 11px; color: var(--gray-400); }
+
+/* Section header */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; }
+.section-header h2 { font-size: 20px; font-weight: 800; color: var(--gray-900); }
+.section-header p { font-size: 13px; color: var(--gray-500); margin-top: 2px; }
+
+</style>
+</head>
+<body>
+
+<div class="app-wrapper">
+
+<!-- ────────── SIDEBAR ────────── -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-title">🧠 필굿</div>
+    <div class="logo-sub">K-PASS × 누리과정 v8</div>
+  </div>
+
+  <div class="sidebar-section">현황</div>
+  <a class="nav-item active" onclick="showSection('dashboard')">
+    <span class="icon">📊</span><span>학급 현황</span>
+  </a>
+
+  <div class="sidebar-section">교안 · 수업</div>
+  <a class="nav-item" onclick="showSection('lesson')">
+    <span class="icon">📝</span><span>교안 자동생성</span>
+  </a>
+  <a class="nav-item" onclick="showSection('books')">
+    <span class="icon">📚</span><span>그림책 큐레이션</span>
+  </a>
+  <a class="nav-item" onclick="showSection('supplies')">
+    <span class="icon">🛒</span><span>준비물 취합</span>
+  </a>
+
+  <div class="sidebar-section">평가 · 기록</div>
+  <a class="nav-item" onclick="showSection('evaluation')">
+    <span class="icon">✅</span><span>활동 평가</span><span class="nav-badge new">NEW</span>
+  </a>
+  <a class="nav-item" onclick="showSection('observation')">
+    <span class="icon">👁</span><span>유아 관찰 기록</span>
+  </a>
+  <a class="nav-item" onclick="showSection('growth')">
+    <span class="icon">📈</span><span>성장 분석</span>
+  </a>
+
+  <div class="sidebar-section">보고서 · 출력</div>
+  <a class="nav-item" onclick="showSection('parent')">
+    <span class="icon">👨‍👩‍👧</span><span>학부모 상담자료</span>
+  </a>
+  <a class="nav-item" onclick="showSection('gov-report')">
+    <span class="icon">🏛️</span><span>정부기관 제출용</span><span class="nav-badge new">NEW</span>
+  </a>
+  <a class="nav-item" onclick="showSection('life-record')">
+    <span class="icon">📋</span><span>생활기록부</span><span class="nav-badge new">NEW</span>
+  </a>
+  <a class="nav-item" onclick="showSection('worksheet')">
+    <span class="icon">🖨️</span><span>활동지 출력</span>
+  </a>
+</aside>
+
+<!-- ────────── MAIN ────────── -->
+<main class="main-content">
+
+  <!-- Top Bar -->
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbar-title">학급 현황 대시보드</div>
+      <div class="topbar-class">앱 테스트 반 · 9명 · 2026.4.10 K-PASS 검사</div>
+    </div>
+    <div class="topbar-actions">
+      <span class="tag tag-blue">2026학년도</span>
+      <span class="tag tag-green">4월 3주차</span>
+      <button class="btn btn-outline btn-sm" onclick="window.print()">🖨️ 인쇄</button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       1. 학급 현황 대시보드
+  ══════════════════════════════════════ -->
+  <div id="sec-dashboard" class="page-section active">
+    
+    <div class="notice notice-warn">
+      ⚠️ <strong>집중 지원 대상:</strong> 박민아 — 전 척도 1~5% (주 1회 개별 PREP 필수). 김지훈 — 순차처리 18% (구조화 활동 우선 배치)
+    </div>
+
+    <div class="grid-4" style="margin-bottom:20px">
+      <div class="stat-card primary">
+        <div class="stat-label">전체 학생</div>
+        <div class="stat-value">9</div>
+        <div class="stat-sub">앱 테스트 반</div>
+      </div>
+      <div class="stat-card warning">
+        <div class="stat-label">관리 필요</div>
+        <div class="stat-value">6</div>
+        <div class="stat-sub">67% · PREP 대상</div>
+      </div>
+      <div class="stat-card success">
+        <div class="stat-label">주의력 강점</div>
+        <div class="stat-value">73%</div>
+        <div class="stat-sub">학급 평균</div>
+      </div>
+      <div class="stat-card danger">
+        <div class="stat-label">순차처리 약점</div>
+        <div class="stat-value">50%</div>
+        <div class="stat-sub">집중 보완 필요</div>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-bottom:20px">
+      <div class="card">
+        <div class="card-header">
+          <span>🧠</span><h3>두뇌 유형 분포</h3>
+        </div>
+        <div class="card-body">
+          <div style="display:flex;gap:12px;margin-bottom:12px">
+            <div style="flex:1;background:#dbeafe;border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#1d4ed8">4명</div>
+              <div style="font-size:11px;color:#3b82f6;font-weight:600">우뇌우세형 44%</div>
+            </div>
+            <div style="flex:1;background:#d1fae5;border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#059669">3명</div>
+              <div style="font-size:11px;color:#10b981;font-weight:600">좌우뇌균형 33%</div>
+            </div>
+            <div style="flex:1;background:#ede9fe;border-radius:8px;padding:12px;text-align:center">
+              <div style="font-size:22px;font-weight:800;color:#7c3aed">2명</div>
+              <div style="font-size:11px;color:#8b5cf6;font-weight:600">좌뇌우세형 22%</div>
+            </div>
+          </div>
+          <div class="notice notice-info" style="margin:0;font-size:12px">
+            💡 추천: 옵션 B(균형혼합) + 순차처리·계획력 PREP 집중 · 발문은 주의력(73%) 강점 활용
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header"><span>📊</span><h3>PASS 4축 학급 평균</h3></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                <span>동시처리</span><strong style="color:var(--warning)">54%</strong>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:54%;background:var(--warning)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                <span>계획력</span><strong style="color:var(--warning)">54%</strong>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:54%;background:var(--warning)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                <span>주의력</span><strong style="color:var(--success)">73%</strong>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:73%;background:var(--success)"></div></div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px">
+                <span>순차처리</span><strong style="color:var(--danger)">50%</strong>
+              </div>
+              <div class="progress-bar"><div class="progress-fill" style="width:50%;background:var(--danger)"></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>👶</span><h3>학생별 K-PASS 결과</h3><span class="sub">클릭 → 관찰 기록으로 이동</span></div>
+      <div class="card-body" style="padding:0">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>이름</th><th>나이</th><th>뇌유형</th><th>동시처리</th><th>순차처리</th><th>계획력</th><th>주의력</th><th>취약축</th><th>비고</th>
+            </tr>
+          </thead>
+          <tbody id="student-table-body"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       2. 교안 자동생성 (수업에 바로 쓸 수 있는 완성형)
+  ══════════════════════════════════════ -->
+  <div id="sec-lesson" class="page-section">
+    
+    <div class="section-header">
+      <div>
+        <h2>📝 교안 + 발문 스크립트 자동생성</h2>
+        <p>활동 교안 · 발문 · 평가 계획 · 준비물 · PASS 연계 — 수업 즉시 활용 가능</p>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span>⚙️</span><h3>수업 조건 설정</h3></div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>월 선택</label>
+            <select class="form-control" id="lesson-month">
+              <option value="3">3월 — 나와 친구</option>
+              <option value="4" selected>4월 — 봄과 생명</option>
+              <option value="5">5월 — 가족과 공동체</option>
+              <option value="6">6월 — 여름과 건강</option>
+              <option value="9">9월 — 가을과 추수</option>
+              <option value="12">12월 — 겨울과 축제</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>주차</label>
+            <select class="form-control" id="lesson-week">
+              <option value="1">1주차</option>
+              <option value="2">2주차</option>
+              <option value="3" selected>3주차</option>
+              <option value="4">4주차</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>교과 영역</label>
+            <select class="form-control" id="lesson-subject">
+              <option value="nuri">누리과정</option>
+              <option value="language">언어</option>
+              <option value="math">수·조작</option>
+              <option value="art">미술</option>
+              <option value="music">음악</option>
+              <option value="outdoor">바깥놀이</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>활동 유형</label>
+            <select class="form-control" id="lesson-type">
+              <option value="large">대그룹 활동</option>
+              <option value="small">소그룹 활동</option>
+              <option value="individual">개별 활동</option>
+              <option value="free">자유선택 활동</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>수업 시간(분)</label>
+            <select class="form-control" id="lesson-duration">
+              <option value="20">20분</option>
+              <option value="30" selected>30분</option>
+              <option value="40">40분</option>
+              <option value="50">50분</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-bottom:16px">
+          <div style="font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:10px">교안 옵션 선택</div>
+          <div class="option-cards">
+            <div class="option-card" id="opt-A" onclick="selectOption('A')">
+              <div class="opt-icon">🎨</div>
+              <div class="opt-title">옵션 A — 활동 중심형</div>
+              <div class="opt-desc">그림·놀이·체험 위주<br>우뇌우세 그룹 주도</div>
+            </div>
+            <div class="option-card selected" id="opt-B" onclick="selectOption('B')">
+              <div class="opt-icon">⚖️</div>
+              <div class="opt-title">옵션 B — 균형 혼합형</div>
+              <div class="opt-desc">강점 활용 + 약점 보완<br>전체 학급 표준</div>
+              <div class="opt-badge">★ 추천</div>
+            </div>
+            <div class="option-card" id="opt-C" onclick="selectOption('C')">
+              <div class="opt-icon">📐</div>
+              <div class="opt-title">옵션 C — 구조화형</div>
+              <div class="opt-desc">단계·순서 중심<br>좌뇌우세 그룹 주도</div>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-primary btn-lg" onclick="generateLesson()">
+            ✨ 교안 + 발문 스크립트 생성
+          </button>
+          <button class="btn btn-outline" onclick="printLesson()">🖨️ 전체 인쇄</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="lesson-output"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       3. 활동 평가 (핵심 신규 기능)
+  ══════════════════════════════════════ -->
+  <div id="sec-evaluation" class="page-section">
+
+    <div class="section-header">
+      <div>
+        <h2>✅ 활동 평가</h2>
+        <p>체크리스트 1~5점 평가 → 자동 집계 → 정부 제출용 연동</p>
+      </div>
+      <button class="btn btn-success" onclick="saveEval()">💾 평가 저장</button>
+    </div>
+
+    <div class="notice notice-info">
+      📌 교안에서 자동 생성된 평가 항목입니다. 각 항목을 1~5점으로 체크하면 정성·정량 평가가 동시에 완성됩니다.
+    </div>
+
+    <div class="form-row" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>평가 날짜</label>
+        <input type="date" class="form-control" id="eval-date" value="2026-04-13">
+      </div>
+      <div class="form-group">
+        <label>활동명</label>
+        <input type="text" class="form-control" id="eval-activity" placeholder="봄꽃 관찰하기" style="width:200px">
+      </div>
+      <div class="form-group">
+        <label>학생 선택</label>
+        <select class="form-control" id="eval-student" onchange="loadEvalForStudent()">
+          <option value="">-- 학생 선택 --</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>평가 방법</label>
+        <select class="form-control" id="eval-method">
+          <option value="observe">관찰평가</option>
+          <option value="activity">활동결과물</option>
+          <option value="verbal">구술평가</option>
+          <option value="portfolio">포트폴리오</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- 정성적 평가 체크리스트 -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><span>📋</span><h3>정성적 평가 체크리스트</h3><span class="sub">1=매우미흡 / 2=미흡 / 3=보통 / 4=우수 / 5=매우우수</span></div>
+      <div class="card-body" style="padding:0">
+        <div id="qual-eval-container">
+          <!-- 영역별 평가 항목 -->
+          <div class="eval-area">
+            <div class="eval-area-header">🌱 신체운동·건강</div>
+            <div class="eval-row">
+              <div class="item-name">신체 각 부분의 이름을 알고 움직인다</div>
+              <div class="score-input" id="s-body-1">
+                <button class="score-btn s1" onclick="setScore(this,'s-body-1',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-body-1',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-body-1',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-body-1',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-body-1',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">활동에 적극적으로 참여하며 안전하게 움직인다</div>
+              <div class="score-input" id="s-body-2">
+                <button class="score-btn s1" onclick="setScore(this,'s-body-2',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-body-2',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-body-2',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-body-2',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-body-2',5)">5</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="eval-area">
+            <div class="eval-area-header">💬 의사소통</div>
+            <div class="eval-row">
+              <div class="item-name">주제와 관련된 어휘를 사용하여 의사표현을 한다</div>
+              <div class="score-input" id="s-lang-1">
+                <button class="score-btn s1" onclick="setScore(this,'s-lang-1',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-lang-1',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-lang-1',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-lang-1',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-lang-1',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">교사의 발문에 적절히 반응하며 대화에 참여한다</div>
+              <div class="score-input" id="s-lang-2">
+                <button class="score-btn s1" onclick="setScore(this,'s-lang-2',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-lang-2',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-lang-2',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-lang-2',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-lang-2',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">듣기와 말하기에 집중하며 차례를 지킨다</div>
+              <div class="score-input" id="s-lang-3">
+                <button class="score-btn s1" onclick="setScore(this,'s-lang-3',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-lang-3',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-lang-3',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-lang-3',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-lang-3',5)">5</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="eval-area">
+            <div class="eval-area-header">🤝 사회관계</div>
+            <div class="eval-row">
+              <div class="item-name">친구와 협력하여 활동에 참여한다</div>
+              <div class="score-input" id="s-social-1">
+                <button class="score-btn s1" onclick="setScore(this,'s-social-1',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-social-1',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-social-1',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-social-1',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-social-1',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">규칙을 이해하고 스스로 지키려 노력한다</div>
+              <div class="score-input" id="s-social-2">
+                <button class="score-btn s1" onclick="setScore(this,'s-social-2',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-social-2',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-social-2',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-social-2',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-social-2',5)">5</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="eval-area">
+            <div class="eval-area-header">🎨 예술경험</div>
+            <div class="eval-row">
+              <div class="item-name">창의적 표현 활동에 즐겁게 참여한다</div>
+              <div class="score-input" id="s-art-1">
+                <button class="score-btn s1" onclick="setScore(this,'s-art-1',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-art-1',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-art-1',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-art-1',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-art-1',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">자신의 생각과 느낌을 다양한 방법으로 표현한다</div>
+              <div class="score-input" id="s-art-2">
+                <button class="score-btn s1" onclick="setScore(this,'s-art-2',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-art-2',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-art-2',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-art-2',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-art-2',5)">5</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="eval-area">
+            <div class="eval-area-header">🔭 자연탐구</div>
+            <div class="eval-row">
+              <div class="item-name">주변 자연환경에 호기심을 갖고 탐구한다</div>
+              <div class="score-input" id="s-sci-1">
+                <button class="score-btn s1" onclick="setScore(this,'s-sci-1',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-sci-1',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-sci-1',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-sci-1',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-sci-1',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">수·규칙·도형 등 수학적 개념을 활동에서 활용한다</div>
+              <div class="score-input" id="s-sci-2">
+                <button class="score-btn s1" onclick="setScore(this,'s-sci-2',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-sci-2',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-sci-2',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-sci-2',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-sci-2',5)">5</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- PASS 연계 평가 -->
+          <div class="eval-area">
+            <div class="eval-area-header">🧠 K-PASS 연계 행동 관찰 (4축)</div>
+            <div class="eval-row">
+              <div class="item-name">동시처리 — 전체 그림이나 맥락을 파악한다</div>
+              <div class="score-input" id="s-pass-sim">
+                <button class="score-btn s1" onclick="setScore(this,'s-pass-sim',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-pass-sim',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-pass-sim',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-pass-sim',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-pass-sim',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">순차처리 — 순서에 맞게 단계별 활동을 수행한다</div>
+              <div class="score-input" id="s-pass-seq">
+                <button class="score-btn s1" onclick="setScore(this,'s-pass-seq',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-pass-seq',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-pass-seq',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-pass-seq',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-pass-seq',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">계획력 — 활동 목표를 이해하고 스스로 계획한다</div>
+              <div class="score-input" id="s-pass-plan">
+                <button class="score-btn s1" onclick="setScore(this,'s-pass-plan',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-pass-plan',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-pass-plan',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-pass-plan',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-pass-plan',5)">5</button>
+              </div>
+            </div>
+            <div class="eval-row">
+              <div class="item-name">주의력 — 활동에 집중하고 산만함 없이 참여한다</div>
+              <div class="score-input" id="s-pass-att">
+                <button class="score-btn s1" onclick="setScore(this,'s-pass-att',1)">1</button>
+                <button class="score-btn s2" onclick="setScore(this,'s-pass-att',2)">2</button>
+                <button class="score-btn s3" onclick="setScore(this,'s-pass-att',3)">3</button>
+                <button class="score-btn s4" onclick="setScore(this,'s-pass-att',4)">4</button>
+                <button class="score-btn s5" onclick="setScore(this,'s-pass-att',5)">5</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 자유 서술 -->
+        <div style="padding:16px;border-top:1px solid var(--gray-100)">
+          <div style="font-size:13px;font-weight:700;margin-bottom:8px">📝 자유 서술 (선택)</div>
+          <textarea class="form-control" id="eval-memo" rows="3" placeholder="특이사항, 추가 관찰 내용을 입력하세요..." style="width:100%;resize:vertical"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- 평가 요약 -->
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-header"><span>📊</span><h3>평가 요약 (자동 집계)</h3>
+        <button class="btn btn-primary btn-sm" onclick="calcEvalSummary()" style="margin-left:auto">집계하기</button>
+      </div>
+      <div class="card-body" id="eval-summary">
+        <div style="color:var(--gray-400);font-size:13px">위 평가를 완료 후 [집계하기]를 누르세요.</div>
+      </div>
+    </div>
+
+    <!-- 학급 전체 평가 현황 -->
+    <div class="card">
+      <div class="card-header"><span>📋</span><h3>학급 전체 평가 현황</h3><span class="sub">저장된 평가 기준</span></div>
+      <div class="card-body" style="padding:0">
+        <table class="data-table" id="class-eval-table">
+          <thead>
+            <tr><th>학생</th><th>활동명</th><th>날짜</th><th>신체</th><th>언어</th><th>사회</th><th>예술</th><th>자연</th><th>PASS평균</th><th>종합</th><th>상태</th></tr>
+          </thead>
+          <tbody id="class-eval-body">
+            <tr><td colspan="11" style="text-align:center;color:var(--gray-400);padding:20px">저장된 평가가 없습니다</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       4. 유아 관찰 기록
+  ══════════════════════════════════════ -->
+  <div id="sec-observation" class="page-section">
+    <div class="section-header">
+      <div>
+        <h2>👁 유아 관찰 기록</h2>
+        <p>관찰 기록 누적 → 자동 멘트 제안 → 생활기록부·보고서 연동</p>
+      </div>
+    </div>
+
+    <div class="grid-2" style="gap:20px">
+      <div>
+        <div class="card" style="margin-bottom:16px">
+          <div class="card-header"><span>✏️</span><h3>관찰 기록 입력</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group" style="flex:1">
+                <label>학생</label>
+                <select class="form-control" id="obs-student"></select>
+              </div>
+              <div class="form-group">
+                <label>날짜</label>
+                <input type="date" class="form-control" id="obs-date" value="2026-04-13">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="flex:1">
+                <label>PASS 축</label>
+                <select class="form-control" id="obs-pass">
+                  <option value="전체">전체</option>
+                  <option value="동시처리">동시처리</option>
+                  <option value="순차처리">순차처리</option>
+                  <option value="계획력">계획력</option>
+                  <option value="주의력">주의력</option>
+                </select>
+              </div>
+              <div class="form-group" style="flex:1">
+                <label>관찰 영역</label>
+                <select class="form-control" id="obs-area">
+                  <option>신체</option>
+                  <option>의사소통</option>
+                  <option>사회관계</option>
+                  <option>예술경험</option>
+                  <option>자연탐구</option>
+                </select>
+              </div>
+            </div>
+
+            <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:6px">빠른 입력 문장</div>
+            <div class="obs-quick-btns" id="quick-btns">
+              <button class="obs-quick-btn" onclick="addQuickObs('주의 집중 시간이 또래 대비 길게 유지됨')">주의집중 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('순서에 맞게 단계별 활동을 수행함')">순서 수행 양호</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('교사의 발문에 적극적으로 반응하며 발표함')">발문 반응 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('그림을 통해 전체 맥락을 파악하는 능력이 돋보임')">동시처리 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('활동 목표를 스스로 설정하고 완수하려는 경향을 보임')">계획력 발달</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('친구와의 상호작용이 자연스러우며 협력적임')">사회성 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('집중 유지에 어려움을 보여 개별 지원 필요')">집중 지원 필요</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('도움 없이 스스로 활동을 마무리함')">자립적 완수</button>
+            </div>
+
+            <textarea class="form-control" id="obs-text" rows="4" placeholder="관찰 내용을 입력하거나 위 버튼을 활용하세요..." style="width:100%;resize:vertical;margin-top:8px"></textarea>
+            <button class="btn btn-primary" onclick="saveObs()" style="margin-top:10px;width:100%">💾 관찰 기록 저장</button>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="card">
+          <div class="card-header">
+            <span>📜</span><h3>관찰 기록 이력</h3>
+            <select class="form-control" id="obs-filter-student" onchange="renderObsHistory()" style="width:120px;margin-left:auto;font-size:12px">
+              <option value="">전체 학생</option>
+            </select>
+          </div>
+          <div class="card-body" id="obs-history-panel" style="max-height:400px;overflow-y:auto">
+            <div style="color:var(--gray-400);font-size:13px;text-align:center;padding:20px">관찰 기록이 없습니다</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       5. 성장 분석
+  ══════════════════════════════════════ -->
+  <div id="sec-growth" class="page-section">
+    <div class="section-header">
+      <div><h2>📈 성장 분석</h2>
+      <p>PASS 이론 연구 기반 · 3개월·6개월·1년 성장 추적</p></div>
+    </div>
+
+    <div class="notice notice-info" style="margin-bottom:20px">
+      ★ 연구 근거: Naglieri & Johnson(2000) — 21회기(3개월) 계획력 변화 · Carlson & Das(1997) — 6개월 PREP 효과 · CAS2 Manual — K-PASS 재검사 12개월 권장
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header"><span>📅</span><h3>연간 성장 체크포인트</h3></div>
+      <div class="card-body">
+        <div style="display:flex;gap:0;align-items:center;overflow-x:auto;padding:10px 0">
+          <div style="text-align:center;flex:1">
+            <div style="width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">K</div>
+            <div style="font-size:11px;margin-top:6px;font-weight:700">3월</div>
+            <div style="font-size:10px;color:var(--gray-500)">K-PASS 초기</div>
+          </div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1">
+            <div style="width:44px;height:44px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">✓</div>
+            <div style="font-size:11px;margin-top:6px;font-weight:700">6월</div>
+            <div style="font-size:10px;color:var(--gray-500)">3개월 체크</div>
+          </div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1">
+            <div style="width:44px;height:44px;background:var(--warning);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">M</div>
+            <div style="font-size:11px;margin-top:6px;font-weight:700">9월</div>
+            <div style="font-size:10px;color:var(--gray-500)">6개월 분석</div>
+          </div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1">
+            <div style="width:44px;height:44px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">✓</div>
+            <div style="font-size:11px;margin-top:6px;font-weight:700">12월</div>
+            <div style="font-size:10px;color:var(--gray-500)">관찰기록</div>
+          </div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1">
+            <div style="width:44px;height:44px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">K</div>
+            <div style="font-size:11px;margin-top:6px;font-weight:700">2월</div>
+            <div style="font-size:10px;color:var(--gray-500)">1년 비교</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><span>👶</span><h3>학생 성장 조회</h3></div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>학생</label>
+            <select class="form-control" id="growth-student"></select>
+          </div>
+          <div class="form-group">
+            <label>분석 기간</label>
+            <select class="form-control" id="growth-period">
+              <option>3개월 행동 체크</option>
+              <option>6개월 중간 분석</option>
+              <option>1년 종합 성장</option>
+            </select>
+          </div>
+          <button class="btn btn-primary" onclick="showGrowthAnalysis()">분석 보기</button>
+        </div>
+        <div id="growth-output" style="margin-top:16px"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       6. 학부모 상담자료
+  ══════════════════════════════════════ -->
+  <div id="sec-parent" class="page-section">
+    <div class="section-header">
+      <div><h2>👨‍👩‍👧 학부모 발달평가 출력</h2>
+      <p>관찰 기록 + 평가 결과 → A4 보고서 자동생성</p></div>
+      <button class="btn btn-success" onclick="printParentReport()">🖨️ 인쇄 / PDF 저장</button>
+    </div>
+
+    <div class="form-row" style="margin-bottom:20px">
+      <div class="form-group">
+        <label>학생</label>
+        <select class="form-control" id="parent-student" onchange="generateParentPreview()"></select>
+      </div>
+      <div class="form-group">
+        <label>학년도</label>
+        <select class="form-control" id="parent-year">
+          <option>2025</option>
+          <option selected>2026</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>기간</label>
+        <select class="form-control" id="parent-period" onchange="generateParentPreview()">
+          <option>3개월</option>
+          <option>6개월</option>
+          <option>1년</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="parent-preview-area">
+      <div style="text-align:center;color:var(--gray-400);padding:40px;background:white;border-radius:var(--radius)">학생과 기간을 선택하면 미리보기가 표시됩니다</div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       7. 정부기관 제출용 보고서
+  ══════════════════════════════════════ -->
+  <div id="sec-gov-report" class="page-section">
+    <div class="section-header">
+      <div><h2>🏛️ 정부기관 제출용 보고서</h2>
+      <p>평가 데이터 자동 취합 → 어린이집/유치원 평가인증 보고서 형식 출력</p></div>
+      <button class="btn btn-success no-print" onclick="printGovReport()">🖨️ PDF 출력</button>
+    </div>
+
+    <div class="notice notice-warn" style="margin-bottom:20px">
+      📋 <strong>지원 서식:</strong> 어린이집 평가인증 3주기 교육과정 운영 서류 · 유치원 자체평가 보고서 · 누리과정 운영 계획 기록지
+    </div>
+
+    <div class="form-row" style="margin-bottom:20px">
+      <div class="form-group">
+        <label>보고서 종류</label>
+        <select class="form-control" id="gov-type">
+          <option value="curriculum">누리과정 운영 기록지</option>
+          <option value="eval3">어린이집 평가인증 3주기</option>
+          <option value="self">유치원 자체평가 보고서</option>
+          <option value="monthly">월별 교육활동 보고서</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>기준 기간</label>
+        <select class="form-control" id="gov-period">
+          <option>2026년 1분기 (1월~3월)</option>
+          <option selected>2026년 2분기 (4월~6월)</option>
+          <option>2026년 3분기 (7월~9월)</option>
+          <option>2026년 4분기 (10월~12월)</option>
+          <option>2026학년도 전체</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="generateGovReport()">📄 보고서 생성</button>
+    </div>
+
+    <div id="gov-report-output"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       8. 생활기록부
+  ══════════════════════════════════════ -->
+  <div id="sec-life-record" class="page-section">
+    <div class="section-header">
+      <div><h2>📋 생활기록부</h2>
+      <p>관찰 기록 + 평가 자동 종합 → 생활기록부 서술 자동생성</p></div>
+      <button class="btn btn-success" onclick="printLifeRecord()">🖨️ 출력</button>
+    </div>
+
+    <div class="form-row" style="margin-bottom:20px">
+      <div class="form-group">
+        <label>학생</label>
+        <select class="form-control" id="life-student" onchange="generateLifeRecord()"></select>
+      </div>
+      <div class="form-group">
+        <label>학년도</label>
+        <select class="form-control">
+          <option selected>2026</option>
+          <option>2025</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="generateLifeRecord()">📝 서술 자동생성</button>
+    </div>
+
+    <div id="life-record-output"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       9. 그림책 큐레이션
+  ══════════════════════════════════════ -->
+  <div id="sec-books" class="page-section">
+    <div class="section-header">
+      <div><h2>📚 그림책 큐레이션</h2>
+      <p>월별 주제 × 뇌유형별 맞춤 추천 — PASS 이론 연계</p></div>
+    </div>
+
+    <div class="form-row" style="margin-bottom:20px">
+      <div class="form-group">
+        <label>월 선택</label>
+        <select class="form-control" id="book-month" onchange="renderBooks()">
+          <option value="3">3월 — 나와 친구</option>
+          <option value="4" selected>4월 — 봄과 생명</option>
+          <option value="5">5월 — 가족과 공동체</option>
+          <option value="6">6월 — 여름과 건강</option>
+        </select>
+      </div>
+    </div>
+    <div id="book-output"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       10. 준비물 취합
+  ══════════════════════════════════════ -->
+  <div id="sec-supplies" class="page-section">
+    <div class="section-header">
+      <div><h2>🛒 준비물 자동 취합</h2>
+      <p>교안 선택 → 시점별 분류 체크리스트 자동 생성</p></div>
+      <button class="btn btn-outline" onclick="window.print()">🖨️ 인쇄</button>
+    </div>
+
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>월</label>
+            <select class="form-control" id="sup-month">
+              <option value="3">3월</option>
+              <option value="4" selected>4월</option>
+              <option value="5">5월</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>주차</label>
+            <select class="form-control" id="sup-week">
+              <option>1주차</option>
+              <option>2주차</option>
+              <option selected>3주차</option>
+              <option>4주차</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>학생 수</label>
+            <input type="number" class="form-control" id="sup-count" value="9" min="1" max="40" style="width:80px">
+          </div>
+          <button class="btn btn-primary" onclick="generateSupplies()">📋 체크리스트 생성</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="supplies-output"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════
+       11. 활동지 출력
+  ══════════════════════════════════════ -->
+  <div id="sec-worksheet" class="page-section">
+    <div class="section-header">
+      <div><h2>🖨️ 그룹별 활동지</h2>
+      <p>탭 선택 후 인쇄 → 배부</p></div>
+    </div>
+
+    <div class="form-row" style="margin-bottom:16px">
+      <div class="form-group">
+        <label>월</label>
+        <select class="form-control" id="ws-month">
+          <option value="3">3월</option>
+          <option value="4" selected>4월</option>
+          <option value="5">5월</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>주차</label>
+        <select class="form-control" id="ws-week">
+          <option>1주차</option>
+          <option>2주차</option>
+          <option selected>3주차</option>
+          <option>4주차</option>
+        </select>
+      </div>
+      <button class="btn btn-primary" onclick="generateWorksheet()">활동지 생성</button>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'ws-a')">그룹 A (우뇌우세)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-b')">그룹 B (밸런스)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-c')">그룹 C (좌뇌우세)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-prep')">PREP 소그룹</button>
+    </div>
+
+    <div id="ws-a" class="tab-pane active" style="min-height:100px;color:var(--gray-400);font-size:13px;padding:20px;background:white;border-radius:var(--radius)">
+      위에서 월·주차를 선택하고 [활동지 생성]을 누르세요.
+    </div>
+    <div id="ws-b" class="tab-pane" style="min-height:100px;color:var(--gray-400);font-size:13px;padding:20px;background:white;border-radius:var(--radius)"></div>
+    <div id="ws-c" class="tab-pane" style="min-height:100px;color:var(--gray-400);font-size:13px;padding:20px;background:white;border-radius:var(--radius)"></div>
+    <div id="ws-prep" class="tab-pane" style="min-height:100px;color:var(--gray-400);font-size:13px;padding:20px;background:white;border-radius:var(--radius)"></div>
+  </div>
+
+</main>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════ -->
+<script>
+
+// ─── 학생 데이터 ───
+const STUDENTS = [
+  { name:'이준호', age:6, type:'우뇌우세', sim:68, seq:52, plan:61, att:80, weak:'순차처리', note:'' },
+  { name:'김서연', age:5, type:'좌우뇌균형', sim:58, seq:65, plan:55, att:72, weak:'계획력', note:'' },
+  { name:'박민아', age:6, type:'좌뇌우세', sim:28, seq:25, plan:22, att:30, weak:'전체', note:'⚠ 집중지원' },
+  { name:'최도현', age:6, type:'우뇌우세', sim:75, seq:48, plan:70, att:85, weak:'순차처리', note:'' },
+  { name:'정수아', age:5, type:'좌우뇌균형', sim:62, seq:60, plan:58, att:68, weak:'계획력', note:'' },
+  { name:'한지민', age:6, type:'우뇌우세', sim:72, seq:45, plan:65, att:78, weak:'순차처리', note:'' },
+  { name:'오서준', age:6, type:'좌우뇌균형', sim:55, seq:70, plan:50, att:65, weak:'계획력', note:'' },
+  { name:'윤채원', age:5, type:'좌뇌우세', sim:45, seq:72, plan:48, att:60, weak:'동시처리', note:'' },
+  { name:'임태양', age:6, type:'우뇌우세', sim:70, seq:40, plan:68, att:82, weak:'순차처리', note:'' },
+];
+
+// ─── 저장소 ───
+let evalData = {}; // { studentName: { itemId: score } }
+let obsData = []; // [{student, date, pass, area, text}]
+let savedEvals = []; // 저장된 평가 전체
+let selectedOption = 'B';
+
+// ─── 초기화 ───
+window.onload = () => {
+  renderStudentTable();
+  populateSelects();
+  renderBooks();
+  generateGovReport();
+};
+
+function populateSelects() {
+  const ids = ['eval-student','obs-student','obs-filter-student','parent-student','growth-student','life-student'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const addEmpty = ['eval-student','obs-filter-student'].includes(id);
+    if (addEmpty) el.innerHTML = '<option value="">-- 학생 선택 --</option>';
+    else el.innerHTML = '';
+    STUDENTS.forEach(s => {
+      el.innerHTML += `<option value="${s.name}">${s.name} (${s.age}세)</option>`;
+    });
+  });
+  // auto generate parent preview for first student
+  generateParentPreview();
+  generateLifeRecord();
+}
+
+// ─── 네비게이션 ───
+const sectionTitles = {
+  dashboard: '학급 현황 대시보드',
+  lesson: '교안 + 발문 스크립트 자동생성',
+  evaluation: '활동 평가 (체크리스트)',
+  observation: '유아 관찰 기록',
+  growth: '성장 분석',
+  parent: '학부모 발달평가 출력',
+  'gov-report': '정부기관 제출용 보고서',
+  'life-record': '생활기록부',
+  books: '그림책 큐레이션',
+  supplies: '준비물 자동 취합',
+  worksheet: '그룹별 활동지 출력',
+};
+
+function showSection(id) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelector(`[onclick="showSection('${id}')"]`).classList.add('active');
+  document.getElementById('topbar-title').textContent = sectionTitles[id] || id;
+}
+
+// ─── 학생 테이블 ───
+function renderStudentTable() {
+  const tbody = document.getElementById('student-table-body');
+  tbody.innerHTML = STUDENTS.map(s => {
+    const typeTag = s.type === '우뇌우세' ? 'tag-blue' : s.type === '좌뇌우세' ? 'tag-purple' : 'tag-green';
+    const noteTag = s.note ? `<span class="tag tag-red" style="font-size:10px">${s.note}</span>` : '';
+    return `<tr onclick="showSection('observation')" style="cursor:pointer">
+      <td><div style="display:flex;align-items:center;gap:8px">
+        <div class="avatar avatar-blue">${s.name[0]}</div>${s.name}
+      </div></td>
+      <td>${s.age}세</td>
+      <td><span class="tag ${typeTag}">${s.type}</span></td>
+      <td>${scoreBar(s.sim)}</td>
+      <td>${scoreBar(s.seq)}</td>
+      <td>${scoreBar(s.plan)}</td>
+      <td>${scoreBar(s.att)}</td>
+      <td><span class="tag tag-orange" style="font-size:10px">${s.weak}</span></td>
+      <td>${noteTag}</td>
+    </tr>`;
+  }).join('');
+}
+
+function scoreBar(pct) {
+  const color = pct >= 70 ? '#22c55e' : pct >= 50 ? '#f59e0b' : '#ef4444';
+  return `<div style="display:flex;align-items:center;gap:6px">
+    <div style="width:60px;height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden">
+      <div style="width:${pct}%;height:100%;background:${color};border-radius:3px"></div>
+    </div>
+    <span style="font-size:12px;color:#6b7280">${pct}%</span>
+  </div>`;
+}
+
+// ─── 옵션 선택 ───
+function selectOption(opt) {
+  selectedOption = opt;
+  ['A','B','C'].forEach(o => {
+    document.getElementById('opt-' + o).classList.toggle('selected', o === opt);
+  });
+}
+
+// ─── 교안 생성 ───
+const MONTHLY_THEMES = {
+  3: { theme:'나와 친구', sub:'봄 맞이 · 새 친구', activities:['나를 소개해요','친구와 인사해요','우리 반 규칙 만들기'] },
+  4: { theme:'봄과 생명', sub:'꽃 · 씨앗 · 새싹', activities:['봄꽃 관찰하기','씨앗 심기와 관찰 일지','봄 소풍 준비하기'] },
+  5: { theme:'가족과 공동체', sub:'가족 · 이웃 · 어린이날', activities:['가족 소개하기','이웃을 도와요','어린이날 행사 준비'] },
+  6: { theme:'여름과 건강', sub:'여름 날씨 · 건강', activities:['건강한 음식 알기','여름 날씨 이야기','물과 청결'] },
+  9: { theme:'가을과 추수', sub:'곡식 · 수확 · 단풍', activities:['가을 열매 탐색','추수 감사 행사','단풍 관찰 미술'] },
+  12: { theme:'겨울과 축제', sub:'눈 · 연말 · 크리스마스', activities:['겨울 날씨 이야기','크리스마스 꾸미기','한 해를 돌아봐요'] },
+};
+
+const SUBJECT_LABELS = { nuri:'누리과정', language:'언어', math:'수·조작', art:'미술', music:'음악', outdoor:'바깥놀이' };
+const TYPE_LABELS = { large:'대그룹', small:'소그룹', individual:'개별', free:'자유선택' };
+const OPTION_DESC = {
+  A: { style:'활동 중심형', focus:'우뇌우세 강점 활용 (그림·놀이·체험)', prepare:'색깔 재료, 그림카드, 놀이도구' },
+  B: { style:'균형 혼합형', focus:'전체 학급 균형 (강점 활용 + 약점 보완)', prepare:'다양한 자료, 구조화+개방형 혼합' },
+  C: { style:'구조화형', focus:'순서·단계 명확 (좌뇌우세 집중)', prepare:'단계별 워크시트, 번호 카드' },
+};
+
+function generateLesson() {
+  const month = parseInt(document.getElementById('lesson-month').value);
+  const week = document.getElementById('lesson-week').value;
+  const subject = document.getElementById('lesson-subject').value;
+  const type = document.getElementById('lesson-type').value;
+  const duration = document.getElementById('lesson-duration').value;
+  const opt = selectedOption;
+  const td = MONTHLY_THEMES[month];
+  const activity = td.activities[parseInt(week)-1] || td.activities[0];
+  const optInfo = OPTION_DESC[opt];
+
+  const output = document.getElementById('lesson-output');
+  output.innerHTML = `<div class="generating-msg"><div class="spinner"></div>교안 생성 중...</div>`;
+
+  setTimeout(() => {
+    output.innerHTML = `
+    <div id="lesson-print-area">
+    <div class="lesson-plan">
+      <h2>📝 ${activity}</h2>
+      <div class="meta">${month}월 ${week} · ${td.theme}(${td.sub}) · ${SUBJECT_LABELS[subject]} · ${TYPE_LABELS[type]} · ${duration}분 · 옵션 ${opt}(${optInfo.style})</div>
+
+      <table>
+        <tr><th style="width:120px">활동명</th><td><strong>${activity}</strong></td><th style="width:120px">생활주제</th><td>${td.theme}</td></tr>
+        <tr><th>소주제</th><td>${td.sub}</td><th>활동유형</th><td>${SUBJECT_LABELS[subject]} / ${TYPE_LABELS[type]}</td></tr>
+        <tr><th>대상연령</th><td>만 5~6세</td><th>활동시간</th><td>${duration}분</td></tr>
+        <tr><th>집단구성</th><td>전체(9명) — 우뇌4 · 균형3 · 좌뇌2</td><th>장소</th><td>교실 / 바깥</td></tr>
+        <tr><th>PASS 초점</th><td colspan="3"><span class="tag tag-orange">순차처리 보완</span> <span class="tag tag-blue">주의력 강점 활용</span> <span class="tag tag-red">박민아 개별지원</span></td></tr>
+      </table>
+
+      <div class="section-title">🎯 활동 목표</div>
+      <table>
+        <tr><th>누리과정 연계</th><th>PASS 연계</th></tr>
+        <tr>
+          <td>• 봄철 자연의 변화를 감각적으로 탐색하고 표현한다<br>• 자연물을 관찰하며 언어·수·과학적 개념을 경험한다<br>• 친구와 협력하여 공동 활동에 참여한다</td>
+          <td>• <strong>주의력(강점)</strong>: 세밀한 관찰·집중 경험<br>• <strong>동시처리</strong>: 전체 패턴 인식<br>• <strong>순차처리(보완)</strong>: 단계별 활동 연습<br>• <strong>계획력</strong>: 스스로 결과 예측</td>
+        </tr>
+      </table>
+
+      <div class="section-title">🛒 준비물</div>
+      <table>
+        <tr><th>교사 준비</th><th>미리 준비 (1주 전)</th><th>당일 준비</th></tr>
+        <tr>
+          <td>${getSupplyByOpt(opt, 'teacher')}</td>
+          <td>색상지, 가위, 풀, 관찰일지 양식 9부, 돋보기 9개</td>
+          <td>봄꽃 실물 또는 사진, 매직, 물감(선택)</td>
+        </tr>
+      </table>
+
+      <div class="section-title">⏱️ 수업 전개 계획 (${duration}분)</div>
+
+      <div class="activity-block">
+        <span class="time-tag">도입 5분</span><strong>흥미 유발 · 경험 나누기</strong>
+        <p style="margin-top:8px">• 봄 사진/실물 제시 → "이게 뭐게요? 어디서 봤어요?"<br>• 오늘 할 활동 소개: "오늘은 봄꽃을 아주 자세히 관찰해볼 거예요"<br>• 관찰 규칙 안내 (소그룹 이동, 조용히 보기)</p>
+        <div class="ask-block">
+          <div class="ask-label">💬 발문 스크립트 — 도입</div>
+          <p>🔵 <strong>전체:</strong> "봄에는 어떤 꽃이 피어요? 봄꽃을 본 적 있어요?"<br>
+          🟡 <strong>우뇌우세(이준호·최도현·한지민·임태양):</strong> "꽃을 보면 어떤 느낌이 들어요? 그림으로 표현한다면?"<br>
+          🟢 <strong>균형형(김서연·정수아·오서준):</strong> "꽃과 잎의 다른 점은 뭐예요?"<br>
+          🔴 <strong>순서형(윤채원):</strong> "꽃이 피려면 어떤 순서가 필요할까요?"<br>
+          ⚠️ <strong>박민아 개별:</strong> (손 잡고) "선생님이랑 같이 꽃 이름 찾아볼까요?"</p>
+        </div>
+      </div>
+
+      <div class="activity-block">
+        <span class="time-tag">전개 ${parseInt(duration)-15}분</span><strong>핵심 활동 — ${getMainActivity(opt, activity)}</strong>
+        <p style="margin-top:8px">${getMainActivityContent(opt)}</p>
+        <div class="ask-block">
+          <div class="ask-label">💬 발문 스크립트 — 전개 (PASS 연계)</div>
+          <p>🔵 <strong>[동시처리] 전체 그림 보기:</strong> "꽃잎·줄기·뿌리가 모두 있는 그림을 찾아봐요"<br>
+          🟡 <strong>[주의력 강점 활용]:</strong> "꽃잎을 아주 자세히 보면 무늬가 있나요? 개수는요?"<br>
+          🟢 <strong>[순차처리 보완]:</strong> "1번 — 꽃 이름 쓰기, 2번 — 색깔 칠하기, 3번 — 느낌 쓰기, 순서대로 해볼까요?"<br>
+          🔴 <strong>[계획력 촉진]:</strong> "다 그리고 나면 어떻게 꾸밀 거예요? 먼저 생각해봐요"<br>
+          ⚠️ <strong>[박민아 개별지원]:</strong> 보조교사 배치 또는 교사 순환 개별 확인</p>
+        </div>
+      </div>
+
+      <div class="activity-block">
+        <span class="time-tag">마무리 10분</span><strong>정리 · 평가 · 생각 나누기</strong>
+        <p style="margin-top:8px">• 활동 결과물 발표 (2~3명 자원)<br>• "오늘 배운 것, 재미있었던 것, 어려웠던 것" 나누기<br>• 정리정돈 → 다음 활동 안내</p>
+        <div class="ask-block">
+          <div class="ask-label">💬 발문 스크립트 — 마무리</div>
+          <p>🔵 "오늘 어떤 꽃을 관찰했어요? 가장 기억에 남는 건 뭐예요?"<br>
+          🟡 "친구 것과 내 것은 어떻게 달라요?"<br>
+          🟢 "다음에 또 봄꽃을 본다면 어떻게 관찰하고 싶어요?"</p>
+        </div>
+      </div>
+
+      <div class="section-title">📊 평가 계획</div>
+      <table>
+        <tr><th>평가 시점</th><th>평가 내용</th><th>평가 방법</th><th>PASS 연계</th></tr>
+        <tr><td>활동 중</td><td>활동 참여도, 발문 반응, 집중도</td><td>관찰평가 체크리스트</td><td>주의력·계획력</td></tr>
+        <tr><td>활동 후</td><td>결과물의 완성도, 표현의 창의성</td><td>활동결과물 평가</td><td>동시처리·순차처리</td></tr>
+        <tr><td>마무리</td><td>언어적 표현, 상호작용</td><td>구술 관찰</td><td>전체</td></tr>
+      </table>
+      <div style="margin-top:8px">
+        <button class="btn btn-success btn-sm no-print" onclick="showSection('evaluation')">✅ 평가 체크리스트로 이동 →</button>
+      </div>
+
+      <div class="section-title">🔧 교사 유의사항</div>
+      <p style="font-size:12px;color:var(--gray-600)">
+        • <strong>박민아</strong>: 전 척도 1~5% — 보조교사 또는 순환 개별 지원 필수. 성공 경험 제공에 집중.<br>
+        • <strong>순차처리 약점(50%)</strong>: 단계 번호 카드, 단계별 체크 등 시각적 지원 제공.<br>
+        • <strong>주의력 강점(73%)</strong>: 세밀 관찰, 세부 발문으로 강점을 최대 활용.<br>
+        • 활동 중 관찰 기록을 즉시 입력하면 생활기록부·평가보고서에 자동 반영됩니다.
+      </p>
+    </div>
+    </div>
+
+    <div style="display:flex;gap:10px;margin-top:12px" class="no-print">
+      <button class="btn btn-outline" onclick="printLesson()">🖨️ 교안 인쇄</button>
+      <button class="btn btn-success" onclick="showSection('evaluation')">✅ 바로 평가하기</button>
+    </div>`;
+  }, 600);
+}
+
+function getSupplyByOpt(opt, who) {
+  const map = {
+    A: '그림카드(봄꽃 8종), 색깔 물감, 도화지, 붓',
+    B: '봄꽃 실물/사진, 관찰일지 양식, 색연필, 돋보기',
+    C: '단계별 관찰 워크시트, 번호 스티커, 연필, 자',
+  };
+  return map[opt];
+}
+
+function getMainActivity(opt, activity) {
+  const map = {
+    A: '자유 탐색 + 그림·조형 표현',
+    B: '구조화 관찰 + 자유 표현 혼합',
+    C: '단계별 순서 관찰 기록',
+  };
+  return map[opt];
+}
+
+function getMainActivityContent(opt) {
+  const map = {
+    A: '• 봄꽃 실물/사진 자유 탐색 (5분)<br>• 마음에 드는 꽃을 골라 크게 그리기<br>• 색깔·모양·향기를 자유롭게 표현<br>• 완성 후 친구에게 소개하기',
+    B: '• 봄꽃 관찰 일지 작성 (이름·색·모양·향기·느낌) 순서 안내<br>• 관찰 후 자유 표현 (그림 또는 글)<br>• 소그룹별 결과 나누기 (우뇌→자유발표 / 좌뇌→순서발표)',
+    C: '① 꽃 이름 찾기 → ② 색깔 기록 → ③ 모양 그리기 → ④ 느낌 한 줄 쓰기<br>• 단계 완료 시 번호 스티커 붙이기<br>• 교사가 단계별 순서 재확인',
+  };
+  return map[opt];
+}
+
+function printLesson() {
+  const content = document.getElementById('lesson-print-area');
+  if (!content) { alert('먼저 교안을 생성하세요'); return; }
+  window.print();
+}
+
+// ─── 평가 점수 설정 ───
+let scores = {};
+
+function setScore(btn, groupId, val) {
+  scores[groupId] = val;
+  const group = document.getElementById(groupId);
+  group.querySelectorAll('.score-btn').forEach((b, i) => {
+    b.classList.toggle('active', i + 1 === val);
+  });
+}
+
+function loadEvalForStudent() {
+  const student = document.getElementById('eval-student').value;
+  if (!student) return;
+  // 해당 학생 이전 점수 로드
+  const prev = evalData[student];
+  if (prev) {
+    Object.entries(prev).forEach(([id, val]) => {
+      const group = document.getElementById(id);
+      if (group) {
+        scores[id] = val;
+        group.querySelectorAll('.score-btn').forEach((b, i) => {
+          b.classList.toggle('active', i + 1 === val);
+        });
+      }
+    });
+  }
+}
+
+function calcEvalSummary() {
+  const student = document.getElementById('eval-student').value;
+  if (!student) { alert('학생을 선택하세요'); return; }
+
+  const areas = {
+    '신체': ['s-body-1','s-body-2'],
+    '언어': ['s-lang-1','s-lang-2','s-lang-3'],
+    '사회': ['s-social-1','s-social-2'],
+    '예술': ['s-art-1','s-art-2'],
+    '자연': ['s-sci-1','s-sci-2'],
+    'PASS': ['s-pass-sim','s-pass-seq','s-pass-plan','s-pass-att'],
+  };
+
+  const areaScores = {};
+  let totalScore = 0, totalCount = 0;
+
+  Object.entries(areas).forEach(([area, ids]) => {
+    let sum = 0, cnt = 0;
+    ids.forEach(id => { if (scores[id]) { sum += scores[id]; cnt++; } });
+    areaScores[area] = cnt > 0 ? (sum / cnt).toFixed(1) : '-';
+    if (cnt > 0) { totalScore += sum; totalCount += cnt; }
+  });
+
+  const avg = totalCount > 0 ? (totalScore / totalCount).toFixed(1) : 0;
+  const level = avg >= 4.5 ? '매우우수' : avg >= 3.5 ? '우수' : avg >= 2.5 ? '보통' : avg >= 1.5 ? '미흡' : '매우미흡';
+  const levelColor = avg >= 4.5 ? 'success' : avg >= 3.5 ? 'primary' : avg >= 2.5 ? 'warning' : 'danger';
+
+  document.getElementById('eval-summary').innerHTML = `
+    <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px">
+      <div style="text-align:center">
+        <div style="font-size:36px;font-weight:900;color:var(--${levelColor})">${avg}</div>
+        <div style="font-size:12px;color:var(--gray-500)">종합평균</div>
+      </div>
+      <div>
+        <span class="tag tag-${levelColor === 'success' ? 'green' : levelColor === 'primary' ? 'blue' : levelColor === 'warning' ? 'orange' : 'red'}" style="font-size:14px;padding:6px 14px">${level}</span>
+        <div style="font-size:12px;color:var(--gray-500);margin-top:6px">${student} · ${document.getElementById('eval-activity').value || '활동'} · ${document.getElementById('eval-date').value}</div>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:8px">
+      ${Object.entries(areaScores).map(([area, score]) => `
+        <div style="background:var(--gray-50);border-radius:8px;padding:10px;text-align:center">
+          <div style="font-size:18px;font-weight:800;color:var(--primary)">${score}</div>
+          <div style="font-size:11px;color:var(--gray-500);margin-top:2px">${area}</div>
+        </div>
+      `).join('')}
+    </div>
+    <div style="margin-top:12px;padding:10px;background:#f0fdf4;border-radius:8px;font-size:12px;color:#065f46">
+      ${autoGenerateComment(student, areaScores, avg)}
+    </div>`;
+}
+
+function autoGenerateComment(name, areaScores, avg) {
+  const s = STUDENTS.find(s => s.name === name);
+  if (!s) return '';
+  const weak = s.weak;
+  const high = Object.entries(areaScores).sort((a,b) => parseFloat(b[1])-parseFloat(a[1]))[0];
+  const memo = document.getElementById('eval-memo').value;
+  return `📝 <strong>${name}</strong>: 오늘 활동에서 <strong>${high[0]} 영역</strong>에서 가장 높은 수행(${high[1]}점)을 보였습니다. K-PASS ${weak} 취약 특성과 연계하여 지속적인 지원이 권장됩니다. 종합 수행 수준 ${avg}점으로 ${avg >= 3.5 ? '양호한' : '보완이 필요한'} 상태입니다.${memo ? ' 교사 메모: ' + memo : ''}`;
+}
+
+function saveEval() {
+  const student = document.getElementById('eval-student').value;
+  const activity = document.getElementById('eval-activity').value || '활동';
+  const date = document.getElementById('eval-date').value;
+  if (!student) { alert('학생을 선택하세요'); return; }
+
+  evalData[student] = { ...scores };
+
+  const areas = {
+    '신체': ['s-body-1','s-body-2'],
+    '언어': ['s-lang-1','s-lang-2','s-lang-3'],
+    '사회': ['s-social-1','s-social-2'],
+    '예술': ['s-art-1','s-art-2'],
+    '자연': ['s-sci-1','s-sci-2'],
+  };
+  const passIds = ['s-pass-sim','s-pass-seq','s-pass-plan','s-pass-att'];
+
+  const areaAvg = {};
+  Object.entries(areas).forEach(([area, ids]) => {
+    let sum = 0, cnt = 0;
+    ids.forEach(id => { if (scores[id]) { sum += scores[id]; cnt++; } });
+    areaAvg[area] = cnt > 0 ? (sum / cnt).toFixed(1) : '-';
+  });
+  let passSum = 0, passCnt = 0;
+  passIds.forEach(id => { if (scores[id]) { passSum += scores[id]; passCnt++; } });
+  const passAvg = passCnt > 0 ? (passSum / passCnt).toFixed(1) : '-';
+
+  const allScores = Object.values(scores).filter(v => v);
+  const total = allScores.length > 0 ? (allScores.reduce((a,b) => a+b, 0) / allScores.length).toFixed(1) : '-';
+
+  // 중복 제거 후 추가
+  savedEvals = savedEvals.filter(e => !(e.student === student && e.activity === activity && e.date === date));
+  savedEvals.push({ student, activity, date, ...areaAvg, passAvg, total });
+
+  renderClassEvalTable();
+  alert(`✅ ${student} 평가가 저장되었습니다.`);
+}
+
+function renderClassEvalTable() {
+  const tbody = document.getElementById('class-eval-body');
+  if (savedEvals.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="11" style="text-align:center;color:var(--gray-400);padding:20px">저장된 평가가 없습니다</td></tr>';
+    return;
+  }
+  tbody.innerHTML = savedEvals.map(e => {
+    const total = parseFloat(e.total);
+    const levelTag = total >= 4.5 ? 'tag-green' : total >= 3.5 ? 'tag-blue' : total >= 2.5 ? 'tag-orange' : 'tag-red';
+    const level = total >= 4.5 ? '매우우수' : total >= 3.5 ? '우수' : total >= 2.5 ? '보통' : '미흡';
+    return `<tr>
+      <td><strong>${e.student}</strong></td>
+      <td>${e.activity}</td>
+      <td>${e.date}</td>
+      <td>${e['신체']||'-'}</td>
+      <td>${e['언어']||'-'}</td>
+      <td>${e['사회']||'-'}</td>
+      <td>${e['예술']||'-'}</td>
+      <td>${e['자연']||'-'}</td>
+      <td>${e.passAvg||'-'}</td>
+      <td><strong>${e.total}</strong></td>
+      <td><span class="tag ${levelTag}">${level}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── 관찰 기록 ───
+function addQuickObs(text) {
+  const ta = document.getElementById('obs-text');
+  ta.value = (ta.value ? ta.value + ' ' : '') + text;
+}
+
+function saveObs() {
+  const student = document.getElementById('obs-student').value;
+  const date = document.getElementById('obs-date').value;
+  const pass = document.getElementById('obs-pass').value;
+  const area = document.getElementById('obs-area').value;
+  const text = document.getElementById('obs-text').value;
+  if (!text.trim()) { alert('관찰 내용을 입력하세요'); return; }
+
+  obsData.push({ student, date, pass, area, text });
+  document.getElementById('obs-text').value = '';
+  renderObsHistory();
+
+  // 필터에 학생 추가
+  const filterSel = document.getElementById('obs-filter-student');
+  const exists = [...filterSel.options].some(o => o.value === student);
+  if (!exists && student) {
+    filterSel.innerHTML += `<option value="${student}">${student}</option>`;
+  }
+}
+
+function renderObsHistory() {
+  const filter = document.getElementById('obs-filter-student').value;
+  const filtered = filter ? obsData.filter(o => o.student === filter) : obsData;
+  const panel = document.getElementById('obs-history-panel');
+
+  if (filtered.length === 0) {
+    panel.innerHTML = '<div style="color:var(--gray-400);font-size:13px;text-align:center;padding:20px">관찰 기록이 없습니다</div>';
+    return;
+  }
+
+  panel.innerHTML = [...filtered].reverse().map((o, i) => `
+    <div class="obs-item">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <strong style="font-size:13px">${o.student}</strong>
+        <div style="display:flex;gap:4px">
+          <span class="tag tag-blue" style="font-size:10px">${o.pass}</span>
+          <span class="tag tag-green" style="font-size:10px">${o.area}</span>
+        </div>
+      </div>
+      <div style="font-size:13px;color:var(--gray-700)">${o.text}</div>
+      <div class="obs-meta">${o.date}</div>
+    </div>
+  `).join('');
+}
+
+// ─── 성장 분석 ───
+function showGrowthAnalysis() {
+  const student = document.getElementById('growth-student').value;
+  const period = document.getElementById('growth-period').value;
+  const s = STUDENTS.find(st => st.name === student);
+  if (!s) return;
+
+  const obs = obsData.filter(o => o.student === student);
+  const evalCount = savedEvals.filter(e => e.student === student).length;
+
+  document.getElementById('growth-output').innerHTML = `
+    <div class="card">
+      <div class="card-header"><span>📈</span><h3>${student} — ${period}</h3></div>
+      <div class="card-body">
+        <div class="grid-4" style="margin-bottom:16px">
+          <div class="stat-card primary">
+            <div class="stat-label">누적 관찰 기록</div>
+            <div class="stat-value">${obs.length}</div>
+            <div class="stat-sub">건</div>
+          </div>
+          <div class="stat-card success">
+            <div class="stat-label">저장된 평가</div>
+            <div class="stat-value">${evalCount}</div>
+            <div class="stat-sub">회</div>
+          </div>
+          <div class="stat-card warning">
+            <div class="stat-label">PASS 취약축</div>
+            <div class="stat-value" style="font-size:18px">${s.weak}</div>
+            <div class="stat-sub">집중 보완</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">뇌 유형</div>
+            <div class="stat-value" style="font-size:18px">${s.type.replace('형','')}</div>
+            <div class="stat-sub">${s.type}</div>
+          </div>
+        </div>
+        <div style="background:var(--gray-50);border-radius:8px;padding:16px;font-size:13px">
+          <div style="font-weight:700;margin-bottom:8px">📊 ${period} 성장 분석 요약</div>
+          <p>${generateGrowthText(s, period, obs.length)}</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+function generateGrowthText(s, period, obsCount) {
+  const texts = {
+    '3개월 행동 체크': `${s.name}(${s.type})은 ${period} 동안 ${obsCount}건의 관찰 기록이 누적되었습니다. K-PASS 주의력(${s.att}%) 강점을 활용한 활동에서 적극적인 참여를 보이고 있습니다. 취약 축인 ${s.weak}(${getWeakScore(s)}%)는 단계별 구조화 활동을 통해 점진적 향상이 기대됩니다. Naglieri & Johnson(2000) 연구에 따르면 21회기(3개월) 후 계획력의 유의미한 변화가 보고됩니다.`,
+    '6개월 중간 분석': `${s.name}은 6개월 중간 시점에서 전반적인 발달 궤도가 ${s.att >= 70 ? '양호' : '주의'}한 수준입니다. Carlson & Das(1997)의 PREP 6개월 효과 연구에 근거하여, ${s.weak} 취약 축에 대한 집중 지원이 효과를 나타낼 시기입니다. 교사-학부모 연계 상담을 통해 가정에서의 지원 방향을 안내하는 것을 권장합니다.`,
+    '1년 종합 성장': `${s.name}의 1년 종합 성장 분석입니다. CAS2 Manual 권고에 따라 K-PASS 재검사를 실시하여 초기 검사 결과와 비교가 필요합니다. 연간 관찰 기록(${obsCount}건)을 토대로 생활기록부 서술이 자동 생성되며, 다음 학년도 담임 교사에게 인수인계 자료로 활용됩니다.`,
+  };
+  return texts[period] || '';
+}
+
+function getWeakScore(s) {
+  const map = { '동시처리': s.sim, '순차처리': s.seq, '계획력': s.plan, '주의력': s.att };
+  return map[s.weak] || '-';
+}
+
+// ─── 학부모 보고서 ───
+function generateParentPreview() {
+  const student = document.getElementById('parent-student').value;
+  const period = document.getElementById('parent-period').value;
+  const year = document.getElementById('parent-year').value;
+  const s = STUDENTS.find(st => st.name === student);
+  if (!s) return;
+
+  const obs = obsData.filter(o => o.student === student);
+  const evs = savedEvals.filter(e => e.student === student);
+  const avgScore = evs.length > 0
+    ? (evs.reduce((a, e) => a + parseFloat(e.total || 0), 0) / evs.length).toFixed(1)
+    : '미평가';
+
+  document.getElementById('parent-preview-area').innerHTML = `
+    <div class="report-preview" id="parent-print-area">
+      <div class="rp-header">
+        <div class="rp-title">유아 발달 성장 보고서</div>
+        <div class="rp-sub">${year}학년도 ${period} · K-PASS × 누리과정 통합 평가</div>
+      </div>
+
+      <div class="rp-meta">
+        <span>원아명</span><strong>${s.name}</strong>
+        <span>생년월일</span><strong>2020년 (만 ${s.age}세)</strong>
+        <span>담당교사</span><strong>앱 테스트 반 담임</strong>
+        <span>기관명</span><strong>필굿 어린이집</strong>
+        <span>평가기간</span><strong>${year}년 ${period}</strong>
+        <span>뇌 유형</span><strong>${s.type}</strong>
+      </div>
+
+      <div class="rp-section">1. K-PASS 인지처리 프로파일</div>
+      <table class="rp-eval-table">
+        <tr>
+          <th>처리 영역</th><th>백분위</th><th>수준</th><th>교육 적용</th>
+        </tr>
+        <tr>
+          <td>동시처리</td><td>${s.sim}%</td>
+          <td>${s.sim>=70?'우수':s.sim>=50?'보통':'지원 필요'}</td>
+          <td>그림·패턴 중심 활동 ${s.sim>=70?'추천':s.sim>=50?'활용':'강화 필요'}</td>
+        </tr>
+        <tr>
+          <td>순차처리</td><td>${s.seq}%</td>
+          <td>${s.seq>=70?'우수':s.seq>=50?'보통':'지원 필요'}</td>
+          <td>단계별 순서 활동 ${s.seq>=70?'추천':s.seq>=50?'활용':'강화 필요'}</td>
+        </tr>
+        <tr>
+          <td>계획력</td><td>${s.plan}%</td>
+          <td>${s.plan>=70?'우수':s.plan>=50?'보통':'지원 필요'}</td>
+          <td>자기주도 탐구 ${s.plan>=70?'추천':s.plan>=50?'활용':'지원 필요'}</td>
+        </tr>
+        <tr>
+          <td>주의력</td><td>${s.att}%</td>
+          <td>${s.att>=70?'우수':s.att>=50?'보통':'지원 필요'}</td>
+          <td>세밀 관찰 활동 ${s.att>=70?'추천':s.att>=50?'활용':'보완 필요'}</td>
+        </tr>
+      </table>
+
+      <div class="rp-section">2. 누리과정 영역별 발달 수준</div>
+      <table class="rp-eval-table">
+        <tr><th>영역</th><th>평가 점수</th><th>수준</th><th>특이사항</th></tr>
+        ${evs.length > 0 ? ['신체','언어','사회','예술','자연'].map(area => {
+          const sc = evs[evs.length-1][area] || '-';
+          const level = sc >= 4.5 ? '매우우수' : sc >= 3.5 ? '우수' : sc >= 2.5 ? '보통' : '미흡';
+          return `<tr><td>${area}</td><td>${sc}/5</td><td>${level}</td><td></td></tr>`;
+        }).join('') : '<tr><td colspan="4" style="text-align:center;color:#999">평가 데이터 없음 — 활동 평가 후 자동 반영</td></tr>'}
+      </table>
+
+      <div class="rp-section">3. 교사 종합 소견</div>
+      <div class="rp-narrative">
+        ${generateNarrative(s, obs, avgScore)}
+      </div>
+
+      <div class="rp-section">4. 가정 연계 지원 방향</div>
+      <div class="rp-narrative">
+        ${generateHomeGuide(s)}
+      </div>
+
+      <div style="margin-top:30px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:12px">
+        <span>작성일: ${new Date().toLocaleDateString('ko-KR')}</span>
+        <span>담당교사: ________________ (인)</span>
+        <span>원장: ________________ (인)</span>
+      </div>
+    </div>`;
+}
+
+function generateNarrative(s, obs, avgScore) {
+  const recentObs = obs.slice(-3).map(o => o.text).join(' ');
+  return `${s.name} 원아는 ${s.type}으로, K-PASS 검사 결과 주의력(${s.att}%)이 가장 높은 강점으로 나타났습니다. 일상 활동에서 세밀한 관찰과 집중이 필요한 과제에서 또래보다 우수한 수행을 보입니다.<br><br>
+  취약 영역인 ${s.weak}(${getWeakScore(s)}%) 부분은 단계별 구조화된 활동과 교사의 순서 제시를 통해 점진적으로 향상되고 있습니다. ${obs.length > 0 ? `교사 관찰 기록(${obs.length}건) 중 최근 기록에 따르면: "${recentObs.slice(0,80)}..."` : ''}<br><br>
+  ${avgScore !== '미평가' ? `활동 평가 종합 점수 ${avgScore}/5점으로 ` : ''}전반적으로 ${parseFloat(avgScore) >= 3.5 ? '양호한 발달 수준을 보이고 있습니다.' : '지속적인 지원과 관찰이 필요합니다.'}`;
+}
+
+function generateHomeGuide(s) {
+  const guides = {
+    '순차처리': '가정에서 일상 루틴을 시각적으로 제시(그림 일과표)하고, 순서가 있는 놀이(보드게임, 레고 설명서 따라하기)를 권장합니다.',
+    '동시처리': '퍼즐, 지도 보기, 전체 그림 맞추기 등 전체적 맥락을 파악하는 놀이를 일상에서 활용해 주세요.',
+    '계획력': '오늘 할 일을 스스로 계획하게 하고 달성 여부를 함께 확인하는 루틴을 만들어 주세요. 작은 성공 경험이 중요합니다.',
+    '주의력': '조용한 환경에서의 집중 활동과, 집중 후 충분한 휴식 사이클을 만들어 주세요.',
+    '전체': '각 영역 전반적 지원이 필요합니다. 주 1회 개별 PREP 프로그램 참여를 적극 권장하며, 가정에서는 안정적인 환경과 일관된 루틴을 제공해 주세요.',
+  };
+  return guides[s.weak] || guides['전체'];
+}
+
+function printParentReport() {
+  window.print();
+}
+
+// ─── 정부기관 보고서 ───
+function generateGovReport() {
+  const type = document.getElementById('gov-type')?.value || 'curriculum';
+  const period = document.getElementById('gov-period')?.value || '2026년 2분기';
+
+  const totalEvals = savedEvals.length;
+  const totalObs = obsData.length;
+
+  document.getElementById('gov-report-output').innerHTML = `
+    <div class="report-preview" id="gov-print-area">
+      <div class="rp-header">
+        <div class="rp-title">누리과정 운영 기록지</div>
+        <div class="rp-sub">${period} · 어린이집 평가인증 3주기 연계</div>
+      </div>
+
+      <div class="rp-meta">
+        <span>기관명</span><strong>필굿 어린이집</strong>
+        <span>반명</span><strong>앱 테스트 반</strong>
+        <span>원아 수</span><strong>9명</strong>
+        <span>담임교사</span><strong>____</strong>
+        <span>기간</span><strong>${period}</strong>
+        <span>제출일</span><strong>${new Date().toLocaleDateString('ko-KR')}</strong>
+      </div>
+
+      <div class="rp-section">1. 교육과정 운영 현황</div>
+      <table class="rp-eval-table">
+        <tr><th>생활주제</th><th>소주제</th><th>활동 수</th><th>평가 완료</th><th>비고</th></tr>
+        <tr><td>봄과 생명</td><td>꽃·씨앗·새싹</td><td>3</td><td>${totalEvals}</td><td>K-PASS 연계</td></tr>
+        <tr><td>나와 친구</td><td>봄 맞이·새 친구</td><td>3</td><td>-</td><td></td></tr>
+        <tr><td>가족과 공동체</td><td>가족·이웃</td><td>3</td><td>-</td><td></td></tr>
+      </table>
+
+      <div class="rp-section">2. 유아 발달 평가 현황</div>
+      <table class="rp-eval-table">
+        <tr><th>원아명</th><th>평가 회수</th><th>관찰 기록</th><th>종합 수준</th><th>특이사항</th></tr>
+        ${STUDENTS.map(s => {
+          const sEvals = savedEvals.filter(e => e.student === s.name);
+          const sObs = obsData.filter(o => o.student === s.name);
+          const avg = sEvals.length > 0
+            ? (sEvals.reduce((a, e) => a + parseFloat(e.total || 0), 0) / sEvals.length).toFixed(1)
+            : '-';
+          return `<tr>
+            <td>${s.name}</td>
+            <td>${sEvals.length}회</td>
+            <td>${sObs.length}건</td>
+            <td>${avg !== '-' ? avg + '/5' : '미실시'}</td>
+            <td>${s.note || (s.weak === '전체' ? '개별지원 필요' : '')}</td>
+          </tr>`;
+        }).join('')}
+      </table>
+
+      <div class="rp-section">3. 누리과정 5개 영역 운영 실적</div>
+      <table class="rp-eval-table">
+        <tr><th>영역</th><th>주요 활동</th><th>평가 방법</th><th>반영 여부</th></tr>
+        <tr><td>신체운동·건강</td><td>봄 체조, 바깥놀이</td><td>관찰평가</td><td>✓</td></tr>
+        <tr><td>의사소통</td><td>봄꽃 이야기 나누기, 그림책</td><td>구술·관찰</td><td>✓</td></tr>
+        <tr><td>사회관계</td><td>소그룹 협동활동</td><td>관찰평가</td><td>✓</td></tr>
+        <tr><td>예술경험</td><td>봄꽃 그리기, 콜라주</td><td>작품·관찰</td><td>✓</td></tr>
+        <tr><td>자연탐구</td><td>씨앗 관찰 일지</td><td>결과물·관찰</td><td>✓</td></tr>
+      </table>
+
+      <div class="rp-section">4. 개별화 지원 현황 (PREP 대상)</div>
+      <table class="rp-eval-table">
+        <tr><th>원아명</th><th>취약 영역</th><th>지원 방법</th><th>주간 횟수</th><th>담당</th></tr>
+        ${STUDENTS.filter(s => s.note || s.weak === '전체').map(s => `
+          <tr>
+            <td>${s.name}</td>
+            <td>${s.weak}</td>
+            <td>개별 PREP 프로그램</td>
+            <td>주 1회</td>
+            <td>담임교사</td>
+          </tr>`).join('')}
+        ${STUDENTS.filter(s => s.seq < 55 && !s.note).map(s => `
+          <tr>
+            <td>${s.name}</td>
+            <td>순차처리</td>
+            <td>소그룹 구조화 활동</td>
+            <td>주 2회</td>
+            <td>담임교사</td>
+          </tr>`).join('')}
+      </table>
+
+      <div class="rp-section">5. 교사 자체 평가 의견</div>
+      <div class="rp-narrative">
+        K-PASS 기반 두뇌맞춤 교육과정을 운영함으로써 개별 원아의 인지처리 유형에 맞는 맞춤형 교안과 발문 전략을 수업에 적용하였습니다. 전체 ${STUDENTS.length}명 중 관리 지원 대상 ${STUDENTS.filter(s=>s.seq<55||s.note).length}명에 대해 개별화 지원 계획을 수립·실행하고 있습니다.<br><br>
+        이 기간 총 ${totalObs}건의 관찰 기록과 ${totalEvals}건의 활동 평가가 누적되었으며, 모든 데이터는 학부모 상담 자료 및 생활기록부 작성에 연동됩니다.
+      </div>
+
+      <div style="margin-top:30px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:12px">
+        <span>작성일: ${new Date().toLocaleDateString('ko-KR')}</span>
+        <span>담임교사: ________________ (인)</span>
+        <span>원장: ________________ (인)</span>
+      </div>
+    </div>`;
+}
+
+function printGovReport() {
+  window.print();
+}
+
+// ─── 생활기록부 ───
+function generateLifeRecord() {
+  const student = document.getElementById('life-student').value;
+  const s = STUDENTS.find(st => st.name === student);
+  if (!s) return;
+
+  const obs = obsData.filter(o => o.student === student);
+  const evs = savedEvals.filter(e => e.student === student);
+
+  document.getElementById('life-record-output').innerHTML = `
+    <div class="report-preview" id="life-print-area">
+      <div class="rp-header">
+        <div class="rp-title">유아 생활기록부</div>
+        <div class="rp-sub">2026학년도 · 자동 생성 서술형</div>
+      </div>
+      <div class="rp-meta">
+        <span>성명</span><strong>${s.name}</strong>
+        <span>만 나이</span><strong>${s.age}세</strong>
+        <span>반명</span><strong>앱 테스트 반</strong>
+        <span>담임</span><strong>____</strong>
+      </div>
+
+      <div class="rp-section">신체운동·건강</div>
+      <div class="rp-narrative">${genLifeText(s, '신체운동·건강', obs, evs)}</div>
+
+      <div class="rp-section">의사소통</div>
+      <div class="rp-narrative">${genLifeText(s, '의사소통', obs, evs)}</div>
+
+      <div class="rp-section">사회관계</div>
+      <div class="rp-narrative">${genLifeText(s, '사회관계', obs, evs)}</div>
+
+      <div class="rp-section">예술경험</div>
+      <div class="rp-narrative">${genLifeText(s, '예술경험', obs, evs)}</div>
+
+      <div class="rp-section">자연탐구</div>
+      <div class="rp-narrative">${genLifeText(s, '자연탐구', obs, evs)}</div>
+
+      <div class="rp-section">종합 의견 (K-PASS 연계)</div>
+      <div class="rp-narrative">${genOverallLifeText(s, obs, evs)}</div>
+
+      <div style="margin-top:30px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:12px">
+        <span>작성일: ${new Date().toLocaleDateString('ko-KR')}</span>
+        <span>담임교사: ________________ (인)</span>
+      </div>
+    </div>`;
+}
+
+const LIFE_TEMPLATES = {
+  '신체운동·건강': (s) => `${s.name}은(는) 신체 활동 참여에 ${s.att >= 70 ? '적극적이며' : '다소 수동적인 편이나'} 기본적인 대소근육 움직임을 수행합니다. 안전 규칙을 이해하고 지키려는 모습이 ${s.plan >= 60 ? '자주' : '간혹'} 관찰됩니다.`,
+  '의사소통': (s) => `주제와 관련된 어휘를 ${s.att >= 70 ? '풍부하게 사용하며' : '적절하게 사용하려 노력하며'} 교사의 발문에 ${s.att >= 70 ? '즉각적으로 반응합니다' : '반응하는 경우가 있습니다'}. 듣기 활동에서 ${s.att >= 60 ? '집중하는 모습' : '주의 유지에 어려움'}이 관찰됩니다.`,
+  '사회관계': (s) => `${s.sim >= 60 ? '또래와의 관계에서 전체적인 상황을 파악하며 협력적으로 참여합니다.' : '또래와의 상호작용에서 지원이 필요한 상황이 있습니다.'} 규칙을 이해하고 ${s.plan >= 55 ? '스스로 지키려' : '교사의 안내를 통해 지키려'} 노력하는 모습을 보입니다.`,
+  '예술경험': (s) => `${s.type === '우뇌우세' ? '창의적 표현 활동에서 독창성이 돋보이며 다양한 방법으로 자신의 생각을 표현합니다.' : s.type === '좌뇌우세' ? '미술·음악 활동에서 정확성과 완성도를 중시하며 체계적으로 작품을 완성합니다.' : '표현 활동에서 자신만의 방식을 찾아가는 과정이 관찰됩니다.'}`,
+  '자연탐구': (s) => `주변 자연에 ${s.sim >= 60 ? '호기심이 많으며 적극적으로 탐구합니다.' : '관심을 보이며 탐구 기회를 통해 성장하고 있습니다.'} ${s.seq >= 60 ? '관찰 순서를 따르며 기록하는 능력이 발달하고 있습니다.' : '관찰 과정에서 순서를 지키는 연습이 필요합니다.'}`,
+};
+
+function genLifeText(s, area, obs, evs) {
+  const areaObs = obs.filter(o => o.area === area || o.area === area.split('·')[0]).slice(-2);
+  const base = LIFE_TEMPLATES[area] ? LIFE_TEMPLATES[area](s) : '';
+  const obsText = areaObs.length > 0 ? ` 특히 "${areaObs[0].text}"` : '';
+  return base + obsText;
+}
+
+function genOverallLifeText(s, obs, evs) {
+  const avgScore = evs.length > 0
+    ? (evs.reduce((a, e) => a + parseFloat(e.total || 0), 0) / evs.length).toFixed(1)
+    : null;
+  return `K-PASS 검사 결과 ${s.type}으로 분류된 ${s.name}은(는) ${s.att}% 수준의 주의력이 주요 강점으로 나타납니다. 취약 영역인 ${s.weak} 부분(${getWeakScore(s)}%)에 대해 학년 중 집중 지원을 실시하였으며${avgScore ? `, 활동 평가 종합 ${avgScore}/5점으로` : ''} ${avgScore && parseFloat(avgScore) >= 3.5 ? '전반적으로 양호한 발달 수준을 유지하고 있습니다.' : '지속적인 관찰과 지원이 필요합니다.'} 다음 학년에서도 ${s.weak} 영역에 대한 연속적 지원과 ${s.type === '우뇌우세' ? '창의·탐색 중심' : s.type === '좌뇌우세' ? '구조화·순서 중심' : '균형적'} 교육 환경을 제공할 것을 권장합니다.`;
+}
+
+function printLifeRecord() {
+  window.print();
+}
+
+// ─── 그림책 ───
+const BOOKS = {
+  3: [
+    { title:'강아지 똥', author:'권정생', type:'우뇌우세', pass:'동시처리', desc:'나와 친구의 소중함, 자아존중감' },
+    { title:'내 짝꿍 최영대', author:'채인선', type:'좌우뇌균형', pass:'계획력', desc:'친구 관계와 배려' },
+    { title:'기차 ㄱㄴㄷ', author:'박은영', type:'좌뇌우세', pass:'순차처리', desc:'언어·순서 학습' },
+  ],
+  4: [
+    { title:'봄이 오면', author:'김경미', type:'우뇌우세', pass:'동시처리', desc:'봄의 변화, 자연 감각' },
+    { title:'씨앗은 무엇이 될까?', author:'얀 페퀴', type:'좌우뇌균형', pass:'계획력', desc:'생명의 순환, 과학적 사고' },
+    { title:'봄봄봄', author:'그림책방', type:'좌뇌우세', pass:'순차처리', desc:'계절 변화 순서 이해' },
+  ],
+  5: [
+    { title:'엄마는 출장 중', author:'김희경', type:'우뇌우세', pass:'동시처리', desc:'가족 형태 다양성' },
+    { title:'고맙습니다 선생님', author:'파트리샤 폴라코', type:'좌우뇌균형', pass:'계획력', desc:'감사와 관계' },
+    { title:'우리 아빠', author:'앤서니 브라운', type:'좌뇌우세', pass:'순차처리', desc:'가족 역할 이해' },
+  ],
+  6: [
+    { title:'여름 수영장', author:'김보람', type:'우뇌우세', pass:'동시처리', desc:'여름 경험, 신체 활동' },
+    { title:'깨끗이 씻어요', author:'그림나무', type:'좌우뇌균형', pass:'계획력', desc:'건강 습관 형성' },
+    { title:'물은 어디서 왔을까?', author:'과학그림책', type:'좌뇌우세', pass:'순차처리', desc:'물의 순환, 과학적 사고' },
+  ],
+};
+
+function renderBooks() {
+  const month = parseInt(document.getElementById('book-month').value);
+  const books = BOOKS[month] || [];
+  const typeColors = { '우뇌우세': 'blue', '좌우뇌균형': 'green', '좌뇌우세': 'purple' };
+
+  document.getElementById('book-output').innerHTML = `
+    <div class="grid-3">
+      ${books.map(b => `
+        <div class="card">
+          <div class="card-header">
+            <span>📖</span>
+            <h3>${b.title}</h3>
+          </div>
+          <div class="card-body">
+            <div style="font-size:12px;color:var(--gray-500);margin-bottom:8px">저자: ${b.author}</div>
+            <div style="display:flex;gap:6px;margin-bottom:8px">
+              <span class="tag tag-${typeColors[b.type]}">${b.type}</span>
+              <span class="tag tag-orange">${b.pass}</span>
+            </div>
+            <div style="font-size:13px;color:var(--gray-700)">${b.desc}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>`;
+}
+
+// ─── 준비물 ───
+const SUPPLIES = {
+  '4-3': [
+    { when:'1주 전', category:'교구', item:'돋보기', qty:1, unit:'개/인' },
+    { when:'1주 전', category:'재료', item:'관찰일지 양식', qty:1, unit:'부/인' },
+    { when:'3일 전', category:'재료', item:'색연필세트', qty:1, unit:'세트/인' },
+    { when:'3일 전', category:'교구', item:'봄꽃 사진카드', qty:8, unit:'장' },
+    { when:'당일', category:'자연물', item:'봄꽃 실물 또는 화분', qty:3, unit:'개' },
+    { when:'당일', category:'재료', item:'도화지(A4)', qty:1, unit:'장/인' },
+    { when:'당일', category:'교구', item:'매직마커', qty:1, unit:'세트' },
+  ],
+};
+
+function generateSupplies() {
+  const month = document.getElementById('sup-month').value;
+  const week = document.getElementById('sup-week').value;
+  const count = parseInt(document.getElementById('sup-count').value) || 9;
+  const key = `${month}-${week.replace('주차','')}`;
+  const items = SUPPLIES[key] || SUPPLIES['4-3'];
+
+  document.getElementById('supplies-output').innerHTML = `
+    <div class="card">
+      <div class="card-header"><span>🛒</span><h3>${month}월 ${week} 준비물 체크리스트</h3><span class="sub">학생 ${count}명 기준</span></div>
+      <div class="card-body" style="padding:0">
+        ${['1주 전','3일 전','당일'].map(when => {
+          const subset = items.filter(i => i.when === when);
+          if (subset.length === 0) return '';
+          return `<div style="padding:12px 16px 4px;font-size:12px;font-weight:700;color:var(--gray-600);background:var(--gray-50);border-bottom:1px solid var(--gray-100)">${when === '1주 전' ? '📅' : when === '3일 전' ? '🗓️' : '🌅'} ${when}</div>
+          ${subset.map(i => `
+            <div class="checklist-item" style="padding:10px 16px">
+              <input type="checkbox" id="chk-${i.item}">
+              <label for="chk-${i.item}">${i.item}</label>
+              <span class="tag ${i.category === '교구' ? 'tag-blue' : i.category === '재료' ? 'tag-green' : 'tag-orange'}">${i.category}</span>
+              <span class="check-status">${i.unit === '개/인' || i.unit === '장/인' || i.unit === '부/인' ? (i.qty * count) + i.unit.replace('/인','') : i.qty + i.unit}</span>
+            </div>
+          `).join('')}`;
+        }).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── 활동지 ───
+function generateWorksheet() {
+  const month = document.getElementById('ws-month').value;
+  const week = document.getElementById('ws-week').value;
+
+  const groups = {
+    'ws-a': { label:'그룹 A (우뇌우세)', color:'#dbeafe', borderColor:'#2563eb',
+      content:'<p><strong>🎨 봄꽃 자유 표현</strong></p><p style="margin:8px 0;font-size:13px">아래 공간에 가장 마음에 드는 봄꽃을 자유롭게 그려보세요!</p><div style="border:2px dashed #93c5fd;border-radius:8px;height:200px;margin:10px 0;display:flex;align-items:center;justify-content:center;color:#93c5fd;font-size:13px">그림을 그려요</div><p style="font-size:12px">내가 그린 꽃의 이름: ___________________</p>' },
+    'ws-b': { label:'그룹 B (밸런스)', color:'#d1fae5', borderColor:'#059669',
+      content:'<p><strong>🔍 봄꽃 관찰 일지</strong></p><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px"><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">꽃 이름</th><td style="border:1px solid #ccc;padding:6px;min-width:120px"></td><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">색깔</th><td style="border:1px solid #ccc;padding:6px"></td></tr><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">모양</th><td style="border:1px solid #ccc;padding:6px"></td><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">냄새</th><td style="border:1px solid #ccc;padding:6px"></td></tr><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4" colspan="4">느낌(그림 또는 글)</th></tr><tr><td style="border:1px solid #ccc;padding:6px;height:80px" colspan="4"></td></tr></table>' },
+    'ws-c': { label:'그룹 C (좌뇌우세)', color:'#ede9fe', borderColor:'#7c3aed',
+      content:'<p><strong>📋 단계별 봄꽃 관찰</strong></p><div style="font-size:12px"><div style="background:#f5f3ff;border-radius:6px;padding:8px;margin:4px 0">① 꽃 이름을 찾아 써요: _________________</div><div style="background:#f5f3ff;border-radius:6px;padding:8px;margin:4px 0">② 꽃잎 개수를 세어요: _________________개</div><div style="background:#f5f3ff;border-radius:6px;padding:8px;margin:4px 0">③ 꽃의 색깔을 칠해요: <span style="display:inline-block;width:60px;height:16px;border-bottom:1px solid #999"></span></div><div style="background:#f5f3ff;border-radius:6px;padding:8px;margin:4px 0">④ 느낌을 한 줄로 써요: _________________</div></div>' },
+    'ws-prep': { label:'PREP 소그룹', color:'#fef3c7', borderColor:'#d97706',
+      content:'<p><strong>🧠 PREP 순차처리 연습</strong></p><p style="font-size:12px;margin:8px 0">순서대로 따라해 봐요!</p><div style="font-size:12px"><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:#d97706;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">1</span>봄꽃 사진 중 마음에 드는 것 하나 고르기</div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:#d97706;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">2</span>꽃 이름 알아보기 → 이름: ___________</div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:#d97706;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">3</span>꽃 그리기 (아래 공간)</div><div style="border:1px dashed #fbbf24;border-radius:6px;height:80px;margin:6px 0"></div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:#d97706;color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">4</span>선생님께 완성 보여드리기 ✓</div></div>' },
+  };
+
+  Object.entries(groups).forEach(([id, g]) => {
+    document.getElementById(id).innerHTML = `
+      <div style="background:${g.color};border:2px solid ${g.borderColor};border-radius:12px;padding:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <strong style="font-size:14px;color:${g.borderColor}">${g.label}</strong>
+          <span style="font-size:11px;color:#666">${month}월 ${week} | 이름: ___________</span>
+        </div>
+        ${g.content}
+      </div>`;
+  });
+}
+
+// ─── 탭 ───
+function switchTab(btn, paneId) {
+  btn.closest('.tabs').querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const section = btn.closest('.page-section');
+  section.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.getElementById(paneId).classList.add('active');
+}
+
+// ─── 초기 데이터 렌더링 ───
+renderBooks();
+generateGovReport();
+generateWorksheet();
+generateSupplies();
+
+</script>
+</body>
+</html>
