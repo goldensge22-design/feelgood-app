@@ -1,0 +1,1667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>feelgood Brain-Match System | K-PASS International</title>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0A1628;
+  --navy2: #0F1F3C;
+  --sidebar: #0D1B35;
+  --card: #FFFFFF;
+  --bg: #F0F4FA;
+  --border: #E2EBF5;
+  --text: #1A2744;
+  --muted: #64748B;
+  --success: #10B981;
+  --warn: #F59E0B;
+  --danger: #EF4444;
+  --p-color: #4361EE;
+  --a-color: #E91E8C;
+  --s-color: #6D28D9;
+  --ss-color: #7C3AED;
+  --primary: #0092BC;
+  --accent: #EF3340;
+  --radius: 12px;
+  --shadow: 0 2px 12px rgba(10,22,40,.08);
+  --shadow-lg: 0 8px 32px rgba(10,22,40,.13);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--text); display: flex; min-height: 100vh; overflow-x: hidden; }
+
+/* ── SIDEBAR ── */
+.sidebar {
+  width: 240px; min-width: 240px; background: var(--sidebar);
+  display: flex; flex-direction: column; position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-brand {
+  padding: 20px 20px 14px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.brand-logo { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px; }
+.brand-tagline { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 2px; letter-spacing: .5px; }
+
+/* ── COUNTRY DROPDOWN ── */
+.sidebar-country { padding: 14px 14px 10px; }
+.country-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.35); margin-bottom: 8px; }
+
+.country-select-wrapper {
+  position: relative;
+}
+.country-select-display {
+  display: flex; align-items: center; gap: 10px;
+  width: 100%; padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,.15); border-radius: 10px;
+  background: rgba(255,255,255,.07);
+  color: #fff; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .2s; user-select: none;
+}
+.country-select-display:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.25); }
+.country-select-display .flag { font-size: 20px; }
+.country-select-display .name { flex: 1; }
+.country-select-display .chevron {
+  font-size: 10px; color: rgba(255,255,255,.5);
+  transition: transform .2s;
+}
+.country-select-display.open .chevron { transform: rotate(180deg); }
+
+.country-dropdown {
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: #1a2d50; border: 1px solid rgba(255,255,255,.15); border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+  overflow: hidden; z-index: 200;
+  max-height: 0; opacity: 0; pointer-events: none;
+  transition: max-height .3s ease, opacity .2s ease;
+}
+.country-dropdown.open {
+  max-height: 300px; opacity: 1; pointer-events: all;
+}
+.country-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 12px; cursor: pointer; transition: background .15s;
+  color: rgba(255,255,255,.75); font-size: 12.5px; font-weight: 500;
+}
+.country-option:hover { background: rgba(255,255,255,.1); color: #fff; }
+.country-option.active { background: var(--primary); color: #fff; font-weight: 700; }
+.country-option .opt-flag { font-size: 18px; }
+.country-option .opt-name { flex: 1; }
+.country-option .opt-check { font-size: 11px; opacity: 0; }
+.country-option.active .opt-check { opacity: 1; }
+
+.sidebar-nav { padding: 12px 10px; flex: 1; }
+.nav-group-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.3); padding: 10px 8px 5px; }
+.nav-item {
+  display: flex; align-items: center; gap: 9px; padding: 9px 10px;
+  border-radius: 8px; cursor: pointer; transition: all .2s;
+  color: rgba(255,255,255,.6); font-size: 12.5px; font-weight: 400;
+  margin-bottom: 2px; border: none; background: transparent; width: 100%;
+  text-align: left; font-family: 'Outfit', sans-serif;
+}
+.nav-item:hover { background: rgba(255,255,255,.07); color: #fff; }
+.nav-item.active { background: rgba(255,255,255,.12); color: #fff; font-weight: 600; }
+.nav-item.active .nav-dot { background: var(--primary); }
+.nav-dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,.25); flex-shrink: 0; }
+.nav-badge { margin-left: auto; background: var(--primary); color: #fff; font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: 600; }
+
+/* ── MAIN ── */
+.main { margin-left: 240px; flex: 1; display: flex; flex-direction: column; min-height: 100vh; }
+.topbar {
+  background: #fff; border-bottom: 1px solid var(--border);
+  padding: 14px 28px; display: flex; align-items: center; gap: 14px; position: sticky; top: 0; z-index: 50;
+}
+.topbar-country-pill {
+  display: flex; align-items: center; gap: 8px; padding: 6px 14px;
+  border-radius: 20px; font-size: 12px; font-weight: 600; color: #fff;
+  background: var(--primary);
+}
+.topbar-title { font-size: 15px; font-weight: 700; color: var(--text); }
+.topbar-sub { font-size: 11px; color: var(--muted); margin-left: 4px; }
+.topbar-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.topbar-class { font-size: 11px; color: var(--muted); }
+.topbar-class strong { color: var(--text); }
+.content { padding: 24px 28px; flex: 1; }
+
+/* ── SECTION ── */
+.section { display: none; }
+.section.active { display: block; }
+
+/* ── CARDS ── */
+.card {
+  background: #fff; border-radius: var(--radius); border: 1px solid var(--border);
+  box-shadow: var(--shadow); padding: 20px;
+}
+.card-title { font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.card-sub { font-size: 11px; color: var(--muted); margin-bottom: 16px; }
+.page-header { margin-bottom: 20px; }
+.page-title { font-size: 22px; font-weight: 800; color: var(--text); }
+.page-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+/* ── DASHBOARD STAT BOXES ── */
+.stat-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; margin-bottom: 20px; }
+.stat-box {
+  background: #fff; border-radius: var(--radius); padding: 16px;
+  border: 1px solid var(--border); box-shadow: var(--shadow);
+}
+.stat-box .stat-val { font-size: 28px; font-weight: 800; color: var(--text); font-family: 'Outfit', sans-serif; }
+.stat-box .stat-unit { font-size: 13px; font-weight: 400; color: var(--muted); }
+.stat-box .stat-label { font-size: 11px; color: var(--muted); margin-top: 4px; }
+.stat-box.accent-primary { border-top: 3px solid var(--primary); }
+.stat-box.accent-success { border-top: 3px solid var(--success); }
+.stat-box.accent-warn { border-top: 3px solid var(--warn); }
+.stat-box.accent-p { border-top: 3px solid var(--p-color); }
+
+/* ── PASS BARS ── */
+.pass-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; }
+.pass-item { }
+.pass-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+.pass-name { font-size: 11px; font-weight: 600; }
+.pass-pct { font-size: 12px; font-weight: 700; }
+.pass-bar-bg { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.pass-bar-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+
+/* ── BRAIN TYPE DIST ── */
+.brain-dist { display: flex; gap: 10px; }
+.brain-chip {
+  flex: 1; padding: 12px; border-radius: 10px; text-align: center;
+  border: 2px solid transparent;
+}
+.brain-chip.right { background: #FEF3FF; border-color: #C084FC; }
+.brain-chip.balanced { background: #F0FDF9; border-color: #34D399; }
+.brain-chip.left { background: #EFF6FF; border-color: #60A5FA; }
+.brain-chip-name { font-size: 11px; font-weight: 600; color: var(--text); }
+.brain-chip-count { font-size: 22px; font-weight: 800; }
+.brain-chip-pct { font-size: 10px; color: var(--muted); }
+
+/* ── STUDENT TABLE ── */
+.student-table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: 12px; }
+.student-table th { background: var(--bg); padding: 9px 12px; text-align: left; font-weight: 600; color: var(--muted); border-bottom: 1px solid var(--border); }
+.student-table td { padding: 9px 12px; border-bottom: 1px solid var(--border); }
+.student-table tr:hover td { background: #F8FBFF; cursor: pointer; }
+.pass-mini { display: inline-flex; gap: 4px; }
+.pass-tag {
+  display: inline-block; padding: 2px 7px; border-radius: 12px;
+  font-size: 10px; font-weight: 600; color: #fff;
+}
+.pass-tag.P { background: var(--p-color); }
+.pass-tag.A { background: var(--a-color); }
+.pass-tag.S { background: var(--s-color); }
+.pass-tag.Ss { background: var(--ss-color); }
+.brain-badge { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.brain-badge.right { background: #FEF3FF; color: #9333EA; }
+.brain-badge.balanced { background: #F0FDF9; color: #059669; }
+.brain-badge.left { background: #EFF6FF; color: #2563EB; }
+
+/* ── ALERT BOX ── */
+.alert-box {
+  padding: 12px 16px; border-radius: 8px; font-size: 12px; margin-bottom: 12px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.alert-box.warn { background: #FFFBEB; border: 1px solid #FDE68A; color: #92400E; }
+.alert-box.info { background: #EFF6FF; border: 1px solid #BFDBFE; color: #1E40AF; }
+.alert-icon { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── LESSON PLAN ── */
+.lesson-controls { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.form-label { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 5px; }
+.form-select {
+  width: 100%; padding: 9px 12px; border: 1px solid var(--border);
+  border-radius: 8px; font-size: 13px; font-family: 'Outfit', sans-serif;
+  background: #fff; color: var(--text); cursor: pointer; outline: none;
+}
+.form-select:focus { border-color: var(--primary); }
+.option-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 18px; }
+.option-card {
+  padding: 14px; border-radius: 10px; border: 2px solid var(--border);
+  cursor: pointer; transition: all .2s; background: #fff;
+}
+.option-card.selected { border-color: var(--primary); background: #EFF9FF; }
+.option-card-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+.option-card-sub { font-size: 10.5px; color: var(--muted); line-height: 1.5; }
+.option-card-badge { display: inline-block; padding: 2px 7px; border-radius: 10px; font-size: 9px; font-weight: 700; margin-bottom: 6px; }
+.badge-a { background: #FEF3FF; color: #9333EA; }
+.badge-b { background: #F0FDF9; color: #059669; }
+.badge-c { background: #EFF6FF; color: #2563EB; }
+.btn {
+  display: inline-flex; align-items: center; gap: 7px; padding: 10px 20px;
+  border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600;
+  cursor: pointer; border: none; transition: all .2s;
+}
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:hover { opacity: .9; transform: translateY(-1px); }
+.btn-secondary { background: var(--bg); border: 1px solid var(--border); color: var(--text); }
+.btn-secondary:hover { background: #E8EFF8; }
+.btn-sm { padding: 6px 14px; font-size: 12px; }
+.ai-output {
+  background: #FAFCFF; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 20px; min-height: 80px; font-size: 13px; line-height: 1.8; white-space: pre-wrap;
+  font-family: 'Outfit', sans-serif; color: var(--text);
+}
+.ai-output.loading { color: var(--muted); font-style: italic; }
+.streaming-cursor::after {
+  content: '▋'; animation: blink .8s step-end infinite; color: var(--primary);
+}
+@keyframes blink { 0%,100% { opacity:1; } 50% { opacity:0; } }
+
+/* ── BOOKS ── */
+.book-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.book-card {
+  padding: 14px; border-radius: 10px; border: 1px solid var(--border); background: #fff;
+  transition: box-shadow .2s;
+}
+.book-card:hover { box-shadow: var(--shadow-lg); }
+.book-type-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .5px; margin-bottom: 8px; }
+.book-item { padding: 8px 0; border-bottom: 1px solid var(--border); }
+.book-item:last-child { border-bottom: none; }
+.book-title { font-size: 12px; font-weight: 600; color: var(--text); }
+.book-link { font-size: 10.5px; color: var(--muted); }
+
+/* ── MATERIALS ── */
+.materials-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.mat-group { padding: 14px; border-radius: 10px; background: #fff; border: 1px solid var(--border); }
+.mat-group-title { font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+.mat-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; font-size: 12px; }
+.mat-check { width: 15px; height: 15px; border-radius: 4px; border: 2px solid var(--border); cursor: pointer; flex-shrink: 0; accent-color: var(--primary); }
+
+/* ── OBSERVATION ── */
+.obs-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; }
+.obs-student-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px 12px;
+  border-radius: 8px; cursor: pointer; margin-bottom: 4px; transition: all .2s;
+  border: 1px solid transparent;
+}
+.obs-student-item:hover { background: var(--bg); }
+.obs-student-item.selected { background: #EFF9FF; border-color: var(--primary); }
+.obs-avatar {
+  width: 34px; height: 34px; border-radius: 50%; background: var(--primary);
+  display: flex; align-items: center; justify-content: center; color: #fff;
+  font-size: 13px; font-weight: 700; flex-shrink: 0;
+}
+.obs-sname { font-size: 13px; font-weight: 600; }
+.obs-sage { font-size: 10px; color: var(--muted); }
+.obs-filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+.filter-btn {
+  padding: 5px 12px; border-radius: 16px; font-size: 11px; font-weight: 600;
+  border: 1px solid var(--border); background: #fff; cursor: pointer; transition: all .2s;
+  font-family: 'Outfit', sans-serif;
+}
+.filter-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.obs-textarea {
+  width: 100%; height: 80px; padding: 10px 12px;
+  border: 1px solid var(--border); border-radius: 8px;
+  font-family: 'Outfit', sans-serif; font-size: 13px; resize: vertical;
+  color: var(--text); outline: none;
+}
+.obs-textarea:focus { border-color: var(--primary); }
+.obs-history { margin-top: 14px; }
+.obs-entry {
+  padding: 10px 12px; border-radius: 8px; background: var(--bg);
+  margin-bottom: 8px; font-size: 12px;
+}
+.obs-entry-header { display: flex; gap: 8px; margin-bottom: 4px; }
+.obs-chip { padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 600; }
+.obs-chip.P { background: #EEF2FF; color: var(--p-color); }
+.obs-chip.A { background: #FDF2F8; color: var(--a-color); }
+.obs-chip.S { background: #F5F3FF; color: var(--s-color); }
+.obs-chip.Ss { background: #F5F3FF; color: var(--ss-color); }
+.obs-date { font-size: 10px; color: var(--muted); margin-left: auto; }
+
+/* ── GROWTH ── */
+.growth-timeline { display: flex; gap: 0; margin-bottom: 24px; overflow: hidden; border-radius: 12px; border: 1px solid var(--border); }
+.growth-milestone {
+  flex: 1; padding: 14px 12px; text-align: center; position: relative;
+  background: #fff; border-right: 1px solid var(--border);
+}
+.growth-milestone:last-child { border-right: none; }
+.growth-milestone.done { background: #F0FDF9; }
+.growth-milestone.active { background: #EFF9FF; }
+.gm-month { font-size: 11px; font-weight: 700; color: var(--muted); }
+.gm-label { font-size: 10px; color: var(--muted); margin-top: 3px; }
+.gm-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%; margin: 6px auto;
+  font-size: 11px; font-weight: 700;
+}
+.gm-badge.assess { background: var(--primary); color: #fff; }
+.gm-badge.check { background: var(--success); color: #fff; }
+.gm-badge.mid { background: var(--warn); color: #fff; }
+.growth-student-select { margin-bottom: 18px; display: flex; align-items: center; gap: 12px; }
+.growth-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.growth-tab {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--muted);
+  font-family: 'Outfit', sans-serif; transition: all .2s;
+}
+.growth-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+
+/* ── PARENT REPORT ── */
+.report-layout { display: grid; grid-template-columns: 260px 1fr; gap: 16px; }
+.report-preview {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 28px; font-size: 12px; line-height: 1.8; min-height: 400px;
+}
+.report-header { border-bottom: 2px solid var(--primary); padding-bottom: 12px; margin-bottom: 16px; }
+.report-title { font-size: 18px; font-weight: 800; color: var(--text); }
+.report-meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.report-section { margin-bottom: 16px; }
+.report-section-title { font-size: 13px; font-weight: 700; color: var(--primary); border-left: 3px solid var(--primary); padding-left: 8px; margin-bottom: 8px; }
+.report-pass-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.report-pass-item { padding: 8px; border-radius: 8px; background: var(--bg); }
+.report-pass-name { font-size: 10px; font-weight: 700; margin-bottom: 3px; }
+.report-bar { height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+.report-bar-fill { height: 100%; border-radius: 3px; }
+
+/* ── WORKSHEETS ── */
+.ws-controls { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-end; }
+.ws-group-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.ws-tab {
+  padding: 8px 16px; border-radius: 8px; font-size: 12px; font-weight: 600;
+  cursor: pointer; border: 1px solid var(--border); background: #fff; color: var(--muted);
+  font-family: 'Outfit', sans-serif; transition: all .2s;
+}
+.ws-tab.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+.ws-preview {
+  background: #fff; border: 1px solid var(--border); border-radius: var(--radius);
+  padding: 24px; min-height: 300px;
+}
+
+/* ── PRINT ── */
+@media print {
+  .sidebar, .topbar, .btn, .obs-form, .ws-controls, .ws-group-tabs { display: none !important; }
+  .main { margin-left: 0; }
+  .content { padding: 0; }
+}
+
+/* ── TWO COL ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.three-col { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.divider { height: 1px; background: var(--border); margin: 18px 0; }
+.tag {
+  display: inline-block; padding: 3px 9px; border-radius: 12px;
+  font-size: 10px; font-weight: 600;
+}
+.tag-success { background: #D1FAE5; color: #065F46; }
+.tag-warn { background: #FEF3C7; color: #92400E; }
+.tag-danger { background: #FEE2E2; color: #991B1B; }
+.tag-primary { background: #DBEAFE; color: #1E40AF; }
+.empty-state { text-align: center; padding: 40px 20px; color: var(--muted); font-size: 13px; }
+.empty-icon { font-size: 32px; margin-bottom: 10px; }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .sidebar { width: 180px; min-width: 180px; }
+  .main { margin-left: 180px; }
+  .stat-grid { grid-template-columns: repeat(2,1fr); }
+  .lesson-controls { grid-template-columns: 1fr 1fr; }
+  .book-grid { grid-template-columns: 1fr 1fr; }
+  .obs-layout { grid-template-columns: 1fr; }
+  .report-layout { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-logo">feelgood</div>
+    <div class="brand-tagline">K-PASS Brain-Match System · International</div>
+  </div>
+
+  <div class="sidebar-country">
+    <div class="country-label">Select Country</div>
+    <div class="country-select-wrapper">
+      <div class="country-select-display" id="countryDisplay" onclick="toggleDropdown()">
+        <span class="flag" id="displayFlag">🇦🇿</span>
+        <span class="name" id="displayName">Azerbaijan</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="country-dropdown" id="countryDropdown">
+        <!-- populated by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="sidebar-nav">
+    <div class="nav-group-label">Overview</div>
+    <button class="nav-item active" onclick="showSection('dashboard')">
+      <span class="nav-dot"></span> Class Dashboard
+    </button>
+    <div class="nav-group-label">Teaching Tools</div>
+    <button class="nav-item" onclick="showSection('lesson')">
+      <span class="nav-dot"></span> AI Lesson Plans
+    </button>
+    <button class="nav-item" onclick="showSection('books')">
+      <span class="nav-dot"></span> Book Curation
+    </button>
+    <button class="nav-item" onclick="showSection('materials')">
+      <span class="nav-dot"></span> Materials Checklist
+    </button>
+    <div class="nav-group-label">Records & Reports</div>
+    <button class="nav-item" onclick="showSection('observation')">
+      <span class="nav-dot"></span> Student Observation
+    </button>
+    <button class="nav-item" onclick="showSection('growth')">
+      <span class="nav-dot"></span> Growth Analysis
+    </button>
+    <button class="nav-item" onclick="showSection('report')">
+      <span class="nav-dot"></span> Parent Report <span class="nav-badge">NEW</span>
+    </button>
+    <div class="nav-group-label">Print</div>
+    <button class="nav-item" onclick="showSection('worksheets')">
+      <span class="nav-dot"></span> Activity Worksheets
+    </button>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-country-pill" id="topbar-flag">🇦🇿 Azerbaijan</div>
+    <div>
+      <span class="topbar-title" id="topbar-section">Class Dashboard</span>
+      <span class="topbar-sub" id="topbar-curriculum">SSPE Curriculum</span>
+    </div>
+    <div class="topbar-right">
+      <div class="topbar-class">Class: <strong id="topbar-classname">Sunflower Class</strong> · <strong id="topbar-count">8</strong> students · K-PASS assessed</div>
+      <button class="btn btn-secondary btn-sm" onclick="window.print()">🖨 Print</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ═══════════ DASHBOARD ═══ -->
+    <div class="section active" id="section-dashboard">
+      <div class="page-header">
+        <div class="page-title">Class Dashboard</div>
+        <div class="page-sub" id="dash-sub">Sunflower Class · 8 students · K-PASS Assessment Results</div>
+      </div>
+      <div class="stat-grid">
+        <div class="stat-box accent-primary">
+          <div class="stat-val" id="stat-total">8 <span class="stat-unit">students</span></div>
+          <div class="stat-label">Total Enrolled</div>
+        </div>
+        <div class="stat-box accent-warn">
+          <div class="stat-val" id="stat-support">5 <span class="stat-unit">students</span></div>
+          <div class="stat-label">Needs Support · 62%</div>
+        </div>
+        <div class="stat-box accent-success">
+          <div class="stat-val" id="stat-strength">A <span class="stat-unit">73%</span></div>
+          <div class="stat-label">Class Strength ↑ (Attention)</div>
+        </div>
+        <div class="stat-box accent-p">
+          <div class="stat-val" id="stat-weak">Ss <span class="stat-unit">48%</span></div>
+          <div class="stat-label">Class Weakness ↓ (Successive)</div>
+        </div>
+      </div>
+      <div class="two-col" style="margin-bottom:16px;">
+        <div class="card">
+          <div class="card-title">Brain Type Distribution</div>
+          <div class="card-sub" id="brain-dist-sub">Based on combined PASS scale profile</div>
+          <div class="brain-dist" id="brain-dist">
+            <div class="brain-chip right">
+              <div class="brain-chip-name">Right-Brain</div>
+              <div class="brain-chip-count" style="color:#9333EA" id="b-right">3</div>
+              <div class="brain-chip-pct" id="b-right-pct">38%</div>
+            </div>
+            <div class="brain-chip balanced">
+              <div class="brain-chip-name">Balanced</div>
+              <div class="brain-chip-count" style="color:#059669" id="b-bal">3</div>
+              <div class="brain-chip-pct" id="b-bal-pct">37%</div>
+            </div>
+            <div class="brain-chip left">
+              <div class="brain-chip-name">Left-Brain</div>
+              <div class="brain-chip-count" style="color:#2563EB" id="b-left">2</div>
+              <div class="brain-chip-pct" id="b-left-pct">25%</div>
+            </div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Class PASS Averages</div>
+          <div class="card-sub">4-scale cognitive profile</div>
+          <div class="pass-grid" id="pass-grid"></div>
+        </div>
+      </div>
+      <div id="alerts-container" style="margin-bottom:16px;"></div>
+      <div class="card">
+        <div class="card-title">Student Results — Click to view observation records</div>
+        <div class="card-sub">All scores shown as percentile ranks</div>
+        <table class="student-table">
+          <thead>
+            <tr>
+              <th>Name</th><th>Age</th><th>Brain Type</th>
+              <th>P — Planning</th><th>A — Attention</th>
+              <th>S — Simultaneous</th><th>Ss — Successive</th>
+              <th>Weakest Scale</th><th>Note</th>
+            </tr>
+          </thead>
+          <tbody id="student-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ═══════════ LESSON PLAN ═══ -->
+    <div class="section" id="section-lesson">
+      <div class="page-header">
+        <div class="page-title">AI Lesson Plan + Question Scripts</div>
+        <div class="page-sub">Auto-generated lesson plans differentiated by PASS brain profile · <span id="lesson-curriculum-label">SSPE Curriculum</span></div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">Step 1 — Select Class Conditions</div>
+        <div class="lesson-controls">
+          <div>
+            <div class="form-label">Month / Theme</div>
+            <select class="form-select" id="lesson-month"></select>
+          </div>
+          <div>
+            <div class="form-label">Week</div>
+            <select class="form-select" id="lesson-week">
+              <option>Week 1</option><option>Week 2</option>
+              <option>Week 3</option><option>Week 4</option>
+            </select>
+          </div>
+          <div>
+            <div class="form-label">Curriculum Area</div>
+            <select class="form-select" id="lesson-area"></select>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">Step 2 — Select Differentiation Option</div>
+        <div class="card-sub">Choose the primary instructional approach for this lesson</div>
+        <div class="option-cards">
+          <div class="option-card" id="opt-A" onclick="selectOption('A')">
+            <div class="option-card-badge badge-a">Option A</div>
+            <div class="option-card-title">Activity-Centered</div>
+            <div class="option-card-sub">Visual · Play-based · Experiential<br>Right-Brain group leads</div>
+          </div>
+          <div class="option-card selected" id="opt-B" onclick="selectOption('B')">
+            <div class="option-card-badge badge-b">Option B ★ Recommended</div>
+            <div class="option-card-title">Balanced Mixed</div>
+            <div class="option-card-sub">Leverage strengths + target gaps<br>Whole-class standard approach</div>
+          </div>
+          <div class="option-card" id="opt-C" onclick="selectOption('C')">
+            <div class="option-card-badge badge-c">Option C</div>
+            <div class="option-card-title">Structured Sequential</div>
+            <div class="option-card-sub">Step-by-step · Ordered tasks<br>Left-Brain group leads</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <button class="btn btn-primary" onclick="generateLesson()">✦ Generate Lesson Plan + Scripts</button>
+          <button class="btn btn-secondary" onclick="printLesson()">🖨 Print All</button>
+        </div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div class="card-title">Generated Lesson Plan</div>
+          <div id="lesson-status" class="tag tag-primary" style="display:none;">Generating…</div>
+        </div>
+        <div class="ai-output" id="lesson-output">Select month, week, and curriculum area above, then click Generate.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ BOOKS ═══ -->
+    <div class="section" id="section-books">
+      <div class="page-header">
+        <div class="page-title">Picture Book Curation</div>
+        <div class="page-sub">Monthly theme × brain-type recommendations — PASS theory aligned</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="form-label">Select Month / Theme</div>
+        <select class="form-select" id="book-month" style="max-width:300px;" onchange="renderBooks()"></select>
+      </div>
+      <div id="book-output">
+        <div class="empty-state"><div class="empty-icon">📚</div>Select a month to see brain-type matched book recommendations.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ MATERIALS ═══ -->
+    <div class="section" id="section-materials">
+      <div class="page-header">
+        <div class="page-title">Materials Checklist</div>
+        <div class="page-sub">Auto-generated prep checklist by lesson and student count</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="lesson-controls">
+          <div>
+            <div class="form-label">Month</div>
+            <select class="form-select" id="mat-month"></select>
+          </div>
+          <div>
+            <div class="form-label">Week</div>
+            <select class="form-select" id="mat-week">
+              <option>Week 1</option><option>Week 2</option>
+            </select>
+          </div>
+          <div>
+            <div class="form-label">Number of Students</div>
+            <input type="number" class="form-select" id="mat-count" value="8" min="1" max="30">
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="generateMaterials()">Generate Checklist</button>
+      </div>
+      <div id="mat-output">
+        <div class="empty-state"><div class="empty-icon">🗃</div>Select lesson options and click Generate.</div>
+      </div>
+    </div>
+
+    <!-- ═══════════ OBSERVATION ═══ -->
+    <div class="section" id="section-observation">
+      <div class="page-header">
+        <div class="page-title">Student Observation Records</div>
+        <div class="page-sub">Comments accumulate → auto-suggestion → linked to growth reports. Auto-saved in browser.</div>
+      </div>
+      <div class="obs-layout">
+        <div class="card">
+          <div class="card-title">Select Student</div>
+          <div class="card-sub" style="margin-bottom:12px;">5+ entries unlock smart suggestions</div>
+          <div id="obs-student-list"></div>
+        </div>
+        <div>
+          <div class="card" style="margin-bottom:14px;">
+            <div class="card-title" id="obs-selected-name">Select a student to begin</div>
+            <div class="obs-filters" id="obs-pass-filters">
+              <span class="form-label" style="margin:0;line-height:28px;">PASS Scale:</span>
+              <button class="filter-btn active" onclick="setObsFilter('pass','All')">All</button>
+              <button class="filter-btn" onclick="setObsFilter('pass','P')">Planning</button>
+              <button class="filter-btn" onclick="setObsFilter('pass','A')">Attention</button>
+              <button class="filter-btn" onclick="setObsFilter('pass','S')">Simultaneous</button>
+              <button class="filter-btn" onclick="setObsFilter('pass','Ss')">Successive</button>
+            </div>
+            <div class="obs-filters" id="obs-domain-filters">
+              <span class="form-label" style="margin:0;line-height:28px;">Domain:</span>
+            </div>
+            <textarea class="obs-textarea" id="obs-text" placeholder="Enter observation note…"></textarea>
+            <div style="display:flex;gap:8px;margin-top:8px;">
+              <button class="btn btn-primary btn-sm" onclick="saveObs()">💾 Save Record</button>
+              <button class="btn btn-secondary btn-sm" onclick="clearObs()">Clear</button>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Observation History</div>
+            <div id="obs-history">
+              <div class="empty-state" style="padding:20px 0;"><div class="empty-icon">📋</div>No records yet.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ GROWTH ═══ -->
+    <div class="section" id="section-growth">
+      <div class="page-header">
+        <div class="page-title">Growth Analysis</div>
+        <div class="page-sub">Based on PASS research: Naglieri & Johnson (2000) · Carlson & Das (1997) · CAS2 Manual</div>
+      </div>
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title">Annual Growth Checkpoints</div>
+        <div class="growth-timeline" id="growth-timeline" style="margin-top:12px;"></div>
+      </div>
+      <div class="two-col">
+        <div class="card">
+          <div class="card-title">Student Progress Tracker</div>
+          <div class="growth-student-select">
+            <div class="form-label" style="margin:0;">Student:</div>
+            <select class="form-select" id="growth-student" style="max-width:200px;" onchange="renderGrowthData()"></select>
+          </div>
+          <div class="growth-tabs">
+            <button class="growth-tab active" onclick="setGrowthTab('3m')">3-Month Check</button>
+            <button class="growth-tab" onclick="setGrowthTab('6m')">6-Month Analysis</button>
+            <button class="growth-tab" onclick="setGrowthTab('1y')">Year-End Report</button>
+          </div>
+          <div id="growth-content">
+            <div class="empty-state" style="padding:20px 0;"><div class="empty-icon">📊</div>Select a student above.</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">Research Basis</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-top:8px;">
+            <div style="padding:12px;background:var(--bg);border-radius:8px;">
+              <div style="font-size:11px;font-weight:700;color:var(--p-color);">Naglieri & Johnson (2000)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px;">21 sessions (3 months) → Planning scale effect size 1.4 — strong evidence for early intervention</div>
+            </div>
+            <div style="padding:12px;background:var(--bg);border-radius:8px;">
+              <div style="font-size:11px;font-weight:700;color:var(--s-color);">Carlson & Das (1997)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px;">6-month PREP program — significant gains in Successive processing and reading readiness</div>
+            </div>
+            <div style="padding:12px;background:var(--bg);border-radius:8px;">
+              <div style="font-size:11px;font-weight:700;color:var(--success);">CAS2 Manual (2014)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px;">Annual re-assessment recommended — 12-month comparison shows most meaningful developmental change</div>
+            </div>
+            <div style="padding:12px;background:var(--bg);border-radius:8px;">
+              <div style="font-size:11px;font-weight:700;color:var(--warn);">Georgiou et al. (2020 meta)</div>
+              <div style="font-size:11px;color:var(--muted);margin-top:3px;">Cognitive profiling improves outcomes across diverse populations — validated internationally</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ REPORT ═══ -->
+    <div class="section" id="section-report">
+      <div class="page-header">
+        <div class="page-title">Parent Development Report</div>
+        <div class="page-sub">Select student → period → preview A4 · Narrative + 5 quantitative indicators</div>
+      </div>
+      <div class="report-layout">
+        <div>
+          <div class="card" style="margin-bottom:12px;">
+            <div class="card-title">Report Settings</div>
+            <div style="margin-bottom:10px;">
+              <div class="form-label">Student</div>
+              <select class="form-select" id="report-student" onchange="renderReport()"></select>
+            </div>
+            <div style="margin-bottom:10px;">
+              <div class="form-label">Academic Year</div>
+              <select class="form-select" id="report-year">
+                <option>2025–2026</option><option>2026–2027</option>
+              </select>
+            </div>
+            <div style="margin-bottom:14px;">
+              <div class="form-label">Report Period</div>
+              <div class="growth-tabs" style="flex-direction:column;gap:6px;">
+                <button class="growth-tab active" onclick="setReportPeriod('3m')">3-Month Progress</button>
+                <button class="growth-tab" onclick="setReportPeriod('6m')">6-Month Analysis</button>
+                <button class="growth-tab" onclick="setReportPeriod('1y')">Annual Summary</button>
+              </div>
+            </div>
+            <button class="btn btn-primary" style="width:100%;" onclick="printReport()">🖨 Print / Save PDF</button>
+          </div>
+        </div>
+        <div class="report-preview" id="report-preview">
+          <div class="empty-state" style="padding:60px 0;"><div class="empty-icon">📄</div>Select a student and period to preview the report.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════ WORKSHEETS ═══ -->
+    <div class="section" id="section-worksheets">
+      <div class="page-header">
+        <div class="page-title">Group Activity Worksheets</div>
+        <div class="page-sub">Select tab → print → distribute to each group</div>
+      </div>
+      <div class="ws-controls">
+        <div>
+          <div class="form-label">Month / Theme</div>
+          <select class="form-select" id="ws-month" onchange="renderWorksheet()"></select>
+        </div>
+        <div>
+          <div class="form-label">Week</div>
+          <select class="form-select" id="ws-week" onchange="renderWorksheet()">
+            <option>Week 1</option><option>Week 2</option>
+            <option>Week 3</option><option>Week 4</option>
+          </select>
+        </div>
+        <button class="btn btn-primary" onclick="printWorksheet()">🖨 Print Worksheet</button>
+      </div>
+      <div class="ws-group-tabs">
+        <button class="ws-tab active" onclick="setWsTab('A')">Group A — Right-Brain</button>
+        <button class="ws-tab" onclick="setWsTab('B')">Group B — Balanced</button>
+        <button class="ws-tab" onclick="setWsTab('C')">Group C — Left-Brain</button>
+        <button class="ws-tab" onclick="setWsTab('PREP')">PREP Small Group</button>
+      </div>
+      <div class="ws-preview" id="ws-preview">
+        <div class="empty-state"><div class="empty-icon">🖊</div>Select month and week to see worksheet preview.</div>
+      </div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+
+<script>
+// ─── COUNTRY DATA ─────────────────────────────────────────────────────────────
+const COUNTRIES = {
+  azerbaijan: {
+    name: "Azerbaijan", flag: "🇦🇿",
+    primaryColor: "#0092BC", accentColor: "#EF3340",
+    curriculum: "SSPE (State Pre-School Education Standard)",
+    classname: "Sunflower Class",
+    months: [
+      { id:"sep", label:"September — Me & My Friends" },
+      { id:"oct", label:"October — Autumn & Nature" },
+      { id:"nov", label:"November — My Home & Family" },
+      { id:"dec", label:"December — Winter Celebrations" },
+      { id:"jan", label:"January — Animals & Habitats" },
+      { id:"feb", label:"February — Community Helpers" },
+      { id:"mar", label:"March — Spring & New Life" },
+      { id:"apr", label:"April — My Country Azerbaijan" },
+      { id:"may", label:"May — Growing Up & Moving On" },
+    ],
+    curriculumAreas: [
+      "Physical & Health Development",
+      "Social-Emotional Development",
+      "Speech & Communication",
+      "Cognitive Development",
+      "Creative Arts & Aesthetics",
+    ],
+    observationDomains: ["Physical","Communication","Social-Emotional","Cognitive","Creative Arts"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check", type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Aysel M.", age:5, P:45, A:78, S:82, Ss:40 },
+      { name:"Kamran H.", age:6, P:62, A:65, S:58, Ss:70 },
+      { name:"Leyla A.", age:5, P:75, A:55, S:48, Ss:80 },
+      { name:"Tural R.", age:6, P:38, A:72, S:85, Ss:35 },
+      { name:"Nigar S.", age:5, P:60, A:68, S:55, Ss:62 },
+      { name:"Rashad K.", age:6, P:72, A:50, S:45, Ss:78 },
+      { name:"Aytaj B.", age:5, P:55, A:82, S:75, Ss:48 },
+      { name:"Elman N.", age:6, P:42, A:60, S:70, Ss:55 },
+    ],
+    books: {
+      sep: {
+        right: ['"The Day You Begin" — Jacqueline Woodson', '"Chrysanthemum" — Kevin Henkes'],
+        balanced: ['"First Day Jitters" — Julie Danneberg', '"Wemberly Worried" — Kevin Henkes'],
+        left: ['"All Are Welcome" — Alexandra Penfold', '"Last Stop on Market Street" — Matt de la Peña'],
+        passNote: "September theme (Me & My Friends): use Simultaneous activities to build social-pattern recognition; Successive tasks build name-introduction sequences."
+      },
+      oct: {
+        right: ['"Leaf Man" — Lois Ehlert', '"In the Tall Tall Grass" — Denise Fleming'],
+        balanced: ['"Fletcher and the Falling Leaves" — Julia Rawlinson', '"Goodbye Summer, Hello Autumn" — Kenard Pak'],
+        left: ['"The Mitten" — Jan Brett', '"Autumn Story" — Jill Barklem'],
+        passNote: "October theme (Autumn & Nature): observation journals build Planning; pattern-sorting (leaf shapes) targets Simultaneous."
+      },
+      nov: {
+        right: ['"The Relatives Came" — Cynthia Rylant', '"In My Heart" — Jo Witek'],
+        balanced: ['"Families" — Susan Kuklin', '"A Chair for My Mother" — Vera B. Williams'],
+        left: ['"Grandfather\'s Journey" — Allen Say', '"The Hello, Goodbye Window" — Norton Juster'],
+        passNote: "November theme (Family): Successive processing supports retelling family stories; social-emotional Attention tasks support empathy work."
+      },
+      dec: {
+        right: ['"The Polar Express" — Chris Van Allsburg', '"Snowmen at Night" — Caralyn Buehner'],
+        balanced: ['"Bear Stays Up for Christmas" — Karma Wilson', '"The Gingerbread Man" — Various'],
+        left: ['"The Snowy Day" — Ezra Jack Keats', '"Frosty the Snowman" — Various'],
+        passNote: "December (Winter Celebrations): high-S visual patterning in decorations; sequential cookie recipes for Ss-dominant learners."
+      },
+    },
+  },
+
+  thailand: {
+    name: "Thailand", flag: "🇹🇭",
+    primaryColor: "#A51931", accentColor: "#2D2A4A",
+    curriculum: "Early Childhood Curriculum B.E. 2560 (2017)",
+    classname: "Marigold Class",
+    months: [
+      { id:"may", label:"May — Me & My Body" },
+      { id:"jun", label:"June — My Family & School" },
+      { id:"jul", label:"July — Animals & Nature" },
+      { id:"aug", label:"August — My Country Thailand" },
+      { id:"sep", label:"September — Transport & Community" },
+      { id:"oct", label:"October — Seasons & Weather" },
+      { id:"nov", label:"November — Food & Health" },
+      { id:"dec", label:"December — Festivals & Celebrations" },
+      { id:"jan", label:"January — Water & Environment" },
+      { id:"feb", label:"February — Growing Up" },
+    ],
+    curriculumAreas: [
+      "Physical Development (พัฒนาการด้านร่างกาย)",
+      "Emotional & Social Development (อารมณ์–จิตใจ)",
+      "Language Development (พัฒนาการด้านภาษา)",
+      "Cognitive Development (พัฒนาการด้านสติปัญญา)",
+    ],
+    observationDomains: ["Physical","Emotional-Social","Language","Cognitive"],
+    growthTimeline: [
+      { month:"May", label:"Initial K-PASS", type:"assess" },
+      { month:"Aug", label:"3-Month Check", type:"check" },
+      { month:"Nov", label:"6-Month Analysis", type:"mid" },
+      { month:"Feb", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Nattaya S.", age:5, P:50, A:80, S:75, Ss:45 },
+      { name:"Phitchaya R.", age:5, P:68, A:62, S:55, Ss:72 },
+      { name:"Kornkrit T.", age:6, P:78, A:52, S:44, Ss:82 },
+      { name:"Kannika P.", age:5, P:40, A:76, S:88, Ss:38 },
+      { name:"Wichian M.", age:6, P:58, A:70, S:60, Ss:64 },
+      { name:"Saowanee L.", age:5, P:70, A:48, S:46, Ss:80 },
+      { name:"Apichaya K.", age:6, P:55, A:84, S:72, Ss:50 },
+      { name:"Thanakorn B.", age:5, P:44, A:62, S:68, Ss:56 },
+      { name:"Warisa C.", age:6, P:64, A:58, S:52, Ss:66 },
+    ],
+    books: {
+      may: {
+        right: ['"My Body Belongs to Me" — Jill Starishevsky', '"From Head to Toe" — Eric Carle'],
+        balanced: ['"The Busy Body Book" — Lizzy Rockwell', '"Eyes, Nose, Fingers and Toes" — Judy Hindley'],
+        left: ['"Me and My Amazing Body" — Joan Sweeney', '"The Human Body" (Let\'s Read & Find Out)'],
+        passNote: "May theme (Me & My Body): body-mapping activities build Simultaneous spatial awareness; movement sequences strengthen Successive processing."
+      },
+      aug: {
+        right: ['"Elephants of Thailand" — visual picture book', '"The Colors of Thailand" — art book'],
+        balanced: ['"My Father\'s Dragon" — Ruth Stiles Gannett', '"Anansi the Spider" — Gerald McDermott'],
+        left: ['"DK Eyewitness: Thailand" — children\'s edition', '"All About Thailand" — Elaine Russell'],
+        passNote: "August (My Country Thailand): cultural pride and Planning-based project work; Simultaneous visual patterns from Thai art."
+      },
+      nov: {
+        right: ['"Eating the Alphabet" — Lois Ehlert', '"The Very Hungry Caterpillar" — Eric Carle'],
+        balanced: ['"Full Moon Soup" — Alastair Graham', '"Stone Soup" — Jon J Muth'],
+        left: ['"Good Enough to Eat" — Lizzy Rockwell', '"The Vegetables We Eat" — Gail Gibbons'],
+        passNote: "November (Food & Health): recipe sequencing is excellent Successive work; food-sorting by category uses Simultaneous classification."
+      },
+    },
+  },
+
+  vietnam: {
+    name: "Vietnam", flag: "🇻🇳",
+    primaryColor: "#C8102E", accentColor: "#FFCD00",
+    classname: "Lotus Class",
+    curriculum: "National ECE Curriculum — Chương trình GDMN 2021",
+    months: [
+      { id:"sep", label:"September — Me & My Body" },
+      { id:"oct", label:"October — My Family" },
+      { id:"nov", label:"November — My School" },
+      { id:"dec", label:"December — Plants & Trees" },
+      { id:"jan", label:"January — Animals & Pets" },
+      { id:"feb", label:"February — Tết & Celebrations" },
+      { id:"mar", label:"March — Transport & Traffic" },
+      { id:"apr", label:"April — Water & Weather" },
+      { id:"may", label:"May — Summer & Moving On" },
+    ],
+    curriculumAreas: [
+      "Physical Development (Phát triển thể chất)",
+      "Cognitive Development (Phát triển nhận thức)",
+      "Language Development (Phát triển ngôn ngữ)",
+      "Aesthetic Development (Phát triển thẩm mỹ)",
+      "Social-Emotional Development (Tình cảm–xã hội)",
+    ],
+    observationDomains: ["Physical","Cognitive","Language","Aesthetic","Social-Emotional"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check", type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Nguyễn M. A.", age:5, P:48, A:76, S:80, Ss:42 },
+      { name:"Trần V. Bình", age:6, P:66, A:60, S:54, Ss:74 },
+      { name:"Lê T. Cúc", age:5, P:74, A:54, S:46, Ss:78 },
+      { name:"Phạm M. Dũng", age:6, P:36, A:74, S:86, Ss:38 },
+      { name:"Hoàng T. Em", age:5, P:58, A:66, S:58, Ss:60 },
+      { name:"Võ T. Phương", age:6, P:72, A:52, S:44, Ss:80 },
+      { name:"Đặng V. Giang", age:5, P:52, A:80, S:74, Ss:50 },
+    ],
+    books: {
+      sep: {
+        right: ['"From Head to Toe" — Eric Carle', '"My Body" — DK Children'],
+        balanced: ['"The Foot Book" — Dr. Seuss', '"Eyes, Nose, Fingers & Toes" — Judy Hindley'],
+        left: ['"Me and My Amazing Body" — Joan Sweeney', '"The Busy Body Book" — Lizzy Rockwell'],
+        passNote: "September (Me & My Body): body movement games activate Simultaneous spatial processing; self-care routine sequences build Successive skill."
+      },
+      feb: {
+        right: ['"Lunar New Year — A Celebration" — Grace Lin', '"Goldy Luck and the Three Pandas" — Natasha Yim'],
+        balanced: ['"Red Is a Dragon" — Roseanne Thong', '"The Dragon Dance" — Joan Holub'],
+        left: ['"Happy New Year, Everywhere!" — Arlene Erlbach', '"DK Eyewitness: Vietnam" — children\'s edition'],
+        passNote: "February (Tết): highly visual festive content boosts Simultaneous; sequencing preparations for Tết builds Successive and Planning."
+      },
+      oct: {
+        right: ['"In My Heart" — Jo Witek', '"The Relatives Came" — Cynthia Rylant'],
+        balanced: ['"A Chair for My Mother" — Vera B. Williams', '"Families" — Susan Kuklin'],
+        left: ['"Grandfather\'s Journey" — Allen Say', '"The Hello, Goodbye Window" — Norton Juster'],
+        passNote: "October (My Family): family storytelling builds Successive; Simultaneous tasks use family photo mapping activities."
+      },
+    },
+  },
+
+  // ── TAIWAN (NEW) ──
+  taiwan: {
+    name: "Taiwan", flag: "🇹🇼",
+    primaryColor: "#000095", accentColor: "#FE0000",
+    curriculum: "幼兒園教保活動課程大綱 (Preschool Education Curriculum Guidelines 2017)",
+    classname: "Orchid Class",
+    months: [
+      { id:"sep", label:"September — Me & My Friends" },
+      { id:"oct", label:"October — My Family" },
+      { id:"nov", label:"November — My School & Community" },
+      { id:"dec", label:"December — Winter & Celebrations" },
+      { id:"jan", label:"January — Animals & Nature" },
+      { id:"feb", label:"February — Lunar New Year" },
+      { id:"mar", label:"March — Spring & Plants" },
+      { id:"apr", label:"April — My Country Taiwan" },
+      { id:"may", label:"May — Water & Ocean" },
+      { id:"jun", label:"June — Growing Up" },
+    ],
+    curriculumAreas: [
+      "身體動作與健康 (Physical & Health)",
+      "認知 (Cognitive Development)",
+      "語文 (Language & Literacy)",
+      "社會 (Social Development)",
+      "情緒 (Emotional Development)",
+      "美感 (Aesthetic Development)",
+    ],
+    observationDomains: ["Physical-Health","Cognitive","Language","Social","Emotional","Aesthetic"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check", type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"Jun", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Chen Mei-Ling", age:5, P:52, A:78, S:84, Ss:44 },
+      { name:"Lin Jia-Hao", age:6, P:70, A:60, S:52, Ss:76 },
+      { name:"Huang Xiao-Yu", age:5, P:44, A:82, S:78, Ss:40 },
+      { name:"Wang Zi-Xuan", age:6, P:76, A:54, S:46, Ss:82 },
+      { name:"Liu An-Qi", age:5, P:58, A:70, S:62, Ss:60 },
+      { name:"Chang Ming-Zhi", age:6, P:38, A:74, S:88, Ss:36 },
+      { name:"Wu Pei-Chen", age:5, P:64, A:66, S:58, Ss:68 },
+      { name:"Li Ya-Ting", age:6, P:72, A:50, S:44, Ss:78 },
+    ],
+    books: {
+      sep: {
+        right: ['"The Day You Begin" — Jacqueline Woodson', '"Chrysanthemum" — Kevin Henkes'],
+        balanced: ['"First Day Jitters" — Julie Danneberg', '"All Are Welcome" — Alexandra Penfold'],
+        left: ['"Last Stop on Market Street" — Matt de la Peña', '"Each Kindness" — Jacqueline Woodson'],
+        passNote: "September (Me & My Friends): peer-mapping activities build Simultaneous social patterning; name-sequence introductions develop Successive processing."
+      },
+      feb: {
+        right: ['"Lunar New Year — A Celebration" — Grace Lin', '"The Runaway Wok" — Ying Chang Compestine'],
+        balanced: ['"Red Is a Dragon" — Roseanne Thong', '"Lion Dancer" — Kate Waters'],
+        left: ['"Happy New Year, Everywhere!" — Arlene Erlbach', '"DK: Chinese New Year" — children\'s edition'],
+        passNote: "February (Lunar New Year): lantern decoration patterns activate Simultaneous; firecracker counting sequences strengthen Successive."
+      },
+      apr: {
+        right: ['"Taiwan — Island of Wonder" — picture book format', '"Colors of Taiwan" — visual arts book'],
+        balanced: ['"A Bear Called Paddington" — Michael Bond (cultural exploration)', '"Postcards from Taiwan" — illustrated'],
+        left: ['"Taiwan: Land & People" — DK children\'s edition', '"The Story of Taiwan" — illustrated history'],
+        passNote: "April (My Country Taiwan): landmark recognition builds Simultaneous spatial mapping; timeline of Taiwan history supports Successive processing."
+      },
+      oct: {
+        right: ['"In My Heart" — Jo Witek', '"Owl Babies" — Martin Waddell'],
+        balanced: ['"A Chair for My Mother" — Vera B. Williams', '"Families" — Susan Kuklin'],
+        left: ['"Grandfather\'s Journey" — Allen Say', '"The Hello, Goodbye Window" — Norton Juster'],
+        passNote: "October (My Family): family role-play supports Planning; retelling daily family routines develops Successive processing."
+      },
+    },
+  },
+
+  // ── MONGOLIA (NEW) ──
+  mongolia: {
+    name: "Mongolia", flag: "🇲🇳",
+    primaryColor: "#C4272F", accentColor: "#2C5F8A",
+    curriculum: "Сургуулийн өмнөх боловсролын стандарт (Pre-School Education Standard 2019)",
+    classname: "Eagle Class",
+    months: [
+      { id:"sep", label:"September — Me & My Body" },
+      { id:"oct", label:"October — My Family & Home" },
+      { id:"nov", label:"November — Animals of Mongolia" },
+      { id:"dec", label:"December — Winter & Tsagaan Sar Prep" },
+      { id:"jan", label:"January — Nomadic Life & Nature" },
+      { id:"feb", label:"February — Tsagaan Sar (Lunar New Year)" },
+      { id:"mar", label:"March — Spring on the Steppe" },
+      { id:"apr", label:"April — My Country Mongolia" },
+      { id:"may", label:"May — Community Helpers" },
+      { id:"jun", label:"June — Naadam & Celebration" },
+    ],
+    curriculumAreas: [
+      "Биеийн хөгжил (Physical Development)",
+      "Танин мэдэхүйн хөгжил (Cognitive Development)",
+      "Хэл яриа, харилцааны хөгжил (Language & Communication)",
+      "Нийгэм, сэтгэл хөдлөлийн хөгжил (Social-Emotional Development)",
+      "Гоо зүйн хөгжил (Aesthetic Development)",
+    ],
+    observationDomains: ["Physical","Cognitive","Language","Social-Emotional","Aesthetic"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check", type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"Jun", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Batzorig E.", age:5, P:46, A:76, S:82, Ss:42 },
+      { name:"Enkhjargal D.", age:6, P:68, A:62, S:56, Ss:72 },
+      { name:"Narantsetseg O.", age:5, P:74, A:52, S:46, Ss:80 },
+      { name:"Gantulga B.", age:6, P:40, A:78, S:86, Ss:38 },
+      { name:"Solongo M.", age:5, P:60, A:68, S:60, Ss:62 },
+      { name:"Tserenpuntsag N.", age:6, P:72, A:50, S:44, Ss:76 },
+      { name:"Bayaraa J.", age:5, P:54, A:82, S:74, Ss:50 },
+      { name:"Oyungerel T.", age:6, P:44, A:64, S:70, Ss:56 },
+    ],
+    books: {
+      sep: {
+        right: ['"From Head to Toe" — Eric Carle', '"My Body" — DK Children'],
+        balanced: ['"The Busy Body Book" — Lizzy Rockwell', '"Eyes, Nose, Fingers & Toes" — Judy Hindley'],
+        left: ['"Me and My Amazing Body" — Joan Sweeney', '"Your Fantastic Elastic Brain" — JoAnn Deak'],
+        passNote: "September (Me & My Body): outdoor body-movement on the steppe supports Simultaneous spatial awareness; morning routine sequencing builds Successive skill."
+      },
+      nov: {
+        right: ['"Rumble in the Jungle" — Giles Andreae', '"Musk Ox Counts" — Erin Cabatingan'],
+        balanced: ['"Are You My Mother?" — P.D. Eastman', '"Never Smile at a Monkey" — Steve Jenkins'],
+        left: ['"National Geographic Kids: Amazing Animals"', '"DK: Encyclopedia of Animals"'],
+        passNote: "November (Animals of Mongolia): horse & livestock classification activities develop Simultaneous; animal sound-sequence games build Successive."
+      },
+      feb: {
+        right: ['"Lunar New Year — A Celebration" — Grace Lin', '"The Firekeeper\'s Son" — Linda Sue Park'],
+        balanced: ['"Red Is a Dragon" — Roseanne Thong', '"Moonbeams, Dumplings & Dragon Boats" — Nina Simonds'],
+        left: ['"Happy New Year, Everywhere!" — Arlene Erlbach', '"Tsagaan Sar — White Moon Festival" — illustrated'],
+        passNote: "February (Tsagaan Sar): traditional pattern-making on deels activates Simultaneous; greeting sequences & elder visits build Successive & Planning."
+      },
+      apr: {
+        right: ['"Mongolia — Land of the Eternal Blue Sky" — picture book', '"The Great Gobi" — illustrated nature'],
+        balanced: ['"Story of the World" — adapted for young learners', '"Genghis Khan — For Kids" — illustrated history'],
+        left: ['"DK: Mongolia" — children\'s reference', '"The Mongolian Horse" — cultural picture book'],
+        passNote: "April (My Country Mongolia): Gobi desert and steppe landscape mapping builds Simultaneous; historical timeline of Mongolia develops Successive & Planning."
+      },
+      jun: {
+        right: ['"Naadam — Festival of Heroes" — illustrated', '"Horse Racing on the Steppe" — picture book'],
+        balanced: ['"Sports Around the World" — DK Children', '"Let\'s Play! Traditional Games" — various'],
+        left: ['"The Olympics for Young Readers"', '"DK: World Records in Sport" — children\'s edition'],
+        passNote: "June (Naadam): archery target patterns activate Simultaneous; wrestling match sequences and wrestling rules develop Successive & Planning."
+      },
+    },
+  },
+};
+
+// ─── STATE ────────────────────────────────────────────────────────────────────
+let currentCountry = 'azerbaijan';
+let selectedOption = 'B';
+let obsSelectedStudent = null;
+let obsPassFilter = 'All';
+let obsDomainFilter = 'All';
+let growthTab = '3m';
+let reportPeriod = '3m';
+let wsTab = 'A';
+let obsRecords = JSON.parse(localStorage.getItem('obs_records') || '{}');
+
+// ─── DROPDOWN ─────────────────────────────────────────────────────────────────
+function buildDropdown() {
+  const dd = document.getElementById('countryDropdown');
+  dd.innerHTML = '';
+  Object.entries(COUNTRIES).forEach(([key, c]) => {
+    const el = document.createElement('div');
+    el.className = 'country-option' + (key === currentCountry ? ' active' : '');
+    el.innerHTML = `<span class="opt-flag">${c.flag}</span><span class="opt-name">${c.name}</span><span class="opt-check">✓</span>`;
+    el.onclick = () => { switchCountry(key); closeDropdown(); };
+    dd.appendChild(el);
+  });
+}
+
+function toggleDropdown() {
+  const dd = document.getElementById('countryDropdown');
+  const btn = document.getElementById('countryDisplay');
+  const isOpen = dd.classList.contains('open');
+  dd.classList.toggle('open', !isOpen);
+  btn.classList.toggle('open', !isOpen);
+}
+
+function closeDropdown() {
+  document.getElementById('countryDropdown').classList.remove('open');
+  document.getElementById('countryDisplay').classList.remove('open');
+}
+
+document.addEventListener('click', e => {
+  if (!e.target.closest('.country-select-wrapper')) closeDropdown();
+});
+
+// ─── SWITCH COUNTRY ───────────────────────────────────────────────────────────
+function switchCountry(key) {
+  currentCountry = key;
+  const c = COUNTRIES[key];
+
+  // Update CSS color
+  document.documentElement.style.setProperty('--primary', c.primaryColor);
+  document.documentElement.style.setProperty('--accent', c.accentColor);
+
+  // Update dropdown display
+  document.getElementById('displayFlag').textContent = c.flag;
+  document.getElementById('displayName').textContent = c.name;
+
+  // Rebuild dropdown options
+  buildDropdown();
+
+  // Topbar
+  document.getElementById('topbar-flag').textContent = `${c.flag} ${c.name}`;
+  document.getElementById('topbar-curriculum').textContent = c.curriculum;
+  document.getElementById('topbar-classname').textContent = c.classname;
+  document.getElementById('topbar-count').textContent = c.students.length;
+
+  // Dashboard
+  document.getElementById('dash-sub').textContent = `${c.classname} · ${c.students.length} students · K-PASS Assessment Results`;
+  document.getElementById('brain-dist-sub').textContent = `Based on combined PASS scale profile`;
+  document.getElementById('lesson-curriculum-label').textContent = c.curriculum;
+
+  // Selects
+  populateMonthSelects();
+  populateCurriculumAreas();
+  populateStudentSelects();
+
+  // Render
+  renderStudentTable();
+  renderPassAverages();
+  renderBrainDist();
+  renderAlerts();
+  renderGrowthTimeline();
+  renderBooks();
+  renderReport();
+  renderObsStudentList();
+}
+
+// ─── SECTION NAV ──────────────────────────────────────────────────────────────
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('section-' + id).classList.add('active');
+  event.currentTarget.classList.add('active');
+  document.getElementById('topbar-section').textContent = event.currentTarget.textContent.trim().replace('NEW','').trim();
+}
+
+// ─── POPULATE SELECTS ─────────────────────────────────────────────────────────
+function populateMonthSelects() {
+  const c = COUNTRIES[currentCountry];
+  ['lesson-month','book-month','mat-month','ws-month'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = c.months.map(m => `<option value="${m.id}">${m.label}</option>`).join('');
+  });
+}
+
+function populateCurriculumAreas() {
+  const c = COUNTRIES[currentCountry];
+  const el = document.getElementById('lesson-area');
+  el.innerHTML = c.curriculumAreas.map(a => `<option>${a}</option>`).join('');
+}
+
+function populateStudentSelects() {
+  const c = COUNTRIES[currentCountry];
+  ['growth-student','report-student'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.innerHTML = c.students.map(s => `<option>${s.name}</option>`).join('');
+  });
+}
+
+// ─── BRAIN TYPE ───────────────────────────────────────────────────────────────
+function getBrainType(s) {
+  const avg = (s.S + s.A) / 2;
+  const seq = (s.P + s.Ss) / 2;
+  if (avg > seq + 10) return 'right';
+  if (seq > avg + 10) return 'left';
+  return 'balanced';
+}
+
+function getWeakest(s) {
+  const scales = {P:s.P, A:s.A, S:s.S, Ss:s.Ss};
+  return Object.entries(scales).sort((a,b) => a[1]-b[1])[0][0];
+}
+
+// ─── RENDER STUDENT TABLE ─────────────────────────────────────────────────────
+function renderStudentTable() {
+  const c = COUNTRIES[currentCountry];
+  const tbody = document.getElementById('student-tbody');
+  tbody.innerHTML = c.students.map(s => {
+    const bt = getBrainType(s);
+    const weak = getWeakest(s);
+    const note = weak === 'Ss' ? '⚠ Ss support' : weak === 'P' ? '⚠ P support' : '✓ On track';
+    return `<tr onclick="showSection('observation')">
+      <td><strong>${s.name}</strong></td>
+      <td>${s.age}y</td>
+      <td><span class="brain-badge ${bt}">${bt.charAt(0).toUpperCase()+bt.slice(1)}</span></td>
+      <td>${s.P}</td><td>${s.A}</td><td>${s.S}</td><td>${s.Ss}</td>
+      <td><span class="pass-tag ${weak}">${weak}</span></td>
+      <td style="color:${note.includes('⚠')?'#92400E':'#065F46'};font-size:11px;">${note}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ─── RENDER PASS AVERAGES ─────────────────────────────────────────────────────
+function renderPassAverages() {
+  const c = COUNTRIES[currentCountry];
+  const avg = key => Math.round(c.students.reduce((s,st) => s + st[key], 0) / c.students.length);
+  const colors = { P:'var(--p-color)', A:'var(--a-color)', S:'var(--s-color)', Ss:'var(--ss-color)' };
+  const labels = { P:'Planning', A:'Attention', S:'Simultaneous', Ss:'Successive' };
+  document.getElementById('pass-grid').innerHTML = ['P','A','S','Ss'].map(k => `
+    <div class="pass-item">
+      <div class="pass-header">
+        <span class="pass-name">${k} — ${labels[k]}</span>
+        <span class="pass-pct" style="color:${colors[k]}">${avg(k)}</span>
+      </div>
+      <div class="pass-bar-bg"><div class="pass-bar-fill" style="width:${avg(k)}%;background:${colors[k]};"></div></div>
+    </div>`).join('');
+
+  // Update stat boxes
+  const avgs = {P:avg('P'), A:avg('A'), S:avg('S'), Ss:avg('Ss')};
+  const strongest = Object.entries(avgs).sort((a,b) => b[1]-a[1])[0];
+  const weakest = Object.entries(avgs).sort((a,b) => a[1]-b[1])[0];
+  const labels2 = {P:'Planning', A:'Attention', S:'Simultaneous', Ss:'Successive'};
+  document.getElementById('stat-strength').innerHTML = `${strongest[0]} <span class="stat-unit">${strongest[1]}%</span>`;
+  document.getElementById('stat-weak').innerHTML = `${weakest[0]} <span class="stat-unit">${weakest[1]}%</span>`;
+  document.getElementById('stat-total').innerHTML = `${c.students.length} <span class="stat-unit">students</span>`;
+  const support = c.students.filter(s => Math.min(s.P,s.A,s.S,s.Ss) < 50).length;
+  const pct = Math.round(support/c.students.length*100);
+  document.getElementById('stat-support').innerHTML = `${support} <span class="stat-unit">students</span>`;
+  document.querySelector('#stat-support + .stat-label').textContent = `Needs Support · ${pct}%`;
+  document.querySelector('#stat-strength + .stat-label').textContent = `Class Strength ↑ (${labels2[strongest[0]]})`;
+  document.querySelector('#stat-weak + .stat-label').textContent = `Class Weakness ↓ (${labels2[weakest[0]]})`;
+}
+
+// ─── RENDER BRAIN DIST ────────────────────────────────────────────────────────
+function renderBrainDist() {
+  const c = COUNTRIES[currentCountry];
+  const counts = {right:0, balanced:0, left:0};
+  c.students.forEach(s => counts[getBrainType(s)]++);
+  const total = c.students.length;
+  ['right','balanced','left'].forEach(k => {
+    document.getElementById('b-'+k).textContent = counts[k];
+    document.getElementById('b-'+k+'-pct').textContent = Math.round(counts[k]/total*100) + '%';
+  });
+}
+
+// ─── RENDER ALERTS ────────────────────────────────────────────────────────────
+function renderAlerts() {
+  const c = COUNTRIES[currentCountry];
+  const lowSs = c.students.filter(s => s.Ss < 50);
+  const lowP = c.students.filter(s => s.P < 50);
+  let html = '';
+  if (lowSs.length > 0) html += `<div class="alert-box warn"><span class="alert-icon">⚠</span><div><strong>${lowSs.length} students</strong> scoring below 50th percentile in Successive (Ss) — prioritise sequential activities and PREP small-group sessions. Students: ${lowSs.map(s=>s.name).join(', ')}</div></div>`;
+  if (lowP.length > 0) html += `<div class="alert-box info"><span class="alert-icon">💡</span><div><strong>${lowP.length} students</strong> with Planning (P) below 50th — use goal-setting routines and metacognitive think-alouds this month. Students: ${lowP.map(s=>s.name).join(', ')}</div></div>`;
+  document.getElementById('alerts-container').innerHTML = html;
+}
+
+// ─── RENDER GROWTH TIMELINE ───────────────────────────────────────────────────
+function renderGrowthTimeline() {
+  const c = COUNTRIES[currentCountry];
+  const typeIcon = {assess:'★', check:'✓', mid:'◉'};
+  document.getElementById('growth-timeline').innerHTML = c.growthTimeline.map((m,i) => `
+    <div class="growth-milestone ${i===0?'done':i===1?'active':''}">
+      <div class="gm-month">${m.month}</div>
+      <div class="gm-badge ${m.type}">${typeIcon[m.type]}</div>
+      <div class="gm-label">${m.label}</div>
+    </div>`).join('');
+}
+
+// ─── RENDER BOOKS ─────────────────────────────────────────────────────────────
+function renderBooks() {
+  const c = COUNTRIES[currentCountry];
+  const monthId = document.getElementById('book-month').value;
+  const books = c.books[monthId];
+  if (!books) {
+    document.getElementById('book-output').innerHTML = `<div class="empty-state"><div class="empty-icon">📚</div>No book recommendations yet for this month.</div>`;
+    return;
+  }
+  const typeColors = { right:'#9333EA', balanced:'#059669', left:'#2563EB' };
+  document.getElementById('book-output').innerHTML = `
+    <div class="book-grid">
+      ${['right','balanced','left'].map(t => `
+        <div class="book-card">
+          <div class="book-type-label" style="color:${typeColors[t]}">
+            ${t==='right'?'🟣 Right-Brain Group':t==='balanced'?'🟢 Balanced Group':'🔵 Left-Brain Group'}
+          </div>
+          ${books[t].map(b => `<div class="book-item"><div class="book-title">${b}</div></div>`).join('')}
+        </div>`).join('')}
+    </div>
+    <div class="alert-box info" style="margin-top:12px;">
+      <span class="alert-icon">📖</span>
+      <div><strong>PASS Note:</strong> ${books.passNote}</div>
+    </div>`;
+}
+
+// ─── GENERATE MATERIALS ───────────────────────────────────────────────────────
+function generateMaterials() {
+  const count = document.getElementById('mat-count').value;
+  document.getElementById('mat-output').innerHTML = `
+    <div class="materials-grid">
+      <div class="mat-group">
+        <div class="mat-group-title">🟣 Group A — Right-Brain (Activity-Centered)</div>
+        ${['Large poster paper (×'+count+')','Coloured markers (set of 12)','Picture cards — theme images','Scissors & glue sticks','Play-dough or clay'].map(item => `
+          <div class="mat-item"><input type="checkbox" class="mat-check"><span>${item}</span></div>`).join('')}
+      </div>
+      <div class="mat-group">
+        <div class="mat-group-title">🟢 Group B — Balanced (Mixed Approach)</div>
+        ${['Whiteboard & markers','Story books — 3 titles','Matching game cards (×'+count+')','Sorting trays (×4)','Vocabulary flashcards'].map(item => `
+          <div class="mat-item"><input type="checkbox" class="mat-check"><span>${item}</span></div>`).join('')}
+      </div>
+      <div class="mat-group">
+        <div class="mat-group-title">🔵 Group C — Left-Brain (Sequential)</div>
+        ${['Sequencing cards — story sets','Number line strips','Step-by-step instruction sheets','Pencils & worksheets (×'+count+')','Timer'].map(item => `
+          <div class="mat-item"><input type="checkbox" class="mat-check"><span>${item}</span></div>`).join('')}
+      </div>
+    </div>`;
+}
+
+// ─── LESSON OPTION SELECT ─────────────────────────────────────────────────────
+function selectOption(opt) {
+  selectedOption = opt;
+  ['A','B','C'].forEach(o => document.getElementById('opt-'+o).classList.toggle('selected', o===opt));
+}
+
+// ─── GENERATE LESSON ──────────────────────────────────────────────────────────
+function generateLesson() {
+  const c = COUNTRIES[currentCountry];
+  const month = document.getElementById('lesson-month').options[document.getElementById('lesson-month').selectedIndex].text;
+  const week = document.getElementById('lesson-week').value;
+  const area = document.getElementById('lesson-area').value;
+  const optLabels = {A:'Activity-Centered (Right-Brain leads)', B:'Balanced Mixed', C:'Structured Sequential (Left-Brain leads)'};
+  document.getElementById('lesson-output').textContent = `Generating lesson plan for ${c.name} · ${month} · ${week} · ${area} · Option ${selectedOption}: ${optLabels[selectedOption]}…`;
+  document.getElementById('lesson-status').style.display = 'inline-block';
+  setTimeout(() => {
+    document.getElementById('lesson-status').style.display = 'none';
+    document.getElementById('lesson-output').textContent = `K-PASS Brain-Match Lesson Plan
+Country: ${c.name} | Curriculum: ${c.curriculum}
+Theme: ${month} | ${week} | Area: ${area}
+Differentiation: Option ${selectedOption} — ${optLabels[selectedOption]}
+
+LEARNING OBJECTIVES
+• Planning (P): Students will set a personal goal for the activity and self-monitor progress
+• Attention (A): Students will sustain focus on theme-related stimuli for 10–15 minutes
+• Simultaneous (S): Students will identify patterns and connections across visual materials
+• Successive (Ss): Students will sequence 3–5 steps in a thematic activity
+
+WARM-UP (5 min) — Planning Activation
+Pose a "thinking question" related to the theme. Ask students to predict and plan: "What do you think will happen? What will you do first?"
+
+MAIN ACTIVITY (20 min) — Differentiated by Brain Type
+[Right-Brain / Group A] Visual collage or creative expression activity. Encourage free exploration and pattern discovery. Use colourful materials and open-ended prompts.
+[Balanced / Group B] Mixed activity combining visual and sequential elements. Story reading + comprehension discussion + simple worksheet.
+[Left-Brain / Group C] Step-by-step structured task with clear instructions. Students follow 4–5 sequential steps, self-check at each stage.
+
+SMALL GROUP — PREP Support (parallel, 15 min)
+For Ss-weak students: use card-sequencing, rhyme strips, or "what comes next?" games. Verbal + visual cueing. Limit group to 3–4 students.
+
+WRAP-UP (5 min) — Metacognitive Reflection
+"What did you do? What was easy? What was hard?" — supports Planning scale development.
+
+QUESTION SCRIPTS
+Opening: "What do you already know about ___?" / "How might we figure out ___?"
+During: "What are you noticing?" / "What step comes next?" / "Can you show me the pattern?"
+Closing: "What did you learn today?" / "How would you do it differently next time?"
+
+MATERIALS
+• Brain-type sorted activity kits (Groups A, B, C)
+• Theme picture cards
+• Sequencing strips for PREP group
+• Observation checklist (P / A / S / Ss columns)`;
+  }, 1200);
+}
+
+function printLesson() { window.print(); }
+
+// ─── OBSERVATION ──────────────────────────────────────────────────────────────
+function renderObsStudentList() {
+  const c = COUNTRIES[currentCountry];
+  const container = document.getElementById('obs-student-list');
+  container.innerHTML = c.students.map((s,i) => `
+    <div class="obs-student-item ${obsSelectedStudent===i?'selected':''}" onclick="selectObsStudent(${i})">
+      <div class="obs-avatar">${s.name[0]}</div>
+      <div><div class="obs-sname">${s.name}</div><div class="obs-sage">Age ${s.age} · ${getBrainType(s)} brain</div></div>
+    </div>`).join('');
+
+  // Domain filters
+  const domains = c.observationDomains;
+  document.getElementById('obs-domain-filters').innerHTML =
+    `<span class="form-label" style="margin:0;line-height:28px;">Domain:</span>
+    <button class="filter-btn active" onclick="setObsFilter('domain','All')">All</button>` +
+    domains.map(d => `<button class="filter-btn" onclick="setObsFilter('domain','${d}')">${d}</button>`).join('');
+}
+
+function selectObsStudent(i) {
+  obsSelectedStudent = i;
+  const s = COUNTRIES[currentCountry].students[i];
+  document.getElementById('obs-selected-name').textContent = `Observation: ${s.name}`;
+  renderObsStudentList();
+  renderObsHistory();
+}
+
+function setObsFilter(type, val) {
+  if (type === 'pass') { obsPassFilter = val; document.querySelectorAll('#obs-pass-filters .filter-btn').forEach(b => b.classList.toggle('active', b.textContent===val||b.textContent==='All'&&val==='All')); }
+  else { obsDomainFilter = val; document.querySelectorAll('#obs-domain-filters .filter-btn').forEach(b => b.classList.toggle('active', b.textContent===val||(b.textContent==='All'&&val==='All'))); }
+}
+
+function saveObs() {
+  if (obsSelectedStudent === null) return alert('Please select a student first.');
+  const text = document.getElementById('obs-text').value.trim();
+  if (!text) return;
+  const key = `${currentCountry}_${obsSelectedStudent}`;
+  if (!obsRecords[key]) obsRecords[key] = [];
+  obsRecords[key].push({ text, pass: obsPassFilter, domain: obsDomainFilter, date: new Date().toLocaleDateString() });
+  localStorage.setItem('obs_records', JSON.stringify(obsRecords));
+  document.getElementById('obs-text').value = '';
+  renderObsHistory();
+}
+
+function clearObs() { document.getElementById('obs-text').value = ''; }
+
+function renderObsHistory() {
+  if (obsSelectedStudent === null) return;
+  const key = `${currentCountry}_${obsSelectedStudent}`;
+  const records = obsRecords[key] || [];
+  if (records.length === 0) {
+    document.getElementById('obs-history').innerHTML = `<div class="empty-state" style="padding:20px 0;"><div class="empty-icon">📋</div>No records yet.</div>`;
+    return;
+  }
+  document.getElementById('obs-history').innerHTML = records.slice().reverse().map(r => `
+    <div class="obs-entry">
+      <div class="obs-entry-header">
+        <span class="obs-chip ${r.pass}">${r.pass}</span>
+        <span class="obs-chip" style="background:#F1F5F9;color:#64748B">${r.domain}</span>
+        <span class="obs-date">${r.date}</span>
+      </div>
+      <div>${r.text}</div>
+    </div>`).join('');
+}
+
+// ─── GROWTH ───────────────────────────────────────────────────────────────────
+function setGrowthTab(tab) {
+  growthTab = tab;
+  document.querySelectorAll('.growth-tab').forEach(b => b.classList.toggle('active', b.textContent.toLowerCase().includes(tab)));
+  renderGrowthData();
+}
+
+function renderGrowthData() {
+  const s = COUNTRIES[currentCountry].students[document.getElementById('growth-student').selectedIndex];
+  if (!s) return;
+  const weak = getWeakest(s);
+  const labels = {P:'Planning', A:'Attention', S:'Simultaneous', Ss:'Successive'};
+  const projections = {P:Math.min(100,s.P+8), A:Math.min(100,s.A+5), S:Math.min(100,s.S+6), Ss:Math.min(100,s.Ss+10)};
+  document.getElementById('growth-content').innerHTML = `
+    <div style="font-size:12px;color:var(--muted);margin-bottom:12px;">
+      ${growthTab==='3m'?'3-Month':growthTab==='6m'?'6-Month':'Year-End'} projection for <strong>${s.name}</strong>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px;">
+      ${['P','A','S','Ss'].map(k => `
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px;">
+            <span style="font-weight:600;">${k} — ${labels[k]}</span>
+            <span>${s[k]} → <strong style="color:var(--primary)">${projections[k]}</strong></span>
+          </div>
+          <div class="pass-bar-bg">
+            <div class="pass-bar-fill" style="width:${projections[k]}%;background:var(--primary);opacity:.4;"></div>
+            <div class="pass-bar-fill" style="width:${s[k]}%;background:var(--primary);margin-top:-8px;"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+    <div class="alert-box info" style="margin-top:14px;">
+      <span class="alert-icon">💡</span>
+      <div>Priority: <strong>${labels[weak]}</strong> needs most support. Recommended: PREP small-group sessions 2×/week targeting ${labels[weak]} scale.</div>
+    </div>`;
+}
+
+// ─── REPORT ───────────────────────────────────────────────────────────────────
+function setReportPeriod(p) {
+  reportPeriod = p;
+  document.querySelectorAll('#section-report .growth-tab').forEach(b =>
+    b.classList.toggle('active', (p==='3m'&&b.textContent.includes('3'))||(p==='6m'&&b.textContent.includes('6'))||(p==='1y'&&b.textContent.includes('Annual'))));
+  renderReport();
+}
+
+function renderReport() {
+  const idx = document.getElementById('report-student').selectedIndex;
+  const c = COUNTRIES[currentCountry];
+  if (idx < 0 || !c.students[idx]) return;
+  const s = c.students[idx];
+  const bt = getBrainType(s);
+  const weak = getWeakest(s);
+  const labels = {P:'Planning', A:'Attention', S:'Simultaneous', Ss:'Successive'};
+  const periodLabel = reportPeriod==='3m'?'3-Month Progress':reportPeriod==='6m'?'6-Month Analysis':'Annual Summary';
+  document.getElementById('report-preview').innerHTML = `
+    <div class="report-header">
+      <div class="report-title">K-PASS Development Report</div>
+      <div class="report-meta">${s.name} · Age ${s.age} · ${c.classname} · ${c.name} · ${periodLabel}</div>
+    </div>
+    <div class="report-section">
+      <div class="report-section-title">Brain Profile</div>
+      <p>${s.name} presents a <strong>${bt}-brain</strong> learning profile based on K-PASS assessment. ${bt==='right'?'Visual-spatial and creative processing are strengths.':bt==='left'?'Sequential and structured processing are strengths.':'Balanced integration of simultaneous and successive processing.'}</p>
+    </div>
+    <div class="report-section">
+      <div class="report-section-title">PASS Score Profile</div>
+      <div class="report-pass-grid">
+        ${['P','A','S','Ss'].map(k => `
+          <div class="report-pass-item">
+            <div class="report-pass-name">${k} — ${labels[k]}: ${s[k]}</div>
+            <div class="report-bar"><div class="report-bar-fill" style="width:${s[k]}%;background:var(--primary);"></div></div>
+          </div>`).join('')}
+      </div>
+    </div>
+    <div class="report-section">
+      <div class="report-section-title">Key Observations</div>
+      <p>${s.name} shows strength in <strong>${Object.entries({P:s.P,A:s.A,S:s.S,Ss:s.Ss}).sort((a,b)=>b[1]-a[1])[0][0]} (${labels[Object.entries({P:s.P,A:s.A,S:s.S,Ss:s.Ss}).sort((a,b)=>b[1]-a[1])[0][0]]})</strong> and needs continued development in <strong>${weak} (${labels[weak]})</strong>. Targeted PREP activities and ${labels[weak]}-focused routines are recommended for the coming period.</p>
+    </div>
+    <div class="report-section">
+      <div class="report-section-title">Recommendations</div>
+      <p>Continue differentiated activities matching the ${bt}-brain profile. Increase ${labels[weak]} exercises 2–3× per week. Schedule a parent meeting to share progress and home activity suggestions.</p>
+    </div>`;
+}
+
+function printReport() { window.print(); }
+
+// ─── WORKSHEET ────────────────────────────────────────────────────────────────
+function setWsTab(tab) {
+  wsTab = tab;
+  document.querySelectorAll('.ws-tab').forEach(b => b.classList.toggle('active', b.textContent.includes(tab==='A'?'Right':tab==='B'?'Balanced':tab==='C'?'Left':'PREP')));
+  renderWorksheet();
+}
+
+function renderWorksheet() {
+  const c = COUNTRIES[currentCountry];
+  const month = document.getElementById('ws-month').options[document.getElementById('ws-month').selectedIndex]?.text || '';
+  const week = document.getElementById('ws-week').value;
+  const groupLabels = {A:'Group A — Right-Brain (Visual-Creative)', B:'Group B — Balanced (Mixed)', C:'Group C — Left-Brain (Sequential)', PREP:'PREP Small Group (Ss Support)'};
+  document.getElementById('ws-preview').innerHTML = `
+    <div style="border-bottom:2px solid var(--primary);padding-bottom:12px;margin-bottom:16px;">
+      <div style="font-size:16px;font-weight:800;">Activity Worksheet</div>
+      <div style="font-size:11px;color:var(--muted);margin-top:3px;">${c.name} · ${month} · ${week} · ${groupLabels[wsTab]}</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;">
+      <div><span style="font-size:11px;color:var(--muted);">Student Name:</span> <span style="border-bottom:1px solid #ccc;display:inline-block;width:140px;">&nbsp;</span></div>
+      <div><span style="font-size:11px;color:var(--muted);">Date:</span> <span style="border-bottom:1px solid #ccc;display:inline-block;width:100px;">&nbsp;</span></div>
+    </div>
+    ${wsTab==='A'?`
+      <p style="font-size:12px;margin-bottom:12px;"><strong>Task:</strong> Draw and colour your favourite thing about this month's theme. Add 3 details you noticed.</p>
+      <div style="border:2px dashed var(--border);border-radius:8px;height:180px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;">Drawing Space</div>`:
+    wsTab==='B'?`
+      <p style="font-size:12px;margin-bottom:12px;"><strong>Task:</strong> Look at the pictures, then answer the questions below.</p>
+      <div style="display:flex;flex-direction:column;gap:10px;">${['What do you see?','How does it make you feel?','What would you do?'].map((q,i) => `<div><strong>${i+1}. ${q}</strong><div style="border-bottom:1px solid var(--border);margin-top:20px;"></div></div>`).join('')}</div>`:
+    wsTab==='C'?`
+      <p style="font-size:12px;margin-bottom:12px;"><strong>Task:</strong> Put these steps in the correct order. Write 1, 2, 3, 4 in the boxes.</p>
+      <div style="display:flex;flex-direction:column;gap:8px;">${['First step of the activity','Second step','Third step','Final step — check your work'].map(s => `<div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg);border-radius:6px;"><div style="width:28px;height:28px;border:2px solid var(--border);border-radius:6px;"></div><span style="font-size:12px;">${s}</span></div>`).join('')}</div>`:
+    `<p style="font-size:12px;margin-bottom:12px;"><strong>PREP Task:</strong> Put the pictures in the right order. Say each step out loud.</p>
+      <div style="display:flex;gap:10px;">${[1,2,3,4].map(n => `<div style="flex:1;border:2px solid var(--border);border-radius:8px;height:80px;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;font-size:11px;color:var(--muted);">Step ${n}</div>`).join('')}</div>`}`;
+}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+buildDropdown();
+switchCountry('azerbaijan');
+</script>
+</body>
+</html>
