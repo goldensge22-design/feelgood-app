@@ -1,0 +1,2479 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainFit | K-PASS × 누리과정 두뇌맞춤 시스템</title>
+<style>
+/* ── BrainFit 파스텔 팔레트 (로고 색감 기반) ── */
+:root {
+  /* 브랜드 컬러 — 주황/파랑/보라 파스텔 */
+  --orange:      #F5A623;
+  --orange-lt:   #FFF3DC;
+  --orange-mid:  #FFE0A0;
+  --blue:        #3B82C4;
+  --blue-lt:     #DCEEFF;
+  --blue-mid:    #B3D4F5;
+  --purple:      #9B8FD4;
+  --purple-lt:   #EDE9FF;
+  --purple-mid:  #D5CFFF;
+  --gray:        #5A6270;
+  --gray-50:     #F8F9FB;
+  --gray-100:    #F0F2F6;
+  --gray-200:    #E2E6EE;
+  --gray-300:    #C8D0DC;
+  --gray-400:    #98A3B5;
+  --gray-500:    #6B7A90;
+  --gray-600:    #4A5568;
+  --gray-700:    #2D3748;
+  --gray-800:    #1A202C;
+  --gray-900:    #0F1420;
+
+  /* 기능 컬러 */
+  --success:     #48BB78;
+  --success-lt:  #C6F6D5;
+  --danger:      #FC8181;
+  --danger-lt:   #FED7D7;
+  --warning:     #ECC94B;
+  --warning-lt:  #FEFCBF;
+
+  /* K-PASS 4축 */
+  --pass-p:      #F5A623;   /* 계획 — 주황 */
+  --pass-p-lt:   #FFF3DC;
+  --pass-a:      #9B8FD4;   /* 주의 — 보라 */
+  --pass-a-lt:   #EDE9FF;
+  --pass-s:      #48BB78;   /* 동시처리 — 초록 */
+  --pass-s-lt:   #C6F6D5;
+  --pass-su:     #3B82C4;   /* 순차처리 — 파랑 */
+  --pass-su-lt:  #DCEEFF;
+
+  /* Pexels */
+  --pexels:      #05A081;
+  --pexels-lt:   #D0F4ED;
+
+  --radius:      14px;
+  --radius-sm:   9px;
+  --shadow:      0 1px 4px rgba(0,0,0,0.07), 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md:   0 4px 12px rgba(0,0,0,0.08);
+  --shadow-lg:   0 10px 28px rgba(0,0,0,0.09);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: linear-gradient(135deg, #F5F0FF 0%, #EFF6FF 50%, #FFF8ED 100%);
+  background-attachment: fixed;
+  color: var(--gray-700);
+  min-height: 100vh;
+}
+
+/* ── Sidebar ── */
+.app-wrapper { display: flex; min-height: 100vh; }
+
+.sidebar {
+  width: 248px;
+  background: white;
+  border-right: 1px solid var(--gray-200);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 2px 0 12px rgba(59,130,196,0.06);
+}
+
+.sidebar-logo {
+  padding: 20px 18px 16px;
+  border-bottom: 1px solid var(--gray-100);
+  background: linear-gradient(135deg, var(--blue-lt) 0%, var(--purple-lt) 100%);
+}
+
+.logo-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.logo-icon-wrap {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.logo-sq {
+  width: 20px; height: 20px;
+  background: var(--orange);
+  border-radius: 4px;
+  position: absolute;
+  top: 0; left: 0;
+}
+
+.logo-circle {
+  width: 22px; height: 22px;
+  background: var(--blue);
+  border-radius: 50%;
+  position: absolute;
+  bottom: 0; right: 0;
+  clip-path: inset(30% 0 0 30%);
+}
+
+.logo-title {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+  line-height: 1;
+}
+
+.logo-title .brain { color: var(--blue); }
+.logo-title .fit   { color: var(--orange); }
+
+.logo-sub {
+  font-size: 10px;
+  color: var(--gray-500);
+  font-weight: 500;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+}
+
+/* API 키 입력란 (사이드바 내) */
+.sidebar-api {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--gray-100);
+  background: var(--gray-50);
+}
+
+.api-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray-400);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.api-input-row {
+  display: flex;
+  gap: 5px;
+  margin-bottom: 5px;
+}
+
+.api-input-row input {
+  flex: 1;
+  padding: 6px 9px;
+  border: 1px solid var(--gray-200);
+  border-radius: 7px;
+  font-size: 11px;
+  color: var(--gray-700);
+  background: white;
+  outline: none;
+  min-width: 0;
+}
+
+.api-input-row input:focus { border-color: var(--blue); }
+
+.btn-api-test {
+  padding: 6px 9px;
+  border: none;
+  border-radius: 7px;
+  background: var(--pexels);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.api-ok  { font-size:10px; color: var(--pexels); font-weight:700; display:none; }
+.api-err { font-size:10px; color: var(--danger);  font-weight:700; display:none; }
+
+/* Nav */
+.sidebar-section {
+  padding: 12px 18px 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--gray-400);
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  margin: 1px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--gray-500);
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.nav-item:hover { background: var(--gray-50); color: var(--gray-800); }
+
+.nav-item.active {
+  background: linear-gradient(135deg, var(--blue-lt), var(--purple-lt));
+  color: var(--blue);
+  font-weight: 700;
+}
+
+.nav-item .icon { font-size: 15px; width: 20px; text-align: center; flex-shrink: 0; }
+
+.nav-badge {
+  margin-left: auto;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.nav-badge.new { background: var(--success-lt); color: var(--success); }
+.nav-badge.hot { background: var(--orange-lt); color: var(--orange); }
+
+/* ── Main ── */
+.main-content { margin-left: 248px; flex: 1; padding: 0; }
+
+.topbar {
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 13px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+
+.topbar-title { font-size: 17px; font-weight: 800; color: var(--gray-800); }
+.topbar-sub   { font-size: 12px; color: var(--gray-400); margin-top: 1px; }
+
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+/* ── Page Sections ── */
+.page-section { display: none; padding: 24px 28px 60px; }
+.page-section.active { display: block; }
+
+/* ── Cards ── */
+.card {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  border: 1px solid var(--gray-100);
+}
+
+.card-header {
+  padding: 14px 18px;
+  border-bottom: 1px solid var(--gray-100);
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  background: var(--gray-50);
+}
+
+.card-header h3 { font-size: 14px; font-weight: 700; color: var(--gray-800); }
+.card-header .sub { font-size: 11px; color: var(--gray-400); margin-left: auto; }
+.card-body { padding: 18px; }
+
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4,1fr); gap: 14px; }
+
+/* ── Stat Cards ── */
+.stat-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--gray-100);
+}
+
+.stat-label { font-size: 11px; color: var(--gray-400); font-weight: 600; }
+.stat-value { font-size: 28px; font-weight: 900; color: var(--gray-800); margin: 4px 0; }
+.stat-sub   { font-size: 11px; color: var(--gray-400); }
+.stat-card.blue   { border-left: 4px solid var(--blue); }
+.stat-card.orange { border-left: 4px solid var(--orange); }
+.stat-card.purple { border-left: 4px solid var(--purple); }
+.stat-card.green  { border-left: 4px solid var(--success); }
+.stat-card.red    { border-left: 4px solid var(--danger); }
+
+/* ── Buttons ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 18px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s;
+  text-decoration: none;
+}
+
+.btn-primary  { background: var(--blue); color: white; }
+.btn-primary:hover { background: #2d6aad; box-shadow: 0 4px 12px rgba(59,130,196,0.3); }
+.btn-orange   { background: var(--orange); color: white; }
+.btn-orange:hover { background: #d4891a; }
+.btn-purple   { background: var(--purple); color: white; }
+.btn-purple:hover { background: #7b6fc0; }
+.btn-success  { background: var(--success); color: white; }
+.btn-success:hover { background: #38a169; }
+.btn-pexels   { background: var(--pexels); color: white; }
+.btn-pexels:hover { background: #048a6e; }
+.btn-outline  { background: white; border: 1px solid var(--gray-300); color: var(--gray-600); }
+.btn-outline:hover { background: var(--gray-50); }
+.btn-sm { padding: 6px 12px; font-size: 12px; border-radius: 7px; }
+.btn-lg { padding: 12px 24px; font-size: 15px; }
+
+/* ── Form ── */
+.form-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 14px; }
+.form-group { display: flex; flex-direction: column; gap: 4px; }
+.form-group label { font-size: 11px; font-weight: 700; color: var(--gray-500); }
+
+.form-control {
+  padding: 8px 12px;
+  border: 1px solid var(--gray-200);
+  border-radius: 9px;
+  font-size: 13px;
+  color: var(--gray-700);
+  background: white;
+  transition: border-color 0.15s;
+  outline: none;
+  font-family: inherit;
+}
+
+.form-control:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(59,130,196,0.1); }
+
+/* ── Tags ── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.tag-blue   { background: var(--blue-lt);   color: var(--blue); }
+.tag-orange { background: var(--orange-lt); color: #9A6000; }
+.tag-purple { background: var(--purple-lt); color: var(--purple); }
+.tag-green  { background: var(--success-lt);color: var(--success); }
+.tag-red    { background: var(--danger-lt); color: #C05050; }
+
+/* ── K-PASS 축 뱃지 ── */
+.pass-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.badge-p  { background: var(--pass-p-lt);  color: #9A6000; }
+.badge-a  { background: var(--pass-a-lt);  color: var(--purple); }
+.badge-s  { background: var(--pass-s-lt);  color: #276749; }
+.badge-su { background: var(--pass-su-lt); color: var(--blue); }
+
+/* ── Table ── */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th {
+  background: var(--gray-50);
+  padding: 9px 13px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gray-500);
+  text-align: left;
+  border-bottom: 1px solid var(--gray-200);
+}
+.data-table td { padding: 10px 13px; font-size: 13px; border-bottom: 1px solid var(--gray-100); vertical-align: middle; }
+.data-table tr:hover td { background: var(--gray-50); }
+.data-table tr:last-child td { border-bottom: none; }
+
+/* ── Progress Bar ── */
+.progress-bar { background: var(--gray-200); border-radius: 4px; height: 7px; overflow: hidden; }
+.progress-fill { height: 100%; border-radius: 4px; transition: width 0.6s; }
+
+/* ── Score Buttons ── */
+.score-input { display: flex; gap: 4px; align-items: center; }
+.score-btn {
+  width: 28px; height: 28px;
+  border-radius: 6px;
+  border: 1px solid var(--gray-200);
+  background: white;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-400);
+  transition: all 0.1s;
+  display: flex; align-items: center; justify-content: center;
+}
+.score-btn:hover { border-color: var(--blue); color: var(--blue); }
+.score-btn.s1.active { background: #FC8181; border-color: #FC8181; color: white; }
+.score-btn.s2.active { background: var(--orange); border-color: var(--orange); color: white; }
+.score-btn.s3.active { background: var(--warning); border-color: var(--warning); color: white; }
+.score-btn.s4.active { background: var(--success); border-color: var(--success); color: white; }
+.score-btn.s5.active { background: var(--blue); border-color: var(--blue); color: white; }
+
+/* ── Option Cards ── */
+.option-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
+.option-card {
+  border: 2px solid var(--gray-200);
+  border-radius: 12px;
+  padding: 15px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.option-card:hover { border-color: var(--blue); background: var(--blue-lt); }
+.option-card.selected { border-color: var(--blue); background: var(--blue-lt); }
+.option-card .opt-icon { font-size: 22px; margin-bottom: 6px; }
+.option-card .opt-title { font-size: 13px; font-weight: 700; color: var(--gray-800); margin-bottom: 3px; }
+.option-card .opt-desc { font-size: 11px; color: var(--gray-500); }
+.option-card .opt-badge { font-size: 10px; font-weight: 700; color: white; background: var(--orange); padding: 2px 6px; border-radius: 4px; display: inline-block; margin-top: 5px; }
+
+/* ── Notice ── */
+.notice {
+  padding: 12px 14px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+.notice-info { background: var(--blue-lt); color: #1a4a80; }
+.notice-warn { background: var(--orange-lt); color: #7A4500; }
+.notice-success { background: var(--success-lt); color: #1a5432; }
+.notice-purple { background: var(--purple-lt); color: #4A3A90; }
+
+/* ── Lesson Plan ── */
+.lesson-plan {
+  background: white;
+  border: 1px solid var(--gray-200);
+  border-radius: var(--radius);
+  padding: 26px;
+  font-size: 13px;
+  line-height: 1.8;
+}
+.lesson-plan h2 { font-size: 18px; font-weight: 800; color: var(--gray-800); margin-bottom: 4px; }
+.lesson-plan .meta { color: var(--gray-400); font-size: 12px; margin-bottom: 18px; }
+.lesson-plan .section-title {
+  font-size: 12px; font-weight: 700;
+  color: var(--blue);
+  background: var(--blue-lt);
+  padding: 6px 12px; border-radius: 7px;
+  margin: 14px 0 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+.lesson-plan table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+.lesson-plan table th { background: var(--gray-50); padding: 8px 12px; font-size: 12px; font-weight: 700; border: 1px solid var(--gray-200); color: var(--gray-500); }
+.lesson-plan table td { padding: 8px 12px; font-size: 12px; border: 1px solid var(--gray-200); }
+
+.activity-block {
+  background: var(--gray-50);
+  border-left: 3px solid var(--blue);
+  padding: 12px 15px;
+  border-radius: 0 10px 10px 0;
+  margin: 8px 0;
+}
+
+.time-tag {
+  display: inline-block;
+  background: var(--blue);
+  color: white;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-right: 8px;
+}
+
+/* ── K-PASS 발문 블록 (강화) ── */
+.ask-block {
+  background: linear-gradient(135deg, var(--purple-lt), var(--blue-lt));
+  border: 1px solid var(--purple-mid);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin: 8px 0;
+}
+
+.ask-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--purple);
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ask-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(155,143,212,0.15);
+}
+.ask-row:last-child { border-bottom: none; }
+
+.ask-pass-tag {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 4px;
+  margin-top: 1px;
+}
+
+.ask-row .ask-text {
+  flex: 1;
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.6;
+}
+
+.ask-row .ask-tip {
+  font-size: 11px;
+  color: var(--gray-400);
+  margin-top: 3px;
+  padding-left: 12px;
+  position: relative;
+}
+.ask-row .ask-tip::before { content:'→'; position:absolute;left:0; color:var(--gray-300); }
+
+/* ── Pexels 이미지 섹션 ── */
+.pexels-section {
+  background: white;
+  border: 1px solid var(--gray-100);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.pexels-header {
+  padding: 12px 18px;
+  background: linear-gradient(135deg, #e8faf5, #d0f4ed);
+  border-bottom: 1px solid #b2e8dc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pexels-header-left {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.pexels-logo-badge {
+  background: var(--pexels);
+  color: white;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 5px;
+  letter-spacing: 0.5px;
+}
+
+.pexels-title { font-size: 13px; font-weight: 700; color: var(--gray-700); }
+
+.pexels-search-bar {
+  padding: 12px 18px;
+  display: flex;
+  gap: 8px;
+  border-bottom: 1px solid var(--gray-100);
+  flex-wrap: wrap;
+}
+
+.pexels-search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 12px 8px 32px;
+  border: 1px solid var(--gray-200);
+  border-radius: 9px;
+  font-size: 13px;
+  outline: none;
+  position: relative;
+  background: var(--gray-50) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2398A3B5' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 10px center;
+}
+.pexels-search-input:focus { border-color: var(--pexels); box-shadow: 0 0 0 3px rgba(5,160,129,0.12); }
+
+.quick-tags { display: flex; gap: 6px; flex-wrap: wrap; padding: 8px 18px; border-bottom: 1px solid var(--gray-100); }
+
+.quick-tag {
+  font-size: 11px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  border: 1px solid var(--gray-200);
+  background: white;
+  color: var(--gray-500);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+.quick-tag:hover { border-color: var(--pexels); color: var(--pexels); background: var(--pexels-lt); }
+
+.img-grid {
+  padding: 14px 18px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px,1fr));
+  gap: 9px;
+  min-height: 100px;
+}
+
+.img-grid.loading { display: flex; align-items: center; justify-content: center; }
+
+.img-placeholder { text-align: center; color: var(--gray-400); font-size: 12px; padding: 32px 20px; width: 100%; }
+.img-placeholder .big-icon { font-size: 32px; display: block; margin-bottom: 8px; opacity: 0.4; }
+
+.img-card {
+  position: relative;
+  border-radius: 9px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  background: var(--gray-100);
+}
+.img-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.img-card:hover img { transform: scale(1.06); }
+.img-card:hover .img-overlay, .img-card.selected .img-overlay { opacity: 1; }
+.img-card.selected { border-color: var(--pexels); box-shadow: 0 0 0 3px rgba(5,160,129,0.25); }
+
+.img-overlay {
+  position: absolute; inset: 0;
+  background: rgba(5,160,129,0.65);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.2s;
+  gap: 5px;
+}
+
+.img-card.selected .img-overlay { background: rgba(5,160,129,0.4); }
+
+.ovl-btn {
+  padding: 5px 11px;
+  border-radius: 6px;
+  border: none;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ovl-select { background: white; color: var(--pexels); }
+.ovl-open   { background: rgba(255,255,255,0.2); color: white; border: 1px solid rgba(255,255,255,0.4); text-decoration: none; display: inline-block; }
+
+.img-photo-credit {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 5px 7px;
+  background: linear-gradient(transparent, rgba(0,0,0,0.65));
+  font-size: 9px; color: rgba(255,255,255,0.8);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+/* 선택 이미지 스트립 */
+.selected-strip-wrap {
+  padding: 0 18px 14px;
+  display: none;
+}
+.selected-strip-wrap.visible { display: block; }
+.selected-strip-label { font-size: 10px; font-weight: 700; color: var(--gray-400); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.selected-strip { display: flex; gap: 7px; flex-wrap: wrap; }
+.sel-thumb { position: relative; width: 60px; height: 44px; border-radius: 7px; overflow: hidden; border: 2px solid var(--pexels); }
+.sel-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.sel-thumb .rm-btn { position: absolute; top: 2px; right: 2px; width: 14px; height: 14px; border-radius: 50%; background: rgba(0,0,0,0.65); border: none; color: white; font-size: 9px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+
+/* ── Tabs ── */
+.tabs { display: flex; gap: 2px; border-bottom: 1px solid var(--gray-200); margin-bottom: 18px; }
+.tab-btn {
+  padding: 9px 15px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--gray-400);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.15s;
+  background: none;
+  border-top: none; border-left: none; border-right: none;
+}
+.tab-btn:hover { color: var(--gray-700); }
+.tab-btn.active { color: var(--blue); border-bottom-color: var(--blue); }
+.tab-pane { display: none; }
+.tab-pane.active { display: block; }
+
+/* ── Eval ── */
+.eval-area { border: 1px solid var(--gray-200); border-radius: 10px; overflow: hidden; margin-bottom: 14px; }
+.eval-area-header {
+  background: var(--gray-50); padding: 9px 15px;
+  font-size: 13px; font-weight: 700; color: var(--gray-600);
+  border-bottom: 1px solid var(--gray-200);
+  display: flex; align-items: center; gap: 7px;
+}
+.eval-row { display: flex; align-items: center; padding: 9px 15px; border-bottom: 1px solid var(--gray-100); gap: 10px; }
+.eval-row:last-child { border-bottom: none; }
+.eval-row .item-name { flex: 1; font-size: 13px; color: var(--gray-600); }
+
+/* ── Report Preview ── */
+.report-preview {
+  background: white; border: 1px solid var(--gray-200);
+  border-radius: var(--radius); padding: 34px 38px;
+  max-width: 760px; margin: 0 auto;
+  box-shadow: var(--shadow-lg);
+  font-size: 13px; line-height: 1.9; color: #1a1a1a;
+}
+.report-preview .rp-header { text-align: center; border-bottom: 2px solid #1a1a1a; padding-bottom: 14px; margin-bottom: 18px; }
+.report-preview .rp-title { font-size: 20px; font-weight: 900; letter-spacing: 2px; }
+.report-preview .rp-sub { font-size: 12px; color: #666; margin-top: 4px; }
+.report-preview .rp-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 4px 20px; font-size: 12px; background: #f8f8f8; padding: 11px 15px; border-radius: 7px; margin-bottom: 14px; }
+.report-preview .rp-section { font-size: 13px; font-weight: 800; color: #1a1a1a; background: #f0f0f0; padding: 6px 10px; border-radius: 4px; margin: 14px 0 7px; }
+.report-preview .rp-eval-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.report-preview .rp-eval-table th { border: 1px solid #ccc; padding: 6px 10px; background: #f5f5f5; font-weight: 700; text-align: center; }
+.report-preview .rp-eval-table td { border: 1px solid #ccc; padding: 6px 10px; text-align: center; }
+.report-preview .rp-narrative { background: #fafafa; border: 1px solid #e0e0e0; padding: 12px 15px; border-radius: 7px; font-size: 12px; line-height: 2; }
+
+/* ── Obs / Checklist ── */
+.obs-quick-btns { display: flex; flex-wrap: wrap; gap: 5px; margin: 7px 0; }
+.obs-quick-btn {
+  padding: 5px 11px; border: 1px solid var(--gray-200); border-radius: 20px;
+  font-size: 12px; cursor: pointer; background: white; color: var(--gray-600);
+  transition: all 0.15s;
+}
+.obs-quick-btn:hover { border-color: var(--purple); color: var(--purple); background: var(--purple-lt); }
+.obs-item { background: var(--gray-50); border-radius: 9px; padding: 10px 13px; margin: 6px 0; font-size: 12px; }
+.obs-item .obs-meta { color: var(--gray-400); font-size: 11px; margin-top: 3px; }
+
+.checklist-item { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-bottom: 1px solid var(--gray-100); }
+.checklist-item:last-child { border-bottom: none; }
+.checklist-item input[type=checkbox] { width: 16px; height: 16px; cursor: pointer; accent-color: var(--blue); }
+.checklist-item label { font-size: 13px; color: var(--gray-600); cursor: pointer; flex: 1; }
+.checklist-item .check-status { font-size: 11px; color: var(--gray-400); }
+
+/* ── Section Header ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; }
+.section-header h2 { font-size: 20px; font-weight: 800; color: var(--gray-800); }
+.section-header p  { font-size: 12px; color: var(--gray-400); margin-top: 2px; }
+
+/* ── Avatar ── */
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+.avatar-blue   { background: var(--blue-lt);   color: var(--blue); }
+.avatar-orange { background: var(--orange-lt); color: var(--orange); }
+.avatar-purple { background: var(--purple-lt); color: var(--purple); }
+
+/* ── Spinner ── */
+.spinner { width: 20px; height: 20px; border: 2px solid var(--gray-200); border-top-color: var(--blue); border-radius: 50%; animation: spin 0.8s linear infinite; display: inline-block; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.generating-msg { display: flex; align-items: center; gap: 12px; padding: 20px; color: var(--gray-400); font-size: 13px; }
+
+/* ── Toast ── */
+.toast {
+  position: fixed; bottom: 22px; right: 22px;
+  background: var(--gray-800); color: white;
+  padding: 11px 16px; border-radius: 10px;
+  font-size: 13px; font-weight: 600;
+  z-index: 9999;
+  transform: translateY(80px); opacity: 0;
+  transition: all 0.3s;
+  max-width: 280px;
+}
+.toast.show { transform: translateY(0); opacity: 1; }
+.toast.ok  { background: var(--success); }
+.toast.err { background: var(--danger); }
+
+/* ── Print ── */
+@media print {
+  .sidebar, .topbar, .no-print, .pexels-section { display: none !important; }
+  .main-content { margin-left: 0 !important; }
+  .page-section { display: block !important; padding: 0 !important; }
+  .report-preview { box-shadow: none !important; border: none !important; }
+  body { background: white !important; }
+  @page { margin: 18mm; }
+}
+
+/* ── Responsive ── */
+@media (max-width: 920px) {
+  .sidebar { width: 64px; }
+  .sidebar .logo-title, .logo-sub, .sidebar-section, .nav-item span:not(.icon), .sidebar-api .api-label, .api-input-row { display: none; }
+  .main-content { margin-left: 64px; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Anim ── */
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.fade-up { animation: fadeUp 0.35s ease forwards; }
+</style>
+</head>
+<body>
+<div class="app-wrapper">
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">
+      <div class="logo-icon-wrap">
+        <div class="logo-sq"></div>
+        <div class="logo-circle"></div>
+      </div>
+      <div class="logo-title"><span class="brain">Brain</span><span class="fit">Fit</span></div>
+    </div>
+    <div class="logo-sub">K-PASS × 누리과정 두뇌맞춤 시스템</div>
+  </div>
+
+  <!-- API 키 내장됨 — 입력 불필요 -->
+  <div class="sidebar-api" style="display:none">
+    <input type="hidden" id="claudeKey">
+    <input type="hidden" id="pexelsKey">
+    <span id="pexelsOk"></span>
+    <span id="pexelsErr"></span>
+  </div>
+
+  <div class="sidebar-section">현황</div>
+  <a class="nav-item active" onclick="showSection('dashboard')"><span class="icon">📊</span><span>학급 현황</span></a>
+
+  <div class="sidebar-section">교안 · 수업</div>
+  <a class="nav-item" onclick="showSection('lesson')"><span class="icon">📝</span><span>교안 자동생성</span><span class="nav-badge hot">K-PASS+</span></a>
+  <a class="nav-item" onclick="showSection('books')"><span class="icon">📚</span><span>그림책 큐레이션</span></a>
+  <a class="nav-item" onclick="showSection('supplies')"><span class="icon">🛒</span><span>준비물 취합</span></a>
+
+  <div class="sidebar-section">평가 · 기록</div>
+  <a class="nav-item" onclick="showSection('evaluation')"><span class="icon">✅</span><span>활동 평가</span><span class="nav-badge new">NEW</span></a>
+  <a class="nav-item" onclick="showSection('observation')"><span class="icon">👁</span><span>유아 관찰 기록</span></a>
+  <a class="nav-item" onclick="showSection('growth')"><span class="icon">📈</span><span>성장 분석</span></a>
+
+  <div class="sidebar-section">보고서 · 출력</div>
+  <a class="nav-item" onclick="showSection('parent')"><span class="icon">👨‍👩‍👧</span><span>학부모 상담자료</span></a>
+  <a class="nav-item" onclick="showSection('gov-report')"><span class="icon">🏛️</span><span>정부기관 제출용</span><span class="nav-badge new">NEW</span></a>
+  <a class="nav-item" onclick="showSection('life-record')"><span class="icon">📋</span><span>생활기록부</span><span class="nav-badge new">NEW</span></a>
+  <a class="nav-item" onclick="showSection('worksheet')"><span class="icon">🖨️</span><span>활동지 출력</span></a>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main class="main-content">
+
+  <div class="topbar">
+    <div>
+      <div class="topbar-title" id="topbar-title">학급 현황 대시보드</div>
+      <div class="topbar-sub">브레인핏 샘플반 · 9명 (5~7세) · 2026.4.10 K-PASS 검사</div>
+    </div>
+    <div class="topbar-actions">
+      <span class="tag tag-blue">2026학년도</span>
+      <span class="tag tag-orange">4월 3주차</span>
+      <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ 인쇄</button>
+    </div>
+  </div>
+
+  <!-- ①  대시보드 -->
+  <div id="sec-dashboard" class="page-section active">
+    <div class="notice notice-warn">
+      ⚠️ <strong>집중 지원 대상:</strong> 박민아(6세) — 전 척도 1~5% (주 1회 개별 PREP 필수) &nbsp;|&nbsp; 연령별 분포: 5세 3명 · 6세 3명 · 7세 3명
+    </div>
+    <div class="grid-4" style="margin-bottom:18px">
+      <div class="stat-card blue"><div class="stat-label">전체 학생</div><div class="stat-value">9</div><div class="stat-sub">브레인핏 샘플반</div></div>
+      <div class="stat-card orange"><div class="stat-label">관리 필요</div><div class="stat-value">1</div><div class="stat-sub">박민아 · PREP 집중</div></div>
+      <div class="stat-card green"><div class="stat-label">주의력 강점</div><div class="stat-value">73%</div><div class="stat-sub">학급 평균</div></div>
+      <div class="stat-card red"><div class="stat-label">순차처리 약점</div><div class="stat-value">50%</div><div class="stat-sub">집중 보완 필요</div></div>
+    </div>
+    <div class="grid-2" style="margin-bottom:18px">
+      <div class="card">
+        <div class="card-header"><span>🧠</span><h3>두뇌 유형 분포</h3></div>
+        <div class="card-body">
+          <div style="display:flex;gap:10px;margin-bottom:12px">
+            <div style="flex:1;background:var(--blue-lt);border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--blue)">4명</div><div style="font-size:11px;color:var(--blue);font-weight:600">우뇌우세형 44%</div></div>
+            <div style="flex:1;background:var(--pass-s-lt);border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--success)">3명</div><div style="font-size:11px;color:var(--success);font-weight:600">좌우뇌균형 33%</div></div>
+            <div style="flex:1;background:var(--purple-lt);border-radius:10px;padding:12px;text-align:center"><div style="font-size:22px;font-weight:900;color:var(--purple)">2명</div><div style="font-size:11px;color:var(--purple);font-weight:600">좌뇌우세형 22%</div></div>
+          </div>
+          <div class="notice notice-purple" style="margin:0;font-size:12px">💡 추천: 옵션 B(균형혼합) + 순차처리·계획력 PREP 집중 · 발문은 주의력(73%) 강점 활용</div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header"><span>📊</span><h3>PASS 4축 학급 평균</h3></div>
+        <div class="card-body">
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>동시처리</span><strong style="color:var(--orange)">54%</strong></div><div class="progress-bar"><div class="progress-fill" style="width:54%;background:var(--orange)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>계획력</span><strong style="color:var(--orange)">54%</strong></div><div class="progress-bar"><div class="progress-fill" style="width:54%;background:var(--orange)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>주의력</span><strong style="color:var(--success)">73%</strong></div><div class="progress-bar"><div class="progress-fill" style="width:73%;background:var(--success)"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span>순차처리</span><strong style="color:var(--danger)">50%</strong></div><div class="progress-bar"><div class="progress-fill" style="width:50%;background:var(--danger)"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><span>👶</span><h3>학생별 K-PASS 결과</h3><span class="sub">클릭 → 관찰 기록으로 이동</span></div>
+      <div class="card-body" style="padding:0"><table class="data-table"><thead><tr><th>이름</th><th>나이</th><th>뇌유형</th><th>동시처리</th><th>순차처리</th><th>계획력</th><th>주의력</th><th>취약축</th><th>비고</th></tr></thead><tbody id="student-table-body"></tbody></table></div>
+    </div>
+  </div>
+
+  <!-- ②  교안 자동생성 (Pexels + K-PASS 발문 강화 통합) -->
+  <div id="sec-lesson" class="page-section">
+    <div class="section-header">
+      <div><h2>📝 교안 + K-PASS 발문 스크립트</h2><p>Pexels 활동자료 이미지 + K-PASS 4축 강화 발문 — 수업 즉시 활용</p></div>
+    </div>
+
+    <!-- Pexels 이미지 검색 -->
+    <div class="pexels-section">
+      <div class="pexels-header">
+        <div class="pexels-header-left">
+          <span class="pexels-logo-badge">PEXELS</span>
+          <span class="pexels-title">활동자료 이미지 검색 <span style="font-size:11px;color:var(--gray-400);font-weight:400">— 선택한 이미지가 교안 발문에 자동 연결됩니다</span></span>
+        </div>
+        <span id="pexels-img-count" style="font-size:11px;color:var(--pexels);font-weight:700"></span>
+      </div>
+      <div class="pexels-search-bar">
+        <input class="pexels-search-input" type="text" id="imgSearch" placeholder="검색어 입력 (예: spring flower, 봄꽃, children playing)" onkeydown="if(event.key==='Enter') searchImages()">
+        <select class="form-control" id="imgLang" style="width:100px">
+          <option value="en" selected>English</option>
+          <option value="ko">한국어</option>
+        </select>
+        <button class="btn btn-pexels btn-sm" id="imgSearchBtn" onclick="searchImages()">🔍 검색</button>
+        <button class="btn btn-outline btn-sm" onclick="clearSelectedImages()">선택 초기화</button>
+      </div>
+      <div class="quick-tags">
+        <span class="quick-tag" onclick="qs('spring flowers korea')">🌸 봄꽃</span>
+        <span class="quick-tag" onclick="qs('spring nature green')">🌿 봄자연</span>
+        <span class="quick-tag" onclick="qs('frog rain leaf')">🐸 개구리</span>
+        <span class="quick-tag" onclick="qs('magnolia white flower')">🌺 목련</span>
+        <span class="quick-tag" onclick="qs('green sprout seedling')">🌱 새싹</span>
+        <span class="quick-tag" onclick="qs('children block building play')">🧱 블록놀이</span>
+        <span class="quick-tag" onclick="qs('children outdoor spring park')">👦 봄나들이</span>
+        <span class="quick-tag" onclick="qs('butterfly flower spring')">🦋 나비</span>
+        <span class="quick-tag" onclick="qs('kids art drawing classroom')">🎨 미술활동</span>
+        <span class="quick-tag" onclick="qs('preschool teacher children')">👩‍🏫 유아교육</span>
+      </div>
+      <div class="img-grid" id="imageGrid">
+        <div class="img-placeholder"><span class="big-icon">🖼️</span>Pexels API 키를 입력하고 이미지를 검색하세요<br><span style="font-size:11px;opacity:0.6;margin-top:4px;display:block">선택한 이미지는 교안 발문 스크립트에 자동 반영됩니다</span></div>
+      </div>
+      <div class="selected-strip-wrap" id="selectedStripWrap">
+        <div class="selected-strip-label">📌 선택된 활동자료 이미지</div>
+        <div class="selected-strip" id="selectedStrip"></div>
+      </div>
+    </div>
+
+    <!-- 수업 조건 설정 -->
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-header"><span>⚙️</span><h3>수업 조건 설정</h3></div>
+      <div class="card-body">
+        <div class="form-row">
+          <div class="form-group"><label>월 선택</label>
+            <select class="form-control" id="lesson-month">
+              <option value="3">3월 — 나와 친구</option>
+              <option value="4" selected>4월 — 봄과 생명</option>
+              <option value="5">5월 — 가족과 공동체</option>
+              <option value="6">6월 — 여름과 건강</option>
+              <option value="9">9월 — 가을과 추수</option>
+              <option value="12">12월 — 겨울과 축제</option>
+            </select>
+          </div>
+          <div class="form-group"><label>주차</label>
+            <select class="form-control" id="lesson-week">
+              <option value="1">1주차</option><option value="2">2주차</option><option value="3" selected>3주차</option><option value="4">4주차</option>
+            </select>
+          </div>
+          <div class="form-group"><label>교과 영역</label>
+            <select class="form-control" id="lesson-subject">
+              <option value="nuri">누리과정</option><option value="language">언어</option><option value="math">수·조작</option><option value="art">미술</option><option value="music">음악</option><option value="outdoor">바깥놀이</option>
+            </select>
+          </div>
+          <div class="form-group"><label>활동 유형</label>
+            <select class="form-control" id="lesson-type">
+              <option value="large">대그룹 활동</option><option value="small">소그룹 활동</option><option value="individual">개별 활동</option><option value="free">자유선택 활동</option>
+            </select>
+          </div>
+          <div class="form-group"><label>수업 시간(분)</label>
+            <select class="form-control" id="lesson-duration">
+              <option value="20">20분</option><option value="30" selected>30분</option><option value="40">40분</option><option value="50">50분</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- K-PASS 강화 축 선택 -->
+        <div style="margin-bottom:14px">
+          <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px">🧠 K-PASS 발문 강화 축 선택</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;border:1px solid var(--pass-p);border-radius:8px;background:var(--pass-p-lt)">
+              <input type="checkbox" id="kp_p" checked style="accent-color:var(--pass-p)">
+              <span style="font-size:12px;font-weight:700;color:#9A6000">계획(P)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;border:1px solid var(--pass-a);border-radius:8px;background:var(--pass-a-lt)">
+              <input type="checkbox" id="kp_a" checked style="accent-color:var(--pass-a)">
+              <span style="font-size:12px;font-weight:700;color:var(--purple)">주의(A)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;border:1px solid var(--pass-s);border-radius:8px;background:var(--pass-s-lt)">
+              <input type="checkbox" id="kp_s" checked style="accent-color:var(--pass-s)">
+              <span style="font-size:12px;font-weight:700;color:#276749">동시처리(S)</span>
+            </label>
+            <label style="display:flex;align-items:center;gap:6px;cursor:pointer;padding:7px 12px;border:1px solid var(--pass-su);border-radius:8px;background:var(--pass-su-lt)">
+              <input type="checkbox" id="kp_su" checked style="accent-color:var(--pass-su)">
+              <span style="font-size:12px;font-weight:700;color:var(--blue)">순차처리(SU)</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-bottom:14px">
+          <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px">교안 옵션 선택</div>
+          <div class="option-cards">
+            <div class="option-card" id="opt-A" onclick="selectOption('A')"><div class="opt-icon">🎨</div><div class="opt-title">옵션 A — 활동 중심형</div><div class="opt-desc">그림·놀이·체험 위주<br>우뇌우세 그룹 주도</div></div>
+            <div class="option-card selected" id="opt-B" onclick="selectOption('B')"><div class="opt-icon">⚖️</div><div class="opt-title">옵션 B — 균형 혼합형</div><div class="opt-desc">강점 활용 + 약점 보완<br>전체 학급 표준</div><div class="opt-badge">★ 추천</div></div>
+            <div class="option-card" id="opt-C" onclick="selectOption('C')"><div class="opt-icon">📐</div><div class="opt-title">옵션 C — 구조화형</div><div class="opt-desc">단계·순서 중심<br>좌뇌우세 그룹 주도</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-primary btn-lg" onclick="generateLesson()">✨ K-PASS 교안 + 발문 생성</button>
+          <button class="btn btn-pexels" onclick="generateWorksheetImages()">🖼️ AI 활동지 이미지 생성</button>
+          <button class="btn btn-outline" onclick="printLesson()">🖨️ 인쇄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI 활동지 이미지 생성 패널 -->
+    <div id="ws-image-panel" style="display:none;margin-bottom:20px">
+      <div class="card">
+        <div class="card-header" style="background:linear-gradient(135deg,var(--pexels-lt),var(--blue-lt))">
+          <span style="font-size:18px">🖼️</span>
+          <h3 style="color:var(--gray-800)">AI 활동지 이미지 생성</h3>
+          <span style="margin-left:auto;background:var(--pexels);color:white;font-size:10px;font-weight:800;padding:3px 8px;border-radius:5px">PEXELS</span>
+        </div>
+        <div class="card-body">
+
+          <!-- Pexels API 키 내장 — UI 숨김 -->
+          <div id="ws-key-area" style="display:none">
+            <input type="hidden" id="ws-pexels-key" value="">
+            <div id="ws-key-status"></div>
+          </div>
+
+          <!-- 교안 기반 자동 키워드 -->
+          <div id="ws-img-keyword-area" style="margin-bottom:14px">
+            <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:8px">📌 교안 내용 기반 자동 키워드</div>
+            <div id="ws-auto-keywords" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px">
+              <span style="font-size:12px;color:var(--gray-400)">교안을 먼저 생성하면 자동으로 키워드가 추천됩니다</span>
+            </div>
+            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+              <input type="text" id="ws-img-search" class="form-control" placeholder="직접 검색어 입력 (예: spring flowers children)" style="flex:1;min-width:200px" onkeydown="if(event.key==='Enter') wsSearchImages()">
+              <button class="btn btn-pexels" id="ws-search-btn" onclick="wsSearchImages()">🔍 이미지 검색</button>
+              <button class="btn btn-outline btn-sm" onclick="wsAutoSearch()">✨ 자동 검색</button>
+            </div>
+          </div>
+
+          <!-- 그룹별 이미지 슬롯 안내 -->
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px">
+            <div id="ws-slot-A" class="ws-img-slot" onclick="wsSetActiveSlot('A')" style="border:2px dashed var(--blue);border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:var(--blue-lt);transition:all 0.2s">
+              <div style="font-size:11px;font-weight:700;color:var(--blue);margin-bottom:4px">그룹 A</div>
+              <div style="font-size:10px;color:var(--gray-400)">우뇌우세</div>
+              <div id="ws-slot-A-img" style="margin-top:6px;height:50px;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:10px">이미지 없음</div>
+            </div>
+            <div id="ws-slot-B" class="ws-img-slot" onclick="wsSetActiveSlot('B')" style="border:2px dashed var(--success);border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:var(--pass-s-lt);transition:all 0.2s">
+              <div style="font-size:11px;font-weight:700;color:var(--success);margin-bottom:4px">그룹 B</div>
+              <div style="font-size:10px;color:var(--gray-400)">밸런스</div>
+              <div id="ws-slot-B-img" style="margin-top:6px;height:50px;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:10px">이미지 없음</div>
+            </div>
+            <div id="ws-slot-C" class="ws-img-slot" onclick="wsSetActiveSlot('C')" style="border:2px dashed var(--purple);border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:var(--purple-lt);transition:all 0.2s">
+              <div style="font-size:11px;font-weight:700;color:var(--purple);margin-bottom:4px">그룹 C</div>
+              <div style="font-size:10px;color:var(--gray-400)">좌뇌우세</div>
+              <div id="ws-slot-C-img" style="margin-top:6px;height:50px;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:10px">이미지 없음</div>
+            </div>
+            <div id="ws-slot-PREP" class="ws-img-slot" onclick="wsSetActiveSlot('PREP')" style="border:2px dashed var(--orange);border-radius:10px;padding:10px;text-align:center;cursor:pointer;background:var(--orange-lt);transition:all 0.2s">
+              <div style="font-size:11px;font-weight:700;color:var(--orange);margin-bottom:4px">PREP</div>
+              <div style="font-size:10px;color:var(--gray-400)">소그룹</div>
+              <div id="ws-slot-PREP-img" style="margin-top:6px;height:50px;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:10px">이미지 없음</div>
+            </div>
+          </div>
+          <div id="ws-active-slot-label" style="font-size:12px;color:var(--pexels);font-weight:700;margin-bottom:10px;display:none">
+            ✅ 선택한 그룹: <span id="ws-slot-name"></span> — 아래 이미지를 클릭하면 해당 그룹에 배정됩니다
+          </div>
+
+          <!-- Pexels 검색 결과 그리드 -->
+          <div id="ws-img-grid" class="img-grid" style="min-height:120px">
+            <div class="img-placeholder"><span class="big-icon">🖼️</span>검색 버튼을 누르거나 자동 검색을 실행하세요</div>
+          </div>
+
+          <!-- 생성 버튼 -->
+          <div style="display:flex;gap:10px;margin-top:14px;padding-top:14px;border-top:1px solid var(--gray-100)">
+            <button class="btn btn-primary" onclick="generateWorksheetWithImages()">📄 이미지 포함 활동지 생성</button>
+            <button class="btn btn-outline" onclick="window.print()">🖨️ 인쇄</button>
+            <div style="margin-left:auto;font-size:11px;color:var(--gray-400);display:flex;align-items:center">
+              Photos provided by <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels);font-weight:700;margin-left:4px">Pexels</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 활동지 출력 영역 -->
+      <div id="ws-with-images-output" style="margin-top:16px"></div>
+    </div>
+
+    <div id="lesson-output"></div>
+  </div>
+
+  <!-- ③  활동 평가 -->
+  <div id="sec-evaluation" class="page-section">
+    <div class="section-header"><div><h2>✅ 활동 평가</h2><p>체크리스트 1~5점 평가 → 자동 집계 → 정부 제출용 연동</p></div><button class="btn btn-success" onclick="saveEval()">💾 평가 저장</button></div>
+    <div class="notice notice-info">📌 교안에서 자동 생성된 평가 항목입니다. 각 항목을 1~5점으로 체크하면 정성·정량 평가가 동시에 완성됩니다.</div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-group"><label>평가 날짜</label><input type="date" class="form-control" id="eval-date" value="2026-04-13"></div>
+      <div class="form-group"><label>학생</label><select class="form-control" id="eval-student" onchange="loadEvalForStudent()"><option value="">-- 학생 선택 --</option></select></div>
+      <div class="form-group"><label>활동명</label><input type="text" class="form-control" id="eval-activity" placeholder="예: 봄꽃 관찰하기" style="width:200px"></div>
+      <div class="form-group"><label>평가 방법</label><select class="form-control" id="eval-method" onchange="renderEvalChecklist()"><option value="observe">관찰평가</option><option value="activity">활동결과물</option><option value="verbal">구술평가</option><option value="portfolio">포트폴리오</option></select></div>
+      <button class="btn btn-primary" onclick="calcEvalSummary()">📊 점수 집계</button>
+    </div>
+    <div class="grid-2">
+      <div class="card"><div id="qual-eval-container"></div></div>
+      <div>
+        <div class="card" style="margin-bottom:14px"><div class="card-header"><span>📊</span><h3>평가 결과 요약</h3></div><div class="card-body" id="eval-summary"><div style="color:var(--gray-400);font-size:13px;text-align:center;padding:20px">점수를 입력하고 [점수 집계]를 누르세요</div></div></div>
+        <div class="form-group" style="margin-bottom:10px"><label>교사 메모</label><textarea class="form-control" id="eval-memo" rows="3" placeholder="특이사항, 추가 관찰 내용..." style="width:100%;resize:vertical"></textarea></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:18px"><div class="card-header"><span>📋</span><h3>전체 평가 현황</h3></div><div class="card-body" style="padding:0"><table class="data-table"><thead><tr><th>학생</th><th>활동</th><th>날짜</th><th>신체</th><th>언어</th><th>사회</th><th>예술</th><th>자연</th><th>K-PASS</th><th>종합</th><th>수준</th></tr></thead><tbody id="class-eval-body"><tr><td colspan="11" style="text-align:center;color:var(--gray-400);padding:20px">저장된 평가가 없습니다</td></tr></tbody></table></div></div>
+  </div>
+
+  <!-- ④  관찰 기록 -->
+  <div id="sec-observation" class="page-section">
+    <div class="section-header"><div><h2>👁 유아 관찰 기록</h2><p>활동 중 실시간 관찰 → K-PASS 축 태그 → 자동 누적</p></div></div>
+    <div class="grid-2">
+      <div>
+        <div class="card">
+          <div class="card-header"><span>✏️</span><h3>새 관찰 기록</h3></div>
+          <div class="card-body">
+            <div class="form-row">
+              <div class="form-group"><label>학생</label><select class="form-control" id="obs-student"></select></div>
+              <div class="form-group"><label>날짜</label><input type="date" class="form-control" id="obs-date" value="2026-04-13"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-group" style="flex:1"><label>K-PASS 축</label><select class="form-control" id="obs-pass"><option value="전체">전체</option><option value="동시처리">동시처리</option><option value="순차처리">순차처리</option><option value="계획력">계획력</option><option value="주의력">주의력</option></select></div>
+              <div class="form-group" style="flex:1"><label>관찰 영역</label><select class="form-control" id="obs-area"><option>신체</option><option>의사소통</option><option>사회관계</option><option>예술경험</option><option>자연탐구</option></select></div>
+            </div>
+            <div style="font-size:12px;font-weight:700;color:var(--gray-500);margin-bottom:6px">빠른 입력 문장</div>
+            <div class="obs-quick-btns">
+              <button class="obs-quick-btn" onclick="addQuickObs('주의 집중 시간이 또래 대비 길게 유지됨')">주의집중 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('순서에 맞게 단계별 활동을 수행함')">순서 수행 양호</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('교사의 발문에 적극적으로 반응하며 발표함')">발문 반응 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('그림을 통해 전체 맥락을 파악하는 능력이 돋보임')">동시처리 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('활동 목표를 스스로 설정하고 완수하려는 경향을 보임')">계획력 발달</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('친구와의 상호작용이 자연스러우며 협력적임')">사회성 우수</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('집중 유지에 어려움을 보여 개별 지원 필요')">집중 지원 필요</button>
+              <button class="obs-quick-btn" onclick="addQuickObs('도움 없이 스스로 활동을 마무리함')">자립적 완수</button>
+            </div>
+            <textarea class="form-control" id="obs-text" rows="4" placeholder="관찰 내용을 입력하거나 위 버튼을 활용하세요..." style="width:100%;resize:vertical;margin-top:8px"></textarea>
+            <button class="btn btn-primary" onclick="saveObs()" style="margin-top:10px;width:100%">💾 관찰 기록 저장</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="card">
+          <div class="card-header"><span>📜</span><h3>관찰 기록 이력</h3><select class="form-control" id="obs-filter-student" onchange="renderObsHistory()" style="width:110px;margin-left:auto;font-size:12px"><option value="">전체 학생</option></select></div>
+          <div class="card-body" id="obs-history-panel" style="max-height:400px;overflow-y:auto"><div style="color:var(--gray-400);font-size:13px;text-align:center;padding:20px">관찰 기록이 없습니다</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ⑤  성장 분석 -->
+  <div id="sec-growth" class="page-section">
+    <div class="section-header"><div><h2>📈 성장 분석</h2><p>PASS 이론 연구 기반 · 3개월·6개월·1년 성장 추적</p></div></div>
+    <div class="notice notice-info" style="margin-bottom:18px">★ 연구 근거: Naglieri & Johnson(2000) — 21회기(3개월) 계획력 변화 · Carlson & Das(1997) — 6개월 PREP 효과 · CAS2 Manual — K-PASS 재검사 12개월 권장</div>
+    <div class="card" style="margin-bottom:18px">
+      <div class="card-header"><span>📅</span><h3>연간 성장 체크포인트</h3></div>
+      <div class="card-body">
+        <div style="display:flex;gap:0;align-items:center;overflow-x:auto;padding:10px 0">
+          <div style="text-align:center;flex:1"><div style="width:42px;height:42px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">K</div><div style="font-size:11px;margin-top:6px;font-weight:700">3월</div><div style="font-size:10px;color:var(--gray-400)">K-PASS 초기</div></div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1"><div style="width:42px;height:42px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">✓</div><div style="font-size:11px;margin-top:6px;font-weight:700">6월</div><div style="font-size:10px;color:var(--gray-400)">3개월 체크</div></div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1"><div style="width:42px;height:42px;background:var(--orange);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">M</div><div style="font-size:11px;margin-top:6px;font-weight:700">9월</div><div style="font-size:10px;color:var(--gray-400)">6개월 분석</div></div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1"><div style="width:42px;height:42px;background:var(--success);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">✓</div><div style="font-size:11px;margin-top:6px;font-weight:700">12월</div><div style="font-size:10px;color:var(--gray-400)">관찰기록</div></div>
+          <div style="flex:2;height:2px;background:var(--gray-200)"></div>
+          <div style="text-align:center;flex:1"><div style="width:42px;height:42px;background:var(--blue);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-weight:800;font-size:12px;margin:0 auto">K</div><div style="font-size:11px;margin-top:6px;font-weight:700">2월</div><div style="font-size:10px;color:var(--gray-400)">1년 비교</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card"><div class="card-header"><span>👶</span><h3>학생 성장 조회</h3></div><div class="card-body"><div class="form-row"><div class="form-group"><label>학생</label><select class="form-control" id="growth-student"></select></div><div class="form-group"><label>분석 기간</label><select class="form-control" id="growth-period"><option>3개월 행동 체크</option><option>6개월 중간 분석</option><option>1년 종합 성장</option></select></div><button class="btn btn-primary" onclick="showGrowthAnalysis()">분석 보기</button></div><div id="growth-output" style="margin-top:14px"></div></div></div>
+  </div>
+
+  <!-- ⑥  학부모 상담자료 -->
+  <div id="sec-parent" class="page-section">
+    <div class="section-header"><div><h2>👨‍👩‍👧 학부모 발달평가 출력</h2><p>관찰 기록 + 평가 결과 → A4 보고서 자동생성</p></div><button class="btn btn-success" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button></div>
+    <div class="form-row" style="margin-bottom:18px">
+      <div class="form-group"><label>학생</label><select class="form-control" id="parent-student" onchange="generateParentPreview()"></select></div>
+      <div class="form-group"><label>학년도</label><select class="form-control" id="parent-year"><option>2025</option><option selected>2026</option></select></div>
+      <div class="form-group"><label>기간</label><select class="form-control" id="parent-period" onchange="generateParentPreview()"><option>3개월</option><option>6개월</option><option>1년</option></select></div>
+    </div>
+    <div id="parent-preview-area"><div style="text-align:center;color:var(--gray-400);padding:40px;background:white;border-radius:var(--radius)">학생과 기간을 선택하면 미리보기가 표시됩니다</div></div>
+  </div>
+
+  <!-- ⑦  정부기관 제출용 -->
+  <div id="sec-gov-report" class="page-section">
+    <div class="section-header"><div><h2>🏛️ 정부기관 제출용 보고서</h2><p>평가 데이터 자동 취합 → 어린이집/유치원 평가인증 보고서 형식 출력</p></div><button class="btn btn-success no-print" onclick="window.print()">🖨️ PDF 출력</button></div>
+    <div class="notice notice-warn" style="margin-bottom:18px">📋 <strong>지원 서식:</strong> 어린이집 평가인증 3주기 교육과정 운영 서류 · 유치원 자체평가 보고서 · 누리과정 운영 계획 기록지</div>
+    <div class="form-row" style="margin-bottom:18px">
+      <div class="form-group"><label>보고서 종류</label><select class="form-control" id="gov-type"><option value="curriculum">누리과정 운영 기록지</option><option value="eval3">어린이집 평가인증 3주기</option><option value="self">유치원 자체평가 보고서</option><option value="monthly">월별 교육활동 보고서</option></select></div>
+      <div class="form-group"><label>기준 기간</label><select class="form-control" id="gov-period"><option>2026년 1분기 (1월~3월)</option><option selected>2026년 2분기 (4월~6월)</option><option>2026년 3분기 (7월~9월)</option><option>2026년 4분기 (10월~12월)</option></select></div>
+      <button class="btn btn-primary" onclick="generateGovReport()">📄 보고서 생성</button>
+    </div>
+    <div id="gov-report-output"></div>
+  </div>
+
+  <!-- ⑧  생활기록부 -->
+  <div id="sec-life-record" class="page-section">
+    <div class="section-header"><div><h2>📋 생활기록부</h2><p>관찰 기록 + 평가 자동 종합 → 생활기록부 서술 자동생성</p></div><button class="btn btn-success" onclick="window.print()">🖨️ 출력</button></div>
+    <div class="form-row" style="margin-bottom:18px">
+      <div class="form-group"><label>학생</label><select class="form-control" id="life-student" onchange="generateLifeRecord()"></select></div>
+      <div class="form-group"><label>학년도</label><select class="form-control"><option selected>2026</option><option>2025</option></select></div>
+      <button class="btn btn-primary" onclick="generateLifeRecord()">📝 서술 자동생성</button>
+    </div>
+    <div id="life-record-output"></div>
+  </div>
+
+  <!-- ⑨  그림책 큐레이션 -->
+  <div id="sec-books" class="page-section">
+    <div class="section-header"><div><h2>📚 그림책 큐레이션</h2><p>월별 주제 × 뇌유형별 맞춤 추천 — PASS 이론 연계</p></div></div>
+    <div class="form-row" style="margin-bottom:18px"><div class="form-group"><label>월 선택</label><select class="form-control" id="book-month" onchange="renderBooks()"><option value="3">3월 — 나와 친구</option><option value="4" selected>4월 — 봄과 생명</option><option value="5">5월 — 가족과 공동체</option><option value="6">6월 — 여름과 건강</option></select></div></div>
+    <div id="book-output"></div>
+  </div>
+
+  <!-- ⑩  준비물 취합 -->
+  <div id="sec-supplies" class="page-section">
+    <div class="section-header"><div><h2>🛒 준비물 자동 취합</h2><p>교안 선택 → 시점별 분류 체크리스트 자동 생성</p></div><button class="btn btn-outline no-print" onclick="window.print()">🖨️ 인쇄</button></div>
+    <div class="card" style="margin-bottom:18px"><div class="card-body"><div class="form-row">
+      <div class="form-group"><label>월</label><select class="form-control" id="sup-month"><option value="3">3월</option><option value="4" selected>4월</option><option value="5">5월</option></select></div>
+      <div class="form-group"><label>주차</label><select class="form-control" id="sup-week"><option>1주차</option><option>2주차</option><option selected>3주차</option><option>4주차</option></select></div>
+      <div class="form-group"><label>학생 수</label><input type="number" class="form-control" id="sup-count" value="9" min="1" max="40" style="width:80px"></div>
+      <button class="btn btn-primary" onclick="generateSupplies()">📋 체크리스트 생성</button>
+    </div></div></div>
+    <div id="supplies-output"></div>
+  </div>
+
+  <!-- ⑪  활동지 출력 -->
+  <div id="sec-worksheet" class="page-section">
+    <div class="section-header"><div><h2>🖨️ 그룹별 활동지</h2><p>탭 선택 후 인쇄 → 배부</p></div></div>
+    <div class="form-row" style="margin-bottom:14px">
+      <div class="form-group"><label>월</label><select class="form-control" id="ws-month"><option value="3">3월</option><option value="4" selected>4월</option><option value="5">5월</option></select></div>
+      <div class="form-group"><label>주차</label><select class="form-control" id="ws-week"><option>1주차</option><option>2주차</option><option selected>3주차</option><option>4주차</option></select></div>
+      <button class="btn btn-primary" onclick="generateWorksheet()">활동지 생성</button>
+    </div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this,'ws-a')">그룹 A (우뇌우세)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-b')">그룹 B (밸런스)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-c')">그룹 C (좌뇌우세)</button>
+      <button class="tab-btn" onclick="switchTab(this,'ws-prep')">PREP 소그룹</button>
+    </div>
+    <div id="ws-a" class="tab-pane active" style="min-height:100px;color:var(--gray-400);font-size:13px;padding:20px;background:white;border-radius:var(--radius)">위에서 월·주차를 선택하고 [활동지 생성]을 누르세요.</div>
+    <div id="ws-b" class="tab-pane" style="min-height:100px;background:white;border-radius:var(--radius)"></div>
+    <div id="ws-c" class="tab-pane" style="min-height:100px;background:white;border-radius:var(--radius)"></div>
+    <div id="ws-prep" class="tab-pane" style="min-height:100px;background:white;border-radius:var(--radius)"></div>
+  </div>
+
+</main>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     SCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ── 전역 상태 ──
+let selectedImages = [];
+let evalData = {};
+let obsData = [];
+let savedEvals = [];
+let selectedOption = 'B';
+let scores = {};
+
+// ── Toast ──
+function showToast(msg, type='') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `toast ${type} show`;
+  setTimeout(() => t.className = 'toast', 2800);
+}
+
+// ── 학생 데이터 (샘플 — 5~7세 고루 분포) ──
+const STUDENTS = [
+  { name:'이준호', age:7, type:'우뇌우세',   sim:68, seq:52, plan:61, att:80, weak:'순차처리', note:'' },
+  { name:'김서연', age:5, type:'좌우뇌균형', sim:58, seq:65, plan:55, att:72, weak:'계획력',   note:'' },
+  { name:'박민아', age:6, type:'좌뇌우세',   sim:28, seq:25, plan:22, att:30, weak:'전체',     note:'⚠ 집중지원' },
+  { name:'최도현', age:7, type:'우뇌우세',   sim:75, seq:48, plan:70, att:85, weak:'순차처리', note:'' },
+  { name:'정수아', age:5, type:'좌우뇌균형', sim:62, seq:60, plan:58, att:68, weak:'계획력',   note:'' },
+  { name:'한지민', age:6, type:'우뇌우세',   sim:72, seq:45, plan:65, att:78, weak:'순차처리', note:'' },
+  { name:'오서준', age:7, type:'좌우뇌균형', sim:55, seq:70, plan:50, att:65, weak:'계획력',   note:'' },
+  { name:'윤채원', age:5, type:'좌뇌우세',   sim:45, seq:72, plan:48, att:60, weak:'동시처리', note:'' },
+  { name:'임태양', age:6, type:'우뇌우세',   sim:70, seq:40, plan:68, att:82, weak:'순차처리', note:'' },
+];
+// 연령 분포: 5세 3명(김서연·정수아·윤채원) / 6세 3명(박민아·한지민·임태양) / 7세 3명(이준호·최도현·오서준)
+
+// ── 네비게이션 ──
+const sectionTitles = {
+  dashboard:'학급 현황 대시보드', lesson:'교안 + K-PASS 발문 스크립트 자동생성',
+  evaluation:'활동 평가 (체크리스트)', observation:'유아 관찰 기록',
+  growth:'성장 분석', parent:'학부모 발달평가 출력',
+  'gov-report':'정부기관 제출용 보고서', 'life-record':'생활기록부',
+  books:'그림책 큐레이션', supplies:'준비물 자동 취합', worksheet:'그룹별 활동지 출력',
+};
+
+function showSection(id) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.querySelector(`[onclick="showSection('${id}')"]`)?.classList.add('active');
+  document.getElementById('topbar-title').textContent = sectionTitles[id] || id;
+}
+
+// ── 초기화 ──
+window.onload = () => {
+  try { renderStudentTable(); } catch(e) { console.error('renderStudentTable:', e); }
+  try { populateSelects(); } catch(e) { console.error('populateSelects:', e); }
+  try { renderBooks(); } catch(e) { console.error('renderBooks:', e); }
+  try { generateGovReport(); } catch(e) { console.error('generateGovReport:', e); }
+  try { renderEvalChecklist(); } catch(e) { console.error('renderEvalChecklist:', e); }
+  try { generateWorksheet(); } catch(e) { console.error('generateWorksheet:', e); }
+  try { generateSupplies(); } catch(e) { console.error('generateSupplies:', e); }
+};
+
+function populateSelects() {
+  const ids = ['eval-student','obs-student','obs-filter-student','parent-student','growth-student','life-student'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const addEmpty = ['eval-student','obs-filter-student'].includes(id);
+    el.innerHTML = addEmpty ? '<option value="">-- 학생 선택 --</option>' : '';
+    STUDENTS.forEach(s => el.innerHTML += `<option value="${s.name}">${s.name} (${s.age}세)</option>`);
+  });
+  generateParentPreview();
+  generateLifeRecord();
+}
+
+// ── 학생 테이블 ──
+function renderStudentTable() {
+  document.getElementById('student-table-body').innerHTML = STUDENTS.map(s => {
+    const typeTag = s.type==='우뇌우세'?'tag-blue':s.type==='좌뇌우세'?'tag-purple':'tag-green';
+    const noteTag = s.note ? `<span class="tag tag-red" style="font-size:10px">${s.note}</span>` : '';
+    return `<tr onclick="showSection('observation')" style="cursor:pointer">
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar avatar-blue">${s.name[0]}</div>${s.name}</div></td>
+      <td>${s.age}세</td>
+      <td><span class="tag ${typeTag}">${s.type}</span></td>
+      <td>${scoreBar(s.sim)}</td><td>${scoreBar(s.seq)}</td><td>${scoreBar(s.plan)}</td><td>${scoreBar(s.att)}</td>
+      <td><span class="tag tag-orange" style="font-size:10px">${s.weak}</span></td>
+      <td>${noteTag}</td>
+    </tr>`;
+  }).join('');
+}
+
+function scoreBar(pct) {
+  const c = pct>=70?'var(--success)':pct>=50?'var(--orange)':'var(--danger)';
+  return `<div style="display:flex;align-items:center;gap:6px"><div style="width:58px;height:6px;background:var(--gray-200);border-radius:3px;overflow:hidden"><div style="width:${pct}%;height:100%;background:${c};border-radius:3px"></div></div><span style="font-size:12px;color:var(--gray-400)">${pct}%</span></div>`;
+}
+
+function selectOption(opt) {
+  selectedOption = opt;
+  ['A','B','C'].forEach(o => document.getElementById('opt-'+o).classList.toggle('selected', o===opt));
+}
+
+// ═══════════════════════════════════════════
+//  PEXELS API
+// ═══════════════════════════════════════════
+// Pexels API 키 가져오기 (input type=password도 value 정상 동작)
+// ── Pexels API 키 (내장) ──
+const PEXELS_API_KEY = '61X7NRIo2Of7kfYO7ILZWYZFdSXnUhJrhmevrR36X9jpx5hkfLobMWxV';
+
+function getPexelsKey() {
+  // 내장 키 우선, 없으면 사이드바 입력값
+  return PEXELS_API_KEY || document.getElementById('pexelsKey').value.trim();
+}
+
+async function testPexels() {
+  const key = getPexelsKey();
+  if (!key) { showToast('Pexels API 키를 입력하세요', 'err'); return; }
+  const okEl  = document.getElementById('pexelsOk');
+  const errEl = document.getElementById('pexelsErr');
+  okEl.style.display = 'none';
+  errEl.style.display = 'none';
+  errEl.textContent = '확인 중...';
+  errEl.style.display = 'inline';
+
+  try {
+    const r = await fetch('https://api.pexels.com/v1/search?query=spring&per_page=1', {
+      headers: { 'Authorization': key }
+    });
+    if (r.ok) {
+      okEl.style.display = 'inline';
+      errEl.style.display = 'none';
+      showToast('Pexels 연결 성공! ✓', 'ok');
+    } else {
+      const msg = r.status === 401 ? '키가 올바르지 않습니다' : `오류 ${r.status}`;
+      errEl.textContent = `✗ ${msg}`;
+      showToast(`Pexels 오류: ${msg}`, 'err');
+    }
+  } catch(e) {
+    errEl.textContent = '✗ 네트워크 오류';
+    showToast('네트워크 오류 — 인터넷 연결을 확인하세요', 'err');
+  }
+}
+
+function qs(q) { document.getElementById('imgSearch').value = q; searchImages(q); }
+
+async function searchImages(query) {
+  const key = getPexelsKey();
+  const q = (typeof query === 'string' ? query : null) || document.getElementById('imgSearch').value.trim();
+  if (!q) { showToast('검색어를 입력하세요'); return; }
+
+  const grid = document.getElementById('imageGrid');
+  grid.className = 'img-grid loading';
+  grid.innerHTML = `<div style="text-align:center"><div style="width:32px;height:32px;border:3px solid var(--gray-200);border-top-color:var(--pexels);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 8px"></div><div style="font-size:12px;color:var(--gray-400)">"${q}" 검색 중...</div></div>`;
+
+  const btn = document.getElementById('imgSearchBtn');
+  btn.disabled = true;
+  btn.textContent = '검색 중...';
+
+  try {
+    const url = `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=18&orientation=landscape&locale=ko-KR`;
+    const r = await fetch(url, {
+      headers: { 'Authorization': key }
+    });
+
+    if (r.status === 401) {
+      grid.className = 'img-grid';
+      grid.innerHTML = '<div class="img-placeholder"><span class="big-icon">🔑</span>API 키가 올바르지 않습니다<br><span style="font-size:11px">pexels.com/api 에서 키를 확인해주세요</span></div>';
+      showToast('Pexels API 키 오류 (401)', 'err');
+      return;
+    }
+
+    if (!r.ok) throw new Error(`HTTP ${r.status}`);
+    const data = await r.json();
+
+    grid.className = 'img-grid';
+
+    if (!data.photos || data.photos.length === 0) {
+      // 한국어 검색 결과 없으면 영어로 재시도 안내
+      grid.innerHTML = `<div class="img-placeholder"><span class="big-icon">🔍</span>"${q}" 검색 결과가 없어요<br><span style="font-size:11px;margin-top:4px;display:block">영어 키워드로 검색해보세요 (예: spring flower)</span></div>`;
+      return;
+    }
+
+    grid.innerHTML = '';
+    data.photos.forEach((p, i) => {
+      const isSel = selectedImages.find(s => s.id == p.id);
+      const safeAlt = (p.alt || q).replace(/'/g, "\\'").replace(/"/g, '&quot;');
+      const safePhotog = p.photographer.replace(/'/g, "\\'");
+      const card = document.createElement('div');
+      card.className = `img-card fade-up${isSel ? ' selected' : ''}`;
+      card.style.animationDelay = `${i * 0.04}s`;
+      card.dataset.id = p.id;
+      card.innerHTML = `
+        <img src="${p.src.medium}" alt="${p.alt || q}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'200\' height=\'150\'><rect fill=\'%23f0f2f6\'/><text x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' fill=\'%2398a3b5\' dy=\'.3em\'>이미지 없음</text></svg>'">
+        <div class="img-overlay">
+          <button class="ovl-btn ovl-select" onclick="toggleImg(event,${p.id},'${p.src.medium}','${p.src.large || p.src.medium}','${safePhotog}','${safeAlt}')">
+            ${isSel ? '✓ 선택됨' : '+ 선택'}
+          </button>
+          <a href="${p.url}" target="_blank" class="ovl-btn ovl-open" onclick="event.stopPropagation()" style="text-decoration:none">🔗 원본 보기</a>
+        </div>
+        <div class="img-photo-credit">📷 ${p.photographer}</div>`;
+      grid.appendChild(card);
+    });
+
+    showToast(`${data.photos.length}장 검색됨 ✓`, 'ok');
+
+  } catch(e) {
+    grid.className = 'img-grid';
+    grid.innerHTML = `<div class="img-placeholder"><span class="big-icon">⚠️</span>검색 실패: ${e.message}<br><span style="font-size:11px">인터넷 연결 또는 API 키를 확인해주세요</span></div>`;
+    showToast(`이미지 검색 실패: ${e.message}`, 'err');
+    console.error('Pexels search error:', e);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '🔍 검색';
+  }
+}
+
+// Pexels 키 입력 시 상태 리셋
+function onPexelsKeyInput() {
+  document.getElementById('pexelsOk').style.display = 'none';
+  document.getElementById('pexelsErr').style.display = 'none';
+}
+
+function toggleImg(e, id, url, large, photographer, alt) {
+  e.stopPropagation();
+  const idx = selectedImages.findIndex(s => s.id==id);
+  if (idx>=0) { selectedImages.splice(idx,1); showToast('이미지 선택 해제'); }
+  else {
+    if (selectedImages.length>=6) { showToast('최대 6장까지 선택 가능', 'err'); return; }
+    selectedImages.push({id,url,large,photographer,alt});
+    showToast('이미지 선택됨 ✓', 'ok');
+  }
+  document.querySelectorAll('.img-card').forEach(c => {
+    const sel = selectedImages.find(s=>s.id==c.dataset.id);
+    c.classList.toggle('selected',!!sel);
+    const btn = c.querySelector('.ovl-select');
+    if (btn) btn.textContent = sel?'✓ 선택됨':'+ 선택';
+  });
+  updateImgCount();
+  renderStrip();
+}
+
+function clearSelectedImages() { selectedImages=[]; renderStrip(); updateImgCount(); document.querySelectorAll('.img-card').forEach(c=>{c.classList.remove('selected');const b=c.querySelector('.ovl-select');if(b)b.textContent='+ 선택';}); }
+
+function updateImgCount() {
+  const el = document.getElementById('pexels-img-count');
+  el.textContent = selectedImages.length>0 ? `${selectedImages.length}장 선택됨` : '';
+}
+
+function renderStrip() {
+  const wrap = document.getElementById('selectedStripWrap');
+  const strip = document.getElementById('selectedStrip');
+  if (!selectedImages.length) { wrap.classList.remove('visible'); return; }
+  wrap.classList.add('visible');
+  strip.innerHTML = selectedImages.map(img=>`
+    <div class="sel-thumb">
+      <img src="${img.url}" alt="${img.alt}">
+      <button class="rm-btn" onclick="removeImg(${img.id})">✕</button>
+    </div>`).join('');
+}
+
+function removeImg(id) { selectedImages=selectedImages.filter(s=>s.id!=id); renderStrip(); updateImgCount(); document.querySelectorAll('.img-card').forEach(c=>{const sel=selectedImages.find(s=>s.id==c.dataset.id);c.classList.toggle('selected',!!sel);const b=c.querySelector('.ovl-select');if(b)b.textContent=sel?'✓ 선택됨':'+ 선택';}); }
+
+// ═══════════════════════════════════════════
+//  K-PASS 강화 교안 생성
+// ═══════════════════════════════════════════
+const MONTHLY_THEMES = {
+  3:{theme:'나와 친구',sub:'봄 맞이 · 새 친구',activities:['나를 소개해요','친구와 인사해요','우리 반 규칙 만들기']},
+  4:{theme:'봄과 생명',sub:'꽃 · 씨앗 · 새싹',activities:['봄꽃 관찰하기','씨앗 심기와 관찰 일지','봄 소풍 준비하기']},
+  5:{theme:'가족과 공동체',sub:'가족 · 이웃 · 어린이날',activities:['가족 소개하기','이웃을 도와요','어린이날 행사 준비']},
+  6:{theme:'여름과 건강',sub:'여름 날씨 · 건강',activities:['건강한 음식 알기','여름 날씨 이야기','물과 청결']},
+  9:{theme:'가을과 추수',sub:'단풍 · 열매',activities:['가을 낙엽 관찰','열매와 씨앗','추수 감사']},
+  12:{theme:'겨울과 축제',sub:'눈 · 추위',activities:['겨울 날씨 이야기','눈 결정 관찰','한 해 마무리']},
+};
+
+const SUBJECT_LABELS = {nuri:'누리과정',language:'언어',math:'수·조작',art:'미술',music:'음악',outdoor:'바깥놀이'};
+const TYPE_LABELS = {large:'대그룹',small:'소그룹',individual:'개별',free:'자유선택'};
+const OPTION_DESC = {
+  A:{style:'활동 중심형',focus:'우뇌우세 그룹 주도',prepare:'그림카드, 물감, 자유 표현 재료'},
+  B:{style:'균형 혼합형',focus:'전체 학급 균형',prepare:'다양한 자료, 구조화+개방형 혼합'},
+  C:{style:'구조화형',focus:'단계·순서 명확',prepare:'단계별 워크시트, 번호 카드'},
+};
+
+// K-PASS 발문 데이터베이스
+const KPASS_QUESTIONS = {
+  도입: {
+    P: [
+      { q:'"오늘 어떤 걸 할 것 같아요? 우리가 뭘 만들게 될까요?"', tip:'선택→예측 발문으로 계획력 자극' },
+      { q:'"오늘 활동을 잘하려면 제일 먼저 뭘 준비해야 할까요?"', tip:'메타인지 유도 — 목표 설정 연습' },
+    ],
+    A: [
+      { q:'"이 사진에서 가장 먼저 눈에 띄는 게 뭐예요? 자세히 볼까요?"', tip:'특정 자극 집중 → 관찰발문' },
+      { q:'"색깔·모양·크기를 하나씩 천천히 살펴봐요 — 뭐가 보여요?"', tip:'감각 세부 요소별 주의 유도' },
+    ],
+    S: [
+      { q:'"봄 사진 전체를 보면 어떤 느낌이 들어요? 어떤 계절 같아요?"', tip:'전체 맥락 인식 → 동시처리 활성화' },
+      { q:'"이 그림에서 살아있는 것과 살아있지 않은 것을 나눠볼까요?"', tip:'전체 패턴 분류 — 동시처리 강화' },
+    ],
+    SU: [
+      { q:'"봄이 오면 어떤 순서로 변화가 일어날까요? 첫 번째는요?"', tip:'순서 언어화 → 순차처리 발문' },
+      { q:'"선생님이 말하는 순서대로 따라해봐요 — 먼저, 다음에, 마지막으로"', tip:'순차처리 모델링 → 언어 지원' },
+    ],
+  },
+  탐색: {
+    P: [
+      { q:'"이것을 사용해서 뭘 만들 수 있을까요? 세 가지를 생각해봐요"', tip:'대안적 사고 → 계획력 3단계' },
+      { q:'"만약 꽃이 없다면 봄 동산처럼 보일까요? 어떻게 하면 꽃처럼 보이게 할 수 있을까요?"', tip:'가설-예측 발문 → 계획력 심화' },
+    ],
+    A: [
+      { q:'"개구리 옆에 동그란 것들이 뭔지 아니? 아주 자세히 볼까요?"', tip:'세부 자극 주의 → 관찰발문' },
+      { q:'"목련꽃 색이랑 새싹 색이 어떻게 달라요? 하나씩 비교해봐요"', tip:'색상 차이 주의 집중 → 비교 발문' },
+    ],
+    S: [
+      { q:'"봄 동산을 위에서 내려다보면 어떤 모양일까요? 손으로 그려볼까요?"', tip:'공간 전체 구조 인식 → 동시처리' },
+      { q:'"나무랑 꽃이랑 개울이 서로 어디에 있어야 자연스러울까요?"', tip:'전체 배치 관계 파악 → 동시처리' },
+    ],
+    SU: [
+      { q:'"봄 동산을 만들려면 제일 먼저 무엇부터 해야 할까요?"', tip:'절차 첫 단계 명확화 → 순차처리' },
+      { q:'"나무를 만들고 나서 다음엔 뭘 붙이면 좋을까요? 그리고 마지막엔?"', tip:'"먼저-다음-마지막" 절차 언어화' },
+    ],
+  },
+  활동: {
+    P: [
+      { q:'"지금 어떤 방법으로 만들고 있어요? 왜 그 방법을 골랐어요?"', tip:'선택 이유 메타인지 → 계획력' },
+      { q:'"다 완성하면 어떤 모습이 될 것 같아요? 미리 설명해볼 수 있어요?"', tip:'결과 예측 발문 → 계획력 3단계' },
+    ],
+    A: [
+      { q:'"지금 선생님이 보고 있어요 — 꽃잎을 아주 자세히 보면 무늬가 있나요?"', tip:'세밀 관찰 주의집중 → 강점 활용' },
+      { q:'"색깔이 몇 가지나 있는지 하나씩 세어볼까요? 지금 집중해봐요"', tip:'수량 주의 → 주의력 강점 발문' },
+    ],
+    S: [
+      { q:'"지금까지 만든 것들을 전체로 보면 어때요? 부족한 부분이 있어요?"', tip:'부분→전체 인식 → 동시처리' },
+      { q:'"교실 쌓기 공간을 봄 동산 지도라고 생각하면 어디가 산이에요?"', tip:'공간 전체 관계 파악 → 동시처리' },
+    ],
+    SU: [
+      { q:'"지금 어느 단계까지 만들었는지 친구한테 설명해줄 수 있어요?"', tip:'현재 단계 언어화 → 순차처리' },
+      { q:'"1번 먼저, 2번 다음, 3번 마지막 — 순서대로 해볼까요?"', tip:'번호 순서 시각화 → 순차처리 보완' },
+    ],
+  },
+  마무리: {
+    P: [
+      { q:'"오늘 가장 잘된 것은 무엇이고, 다음엔 어떻게 다르게 해보고 싶어요?"', tip:'반성적 평가 → 계획력 메타인지' },
+      { q:'"친구와 함께 협동할 때 어떤 계획을 세웠어요? 계획대로 됐나요?"', tip:'계획 실행 평가 → 메타인지 발문' },
+    ],
+    A: [
+      { q:'"오늘 활동에서 가장 신기했던 것, 가장 작았던 것을 말해볼 수 있어요?"', tip:'세부 기억 → 주의력 회상 발문' },
+      { q:'"친구 작품이랑 내 작품에서 다른 점 하나를 찾아봐요. 뭐가 달라요?"', tip:'세부 차이 관찰 → 주의력 발문' },
+    ],
+    S: [
+      { q:'"우리가 만든 봄 동산 전체를 보면 어떤 느낌이 들어요?"', tip:'완성 전체 감상 → 동시처리' },
+      { q:'"봄의 모습을 다 표현했나요? 빠진 게 없는지 전체를 살펴봐요"', tip:'전체 완성도 점검 → 동시처리' },
+    ],
+    SU: [
+      { q:'"오늘 활동을 처음부터 끝까지 순서대로 말해볼 수 있어요?"', tip:'활동 순서 회상 → 순차처리 강화' },
+      { q:'"먼저 뭘 했고, 다음엔 뭘 했고, 마지막엔 어떻게 됐어요?"', tip:'"먼저-다음-마지막" 언어화 완성' },
+    ],
+  },
+};
+
+function getPassColor(pass) {
+  const map = {P:'var(--pass-p)',A:'var(--pass-a)',S:'var(--pass-s)',SU:'var(--pass-su)'};
+  return map[pass]||'var(--gray-400)';
+}
+function getPassName(pass) {
+  const map = {P:'계획',A:'주의',S:'동시처리',SU:'순차처리'};
+  return map[pass]||pass;
+}
+function getPassBg(pass) {
+  const map = {P:'var(--pass-p-lt)',A:'var(--pass-a-lt)',S:'var(--pass-s-lt)',SU:'var(--pass-su-lt)'};
+  return map[pass]||'var(--gray-100)';
+}
+
+function buildAskBlock(stepName, opt) {
+  const kp = { P: document.getElementById('kp_p').checked, A: document.getElementById('kp_a').checked, S: document.getElementById('kp_s').checked, SU: document.getElementById('kp_su').checked };
+  const db = KPASS_QUESTIONS[stepName] || KPASS_QUESTIONS['활동'];
+  const axes = ['P','A','S','SU'].filter(k => kp[k]);
+  if (!axes.length) return '';
+
+  // 이미지 연계 발문
+  let imgHtml = '';
+  if (selectedImages.length > 0 && (stepName==='탐색'||stepName==='활동')) {
+    const img = selectedImages[0];
+    imgHtml = `
+      <div class="ask-row" style="background:rgba(5,160,129,0.06);border-radius:7px;padding:8px;margin-bottom:4px">
+        <div style="display:flex;align-items:flex-start;gap:10px">
+          <img src="${img.url}" alt="${img.alt}" style="width:80px;height:56px;object-fit:cover;border-radius:6px;border:1px solid var(--gray-200);flex-shrink:0">
+          <div>
+            <div style="font-size:10px;font-weight:700;color:var(--pexels);margin-bottom:4px">🖼️ Pexels 이미지 활용 발문</div>
+            <div class="ask-text">"이 사진을 보면서 — ${img.alt}에서 가장 먼저 눈에 띄는 게 뭐예요? 손으로 가리켜볼까요?"</div>
+            <div class="ask-tip">활동자료 사진을 직접 활용 · 주의(A) + 동시처리(S) 복합 발문 · 사진: © ${img.photographer} / Pexels</div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  const rows = axes.flatMap(k => {
+    const qs = db[k] || [];
+    return qs.slice(0,1).map(q => `
+      <div class="ask-row">
+        <span class="ask-pass-tag" style="background:${getPassBg(k)};color:${getPassColor(k)}">${getPassName(k)}</span>
+        <div>
+          <div class="ask-text">${q.q}</div>
+          <div class="ask-tip">${q.tip}</div>
+        </div>
+      </div>`);
+  }).join('');
+
+  // 뇌유형별 발문
+  const typeRows = `
+    <div class="ask-row" style="border-top:1px dashed var(--gray-200);padding-top:8px;margin-top:4px">
+      <span class="ask-pass-tag" style="background:var(--blue-lt);color:var(--blue)">전체</span>
+      <div><div class="ask-text">"${stepName}에서 궁금한 점이 있으면 손을 들어요. 선생님과 같이 알아봐요."</div></div>
+    </div>
+    <div class="ask-row">
+      <span class="ask-pass-tag" style="background:var(--blue-lt);color:var(--blue)">우뇌</span>
+      <div><div class="ask-text">"이준호·최도현·한지민·임태양 — 지금 느낌이나 생각을 자유롭게 말해봐요"</div></div>
+    </div>
+    <div class="ask-row">
+      <span class="ask-pass-tag" style="background:var(--pass-su-lt);color:var(--pass-su)">순서형</span>
+      <div><div class="ask-text">"윤채원 — 1번부터 순서대로 천천히 해봐요. 뭐가 먼저예요?"</div></div>
+    </div>
+    <div class="ask-row">
+      <span class="ask-pass-tag" style="background:var(--danger-lt);color:var(--danger)">⚠개별</span>
+      <div><div class="ask-text">"박민아 — 선생님이랑 같이 해봐요. 이게 뭐예요?"</div><div class="ask-tip">개별 지원 필수 · 성공 경험 제공 집중</div></div>
+    </div>`;
+
+  return `
+    <div class="ask-block">
+      <div class="ask-label">💬 K-PASS 강화 발문 스크립트 — ${stepName}</div>
+      ${imgHtml}
+      ${rows}
+      ${typeRows}
+    </div>`;
+}
+
+function generateLesson(useAI=false) {
+  const month = parseInt(document.getElementById('lesson-month').value);
+  const week = document.getElementById('lesson-week').value;
+  const subject = document.getElementById('lesson-subject').value;
+  const type = document.getElementById('lesson-type').value;
+  const duration = document.getElementById('lesson-duration').value;
+  const opt = selectedOption;
+  const td = MONTHLY_THEMES[month];
+  const activity = td.activities[parseInt(week)-1] || td.activities[0];
+  const optInfo = OPTION_DESC[opt];
+
+  const output = document.getElementById('lesson-output');
+  output.innerHTML = `<div class="generating-msg"><div class="spinner"></div>${useAI?'AI K-PASS 발문 생성 중...':'교안 생성 중...'}</div>`;
+
+  // 이미지 크레딧
+  const imgCreditHtml = selectedImages.length > 0
+    ? `<div style="margin-top:10px;padding:10px 12px;background:var(--pexels-lt);border-radius:8px;font-size:11px;color:var(--gray-500)">
+        📷 활동자료 이미지 제공: <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels);font-weight:700">Pexels</a>
+        — ${selectedImages.map(i=>`© ${i.photographer}`).filter((v,i,a)=>a.indexOf(v)===i).join(', ')}
+       </div>` : '';
+
+  setTimeout(() => {
+    output.innerHTML = `
+    <div id="lesson-print-area">
+    <div class="lesson-plan">
+      <h2>📝 ${activity}</h2>
+      <div class="meta">${month}월 ${week} · ${td.theme}(${td.sub}) · ${SUBJECT_LABELS[subject]} · ${TYPE_LABELS[type]} · ${duration}분 · 옵션 ${opt}(${optInfo.style})</div>
+
+      ${selectedImages.length>0?`<div style="margin-bottom:16px;padding:12px;background:var(--pexels-lt);border:1px solid #b2e8dc;border-radius:10px">
+        <div style="font-size:11px;font-weight:700;color:var(--pexels);margin-bottom:8px">🖼️ Pexels 활동자료 이미지</div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          ${selectedImages.map(img=>`<div style="position:relative"><img src="${img.url}" style="width:100px;height:70px;object-fit:cover;border-radius:7px;border:1px solid rgba(5,160,129,0.3)"><div style="font-size:9px;color:var(--gray-400);margin-top:2px;text-align:center">© ${img.photographer}</div></div>`).join('')}
+        </div>
+        <div style="font-size:10px;color:var(--gray-400);margin-top:6px">Photos provided by <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels)">Pexels</a></div>
+      </div>`:''}
+
+      <table>
+        <tr><th style="width:110px">활동명</th><td><strong>${activity}</strong></td><th style="width:110px">생활주제</th><td>${td.theme}</td></tr>
+        <tr><th>소주제</th><td>${td.sub}</td><th>활동유형</th><td>${SUBJECT_LABELS[subject]} / ${TYPE_LABELS[type]}</td></tr>
+        <tr><th>대상연령</th><td>만 5~6세</td><th>활동시간</th><td>${duration}분</td></tr>
+        <tr><th>집단구성</th><td>전체(9명) — 우뇌4 · 균형3 · 좌뇌2</td><th>장소</th><td>교실 / 바깥</td></tr>
+        <tr><th>PASS 초점</th><td colspan="3">
+          <span class="tag tag-orange">순차처리 보완</span>
+          <span class="tag tag-blue">주의력 강점 활용</span>
+          <span class="tag tag-red">박민아 개별지원</span>
+          ${document.getElementById('kp_p').checked?'<span class="pass-badge badge-p">계획(P) 강화</span>':''}
+          ${document.getElementById('kp_a').checked?'<span class="pass-badge badge-a">주의(A) 강화</span>':''}
+          ${document.getElementById('kp_s').checked?'<span class="pass-badge badge-s">동시처리(S) 강화</span>':''}
+          ${document.getElementById('kp_su').checked?'<span class="pass-badge badge-su">순차처리(SU) 강화</span>':''}
+        </td></tr>
+      </table>
+
+      <div class="section-title">🎯 활동 목표</div>
+      <table>
+        <tr><th>누리과정 연계</th><th>K-PASS 연계</th></tr>
+        <tr>
+          <td>• 봄철 자연의 변화를 감각적으로 탐색하고 표현한다<br>• 자연물을 관찰하며 언어·수·과학적 개념을 경험한다<br>• 친구와 협력하여 공동 활동에 참여한다</td>
+          <td>• <strong style="color:var(--pass-a)">주의력(강점)</strong>: 세밀한 관찰·집중 경험<br>• <strong style="color:var(--pass-s)">동시처리</strong>: 전체 패턴·공간 구조 인식<br>• <strong style="color:var(--pass-su)">순차처리(보완)</strong>: 단계별 절차 언어화<br>• <strong style="color:var(--pass-p)">계획력</strong>: 선택→이유→예측 메타인지</td>
+        </tr>
+      </table>
+
+      <div class="section-title">🛒 준비물</div>
+      <table>
+        <tr><th>교사 준비</th><th>미리 준비 (1주 전)</th><th>당일 준비</th></tr>
+        <tr><td>${getSupplyByOpt(opt)}</td><td>색상지, 가위, 풀, 관찰일지 양식 9부, 돋보기 9개</td><td>봄꽃 실물 또는 Pexels 사진 출력물, 매직, 물감(선택)</td></tr>
+      </table>
+
+      <div class="section-title">⏱️ 수업 전개 계획 (${duration}분)</div>
+
+      <div class="activity-block">
+        <span class="time-tag">도입 5분</span><strong>흥미 유발 · 경험 나누기</strong>
+        <p style="margin-top:8px">• 봄 사진/실물 제시 → "이게 뭐게요? 어디서 봤어요?"<br>• 오늘 할 활동 소개: "오늘은 봄꽃을 아주 자세히 관찰해볼 거예요"<br>• 관찰 규칙 안내 (소그룹 이동, 조용히 보기)</p>
+        ${buildAskBlock('도입', opt)}
+      </div>
+
+      <div class="activity-block">
+        <span class="time-tag">탐색 ${Math.round((parseInt(duration)-15)*0.35)}분</span><strong>탐색 — 봄 자연물 관찰 및 발견</strong>
+        <p style="margin-top:8px">• 봄꽃·새싹·개구리 사진 자료 제시<br>• 색깔·모양·질감 관찰 → 관찰일지 기록<br>• 소그룹별 발견 내용 공유</p>
+        ${buildAskBlock('탐색', opt)}
+      </div>
+
+      <div class="activity-block">
+        <span class="time-tag">활동 ${Math.round((parseInt(duration)-15)*0.65)}분</span><strong>핵심 활동 — ${getMainActivity(opt,activity)}</strong>
+        <p style="margin-top:8px">${getMainActivityContent(opt)}</p>
+        ${buildAskBlock('활동', opt)}
+      </div>
+
+      <div class="activity-block">
+        <span class="time-tag">마무리 10분</span><strong>정리 · 평가 · 생각 나누기</strong>
+        <p style="margin-top:8px">• 활동 결과물 발표 (2~3명 자원)<br>• "오늘 배운 것, 재미있었던 것, 어려웠던 것" 나누기<br>• 정리정돈 → 다음 활동 안내</p>
+        ${buildAskBlock('마무리', opt)}
+      </div>
+
+      <div class="section-title">📊 평가 계획</div>
+      <table>
+        <tr><th>평가 시점</th><th>평가 내용</th><th>평가 방법</th><th>K-PASS 연계</th></tr>
+        <tr><td>활동 중</td><td>활동 참여도, 발문 반응, 집중도</td><td>관찰평가 체크리스트</td><td>주의력·계획력</td></tr>
+        <tr><td>활동 후</td><td>결과물의 완성도, 표현의 창의성</td><td>활동결과물 평가</td><td>동시처리·순차처리</td></tr>
+        <tr><td>마무리</td><td>언어적 표현, 상호작용</td><td>구술 관찰</td><td>전체</td></tr>
+      </table>
+      <div style="margin-top:8px"><button class="btn btn-success btn-sm no-print" onclick="showSection('evaluation')">✅ 평가 체크리스트로 이동 →</button></div>
+
+      <div class="section-title">🔧 교사 유의사항</div>
+      <p style="font-size:12px;color:var(--gray-500)">
+        • <strong>박민아</strong>: 전 척도 1~5% — 보조교사 또는 순환 개별 지원 필수. 성공 경험 제공에 집중.<br>
+        • <strong>순차처리 약점(50%)</strong>: 단계 번호 카드, 시각적 순서 지원 제공. "먼저-다음-마지막" 발문 반복.<br>
+        • <strong>주의력 강점(73%)</strong>: 세밀 관찰, 세부 발문으로 강점 최대 활용.<br>
+        • <strong>Pexels 이미지</strong>: 출력하여 활동자료로 활용 시 "Photos provided by Pexels" 표기 권장.
+      </p>
+      ${imgCreditHtml}
+    </div>
+    </div>
+    <div style="display:flex;gap:10px;margin-top:12px" class="no-print">
+      <button class="btn btn-outline" onclick="printLesson()">🖨️ 교안 인쇄</button>
+      <button class="btn btn-success" onclick="showSection('evaluation')">✅ 바로 평가하기</button>
+    </div>`;
+  }, useAI ? 1200 : 600);
+}
+
+function getSupplyByOpt(opt) {
+  return {A:'그림카드(봄꽃 8종), 색깔 물감, 도화지, 붓',B:'봄꽃 실물/사진, 관찰일지 양식, 색연필, 돋보기',C:'단계별 관찰 워크시트, 번호 스티커, 연필, 자'}[opt];
+}
+function getMainActivity(opt,activity) {
+  return {A:'자유 탐색 + 그림·조형 표현',B:'구조화 관찰 + 자유 표현 혼합',C:'단계별 순서 관찰 기록'}[opt];
+}
+function getMainActivityContent(opt) {
+  return {
+    A:'• 봄꽃 실물/사진 자유 탐색 (5분)<br>• 마음에 드는 꽃을 골라 크게 그리기<br>• 색깔·모양·향기를 자유롭게 표현<br>• 완성 후 친구에게 소개하기',
+    B:'• 봄꽃 관찰 일지 작성 (이름·색·모양·향기·느낌) 순서 안내<br>• 관찰 후 자유 표현 (그림 또는 글)<br>• 소그룹별 결과 나누기 (우뇌→자유발표 / 좌뇌→순서발표)',
+    C:'① 꽃 이름 찾기 → ② 색깔 기록 → ③ 모양 그리기 → ④ 느낌 한 줄 쓰기<br>• 단계 완료 시 번호 스티커 붙이기<br>• 교사가 단계별 순서 재확인',
+  }[opt];
+}
+
+function printLesson() { if (!document.getElementById('lesson-print-area')) { showToast('먼저 교안을 생성하세요'); return; } window.print(); }
+
+// ── 평가 ──
+const EVAL_CHECKLISTS = {
+  observe:{label:'관찰평가',desc:'활동 중 교사가 직접 관찰하여 체크',icon:'👀',areas:[
+    {title:'🌱 신체운동·건강',items:[{id:'s-body-1',text:'신체 각 부분의 이름을 알고 움직인다'},{id:'s-body-2',text:'활동에 적극적으로 참여하며 안전하게 움직인다'}]},
+    {title:'💬 의사소통',items:[{id:'s-lang-1',text:'주제와 관련된 어휘를 사용하여 의사표현을 한다'},{id:'s-lang-2',text:'교사의 발문에 적절히 반응하며 대화에 참여한다'},{id:'s-lang-3',text:'듣기와 말하기에 집중하며 차례를 지킨다'}]},
+    {title:'🤝 사회관계',items:[{id:'s-social-1',text:'친구와 협력하여 활동에 참여한다'},{id:'s-social-2',text:'규칙을 이해하고 스스로 지키려 노력한다'}]},
+    {title:'🎨 예술경험',items:[{id:'s-art-1',text:'창의적 표현 활동에 즐겁게 참여한다'},{id:'s-art-2',text:'자신의 생각과 느낌을 다양한 방법으로 표현한다'}]},
+    {title:'🔭 자연탐구',items:[{id:'s-sci-1',text:'주변 자연환경에 호기심을 갖고 탐구한다'},{id:'s-sci-2',text:'수·규칙·도형 등 수학적 개념을 활동에서 활용한다'}]},
+    {title:'🧠 K-PASS 행동 관찰 (4축)',items:[
+      {id:'s-pass-sim',text:'동시처리 — 전체 그림이나 맥락을 파악한다'},
+      {id:'s-pass-seq',text:'순차처리 — 순서에 맞게 단계별 활동을 수행한다'},
+      {id:'s-pass-plan',text:'계획력 — 활동 목표를 이해하고 스스로 계획한다'},
+      {id:'s-pass-att',text:'주의력 — 활동에 집중하고 산만함 없이 참여한다'},
+    ]},
+  ]},
+  activity:{label:'활동결과물 평가',desc:'완성된 작품·결과물을 보고 체크',icon:'🖼️',areas:[
+    {title:'🎨 표현의 완성도',items:[{id:'s-body-1',text:'결과물이 주제에 맞게 완성되었다'},{id:'s-body-2',text:'색, 형태, 크기 등 표현 요소를 적절히 활용하였다'}]},
+    {title:'💡 창의성·독창성',items:[{id:'s-lang-1',text:'자신만의 독창적인 방법으로 표현하였다'},{id:'s-lang-2',text:'새로운 아이디어나 방식을 시도하였다'}]},
+    {title:'📐 과정·노력',items:[{id:'s-social-1',text:'활동 과정에서 집중하며 꾸준히 작업하였다'},{id:'s-social-2',text:'어려움을 만나도 포기하지 않고 완성하였다'}]},
+    {title:'🗣 표현 설명 능력',items:[{id:'s-art-1',text:'자신의 결과물에 대해 설명할 수 있다'},{id:'s-art-2',text:'작업 과정이나 의도를 언어로 표현한다'}]},
+    {title:'🧠 K-PASS 연계',items:[
+      {id:'s-pass-sim',text:'동시처리 — 전체적인 구성이 조화롭다'},
+      {id:'s-pass-seq',text:'순차처리 — 단계에 따라 순서 있게 제작하였다'},
+      {id:'s-pass-plan',text:'계획력 — 결과물에 계획성이 나타난다'},
+      {id:'s-pass-att',text:'주의력 — 세부 표현에 집중한 흔적이 있다'},
+    ]},
+  ]},
+  verbal:{label:'구술평가',desc:'교사 질문에 대한 언어 반응 체크',icon:'🗣',areas:[
+    {title:'💬 언어 표현력',items:[{id:'s-body-1',text:'주제와 관련된 어휘를 정확하게 사용한다'},{id:'s-body-2',text:'완전한 문장으로 자신의 생각을 말한다'}]},
+    {title:'🧩 이해력·사고력',items:[{id:'s-lang-1',text:'교사의 질문 내용을 정확히 이해하고 답한다'},{id:'s-lang-2',text:'이유나 근거를 들어 대답한다'},{id:'s-lang-3',text:'앞서 배운 내용을 연결하여 말한다'}]},
+    {title:'🎤 발표 태도',items:[{id:'s-social-1',text:'친구 앞에서 자신 있게 말할 수 있다'},{id:'s-social-2',text:'차례를 기다리며 경청한다'}]},
+    {title:'🔗 확장 사고',items:[{id:'s-art-1',text:'"왜?", "어떻게?"에 대해 자신의 의견을 말한다'},{id:'s-art-2',text:'경험을 활동과 연결하여 이야기한다'}]},
+    {title:'🧠 K-PASS 연계',items:[
+      {id:'s-pass-sim',text:'동시처리 — 전체 맥락을 파악하여 답한다'},
+      {id:'s-pass-seq',text:'순차처리 — 순서·단계를 고려하여 설명한다'},
+      {id:'s-pass-plan',text:'계획력 — 계획을 세워 말하는 모습이 보인다'},
+      {id:'s-pass-att',text:'주의력 — 질문에 집중하여 정확히 답한다'},
+    ]},
+  ]},
+  portfolio:{label:'포트폴리오 평가',desc:'누적 작품·기록물 종합 평가',icon:'📂',areas:[
+    {title:'📈 성장 과정',items:[{id:'s-body-1',text:'시간이 지남에 따라 표현 수준이 향상되었다'},{id:'s-body-2',text:'다양한 재료와 방법을 시도한 흔적이 있다'}]},
+    {title:'📋 기록의 충실성',items:[{id:'s-lang-1',text:'관찰 일지, 그림, 작품 등이 충실하게 모였다'},{id:'s-lang-2',text:'자신의 생각이나 느낌을 기록으로 남겼다'}]},
+    {title:'🎯 목표 달성도',items:[{id:'s-social-1',text:'기간 내 목표 활동을 완수하였다'},{id:'s-social-2',text:'어려운 과제도 시도한 기록이 있다'}]},
+    {title:'🌟 강점 영역',items:[{id:'s-art-1',text:'특별히 두드러지는 강점 영역이 확인된다'},{id:'s-art-2',text:'자기평가나 반성 내용을 스스로 표현하였다'}]},
+    {title:'🧠 K-PASS 연계',items:[
+      {id:'s-pass-sim',text:'동시처리 — 작품에서 전체 구성력이 성장하였다'},
+      {id:'s-pass-seq',text:'순차처리 — 단계적 완성 능력이 향상되었다'},
+      {id:'s-pass-plan',text:'계획력 — 스스로 주제를 정하는 빈도가 늘었다'},
+      {id:'s-pass-att',text:'주의력 — 집중 지속 시간이 늘어난 것이 확인된다'},
+    ]},
+  ]},
+};
+
+function renderEvalChecklist() {
+  const method = document.getElementById('eval-method').value;
+  const config = EVAL_CHECKLISTS[method];
+  if (!config) return;
+  scores = {};
+  document.getElementById('qual-eval-container').innerHTML = `
+    <div style="padding:12px 15px;background:var(--blue-lt);border-bottom:1px solid var(--blue-mid);display:flex;align-items:center;gap:8px">
+      <span style="font-size:18px">${config.icon}</span>
+      <div><strong style="font-size:13px;color:var(--blue)">${config.label}</strong><span style="font-size:12px;color:var(--blue-mid);margin-left:8px">${config.desc}</span></div>
+    </div>
+    ${config.areas.map(area => `
+      <div class="eval-area" style="margin:0;border-radius:0;border-left:none;border-right:none;border-top:none">
+        <div class="eval-area-header">${area.title}</div>
+        ${area.items.map(item => `
+          <div class="eval-row">
+            <div class="item-name">${item.text}</div>
+            <div class="score-input" id="${item.id}">
+              <button class="score-btn s1" onclick="setScore(this,'${item.id}',1)">1</button>
+              <button class="score-btn s2" onclick="setScore(this,'${item.id}',2)">2</button>
+              <button class="score-btn s3" onclick="setScore(this,'${item.id}',3)">3</button>
+              <button class="score-btn s4" onclick="setScore(this,'${item.id}',4)">4</button>
+              <button class="score-btn s5" onclick="setScore(this,'${item.id}',5)">5</button>
+            </div>
+          </div>`).join('')}
+      </div>`).join('')}`;
+}
+
+function setScore(btn, groupId, val) {
+  scores[groupId] = val;
+  document.getElementById(groupId).querySelectorAll('.score-btn').forEach((b,i) => b.classList.toggle('active', i+1===val));
+}
+
+function loadEvalForStudent() {
+  const student = document.getElementById('eval-student').value;
+  if (!student) return;
+  const prev = evalData[student];
+  if (prev) Object.entries(prev).forEach(([id,val]) => {
+    const g = document.getElementById(id);
+    if (g) { scores[id]=val; g.querySelectorAll('.score-btn').forEach((b,i)=>b.classList.toggle('active',i+1===val)); }
+  });
+}
+
+function calcEvalSummary() {
+  const student = document.getElementById('eval-student').value;
+  if (!student) { showToast('학생을 선택하세요','err'); return; }
+  const areas = {신체:['s-body-1','s-body-2'],언어:['s-lang-1','s-lang-2','s-lang-3'],사회:['s-social-1','s-social-2'],예술:['s-art-1','s-art-2'],자연:['s-sci-1','s-sci-2'],PASS:['s-pass-sim','s-pass-seq','s-pass-plan','s-pass-att']};
+  const areaScores = {}; let totalScore=0,totalCount=0;
+  Object.entries(areas).forEach(([area,ids]) => { let sum=0,cnt=0; ids.forEach(id=>{if(scores[id]){sum+=scores[id];cnt++;}}); areaScores[area]=cnt>0?(sum/cnt).toFixed(1):'-'; if(cnt>0){totalScore+=sum;totalCount+=cnt;} });
+  const avg = totalCount>0?(totalScore/totalCount).toFixed(1):0;
+  const level = avg>=4.5?'매우우수':avg>=3.5?'우수':avg>=2.5?'보통':avg>=1.5?'미흡':'매우미흡';
+  const lc = avg>=4.5?'green':avg>=3.5?'blue':avg>=2.5?'orange':'red';
+  document.getElementById('eval-summary').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px">
+      <div style="text-align:center"><div style="font-size:34px;font-weight:900;color:var(--${lc==='blue'?'blue':lc==='green'?'success':lc==='orange'?'orange':'danger'})">${avg}</div><div style="font-size:11px;color:var(--gray-400)">종합평균</div></div>
+      <div><span class="tag tag-${lc}" style="font-size:13px;padding:5px 12px">${level}</span><div style="font-size:11px;color:var(--gray-400);margin-top:5px">${student} · ${document.getElementById('eval-activity').value||'활동'} · ${document.getElementById('eval-date').value}</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:6px">
+      ${Object.entries(areaScores).map(([a,s])=>`<div style="background:var(--gray-50);border-radius:7px;padding:8px;text-align:center"><div style="font-size:17px;font-weight:900;color:var(--blue)">${s}</div><div style="font-size:10px;color:var(--gray-400);margin-top:2px">${a}</div></div>`).join('')}
+    </div>
+    <div style="margin-top:10px;padding:10px;background:var(--success-lt);border-radius:8px;font-size:12px;color:var(--gray-600)">${autoGenerateComment(student,areaScores,avg)}</div>`;
+}
+
+function autoGenerateComment(name,areaScores,avg) {
+  const s=STUDENTS.find(st=>st.name===name); if(!s) return '';
+  const high=Object.entries(areaScores).sort((a,b)=>parseFloat(b[1])-parseFloat(a[1]))[0];
+  const memo=document.getElementById('eval-memo').value;
+  return `📝 <strong>${name}</strong>: ${high[0]} 영역에서 가장 높은 수행(${high[1]}점). K-PASS ${s.weak} 취약 특성과 연계하여 지속적인 지원 권장. 종합 ${avg}점 — ${avg>=3.5?'양호한':'보완이 필요한'} 상태.${memo?' 메모: '+memo:''}`;
+}
+
+function saveEval() {
+  const student=document.getElementById('eval-student').value;
+  const activity=document.getElementById('eval-activity').value||'활동';
+  const date=document.getElementById('eval-date').value;
+  if(!student){showToast('학생을 선택하세요','err');return;}
+  evalData[student]={...scores};
+  const areas={신체:['s-body-1','s-body-2'],언어:['s-lang-1','s-lang-2','s-lang-3'],사회:['s-social-1','s-social-2'],예술:['s-art-1','s-art-2'],자연:['s-sci-1','s-sci-2']};
+  const passIds=['s-pass-sim','s-pass-seq','s-pass-plan','s-pass-att'];
+  const areaAvg={};
+  Object.entries(areas).forEach(([area,ids])=>{let sum=0,cnt=0;ids.forEach(id=>{if(scores[id]){sum+=scores[id];cnt++;}});areaAvg[area]=cnt>0?(sum/cnt).toFixed(1):'-';});
+  let passSum=0,passCnt=0;passIds.forEach(id=>{if(scores[id]){passSum+=scores[id];passCnt++;}});
+  const passAvg=passCnt>0?(passSum/passCnt).toFixed(1):'-';
+  const allScores=Object.values(scores).filter(v=>v);
+  const total=allScores.length>0?(allScores.reduce((a,b)=>a+b,0)/allScores.length).toFixed(1):'-';
+  savedEvals=savedEvals.filter(e=>!(e.student===student&&e.activity===activity&&e.date===date));
+  savedEvals.push({student,activity,date,...areaAvg,passAvg,total});
+  renderClassEvalTable();
+  showToast(`${student} 평가 저장됨 ✓`,'ok');
+}
+
+function renderClassEvalTable() {
+  const tbody=document.getElementById('class-eval-body');
+  if(!savedEvals.length){tbody.innerHTML='<tr><td colspan="11" style="text-align:center;color:var(--gray-400);padding:20px">저장된 평가가 없습니다</td></tr>';return;}
+  tbody.innerHTML=savedEvals.map(e=>{const total=parseFloat(e.total);const lc=total>=4.5?'tag-green':total>=3.5?'tag-blue':total>=2.5?'tag-orange':'tag-red';const lv=total>=4.5?'매우우수':total>=3.5?'우수':total>=2.5?'보통':'미흡';return `<tr><td><strong>${e.student}</strong></td><td>${e.activity}</td><td>${e.date}</td><td>${e['신체']||'-'}</td><td>${e['언어']||'-'}</td><td>${e['사회']||'-'}</td><td>${e['예술']||'-'}</td><td>${e['자연']||'-'}</td><td>${e.passAvg||'-'}</td><td><strong>${e.total}</strong></td><td><span class="tag ${lc}">${lv}</span></td></tr>`;}).join('');
+}
+
+// ── 관찰 기록 ──
+function addQuickObs(text){const ta=document.getElementById('obs-text');ta.value=(ta.value?ta.value+' ':'')+text;}
+function saveObs(){
+  const student=document.getElementById('obs-student').value;
+  const date=document.getElementById('obs-date').value;
+  const pass=document.getElementById('obs-pass').value;
+  const area=document.getElementById('obs-area').value;
+  const text=document.getElementById('obs-text').value;
+  if(!student){showToast('학생을 선택하세요','err');return;}
+  if(!text.trim()){showToast('관찰 내용을 입력하세요','err');return;}
+  obsData.push({student,date,pass,area,text});
+  document.getElementById('obs-text').value='';
+  // 필터 드롭다운에 학생 추가 (중복 방지)
+  const filterSel=document.getElementById('obs-filter-student');
+  if(![...filterSel.options].some(o=>o.value===student)){
+    filterSel.innerHTML+=`<option value="${student}">${student}</option>`;
+  }
+  renderObsHistory();
+  showToast(`${student} 관찰 기록 저장됨 ✓`,'ok');
+}
+function renderObsHistory(){const filter=document.getElementById('obs-filter-student').value;const filtered=filter?obsData.filter(o=>o.student===filter):obsData;const panel=document.getElementById('obs-history-panel');if(!filtered.length){panel.innerHTML='<div style="color:var(--gray-400);font-size:13px;text-align:center;padding:20px">관찰 기록이 없습니다</div>';return;}panel.innerHTML=[...filtered].reverse().map(o=>`<div class="obs-item"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><strong style="font-size:13px">${o.student}</strong><div style="display:flex;gap:4px"><span class="tag tag-purple" style="font-size:10px">${o.pass}</span><span class="tag tag-green" style="font-size:10px">${o.area}</span></div></div><div style="font-size:13px;color:var(--gray-700)">${o.text}</div><div class="obs-meta">${o.date}</div></div>`).join('');}
+
+// ── 성장 분석 ──
+function showGrowthAnalysis(){const student=document.getElementById('growth-student').value,period=document.getElementById('growth-period').value,s=STUDENTS.find(st=>st.name===student);if(!s)return;const obs=obsData.filter(o=>o.student===student),evalCount=savedEvals.filter(e=>e.student===student).length;document.getElementById('growth-output').innerHTML=`<div class="card"><div class="card-header"><span>📈</span><h3>${student} — ${period}</h3></div><div class="card-body"><div class="grid-4" style="margin-bottom:14px"><div class="stat-card blue"><div class="stat-label">누적 관찰 기록</div><div class="stat-value">${obs.length}</div><div class="stat-sub">건</div></div><div class="stat-card green"><div class="stat-label">저장된 평가</div><div class="stat-value">${evalCount}</div><div class="stat-sub">회</div></div><div class="stat-card orange"><div class="stat-label">PASS 취약축</div><div class="stat-value" style="font-size:17px">${s.weak}</div></div><div class="stat-card purple"><div class="stat-label">뇌 유형</div><div class="stat-value" style="font-size:17px">${s.type.replace('형','')}</div></div></div><div style="background:var(--gray-50);border-radius:9px;padding:15px;font-size:13px"><div style="font-weight:700;margin-bottom:7px">📊 ${period} 성장 분석 요약</div><p>${generateGrowthText(s,period,obs.length)}</p></div></div></div>`;}
+function generateGrowthText(s,period,obsCount){const t={'3개월 행동 체크':`${s.name}(${s.type})은 ${obsCount}건의 관찰 기록이 누적되었습니다. 주의력(${s.att}%) 강점을 활용한 활동에서 적극적인 참여를 보이고 있습니다. 취약 축 ${s.weak}(${getWeakScore(s)}%)는 단계별 구조화 활동을 통해 점진적 향상이 기대됩니다. Naglieri & Johnson(2000) 연구에 따르면 21회기(3개월) 후 계획력의 유의미한 변화가 보고됩니다.`,'6개월 중간 분석':`${s.name}은 6개월 중간 시점에서 전반적인 발달 궤도가 ${s.att>=70?'양호':'주의'}한 수준입니다. Carlson & Das(1997)의 PREP 6개월 효과 연구에 근거하여, ${s.weak} 취약 축에 대한 집중 지원이 효과를 나타낼 시기입니다.`,'1년 종합 성장':`${s.name}의 1년 종합 성장 분석입니다. CAS2 Manual 권고에 따라 K-PASS 재검사를 실시하여 초기 검사 결과와 비교가 필요합니다. 연간 관찰 기록(${obsCount}건)을 토대로 생활기록부 서술이 자동 생성됩니다.`};return t[period]||'';}
+function getWeakScore(s){return {동시처리:s.sim,순차처리:s.seq,계획력:s.plan,주의력:s.att}[s.weak]||'-';}
+
+// ── 학부모 보고서 ──
+function generateParentPreview(){const student=document.getElementById('parent-student').value,period=document.getElementById('parent-period').value,year=document.getElementById('parent-year').value,s=STUDENTS.find(st=>st.name===student);if(!s)return;const obs=obsData.filter(o=>o.student===student),evs=savedEvals.filter(e=>e.student===student),avgScore=evs.length>0?(evs.reduce((a,e)=>a+parseFloat(e.total||0),0)/evs.length).toFixed(1):'미평가';document.getElementById('parent-preview-area').innerHTML=`<div class="report-preview" id="parent-print-area"><div class="rp-header"><div class="rp-title">유아 발달 성장 보고서</div><div class="rp-sub">${year}학년도 ${period} · K-PASS × 누리과정 통합 평가 · BrainFit</div></div><div class="rp-meta"><span>원아명</span><strong>${s.name}</strong><span>생년월일</span><strong>2020년 (만 ${s.age}세)</strong><span>담당교사</span><strong>앱 테스트 반 담임</strong><span>기관명</span><strong>BrainFit 어린이집</strong><span>평가기간</span><strong>${year}년 ${period}</strong><span>뇌 유형</span><strong>${s.type}</strong></div><div class="rp-section">1. K-PASS 인지처리 프로파일</div><table class="rp-eval-table"><tr><th>처리 영역</th><th>백분위</th><th>수준</th><th>교육 적용</th></tr><tr><td>동시처리</td><td>${s.sim}%</td><td>${s.sim>=70?'우수':s.sim>=50?'보통':'지원 필요'}</td><td>그림·패턴 중심 활동 ${s.sim>=70?'추천':'강화 필요'}</td></tr><tr><td>순차처리</td><td>${s.seq}%</td><td>${s.seq>=70?'우수':s.seq>=50?'보통':'지원 필요'}</td><td>단계별 순서 활동 ${s.seq>=70?'추천':'강화 필요'}</td></tr><tr><td>계획력</td><td>${s.plan}%</td><td>${s.plan>=70?'우수':s.plan>=50?'보통':'지원 필요'}</td><td>자기주도 탐구 ${s.plan>=70?'추천':'지원 필요'}</td></tr><tr><td>주의력</td><td>${s.att}%</td><td>${s.att>=70?'우수':s.att>=50?'보통':'지원 필요'}</td><td>세밀 관찰 활동 ${s.att>=70?'추천':'보완 필요'}</td></tr></table><div class="rp-section">2. 누리과정 영역별 발달 수준</div><table class="rp-eval-table"><tr><th>영역</th><th>평가 점수</th><th>수준</th><th>특이사항</th></tr>${evs.length>0?['신체','언어','사회','예술','자연'].map(area=>{const sc=evs[evs.length-1][area]||'-';const lv=sc>=4.5?'매우우수':sc>=3.5?'우수':sc>=2.5?'보통':'미흡';return`<tr><td>${area}</td><td>${sc}/5</td><td>${lv}</td><td></td></tr>`;}).join(''):'<tr><td colspan="4" style="text-align:center;color:#999">평가 데이터 없음 — 활동 평가 후 자동 반영</td></tr>'}</table><div class="rp-section">3. 교사 종합 소견</div><div class="rp-narrative">${generateNarrative(s,obs,avgScore)}</div><div class="rp-section">4. 가정 연계 지원 방향</div><div class="rp-narrative">${generateHomeGuide(s)}</div><div style="margin-top:28px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:11px"><span>작성일: ${new Date().toLocaleDateString('ko-KR')}</span><span>담당교사: ________________ (인)</span><span>원장: ________________ (인)</span></div></div>`;}
+
+function generateNarrative(s,obs,avgScore){const obsText=obs.length>0?` 특히 "${obs[0].text}"`:' 교사의 지속적인 관찰과 지원이 이루어지고 있습니다.';return`K-PASS 검사 결과 ${s.type}으로 분류된 ${s.name}은(는) 주의력(${s.att}%) 영역이 주요 강점으로 나타납니다. 취약 영역인 ${s.weak} 부분(${getWeakScore(s)}%)에 대해 집중 지원을 실시하였으며${avgScore!=='미평가'?` 활동 평가 종합 ${avgScore}/5점으로`:''} ${avgScore!=='미평가'&&parseFloat(avgScore)>=3.5?'전반적으로 양호한 발달 수준을 유지하고 있습니다.':'지속적인 관찰과 지원이 필요합니다.'}${obsText}`;}
+function generateHomeGuide(s){const guides={우뇌우세:'창의적 활동(그림책, 미술, 음악)을 통해 상상력을 충분히 발휘할 기회를 제공해 주세요. 규칙적인 일과표를 함께 만들어 순차처리 능력을 가정에서도 지원해 주세요.',좌우뇌균형:'균형적인 발달을 위해 다양한 유형의 활동(신체·예술·언어)을 고르게 경험할 수 있도록 해주세요. 계획력 향상을 위해 오늘 할 일을 함께 정하는 습관을 길러주세요.',좌뇌우세:'단계별로 명확한 설명과 지시를 제공해 주세요. 창의적 상상력 발달을 위해 답이 없는 열린 질문을 일상에서 자주 사용해 주세요.'};return guides[s.type]||guides['좌우뇌균형'];}
+
+// ── 정부 보고서 ──
+function generateGovReport(){
+  const typeEl = document.getElementById('gov-type');
+  const periodEl = document.getElementById('gov-period');
+  const outputEl = document.getElementById('gov-report-output');
+  if (!outputEl) return;
+  const type = typeEl ? typeEl.value : 'curriculum';
+  const period = periodEl ? periodEl.value : '2026년 2분기 (4월~6월)';
+  const typeLabels = {curriculum:'누리과정 운영 기록지',eval3:'어린이집 평가인증 3주기',self:'유치원 자체평가 보고서',monthly:'월별 교육활동 보고서'};
+  const evalCount = savedEvals.length, obsCount = obsData.length;
+  outputEl.innerHTML=`<div class="report-preview"><div class="rp-header"><div class="rp-title">${typeLabels[type]||typeLabels.curriculum}</div><div class="rp-sub">BrainFit K-PASS × 누리과정 통합 시스템 · ${period}</div></div><div class="rp-section">1. 교육과정 운영 현황</div><table class="rp-eval-table"><tr><th>구분</th><th>내용</th><th>비고</th></tr><tr><td>적용 교육과정</td><td>2019 개정 누리과정</td><td>전면 적용</td></tr><tr><td>K-PASS 인지 평가</td><td>학급 전원 실시 (9명)</td><td>2026.4.10</td></tr><tr><td>개별 지원 대상</td><td>2명 (박민아·우선순위 1명)</td><td>PREP 주 1회</td></tr><tr><td>누적 관찰 기록</td><td>${obsCount}건</td><td>앱 자동 기록</td></tr><tr><td>저장된 활동 평가</td><td>${evalCount}회</td><td>5개 영역+K-PASS</td></tr></table><div class="rp-section">2. 누리과정 5개 영역 운영</div><table class="rp-eval-table"><tr><th>영역</th><th>주요 활동</th><th>K-PASS 연계</th><th>비고</th></tr><tr><td>신체운동·건강</td><td>바깥놀이, 기본동작 활동</td><td>주의력 강화</td><td>주 5회</td></tr><tr><td>의사소통</td><td>그림책 읽기, 발표 활동</td><td>순차처리·주의력</td><td>매일</td></tr><tr><td>사회관계</td><td>협동 프로젝트, 역할놀이</td><td>동시처리·계획력</td><td>주 3회</td></tr><tr><td>예술경험</td><td>봄꽃 관찰 미술, 창작 표현</td><td>동시처리 우세</td><td>주 2회</td></tr><tr><td>자연탐구</td><td>씨앗 심기, 봄 생태 관찰</td><td>순차처리·계획력</td><td>주 2회</td></tr></table><div class="rp-section">3. 개별 지원 계획 (PREP)</div><div class="rp-narrative">집중 지원 대상 학생에 대해 CAS2 Manual 권고 및 Naglieri &amp; Johnson(2000) 연구 근거에 기반한 PREP(PASS 향상 프로그램)을 주 1회 개별 실시하고 있습니다. 박민아(전 척도 1~5%)를 포함한 관리 필요 학생 6명에 대해 교사 순환 개별 지원 및 보조교사 배치를 통해 성공 경험을 제공하고 있습니다.</div><div style="margin-top:24px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:10px"><span>작성일: ${new Date().toLocaleDateString('ko-KR')}</span><span>담임교사: ________________ (인)</span><span>원장: ________________ (인)</span></div></div>`;
+}
+
+// ── 생활기록부 ──
+const LIFE_TEMPLATES={'신체운동·건강':(s)=>`${s.name}은(는) 신체 활동 참여에 ${s.att>=70?'적극적이며':'다소 수동적인 편이나'} 기본적인 대소근육 움직임을 수행합니다.`,'의사소통':(s)=>`주제와 관련된 어휘를 ${s.att>=70?'풍부하게 사용하며':'적절하게 사용하려 노력하며'} 교사의 발문에 ${s.att>=70?'즉각적으로 반응합니다':'반응하는 경우가 있습니다'}.`,'사회관계':(s)=>`${s.sim>=60?'또래와의 관계에서 전체적인 상황을 파악하며 협력적으로 참여합니다.':'또래와의 상호작용에서 지원이 필요한 상황이 있습니다.'}`,'예술경험':(s)=>`${s.type==='우뇌우세'?'창의적 표현 활동에서 독창성이 돋보이며 다양한 방법으로 자신의 생각을 표현합니다.':s.type==='좌뇌우세'?'미술·음악 활동에서 정확성과 완성도를 중시하며 체계적으로 작품을 완성합니다.':'표현 활동에서 자신만의 방식을 찾아가는 과정이 관찰됩니다.'}`,'자연탐구':(s)=>`주변 자연에 ${s.sim>=60?'호기심이 많으며 적극적으로 탐구합니다.':'관심을 보이며 탐구 기회를 통해 성장하고 있습니다.'}`};
+function generateLifeRecord(){const student=document.getElementById('life-student')?.value;const s=STUDENTS.find(st=>st.name===student);if(!s){document.getElementById('life-record-output').innerHTML='<div style="text-align:center;color:var(--gray-400);padding:40px">학생을 선택하세요</div>';return;}const obs=obsData.filter(o=>o.student===student),evs=savedEvals.filter(e=>e.student===student);const areas=['신체운동·건강','의사소통','사회관계','예술경험','자연탐구'];document.getElementById('life-record-output').innerHTML=`<div class="report-preview"><div class="rp-header"><div class="rp-title">생 활 기 록 부</div><div class="rp-sub">2026학년도 · BrainFit K-PASS 통합 기록</div></div><div class="rp-meta"><span>성명</span><strong>${s.name}</strong><span>나이</span><strong>만 ${s.age}세</strong><span>뇌유형</span><strong>${s.type}</strong><span>취약축</span><strong>${s.weak}</strong></div><div class="rp-section">누리과정 영역별 발달 특성</div>${areas.map(a=>`<div style="margin-bottom:10px"><strong style="font-size:12px;color:var(--blue)">[${a}]</strong><div class="rp-narrative" style="margin-top:4px">${LIFE_TEMPLATES[a]?LIFE_TEMPLATES[a](s):''} ${obs.filter(o=>o.area===a.split('·')[0]).slice(-1).map(o=>`특히 "${o.text}"`).join('')}</div></div>`).join('')}<div class="rp-section">종합 소견</div><div class="rp-narrative">K-PASS 검사 결과 ${s.type}으로 분류된 ${s.name}은(는) ${s.att}% 수준의 주의력이 주요 강점으로 나타납니다. 취약 영역인 ${s.weak} 부분(${getWeakScore(s)}%)에 대해 학년 중 집중 지원을 실시하였으며 다음 학년에서도 ${s.type==='우뇌우세'?'창의·탐색 중심':'구조화·순서 중심'} 교육 환경을 제공할 것을 권장합니다.</div><div style="margin-top:24px;display:flex;justify-content:space-between;font-size:12px;color:#555;border-top:1px solid #ccc;padding-top:10px"><span>담임교사: ________________ (인)</span></div></div>`;}
+
+// ── 그림책 ──
+const BOOKS={3:[{title:'강아지 똥',author:'권정생',type:'우뇌우세',pass:'동시처리',desc:'나와 친구의 소중함, 자아존중감'},{title:'내 짝꿍 최영대',author:'채인선',type:'좌우뇌균형',pass:'계획력',desc:'친구 관계와 배려'},{title:'기차 ㄱㄴㄷ',author:'박은영',type:'좌뇌우세',pass:'순차처리',desc:'언어·순서 학습'}],4:[{title:'봄이 오면',author:'김경미',type:'우뇌우세',pass:'동시처리',desc:'봄의 변화, 자연 감각'},{title:'씨앗은 무엇이 될까?',author:'얀 페퀴',type:'좌우뇌균형',pass:'계획력',desc:'생명의 순환, 과학적 사고'},{title:'봄봄봄',author:'그림책방',type:'좌뇌우세',pass:'순차처리',desc:'계절 변화 순서 이해'}],5:[{title:'엄마는 출장 중',author:'김희경',type:'우뇌우세',pass:'동시처리',desc:'가족 형태 다양성'},{title:'고맙습니다 선생님',author:'파트리샤 폴라코',type:'좌우뇌균형',pass:'계획력',desc:'감사와 관계'},{title:'우리 아빠',author:'앤서니 브라운',type:'좌뇌우세',pass:'순차처리',desc:'가족 역할 이해'}],6:[{title:'여름 수영장',author:'김보람',type:'우뇌우세',pass:'동시처리',desc:'여름 경험, 신체 활동'},{title:'깨끗이 씻어요',author:'그림나무',type:'좌우뇌균형',pass:'계획력',desc:'건강 습관 형성'},{title:'물은 어디서 왔을까?',author:'과학그림책',type:'좌뇌우세',pass:'순차처리',desc:'물의 순환, 과학적 사고'}]};
+function renderBooks(){const month=parseInt(document.getElementById('book-month').value);const books=BOOKS[month]||[];const tcMap={'우뇌우세':'tag-blue','좌우뇌균형':'tag-green','좌뇌우세':'tag-purple'};document.getElementById('book-output').innerHTML=`<div class="grid-3">${books.map(b=>`<div class="card"><div class="card-header"><span>📖</span><h3>${b.title}</h3></div><div class="card-body"><div style="font-size:12px;color:var(--gray-400);margin-bottom:8px">저자: ${b.author}</div><div style="display:flex;gap:6px;margin-bottom:8px"><span class="tag ${tcMap[b.type]}">${b.type}</span><span class="tag tag-orange">${b.pass}</span></div><div style="font-size:13px;color:var(--gray-600)">${b.desc}</div></div></div>`).join('')}</div>`;}
+
+// ── 준비물 ──
+const SUPPLIES={'4-3':[{when:'1주 전',category:'교구',item:'돋보기',qty:1,unit:'개/인'},{when:'1주 전',category:'재료',item:'관찰일지 양식',qty:1,unit:'부/인'},{when:'3일 전',category:'재료',item:'색연필세트',qty:1,unit:'세트/인'},{when:'3일 전',category:'교구',item:'봄꽃 사진카드',qty:8,unit:'장'},{when:'당일',category:'자연물',item:'봄꽃 실물 또는 화분',qty:3,unit:'개'},{when:'당일',category:'재료',item:'도화지(A4)',qty:1,unit:'장/인'},{when:'당일',category:'교구',item:'매직마커',qty:1,unit:'세트'}]};
+function generateSupplies(){const month=document.getElementById('sup-month')?.value,week=document.getElementById('sup-week')?.value,count=parseInt(document.getElementById('sup-count')?.value)||9,key=`${month}-${(week||'3주차').replace('주차','')}`,items=SUPPLIES[key]||SUPPLIES['4-3'];document.getElementById('supplies-output').innerHTML=`<div class="card"><div class="card-header"><span>🛒</span><h3>${month}월 ${week} 준비물 체크리스트</h3><span class="sub">학생 ${count}명 기준</span></div><div class="card-body" style="padding:0">${['1주 전','3일 전','당일'].map(when=>{const subset=items.filter(i=>i.when===when);if(!subset.length)return'';return`<div style="padding:10px 15px 4px;font-size:12px;font-weight:700;color:var(--gray-500);background:var(--gray-50);border-bottom:1px solid var(--gray-100)">${when==='1주 전'?'📅':when==='3일 전'?'🗓️':'🌅'} ${when}</div>${subset.map(i=>`<div class="checklist-item" style="padding:9px 15px"><input type="checkbox" id="chk-${i.item}"><label for="chk-${i.item}">${i.item}</label><span class="tag ${i.category==='교구'?'tag-blue':i.category==='재료'?'tag-green':'tag-orange'}">${i.category}</span><span class="check-status">${i.unit.includes('/인')?(i.qty*count)+i.unit.replace('/인',''):i.qty+i.unit}</span></div>`).join('')}`;}).join('')}</div></div>`;}
+
+
+// ══════════════════════════════════════════
+//  AI 활동지 이미지 생성 (Pexels 연동)
+// ══════════════════════════════════════════
+
+// 활동지용 이미지 상태 (그룹별 독립)
+let wsImages = { A: null, B: null, C: null, PREP: null };
+let wsActiveSlot = 'A'; // 현재 배정 대상 그룹
+let wsSearchResults = []; // 검색 결과 캐시
+
+// 현재 교안 정보에서 키워드 추출
+function getLessonKeywords() {
+  const month = parseInt(document.getElementById('lesson-month')?.value || 4);
+  const themes = {
+    3: { en: ['children playing', 'spring friends', 'kindergarten kids'], ko: ['봄 친구', '유아 놀이'] },
+    4: { en: ['spring flowers', 'cherry blossom', 'seedling sprout', 'spring nature'], ko: ['봄꽃', '새싹', '봄 자연'] },
+    5: { en: ['family children', 'neighborhood community', 'children day'], ko: ['가족', '어린이날'] },
+    6: { en: ['summer children', 'healthy food kids', 'water play'], ko: ['여름 어린이', '건강 음식'] },
+    9: { en: ['autumn leaves', 'harvest fruit', 'fall nature'], ko: ['가을 낙엽', '추수'] },
+    12: { en: ['winter snow children', 'christmas kids', 'snowflake'], ko: ['겨울 눈', '눈결정'] },
+  };
+  return themes[month] || themes[4];
+}
+
+// AI 활동지 이미지 생성 버튼 클릭
+function generateWorksheetImages() {
+  const panel = document.getElementById('ws-image-panel');
+  panel.style.display = 'block';
+  panel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // 교안 기반 키워드 자동 추천
+  const kws = getLessonKeywords();
+  const kwArea = document.getElementById('ws-auto-keywords');
+  kwArea.innerHTML = kws.en.map(k =>
+    `<button class="quick-tag" onclick="document.getElementById('ws-img-search').value='${k}';wsSearchImages()">${k}</button>`
+  ).join('') + kws.ko.map(k =>
+    `<button class="quick-tag" onclick="document.getElementById('ws-img-search').value='${k}';wsSearchImages()">${k}</button>`
+  ).join('');
+
+  // 첫 슬롯 활성화
+  wsSetActiveSlot('A');
+
+  // 키 내장 → 바로 자동 검색
+  const firstKw = kws.en[0];
+  document.getElementById('ws-img-search').value = firstKw;
+  wsSearchImages();
+}
+
+// 활동지 자동 검색
+function wsAutoSearch() {
+  const kws = getLessonKeywords();
+  const q = kws.en[Math.floor(Math.random() * kws.en.length)];
+  document.getElementById('ws-img-search').value = q;
+  wsSearchImages();
+}
+
+// 활성 슬롯 설정
+function wsSetActiveSlot(group) {
+  wsActiveSlot = group;
+  const label = document.getElementById('ws-active-slot-label');
+  const nameEl = document.getElementById('ws-slot-name');
+  const groupLabels = { A:'그룹 A (우뇌우세)', B:'그룹 B (밸런스)', C:'그룹 C (좌뇌우세)', PREP:'PREP 소그룹' };
+  label.style.display = 'block';
+  nameEl.textContent = groupLabels[group];
+
+  // 슬롯 테두리 강조
+  ['A','B','C','PREP'].forEach(g => {
+    const slot = document.getElementById('ws-slot-' + g);
+    if (slot) slot.style.opacity = g === group ? '1' : '0.5';
+  });
+}
+
+// 패널 내 키 또는 내장 키 가져오기
+function getWsKey() {
+  const panelKey = (document.getElementById('ws-pexels-key')?.value || '').trim();
+  const sideKey  = (document.getElementById('pexelsKey')?.value || '').trim();
+  return PEXELS_API_KEY || panelKey || sideKey;
+}
+
+// 연결 확인 후 자동 검색
+async function wsTestAndSearch() {
+  const key = getWsKey();
+  const statusEl = document.getElementById('ws-key-status');
+  const keyInput = document.getElementById('ws-pexels-key');
+
+  if (!key) {
+    statusEl.style.display = 'block';
+    statusEl.innerHTML = '<span style="color:var(--danger)">⚠ API 키를 입력해주세요</span>';
+    if (keyInput) { keyInput.focus(); keyInput.style.borderColor = 'var(--danger)'; setTimeout(()=>{ keyInput.style.borderColor='#b2e8dc'; }, 3000); }
+    return;
+  }
+  statusEl.style.display = 'block';
+  statusEl.innerHTML = '<span style="color:var(--gray-400)">연결 확인 중...</span>';
+
+  try {
+    const r = await fetch('https://api.pexels.com/v1/search?query=spring&per_page=1', { headers: { Authorization: key } });
+    if (r.ok) {
+      statusEl.innerHTML = '<span style="color:var(--pexels)">✓ 연결 성공! 자동 검색을 시작합니다...</span>';
+      const sideInput = document.getElementById('pexelsKey');
+      if (sideInput && !sideInput.value.trim()) sideInput.value = key;
+      setTimeout(() => wsAutoSearch(), 400);
+    } else {
+      statusEl.innerHTML = `<span style="color:var(--danger)">✗ 키 오류 (${r.status}) — 다시 확인해주세요</span>`;
+    }
+  } catch(e) {
+    statusEl.innerHTML = '<span style="color:var(--danger)">✗ 네트워크 오류</span>';
+  }
+}
+
+// Pexels 이미지 검색 (활동지 전용)
+async function wsSearchImages() {
+  const key  = getWsKey();
+  const grid = document.getElementById('ws-img-grid');
+  const btn  = document.getElementById('ws-search-btn');
+  const q    = (document.getElementById('ws-img-search').value || '').trim();
+  const statusEl = document.getElementById('ws-key-status');
+
+  // 키 없을 때 → 패널 안에서 바로 안내
+  if (!key) {
+    grid.className = 'img-grid';
+    grid.innerHTML = `
+      <div class="img-placeholder">
+        <span class="big-icon">🔑</span>
+        <strong style="color:var(--orange);font-size:14px">Pexels API 키를 입력해주세요</strong><br>
+        <span style="font-size:12px;margin-top:8px;display:block;line-height:1.8">
+          위 <strong style="color:var(--pexels)">🔑 Pexels API 키</strong> 입력란에<br>
+          키를 붙여넣고 <strong>✓ 연결 확인</strong>을 눌러주세요.
+        </span>
+        <a href="https://www.pexels.com/api/" target="_blank"
+          style="display:inline-block;margin-top:12px;padding:8px 18px;background:var(--pexels);color:white;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none">
+          🆓 무료 키 발급받기 →
+        </a>
+      </div>`;
+    const keyInput = document.getElementById('ws-pexels-key');
+    if (keyInput) {
+      keyInput.focus();
+      keyInput.style.borderColor = 'var(--danger)';
+      keyInput.style.boxShadow   = '0 0 0 3px rgba(252,129,129,0.25)';
+      setTimeout(() => { keyInput.style.borderColor='#b2e8dc'; keyInput.style.boxShadow=''; }, 3000);
+    }
+    if (statusEl) { statusEl.style.display='block'; statusEl.innerHTML='<span style="color:var(--danger)">⚠ 위 입력란에 키를 입력하세요</span>'; }
+    return;
+  }
+
+  if (!q) { showToast('검색어를 입력하세요'); return; }
+
+  // 로딩
+  grid.className = 'img-grid loading';
+  grid.innerHTML = `
+    <div style="text-align:center;padding:24px">
+      <div style="width:36px;height:36px;border:4px solid #e2e6ee;border-top:4px solid var(--pexels);border-radius:50%;animation:spin 0.8s linear infinite;margin:0 auto 12px"></div>
+      <div style="font-size:13px;color:var(--gray-400)">"<strong>${q}</strong>" 이미지 검색 중...</div>
+    </div>`;
+  if (btn) { btn.disabled = true; btn.textContent = '검색 중...'; }
+
+  try {
+    const res = await fetch(
+      `https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=20&orientation=landscape`,
+      { headers: { Authorization: key } }
+    );
+
+    if (res.status === 401) {
+      grid.className = 'img-grid';
+      grid.innerHTML = `<div class="img-placeholder"><span class="big-icon">🔑</span><strong>API 키 오류 (401)</strong><br><span style="font-size:11px">위 입력란의 키가 올바른지 확인해주세요</span></div>`;
+      if (statusEl) { statusEl.style.display='block'; statusEl.innerHTML='<span style="color:var(--danger)">✗ 키 오류 — 다시 확인해주세요</span>'; }
+      return;
+    }
+    if (res.status === 429) {
+      grid.className = 'img-grid';
+      grid.innerHTML = `<div class="img-placeholder"><span class="big-icon">⏳</span>요청 한도 초과 — 잠시 후 다시 시도하세요</div>`;
+      return;
+    }
+    if (!res.ok) throw new Error(`서버 오류 ${res.status}`);
+
+    const data = await res.json();
+    wsSearchResults = data.photos || [];
+    grid.className = 'img-grid';
+
+    if (!wsSearchResults.length) {
+      grid.innerHTML = `
+        <div class="img-placeholder">
+          <span class="big-icon">🔍</span>
+          "<strong>${q}</strong>" 검색 결과 없음<br>
+          <span style="font-size:11px;margin-top:4px;display:block">영어 키워드를 써보세요 (예: spring flowers, children playing)</span>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = '';
+    wsSearchResults.forEach((p, i) => {
+      const isUsed     = Object.values(wsImages).some(img => img && img.id == p.id);
+      const safeAlt    = (p.alt || q).replace(/['"<>]/g, ' ');
+      const safePhotog = p.photographer.replace(/['"<>]/g, ' ');
+      const card = document.createElement('div');
+      card.className = `img-card fade-up${isUsed ? ' selected' : ''}`;
+      card.style.animationDelay = `${i * 0.04}s`;
+      card.dataset.id = p.id;
+      card.innerHTML = `
+        <img src="${p.src.medium}" alt="${safeAlt}" loading="lazy"
+          onerror="this.parentElement.style.background='var(--gray-100)';this.style.display='none'">
+        <div class="img-overlay">
+          <button class="ovl-btn ovl-select"
+            onclick="wsAssignImage(event,${p.id},'${p.src.medium}','${p.src.large||p.src.medium}','${safePhotog}','${safeAlt}')">
+            ${isUsed ? '✓ 배정됨' : '+ 이 그룹에 배정'}
+          </button>
+          <a href="${p.url}" target="_blank" class="ovl-btn ovl-open"
+            onclick="event.stopPropagation()" style="text-decoration:none">🔗 원본</a>
+        </div>
+        <div class="img-photo-credit">📷 ${p.photographer}</div>`;
+      grid.appendChild(card);
+    });
+    if (statusEl) { statusEl.style.display='block'; statusEl.innerHTML=`<span style="color:var(--pexels)">✓ ${wsSearchResults.length}장 검색 완료</span>`; }
+    showToast(`${wsSearchResults.length}장 이미지를 찾았어요 ✓`, 'ok');
+
+  } catch(err) {
+    grid.className = 'img-grid';
+    grid.innerHTML = `<div class="img-placeholder"><span class="big-icon">⚠️</span>검색 오류: ${err.message}<br><span style="font-size:11px;margin-top:4px;display:block">인터넷 연결과 API 키를 확인해주세요</span></div>`;
+    console.error('[wsSearchImages]', err);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = '🔍 이미지 검색'; }
+  }
+}
+
+// 이미지를 그룹 슬롯에 배정
+function wsAssignImage(e, id, url, large, photographer, alt) {
+  if (e && e.stopPropagation) e.stopPropagation();
+  wsImages[wsActiveSlot] = { id, url, large, photographer, alt };
+
+  // 슬롯 미리보기 업데이트
+  const slotImgEl = document.getElementById('ws-slot-' + wsActiveSlot + '-img');
+  if (slotImgEl) {
+    slotImgEl.innerHTML = `<img src="${url}" style="width:100%;height:50px;object-fit:cover;border-radius:5px">`;
+  }
+
+  // 그리드 내 카드 상태 업데이트
+  document.querySelectorAll('#ws-img-grid .img-card').forEach(c => {
+    const isUsed = Object.values(wsImages).some(img => img && img.id == c.dataset.id);
+    c.classList.toggle('selected', isUsed);
+    const btn = c.querySelector('.ovl-select');
+    if (btn) {
+      if (isUsed) {
+        btn.textContent = '✓ 배정됨';
+      } else {
+        btn.textContent = `→ ${wsActiveSlot}그룹에 배정`;
+      }
+    }
+  });
+
+  showToast(`${wsActiveSlot}그룹에 이미지 배정됨 ✓`, 'ok');
+
+  // 다음 미배정 슬롯으로 자동 이동
+  const slots = ['A','B','C','PREP'];
+  const nextEmpty = slots.find(s => s !== wsActiveSlot && !wsImages[s]);
+  if (nextEmpty) wsSetActiveSlot(nextEmpty);
+}
+
+// 이미지 포함 활동지 생성
+function generateWorksheetWithImages() {
+  const month = document.getElementById('ws-month')?.value || document.getElementById('lesson-month')?.value || '4';
+  const week = document.getElementById('ws-week')?.value || document.getElementById('lesson-week')?.value || '3주차';
+
+  // 교안 정보 가져오기
+  const lessonMonth = parseInt(document.getElementById('lesson-month')?.value || 4);
+  const MONTHLY_DATA = {
+    3:{theme:'나와 친구',sub:'봄 맞이·새 친구'},
+    4:{theme:'봄과 생명',sub:'꽃·씨앗·새싹'},
+    5:{theme:'가족과 공동체',sub:'가족·이웃·어린이날'},
+    6:{theme:'여름과 건강',sub:'여름날씨·건강'},
+    9:{theme:'가을과 추수',sub:'단풍·열매'},
+    12:{theme:'겨울과 축제',sub:'눈·추위'},
+  };
+  const td = MONTHLY_DATA[lessonMonth] || MONTHLY_DATA[4];
+  const activityName = document.getElementById('lesson-month') ? (MONTHLY_THEMES[lessonMonth]?.activities[parseInt(document.getElementById('lesson-week')?.value||3)-1] || '봄꽃 관찰하기') : '봄꽃 관찰하기';
+
+  // 이미지 크레딧 모음
+  const credits = Object.values(wsImages).filter(Boolean).map(i => `© ${i.photographer}`).filter((v,i,a)=>a.indexOf(v)===i);
+
+  const groups = [
+    {
+      id:'A', label:'그룹 A — 우뇌우세', color:'var(--blue-lt)', borderColor:'var(--blue)',
+      title:'🎨 봄꽃 자유 표현',
+      desc:'마음에 드는 봄꽃을 자유롭게 그리고 꾸며보세요!',
+      activity: `
+        <div style="border:2px dashed var(--blue-mid);border-radius:8px;height:160px;margin:10px 0;display:flex;align-items:center;justify-content:center;color:var(--blue-mid);font-size:13px">✏️ 자유롭게 그려요</div>
+        <p style="font-size:12px;margin-top:6px">내가 그린 것: _________________ &nbsp;&nbsp; 느낌: _________________</p>`,
+      passTag: '동시처리(S) — 전체 이미지 파악',
+      passColor: 'var(--pass-s)',
+    },
+    {
+      id:'B', label:'그룹 B — 좌우뇌균형', color:'var(--pass-s-lt)', borderColor:'var(--success)',
+      title:'🔍 봄꽃 관찰 일지',
+      desc:'봄꽃을 꼼꼼하게 관찰하고 기록해보세요!',
+      activity: `
+        <table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px">
+          <tr><th style="border:1px solid #ccc;padding:5px;background:#f0fdf4">꽃 이름</th><td style="border:1px solid #ccc;padding:5px"></td><th style="border:1px solid #ccc;padding:5px;background:#f0fdf4">색깔</th><td style="border:1px solid #ccc;padding:5px"></td></tr>
+          <tr><th style="border:1px solid #ccc;padding:5px;background:#f0fdf4">모양</th><td style="border:1px solid #ccc;padding:5px"></td><th style="border:1px solid #ccc;padding:5px;background:#f0fdf4">냄새</th><td style="border:1px solid #ccc;padding:5px"></td></tr>
+          <tr><th style="border:1px solid #ccc;padding:5px;background:#f0fdf4" colspan="4">느낌 (그림 또는 글)</th></tr>
+          <tr><td style="border:1px solid #ccc;padding:5px;height:70px" colspan="4"></td></tr>
+        </table>`,
+      passTag: '주의(A) — 세부 관찰 집중',
+      passColor: 'var(--pass-a)',
+    },
+    {
+      id:'C', label:'그룹 C — 좌뇌우세', color:'var(--purple-lt)', borderColor:'var(--purple)',
+      title:'📋 단계별 봄꽃 관찰',
+      desc:'순서대로 차근차근 관찰해봐요!',
+      activity: `
+        <div style="font-size:12px">
+          <div style="background:var(--purple-lt);border-radius:6px;padding:7px;margin:4px 0"><strong>①</strong> 꽃 이름을 찾아 써요: _________________________</div>
+          <div style="background:var(--purple-lt);border-radius:6px;padding:7px;margin:4px 0"><strong>②</strong> 꽃잎 개수를 세어요: _______개 &nbsp; 색깔: _________</div>
+          <div style="background:var(--purple-lt);border-radius:6px;padding:7px;margin:4px 0"><strong>③</strong> 모양을 그려요: <span style="display:inline-block;width:80px;border-bottom:1px solid #ccc"></span></div>
+          <div style="background:var(--purple-lt);border-radius:6px;padding:7px;margin:4px 0"><strong>④</strong> 느낌 한 줄: _________________________</div>
+        </div>`,
+      passTag: '순차처리(SU) — 단계별 절차',
+      passColor: 'var(--pass-su)',
+    },
+    {
+      id:'PREP', label:'PREP 소그룹', color:'var(--orange-lt)', borderColor:'var(--orange)',
+      title:'🧠 PREP 순차처리 연습',
+      desc:'선생님과 함께 순서대로 해봐요!',
+      activity: `
+        <div style="font-size:12px">
+          ${[
+            '봄꽃 사진에서 마음에 드는 것 하나 가리키기',
+            '꽃 이름 알아보기 → 이름: ___________',
+            '꽃 그리기 (아래 공간에)',
+            '선생님께 완성 보여드리기 ✓'
+          ].map((t,i)=>`<div style="display:flex;align-items:flex-start;gap:8px;margin:6px 0"><span style="background:var(--orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">${i+1}</span><div style="flex:1">${t}</div></div>`).join('')}
+          <div style="border:1px dashed var(--orange-mid);border-radius:6px;height:70px;margin:8px 0"></div>
+        </div>`,
+      passTag: '계획(P) + 순차처리(SU)',
+      passColor: 'var(--pass-p)',
+    },
+  ];
+
+  const output = document.getElementById('ws-with-images-output');
+  output.innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px" id="ws-print-area">
+      ${groups.map(g => {
+        const img = wsImages[g.id];
+        const imgSection = img
+          ? `<div style="margin:10px 0;border-radius:8px;overflow:hidden;border:1px solid rgba(0,0,0,0.08)">
+               <img src="${img.url}" alt="${img.alt}" style="width:100%;height:120px;object-fit:cover;display:block">
+               <div style="font-size:9px;color:#999;padding:3px 6px;background:#fafafa">📷 ${img.photographer} / Pexels</div>
+             </div>`
+          : `<div style="margin:10px 0;border:2px dashed #ddd;border-radius:8px;height:120px;display:flex;align-items:center;justify-content:center;color:#ccc;font-size:12px">이미지를 검색해서 배정하세요</div>`;
+
+        return `
+          <div style="background:${g.color};border:2px solid ${g.borderColor};border-radius:14px;padding:18px;break-inside:avoid">
+            <!-- 활동지 헤더 -->
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+              <div>
+                <div style="font-size:11px;font-weight:700;color:${g.borderColor};margin-bottom:2px">${g.label}</div>
+                <div style="font-size:15px;font-weight:800;color:var(--gray-800)">${g.title}</div>
+              </div>
+              <div style="text-align:right;font-size:10px;color:var(--gray-400)">
+                <div>${lessonMonth}월 ${week}</div>
+                <div>이름: ________________</div>
+              </div>
+            </div>
+            <!-- 교안 연계 정보 -->
+            <div style="background:rgba(255,255,255,0.6);border-radius:7px;padding:7px 10px;margin-bottom:8px;font-size:11px;color:var(--gray-600)">
+              📚 <strong>${td.theme}</strong> · ${activityName}
+              <span style="float:right;background:${g.passColor};color:white;padding:1px 7px;border-radius:4px;font-size:10px;font-weight:700">${g.passTag}</span>
+            </div>
+            <!-- Pexels 이미지 -->
+            ${imgSection}
+            <!-- 활동 내용 -->
+            <div style="font-size:12px;color:var(--gray-600);margin-bottom:8px">${g.desc}</div>
+            ${g.activity}
+          </div>`;
+      }).join('')}
+    </div>
+    ${credits.length > 0 ? `
+    <div style="margin-top:12px;padding:8px 14px;background:var(--pexels-lt);border-radius:8px;font-size:11px;color:var(--gray-500);display:flex;align-items:center;gap:8px">
+      🖼️ Photos provided by <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels);font-weight:700">Pexels</a>
+      &nbsp;—&nbsp; ${credits.join(', ')}
+    </div>` : ''}
+    <div style="display:flex;gap:10px;margin-top:14px" class="no-print">
+      <button class="btn btn-primary" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>
+      <button class="btn btn-outline btn-sm" onclick="wsResetImages()">🔄 이미지 초기화</button>
+    </div>`;
+
+  showToast('활동지 생성 완료! 🎉', 'ok');
+  output.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 활동지 이미지 초기화
+function wsResetImages() {
+  wsImages = { A: null, B: null, C: null, PREP: null };
+  ['A','B','C','PREP'].forEach(g => {
+    const el = document.getElementById('ws-slot-' + g + '-img');
+    if (el) el.innerHTML = '<span style="font-size:10px;color:var(--gray-300)">이미지 없음</span>';
+    const slot = document.getElementById('ws-slot-' + g);
+    if (slot) slot.style.opacity = '1';
+  });
+  document.getElementById('ws-with-images-output').innerHTML = '';
+  showToast('이미지 초기화됨');
+}
+
+// ── 기존 활동지 (Pexels 없이 기본 생성) ──
+function generateWorksheet(){
+  const month=document.getElementById('ws-month')?.value||'4';
+  const week=document.getElementById('ws-week')?.value||'3주차';
+  const groups={
+    'ws-a':{label:'그룹 A (우뇌우세)',color:'var(--blue-lt)',borderColor:'var(--blue)',content:'<p><strong>🎨 봄꽃 자유 표현</strong></p><p style="margin:8px 0;font-size:13px">아래 공간에 가장 마음에 드는 봄꽃을 자유롭게 그려보세요!</p><div style="border:2px dashed var(--blue-mid);border-radius:8px;height:200px;margin:10px 0;display:flex;align-items:center;justify-content:center;color:var(--blue-mid);font-size:13px">그림을 그려요</div><p style="font-size:12px">내가 그린 꽃의 이름: ___________________</p>'},
+    'ws-b':{label:'그룹 B (밸런스)',color:'var(--pass-s-lt)',borderColor:'var(--success)',content:'<p><strong>🔍 봄꽃 관찰 일지</strong></p><table style="width:100%;border-collapse:collapse;font-size:12px;margin-top:8px"><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">꽃 이름</th><td style="border:1px solid #ccc;padding:6px;min-width:120px"></td><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">색깔</th><td style="border:1px solid #ccc;padding:6px"></td></tr><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">모양</th><td style="border:1px solid #ccc;padding:6px"></td><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4">냄새</th><td style="border:1px solid #ccc;padding:6px"></td></tr><tr><th style="border:1px solid #ccc;padding:6px;background:#f0fdf4" colspan="4">느낌(그림 또는 글)</th></tr><tr><td style="border:1px solid #ccc;padding:6px;height:80px" colspan="4"></td></tr></table>'},
+    'ws-c':{label:'그룹 C (좌뇌우세)',color:'var(--purple-lt)',borderColor:'var(--purple)',content:'<p><strong>📋 단계별 봄꽃 관찰</strong></p><div style="font-size:12px"><div style="background:var(--purple-lt);border-radius:6px;padding:8px;margin:4px 0">① 꽃 이름을 찾아 써요: _________________</div><div style="background:var(--purple-lt);border-radius:6px;padding:8px;margin:4px 0">② 꽃잎 개수를 세어요: _________________개</div><div style="background:var(--purple-lt);border-radius:6px;padding:8px;margin:4px 0">③ 꽃의 색깔을 칠해요</div><div style="background:var(--purple-lt);border-radius:6px;padding:8px;margin:4px 0">④ 느낌을 한 줄로 써요: _________________</div></div>'},
+    'ws-prep':{label:'PREP 소그룹',color:'var(--orange-lt)',borderColor:'var(--orange)',content:'<p><strong>🧠 PREP 순차처리 연습</strong></p><div style="font-size:12px"><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:var(--orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">1</span>봄꽃 사진 중 마음에 드는 것 하나 고르기</div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:var(--orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">2</span>꽃 이름 알아보기 → 이름: ___________</div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:var(--orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">3</span>꽃 그리기 (아래 공간)</div><div style="border:1px dashed var(--orange-mid);border-radius:6px;height:80px;margin:6px 0"></div><div style="display:flex;align-items:center;gap:8px;margin:6px 0"><span style="background:var(--orange);color:white;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:11px;flex-shrink:0">4</span>선생님께 완성 보여드리기 ✓</div></div>'},
+  };
+  Object.entries(groups).forEach(([id,g])=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    el.innerHTML=`<div style="background:${g.color};border:2px solid ${g.borderColor};border-radius:12px;padding:18px"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><strong style="font-size:14px;color:${g.borderColor}">${g.label}</strong><span style="font-size:11px;color:var(--gray-400)">${month}월 ${week} | 이름: ___________</span></div>${g.content}</div>`;
+  });
+}
+
+// ── 탭 ──
+function switchTab(btn,paneId){btn.closest('.tabs').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const section=btn.closest('.page-section');section.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));document.getElementById(paneId).classList.add('active');}
+</script>
+</body>
+</html>
