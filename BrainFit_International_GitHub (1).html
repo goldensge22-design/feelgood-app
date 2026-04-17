@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainFit | K-PASS × International Curriculum System</title>
+<style>
+:root{
+  --green:#0f5c3a;--green2:#1a8a5a;--green3:#d4f0e4;--green4:#f0faf5;
+  --orange:#e6820a;--orange-lt:#fff3dc;
+  --blue:#2563eb;--blue-lt:#eff6ff;
+  --purple:#7c3aed;--purple-lt:#f5f3ff;
+  --danger:#dc2626;--danger-lt:#fef2f2;
+  --success:#16a34a;--success-lt:#f0fdf4;
+  --pass-p:#3b5bdb;--pass-a:#e67700;--pass-s:#7048e8;--pass-su:#0f9e6e;
+  --gray-50:#f9fafb;--gray-100:#f3f4f6;--gray-200:#e5e7eb;--gray-300:#d1d5db;
+  --gray-400:#9ca3af;--gray-500:#6b7280;--gray-600:#4b5563;--gray-700:#374151;--gray-800:#1f2937;
+  --pexels:#05a081;--pexels-lt:#e6f8f5;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;font-family:'Segoe UI',system-ui,sans-serif;background:var(--gray-100);color:var(--gray-800)}
+.app{display:flex;height:100vh;overflow:hidden}
+
+/* SIDEBAR */
+.sidebar{width:210px;flex-shrink:0;background:var(--green);display:flex;flex-direction:column;overflow-y:auto}
+.sidebar-logo{padding:1.125rem 1rem 1rem;border-bottom:1px solid rgba(255,255,255,.12)}
+.logo-brand{display:flex;align-items:center;gap:8px;margin-bottom:4px}
+.logo-icon{width:32px;height:32px;background:rgba(255,255,255,.2);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:800;color:#fff}
+.logo-name{font-size:18px;font-weight:800;color:#fff;letter-spacing:-.3px}
+.logo-sub{font-size:10px;color:rgba(255,255,255,.55);letter-spacing:.02em}
+
+/* Country dropdown */
+.country-wrap{padding:.625rem .75rem .5rem}
+.country-label{font-size:9.5px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:rgba(255,255,255,.4);margin-bottom:4px}
+.country-btn{display:flex;align-items:center;gap:6px;width:100%;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:6px 9px;color:#fff;font-size:12px;font-weight:500;cursor:pointer;transition:background .15s}
+.country-btn:hover{background:rgba(255,255,255,.2)}
+.country-flag{font-size:14px}
+.country-arr{margin-left:auto;font-size:9px;transition:transform .2s}
+.country-arr.open{transform:rotate(180deg)}
+.country-menu{background:#fff;border-radius:8px;margin-top:4px;overflow:hidden;display:none;max-height:260px;overflow-y:auto;box-shadow:0 4px 16px rgba(0,0,0,.15)}
+.country-menu.open{display:block}
+.country-item{display:flex;align-items:center;gap:7px;padding:7px 10px;font-size:12px;color:var(--gray-700);cursor:pointer;border:none;background:none;width:100%;text-align:left}
+.country-item:hover{background:var(--gray-50)}
+.country-item.active{background:var(--green3);color:var(--green);font-weight:600}
+
+.sidebar-section{font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.4);padding:.75rem .875rem .2rem;margin-top:.25rem}
+.nav-item{display:flex;align-items:center;gap:8px;padding:.55rem .875rem;cursor:pointer;color:rgba(255,255,255,.7);font-size:12.5px;border:none;background:none;width:100%;text-align:left;transition:all .12s;border-radius:0}
+.nav-item:hover{background:rgba(255,255,255,.1);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.18);color:#fff;font-weight:600}
+.nav-badge{margin-left:auto;background:var(--orange);color:#fff;font-size:9px;font-weight:700;padding:2px 6px;border-radius:10px}
+.nav-badge.new{background:var(--blue)}
+
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{background:#fff;border-bottom:1px solid var(--gray-200);padding:.75rem 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap}
+.topbar-title{font-size:15px;font-weight:700;color:var(--gray-800)}
+.topbar-right{display:flex;align-items:center;gap:.75rem}
+.topbar-country{display:flex;align-items:center;gap:6px;background:var(--green3);border-radius:20px;padding:4px 12px;font-size:12px;font-weight:600;color:var(--green)}
+.content{flex:1;overflow-y:auto;padding:1.5rem}
+
+/* PAGES */
+.page-section{display:none}.page-section.active{display:block}
+
+/* CARDS */
+.card{background:#fff;border:1px solid var(--gray-200);border-radius:12px;padding:1.25rem 1.5rem;margin-bottom:1rem}
+.card-title{font-size:14px;font-weight:700;color:var(--gray-800);margin-bottom:1rem}
+.section-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.section-header h2{font-size:18px;font-weight:800;color:var(--gray-800)}
+.section-header p{font-size:12px;color:var(--gray-500);margin-top:3px}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:.875rem}
+
+/* STATS */
+.stat-card{background:var(--gray-50);border:1px solid var(--gray-200);border-radius:10px;padding:1rem 1.25rem}
+.stat-val{font-size:26px;font-weight:800;line-height:1;margin-bottom:4px}
+.stat-lbl{font-size:12px;color:var(--gray-500)}
+
+/* TAGS */
+.tag{display:inline-flex;align-items:center;font-size:11px;font-weight:600;padding:3px 8px;border-radius:20px;margin:2px}
+.tag-blue{background:#dde8ff;color:#1e3fa8}.tag-green{background:var(--green3);color:var(--green)}
+.tag-orange{background:var(--orange-lt);color:#8a4a00}.tag-red{background:var(--danger-lt);color:var(--danger)}
+.tag-purple{background:var(--purple-lt);color:var(--purple)}
+.pass-badge{display:inline-flex;align-items:center;font-size:10.5px;font-weight:700;padding:3px 8px;border-radius:20px;margin:2px}
+.badge-p{background:#dde8ff;color:var(--pass-p)}.badge-a{background:#fff0cc;color:#9a5500}
+.badge-s{background:var(--purple-lt);color:var(--pass-s)}.badge-su{background:var(--green3);color:var(--pass-su)}
+
+/* BUTTONS */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:.55rem 1.1rem;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;border:none;transition:all .15s}
+.btn-primary{background:var(--green);color:#fff}.btn-primary:hover{background:var(--green2)}
+.btn-success{background:var(--success);color:#fff}.btn-success:hover{opacity:.9}
+.btn-orange{background:var(--orange);color:#fff}.btn-orange:hover{opacity:.9}
+.btn-outline{background:#fff;color:var(--gray-700);border:1.5px solid var(--gray-300)}.btn-outline:hover{background:var(--gray-50)}
+.btn-pexels{background:var(--pexels);color:#fff}.btn-pexels:hover{opacity:.9}
+.btn-sm{font-size:12px;padding:.4rem .8rem}
+.btn-lg{font-size:14px;padding:.75rem 1.5rem;width:100%;justify-content:center}
+.no-print{}.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* FORMS */
+.form-group{margin-bottom:.875rem}
+.form-label{display:block;font-size:12px;font-weight:600;color:var(--gray-600);margin-bottom:4px}
+.form-input{width:100%;padding:.5rem .75rem;border:1.5px solid var(--gray-300);border-radius:8px;font-size:13px;color:var(--gray-800);background:#fff;transition:border-color .15s}
+.form-input:focus{outline:none;border-color:var(--green2)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+
+/* AVATAR */
+.avatar{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;flex-shrink:0}
+.avatar-blue{background:#dde8ff;color:#1e3fa8}.avatar-green{background:var(--green3);color:var(--green)}
+.avatar-orange{background:var(--orange-lt);color:#8a4a00}.avatar-red{background:var(--danger-lt);color:var(--danger)}
+
+/* SCORE BAR */
+.score-bar-wrap{display:flex;align-items:center;gap:8px}
+.score-bar-bg{width:64px;height:7px;background:var(--gray-200);border-radius:4px;overflow:hidden;flex-shrink:0}
+.score-bar-fill{height:100%;border-radius:4px}
+.score-pct{font-size:11.5px;color:var(--gray-500)}
+
+/* CHECKLIST */
+.check-group-title{font-size:13px;font-weight:700;color:var(--gray-700);margin:.875rem 0 .4rem;padding-bottom:4px;border-bottom:1.5px solid var(--gray-200)}
+.check-item{display:flex;align-items:center;gap:8px;padding:.4rem 0;border-bottom:1px solid var(--gray-100)}
+.check-item:last-child{border-bottom:none}
+.check-label{font-size:12.5px;color:var(--gray-700);flex:1}
+.score-dots{display:flex;gap:4px}
+.sdot{width:22px;height:22px;border-radius:50%;border:1.5px solid var(--gray-300);background:#fff;font-size:11px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--gray-500);transition:all .15s}
+.sdot.on{border-color:var(--green);background:var(--green);color:#fff}
+
+/* OPTION CARDS */
+.option-card{border:2px solid var(--gray-200);border-radius:12px;padding:1rem;cursor:pointer;text-align:center;transition:all .15s}
+.option-card:hover{border-color:var(--green2);background:var(--green4)}
+.option-card.selected{border-color:var(--green);background:var(--green3)}
+.option-card .opt-icon{font-size:28px;margin-bottom:6px}
+.option-card .opt-name{font-size:13px;font-weight:700;color:var(--gray-700);margin-bottom:3px}
+.option-card .opt-desc{font-size:11px;color:var(--gray-500)}
+
+/* LESSON OUTPUT */
+.lesson-plan{font-size:13px;line-height:1.7}
+.lesson-plan h2{font-size:17px;font-weight:800;color:var(--gray-800);margin-bottom:.375rem}
+.lesson-plan .meta{font-size:11.5px;color:var(--gray-500);margin-bottom:1rem}
+.lesson-plan table{width:100%;border-collapse:collapse;margin:.625rem 0;font-size:12.5px}
+.lesson-plan th{background:var(--gray-50);padding:.5rem .75rem;text-align:left;font-weight:700;border:1px solid var(--gray-200);width:110px;color:var(--gray-600)}
+.lesson-plan td{padding:.5rem .75rem;border:1px solid var(--gray-200)}
+.section-title{font-size:13.5px;font-weight:800;color:var(--green);margin:1rem 0 .5rem;padding-bottom:4px;border-bottom:2px solid var(--green3)}
+.question-box{background:var(--gray-50);border:1.5px solid var(--gray-200);border-radius:8px;padding:.625rem .875rem;margin-bottom:.5rem}
+.question-box .q{font-size:13px;font-weight:700;color:var(--gray-800);margin-bottom:3px}
+.question-box .tip{font-size:11px;color:var(--gray-500)}
+
+/* PEXELS */
+.pexels-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:.5rem;margin-top:.75rem}
+.pexels-thumb{position:relative;cursor:pointer;border-radius:7px;overflow:hidden;border:2.5px solid transparent;transition:all .15s}
+.pexels-thumb:hover{border-color:var(--pexels)}
+.pexels-thumb.selected{border-color:var(--green)}
+.pexels-thumb img{width:100%;height:70px;object-fit:cover;display:block}
+.pexels-thumb .photo-credit{font-size:9px;color:var(--gray-400);text-align:center;padding:2px}
+.img-placeholder{background:var(--gray-50);border:2px dashed var(--gray-300);border-radius:10px;padding:2rem;text-align:center;color:var(--gray-400);font-size:13px}
+.img-placeholder .big-icon{font-size:32px;display:block;margin-bottom:.5rem}
+.quick-tags{display:flex;gap:.375rem;flex-wrap:wrap;margin-top:.625rem}
+.qtag{padding:4px 10px;border-radius:20px;border:1.5px solid var(--gray-300);font-size:11.5px;cursor:pointer;background:#fff;transition:all .15s}
+.qtag:hover{border-color:var(--pexels);color:var(--pexels)}
+
+/* EVAL TABLE */
+.eval-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.eval-table th{background:var(--gray-50);padding:.5rem .75rem;text-align:left;font-weight:700;border:1px solid var(--gray-200);color:var(--gray-600)}
+.eval-table td{padding:.5rem .75rem;border:1px solid var(--gray-200);vertical-align:middle}
+.eval-table tr:hover td{background:var(--gray-50)}
+
+/* ALERTS */
+.notice{padding:.75rem 1rem;border-radius:8px;font-size:12.5px;margin-bottom:.875rem}
+.notice-info{background:#eff6ff;color:#1e40af;border:1px solid #bfdbfe}
+.notice-warn{background:var(--orange-lt);color:#8a4a00;border:1px solid #fcd34d}
+.notice-success{background:var(--success-lt);color:#14532d;border:1px solid #86efac}
+
+/* SPINNER */
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:20px;height:20px;border:3px solid var(--gray-200);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;display:inline-block}
+.generating-msg{display:flex;align-items:center;gap:.75rem;padding:1.5rem;color:var(--gray-500);font-size:13px;background:var(--gray-50);border-radius:10px}
+
+/* OBSERVATION */
+.obs-item{background:#fff;border:1px solid var(--gray-200);border-radius:10px;padding:1rem 1.25rem;margin-bottom:.75rem}
+.obs-meta{font-size:11px;color:var(--gray-400);margin-top:.25rem}
+
+/* PRINT */
+@media print{
+  .sidebar,.topbar,.no-print{display:none!important}
+  .main{overflow:visible!important}.content{padding:0!important}
+  .page-section{display:block!important}
+  body{background:#fff}
+}
+
+/* GROWTH TIMELINE */
+.timeline{display:flex;gap:0;margin:1.25rem 0;position:relative}
+.timeline::before{content:'';position:absolute;top:20px;left:20px;right:20px;height:2px;background:var(--gray-200)}
+.timeline-item{flex:1;text-align:center;position:relative}
+.tl-circle{width:40px;height:40px;border-radius:50%;border:3px solid var(--gray-300);background:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;margin:0 auto .5rem;position:relative;z-index:1}
+.tl-circle.done{border-color:var(--green);background:var(--green);color:#fff}
+.tl-circle.current{border-color:var(--orange);background:var(--orange);color:#fff}
+.tl-label{font-size:11px;color:var(--gray-500)}
+.tl-sub{font-size:10px;color:var(--gray-400);margin-top:2px}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-brand">
+      <div class="logo-icon">B</div>
+      <div class="logo-name">BrainFit</div>
+    </div>
+    <div class="logo-sub">K-PASS × International Curriculum</div>
+  </div>
+
+  <div class="country-wrap">
+    <div class="country-label">Country</div>
+    <div class="country-btn" id="ctryBtn" onclick="toggleCtry()">
+      <span class="country-flag" id="ctryFlag">🇦🇿</span>
+      <span id="ctryName" style="flex:1">Azerbaijan</span>
+      <span class="country-arr" id="ctryArr">▾</span>
+    </div>
+    <div class="country-menu" id="ctryMenu"></div>
+  </div>
+
+  <div class="sidebar-section">Overview</div>
+  <button class="nav-item active" onclick="showSec('dashboard',this)">⊞ Dashboard</button>
+
+  <div class="sidebar-section">Lesson · Teaching</div>
+  <button class="nav-item" onclick="showSec('lesson',this)">📝 Lesson Plan<span class="nav-badge">K-PASS+</span></button>
+  <button class="nav-item" onclick="showSec('worksheet',this)">🖨️ Activity Worksheets</button>
+
+  <div class="sidebar-section">Assessment · Records</div>
+  <button class="nav-item" onclick="showSec('evaluation',this)">✅ Activity Evaluation<span class="nav-badge new">NEW</span></button>
+  <button class="nav-item" onclick="showSec('observation',this)">👁 Observation Log</button>
+  <button class="nav-item" onclick="showSec('growth',this)">📈 Growth Analysis</button>
+
+  <div class="sidebar-section">Reports</div>
+  <button class="nav-item" onclick="showSec('parent',this)">👨‍👩‍👧 Parent Report</button>
+  <button class="nav-item" onclick="showSec('liferecord',this)">📋 Student Record<span class="nav-badge new">NEW</span></button>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+  <div class="topbar">
+    <div class="topbar-title" id="topbar-title">Dashboard</div>
+    <div class="topbar-right">
+      <div class="topbar-country" id="topbarCountry">🇦🇿 Azerbaijan</div>
+      <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print</button>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ① DASHBOARD -->
+    <div class="page-section active" id="sec-dashboard">
+      <div class="section-header">
+        <div><h2 id="dashTitle">Class Dashboard</h2><p id="dashMeta"></p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print</button>
+      </div>
+
+      <div id="dashAlert" class="notice notice-warn" style="display:none"></div>
+
+      <div class="grid-4" id="dashStats" style="margin-bottom:1rem"></div>
+
+      <div class="grid-2" style="margin-bottom:1rem">
+        <div class="card">
+          <div class="card-title">Brain type distribution</div>
+          <div id="brainDist"></div>
+          <div id="dashRecommend" style="margin-top:.875rem;font-size:12px;color:var(--green);background:var(--green3);padding:.625rem .875rem;border-radius:8px"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">PASS 4-axis class average</div>
+          <div id="passAvg"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Student K-PASS results <span style="font-size:11px;font-weight:400;color:var(--gray-400)">(click → observation log)</span></div>
+        <div style="overflow-x:auto">
+          <table class="eval-table" style="min-width:700px">
+            <thead><tr><th>Name</th><th>Age</th><th>Brain type</th><th>Simultaneous</th><th>Successive</th><th>Planning</th><th>Attention</th><th>Weak axis</th><th>Note</th></tr></thead>
+            <tbody id="studentTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ② LESSON PLAN -->
+    <div class="page-section" id="sec-lesson">
+      <div class="section-header">
+        <div><h2>📝 Lesson Plan + K-PASS Script</h2><p>Pexels activity images + K-PASS 4-axis questioning — ready for immediate classroom use</p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="printLesson()">🖨️ Print</button>
+      </div>
+
+      <!-- PEXELS image search -->
+      <div class="card" style="border:1.5px solid var(--pexels)">
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.75rem;margin-bottom:.875rem">
+          <div style="font-size:13.5px;font-weight:700;color:var(--pexels)">📷 Pexels Activity Images <span style="font-size:11px;font-weight:400;color:var(--gray-400)">— selected image auto-connects to lesson script</span></div>
+          <div style="display:flex;gap:6px;flex-wrap:wrap">
+            <button class="btn btn-outline btn-sm" onclick="toggleLang()">🌐 <span id="langLabel">English</span></button>
+            <input type="text" id="searchInput" class="form-input" style="width:170px;font-size:12px" placeholder="Search images...">
+            <button class="btn btn-pexels btn-sm" onclick="searchImages()">🔍 Search</button>
+            <button class="btn btn-outline btn-sm" onclick="clearImages()">✕ Clear</button>
+          </div>
+        </div>
+        <div class="quick-tags" id="quickTags"></div>
+        <div id="selectedImgPreview" class="img-placeholder" style="margin-top:.75rem">
+          <span class="big-icon">🖼️</span>
+          Search images above — selected images auto-connect to the lesson script
+        </div>
+        <div id="pexelsGrid" class="pexels-grid"></div>
+      </div>
+
+      <!-- Lesson settings -->
+      <div class="card">
+        <div class="card-title">⚙️ Lesson settings</div>
+        <div class="grid-3" style="margin-bottom:.875rem">
+          <div class="form-group">
+            <label class="form-label">Month</label>
+            <select class="form-input" id="lesson-month">
+              <option value="3">March — Me & Friends</option>
+              <option value="4">April — Spring & Life</option>
+              <option value="5">May — Family & Community</option>
+              <option value="6">June — Summer & Health</option>
+              <option value="9">September — Autumn & Harvest</option>
+              <option value="12">December — Winter & Festivals</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Week</label>
+            <select class="form-input" id="lesson-week">
+              <option value="1">Week 1</option><option value="2">Week 2</option><option value="3">Week 3</option><option value="4">Week 4</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Duration (min)</label>
+            <select class="form-input" id="lesson-duration">
+              <option>20</option><option selected>30</option><option>40</option><option>50</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:.875rem">
+          <div class="form-group">
+            <label class="form-label">Curriculum area</label>
+            <select class="form-input" id="lesson-subject">
+              <option value="nuri">National Curriculum</option>
+              <option value="language">Language & Literacy</option>
+              <option value="math">Math & Manipulatives</option>
+              <option value="art">Arts & Crafts</option>
+              <option value="music">Music & Movement</option>
+              <option value="outdoor">Outdoor Play</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Activity type</label>
+            <select class="form-input" id="lesson-type">
+              <option value="large">Whole group</option>
+              <option value="small">Small group</option>
+              <option value="individual">Individual</option>
+              <option value="free">Free choice</option>
+            </select>
+          </div>
+        </div>
+        <!-- K-PASS axis selection -->
+        <div style="margin-bottom:.875rem">
+          <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">🧠 K-PASS questioning emphasis</div>
+          <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer"><input type="checkbox" id="kp_p" checked> <span class="pass-badge badge-p">Planning (P)</span></label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer"><input type="checkbox" id="kp_a" checked> <span class="pass-badge badge-a">Attention (A)</span></label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer"><input type="checkbox" id="kp_s"> <span class="pass-badge badge-s">Simultaneous (S)</span></label>
+            <label style="display:flex;align-items:center;gap:6px;font-size:12.5px;cursor:pointer"><input type="checkbox" id="kp_su" checked> <span class="pass-badge badge-su">Successive (SU)</span></label>
+          </div>
+        </div>
+        <!-- Option selection -->
+        <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">Lesson option</div>
+        <div class="grid-3" style="margin-bottom:1rem">
+          <div class="option-card" id="opt-A" onclick="selectOpt('A')">
+            <div class="opt-icon">🎨</div>
+            <div class="opt-name">Option A — Activity-led</div>
+            <div class="opt-desc">Drawing/play/experience focused<br>Right-brain group led</div>
+          </div>
+          <div class="option-card selected" id="opt-B" onclick="selectOpt('B')">
+            <div class="opt-icon">⚖️</div>
+            <div class="opt-name">Option B — Balanced ★</div>
+            <div class="opt-desc">Strengths + weakness support<br>Whole class standard</div>
+          </div>
+          <div class="option-card" id="opt-C" onclick="selectOpt('C')">
+            <div class="opt-icon">📐</div>
+            <div class="opt-name">Option C — Structured</div>
+            <div class="opt-desc">Step-by-step sequence<br>Left-brain group led</div>
+          </div>
+        </div>
+        <div style="display:flex;gap:.75rem;flex-wrap:wrap">
+          <button class="btn btn-primary btn-lg" style="flex:1" onclick="generateLesson()">✨ Generate K-PASS Lesson Plan</button>
+        </div>
+      </div>
+
+      <!-- Lesson output -->
+      <div class="card" id="lesson-output-card" style="display:none">
+        <div id="lesson-output"></div>
+        <div style="display:flex;gap:.75rem;margin-top:1rem" class="no-print">
+          <button class="btn btn-outline" onclick="printLesson()">🖨️ Print lesson</button>
+          <button class="btn btn-success" onclick="showSec('evaluation',document.querySelector('[onclick*=evaluation]'))">✅ Go to evaluation</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ③ ACTIVITY WORKSHEETS -->
+    <div class="page-section" id="sec-worksheet">
+      <div class="section-header">
+        <div><h2>🖨️ Group Activity Worksheets</h2><p>Select month & week — print and distribute to each brain-type group</p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print</button>
+      </div>
+      <div class="card">
+        <div class="form-row" style="margin-bottom:1rem">
+          <div class="form-group"><label class="form-label">Month</label>
+            <select class="form-input" id="ws-month">
+              <option value="3">March</option><option value="4">April</option><option value="5">May</option><option value="6">June</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Week</label>
+            <select class="form-input" id="ws-week"><option>Week 1</option><option>Week 2</option><option>Week 3</option><option>Week 4</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="generateWorksheet()">📄 Generate worksheets</button>
+      </div>
+      <div id="worksheetOut"></div>
+    </div>
+
+    <!-- ④ ACTIVITY EVALUATION -->
+    <div class="page-section" id="sec-evaluation">
+      <div class="section-header">
+        <div><h2>✅ Activity Evaluation</h2><p>Checklist 1–5 scoring → auto-summary → links to reports</p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print</button>
+      </div>
+      <div class="notice notice-info">📌 Evaluation items are auto-generated from the lesson plan. Score each item 1–5 to complete both qualitative and quantitative assessment simultaneously.</div>
+
+      <div class="card">
+        <div class="form-row" style="margin-bottom:1rem">
+          <div class="form-group"><label class="form-label">Student</label>
+            <select class="form-input" id="eval-student"><option value="">-- Select student --</option></select>
+          </div>
+          <div class="form-group"><label class="form-label">Activity name</label>
+            <input class="form-input" id="eval-activity" placeholder="e.g. Spring flowers observation"></div>
+        </div>
+        <div class="form-row" style="margin-bottom:1rem">
+          <div class="form-group"><label class="form-label">Date</label>
+            <input type="date" class="form-input" id="eval-date">
+          </div>
+          <div class="form-group"><label class="form-label">Evaluation method</label>
+            <select class="form-input" id="eval-method">
+              <option value="obs">Observation</option>
+              <option value="work">Work sample / Portfolio</option>
+              <option value="oral">Oral assessment</option>
+              <option value="peer">Peer assessment</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div id="evalChecklist"></div>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-top:1rem;flex-wrap:wrap;gap:.75rem">
+          <div id="evalScoreBox" style="font-size:13px;font-weight:600;color:var(--green)"></div>
+          <div style="display:flex;gap:.75rem">
+            <button class="btn btn-outline btn-sm" onclick="calcEval()">📊 Calculate scores</button>
+            <button class="btn btn-primary btn-sm" onclick="saveEval()">💾 Save evaluation</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">Evaluation history</div>
+        <div style="margin-bottom:.75rem">
+          <select class="form-input" id="eval-filter-student" style="width:200px" onchange="renderEvalHistory()">
+            <option value="">All students</option>
+          </select>
+        </div>
+        <div id="evalHistory"><div style="color:var(--gray-400);font-size:13px;padding:.5rem 0">No saved evaluations yet.</div></div>
+      </div>
+    </div>
+
+    <!-- ⑤ OBSERVATION LOG -->
+    <div class="page-section" id="sec-observation">
+      <div class="section-header">
+        <div><h2>👁 Observation Log</h2><p>Real-time activity observation → K-PASS axis tags → auto-accumulated records</p></div>
+      </div>
+      <div class="card">
+        <div class="card-title">✏️ New observation</div>
+        <div class="form-row" style="margin-bottom:.875rem">
+          <div class="form-group"><label class="form-label">Student</label>
+            <select class="form-input" id="obs-student"></select>
+          </div>
+          <div class="form-group"><label class="form-label">Date</label>
+            <input type="date" class="form-input" id="obs-date">
+          </div>
+        </div>
+        <div class="form-row" style="margin-bottom:.875rem">
+          <div class="form-group"><label class="form-label">K-PASS axis</label>
+            <select class="form-input" id="obs-pass">
+              <option value="all">All axes</option>
+              <option value="S">Simultaneous (S)</option>
+              <option value="SU">Successive (SU)</option>
+              <option value="P">Planning (P)</option>
+              <option value="A">Attention (A)</option>
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Domain</label>
+            <select class="form-input" id="obs-domain">
+              <option>Physical</option><option>Language</option><option>Social</option><option>Arts</option><option>Science</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Observation note</label>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:.5rem" id="quickPhrases"></div>
+          <textarea class="form-input" id="obs-text" rows="3" placeholder="Describe what you observed..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="saveObs()">💾 Save observation</button>
+      </div>
+      <div class="card">
+        <div class="card-title">📜 Observation history</div>
+        <select class="form-input" id="obs-filter-student" style="width:200px;margin-bottom:.875rem" onchange="renderObs()">
+          <option value="">All students</option>
+        </select>
+        <div id="obsHistory"><div style="color:var(--gray-400);font-size:13px">No observation records yet.</div></div>
+      </div>
+    </div>
+
+    <!-- ⑥ GROWTH ANALYSIS -->
+    <div class="page-section" id="sec-growth">
+      <div class="section-header">
+        <div><h2>📈 Growth Analysis</h2><p>Based on PASS theory research · 3-month, 6-month, 12-month tracking</p></div>
+      </div>
+      <div class="notice notice-info">★ Research basis: Naglieri & Johnson (2000) — 21 sessions (3 months) planning change · Carlson & Das (1997) — 6-month PREP effect · CAS2 Manual — 12-month K-PASS re-assessment recommended</div>
+      <div class="card">
+        <div class="card-title">📅 Annual growth checkpoints</div>
+        <div class="timeline" id="growthTimeline"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">Student growth lookup</div>
+        <div class="form-row" style="margin-bottom:1rem">
+          <div class="form-group"><label class="form-label">Student</label><select class="form-input" id="growth-student"></select></div>
+          <div class="form-group"><label class="form-label">Analysis period</label>
+            <select class="form-input" id="growth-period">
+              <option value="3">3-month behavioral check</option>
+              <option value="6">6-month mid-year analysis</option>
+              <option value="12">12-month comprehensive growth</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="showGrowth()">📊 View analysis</button>
+        <div id="growthOut" style="margin-top:1rem"></div>
+      </div>
+    </div>
+
+    <!-- ⑦ PARENT REPORT -->
+    <div class="page-section" id="sec-parent">
+      <div class="section-header">
+        <div><h2>👨‍👩‍👧 Parent Developmental Report</h2><p>Observation records + evaluation results → A4 report auto-generated</p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print / Save PDF</button>
+      </div>
+      <div class="card no-print">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Student</label><select class="form-input" id="parent-student" onchange="generateParentReport()"></select></div>
+          <div class="form-group"><label class="form-label">Report period</label>
+            <select class="form-input" id="parent-period" onchange="generateParentReport()">
+              <option value="3">3 months</option><option value="6">6 months</option><option value="12">1 year</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="parentReportOut"></div>
+    </div>
+
+    <!-- ⑧ STUDENT RECORD -->
+    <div class="page-section" id="sec-liferecord">
+      <div class="section-header">
+        <div><h2>📋 Student Record</h2><p>Observation + evaluation auto-compiled → narrative auto-generated</p></div>
+        <button class="btn btn-outline btn-sm no-print" onclick="window.print()">🖨️ Print</button>
+      </div>
+      <div class="card no-print">
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Student</label><select class="form-input" id="life-student" onchange="generateLifeRecord()"></select></div>
+          <div class="form-group"><label class="form-label">Year</label>
+            <select class="form-input" id="life-year"><option>2026</option><option>2025</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="generateLifeRecord()">📝 Generate record</button>
+      </div>
+      <div id="lifeRecordOut"></div>
+    </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /app -->
+
+<script>
+// ═══════════════════════════════════════════════════
+// CONFIGURATION
+// ═══════════════════════════════════════════════════
+const PEXELS_API_KEY = '61X7NRIo2Of7kfYO7ILZWYZFdSXnUhJrhmevrR36X9jpx5hkfLobMWxV';
+
+// ═══════════════════════════════════════════════════
+// COUNTRY DATA
+// ═══════════════════════════════════════════════════
+const COUNTRIES = {
+  az:{name:'Azerbaijan',flag:'🇦🇿',curr:'State Standard of Preschool Education (2019)',lang:'Azerbaijani/Russian',tags:['ECCE 2019','Ages 3–6']},
+  th:{name:'Thailand',flag:'🇹🇭',curr:'Early Childhood Curriculum B.E. 2560 (2017)',lang:'Thai',tags:['MoE 2017','Ages 3–6']},
+  vn:{name:'Vietnam',flag:'🇻🇳',curr:'Preschool Education Program (2021)',lang:'Vietnamese/English',tags:['MOET 2021','Ages 3–6']},
+  mn:{name:'Mongolia',flag:'🇲🇳',curr:'Pre-School Education Standard (2019)',lang:'Mongolian/English',tags:['MES 2019','Ages 3–6']},
+  np:{name:'Nepal',flag:'🇳🇵',curr:'ECCE Framework (MoEST 2019)',lang:'Nepali/English',tags:['MoEST 2019','Ages 3–6']},
+  my:{name:'Malaysia',flag:'🇲🇾',curr:'KSPK National Curriculum (MOE 2017)',lang:'Malay/English',tags:['KSPK 2017','Ages 4–6']},
+  sg:{name:'Singapore',flag:'🇸🇬',curr:'Nurturing Early Learners (NEL 2012)',lang:'English/Mandarin',tags:['NEL 2012','Ages 4–6']},
+  ph:{name:'Philippines',flag:'🇵🇭',curr:'MATATAG Kindergarten Guide (DepEd 2023)',lang:'Filipino/English',tags:['MATATAG 2023','Ages 5–6']},
+  ae:{name:'Dubai / UAE',flag:'🇦🇪',curr:'KHDA ECCE Quality Framework (2025)',lang:'Arabic/English',tags:['Education 33','Ages 3–6']},
+  qa:{name:'Qatar',flag:'🇶🇦',curr:'Qatar National Curriculum (Mowafaqon 2021)',lang:'Arabic/English',tags:['Mowafaqon 2021','Ages 3–6']},
+  hk:{name:'Hong Kong',flag:'🇭🇰',curr:'Kindergarten Education Guide (EDB 2017)',lang:'Cantonese/English',tags:['EDB 2017','Ages 3–6']},
+};
+
+// ═══════════════════════════════════════════════════
+// STUDENT DATA (demo class)
+// ═══════════════════════════════════════════════════
+const STUDENTS = [
+  {name:'Aiden Park',age:5,type:'Right-brain',sim:72,seq:58,plan:64,att:88,weak:'Successive',note:''},
+  {name:'Sofia Chen',age:6,type:'Left-brain',sim:60,seq:82,plan:78,att:70,weak:'Simultaneous',note:''},
+  {name:'Lucas Müller',age:4,type:'Balanced',sim:68,seq:65,plan:70,att:67,weak:'Successive',note:''},
+  {name:'Yuki Tanaka',age:5,type:'Right-brain',sim:80,seq:52,plan:58,att:76,weak:'Successive',note:''},
+  {name:'Omar Hassan',age:6,type:'Left-brain',sim:55,seq:78,plan:82,att:72,weak:'Simultaneous',note:''},
+  {name:'Emma Wilson',age:5,type:'Balanced',sim:65,seq:68,plan:63,att:70,weak:'Planning',note:''},
+  {name:'Mia Johnson',age:4,type:'Right-brain',sim:75,seq:45,plan:50,att:80,weak:'Successive',note:'PREP support'},
+  {name:'Lucas Park',age:6,type:'Left-brain',sim:58,seq:74,plan:76,att:68,weak:'Simultaneous',note:''},
+  {name:'Ava Smith',age:5,type:'Balanced',sim:66,seq:62,plan:68,att:64,weak:'Successive',note:''},
+];
+
+// ═══════════════════════════════════════════════════
+// MONTHLY THEMES
+// ═══════════════════════════════════════════════════
+const MONTHLY_THEMES = {
+  3:{theme:'Me & Friends',sub:'Spring · New friends',activities:['Introducing myself','Greeting new friends','Making class rules together']},
+  4:{theme:'Spring & Life',sub:'Flowers · Seeds · Sprouts',activities:['Observing spring flowers','Planting seeds & observation journal','Spring picnic preparation']},
+  5:{theme:'Family & Community',sub:'Family · Neighbors · Children\'s Day',activities:['Introducing my family','Helping our community','Preparing for Children\'s Day']},
+  6:{theme:'Summer & Health',sub:'Summer weather · Health habits',activities:['Healthy foods I know','Summer weather stories','Water and cleanliness']},
+  9:{theme:'Autumn & Harvest',sub:'Leaves · Fruits',activities:['Observing autumn leaves','Fruits and seeds','Harvest thanksgiving']},
+  12:{theme:'Winter & Festivals',sub:'Snow · Cold weather',activities:['Winter weather stories','Snowflake observation','Year-end celebration']},
+};
+
+const SUBJECT_LABELS = {nuri:'National Curriculum',language:'Language & Literacy',math:'Math & Manipulatives',art:'Arts & Crafts',music:'Music & Movement',outdoor:'Outdoor Play'};
+const TYPE_LABELS = {large:'Whole group',small:'Small group',individual:'Individual',free:'Free choice'};
+const OPTION_DESC = {
+  A:{style:'Activity-led',focus:'Right-brain group led',prepare:'Picture cards, paint, free expression materials'},
+  B:{style:'Balanced mix',focus:'Whole class balance',prepare:'Varied materials, structured + open-ended mix'},
+  C:{style:'Structured',focus:'Step-by-step clear sequence',prepare:'Sequential worksheet, numbered cards'},
+};
+
+// ═══════════════════════════════════════════════════
+// K-PASS QUESTIONING DATABASE
+// ═══════════════════════════════════════════════════
+const KPASS_Q = {
+  Introduction:{
+    P:[
+      {q:'"What do you think we\'ll be doing today? What might we create?"',tip:'Choice→prediction question to stimulate planning'},
+      {q:'"What should we prepare first to do today\'s activity well?"',tip:'Metacognition prompt — goal-setting practice'},
+    ],
+    A:[
+      {q:'"What do you notice first in this picture? Let\'s look carefully."',tip:'Specific stimulus focus → observation question'},
+      {q:'"Let\'s look at color, shape, and size one by one — what do you see?"',tip:'Sensory detail attention guidance'},
+    ],
+    S:[
+      {q:'"Looking at the whole picture, what feeling does it give you?"',tip:'Whole context recognition → simultaneous processing'},
+      {q:'"Can you sort what\'s alive and what\'s not alive in this picture?"',tip:'Whole pattern classification → simultaneous processing'},
+    ],
+    SU:[
+      {q:'"What changes happen in spring, in order? What\'s the first thing?"',tip:'Sequential verbalization → successive processing'},
+      {q:'"Follow along in order: first, then, finally..."',tip:'Sequential modeling → language support'},
+    ],
+  },
+  Exploration:{
+    P:[
+      {q:'"What could you make with this? Think of three ideas."',tip:'Alternative thinking → 3-step planning'},
+      {q:'"If there were no flowers, what could make it look like spring?"',tip:'Hypothesis-prediction → planning depth'},
+    ],
+    A:[
+      {q:'"What are those round things next to the flower? Let\'s look very closely."',tip:'Detail stimulus attention → observation question'},
+      {q:'"How are the colors different? Compare them one by one."',tip:'Color difference attention → comparison question'},
+    ],
+    S:[
+      {q:'"If you looked at the whole scene from above, what shape would it be?"',tip:'Whole spatial structure recognition → simultaneous'},
+      {q:'"Where should the tree, flowers, and stream be to look natural?"',tip:'Whole arrangement relationships → simultaneous'},
+    ],
+    SU:[
+      {q:'"What\'s the very first step to make a spring garden?"',tip:'First step of procedure → successive processing'},
+      {q:'"After the tree, what should we add? And last of all?"',tip:'"First-next-last" procedure verbalization'},
+    ],
+  },
+  Activity:{
+    P:[
+      {q:'"What method are you using? Why did you choose that method?"',tip:'Choice-reason metacognition → planning'},
+      {q:'"When you\'re finished, what will it look like? Can you describe it?"',tip:'Result prediction → planning depth'},
+    ],
+    A:[
+      {q:'"Look very carefully at the petals — are there any patterns on them?"',tip:'Fine detail observation → strength utilization'},
+      {q:'"How many colors are there? Let\'s count them one by one."',tip:'Quantity attention → attention strength question'},
+    ],
+    S:[
+      {q:'"Looking at everything you\'ve made so far — is anything missing?"',tip:'Part→whole perception → simultaneous'},
+      {q:'"If this was a map, where would the mountain be?"',tip:'Whole spatial relationship → simultaneous'},
+    ],
+    SU:[
+      {q:'"Can you explain to your friend which step you\'re on right now?"',tip:'Current step verbalization → successive'},
+      {q:'"Step 1, Step 2, Step 3 — let\'s do them in order."',tip:'Number sequence visualization → successive support'},
+    ],
+  },
+  Closing:{
+    P:[
+      {q:'"Did your plan work out? What would you do differently next time?"',tip:'Reflection → planning metacognition'},
+      {q:'"What was the most important decision you made today?"',tip:'Key decision awareness → planning'},
+    ],
+    A:[
+      {q:'"What was the most interesting detail you noticed?"',tip:'Detail recall → attention strength'},
+      {q:'"What were you most focused on during the activity?"',tip:'Focus reflection → attention awareness'},
+    ],
+    S:[
+      {q:'"What does your whole finished piece look like? Tell us about it."',tip:'Whole work recognition → simultaneous'},
+      {q:'"How does everything fit together in your creation?"',tip:'Whole relationship awareness → simultaneous'},
+    ],
+    SU:[
+      {q:'"Tell us the steps you did, from first to last."',tip:'Full sequence recall → successive'},
+      {q:'"Which step was hardest? How did you manage it?"',tip:'Procedure reflection → successive processing'},
+    ],
+  },
+};
+
+// ═══════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════
+let curCtry = 'az';
+let selectedOpt = 'B';
+let selectedImages = [];
+let searchLang = 'en';
+let evalData = [];
+let obsData = [];
+const AVC = [['#dde8ff','#1e3fa8'],['#ffe8e8','#a01414'],['#e8f5ee','#0a5c3a'],['#fff3dd','#8a4a00'],['#ede8ff','#4a2fb5'],['#fde8f0','#7a1060'],['#fff0cc','#9a5500'],['#e8f4ff','#0a3d82'],['#f0ffe8','#2d5a1b']];
+
+// ═══════════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════════
+window.onload = () => {
+  buildCtryMenu();
+  populateSelects();
+  renderDashboard();
+  renderEvalChecklist();
+  generateWorksheet();
+  renderQuickTags();
+  renderGrowthTimeline();
+  document.getElementById('eval-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('obs-date').value = new Date().toISOString().slice(0,10);
+  renderQuickPhrases();
+  generateParentReport();
+  generateLifeRecord();
+};
+
+// ═══════════════════════════════════════════════════
+// COUNTRY
+// ═══════════════════════════════════════════════════
+function buildCtryMenu(){
+  const menu = document.getElementById('ctryMenu');
+  menu.innerHTML = '';
+  Object.entries(COUNTRIES).forEach(([code,c]) => {
+    const b = document.createElement('button');
+    b.className = 'country-item' + (code===curCtry?' active':'');
+    b.id = 'ci-'+code;
+    b.innerHTML = `<span style="font-size:14px">${c.flag}</span>${c.name}`;
+    b.onclick = () => switchCtry(code);
+    menu.appendChild(b);
+  });
+}
+function toggleCtry(){
+  document.getElementById('ctryMenu').classList.toggle('open');
+  document.getElementById('ctryArr').classList.toggle('open');
+}
+function switchCtry(code){
+  curCtry = code;
+  const c = COUNTRIES[code];
+  document.getElementById('ctryFlag').textContent = c.flag;
+  document.getElementById('ctryName').textContent = c.name;
+  document.querySelectorAll('.country-item').forEach(b=>b.classList.remove('active'));
+  document.getElementById('ci-'+code)?.classList.add('active');
+  document.getElementById('ctryMenu').classList.remove('open');
+  document.getElementById('ctryArr').classList.remove('open');
+  document.getElementById('topbarCountry').textContent = c.flag+' '+c.name;
+  renderDashboard();
+}
+document.addEventListener('click', e => {
+  if(!document.getElementById('ctryBtn').contains(e.target))
+    document.getElementById('ctryMenu').classList.remove('open');
+});
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+const SEC_TITLES = {
+  dashboard:'Class Dashboard',lesson:'Lesson Plan + K-PASS Script',
+  worksheet:'Activity Worksheets',evaluation:'Activity Evaluation',
+  observation:'Observation Log',growth:'Growth Analysis',
+  parent:'Parent Developmental Report',liferecord:'Student Record',
+};
+function showSec(id, el){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  else document.querySelector(`[onclick*="'${id}'"]`)?.classList.add('active');
+  document.getElementById('topbar-title').textContent = SEC_TITLES[id]||id;
+}
+
+// ═══════════════════════════════════════════════════
+// POPULATE SELECTS
+// ═══════════════════════════════════════════════════
+function populateSelects(){
+  const ids = ['eval-student','obs-student','obs-filter-student','eval-filter-student','parent-student','growth-student','life-student'];
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if(!el) return;
+    const addEmpty = ['eval-student','obs-filter-student','eval-filter-student'].includes(id);
+    el.innerHTML = addEmpty ? '<option value="">-- All / Select --</option>' : '';
+    STUDENTS.forEach(s => el.innerHTML += `<option value="${s.name}">${s.name} (age ${s.age})</option>`);
+  });
+}
+
+// ═══════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════
+function renderDashboard(){
+  const c = COUNTRIES[curCtry];
+  document.getElementById('dashTitle').textContent = `${c.flag} ${c.name} — Class Dashboard`;
+  document.getElementById('dashMeta').textContent = `BrainFit Sample Class · ${STUDENTS.length} students (ages 4–6) · ${c.curr}`;
+
+  // Alert for support students
+  const support = STUDENTS.filter(s=>s.note);
+  const alertEl = document.getElementById('dashAlert');
+  if(support.length){
+    alertEl.style.display='block';
+    alertEl.innerHTML = '⚠️ <strong>Priority support:</strong> '+support.map(s=>`${s.name} (age ${s.age}) — ${s.note}`).join('  |  ');
+  }
+
+  // Stats
+  const R=STUDENTS.filter(s=>s.type==='Right-brain').length;
+  const L=STUDENTS.filter(s=>s.type==='Left-brain').length;
+  const B=STUDENTS.filter(s=>s.type==='Balanced').length;
+  const avg = k => Math.round(STUDENTS.reduce((a,s)=>a+s[k],0)/STUDENTS.length);
+  document.getElementById('dashStats').innerHTML = [
+    {v:STUDENTS.length,l:'Total students',sub:'Sample class',c:'var(--green)'},
+    {v:support.length,l:'Priority support',sub:support.map(s=>s.name).join(', ')||'None',c:'var(--danger)'},
+    {v:avg('att')+'%',l:'Attention (avg)',sub:'Class strength',c:'var(--pass-a)'},
+    {v:avg('seq')+'%',l:'Successive (avg)',sub:'Area to support',c:'var(--pass-su)'},
+  ].map(s=>`<div class="stat-card"><div class="stat-val" style="color:${s.c}">${s.v}</div><div class="stat-lbl">${s.l}</div><div style="font-size:11px;color:var(--gray-400);margin-top:3px">${s.sub}</div></div>`).join('');
+
+  // Brain dist
+  document.getElementById('brainDist').innerHTML = [
+    {n:'Right-brain dominant',c:'#e05050',cnt:R,pct:Math.round(R/STUDENTS.length*100)},
+    {n:'Balanced',c:colors='var(--green)',cnt:B,pct:Math.round(B/STUDENTS.length*100)},
+    {n:'Left-brain dominant',c:'#4b7de8',cnt:L,pct:Math.round(L/STUDENTS.length*100)},
+  ].map(t=>`<div style="display:flex;align-items:center;gap:.75rem;margin-bottom:.5rem">
+    <div style="width:10px;height:10px;border-radius:50%;background:${t.c};flex-shrink:0"></div>
+    <div style="font-size:13px;flex:1">${t.n}</div>
+    <div style="font-size:13px;font-weight:700">${t.cnt} <span style="font-size:11px;color:var(--gray-400)">${t.pct}%</span></div>
+  </div>`).join('');
+  document.getElementById('dashRecommend').innerHTML = `💡 <strong>Recommended:</strong> Option B (Balanced) + Successive & Planning PREP · Use Attention strength (${avg('att')}%) for questioning`;
+
+  // PASS avg
+  const axes = [{k:'sim',l:'Simultaneous',c:'var(--pass-s)'},{k:'seq',l:'Successive',c:'var(--pass-su)'},{k:'plan',l:'Planning',c:'var(--pass-p)'},{k:'att',l:'Attention',c:'var(--pass-a)'}];
+  document.getElementById('passAvg').innerHTML = axes.map(a=>`<div style="margin-bottom:.5rem">
+    <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px">
+      <span style="font-weight:600">${a.l}</span><span style="color:${a.c};font-weight:700">${avg(a.k)}%</span></div>
+    <div style="height:8px;background:var(--gray-200);border-radius:4px;overflow:hidden">
+      <div style="width:${avg(a.k)}%;height:100%;background:${a.c};border-radius:4px"></div></div>
+  </div>`).join('');
+
+  // Student table
+  document.getElementById('studentTableBody').innerHTML = STUDENTS.map((s,i) => {
+    const [bg,tc] = AVC[i%AVC.length];
+    const typeTag = s.type==='Right-brain'?'tag-blue':s.type==='Left-brain'?'tag-purple':'tag-green';
+    const note = s.note ? `<span class="tag tag-red" style="font-size:10px">${s.note}</span>` : '';
+    return `<tr onclick="showSec('observation',document.querySelector('[onclick*=observation]'))" style="cursor:pointer">
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="avatar" style="background:${bg};color:${tc};font-size:12px">${s.name.split(' ').map(n=>n[0]).join('')}</div>${s.name}</div></td>
+      <td>${s.age}</td><td><span class="tag ${typeTag}">${s.type}</span></td>
+      <td>${scoreBar(s.sim)}</td><td>${scoreBar(s.seq)}</td><td>${scoreBar(s.plan)}</td><td>${scoreBar(s.att)}</td>
+      <td><span class="tag tag-orange" style="font-size:10px">${s.weak}</span></td><td>${note}</td>
+    </tr>`;
+  }).join('');
+}
+
+function scoreBar(pct){
+  const c = pct>=70?'var(--success)':pct>=50?'var(--orange)':'var(--danger)';
+  return `<div class="score-bar-wrap"><div class="score-bar-bg"><div class="score-bar-fill" style="width:${pct}%;background:${c}"></div></div><span class="score-pct">${pct}%</span></div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// LESSON PLAN
+// ═══════════════════════════════════════════════════
+function selectOpt(opt){
+  selectedOpt = opt;
+  ['A','B','C'].forEach(o => document.getElementById('opt-'+o).classList.toggle('selected', o===opt));
+}
+
+function generateLesson(){
+  const month = parseInt(document.getElementById('lesson-month').value);
+  const week = document.getElementById('lesson-week').value;
+  const subject = document.getElementById('lesson-subject').value;
+  const type = document.getElementById('lesson-type').value;
+  const duration = document.getElementById('lesson-duration').value;
+  const opt = selectedOpt;
+  const td = MONTHLY_THEMES[month];
+  const activity = td.activities[parseInt(week)-1] || td.activities[0];
+  const optInfo = OPTION_DESC[opt];
+  const c = COUNTRIES[curCtry];
+
+  const out = document.getElementById('lesson-output');
+  const card = document.getElementById('lesson-output-card');
+  card.style.display='block';
+  out.innerHTML = `<div class="generating-msg"><div class="spinner"></div>Generating K-PASS lesson plan...</div>`;
+
+  // Image credit
+  const imgHtml = selectedImages.length > 0
+    ? `<div style="margin-bottom:1rem;padding:.75rem 1rem;background:var(--pexels-lt);border-radius:8px;border:1px solid #b2e8dc">
+        <div style="font-size:11px;font-weight:700;color:var(--pexels);margin-bottom:.5rem">🖼️ Pexels Activity Images</div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${selectedImages.map(img=>`<div><img src="${img.url}" style="width:90px;height:60px;object-fit:cover;border-radius:6px;border:1px solid rgba(5,160,129,0.3)"><div style="font-size:9px;color:var(--gray-400);text-align:center">© ${img.photographer}</div></div>`).join('')}
+        </div>
+        <div style="font-size:10px;color:var(--gray-400);margin-top:4px">Photos provided by <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels)">Pexels</a></div>
+      </div>` : '';
+
+  // Build K-PASS questions
+  const axes = [];
+  if(document.getElementById('kp_p').checked) axes.push({k:'P',l:'Planning'});
+  if(document.getElementById('kp_a').checked) axes.push({k:'A',l:'Attention'});
+  if(document.getElementById('kp_s').checked) axes.push({k:'S',l:'Simultaneous'});
+  if(document.getElementById('kp_su').checked) axes.push({k:'SU',l:'Successive'});
+
+  function getQs(phase){
+    return axes.map(ax => {
+      const pool = KPASS_Q[phase]?.[ax.k] || [];
+      const q = pool[Math.floor(Math.random()*pool.length)];
+      return q ? `<div class="question-box">
+        <div class="q"><span class="pass-badge badge-${ax.k.toLowerCase()}">${ax.l}</span> ${q.q}</div>
+        <div class="tip">💡 ${q.tip}</div>
+      </div>` : '';
+    }).join('');
+  }
+
+  const supply = {
+    A:'Picture cards (flowers/seasonal 8 types), paint, drawing paper, brushes',
+    B:'Seasonal real objects/photos, observation journal sheets, colored pencils, magnifier',
+    C:'Step-by-step observation worksheet, numbered stickers, pencil, ruler',
+  }[opt];
+
+  const mainAct = {
+    A:'Free exploration + drawing/artistic expression',
+    B:'Structured observation + free expression mix',
+    C:'Step-by-step sequential observation recording',
+  }[opt];
+
+  const mainContent = {
+    A:`• Free exploration of seasonal objects/photos (5 min)<br>• Choose favorite and draw large<br>• Freely express color, shape, texture<br>• Share with friends after completion`,
+    B:`• Observation journal (name·color·shape·texture·feeling) with sequence guidance<br>• Free expression after observation (drawing or writing)<br>• Small group sharing (Right-brain→free presentation / Left-brain→sequential presentation)`,
+    C:`① Find name → ② Record color → ③ Draw shape → ④ Write one feeling sentence<br>• Add numbered sticker at each step completion<br>• Teacher re-confirms step sequence`,
+  }[opt];
+
+  setTimeout(() => {
+    out.innerHTML = `<div id="lesson-print-area"><div class="lesson-plan">
+      ${imgHtml}
+      <h2>📝 ${activity}</h2>
+      <div class="meta">Month ${month} · ${week} · ${td.theme} (${td.sub}) · ${SUBJECT_LABELS[subject]} · ${TYPE_LABELS[type]} · ${duration} min · Option ${opt} (${optInfo.style})</div>
+      <div style="margin-bottom:.75rem;font-size:12px;color:var(--gray-500)"><strong>Country:</strong> ${c.name} — ${c.curr}</div>
+
+      <table>
+        <tr><th>Activity</th><td><strong>${activity}</strong></td><th>Monthly theme</th><td>${td.theme}</td></tr>
+        <tr><th>Sub-theme</th><td>${td.sub}</td><th>Activity type</th><td>${SUBJECT_LABELS[subject]} / ${TYPE_LABELS[type]}</td></tr>
+        <tr><th>Target age</th><td>Ages 4–6</td><th>Duration</th><td>${duration} min</td></tr>
+        <tr><th>Group</th><td>Whole class (${STUDENTS.length}) — Right-brain ${STUDENTS.filter(s=>s.type==='Right-brain').length} · Balanced ${STUDENTS.filter(s=>s.type==='Balanced').length} · Left-brain ${STUDENTS.filter(s=>s.type==='Left-brain').length}</td><th>Location</th><td>Classroom / Outdoors</td></tr>
+        <tr><th>PASS focus</th><td colspan="3">
+          <span class="tag tag-orange">Successive support</span>
+          <span class="tag tag-blue">Attention strength leverage</span>
+          ${document.getElementById('kp_p').checked?'<span class="pass-badge badge-p">Planning (P) strengthen</span>':''}
+          ${document.getElementById('kp_a').checked?'<span class="pass-badge badge-a">Attention (A) strengthen</span>':''}
+          ${document.getElementById('kp_s').checked?'<span class="pass-badge badge-s">Simultaneous (S) strengthen</span>':''}
+          ${document.getElementById('kp_su').checked?'<span class="pass-badge badge-su">Successive (SU) strengthen</span>':''}
+        </td></tr>
+      </table>
+
+      <div class="section-title">🎯 Learning objectives</div>
+      <table><tr><th>${c.name} Curriculum</th><th>K-PASS Cognitive</th></tr>
+        <tr>
+          <td>• Sensorially explore and express seasonal natural changes<br>• Observe natural objects and experience language/math/science concepts<br>• Cooperate with peers in collaborative activities</td>
+          <td>• <strong style="color:var(--pass-a)">Attention (strength)</strong>: Detailed observation and focus experience<br>• <strong style="color:var(--pass-s)">Simultaneous</strong>: Whole pattern and spatial structure recognition<br>• <strong style="color:var(--pass-su)">Successive (support)</strong>: Sequential procedure verbalization<br>• <strong style="color:var(--pass-p)">Planning</strong>: Choice→reason→prediction metacognition</td>
+        </tr>
+      </table>
+
+      <div class="section-title">🛒 Materials</div>
+      <table><tr><th>Teacher prep</th><th>1 week before</th><th>Day of activity</th></tr>
+        <tr>
+          <td>${supply}</td>
+          <td>Print photos/cards, prepare journal sheets, arrange display space</td>
+          <td>Set up activity stations, verify material access for each group</td>
+        </tr>
+      </table>
+
+      <div class="section-title">📋 Lesson flow</div>
+      <table>
+        <tr><th>Phase</th><th>Time</th><th>Content (Option ${opt} — ${optInfo.style})</th></tr>
+        <tr><td><strong>Introduction</strong></td><td>5 min</td>
+          <td>• Show seasonal image/object, invite free sharing<br>• Introduce today's activity and goals<br>• Present materials and explain process</td></tr>
+        <tr><td><strong>Exploration</strong></td><td>8 min</td>
+          <td>• Free sensory exploration of materials<br>• Teacher circulates asking K-PASS questions<br>• Peer sharing of observations</td></tr>
+        <tr><td><strong>Main activity</strong></td><td>${+duration-18} min</td>
+          <td>${mainContent}</td></tr>
+        <tr><td><strong>Closing</strong></td><td>5 min</td>
+          <td>• Share completed work with class<br>• Reflection: "What did you notice? What surprised you?"<br>• Clean up together</td></tr>
+      </table>
+
+      <div class="section-title">🧠 K-PASS questioning script</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+        <div><div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">💬 Introduction questions</div>${getQs('Introduction')}</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">🔍 Exploration questions</div>${getQs('Exploration')}</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">✋ Activity questions</div>${getQs('Activity')}</div>
+        <div><div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">🏁 Closing questions</div>${getQs('Closing')}</div>
+      </div>
+
+      <div class="section-title">🎨 Brain-type differentiation (Option ${opt})</div>
+      <div class="grid-3">
+        <div style="background:#fde8e8;border-radius:8px;padding:.75rem">
+          <div style="font-size:12px;font-weight:700;color:var(--danger);margin-bottom:.375rem">Right-brain (${STUDENTS.filter(s=>s.type==='Right-brain').length} students)</div>
+          <div style="font-size:12px">Free exploration first → visual/spatial expression → free presentation</div>
+        </div>
+        <div style="background:var(--green3);border-radius:8px;padding:.75rem">
+          <div style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:.375rem">Balanced (${STUDENTS.filter(s=>s.type==='Balanced').length} students)</div>
+          <div style="font-size:12px">Structured observation + free expression → flexible sharing</div>
+        </div>
+        <div style="background:#eff6ff;border-radius:8px;padding:.75rem">
+          <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:.375rem">Left-brain (${STUDENTS.filter(s=>s.type==='Left-brain').length} students)</div>
+          <div style="font-size:12px">Step-by-step worksheet → numbered sequence → sequential presentation</div>
+        </div>
+      </div>
+
+      <div class="section-title">📌 Teacher notes</div>
+      <p style="font-size:12px;color:var(--gray-500)">
+        ${STUDENTS.filter(s=>s.note).map(s=>`• <strong>${s.name}</strong>: ${s.note} — provide individual support and focus on success experiences.`).join('<br>')}
+        • <strong>Successive weakness (${Math.round(STUDENTS.reduce((a,s)=>a+s.seq,0)/STUDENTS.length)}%)</strong>: Provide numbered cards, visual sequence support. Repeat "first-then-last" questioning.
+        • <strong>Attention strength (${Math.round(STUDENTS.reduce((a,s)=>a+s.att,0)/STUDENTS.length)}%)</strong>: Use detailed observation and fine-detail questioning to leverage strength.
+        • <strong>Pexels images</strong>: When printing for activity materials, include "Photos provided by Pexels" attribution.
+      </p>
+    </div></div>`;
+  }, 800);
+}
+
+function printLesson(){
+  if(!document.getElementById('lesson-print-area')){ alert('Please generate a lesson plan first.'); return; }
+  window.print();
+}
+
+// ═══════════════════════════════════════════════════
+// PEXELS
+// ═══════════════════════════════════════════════════
+const QUICK_TAGS = {en:['Spring flowers','Nature','Seeds & sprouts','Animals','Art activity','Family','Community','Outdoor play','Children learning','Autumn leaves'],local:['봄꽃','자연','씨앗','동물','미술활동','가족','지역사회','바깥놀이','아이들','단풍']};
+
+function renderQuickTags(){
+  document.getElementById('quickTags').innerHTML = QUICK_TAGS[searchLang].map(t=>`<button class="qtag" onclick="quickSearch('${t}')">${t}</button>`).join('');
+}
+function toggleLang(){
+  searchLang = searchLang==='en'?'local':'en';
+  document.getElementById('langLabel').textContent = searchLang==='en'?'English':'한국어';
+  renderQuickTags();
+}
+function quickSearch(q){
+  document.getElementById('searchInput').value = q;
+  searchImages();
+}
+
+async function searchImages(){
+  const q = document.getElementById('searchInput').value.trim();
+  if(!q){ alert('Please enter a search term.'); return; }
+  const key = PEXELS_API_KEY;
+  document.getElementById('pexelsGrid').innerHTML = '<div style="color:var(--gray-400);font-size:13px;padding:.75rem">Searching...</div>';
+  try{
+    const r = await fetch(`https://api.pexels.com/v1/search?query=${encodeURIComponent(q)}&per_page=12&orientation=landscape`,{headers:{Authorization:key}});
+    const data = await r.json();
+    if(!data.photos?.length){ document.getElementById('pexelsGrid').innerHTML='<div style="color:var(--gray-400);font-size:13px;padding:.75rem">No images found. Try a different search term.</div>'; return; }
+    document.getElementById('pexelsGrid').innerHTML = data.photos.map(p=>`
+      <div class="pexels-thumb" id="pt-${p.id}" onclick="toggleImg(${p.id},'${p.src.medium}','${p.photographer}')">
+        <img src="${p.src.small}" alt="${p.alt||q}" loading="lazy">
+        <div class="photo-credit">© ${p.photographer}</div>
+      </div>`).join('');
+  }catch(e){ document.getElementById('pexelsGrid').innerHTML=`<div style="color:var(--danger);font-size:13px;padding:.75rem">Error: ${e.message}</div>`; }
+}
+
+function toggleImg(id, url, photographer){
+  const idx = selectedImages.findIndex(i=>i.id===id);
+  if(idx>=0){ selectedImages.splice(idx,1); document.getElementById('pt-'+id)?.classList.remove('selected'); }
+  else{ selectedImages.push({id,url,photographer}); document.getElementById('pt-'+id)?.classList.add('selected'); }
+  updateImgPreview();
+}
+function clearImages(){
+  selectedImages=[];
+  document.querySelectorAll('.pexels-thumb').forEach(t=>t.classList.remove('selected'));
+  updateImgPreview();
+}
+function updateImgPreview(){
+  const box = document.getElementById('selectedImgPreview');
+  if(!selectedImages.length){ box.innerHTML='<span class="big-icon">🖼️</span>Search and select images to connect to your lesson script'; box.className='img-placeholder'; return; }
+  box.className='';
+  box.innerHTML=`<div style="display:flex;gap:8px;flex-wrap:wrap;padding:.5rem 0">
+    ${selectedImages.map(i=>`<div style="position:relative"><img src="${i.url}" style="width:90px;height:60px;object-fit:cover;border-radius:7px;border:2px solid var(--green)"><div style="font-size:9px;color:var(--gray-400);text-align:center">© ${i.photographer}</div></div>`).join('')}
+  </div><div style="font-size:10px;color:var(--gray-400)">Photos provided by <a href="https://www.pexels.com" target="_blank" style="color:var(--pexels)">Pexels</a></div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// ACTIVITY EVALUATION
+// ═══════════════════════════════════════════════════
+const EVAL_CHECKLISTS = {
+  obs:{label:'Observation',areas:[
+    {title:'🏃 Physical & Health',items:['Moves and participates safely in the activity','Uses fine motor skills appropriately for the task']},
+    {title:'💬 Language & Communication',items:['Expresses ideas using topic-related vocabulary','Responds to teacher questions appropriately','Listens and takes turns in conversation']},
+    {title:'🤝 Social & Emotional',items:['Cooperates with peers in group activities','Understands and follows classroom rules']},
+    {title:'🎨 Arts & Creativity',items:['Participates joyfully in creative expression','Expresses ideas through various creative methods']},
+    {title:'🔭 Science & Nature',items:['Shows curiosity about the natural environment','Applies mathematical/scientific concepts in activities']},
+    {title:'🧠 K-PASS Behavior (4 axes)',items:[
+      'Simultaneous — Grasps the whole picture or context',
+      'Successive — Performs step-by-step activities in correct order',
+      'Planning — Understands goal and plans activity independently',
+      'Attention — Stays focused without distraction throughout',
+    ]},
+  ]},
+  work:{label:'Work sample',areas:[
+    {title:'🎨 Expression quality',items:['Work is completed appropriately to the theme','Expresses color, form, and size effectively']},
+    {title:'💡 Creativity',items:['Uses unique/original method of expression','Attempts new ideas or approaches']},
+    {title:'📐 Process & effort',items:['Worked with sustained focus throughout','Did not give up despite difficulties']},
+    {title:'🧠 K-PASS evidence',items:['Evidence of planning visible in work','Evidence of sustained attention visible','Evidence of sequential or holistic processing']},
+  ]},
+  oral:{label:'Oral assessment',areas:[
+    {title:'💬 Verbal expression',items:['Explains activity in complete sentences','Uses correct vocabulary']},
+    {title:'🧠 Cognitive demonstration',items:['Can explain steps or process verbally','Demonstrates understanding of concepts']},
+  ]},
+  peer:{label:'Peer assessment',areas:[
+    {title:'🤝 Peer observation',items:['Classmate helped others during activity','Classmate shared materials willingly','Classmate expressed creative ideas']},
+  ]},
+};
+
+let evalScores = {};
+function renderEvalChecklist(){
+  const method = document.getElementById('eval-method')?.value || 'obs';
+  const cl = EVAL_CHECKLISTS[method] || EVAL_CHECKLISTS.obs;
+  evalScores = {};
+  let html = '';
+  cl.areas.forEach(area => {
+    html += `<div class="check-group-title">${area.title}</div>`;
+    area.items.forEach((item,i) => {
+      const key = area.title+i;
+      evalScores[key] = 0;
+      html += `<div class="check-item">
+        <span class="check-label">${item}</span>
+        <div class="score-dots">${[1,2,3,4,5].map(n=>`<div class="sdot" id="sd-${key.replace(/\s/g,'_')}-${n}" onclick="setScore('${key}',${n})">${n}</div>`).join('')}</div>
+      </div>`;
+    });
+  });
+  const container = document.getElementById('evalChecklist');
+  if(container) container.innerHTML = html;
+
+  const methodSel = document.getElementById('eval-method');
+  if(methodSel && !methodSel.hasEvalListener){
+    methodSel.addEventListener('change', renderEvalChecklist);
+    methodSel.hasEvalListener = true;
+  }
+}
+
+function setScore(key, score){
+  evalScores[key] = score;
+  [1,2,3,4,5].forEach(n=>{
+    const el = document.getElementById(`sd-${key.replace(/\s/g,'_')}-${n}`);
+    if(el) el.className = 'sdot' + (n<=score?' on':'');
+  });
+  calcEval();
+}
+
+function calcEval(){
+  const vals = Object.values(evalScores).filter(v=>v>0);
+  if(!vals.length){ document.getElementById('evalScoreBox').textContent=''; return; }
+  const total = vals.reduce((a,b)=>a+b,0);
+  const max = Object.keys(evalScores).length * 5;
+  const pct = Math.round(total/max*100);
+  const level = pct>=80?'🟢 Achieved':pct>=60?'🟡 Developing':pct>=40?'🟠 Emerging':'🔴 Beginning';
+  document.getElementById('evalScoreBox').innerHTML = `Total: <strong>${total}/${max}</strong> (${pct}%) — ${level}`;
+}
+
+function saveEval(){
+  const student = document.getElementById('eval-student').value;
+  const activity = document.getElementById('eval-activity').value || 'Activity';
+  const date = document.getElementById('eval-date').value;
+  const method = document.getElementById('eval-method').value;
+  if(!student){ alert('Please select a student.'); return; }
+  const vals = Object.values(evalScores).filter(v=>v>0);
+  if(!vals.length){ alert('Please score at least one item.'); return; }
+  const total = vals.reduce((a,b)=>a+b,0);
+  const max = Object.keys(evalScores).length * 5;
+  evalData.push({student, activity, date, method, total, max, pct: Math.round(total/max*100)});
+  alert('✅ Evaluation saved!');
+  renderEvalHistory();
+}
+
+function renderEvalHistory(){
+  const filter = document.getElementById('eval-filter-student')?.value || '';
+  const rows = evalData.filter(e => !filter || e.student===filter);
+  const el = document.getElementById('evalHistory');
+  if(!rows.length){ el.innerHTML='<div style="color:var(--gray-400);font-size:13px;padding:.5rem 0">No saved evaluations yet.</div>'; return; }
+  el.innerHTML = `<table class="eval-table"><thead><tr><th>Student</th><th>Activity</th><th>Date</th><th>Method</th><th>Score</th><th>Level</th></tr></thead><tbody>
+    ${rows.map(e=>{
+      const lvl = e.pct>=80?'<span style="color:var(--success)">Achieved</span>':e.pct>=60?'<span style="color:var(--orange)">Developing</span>':e.pct>=40?'<span style="color:var(--orange)">Emerging</span>':'<span style="color:var(--danger)">Beginning</span>';
+      return `<tr><td>${e.student}</td><td>${e.activity}</td><td>${e.date}</td><td>${{obs:'Observation',work:'Work sample',oral:'Oral',peer:'Peer'}[e.method]||e.method}</td><td><strong>${e.total}/${e.max}</strong> (${e.pct}%)</td><td>${lvl}</td></tr>`;
+    }).join('')}
+  </tbody></table>`;
+}
+
+// ═══════════════════════════════════════════════════
+// OBSERVATION LOG
+// ═══════════════════════════════════════════════════
+const QUICK_PHRASES = [
+  'Excellent attention & focus','Sequential steps performed well','Strong questioning response',
+  'Simultaneous processing evident','Planning skills developing','Strong social skills',
+  'Individual support needed','Completed task independently',
+];
+function renderQuickPhrases(){
+  const el = document.getElementById('quickPhrases');
+  if(el) el.innerHTML = QUICK_PHRASES.map(p=>`<button class="qtag" onclick="addPhrase('${p}')">${p}</button>`).join('');
+}
+function addPhrase(p){
+  const ta = document.getElementById('obs-text');
+  ta.value = ta.value ? ta.value+' '+p : p;
+}
+function saveObs(){
+  const student = document.getElementById('obs-student').value;
+  const date = document.getElementById('obs-date').value;
+  const pass = document.getElementById('obs-pass').value;
+  const domain = document.getElementById('obs-domain').value;
+  const text = document.getElementById('obs-text').value.trim();
+  if(!text){ alert('Please enter an observation note.'); return; }
+  obsData.push({student, date, pass, domain, text});
+  document.getElementById('obs-text').value = '';
+  alert('✅ Observation saved!');
+  renderObs();
+}
+function renderObs(){
+  const filter = document.getElementById('obs-filter-student')?.value || '';
+  const rows = obsData.filter(o => !filter || o.student===filter);
+  const el = document.getElementById('obsHistory');
+  if(!rows.length){ el.innerHTML='<div style="color:var(--gray-400);font-size:13px">No observation records yet.</div>'; return; }
+  el.innerHTML = rows.slice().reverse().map(o=>`<div class="obs-item">
+    <div style="display:flex;align-items:center;gap:.5rem;margin-bottom:.25rem">
+      <span style="font-size:13px;font-weight:700">${o.student}</span>
+      <span class="tag tag-blue" style="font-size:10px">${o.pass}</span>
+      <span class="tag tag-green" style="font-size:10px">${o.domain}</span>
+    </div>
+    <div style="font-size:13px;color:var(--gray-700)">${o.text}</div>
+    <div class="obs-meta">${o.date}</div>
+  </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// WORKSHEETS
+// ═══════════════════════════════════════════════════
+function generateWorksheet(){
+  const month = parseInt(document.getElementById('ws-month')?.value||4);
+  const week = document.getElementById('ws-week')?.value||'Week 1';
+  const td = MONTHLY_THEMES[month]||MONTHLY_THEMES[4];
+  const activity = td.activities[0];
+  const c = COUNTRIES[curCtry];
+
+  const groups = [
+    {name:'Group A — Right-brain',color:'#fde8e8',tc:'#a01414',icon:'🎨',desc:'Free visual/spatial expression'},
+    {name:'Group B — Balanced',color:colors='#d4f0e4',tc:'#0a5c3a',icon:'⚖️',desc:'Structured + free expression mix'},
+    {name:'Group C — Left-brain',color:'#dde8ff',tc:'#1e3fa8',icon:'📐',desc:'Step-by-step sequential recording'},
+    {name:'PREP — Small group',color:'#fff0cc',tc:'#9a5500',icon:'⭐',desc:'Individual support with scaffolding'},
+  ];
+
+  const out = document.getElementById('worksheetOut');
+  if(!out) return;
+  out.innerHTML = groups.map(g=>`
+    <div class="card" style="border-left:4px solid ${g.tc}">
+      <div style="display:flex;align-items:center;gap:.75rem;margin-bottom:1rem">
+        <span style="font-size:24px">${g.icon}</span>
+        <div>
+          <div style="font-size:14px;font-weight:700;color:${g.tc}">${g.name}</div>
+          <div style="font-size:11.5px;color:var(--gray-500)">${g.desc} · ${c.name} · ${td.theme} — ${activity}</div>
+        </div>
+      </div>
+      <div style="background:${g.color};border-radius:8px;padding:1rem;margin-bottom:.875rem">
+        <div style="font-size:13px;font-weight:700;color:${g.tc};margin-bottom:.5rem">📋 Activity: ${activity}</div>
+        <div style="font-size:12.5px;color:${g.tc};line-height:1.7">
+          ${g.name.includes('A')?'• Look at the pictures and draw what you see 🎨<br>• What colors do you notice? Circle them!<br>• Draw your favorite part of the picture.':
+            g.name.includes('C')?'• Step 1: Write the name ___________<br>• Step 2: Write the color ___________<br>• Step 3: Draw the shape below:<br>• Step 4: Write one feeling ___________':
+            g.name.includes('PREP')?'• [With teacher support]<br>• Point to the picture and name it.<br>• Choose a color sticker that matches.<br>• Trace the outline together.':
+            '• Observe and write: Name _______ Color _______ Shape _______<br>• Draw what you observed:<br>• Write one sentence about what you noticed.'}
+        </div>
+      </div>
+      <div style="height:120px;border:1.5px dashed var(--gray-300);border-radius:8px;display:flex;align-items:center;justify-content:center;color:var(--gray-300);font-size:13px">
+        ✏️ Drawing / writing space
+      </div>
+      <div style="margin-top:.875rem;display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400)">
+        <span>Name: _________________________</span>
+        <span>Date: ______________</span>
+        <span>😊 😐 😔</span>
+      </div>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════════
+// GROWTH ANALYSIS
+// ═══════════════════════════════════════════════════
+function renderGrowthTimeline(){
+  const el = document.getElementById('growthTimeline');
+  if(!el) return;
+  const pts = [
+    {label:'March',sub:'Initial K-PASS',type:'done',icon:'K'},
+    {label:'June',sub:'3-month check',type:'current',icon:'✓'},
+    {label:'September',sub:'6-month analysis',type:'M',icon:'M'},
+    {label:'December',sub:'Observation records',type:'done',icon:'✓'},
+    {label:'February',sub:'Annual comparison',type:'K',icon:'K'},
+  ];
+  el.innerHTML = pts.map(p=>`<div class="timeline-item">
+    <div class="tl-circle ${p.type==='done'?'done':p.type==='current'?'current':''}">${p.icon}</div>
+    <div class="tl-label">${p.label}</div>
+    <div class="tl-sub">${p.sub}</div>
+  </div>`).join('');
+}
+
+function showGrowth(){
+  const student = document.getElementById('growth-student').value;
+  const period = document.getElementById('growth-period').value;
+  const s = STUDENTS.find(x=>x.name===student);
+  if(!s){ alert('Please select a student.'); return; }
+  const periodDesc = {3:'3-month behavioral checklist',6:'6-month mid-year analysis',12:'12-month comprehensive growth report'};
+  document.getElementById('growthOut').innerHTML = `
+    <div class="card" style="border:1.5px solid var(--green)">
+      <div style="font-size:14px;font-weight:700;margin-bottom:.875rem">${s.name} — ${periodDesc[period]}</div>
+      <div class="grid-2">
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">Initial K-PASS Profile</div>
+          ${[['Simultaneous','sim','var(--pass-s)'],['Successive','seq','var(--pass-su)'],['Planning','plan','var(--pass-p)'],['Attention','att','var(--pass-a)']].map(([l,k,c])=>`
+            <div style="margin-bottom:.375rem"><div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:2px"><span>${l}</span><span style="color:${c};font-weight:700">${s[k]}%</span></div>
+            <div style="height:6px;background:var(--gray-200);border-radius:3px"><div style="width:${s[k]}%;height:100%;background:${c};border-radius:3px"></div></div></div>`).join('')}
+        </div>
+        <div>
+          <div style="font-size:12px;font-weight:700;color:var(--gray-600);margin-bottom:.5rem">Growth recommendations (${period} months)</div>
+          <div style="font-size:12.5px;color:var(--gray-700);line-height:1.7">
+            ${+period===3?`• Check behavioral changes across all 4 PASS axes<br>• Focus: ${s.weak} support activities<br>• Leverage: ${s.att>s.sim&&s.att>s.seq&&s.att>s.plan?'Attention':'Strongest axis'} in daily questioning`:
+              +period===6?`• Compare with initial assessment data<br>• PREP effectiveness: measure ${s.weak} improvement<br>• Adjust teaching strategy based on 6-month data`:
+              `• Annual K-PASS re-assessment recommended<br>• Compare growth trajectory across all axes<br>• Plan for next year based on ${s.type} profile`}
+          </div>
+          <div style="margin-top:.875rem;padding:.625rem .875rem;background:var(--green3);border-radius:8px;font-size:12px;color:var(--green)">
+            Research basis: ${+period===3?'Naglieri & Johnson (2000) — 21 sessions change detection':+period===6?'Carlson & Das (1997) — 6-month PREP effectiveness':'CAS2 Manual — annual re-assessment recommendation'}
+          </div>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// PARENT REPORT
+// ═══════════════════════════════════════════════════
+function generateParentReport(){
+  const name = document.getElementById('parent-student')?.value;
+  const period = document.getElementById('parent-period')?.value || '3';
+  const s = STUDENTS.find(x=>x.name===name);
+  const el = document.getElementById('parentReportOut');
+  if(!s || !el){ if(el) el.innerHTML='<div style="color:var(--gray-400);font-size:13px;padding:.5rem">Select a student to preview the report.</div>'; return; }
+  const c = COUNTRIES[curCtry];
+  const periodDesc = {3:'3-month',6:'6-month',12:'Annual'};
+  const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  el.innerHTML = `<div class="card">
+    <div style="background:var(--green);color:#fff;border-radius:10px;padding:1.5rem;margin-bottom:1.25rem">
+      <div style="font-size:18px;font-weight:800;margin-bottom:4px">BrainFit ${periodDesc[period]} Developmental Report</div>
+      <div style="font-size:12px;opacity:.8">${s.name} · Age ${s.age} · ${c.name} · ${today}</div>
+    </div>
+    <div style="font-size:14px;font-weight:700;margin-bottom:.875rem">Dear Family of ${s.name},</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75;margin-bottom:1rem">
+      We are pleased to share ${s.name}'s ${periodDesc[period]} developmental assessment based on the K-PASS (Planning, Attention, Simultaneous, Successive) cognitive framework. This report reflects observations made during classroom activities aligned with the ${c.name} curriculum.
+    </p>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;padding-bottom:3px;border-bottom:2px solid var(--green3)">🧠 Cognitive Profile</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75;margin-bottom:1rem">
+      ${s.name} demonstrates a <strong>${s.type.toLowerCase()}</strong> learning style. 
+      ${s.att>=70?`<strong>Attention is a clear strength</strong> (${s.att}%) — ${s.name} shows excellent focus and sustained engagement during activities.`:''}
+      ${s.seq<50?`<strong>Successive processing</strong> (${s.seq}%) is an area we are actively supporting through step-by-step activities and sequential questioning.`:''}
+      Overall, ${s.name} is making <strong>positive developmental progress</strong> across all learning domains.
+    </p>
+    <div class="grid-2" style="margin-bottom:1rem">
+      ${[['Simultaneous','sim','var(--pass-s)'],['Successive','seq','var(--pass-su)'],['Planning','plan','var(--pass-p)'],['Attention','att','var(--pass-a)']].map(([l,k,c2])=>`<div style="background:var(--gray-50);border-radius:8px;padding:.75rem">
+        <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px"><span style="font-weight:600">${l}</span><span style="color:${c2};font-weight:700">${s[k]}%</span></div>
+        <div style="height:6px;background:var(--gray-200);border-radius:3px"><div style="width:${s[k]}%;height:100%;background:${c2};border-radius:3px"></div></div>
+        <div style="font-size:10.5px;color:var(--gray-400);margin-top:4px">${s[k]>=70?'Strength':s[k]>=50?'Developing':'Support area'}</div>
+      </div>`).join('')}
+    </div>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;padding-bottom:3px;border-bottom:2px solid var(--green3)">🏡 How to support at home</div>
+    <div style="font-size:13px;color:var(--gray-700);line-height:1.75">
+      • <strong>For ${s.weak} (support area):</strong> Try asking "${s.weak==='Successive'?'What did we do first? What comes next?':s.weak==='Simultaneous'?'Can you see the whole picture? What does it remind you of?':s.weak==='Planning'?'What\'s your plan? What will you do first?':'What can you see? Look carefully and tell me.'}" during daily routines.<br>
+      • <strong>Leverage ${s.type.toLowerCase()} strengths</strong>: ${s.type==='Right-brain'?'Encourage drawing, building, and visual activities':'Encourage reading, following recipes, and step-by-step projects'}.<br>
+      • Read together daily and ask open-ended questions about stories.
+    </div>
+    <div style="margin-top:1.25rem;padding:1rem;background:var(--green3);border-radius:8px;font-size:12.5px;color:var(--green)">
+      Thank you for your continued partnership in ${s.name}'s growth. Please feel free to schedule a consultation if you would like to discuss this report in more detail.
+    </div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════
+// STUDENT RECORD
+// ═══════════════════════════════════════════════════
+function generateLifeRecord(){
+  const name = document.getElementById('life-student')?.value;
+  const year = document.getElementById('life-year')?.value || '2026';
+  const s = STUDENTS.find(x=>x.name===name);
+  const el = document.getElementById('lifeRecordOut');
+  if(!s || !el){ if(el) el.innerHTML='<div style="color:var(--gray-400);font-size:13px">Select a student to generate the record.</div>'; return; }
+  const c = COUNTRIES[curCtry];
+
+  el.innerHTML = `<div class="card">
+    <div style="text-align:center;border-bottom:2px solid var(--gray-200);padding-bottom:1rem;margin-bottom:1rem">
+      <div style="font-size:16px;font-weight:800">${year} Student Developmental Record</div>
+      <div style="font-size:13px;color:var(--gray-500);margin-top:4px">${c.name} · BrainFit International Program</div>
+    </div>
+    <div class="grid-2" style="margin-bottom:1rem;font-size:12.5px">
+      <div><strong>Name:</strong> ${s.name}</div>
+      <div><strong>Age:</strong> ${s.age} years</div>
+      <div><strong>Brain type:</strong> ${s.type}</div>
+      <div><strong>Primary PASS strength:</strong> ${s.att>=s.sim&&s.att>=s.seq&&s.att>=s.plan?'Attention':s.sim>=s.seq&&s.sim>=s.plan?'Simultaneous':s.plan>=s.seq?'Planning':'Successive'}</div>
+    </div>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;border-bottom:2px solid var(--green3);padding-bottom:3px">Physical & Health</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75">
+      ${s.name} participates actively in physical activities and demonstrates age-appropriate gross and fine motor development. Shows good health habits and engages safely with peers during movement activities.
+    </p>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;border-bottom:2px solid var(--green3);padding-bottom:3px">Language & Communication</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75">
+      Expresses thoughts clearly and responds appropriately to teacher and peer questions. 
+      ${s.att>=70?`${s.name}'s strong Attention (${s.att}%) supports excellent listening and focused engagement with stories and discussions.`:'Continues to develop listening skills and turn-taking in conversation.'}
+    </p>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;border-bottom:2px solid var(--green3);padding-bottom:3px">Social & Emotional</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75">
+      ${s.name} demonstrates positive peer relationships and shows growing awareness of classroom expectations. 
+      ${s.type==='Right-brain'?'Particularly excels in collaborative creative projects.':s.type==='Left-brain'?'Demonstrates strong ability to follow structured group activities.':'Shows flexibility in both structured and open-ended group settings.'}
+    </p>
+    <div style="font-size:13.5px;font-weight:700;color:var(--green);margin:.875rem 0 .5rem;border-bottom:2px solid var(--green3);padding-bottom:3px">K-PASS Cognitive Development</div>
+    <p style="font-size:13px;color:var(--gray-700);line-height:1.75">
+      K-PASS assessment indicates ${s.name} demonstrates strongest performance in ${s.att>=s.sim&&s.att>=s.seq&&s.att>=s.plan?`Attention (${s.att}%)`:`${s.sim>=s.seq&&s.sim>=s.plan?`Simultaneous processing (${s.sim}%)`:`${s.plan>=s.seq?`Planning (${s.plan}%)`:`Successive processing (${s.seq}%)`}`}`}. 
+      Targeted support activities have been provided to strengthen ${s.weak} processing. 
+      Overall cognitive development trajectory is <strong>on track</strong> for age-appropriate milestones.
+    </p>
+    <div style="margin-top:1.25rem;display:flex;justify-content:space-between;font-size:12px;color:var(--gray-400);border-top:1px solid var(--gray-200);padding-top:.875rem">
+      <span>Teacher signature: _________________________</span>
+      <span>Date: ${new Date().toLocaleDateString()}</span>
+    </div>
+  </div>`;
+}
+</script>
+</body>
+</html>
