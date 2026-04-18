@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainFit School — 에듀테크 필굿 두뇌맞춤 정서·사고력 프로그램</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --purple:#6C3FC5;--purple-light:#9B6FE8;--purple-deep:#3D1F8C;
+  --blue:#2563EB;--blue-light:#60A5FA;
+  --orange:#F97316;--orange-light:#FED7AA;
+  --yellow:#F5B800;--navy:#3D5A80;
+  --pink:#EC4899;--green:#10B981;
+  --bg:#0D0B1A;--bg2:#15112B;--bg3:#1E1840;
+  --card:#1A1535;--card2:#231E48;
+  --border:rgba(108,63,197,0.25);
+  --text:#F0EDFF;--text2:#A89EC9;--text3:#6B5E8A;
+  --glow:rgba(108,63,197,0.4);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
+
+/* ── API KEY MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);z-index:999;display:flex;align-items:center;justify-content:center}
+.modal-box{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;max-width:480px;width:90%;text-align:center}
+.modal-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:28px;margin-bottom:6px}
+.modal-logo span{color:var(--orange)}
+.modal-sub{font-size:13px;color:var(--text2);margin-bottom:28px;line-height:1.6}
+.modal-label{font-size:12px;font-weight:700;color:var(--purple-light);text-align:left;margin-bottom:8px}
+.modal-input{width:100%;background:var(--bg2);border:1px solid var(--border);color:var(--text);border-radius:12px;padding:14px 16px;font-family:'Noto Sans KR',sans-serif;font-size:13px;margin-bottom:8px;outline:none;transition:border .2s}
+.modal-input:focus{border-color:var(--purple-light)}
+.modal-hint{font-size:11px;color:var(--text3);text-align:left;margin-bottom:20px;line-height:1.6}
+.modal-hint a{color:var(--blue-light);text-decoration:none}
+.modal-btns{display:flex;gap:10px}
+.modal-btn{flex:1;border:none;border-radius:12px;padding:14px;font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:14px;cursor:pointer;transition:all .2s}
+.modal-btn-primary{background:var(--purple);color:#fff}
+.modal-btn-primary:hover{background:var(--purple-light)}
+.modal-btn-skip{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
+.modal-btn-skip:hover{color:var(--text);border-color:var(--purple-light)}
+.api-status{position:fixed;top:68px;right:16px;z-index:98;background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:6px 12px;font-size:11px;display:flex;align-items:center;gap:6px;cursor:pointer}
+.api-dot{width:8px;height:8px;border-radius:50%;background:#ef4444}
+.api-dot.on{background:var(--green)}
+
+/* ── NAV ── */
+.nav{position:fixed;top:0;left:0;right:0;z-index:97;background:rgba(13,11,26,0.95);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 16px;display:flex;align-items:center;height:60px;gap:0}
+.nav-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;color:#fff;margin-right:20px;white-space:nowrap}
+.nav-logo span{color:var(--orange)}
+.nav-tabs{display:flex;gap:2px;flex:1;overflow-x:auto}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{padding:7px 13px;border-radius:8px;border:none;background:transparent;color:var(--text2);font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap}
+.nav-tab:hover{color:var(--text);background:rgba(108,63,197,0.15)}
+.nav-tab.active{background:var(--purple);color:#fff}
+.nav-badge{background:var(--orange);color:#fff;font-size:9px;padding:2px 5px;border-radius:8px;margin-left:4px}
+
+/* ── PAGES ── */
+.page{display:none;padding-top:60px;min-height:100vh}
+.page.active{display:block}
+
+/* ── HERO ── */
+.hero{padding:52px 24px 36px;text-align:center;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(108,63,197,0.3) 0%,transparent 70%)}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:8px;background:rgba(108,63,197,0.2);border:1px solid rgba(108,63,197,0.4);border-radius:20px;padding:5px 14px;font-size:12px;color:var(--purple-light);margin-bottom:16px;position:relative}
+.hero-title{font-family:'Montserrat',sans-serif;font-weight:900;font-size:clamp(24px,3.5vw,46px);line-height:1.1;margin-bottom:14px;position:relative}
+.hero-title .hl{background:linear-gradient(135deg,var(--purple-light),var(--blue-light),var(--orange));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-sub{color:var(--text2);font-size:14px;line-height:1.7;max-width:580px;margin:0 auto 28px;position:relative}
+.hero-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;position:relative}
+.stat-chip{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 18px;text-align:center}
+.stat-num{font-family:'Montserrat',sans-serif;font-weight:900;font-size:22px;color:var(--purple-light)}
+.stat-label{font-size:10px;color:var(--text2);margin-top:2px}
+
+/* ── COMMON ── */
+.section{padding:32px 20px;max-width:1100px;margin:0 auto}
+.sec-label{font-size:11px;font-weight:700;color:var(--purple-light);letter-spacing:2px;text-transform:uppercase;margin-bottom:6px}
+.sec-title{font-size:19px;font-weight:700;margin-bottom:5px}
+.sec-sub{font-size:12px;color:var(--text2);margin-bottom:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px}
+.btn{border:none;border-radius:10px;padding:11px 22px;font-family:'Noto Sans KR',sans-serif;font-weight:700;font-size:13px;cursor:pointer;transition:all .2s}
+.btn-primary{background:var(--purple);color:#fff}
+.btn-primary:hover{background:var(--purple-light);transform:translateY(-1px)}
+.btn-secondary{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
+.btn-secondary:hover{color:var(--text);border-color:var(--purple-light)}
+.btn-orange{background:var(--orange);color:#fff}
+.btn-orange:hover{opacity:.9;transform:translateY(-1px)}
+
+/* ── PAGE A: 제안서 ── */
+.proposal-hero{background:linear-gradient(135deg,var(--purple-deep),var(--bg2));border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:20px;position:relative;overflow:hidden}
+.proposal-hero::after{content:'필굿';position:absolute;right:-10px;top:-10px;font-family:'Montserrat',sans-serif;font-weight:900;font-size:120px;color:rgba(108,63,197,0.06);line-height:1}
+.proposal-tag{display:inline-block;background:var(--orange);color:#fff;font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;margin-bottom:10px}
+.proposal-title{font-size:22px;font-weight:900;margin-bottom:6px}
+.proposal-desc{color:var(--text2);font-size:13px;line-height:1.7}
+.feature-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:20px}
+.feature-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px;transition:transform .2s,box-shadow .2s}
+.feature-card:hover{transform:translateY(-2px);box-shadow:0 6px 24px var(--glow)}
+.feature-icon{font-size:22px;margin-bottom:6px}
+.feature-name{font-size:12px;font-weight:700;margin-bottom:3px}
+.feature-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.route-flow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:18px;background:var(--card2);border-radius:14px;margin-bottom:20px}
+.route-step{border-radius:8px;padding:7px 12px;font-size:11px;font-weight:700;white-space:nowrap;line-height:1.4;text-align:center}
+.route-step.p{background:var(--purple);color:#fff}
+.route-step.b{background:var(--blue);color:#fff}
+.route-step.o{background:var(--orange);color:#fff}
+.route-arrow{color:var(--text3);font-size:16px}
+.price-table{width:100%;border-collapse:collapse}
+.price-table th{background:var(--card2);padding:9px 12px;font-size:11px;color:var(--text2);font-weight:600;text-align:left;border-bottom:1px solid var(--border)}
+.price-table td{padding:11px 12px;font-size:12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.price-table tr:hover td{background:rgba(108,63,197,0.05)}
+.badge{padding:3px 8px;border-radius:6px;font-size:11px;font-weight:600}
+.badge-p{background:rgba(108,63,197,0.2);color:var(--purple-light)}
+.badge-b{background:rgba(37,99,235,0.2);color:var(--blue-light)}
+.badge-o{background:rgba(249,115,22,0.2);color:var(--orange)}
+
+/* ── PAGE B: 브로셔 ── */
+.brochure-tabs{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+.br-tab{padding:9px 20px;border-radius:10px;border:1px solid var(--border);background:var(--card2);color:var(--text2);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s}
+.br-tab.active{background:var(--purple);border-color:var(--purple);color:#fff}
+.br-section{display:none}
+.br-section.active{display:block}
+.br-hero-box{background:linear-gradient(135deg,#3D5A80,#2D4A6E);border-radius:20px;padding:32px;margin-bottom:20px;position:relative;overflow:hidden}
+.br-hero-box::before{content:'';position:absolute;top:-40px;right:-40px;width:200px;height:200px;background:rgba(255,255,255,0.05);border-radius:50%}
+.br-kpass{background:linear-gradient(135deg,#6C3FC5,#4A2A9A)}
+.br-dcas{background:linear-gradient(135deg,#2563EB,#1A4AB0)}
+.br-badge{display:inline-flex;align-items:center;gap:6px;border:2px solid rgba(255,255,255,0.3);border-radius:12px;padding:6px 14px;font-size:13px;font-weight:900;margin-bottom:12px;color:#fff}
+.br-main-title{font-size:26px;font-weight:900;color:#fff;margin-bottom:6px}
+.br-main-sub{font-size:13px;color:rgba(255,255,255,0.75);margin-bottom:0}
+.br-age{background:rgba(255,255,255,0.15);border-radius:8px;padding:4px 12px;font-size:12px;font-weight:700;color:#fff;display:inline-block;margin-top:10px}
+.br-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px}
+.br-card{background:var(--card2);border:1px solid var(--border);border-radius:14px;padding:16px}
+.br-card-title{font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.br-card-body{font-size:12px;color:var(--text2);line-height:1.7}
+.br-tag{display:inline-block;background:rgba(108,63,197,0.2);color:var(--purple-light);border-radius:6px;padding:2px 8px;font-size:11px;font-weight:600;margin:2px}
+.br-tag.blue{background:rgba(37,99,235,0.2);color:var(--blue-light)}
+.br-tag.orange{background:rgba(249,115,22,0.2);color:var(--orange)}
+.br-tag.green{background:rgba(16,185,129,0.2);color:var(--green)}
+.compare-table{width:100%;border-collapse:collapse;font-size:12px}
+.compare-table th{background:var(--card2);padding:10px 12px;font-size:11px;color:var(--text2);font-weight:700;border-bottom:1px solid var(--border);text-align:left}
+.compare-table th.highlight{background:var(--purple);color:#fff}
+.compare-table td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04);color:var(--text2);vertical-align:top}
+.compare-table td.highlight{color:var(--text);font-weight:600}
+.compare-table tr:hover td{background:rgba(108,63,197,0.04)}
+.pass-circle{display:flex;gap:12px;flex-wrap:wrap;margin:16px 0}
+.pass-item{background:var(--card2);border-radius:12px;padding:14px 16px;flex:1;min-width:130px;border:1px solid var(--border)}
+.pass-letter{font-family:'Montserrat',sans-serif;font-weight:900;font-size:20px;margin-bottom:4px}
+.pass-name{font-size:12px;font-weight:700;margin-bottom:4px}
+.pass-desc{font-size:11px;color:var(--text2);line-height:1.5}
+.company-info{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:20px}
+.ci-item{background:var(--card2);border-radius:10px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start}
+.ci-label{font-size:10px;color:var(--orange);font-weight:700;margin-bottom:3px;letter-spacing:1px}
+.ci-val{font-size:13px;font-weight:600}
+.history-list{display:flex;flex-direction:column;gap:8px}
+.history-item{display:flex;gap:12px;align-items:flex-start}
+.history-year{background:var(--purple);color:#fff;border-radius:8px;padding:3px 10px;font-size:11px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.history-year.navy{background:var(--navy)}
+.history-year.orange{background:var(--orange)}
+.history-text{font-size:12px;color:var(--text2);line-height:1.6;padding-top:2px}
+.step-flow{display:flex;gap:0;margin:20px 0}
+.step-item{flex:1;text-align:center;position:relative}
+.step-item:not(:last-child)::after{content:'→';position:absolute;right:-10px;top:20px;font-size:18px;color:var(--text3)}
+.step-num{width:44px;height:44px;border-radius:12px;background:var(--purple);color:#fff;font-family:'Montserrat',sans-serif;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.step-title{font-size:12px;font-weight:700;margin-bottom:3px}
+.step-desc{font-size:11px;color:var(--text2)}
+
+/* ── PAGE C: 커리큘럼 ── */
+.week-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.week-card{background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:13px;cursor:pointer;transition:all .2s}
+.week-card:hover{border-color:var(--purple-light);background:rgba(108,63,197,0.1)}
+.week-card.selected{border-color:var(--purple-light);background:rgba(108,63,197,0.15)}
+.week-num{font-size:10px;color:var(--text3);margin-bottom:3px}
+.week-theme{font-size:12px;font-weight:700;margin-bottom:3px}
+.week-activity{font-size:11px;color:var(--text2)}
+.pass-chips{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.pass-chip{font-size:10px;padding:2px 7px;border-radius:8px;font-weight:600}
+.chip-p{background:rgba(108,63,197,0.25);color:var(--purple-light)}
+.chip-a{background:rgba(37,99,235,0.25);color:var(--blue-light)}
+.chip-s{background:rgba(16,185,129,0.25);color:#34d399}
+.chip-ss{background:rgba(249,115,22,0.25);color:var(--orange)}
+.lesson-detail{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px;margin-top:16px}
+.lesson-step{display:flex;gap:12px;align-items:flex-start;margin-bottom:12px}
+.lesson-time{border-radius:7px;padding:4px 9px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0}
+.lt-p{background:var(--purple);color:#fff}
+.lt-b{background:var(--blue);color:#fff}
+.lt-o{background:var(--orange);color:#fff}
+.lt-g{background:var(--green);color:#fff}
+.lt-d{background:var(--card2);color:var(--text2);border:1px solid var(--border)}
+.lesson-content h4{font-size:12px;font-weight:700;margin-bottom:2px}
+.lesson-content p{font-size:11px;color:var(--text2);line-height:1.5}
+.phase-header{display:flex;align-items:center;gap:10px;margin-bottom:14px;margin-top:28px}
+.phase-icon{width:36px;height:36px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+
+/* ── PAGE D: 감정체크인 ── */
+.checkin-wrap{max-width:680px;margin:0 auto}
+.checkin-card{background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--border);border-radius:20px;padding:24px}
+.emotion-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:20px}
+.emotion-btn{background:var(--card2);border:2px solid transparent;border-radius:12px;padding:12px 6px;text-align:center;cursor:pointer;transition:all .2s}
+.emotion-btn:hover{border-color:var(--purple-light);transform:translateY(-2px)}
+.emotion-btn.selected{border-color:var(--purple-light);background:rgba(108,63,197,0.2)}
+.emotion-emoji{font-size:26px;display:block;margin-bottom:3px}
+.emotion-label{font-size:10px;color:var(--text2)}
+.dilemma-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:18px}
+.dilemma-title{font-size:11px;color:var(--orange);font-weight:700;margin-bottom:6px;letter-spacing:1px}
+.dilemma-text{font-size:14px;font-weight:600;line-height:1.6;margin-bottom:10px}
+.brain-q-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.brain-q-card{background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:11px}
+.brain-q-type{font-size:10px;font-weight:700;color:var(--purple-light);margin-bottom:3px}
+.brain-q-text{font-size:11px;color:var(--text2);line-height:1.5}
+.checkin-controls{display:flex;gap:8px;justify-content:center;margin-top:16px}
+.ai-panel{background:var(--bg2);border:1px solid var(--border);border-radius:14px;padding:18px;margin-top:14px}
+.ai-loading{display:none;align-items:center;gap:8px;color:var(--text2);font-size:12px}
+.ai-loading.show{display:flex}
+.spinner{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--purple-light);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+.ai-result{font-size:12px;line-height:1.8;color:var(--text)}
+
+/* ── PAGE E: 리포트 ── */
+.select-box{background:var(--card2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:9px 12px;font-family:'Noto Sans KR',sans-serif;font-size:12px;cursor:pointer}
+.report-preview{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px}
+.report-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid var(--border)}
+.report-title-big{font-size:20px;font-weight:900}
+.report-meta{font-size:11px;color:var(--text3);margin-top:3px}
+.report-logo{font-family:'Montserrat',sans-serif;font-weight:900;font-size:18px}
+.report-logo span{color:var(--orange)}
+.report-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:16px}
+.report-section{background:var(--bg2);border-radius:11px;padding:14px}
+.rs-title{font-size:10px;font-weight:700;color:var(--purple-light);letter-spacing:1px;margin-bottom:10px}
+.progress-item{margin-bottom:8px}
+.progress-label{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
+.progress-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width 1s ease}
+.fill-p{background:linear-gradient(90deg,var(--purple),var(--purple-light))}
+.fill-a{background:linear-gradient(90deg,var(--blue),var(--blue-light))}
+.fill-s{background:linear-gradient(90deg,#059669,var(--green))}
+.fill-ss{background:linear-gradient(90deg,#EA580C,var(--orange))}
+.score-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+.score-item{background:var(--card);border-radius:8px;padding:9px;text-align:center}
+.score-val{font-family:'Montserrat',sans-serif;font-weight:900;font-size:20px}
+.score-lbl{font-size:10px;color:var(--text2);margin-top:1px}
+.tag-list{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.rtag{background:rgba(108,63,197,0.2);color:var(--purple-light);border-radius:6px;padding:3px 8px;font-size:11px;font-weight:600}
+.rtag.o{background:rgba(249,115,22,0.2);color:var(--orange)}
+.narrative-text{font-size:12px;color:var(--text2);line-height:1.8}
+.print-btn{background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:11px;cursor:pointer;font-family:'Noto Sans KR',sans-serif}
+.print-btn:hover{border-color:var(--purple-light);color:var(--text)}
+
+@media(max-width:600px){
+  .report-grid{grid-template-columns:1fr}
+  .brain-q-grid{grid-template-columns:1fr}
+  .step-flow{flex-direction:column;gap:12px}
+  .step-item::after{display:none}
+  .compare-table{font-size:11px}
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .35s ease forwards}
+</style>
+</head>
+<body>
+
+<!-- API KEY MODAL -->
+<div class="modal-overlay" id="api-modal">
+  <div class="modal-box">
+    <div class="modal-logo">Brain<span>Fit</span> School</div>
+    <div style="font-size:13px;color:var(--purple-light);margin-bottom:4px">에듀테크 필굿 × BrainFit</div>
+    <div class="modal-sub">AI 기능(생기부 서술·철학적 관점 생성)을 체험하려면<br>Anthropic API 키를 입력해주세요.<br>키는 이 브라우저에만 저장되며 외부로 전송되지 않습니다.</div>
+    <div class="modal-label">🔑 Anthropic API Key</div>
+    <input class="modal-input" id="api-key-input" type="password" placeholder="sk-ant-api03-...">
+    <div class="modal-hint">
+      키 발급: <a href="https://console.anthropic.com" target="_blank">console.anthropic.com</a> → API Keys → Create Key<br>
+      신규 가입 시 $5 무료 크레딧 제공 | 데모 시연 수백 회 가능
+    </div>
+    <div class="modal-btns">
+      <button class="modal-btn modal-btn-skip" onclick="closeModal(false)">키 없이 둘러보기</button>
+      <button class="modal-btn modal-btn-primary" onclick="saveApiKey()">저장하고 시작하기</button>
+    </div>
+  </div>
+</div>
+
+<!-- API STATUS BADGE -->
+<div class="api-status" id="api-status" onclick="openModal()" title="클릭하여 API 키 변경">
+  <div class="api-dot" id="api-dot"></div>
+  <span id="api-status-text">API 키 없음</span>
+</div>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">Brain<span>Fit</span></div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('proposal')">📋 학교 제안서</button>
+    <button class="nav-tab" onclick="showPage('brochure')">🧬 검사 브로셔</button>
+    <button class="nav-tab" onclick="showPage('curriculum')">📚 32회 커리큘럼</button>
+    <button class="nav-tab" onclick="showPage('checkin')">🌤 감정체크인<span class="nav-badge">10분</span></button>
+    <button class="nav-tab" onclick="showPage('report')">📊 인성교육 리포트</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════
+     PAGE A: 학교 제안서
+══════════════════════════════ -->
+<div id="page-proposal" class="page active">
+  <div class="hero">
+    <div class="hero-eyebrow">🏫 학교 진입형 공식 제안 · GitHub Pages 배포용</div>
+    <h1 class="hero-title">두뇌과학으로 설계된<br><span class="hl">인성·사고력 교육 프로그램</span></h1>
+    <p class="hero-sub">K-PASS / D-CAS 인지진단 × 미네르바 교육철학 × 정서·윤리 가치교육<br>정규수업 없이, 창체·인성교육 시수만으로 운영 가능합니다</p>
+    <div class="hero-stats">
+      <div class="stat-chip"><div class="stat-num">81</div><div class="stat-label">두뇌 특성 유형</div></div>
+      <div class="stat-chip"><div class="stat-num">32</div><div class="stat-label">회 연간 커리큘럼</div></div>
+      <div class="stat-chip"><div class="stat-num">4</div><div class="stat-label">PASS 인지축</div></div>
+      <div class="stat-chip"><div class="stat-num">40</div><div class="stat-label">년 축적 데이터</div></div>
+    </div>
+  </div>
+  <div class="section">
+    <div class="proposal-hero">
+      <div class="proposal-tag">인성교육진흥법 의무시수 완벽 충족</div>
+      <div class="proposal-title">왜 BrainFit School인가?</div>
+      <div class="proposal-desc">기존 인성교육은 "착하게 살아라"는 추상적 메시지에 그칩니다. BrainFit은 K-PASS/D-CAS로 학생의 두뇌 인지유형을 과학적으로 진단하고, 81가지 두뇌 특성에 맞는 정서·사고력 훈련을 처방합니다. 측정 가능한 성장 데이터로 학교 실적 보고까지 자동화됩니다.</div>
+    </div>
+    <div class="sec-label">핵심 특장점</div>
+    <div class="feature-row">
+      <div class="feature-card"><div class="feature-icon">🧬</div><div class="feature-name">과학적 진단 기반</div><div class="feature-desc">K-PASS/D-CAS 검사로 81가지 두뇌 특성 분류 — 설문이 아닌 게임형 인지과학 검사, 40년 축적 데이터</div></div>
+      <div class="feature-card"><div class="feature-icon">🎯</div><div class="feature-name">정규수업 Zero 침범</div><div class="feature-desc">창체·인성교육 의무시수·방과후 활용 — 교과 교사 업무 추가 없음, 담임 진행 가능</div></div>
+      <div class="feature-card"><div class="feature-icon">🤖</div><div class="feature-name">AI 자동화 리포트</div><div class="feature-desc">인성교육 실적보고서·학생 성장 리포트·생기부 참고 서술 자동 생성</div></div>
+      <div class="feature-card"><div class="feature-icon">🏛</div><div class="feature-name">미네르바 교육철학</div><div class="feature-desc">정답 없는 딜레마 토론 → 메타인지·비판적 사고·윤리적 판단력 훈련</div></div>
+      <div class="feature-card"><div class="feature-icon">📈</div><div class="feature-name">측정 가능한 성장</div><div class="feature-desc">연 2회 재진단으로 정서지능·인지성장 변화를 수치로 증명, 학교 평가 자료 활용</div></div>
+      <div class="feature-card"><div class="feature-icon">⚖️</div><div class="feature-name">보편 가치 기반</div><div class="feature-desc">동서양 철학·종교 원리에서 추출한 공통 윤리·가치 교육 콘텐츠 — 특정 종교 편향 없음</div></div>
+    </div>
+    <div class="sec-label">학교 진입 경로 (현실적 순서)</div>
+    <div class="route-flow">
+      <div class="route-step p">1순위<br>인성교육 의무시수</div>
+      <div class="route-arrow">+</div>
+      <div class="route-step p">창의적 체험활동<br>(연 204시간)</div>
+      <div class="route-arrow">→</div>
+      <div class="route-step b">2순위<br>방과후학교</div>
+      <div class="route-arrow">→</div>
+      <div class="route-step o">3순위<br>조례·종례 루틴</div>
+    </div>
+    <div class="sec-label">도입 패키지</div>
+    <div class="card" style="overflow:auto;margin-bottom:20px">
+      <table class="price-table">
+        <thead><tr><th>패키지</th><th>대상</th><th>포함 내용</th><th>가격</th></tr></thead>
+        <tbody>
+          <tr><td><span class="badge badge-p">Basic</span></td><td>학급 단위</td><td>진단 1회 + 32회 커리큘럼 + 교사 가이드</td><td>연 150만원</td></tr>
+          <tr><td><span class="badge badge-b">School</span></td><td>전교 단위</td><td>전교생 진단 + 교사 연수 + 자동 리포트</td><td>연 500만원</td></tr>
+          <tr><td><span class="badge badge-o">District</span></td><td>교육청 단위</td><td>관내 전체 + 데이터 대시보드 + 전담 CS</td><td>별도 협의</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <button class="btn btn-primary" onclick="showPage('brochure')">🧬 검사 브로셔 보기</button>
+      <button class="btn btn-secondary" onclick="showPage('curriculum')">📚 커리큘럼 보기</button>
+      <button class="btn btn-orange" onclick="showPage('report')">📊 리포트 샘플 보기</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE B: 검사 브로셔
+══════════════════════════════ -->
+<div id="page-brochure" class="page">
+  <div class="section">
+    <div class="sec-label">FeelGood 에듀테크 필굿 공식 검사</div>
+    <div class="sec-title">K-PASS / D-CAS 검사 브로셔</div>
+    <div class="sec-sub">뇌 과학 기반 첨단 맞춤 교육 실현 시스템 | 한국 최초 게임형 두뇌 잠재력 평가</div>
+    <div class="brochure-tabs">
+      <button class="br-tab active" onclick="showBr('why')">왜 지금인가</button>
+      <button class="br-tab" onclick="showBr('kpass')">K-PASS 소개</button>
+      <button class="br-tab" onclick="showBr('dcas')">D-CAS 소개</button>
+      <button class="br-tab" onclick="showBr('compare')">검사 비교</button>
+      <button class="br-tab" onclick="showBr('school')">학교 적용</button>
+      <button class="br-tab" onclick="showBr('process')">검사 프로세스</button>
+      <button class="br-tab" onclick="showBr('company')">필굿 소개</button>
+    </div>
+
+    <!-- 왜 지금인가 -->
+    <div class="br-section active" id="br-why">
+      <div class="br-hero-box" style="background:linear-gradient(135deg,#3D5A80,#1A3A5C)">
+        <div style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px">AGI 시대 생존 전략</div>
+        <div style="font-size:28px;font-weight:900;color:#fff;line-height:1.2;margin-bottom:10px">진화하는 두뇌유형 분석<br>= 생존 전략</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.75)">자동화는 반복적·언어 중심의 직무를 빠르게 대체하고 있습니다.<br>이제는 <strong style="color:#F5B800">개인의 인지 강점에 기반한 정밀 매칭</strong>이 핵심 경쟁력이 됩니다.</div>
+      </div>
+      <div class="br-grid">
+        <div class="br-card">
+          <div class="br-card-title">🌐 역플린 효과</div>
+          <div class="br-card-body">2000년대 이후 노르웨이, 핀란드 등 여러 선진국에서 <strong>IQ 성장의 정체 또는 감소</strong> 현상이 보고되고 있습니다. 디지털 환경의 영향으로 주의 전환 빈도 증가, 언어 기반 처리 능력 감소, 시각·패턴 기반 처리 능력이 증가하고 있습니다.</div>
+        </div>
+        <div class="br-card">
+          <div class="br-card-title">🤖 AI 시대의 요구</div>
+          <div class="br-card-body">언어 중심 지능검사만으로는 현재 두뇌의 인지적 특성을 정확하게 포착할 수 없습니다. 두뇌 유형 기반의 신속한 재능·적성 분석과 인지 특성에 맞춘 전략적 인재 개발이 필요합니다.</div>
+        </div>
+        <div class="br-card">
+          <div class="br-card-title">🧠 BPT: Brain Potential Test</div>
+          <div class="br-card-body">
+            <div style="margin-bottom:8px"><span class="br-tag">두뇌유형 분석</span><span class="br-tag orange">적성·진로·재능</span></div>
+            <div style="margin-bottom:8px"><span class="br-tag blue">계획력 분석 (전두엽)</span><span class="br-tag green">자기통제력</span><span class="br-tag green">공감능력</span></div>
+            <span class="br-tag">주의력 평가</span><span class="br-tag orange">학습효율성</span><span class="br-tag orange">ADHD 평가</span>
+          </div>
+        </div>
+        <div class="br-card">
+          <div class="br-card-title">📊 경계선 지능 & ADHD</div>
+          <div class="br-card-body">ADHD 진료 현황: 2018년 약 6만명 → 2022년 약 11만명 → 2024년 약 15만명.<br><strong style="color:var(--orange)">조기 인지치료(13세 이전)는 85% 완치율</strong>, 성인 이후 치료는 제한적 효과. 조기 발견이 핵심입니다.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- K-PASS 소개 -->
+    <div class="br-section" id="br-kpass">
+      <div class="br-hero-box br-kpass">
+        <div class="br-badge">K⁺PASS 케이-패스</div>
+        <div class="br-main-title">아동 학습·적성 지능검사</div>
+        <div class="br-main-sub">한국 최고 전문가의 40년간 축적된 분석 데이터 기반<br>세계 최초 게임형 두뇌 잠재력 평가 시스템</div>
+        <div class="br-age">5세 ~ 13세</div>
+      </div>
+      <div class="pass-circle">
+        <div class="pass-item"><div class="pass-letter" style="color:var(--purple-light)">P</div><div class="pass-name">계획력 Planning</div><div class="pass-desc">전두엽 기반 실행 기능 자기통제·전략 수립·목표 달성 능력</div></div>
+        <div class="pass-item"><div class="pass-letter" style="color:var(--blue-light)">A</div><div class="pass-name">주의력 Attention</div><div class="pass-desc">선택적 주의·집중 유지 학습 효율성·ADHD 관련 지표</div></div>
+        <div class="pass-item"><div class="pass-letter" style="color:var(--green)">S</div><div class="pass-name">동시처리 Simultaneous</div><div class="pass-desc">우뇌 패턴·전체 맥락 파악 창의적·시각적·직관적 사고</div></div>
+        <div class="pass-item"><div class="pass-letter" style="color:var(--orange)">Ss</div><div class="pass-name">순차처리 Successive</div><div class="pass-desc">좌뇌 언어·논리·단계 처리 순서·규칙 기반 학습 강점</div></div>
+      </div>
+      <div class="br-grid">
+        <div class="br-card"><div class="br-card-title">📋 검사 결과지 (17페이지)</div><div class="br-card-body">전체 척도 / 규준적 강약 분석 / 개인 내적 강약 분석 / 하위척도별 지수 / 순차-동시 프로파일 분석</div></div>
+        <div class="br-card"><div class="br-card-title">🗺 학습진로 가이드 (22페이지)</div><div class="br-card-body">두뇌 특성에 따른 기질적 강점·약점 / 최적 학습법 / 추천 직업군 / 미래 예상 직업군</div></div>
+        <div class="br-card"><div class="br-card-title">⏱ 검사 사양</div><div class="br-card-body">소요 시간: 15~25분 (다중 동시 진행)<br>검사 인력: 일반 교사 또는 온라인 자가 검사<br>플랫폼: kpass.feel-good.io</div></div>
+        <div class="br-card"><div class="br-card-title">🎯 활용 영역</div><div class="br-card-body"><span class="br-tag">영재·재능 분석</span><span class="br-tag orange">학습선호 방법 추천</span><span class="br-tag blue">ADHD 조기 선별</span><span class="br-tag green">진로·적성 분석</span></div></div>
+      </div>
+    </div>
+
+    <!-- D-CAS 소개 -->
+    <div class="br-section" id="br-dcas">
+      <div class="br-hero-box br-dcas">
+        <div class="br-badge">D⁺CAS 다-카스</div>
+        <div class="br-main-title">청소년 학습·적성 지능검사<br>성인 진로·직무 지능검사</div>
+        <div class="br-main-sub">뇌 기반 진로·적성 검사 | 두뇌유형 분석 / 인지적 능력 / 직무적성 리스트</div>
+        <div class="br-age">14세 ~ 성인</div>
+      </div>
+      <div class="br-grid">
+        <div class="br-card"><div class="br-card-title">📋 검사 결과지 (17페이지)</div><div class="br-card-body">두뇌유형 분석 / 하위척도별 지적 능력 / 순차-동시처리 프로파일 / 직무·적성 리스트 분석</div></div>
+        <div class="br-card"><div class="br-card-title">🗺 학습진로 가이드 (22페이지)</div><div class="br-card-body">기질적 강점·약점 / 나의 효율적인 학습법 / 직무적성 리스트 / 미래 예상 직업군</div></div>
+        <div class="br-card"><div class="br-card-title">🏢 기업·HR 활용</div><div class="br-card-body">인지기능 기반 고성과 vs 저성과 패턴 분석 / 정서안정성 기질적 취약점 예측 / 종합 HR 대시보드</div></div>
+        <div class="br-card"><div class="br-card-title">🛡 군·경·보안 활용</div><div class="br-card-body">인지유형 기반 직무 적합도 분류 (전투/현장/분석/지휘) / 스트레스·정서 불안정성 예측 / 심리 상태 분류 (안정/주의/관리)</div></div>
+      </div>
+    </div>
+
+    <!-- 검사 비교 -->
+    <div class="br-section" id="br-compare">
+      <div style="font-size:15px;font-weight:700;margin-bottom:16px;color:var(--yellow)">K-PASS vs 기존 검사 방법 비교</div>
+      <div style="overflow:auto">
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>웩슬러 (WISC)</th>
+              <th>뇌파(EEG) 검사</th>
+              <th>문답식 진로검사</th>
+              <th class="highlight">K-PASS / D-CAS</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>핵심 평가</td><td>언어·수리 문제풀이 (좌뇌 편향)</td><td>두피 전극 생리신호 측정</td><td>자기보고식 문항 선택</td><td class="highlight">게임형 디지털 과제 → 집행인지 4요소 실시간 측정</td></tr>
+            <tr><td>측정 대상</td><td>지식·언어·추론</td><td>생리적 각성·집중·정서</td><td>흥미·성향·태도</td><td class="highlight">인지처리(계획·주의·동시·순차) + 실행 전략</td></tr>
+            <tr><td>소요 시간</td><td>90~120분</td><td>30~40분/1인</td><td>20~30분</td><td class="highlight">15~25분 / 다중 동시 진행</td></tr>
+            <tr><td>검사 인력</td><td>임상심리사 필수</td><td>뇌파전문가 필수</td><td>교사·상담교사</td><td class="highlight">일반 교사 또는 온라인 자가 검사</td></tr>
+            <tr><td>대규모 시행</td><td>낮음 (1:1 필요)</td><td>매우 낮음</td><td>높음</td><td class="highlight">매우 높음 (클라우드 동시 검사)</td></tr>
+            <tr><td>두뇌발달 측정</td><td>간접적 (지식 결과)</td><td>생리적 상태 측정 중심</td><td>없음</td><td class="highlight">인지처리 경로 직접 분석 → 두뇌발달 패턴 정량화</td></tr>
+            <tr><td>현장 활용성</td><td>병원·상담 중심</td><td>연구실 중심 (학교 부적합)</td><td>진로 상담 참고용</td><td class="highlight">학교·교육청·국제학교 모두 적용 가능</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="margin-top:16px;background:var(--card2);border-radius:12px;padding:16px;border-left:3px solid var(--purple-light)">
+        <div style="font-size:12px;font-weight:700;color:var(--purple-light);margin-bottom:6px">✅ K-PASS의 핵심 우위</div>
+        <div style="font-size:12px;color:var(--text2);line-height:1.7">정확·객관·대규모·자동화 실현 | 비언어적 게임형 문항으로 좌뇌 편향 보완 | 자동화 데이터 분석으로 주관 개입 차단 | 대한민국 유일 심리검사 표준화 연구기관 1988년 설립 · 40년 축적 데이터</div>
+      </div>
+    </div>
+
+    <!-- 학교 적용 -->
+    <div class="br-section" id="br-school">
+      <div class="br-hero-box" style="background:linear-gradient(135deg,#1E3A5F,#0F2744)">
+        <div style="font-size:22px;font-weight:900;color:#fff;line-height:1.4;margin-bottom:12px">진정한 글로벌 교육의 탁월함은<br><span style="color:#F5B800">학생 개인의 인지적 특성</span>을<br>이해하는 것에서 시작됩니다.</div>
+        <div style="font-size:13px;color:rgba(255,255,255,0.75)">K-PASS/D-CAS는 비언어 중심, 정답이 존재하는 문제평가로 정확한 뇌 기능 평가<br>교사의 업무 부담을 줄이는 동시에 진정한 학생 중심 학습 환경을 구현합니다.</div>
+      </div>
+      <div class="br-grid">
+        <div class="br-card">
+          <div class="br-card-title">🎓 신입생·재학생 대상 (STEP 1)</div>
+          <div class="br-card-body">
+            <strong style="color:var(--purple-light)">인지 다양성 평가</strong><br>
+            · K-PASS/D-CAS는 다문화·다언어 환경에 적합한 비언어 중심 검사<br>
+            · 학생의 학습 스타일 분석을 통한 맞춤형 수업 설계<br><br>
+            <strong style="color:var(--green)">기대효과</strong><br>
+            · 신입생의 학교 적응 문제 및 수업 부적응 감소<br>
+            · 학기별 교사의 관찰·기록·보고 업무 시간 절감
+          </div>
+        </div>
+        <div class="br-card">
+          <div class="br-card-title">📊 인지 데이터 분석 활용</div>
+          <div class="br-card-body">
+            <strong style="color:var(--blue-light)">학습 진단</strong><br>
+            · 영재·재능·문제성 분석<br>
+            · 학습 선호 방법 추천<br>
+            · 정서적 강약 분석 → 보완점 훈련<br><br>
+            <strong style="color:var(--orange)">진로·적성 분석</strong><br>
+            · 인지적 강약 분석 → 진로·적성 분석<br>
+            · 현재·미래 직업군 추천
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 검사 프로세스 -->
+    <div class="br-section" id="br-process">
+      <div style="font-size:16px;font-weight:700;margin-bottom:20px">검사 프로세스</div>
+      <div class="step-flow">
+        <div class="step-item"><div class="step-num">1</div><div class="step-title">다운로드</div><div class="step-desc">PC / 태블릿<br>Windows·iOS</div></div>
+        <div class="step-item"><div class="step-num">2</div><div class="step-title">검사 진행</div><div class="step-desc">30~50분 소요<br>게임형 진행</div></div>
+        <div class="step-item"><div class="step-num">3</div><div class="step-title">결과 확인</div><div class="step-desc">검사 완료 즉시<br>자동 리포트</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:20px">
+        <div class="br-card" style="text-align:center">
+          <div style="font-size:22px;margin-bottom:8px">🎮</div>
+          <div class="br-card-title" style="justify-content:center">K-PASS 샘플 검사</div>
+          <div class="br-card-body" style="margin-bottom:12px">kpass.feel-good.io</div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px;font-size:11px;color:var(--text3)">체험용(Trial Test)에서는 애니메이션 스토리 없이 샘플 문항만 체험 가능</div>
+        </div>
+        <div class="br-card" style="text-align:center">
+          <div style="font-size:22px;margin-bottom:8px">🎮</div>
+          <div class="br-card-title" style="justify-content:center">D-CAS 샘플 검사</div>
+          <div class="br-card-body" style="margin-bottom:12px">dcas.feel-good.io</div>
+          <div style="background:var(--bg);border-radius:8px;padding:10px;font-size:11px;color:var(--text3)">체험용(Trial Test)에서는 애니메이션 스토리 없이 샘플 문항만 체험 가능</div>
+        </div>
+      </div>
+      <div style="margin-top:16px;text-align:center">
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px">문의 및 샘플 검사 신청</div>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+          <a href="mailto:yhim@feel-good.io" style="background:var(--purple);color:#fff;padding:10px 20px;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700">✉ yhim@feel-good.io</a>
+          <a href="https://kpass.feel-good.io" target="_blank" style="background:var(--card2);color:var(--text);padding:10px 20px;border-radius:10px;text-decoration:none;font-size:13px;border:1px solid var(--border)">🌐 K-PASS 홈페이지</a>
+          <a href="https://dcas.feel-good.io" target="_blank" style="background:var(--card2);color:var(--text);padding:10px 20px;border-radius:10px;text-decoration:none;font-size:13px;border:1px solid var(--border)">🌐 D-CAS 홈페이지</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 필굿 소개 -->
+    <div class="br-section" id="br-company">
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="font-size:32px;font-weight:900;margin-bottom:4px">🌱 FeelGood</div>
+        <div style="font-size:14px;color:var(--text2)">EduTech FeelGood Co., Ltd.</div>
+        <div style="font-size:13px;color:var(--purple-light);margin-top:8px">"모든 사람들이 각자의 자리에서 영웅이 되는 그날까지, 필굿은 멈추지 않습니다."</div>
+      </div>
+      <div class="company-info">
+        <div class="ci-item"><div><div class="ci-label">COMPANY</div><div class="ci-val">(주)필굿</div></div></div>
+        <div class="ci-item"><div><div class="ci-label">CEO</div><div class="ci-val">임유하</div></div></div>
+        <div class="ci-item"><div><div class="ci-label">EMAIL</div><div class="ci-val">yhim@feel-good.io</div></div></div>
+        <div class="ci-item"><div><div class="ci-label">FOUNDED</div><div class="ci-val">2020년 8월</div></div></div>
+        <div class="ci-item"><div><div class="ci-label">WEBSITE</div><div class="ci-val">kpass / dcas .feel-good.io</div></div></div>
+        <div class="ci-item"><div><div class="ci-label">ADDRESS</div><div class="ci-val">서울 브런치 / 부산 본사 / 대구 연구소</div></div></div>
+      </div>
+      <div style="font-size:13px;font-weight:700;color:var(--purple-light);margin-bottom:12px">📅 주요 연혁</div>
+      <div class="history-list">
+        <div class="history-item"><div class="history-year navy">1988.05</div><div class="history-text">한국심리검사 표준화 연구소 설립</div></div>
+        <div class="history-item"><div class="history-year">2020.08</div><div class="history-text">(주)필굿 설립</div></div>
+        <div class="history-item"><div class="history-year">2021.04</div><div class="history-text">한국심리검사 표준화 연구소 MOU 체결</div></div>
+        <div class="history-item"><div class="history-year">2022.01</div><div class="history-text">벤처기업 승인 — 혁신성장 유형</div></div>
+        <div class="history-item"><div class="history-year">2023.11</div><div class="history-text">K-PASS 유·초등용 검사 런칭 / SBS Biz 〈트렌드스페셜〉 진행</div></div>
+        <div class="history-item"><div class="history-year">2024.06</div><div class="history-text">D-CAS 청소년·성인용 검사 런칭 / 대학교 샘플 검사 진행 (동의대·동서대)</div></div>
+        <div class="history-item"><div class="history-year">2024.10</div><div class="history-text">국내 초·중·고등학교 검사 실시</div></div>
+        <div class="history-item"><div class="history-year orange">2025.03</div><div class="history-text">몽골 시장 진출</div></div>
+        <div class="history-item"><div class="history-year orange">2025.04</div><div class="history-text">온병원그룹 소아정신과 검사 채택 및 임상데이터 협업</div></div>
+        <div class="history-item"><div class="history-year orange">2025.08</div><div class="history-text">산업통신자원부 청소년 취업교육 진로정서 검사 진행</div></div>
+        <div class="history-item"><div class="history-year orange">2025.11</div><div class="history-text">경기도 교육감 선거 캠프 선거 공약 채택</div></div>
+        <div class="history-item"><div class="history-year orange">2026.02</div><div class="history-text">아제르바이젠 soulmind (정신과협회장) 샘플 계약</div></div>
+        <div class="history-item"><div class="history-year orange">2026.03</div><div class="history-text">경남중·경남고 검사 진행 / 대만 국제중 검사 추진 중</div></div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE C: 32회 커리큘럼
+══════════════════════════════ -->
+<div id="page-curriculum" class="page">
+  <div class="section">
+    <div class="sec-label">연간 프로그램</div>
+    <div class="sec-title">32회 커리큘럼 — 창체·인성교육 연계</div>
+    <div class="sec-sub">4단계 × 8회차 | 각 40분 | 두뇌유형별 차별화 활동 | 회차를 클릭하면 수업 상세를 확인할 수 있습니다</div>
+    <div id="curriculum-phases"></div>
+    <div id="lesson-detail" class="lesson-detail" style="display:none"><div id="lesson-detail-content"></div></div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE D: 감정체크인
+══════════════════════════════ -->
+<div id="page-checkin" class="page">
+  <div class="section">
+    <div class="sec-label">아침 조례 루틴</div>
+    <div class="sec-title">10분 감정체크인 + 두뇌맞춤 딜레마 카드</div>
+    <div class="sec-sub">매일 10~15분 | 교사 재량 구간 | 두뇌유형별 차별화 질문 자동 생성</div>
+    <div class="checkin-wrap">
+      <div class="checkin-card">
+        <div id="step-1">
+          <div style="font-size:14px;font-weight:700;margin-bottom:3px">오늘 나의 감정 온도는?</div>
+          <div style="font-size:11px;color:var(--text2);margin-bottom:14px">지금 이 순간 가장 가까운 감정을 선택하세요</div>
+          <div class="emotion-grid">
+            <div class="emotion-btn" onclick="selectEmotion(this,'😄','신나요')"><span class="emotion-emoji">😄</span><span class="emotion-label">신나요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😊','괜찮아요')"><span class="emotion-emoji">😊</span><span class="emotion-label">괜찮아요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😐','보통이에요')"><span class="emotion-emoji">😐</span><span class="emotion-label">보통</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😔','힘들어요')"><span class="emotion-emoji">😔</span><span class="emotion-label">힘들어요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😤','화가 나요')"><span class="emotion-emoji">😤</span><span class="emotion-label">화가 나요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😰','걱정돼요')"><span class="emotion-emoji">😰</span><span class="emotion-label">걱정돼요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😴','피곤해요')"><span class="emotion-emoji">😴</span><span class="emotion-label">피곤해요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'🤔','복잡해요')"><span class="emotion-emoji">🤔</span><span class="emotion-label">복잡해요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'🥰','설레요')"><span class="emotion-emoji">🥰</span><span class="emotion-label">설레요</span></div>
+            <div class="emotion-btn" onclick="selectEmotion(this,'😶','모르겠어요')"><span class="emotion-emoji">😶</span><span class="emotion-label">모르겠어요</span></div>
+          </div>
+          <div class="checkin-controls">
+            <button class="btn btn-primary" id="btn-next-dilemma" onclick="loadDilemma()" disabled>오늘의 질문 받기 →</button>
+          </div>
+        </div>
+        <div id="step-2" style="display:none">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+            <span id="emotion-display" style="font-size:22px"></span>
+            <div><div style="font-size:12px;font-weight:700">오늘의 감정이 기록됐어요</div><div style="font-size:10px;color:var(--text2)">이제 오늘의 생각 질문을 만나볼게요</div></div>
+          </div>
+          <div class="dilemma-box">
+            <div class="dilemma-title">🎯 오늘의 딜레마</div>
+            <div id="dilemma-text" class="dilemma-text"></div>
+            <div style="font-size:10px;color:var(--text3);margin-top:6px">정답이 없는 문제입니다. 솔직하게 생각해보세요.</div>
+          </div>
+          <div style="font-size:11px;font-weight:700;color:var(--purple-light);margin-bottom:8px">🧠 두뇌유형별 생각 힌트</div>
+          <div id="brain-questions" class="brain-q-grid"></div>
+          <div class="ai-panel">
+            <div style="font-size:11px;color:var(--text2);margin-bottom:8px">AI가 오늘 딜레마의 철학적 관점을 생성합니다 (API 키 필요)</div>
+            <div class="ai-loading" id="ai-loading-checkin"><div class="spinner"></div>AI가 생각 중...</div>
+            <div id="ai-result-checkin" class="ai-result"></div>
+            <button class="btn btn-secondary" style="margin-top:8px;font-size:11px" onclick="generatePhilosophy()">🏛 철학적 관점 생성하기</button>
+          </div>
+          <div class="checkin-controls" style="margin-top:14px">
+            <button class="btn btn-secondary" onclick="resetCheckin()">← 다시 선택</button>
+            <button class="btn btn-primary" onclick="nextDilemma()">다른 질문 →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PAGE E: 인성교육 리포트
+══════════════════════════════ -->
+<div id="page-report" class="page">
+  <div class="section">
+    <div class="sec-label">자동 생성 리포트</div>
+    <div class="sec-title">인성교육 실적 보고서 + 학생 성장 리포트</div>
+    <div class="sec-sub">학생을 선택하면 리포트가 자동 생성됩니다 | AI 서술은 API 키 입력 후 사용 가능</div>
+    <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:20px">
+      <select class="select-box" id="report-student" onchange="updateReport()">
+        <option value="0">김지우 (계획↑ 동시↑)</option>
+        <option value="1">이도현 (순차↑ 주의↓)</option>
+        <option value="2">박서연 (주의↑ 계획↓)</option>
+        <option value="3">최준혁 (균형형)</option>
+      </select>
+      <select class="select-box" id="report-period" onchange="updateReport()">
+        <option>2025년 1학기</option>
+        <option>2025년 2학기</option>
+      </select>
+      <button class="btn btn-primary" onclick="generateReport()">🤖 AI 생기부 서술 생성</button>
+      <button class="print-btn" onclick="window.print()">🖨 인쇄</button>
+    </div>
+    <div class="report-preview" id="report-preview"></div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════
+// API KEY MANAGEMENT
+// ══════════════════════════════
+let API_KEY = localStorage.getItem('fg_api_key') || '';
+
+function openModal(){ document.getElementById('api-modal').style.display='flex'; }
+function closeModal(saved){
+  document.getElementById('api-modal').style.display='none';
+  updateApiStatus();
+}
+function saveApiKey(){
+  const v = document.getElementById('api-key-input').value.trim();
+  if(v && v.startsWith('sk-')){
+    API_KEY = v;
+    localStorage.setItem('fg_api_key', v);
+    closeModal(true);
+    alert('✅ API 키가 저장됐습니다! AI 기능을 사용할 수 있습니다.');
+  } else {
+    alert('올바른 API 키를 입력해주세요. (sk- 로 시작)');
+  }
+}
+function updateApiStatus(){
+  const dot = document.getElementById('api-dot');
+  const txt = document.getElementById('api-status-text');
+  if(API_KEY){ dot.classList.add('on'); txt.textContent='API 연결됨'; }
+  else { dot.classList.remove('on'); txt.textContent='API 키 없음'; }
+}
+async function callAPI(prompt, maxTokens=800){
+  if(!API_KEY) throw new Error('NO_KEY');
+  const res = await fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens: maxTokens,
+      messages:[{role:'user',content:prompt}]
+    })
+  });
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+// ══════════════════════════════
+// NAVIGATION
+// ══════════════════════════════
+const PAGE_IDS = ['proposal','brochure','curriculum','checkin','report'];
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab')[PAGE_IDS.indexOf(id)].classList.add('active');
+  if(id==='curriculum') renderCurriculum();
+  if(id==='report') updateReport();
+}
+function showBr(id){
+  document.querySelectorAll('.br-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.br-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('br-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// ══════════════════════════════
+// CURRICULUM
+// ══════════════════════════════
+const PHASES=[
+  {name:'Phase 1 — 나를 알다',color:'#6C3FC5',icon:'🔍',desc:'K-PASS/D-CAS 두뇌유형 탐색 + 자기이해 정서 훈련',
+    weeks:[
+      {n:1,theme:'두뇌 오리엔테이션',act:'나의 두뇌유형 탐색 + 81유형 소개',pass:['P','A','S','Ss']},
+      {n:2,theme:'나의 강점 지도',act:'두뇌유형별 강점 마인드맵 제작',pass:['S','Ss']},
+      {n:3,theme:'감정과 뇌의 연결',act:'정서온도계 + 신체 반응 탐색',pass:['A']},
+      {n:4,theme:'집중력의 비밀',act:'포모도로 체험 + 주의력 게임',pass:['A','P']},
+      {n:5,theme:'기억과 이야기',act:'순차처리 이야기 만들기 미션',pass:['Ss']},
+      {n:6,theme:'패턴 탐정',act:'동시처리 패턴 발견 게임',pass:['S']},
+      {n:7,theme:'계획하는 뇌',act:'역산 계획표 만들기',pass:['P']},
+      {n:8,theme:'Phase 1 나눔',act:'나의 두뇌 명함 발표 + 동료 피드백',pass:['P','A','S','Ss']},
+    ]},
+  {name:'Phase 2 — 생각하다',color:'#2563EB',icon:'💡',desc:'미네르바식 딜레마 토론 + 비판적 사고 + 메타인지 훈련',
+    weeks:[
+      {n:9,theme:'정답 없는 질문',act:'첫 딜레마 토론 — 공정이란 무엇인가?',pass:['P','S']},
+      {n:10,theme:'다른 관점 보기',act:'롤플레이 — 나와 다른 입장 경험하기',pass:['S','Ss']},
+      {n:11,theme:'왜 그렇게 생각했어?',act:'메타인지 질문 카드 활동',pass:['P','A']},
+      {n:12,theme:'거짓과 진실 사이',act:'정보 리터러시 딜레마 토론',pass:['P','Ss']},
+      {n:13,theme:'나의 결정 분석',act:'과거 선택 돌아보기 + 원인-결과 지도',pass:['P','A']},
+      {n:14,theme:'집단과 개인',act:'다수결의 함정 토론 게임',pass:['S','A']},
+      {n:15,theme:'갈등 해결 설계',act:'갈등 시나리오 → 해결안 발표',pass:['P','Ss']},
+      {n:16,theme:'생각의 성장 기록',act:'Phase 2 포트폴리오 작성 + 공유',pass:['P','A','S','Ss']},
+    ]},
+  {name:'Phase 3 — 느끼다',color:'#F97316',icon:'❤️',desc:'정서지능 훈련 + 창의일기 + 철학·종교 보편 가치',
+    weeks:[
+      {n:17,theme:'공감의 과학',act:'두뇌유형별 공감 방식 탐구',pass:['A','S']},
+      {n:18,theme:'감사와 긍정의 힘',act:'감사일기 3주간 루틴 시작',pass:['P','A']},
+      {n:19,theme:'동서양의 지혜',act:'황금률 비교 — 공자·예수·이슬람·불교',pass:['S','Ss']},
+      {n:20,theme:'분노를 다루는 법',act:'감정조절 전략 미션 게임',pass:['A','P']},
+      {n:21,theme:'용기와 두려움',act:'스토아 철학 + 두뇌유형별 도전 미션',pass:['P','A']},
+      {n:22,theme:'연결과 외로움',act:'관계 지도 그리기 + 소통 실험',pass:['S','A']},
+      {n:23,theme:'나만의 가치 선언',act:'개인 가치 선언문 작성',pass:['P','Ss']},
+      {n:24,theme:'감정 전시회',act:'창의일기 전시 + 동료 감상',pass:['S','A']},
+    ]},
+  {name:'Phase 4 — 성장하다',color:'#10B981',icon:'🌱',desc:'가치 실천 프로젝트 + 성장 포트폴리오 + 재진단',
+    weeks:[
+      {n:25,theme:'나의 사명 찾기',act:'강점 × 세상의 필요 교차점 탐색',pass:['P','S']},
+      {n:26,theme:'작은 변화 프로젝트',act:'4주 실천 프로젝트 기획',pass:['P','A']},
+      {n:27,theme:'프로젝트 중간 점검',act:'경과 공유 + 피드백 + 수정',pass:['P','A','Ss']},
+      {n:28,theme:'실패에서 배우기',act:'실패 사례 분석 토론 — 성장 마인드셋',pass:['P','A']},
+      {n:29,theme:'나의 학습 전략',act:'두뇌유형별 최적 공부법 설계',pass:['P','Ss','A']},
+      {n:30,theme:'프로젝트 발표',act:'4주 실천 결과 발표회',pass:['P','S','Ss']},
+      {n:31,theme:'성장 포트폴리오',act:'1년 성장 스토리 엮기',pass:['P','A','S','Ss']},
+      {n:32,theme:'재진단 + 축하',act:'두뇌성장 재측정 + 수료식',pass:['P','A','S','Ss']},
+    ]},
+];
+function renderCurriculum(){
+  const c=document.getElementById('curriculum-phases');
+  if(c.innerHTML) return;
+  PHASES.forEach((ph,pi)=>{
+    c.insertAdjacentHTML('beforeend',`
+      <div style="margin-bottom:28px">
+        <div class="phase-header">
+          <div class="phase-icon" style="background:${ph.color}20;color:${ph.color}">${ph.icon}</div>
+          <div><div style="font-weight:700;font-size:15px">${ph.name}</div><div style="font-size:11px;color:var(--text2)">${ph.desc}</div></div>
+        </div>
+        <div class="week-grid">
+          ${ph.weeks.map(w=>`
+            <div class="week-card" onclick="showLesson(${pi},${w.n-1},this)">
+              <div class="week-num">${w.n}회차</div>
+              <div class="week-theme">${w.theme}</div>
+              <div class="week-activity">${w.act}</div>
+              <div class="pass-chips">${w.pass.map(p=>`<span class="pass-chip chip-${p.toLowerCase()}">${p}</span>`).join('')}</div>
+            </div>`).join('')}
+        </div>
+      </div>`);
+  });
+}
+function showLesson(pi,wi,el){
+  document.querySelectorAll('.week-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  const ph=PHASES[pi], w=ph.weeks[wi];
+  const steps=[
+    {t:'0~5분',c:'lt-d',title:'감정 체크인',desc:`"오늘 기분이 어때요?" — 감정 온도계로 빠른 체크`},
+    {t:'5~15분',c:'lt-p',title:`오늘의 핵심: ${w.theme}`,desc:w.act},
+    {t:'15~30분',c:'lt-b',title:'두뇌유형별 소그룹 토론',desc:'계획형·주의형·동시형·순차형 4그룹이 각각 다른 관점으로 접근 후 전체 공유'},
+    {t:'30~37분',c:'lt-o',title:'개인 훈련 미션',desc:'P1~P5 중 오늘 주제에 맞는 훈련 선택 — 마인드맵/포모도로/계획표/창의일기'},
+    {t:'37~40분',c:'lt-g',title:'"내 생각이 바뀐 것"',desc:'포스트잇에 한 줄 — 메타인지 훈련의 핵심'},
+  ];
+  const detail=document.getElementById('lesson-detail');
+  document.getElementById('lesson-detail-content').innerHTML=`
+    <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px">
+      <div><div style="font-size:10px;color:var(--text3);margin-bottom:2px">${w.n}회차 | ${ph.name}</div><div style="font-size:17px;font-weight:900">${w.theme}</div></div>
+      <div style="display:flex;gap:4px">${w.pass.map(p=>`<span class="pass-chip chip-${p.toLowerCase()}" style="font-size:11px;padding:4px 9px">${p}축</span>`).join('')}</div>
+    </div>
+    ${steps.map(s=>`<div class="lesson-step"><div class="lesson-time ${s.c}">${s.t}</div><div class="lesson-content"><h4>${s.title}</h4><p>${s.desc}</p></div></div>`).join('')}
+  `;
+  detail.style.display='block';
+  detail.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+// ══════════════════════════════
+// CHECKIN
+// ══════════════════════════════
+const DILEMMAS=[
+  {text:"친구가 내 비밀을 다른 친구에게 말했어요. 화가 나지만, 그 친구가 걱정해서 말한 것 같기도 해요. 어떻게 해야 할까요?",
+   q:{'계획형':'이 상황을 해결하기 위한 단계별 방법을 3가지 적어보세요. 각 방법의 장단점은?','주의형':'주변 사람들은 이 상황을 어떻게 느끼고 있을까요?','동시형':'이 상황 전체를 한 눈에 보면 어떤 그림이 그려지나요?','순차형':'이 일이 어떻게 시작되었는지 순서대로 적어보세요.'}},
+  {text:"우리 반에서 발표를 잘하는 한 명이 항상 발표를 독차지해요. 다른 친구들이 기회를 갖지 못하고 있어요. 이것은 공평한가요?",
+   q:{'계획형':'더 공평한 발표 시스템을 설계한다면 어떤 규칙 3가지를 만들겠어요?','주의형':'발표를 못 하는 친구들은 지금 어떤 마음일까요?','동시형':'발표를 많이 하는 것이 나쁜 걸까요? 좋은 면도 있을까요?','순차형':'이 문제가 어떤 순서로 발생했나요?'}},
+  {text:"시험에서 친한 친구가 내 답을 몰래 보려 해요. 못 본 척 하면 친구를 돕는 걸까요, 아니면 나쁜 일을 허락하는 걸까요?",
+   q:{'계획형':'내가 할 수 있는 선택지를 모두 나열하고 각각의 결과를 예상해보세요.','주의형':'이 상황에서 내가 느끼는 감정은 무엇인가요?','동시형':'진정한 우정이란 무엇일까요?','순차형':'만약 답을 보여줬다가 들켰다면 어떤 일이 순서대로 일어날까요?'}},
+  {text:"온라인에서 익명으로 다른 사람을 비판하는 댓글을 봤어요. 내용이 사실이지만 그 사람에게 상처가 될 것 같아요. 댓글을 다는 것은 옳은 일인가요?",
+   q:{'계획형':'온라인 발언의 기준 규칙 3가지를 만든다면?','주의형':'댓글을 읽은 그 사람은 지금 어떤 감정일까요?','동시형':'사실을 말하는 것과 배려, 둘 다 중요하다면 어떻게 균형을 잡을까요?','순차형':'이 댓글이 올라간 후 어떤 일들이 연달아 일어날 수 있을까요?'}},
+];
+let selEmotion=null, curDilemma=0;
+function selectEmotion(el,emoji,label){
+  document.querySelectorAll('.emotion-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected'); selEmotion={emoji,label};
+  document.getElementById('btn-next-dilemma').disabled=false;
+}
+function loadDilemma(){
+  if(!selEmotion) return;
+  document.getElementById('step-1').style.display='none';
+  document.getElementById('step-2').style.display='block';
+  document.getElementById('emotion-display').textContent=selEmotion.emoji;
+  renderDilemma();
+}
+function renderDilemma(){
+  const d=DILEMMAS[curDilemma];
+  document.getElementById('dilemma-text').textContent=d.text;
+  document.getElementById('brain-questions').innerHTML=Object.entries(d.q).map(([t,q])=>`
+    <div class="brain-q-card"><div class="brain-q-type">🧠 ${t}</div><div class="brain-q-text">${q}</div></div>`).join('');
+  document.getElementById('ai-result-checkin').innerHTML='';
+}
+function nextDilemma(){ curDilemma=(curDilemma+1)%DILEMMAS.length; renderDilemma(); }
+function resetCheckin(){
+  document.getElementById('step-1').style.display='block';
+  document.getElementById('step-2').style.display='none';
+  document.querySelectorAll('.emotion-btn').forEach(b=>b.classList.remove('selected'));
+  selEmotion=null; document.getElementById('btn-next-dilemma').disabled=true;
+}
+async function generatePhilosophy(){
+  const d=DILEMMAS[curDilemma];
+  const loading=document.getElementById('ai-loading-checkin');
+  const result=document.getElementById('ai-result-checkin');
+  loading.classList.add('show'); result.innerHTML='';
+  try{
+    const text=await callAPI(`학생들을 위한 미네르바식 교육입니다. 딜레마: "${d.text}"\n\n동서양 철학(공자, 아리스토텔레스, 불교, 기독교, 이슬람 중 2가지)의 관점을 포함하여 200자 내외로 교사가 학생에게 들려줄 생각 씨앗을 제공하세요. 정답을 주지 말고, 열린 질문 하나로 마무리하세요.`);
+    result.innerHTML=`<div style="border-left:3px solid var(--purple-light);padding-left:12px;margin-top:6px">${text.replace(/\n/g,'<br>')}</div>`;
+  }catch(e){
+    result.innerHTML=e.message==='NO_KEY'?'<span style="color:var(--text3)">API 키를 입력하면 철학적 관점을 생성할 수 있습니다. (우측 상단 API 키 없음 클릭)</span>':'<span style="color:var(--text3)">오류가 발생했습니다.</span>';
+  }
+  loading.classList.remove('show');
+}
+
+// ══════════════════════════════
+// REPORT
+// ══════════════════════════════
+const STUDENTS=[
+  {name:'김지우',type:'설계자형',brain:'우뇌우세',scores:{P:88,A:72,S:91,Ss:65},keywords:['창의적 통합','전략 기획','직관적 판단'],grow:['순차적 완성도','세부 실행력']},
+  {name:'이도현',type:'이야기꾼형',brain:'좌뇌우세',scores:{P:70,A:58,S:65,Ss:89},keywords:['논리적 서술','단계적 사고','언어 강점'],grow:['주의력 지속','전체 맥락 파악']},
+  {name:'박서연',type:'관찰자형',brain:'균형형',scores:{P:61,A:85,S:78,Ss:72},keywords:['섬세한 관찰','감정 공감','현장 반응'],grow:['계획 수립','목표 설정']},
+  {name:'최준혁',type:'균형형',brain:'좌우균형',scores:{P:79,A:76,S:80,Ss:77},keywords:['융합 사고','유연한 적응','통합적 판단'],grow:['의사결정 속도','특화 강점 개발']},
+];
+function updateReport(){
+  const s=STUDENTS[document.getElementById('report-student').value];
+  document.getElementById('report-preview').innerHTML=`
+    <div class="report-header">
+      <div>
+        <div style="font-size:11px;color:var(--text2)">부산시 ○○중학교 | 인성교육 프로그램 결과 보고서</div>
+        <div class="report-title-big">${s.name} 학생 성장 리포트</div>
+        <div class="report-meta">2025년 1학기 | 두뇌유형: ${s.type} (${s.brain}) | BrainFit School × 에듀테크 필굿</div>
+      </div>
+      <div class="report-logo">Brain<span>Fit</span></div>
+    </div>
+    <div class="report-grid">
+      <div class="report-section">
+        <div class="rs-title">PASS 4축 인지 프로파일</div>
+        ${[['P','계획력',s.scores.P,'fill-p'],['A','주의력',s.scores.A,'fill-a'],['S','동시처리',s.scores.S,'fill-s'],['Ss','순차처리',s.scores.Ss,'fill-ss']].map(([k,l,v,f])=>`
+          <div class="progress-item">
+            <div class="progress-label"><span>${l}(${k})</span><span style="font-family:'Montserrat',sans-serif;font-weight:700">${v}</span></div>
+            <div class="progress-bar"><div class="progress-fill ${f}" style="width:${v}%"></div></div>
+          </div>`).join('')}
+      </div>
+      <div class="report-section">
+        <div class="rs-title">인성교육 이수 현황</div>
+        <div class="score-grid">
+          <div class="score-item"><div class="score-val" style="color:var(--purple-light)">32</div><div class="score-lbl">수료 회차</div></div>
+          <div class="score-item"><div class="score-val" style="color:var(--green)">94%</div><div class="score-lbl">출석률</div></div>
+          <div class="score-item"><div class="score-val" style="color:var(--orange)">Lv.7</div><div class="score-lbl">성장 레벨</div></div>
+          <div class="score-item"><div class="score-val" style="color:var(--blue-light)">28</div><div class="score-lbl">미션 완료</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="report-section" style="margin-bottom:14px">
+      <div class="rs-title">두뇌 강점 키워드</div>
+      <div class="tag-list">
+        ${s.keywords.map(k=>`<span class="rtag">${k}</span>`).join('')}
+        ${s.grow.map(k=>`<span class="rtag o">성장중: ${k}</span>`).join('')}
+      </div>
+    </div>
+    <div class="report-section">
+      <div class="rs-title">교사 관찰 서술 (AI 자동생성)</div>
+      <div class="narrative-text" id="narrative-text" style="color:var(--text3)">"AI 생기부 서술 생성" 버튼을 클릭하면 두뇌유형과 수업 참여를 바탕으로 생기부 참고용 서술이 자동 생성됩니다.</div>
+    </div>`;
+}
+async function generateReport(){
+  const s=STUDENTS[document.getElementById('report-student').value];
+  const el=document.getElementById('narrative-text');
+  if(!el){updateReport();setTimeout(generateReport,100);return;}
+  el.innerHTML='<div style="display:flex;align-items:center;gap:8px"><div class="spinner"></div>생성 중...</div>';
+  try{
+    const text=await callAPI(`학생부 생기부 참고용 인성교육 관찰 서술을 생성해주세요.\n학생: ${s.name} | 두뇌유형: ${s.type}(${s.brain}) | PASS: 계획력${s.scores.P} 주의력${s.scores.A} 동시${s.scores.S} 순차${s.scores.Ss} | 강점: ${s.keywords.join(',')} | 성장영역: ${s.grow.join(',')}\n\n150~200자 분량으로 K-PASS 인지처리 특성 근거를 포함한 생기부 문체로 작성하세요.`);
+    el.textContent=text;
+  }catch(e){
+    el.innerHTML=e.message==='NO_KEY'?'<span style="color:var(--text3)">API 키를 입력하면 생기부 서술이 자동 생성됩니다. (우측 상단 클릭)</span>':'<span style="color:var(--text3)">오류가 발생했습니다.</span>';
+  }
+}
+
+// ── INIT ──
+if(API_KEY) document.getElementById('api-key-input').value=API_KEY;
+updateApiStatus();
+// 저장된 키 있으면 모달 건너뜀
+if(!API_KEY) { setTimeout(()=>document.getElementById('api-modal').style.display='flex', 500); }
+else document.getElementById('api-modal').style.display='none';
+updateReport();
+</script>
+</body>
+</html>
