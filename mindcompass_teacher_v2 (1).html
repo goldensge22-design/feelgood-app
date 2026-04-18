@@ -1,0 +1,1476 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MindCompass — 교사 대시보드</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800;900&family=Noto+Serif+KR:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+/* ══════════════════════════════════
+   TOKENS
+══════════════════════════════════ */
+:root {
+  --p50:#faf5ff; --p100:#f3e8ff; --p200:#e9d5ff; --p300:#d8b4fe;
+  --p400:#c084fc; --p500:#a855f7; --p600:#9333ea; --p700:#7e22ce;
+  --b100:#dbeafe; --b200:#bfdbfe; --b300:#93c5fd; --b400:#60a5fa; --b500:#3b82f6;
+  --o100:#ffedd5; --o200:#fed7aa; --o300:#fdba74; --o400:#fb923c; --o500:#f97316;
+  --g100:#d1fae5; --g300:#6ee7b7; --g500:#10b981;
+  --r100:#fee2e2; --r400:#f87171; --r500:#ef4444;
+  --bg:#f6f2ff; --surface:#ffffff;
+  --border:rgba(168,85,247,0.12); --border2:rgba(168,85,247,0.22);
+  --text:#2d1f4e; --text2:#6b4fa0; --muted:#a78cc0;
+  --sh-sm:0 2px 8px rgba(139,92,246,0.07);
+  --sh:0 4px 20px rgba(139,92,246,0.11);
+  --sh-lg:0 8px 32px rgba(139,92,246,0.15);
+  --sidebar-w: 240px;
+}
+/* ══════════════════════════════════
+   RESET & BASE
+══════════════════════════════════ */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { height:100%; }
+body {
+  font-family:'Noto Sans KR', sans-serif;
+  background:var(--bg); color:var(--text);
+  height:100%; overflow:hidden; /* PC: 스크롤은 각 영역에서 */
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 55% 40% at 0% 0%, rgba(233,213,255,.6) 0%,transparent 60%),
+    radial-gradient(ellipse 45% 35% at 100% 100%, rgba(191,219,254,.45) 0%,transparent 60%),
+    radial-gradient(ellipse 30% 25% at 80% 5%, rgba(254,215,170,.28) 0%,transparent 60%);
+}
+/* ══════════════════════════════════
+   LAYOUT  — 고정 사이드바 + 스크롤 메인
+══════════════════════════════════ */
+.shell {
+  display:flex; height:100vh; position:relative; z-index:1;
+}
+/* ══════════════════════════════════
+   SIDEBAR
+══════════════════════════════════ */
+.sidebar {
+  width:var(--sidebar-w); flex-shrink:0;
+  background:rgba(255,255,255,.82); backdrop-filter:blur(20px);
+  border-right:1px solid var(--border2);
+  display:flex; flex-direction:column;
+  height:100vh; overflow-y:auto; overflow-x:hidden;
+}
+.sidebar::-webkit-scrollbar { width:3px; }
+.sidebar::-webkit-scrollbar-thumb { background:var(--p200); border-radius:2px; }
+
+.sb-top {
+  padding:22px 18px 18px;
+  background:linear-gradient(155deg, var(--p100), var(--b100));
+  border-bottom:1px solid var(--border); flex-shrink:0;
+}
+.logo-row { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+.logo-icon {
+  width:40px; height:40px; border-radius:13px;
+  background:linear-gradient(135deg,var(--p500),var(--b400));
+  display:flex; align-items:center; justify-content:center; font-size:19px;
+  box-shadow:0 4px 12px rgba(168,85,247,.32); flex-shrink:0;
+}
+.logo-text { font-size:15px; font-weight:800; color:var(--p700); }
+.logo-sub  { font-size:10px; color:var(--text2); margin-top:1px; }
+.teacher-card {
+  background:rgba(255,255,255,.72); border-radius:13px;
+  padding:11px; border:1px solid var(--border);
+  display:flex; align-items:center; gap:9px;
+}
+.tc-avatar {
+  width:38px; height:38px; border-radius:11px; flex-shrink:0;
+  background:linear-gradient(135deg,var(--b300),var(--p300));
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+}
+.tc-name  { font-size:13px; font-weight:700; }
+.tc-role  { font-size:10px; color:var(--text2); margin-top:1px; }
+.tc-badge {
+  margin-left:auto; padding:3px 8px; border-radius:20px;
+  background:var(--p200); color:var(--p700); font-size:10px; font-weight:700;
+}
+.nav-section  { padding:12px 10px 0; }
+.nav-label {
+  font-size:10px; font-weight:700; letter-spacing:1.2px;
+  color:var(--muted); padding:0 8px; margin-bottom:5px;
+}
+.nav-item {
+  display:flex; align-items:center; gap:10px;
+  padding:9px 10px; border-radius:12px; cursor:pointer;
+  transition:.17s; margin-bottom:2px; color:var(--text2);
+  font-size:13px; font-weight:500; border-left:3px solid transparent;
+  white-space:nowrap;
+}
+.nav-item:hover  { background:var(--p100); }
+.nav-item.active {
+  background:linear-gradient(135deg,var(--p200),var(--b100));
+  color:var(--p700); font-weight:700; border-left-color:var(--p500);
+}
+.nav-icon {
+  width:27px; height:27px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:14px; flex-shrink:0;
+}
+.nav-item.active .nav-icon { background:rgba(168,85,247,.15); }
+.n-badge {
+  margin-left:auto; min-width:18px; height:18px; padding:0 5px;
+  border-radius:9px; background:var(--r500); color:#fff;
+  font-size:9px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+}
+.sb-bottom { margin-top:auto; padding:12px 10px 16px; flex-shrink:0; }
+.alert-mini {
+  background:rgba(239,68,68,.07); border:1px solid rgba(239,68,68,.22);
+  border-radius:12px; padding:11px 13px;
+}
+.am-title {
+  font-size:11px; font-weight:700; color:var(--r500);
+  margin-bottom:4px; display:flex; align-items:center; gap:5px;
+}
+.am-dot {
+  width:6px; height:6px; border-radius:50%;
+  background:var(--r500); animation:blink 1.4s infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.am-text { font-size:11px; color:#7f1d1d; line-height:1.55; }
+/* ══════════════════════════════════
+   MAIN
+══════════════════════════════════ */
+.main {
+  flex:1; display:flex; flex-direction:column;
+  min-width:0; height:100vh; overflow:hidden;
+}
+/* ── TOPBAR ── */
+.topbar {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px 32px 13px;
+  background:rgba(255,255,255,.85); backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border); flex-shrink:0; z-index:50;
+}
+.tb-title { font-size:17px; font-weight:800; color:var(--text); letter-spacing:-.3px; }
+.tb-sub   { font-size:11px; color:var(--text2); margin-top:2px; }
+.tb-right { display:flex; gap:9px; align-items:center; }
+.tb-badge {
+  display:flex; align-items:center; gap:6px; padding:6px 14px;
+  border-radius:20px; background:linear-gradient(135deg,var(--p100),var(--b100));
+  border:1px solid var(--border2); font-size:12px; font-weight:700; color:var(--p700);
+}
+.tb-btn {
+  width:34px; height:34px; border-radius:10px;
+  background:var(--surface); border:1px solid var(--border2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:15px; cursor:pointer; box-shadow:var(--sh-sm); transition:.15s;
+}
+.tb-btn:hover { background:var(--p100); }
+.tab-bar {
+  display:flex; background:rgba(168,85,247,.07);
+  border:1px solid var(--border2); border-radius:10px; padding:3px; gap:2px;
+}
+.tbar-tab {
+  padding:5px 14px; border-radius:8px; font-size:12px;
+  font-weight:600; cursor:pointer; transition:.17s; color:var(--muted);
+}
+.tbar-tab.active {
+  background:linear-gradient(135deg,var(--p500),var(--b400)); color:#fff;
+}
+/* ── CONTENT SCROLL AREA ── */
+.content {
+  flex:1; overflow-y:auto; padding:24px 32px;
+}
+.content::-webkit-scrollbar { width:6px; }
+.content::-webkit-scrollbar-thumb { background:var(--p200); border-radius:3px; }
+/* ══════════════════════════════════
+   SCREENS
+══════════════════════════════════ */
+.screen { display:none; }
+.screen.active { display:block; animation:fadeUp .28s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
+/* ══════════════════════════════════
+   CARD
+══════════════════════════════════ */
+.card {
+  background:var(--surface); border-radius:18px;
+  border:1px solid var(--border); padding:20px; box-shadow:var(--sh-sm);
+}
+.card-title { font-size:14px; font-weight:700; color:var(--text); margin-bottom:4px; display:flex; align-items:center; gap:7px; }
+.card-sub   { font-size:11px; color:var(--muted); margin-bottom:14px; }
+/* ══════════════════════════════════
+   GRIDS
+══════════════════════════════════ */
+.g4  { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:18px; }
+.g2  { display:grid; grid-template-columns:1fr 1fr;       gap:16px; margin-bottom:18px; }
+.g3  { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-bottom:18px; }
+.g13 { display:grid; grid-template-columns:1.65fr 1fr;    gap:18px; margin-bottom:18px; }
+.g31 { display:grid; grid-template-columns:1fr 1.6fr;     gap:18px; margin-bottom:18px; }
+/* ══════════════════════════════════
+   STAT CARDS
+══════════════════════════════════ */
+.stat-card {
+  background:var(--surface); border:1px solid var(--border);
+  border-radius:16px; padding:18px; box-shadow:var(--sh-sm);
+}
+.sc-icon  { font-size:22px; margin-bottom:8px; }
+.sc-val   { font-size:26px; font-weight:800; line-height:1; }
+.sc-label { font-size:11px; color:var(--muted); margin-top:4px; }
+.sc-bar   { height:4px; border-radius:2px; margin-top:12px; background:var(--p100); }
+.sc-fill  { height:100%; border-radius:2px; transition:width .8s; }
+/* ══════════════════════════════════
+   PASS BARS
+══════════════════════════════════ */
+.pass-row { margin-bottom:12px; }
+.pass-row:last-child { margin-bottom:0; }
+.pass-top { display:flex; justify-content:space-between; margin-bottom:4px; }
+.pass-lbl { font-size:11px; font-weight:600; color:var(--text2); }
+.pass-pct { font-size:11px; font-weight:700; }
+.bar-track { height:8px; background:var(--p100); border-radius:4px; overflow:hidden; }
+.bar-fill  { height:100%; border-radius:4px; transition:width 1s ease; }
+/* ══════════════════════════════════
+   STUDENT TABLE
+══════════════════════════════════ */
+.stu-table { width:100%; border-collapse:collapse; }
+.stu-table th {
+  font-size:11px; font-weight:700; color:var(--muted);
+  text-align:left; padding:9px 12px; border-bottom:1px solid var(--border);
+  white-space:nowrap;
+}
+.stu-table td {
+  font-size:12px; padding:10px 12px;
+  border-bottom:1px solid rgba(168,85,247,.06); vertical-align:middle;
+}
+.stu-table tr:last-child td { border-bottom:none; }
+.stu-table tbody tr:hover td { background:var(--p50); }
+.score {
+  display:inline-flex; align-items:center; justify-content:center;
+  width:42px; height:22px; border-radius:6px; font-size:11px; font-weight:700;
+}
+.s-hi { background:rgba(16,185,129,.1);  color:var(--g500); }
+.s-md { background:var(--b100);           color:var(--b500); }
+.s-lo { background:rgba(239,68,68,.08);  color:var(--r500); }
+.s-vl { background:rgba(239,68,68,.18);  color:#b91c1c; }
+.badge { display:inline-block; padding:2px 8px; border-radius:20px; font-size:10px; font-weight:700; }
+.b-mgmt { background:rgba(239,68,68,.12);  color:var(--r500); }
+.b-ok   { background:rgba(16,185,129,.1);  color:var(--g500); }
+.b-warn { background:var(--o100);          color:var(--o500); }
+.bt-right { background:var(--b100); color:var(--b500); }
+.bt-bal   { background:var(--p100); color:var(--p700); }
+.bt-left  { background:var(--o100); color:var(--o500); }
+.name-cell { display:flex; align-items:center; gap:8px; }
+.name-avatar {
+  width:28px; height:28px; border-radius:8px;
+  display:flex; align-items:center; justify-content:center; font-size:13px; flex-shrink:0;
+}
+/* ══════════════════════════════════
+   ALERT CARDS
+══════════════════════════════════ */
+.alert-card {
+  background:rgba(239,68,68,.04); border:1.5px solid rgba(239,68,68,.2);
+  border-radius:14px; padding:13px 15px;
+  display:flex; gap:11px; align-items:flex-start; margin-bottom:9px;
+  cursor:pointer; transition:.18s;
+}
+.alert-card:hover { background:rgba(239,68,68,.08); }
+.alert-card.warn  { background:rgba(249,115,22,.04); border-color:rgba(249,115,22,.2); }
+.alert-card.warn:hover { background:rgba(249,115,22,.08); }
+.alert-icon { font-size:18px; flex-shrink:0; margin-top:1px; }
+.alert-body { flex:1; min-width:0; }
+.alert-name { font-size:13px; font-weight:700; margin-bottom:3px; }
+.alert-desc { font-size:11px; color:var(--text2); line-height:1.5; }
+.alert-rx   { display:flex; flex-wrap:wrap; gap:5px; margin-top:7px; }
+.rx-tag {
+  padding:2px 9px; border-radius:20px; font-size:10px; font-weight:700;
+  background:var(--p100); color:var(--p700); border:1px solid var(--p200);
+}
+.alert-action { flex-shrink:0; align-self:center; }
+/* ══════════════════════════════════
+   TRAINING ROWS
+══════════════════════════════════ */
+.train-row {
+  display:flex; align-items:center; gap:12px;
+  padding:10px 0; border-bottom:1px solid var(--border);
+}
+.train-row:last-child { border-bottom:none; padding-bottom:0; }
+.train-icon {
+  width:34px; height:34px; border-radius:9px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:16px;
+}
+.train-info { flex:1; }
+.train-name { font-size:12px; font-weight:700; }
+.train-meta { font-size:10px; color:var(--muted); margin-top:2px; }
+.train-bar  { width:80px; height:6px; background:var(--p100); border-radius:3px; overflow:hidden; }
+.train-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--p400),var(--b400)); }
+.train-pct  { font-size:11px; font-weight:700; color:var(--p600); min-width:30px; text-align:right; }
+/* ══════════════════════════════════
+   PHILOSOPHY GRID
+══════════════════════════════════ */
+.phil-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+.phil-card {
+  padding:16px; border-radius:14px; border:1px solid var(--border);
+  background:var(--surface); cursor:pointer; transition:.2s;
+}
+.phil-card:hover { border-color:var(--p400); background:var(--p50); transform:translateY(-2px); box-shadow:var(--sh); }
+.phil-icon  { font-size:26px; margin-bottom:8px; }
+.phil-name  { font-size:13px; font-weight:700; margin-bottom:3px; }
+.phil-kpass { font-size:10px; color:var(--muted); margin-bottom:10px; }
+.ph-bar-row { display:flex; align-items:center; gap:7px; margin-bottom:4px; }
+.ph-bar-name { font-size:10px; color:var(--text2); min-width:30px; }
+.ph-bar-track{ flex:1; height:5px; background:var(--p100); border-radius:3px; overflow:hidden; }
+.ph-bar-fill { height:100%; border-radius:3px; background:linear-gradient(90deg,var(--p400),var(--b400)); }
+.ph-bar-pct  { font-size:10px; color:var(--muted); min-width:26px; text-align:right; }
+/* ══════════════════════════════════
+   RX CARD (처방)
+══════════════════════════════════ */
+.rx-card {
+  background:linear-gradient(135deg,var(--p50),var(--b100));
+  border:1px solid var(--p200); border-radius:16px; padding:16px; margin-bottom:10px;
+}
+.rx-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+.rx-icon {
+  width:38px; height:38px; border-radius:10px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:17px;
+}
+.rx-name  { font-size:13px; font-weight:700; }
+.rx-sub   { font-size:10px; color:var(--muted); margin-top:2px; }
+.rx-quote {
+  font-size:11px; color:var(--text2); line-height:1.6; margin-bottom:10px;
+  padding:9px 12px; background:rgba(255,255,255,.65); border-radius:9px;
+}
+/* ══════════════════════════════════
+   CHAT BOX
+══════════════════════════════════ */
+.chat-box { background:var(--bg); border-radius:14px; border:1px solid var(--border); overflow:hidden; }
+.chat-head {
+  padding:12px 16px; background:linear-gradient(135deg,var(--p100),var(--b100));
+  border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px;
+}
+.chat-ai {
+  width:30px; height:30px; border-radius:9px;
+  background:linear-gradient(135deg,var(--p500),var(--b400));
+  display:flex; align-items:center; justify-content:center; font-size:14px;
+}
+.chat-msgs {
+  overflow-y:auto; padding:12px 14px;
+  display:flex; flex-direction:column; gap:9px;
+}
+.chat-msgs::-webkit-scrollbar { width:3px; }
+.chat-msgs::-webkit-scrollbar-thumb { background:var(--p200); border-radius:2px; }
+.cmsg { display:flex; gap:7px; animation:fadeUp .2s ease; }
+.cmsg.user { flex-direction:row-reverse; }
+.cm-av {
+  width:26px; height:26px; border-radius:8px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:12px;
+}
+.cm-av.ai  { background:linear-gradient(135deg,var(--p300),var(--b300)); }
+.cm-av.usr { background:linear-gradient(135deg,var(--o200),var(--p200)); }
+.cm-bbl {
+  max-width:80%; padding:9px 12px; border-radius:11px;
+  font-size:12px; line-height:1.65;
+}
+.cmsg.ai   .cm-bbl { background:var(--surface); border:1px solid var(--border2); border-radius:3px 11px 11px 11px; }
+.cmsg.user .cm-bbl { background:linear-gradient(135deg,var(--p500),var(--p600)); color:#fff; border-radius:11px 3px 11px 11px; }
+.chat-input-wrap {
+  display:flex; gap:7px; padding:9px 12px;
+  border-top:1px solid var(--border); background:var(--surface);
+}
+.ci {
+  flex:1; background:var(--bg); border:1.5px solid var(--border2);
+  border-radius:9px; padding:7px 12px; font-size:12px; color:var(--text);
+  font-family:'Noto Sans KR',sans-serif; transition:.18s;
+}
+.ci:focus { outline:none; border-color:var(--p400); }
+.ci::placeholder { color:var(--muted); }
+.csend {
+  width:34px; height:34px; border-radius:9px;
+  background:linear-gradient(135deg,var(--p500),var(--b400));
+  border:none; color:#fff; font-size:14px; cursor:pointer;
+  display:flex; align-items:center; justify-content:center; transition:.17s; flex-shrink:0;
+}
+.csend:hover    { transform:scale(1.06); box-shadow:0 4px 12px rgba(168,85,247,.3); }
+.csend:disabled { opacity:.4; cursor:not-allowed; transform:none; }
+.suggest-row {
+  display:flex; flex-wrap:wrap; gap:5px; padding:7px 12px;
+  border-top:1px solid var(--border); background:var(--bg);
+}
+.sug {
+  padding:4px 11px; border-radius:20px; font-size:10px; font-weight:600; cursor:pointer;
+  background:var(--p100); color:var(--p700); border:1px solid var(--p200); transition:.14s;
+}
+.sug:hover { background:var(--p200); }
+/* ══════════════════════════════════
+   TYPING INDICATOR
+══════════════════════════════════ */
+.typing { display:flex; gap:3px; padding:2px 0; align-items:center; }
+.dot { width:5px; height:5px; border-radius:50%; background:var(--p400); animation:bop .8s infinite; }
+.dot:nth-child(2){ animation-delay:.12s; }
+.dot:nth-child(3){ animation-delay:.24s; }
+@keyframes bop { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-4px)} }
+/* ══════════════════════════════════
+   DETAIL MODAL
+══════════════════════════════════ */
+.detail-overlay {
+  display:none; position:fixed; inset:0; z-index:300;
+  background:rgba(45,31,78,.22); backdrop-filter:blur(6px);
+  align-items:center; justify-content:center; padding:24px;
+}
+.detail-overlay.open { display:flex; animation:fadeUp .22s ease; }
+.detail-modal {
+  background:var(--surface); border-radius:22px;
+  box-shadow:var(--sh-lg); border:1px solid var(--border2);
+  width:100%; max-width:680px; max-height:90vh; overflow-y:auto;
+}
+.detail-modal::-webkit-scrollbar { width:4px; }
+.detail-modal::-webkit-scrollbar-thumb { background:var(--p200); border-radius:2px; }
+.dmod-header {
+  padding:20px 22px 16px;
+  background:linear-gradient(135deg,var(--p50),var(--b100));
+  border-bottom:1px solid var(--border);
+  border-radius:22px 22px 0 0;
+  display:flex; justify-content:space-between; align-items:flex-start;
+  position:sticky; top:0; z-index:10;
+}
+.dmod-body { padding:22px; }
+.close-btn {
+  width:30px; height:30px; border-radius:9px;
+  background:rgba(168,85,247,.1); border:none; cursor:pointer;
+  font-size:14px; color:var(--p600);
+  display:flex; align-items:center; justify-content:center; transition:.15s; flex-shrink:0;
+}
+.close-btn:hover { background:var(--p200); }
+/* ══════════════════════════════════
+   PHILOSOPHY DETAIL MODAL
+══════════════════════════════════ */
+.phil-overlay {
+  display:none; position:fixed; inset:0; z-index:400;
+  background:rgba(45,31,78,.2); backdrop-filter:blur(5px);
+  align-items:center; justify-content:center; padding:24px;
+}
+.phil-overlay.open { display:flex; animation:fadeUp .2s ease; }
+.phil-modal {
+  background:var(--surface); border-radius:20px;
+  box-shadow:var(--sh-lg); border:1px solid var(--border2);
+  width:100%; max-width:560px; max-height:85vh; overflow-y:auto;
+}
+.phil-modal::-webkit-scrollbar { width:4px; }
+.phil-modal::-webkit-scrollbar-thumb { background:var(--p200); border-radius:2px; }
+/* ══════════════════════════════════
+   BUTTONS
+══════════════════════════════════ */
+.btn {
+  padding:10px 20px; border-radius:11px; font-size:13px; font-weight:700;
+  cursor:pointer; border:none; font-family:'Noto Sans KR',sans-serif; transition:.18s;
+}
+.btn-p {
+  background:linear-gradient(135deg,var(--p500),var(--b400)); color:#fff;
+  box-shadow:0 4px 12px rgba(168,85,247,.25);
+}
+.btn-p:hover { transform:translateY(-2px); box-shadow:0 6px 16px rgba(168,85,247,.35); }
+.btn-g { background:var(--p100); color:var(--p700); border:1px solid var(--p200); }
+.btn-g:hover { background:var(--p200); }
+.ab-p {
+  padding:6px 13px; border-radius:9px; font-size:11px; font-weight:700;
+  cursor:pointer; border:none; font-family:'Noto Sans KR',sans-serif;
+  background:linear-gradient(135deg,var(--p500),var(--b400)); color:#fff;
+  transition:.17s;
+}
+.ab-p:hover { transform:translateY(-1px); box-shadow:0 4px 10px rgba(168,85,247,.3); }
+.ab-g {
+  padding:6px 13px; border-radius:9px; font-size:11px; font-weight:700;
+  cursor:pointer; background:var(--p100); color:var(--p700);
+  border:1px solid var(--p200); font-family:'Noto Sans KR',sans-serif; transition:.17s;
+}
+.ab-g:hover { background:var(--p200); }
+.btn-row { display:flex; gap:9px; flex-wrap:wrap; margin-top:12px; }
+/* ══════════════════════════════════
+   REPORT AREA
+══════════════════════════════════ */
+.report-text {
+  font-size:13px; line-height:1.85; color:var(--text);
+  white-space:pre-wrap; word-break:break-word;
+}
+/* ══════════════════════════════════
+   MISC UTILS
+══════════════════════════════════ */
+.section-divider { height:1px; background:var(--border); margin:16px 0; }
+.flex-col        { display:flex; flex-direction:column; gap:12px; }
+.priority-item {
+  display:flex; align-items:center; gap:8px; padding:9px 12px;
+  border-radius:10px; cursor:pointer; transition:.15s;
+}
+.priority-item:hover { filter:brightness(.97); }
+</style>
+</head>
+<body>
+<div class="shell">
+
+<!-- ════════════════════════════
+     SIDEBAR
+════════════════════════════ -->
+<nav class="sidebar">
+  <div class="sb-top">
+    <div class="logo-row">
+      <div class="logo-icon">🧭</div>
+      <div>
+        <div class="logo-text">MindCompass</div>
+        <div class="logo-sub">교사 대시보드</div>
+      </div>
+    </div>
+    <div class="teacher-card">
+      <div class="tc-avatar">👩‍🏫</div>
+      <div>
+        <div class="tc-name">김지현 선생님</div>
+        <div class="tc-role">앱 테스트 · 담임</div>
+      </div>
+      <div class="tc-badge">교사</div>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">관리</div>
+    <div class="nav-item active" id="nav-overview" onclick="showPage('overview')">
+      <div class="nav-icon">📊</div>학급 개요
+    </div>
+    <div class="nav-item" id="nav-students" onclick="showPage('students')">
+      <div class="nav-icon">👥</div>학생 상세
+      <span class="n-badge">6</span>
+    </div>
+    <div class="nav-item" id="nav-training" onclick="showPage('training')">
+      <div class="nav-icon">⚡</div>훈련 현황
+    </div>
+    <div class="nav-item" id="nav-wisdom" onclick="showPage('wisdom')">
+      <div class="nav-icon">🔮</div>가치·철학 처방
+    </div>
+    <div class="nav-label">소통</div>
+    <div class="nav-item" id="nav-ai" onclick="showPage('ai')">
+      <div class="nav-icon">🤖</div>AI 상담 도우미
+    </div>
+    <div class="nav-item" id="nav-reports" onclick="showPage('reports')">
+      <div class="nav-icon">📋</div>리포트 생성
+    </div>
+  </div>
+
+  <div class="sb-bottom">
+    <div class="alert-mini">
+      <div class="am-title"><div class="am-dot"></div>긴급 알림</div>
+      <div class="am-text">박민아 — 4개 척도 모두 1~5% 위험. 즉각 개입 필요합니다.</div>
+    </div>
+  </div>
+</nav>
+
+<!-- ════════════════════════════
+     MAIN
+════════════════════════════ -->
+<div class="main">
+
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div>
+      <div class="tb-title" id="page-title">📊 학급 인지·정서 개요</div>
+      <div class="tb-sub">앱 테스트 · 9명 · 2026.4.15</div>
+    </div>
+    <div class="tb-right">
+      <div class="tab-bar" id="filter-tabs">
+        <div class="tbar-tab active" onclick="setFilter('전체',this)">전체 9</div>
+        <div class="tbar-tab" onclick="setFilter('관리필요',this)">관리필요 6</div>
+        <div class="tbar-tab" onclick="setFilter('양호',this)">양호 3</div>
+      </div>
+      <div class="tb-btn" title="인쇄" onclick="window.print()">🖨️</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ OVERVIEW ══ -->
+    <div class="screen active" id="page-overview">
+      <!-- 통계 카드 4개 -->
+      <div class="g4">
+        <div class="stat-card" style="border-top:3px solid var(--p400);">
+          <div class="sc-icon">👥</div>
+          <div class="sc-val" style="color:var(--p600)">9명</div>
+          <div class="sc-label">전체 학생</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:100%;background:linear-gradient(90deg,var(--p400),var(--b400))"></div></div>
+        </div>
+        <div class="stat-card" style="border-top:3px solid var(--r500);">
+          <div class="sc-icon">⚠️</div>
+          <div class="sc-val" style="color:var(--r500)">6명</div>
+          <div class="sc-label">관리 필요 (67%)</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:67%;background:linear-gradient(90deg,var(--r400),var(--r500))"></div></div>
+        </div>
+        <div class="stat-card" style="border-top:3px solid var(--o400);">
+          <div class="sc-icon">📉</div>
+          <div class="sc-val" style="color:var(--o500)">54%</div>
+          <div class="sc-label">계획력 학급 평균</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:54%;background:linear-gradient(90deg,var(--o300),var(--o400))"></div></div>
+        </div>
+        <div class="stat-card" style="border-top:3px solid var(--g500);">
+          <div class="sc-icon">✅</div>
+          <div class="sc-val" style="color:var(--g500)">73%</div>
+          <div class="sc-label">주의력 학급 평균</div>
+          <div class="sc-bar"><div class="sc-fill" style="width:73%;background:linear-gradient(90deg,var(--g300),var(--g500))"></div></div>
+        </div>
+      </div>
+
+      <div class="g13">
+        <!-- 차트 영역 -->
+        <div class="flex-col">
+          <div class="card">
+            <div class="card-title">⚡ 척도별 학급 평균</div>
+            <div class="card-sub">4개 PASS 축 백분위</div>
+            <div style="height:200px;position:relative;">
+              <canvas id="barChart"></canvas>
+            </div>
+          </div>
+          <div class="g2" style="margin-bottom:0;">
+            <div class="card">
+              <div class="card-title">🧠 두뇌 유형 분포</div>
+              <div style="height:200px;position:relative;">
+                <canvas id="donutChart"></canvas>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-title">📍 계획력 vs 동시처리</div>
+              <div style="height:200px;position:relative;">
+                <canvas id="scatterChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 우측 패널 -->
+        <div class="flex-col">
+          <!-- 긴급 알림 -->
+          <div class="card" style="border:1.5px solid rgba(239,68,68,.25);">
+            <div class="card-title" style="color:var(--r500)">🚨 즉각 개입 필요</div>
+            <div class="card-sub">2개 이상 척도 위험 수준</div>
+            <div class="alert-card" onclick="openStudent('박민아')">
+              <div class="alert-icon">🔴</div>
+              <div class="alert-body">
+                <div class="alert-name">박민아 <span class="badge b-mgmt">긴급</span></div>
+                <div class="alert-desc">4개 척도 모두 5% 이하</div>
+                <div class="alert-rx">
+                  <span class="rx-tag">계획력 5%</span>
+                  <span class="rx-tag">동시처리 1%</span>
+                  <span class="rx-tag">순차처리 1%</span>
+                </div>
+              </div>
+              <div class="alert-action"><button class="ab-p" onclick="event.stopPropagation();openStudent('박민아')">상세</button></div>
+            </div>
+            <div class="alert-card" onclick="openStudent('박하빈')">
+              <div class="alert-icon">🔴</div>
+              <div class="alert-body">
+                <div class="alert-name">박하빈 <span class="badge b-mgmt">긴급</span></div>
+                <div class="alert-desc">순차처리 0% — 즉각 개입</div>
+                <div class="alert-rx">
+                  <span class="rx-tag">순차처리 0%</span>
+                  <span class="rx-tag">계획력 18%</span>
+                </div>
+              </div>
+              <div class="alert-action"><button class="ab-p" onclick="event.stopPropagation();openStudent('박하빈')">상세</button></div>
+            </div>
+          </div>
+
+          <!-- PASS 평균 -->
+          <div class="card">
+            <div class="card-title">📊 4축 학급 평균</div>
+            <div style="margin-top:4px;">
+              <div class="pass-row">
+                <div class="pass-top"><span class="pass-lbl">동시처리</span><span class="pass-pct" style="color:var(--b500)">54%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:54%;background:linear-gradient(90deg,var(--b300),var(--b500))"></div></div>
+              </div>
+              <div class="pass-row">
+                <div class="pass-top"><span class="pass-lbl">계획력</span><span class="pass-pct" style="color:var(--o500)">54%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:54%;background:linear-gradient(90deg,var(--o300),var(--o500))"></div></div>
+              </div>
+              <div class="pass-row">
+                <div class="pass-top"><span class="pass-lbl">주의력</span><span class="pass-pct" style="color:var(--g500)">73%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:73%;background:linear-gradient(90deg,var(--g300),var(--g500))"></div></div>
+              </div>
+              <div class="pass-row">
+                <div class="pass-top"><span class="pass-lbl">순차처리</span><span class="pass-pct" style="color:var(--p600)">50%</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:50%;background:linear-gradient(90deg,var(--p300),var(--p500))"></div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 훈련 달성 -->
+          <div class="card">
+            <div class="card-title">⚡ 오늘 훈련 달성률</div>
+            <div class="flex-col" style="gap:0;margin-top:4px;">
+              <div class="train-row">
+                <div class="train-icon" style="background:var(--p100)">🧘</div>
+                <div class="train-info"><div class="train-name">마음챙김 호흡</div><div class="train-meta">7 / 9명 완료</div></div>
+                <div class="train-bar"><div class="train-fill" style="width:78%"></div></div>
+                <div class="train-pct">78%</div>
+              </div>
+              <div class="train-row">
+                <div class="train-icon" style="background:var(--o100)">🏛️</div>
+                <div class="train-info"><div class="train-name">스토아 퀘스트</div><div class="train-meta">3 / 9명 완료</div></div>
+                <div class="train-bar"><div class="train-fill" style="width:33%"></div></div>
+                <div class="train-pct">33%</div>
+              </div>
+              <div class="train-row">
+                <div class="train-icon" style="background:var(--b100)">⚔️</div>
+                <div class="train-info"><div class="train-name">AI 토론</div><div class="train-meta">1 / 9명 완료</div></div>
+                <div class="train-bar"><div class="train-fill" style="width:11%"></div></div>
+                <div class="train-pct">11%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /overview -->
+
+    <!-- ══ STUDENTS ══ -->
+    <div class="screen" id="page-students">
+      <div class="card">
+        <div class="card-title">👥 전체 학생 K-PASS 상세</div>
+        <div class="card-sub">행 클릭 → 개인 상세 + AI 처방 확인</div>
+        <div style="overflow-x:auto;">
+          <table class="stu-table">
+            <thead>
+              <tr>
+                <th>학생</th><th>나이</th><th>두뇌유형</th>
+                <th>동시처리</th><th>계획력</th><th>주의력</th><th>순차처리</th>
+                <th>상태</th><th>AI 처방</th>
+              </tr>
+            </thead>
+            <tbody id="stu-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /students -->
+
+    <!-- ══ TRAINING ══ -->
+    <div class="screen" id="page-training">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">📅 주간 훈련 달성률</div>
+          <div class="card-sub">학급 전체 기준 (명 수)</div>
+          <div style="height:220px;position:relative;">
+            <canvas id="weekChart"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🏆 훈련 유형별 완료율</div>
+          <div class="card-sub">오늘 기준</div>
+          <div style="height:220px;position:relative;">
+            <canvas id="trainDonut"></canvas>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">👤 학생별 오늘 훈련 현황</div>
+        <div class="card-sub">완료 표시 및 총 XP</div>
+        <div style="overflow-x:auto;">
+          <table class="stu-table">
+            <thead>
+              <tr><th>학생</th><th>마음챙김</th><th>스토아</th><th>AI 토론</th><th>글쓰기</th><th>총 XP</th><th>상태</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--p100)">🦁</div>박민아</div></td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">0 XP</td><td><span class="badge b-mgmt">미참여</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--b100)">⭐</div>테디샘플1</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--g500);font-weight:700">180 XP</td><td><span class="badge b-ok">완료</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--o100)">🦊</div>박건호</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--o500);font-weight:700">50 XP</td><td><span class="badge b-warn">진행중</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--p100)">🐱</div>A1</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">20 XP</td><td><span class="badge b-warn">일부</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--g100)">🐸</div>A2</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--o500);font-weight:700">130 XP</td><td><span class="badge b-warn">진행중</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--r100)">🐰</div>박하빈</div></td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">0 XP</td><td><span class="badge b-mgmt">미참여</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--b100)">🐺</div>A4</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">20 XP</td><td><span class="badge b-warn">일부</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--p100)">🦉</div>정상중</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--o500);font-weight:700">50 XP</td><td><span class="badge b-warn">진행중</span></td></tr>
+              <tr><td><div class="name-cell"><div class="name-avatar" style="background:var(--p100)">🐱</div>A3</div></td><td style="color:var(--g500)">✓</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">미완</td><td style="color:var(--muted)">20 XP</td><td><span class="badge b-warn">일부</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /training -->
+
+    <!-- ══ WISDOM ══ -->
+    <div class="screen" id="page-wisdom">
+      <div class="card" style="margin-bottom:16px;background:linear-gradient(135deg,var(--p50),var(--b100));border-color:var(--p200);">
+        <div class="card-title">🔮 K-PASS × 가치·철학 자동 매핑</div>
+        <div class="card-sub">취약 척도 → 처방 철학 카드 (클릭하면 상세 보기)</div>
+        <div class="phil-grid">
+          <div class="phil-card" onclick="openPhilDetail('stoic')">
+            <div class="phil-icon">🏛️</div>
+            <div class="phil-name">스토아 철학</div>
+            <div class="phil-kpass">계획력(P)↓ · 충동 억제</div>
+            <div class="ph-bar-row"><span class="ph-bar-name">대상자</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:67%"></div></div><span class="ph-bar-pct">6명</span></div>
+            <div class="ph-bar-row"><span class="ph-bar-name">완료율</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:33%"></div></div><span class="ph-bar-pct">33%</span></div>
+          </div>
+          <div class="phil-card" onclick="openPhilDetail('buddhism')" style="background:linear-gradient(135deg,var(--o100),var(--p50));border-color:var(--o200);">
+            <div class="phil-icon">☸️</div>
+            <div class="phil-name">불교 마음챙김</div>
+            <div class="phil-kpass">주의력(A)↓ · 현재 집중</div>
+            <div class="ph-bar-row"><span class="ph-bar-name">대상자</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:44%"></div></div><span class="ph-bar-pct">4명</span></div>
+            <div class="ph-bar-row"><span class="ph-bar-name">완료율</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:78%"></div></div><span class="ph-bar-pct">78%</span></div>
+          </div>
+          <div class="phil-card" onclick="openPhilDetail('confucius')" style="background:linear-gradient(135deg,var(--b100),var(--p50));border-color:var(--b200);">
+            <div class="phil-icon">📜</div>
+            <div class="phil-name">공자 서(恕)</div>
+            <div class="phil-kpass">동시처리(S)↓ · 공감 능력</div>
+            <div class="ph-bar-row"><span class="ph-bar-name">대상자</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:78%"></div></div><span class="ph-bar-pct">7명</span></div>
+            <div class="ph-bar-row"><span class="ph-bar-name">완료율</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:22%"></div></div><span class="ph-bar-pct">22%</span></div>
+          </div>
+          <div class="phil-card" onclick="openPhilDetail('aristotle')" style="background:linear-gradient(135deg,rgba(5,150,105,.06),var(--b100));border-color:rgba(5,150,105,.2);">
+            <div class="phil-icon">🏺</div>
+            <div class="phil-name">아리스토텔레스 중용</div>
+            <div class="phil-kpass">순차처리(S)↓ · 습관 형성</div>
+            <div class="ph-bar-row"><span class="ph-bar-name">대상자</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:56%"></div></div><span class="ph-bar-pct">5명</span></div>
+            <div class="ph-bar-row"><span class="ph-bar-name">완료율</span><div class="ph-bar-track"><div class="ph-bar-fill" style="width:40%"></div></div><span class="ph-bar-pct">40%</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📋 관리 필요 학생별 철학 처방</div>
+        <div class="card-sub">K-PASS 취약 척도 → 자동 커리큘럼 배정</div>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px;">
+          <div class="rx-card">
+            <div class="rx-head">
+              <div class="rx-icon" style="background:var(--r100)">🦁</div>
+              <div><div class="rx-name">박민아 <span class="badge b-mgmt">긴급</span></div><div class="rx-sub">우뇌우세형 · 만 12세</div></div>
+              <button class="ab-p" style="margin-left:auto;" onclick="openStudent('박민아')">상세 보기</button>
+            </div>
+            <div class="rx-quote">취약: 동시처리 1% · 계획력 5% · 주의력 47% · 순차처리 1%</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <span class="rx-tag">🏛️ 스토아 · 계획력</span>
+              <span class="rx-tag" style="background:var(--b100);color:var(--b500);border-color:var(--b200)">📜 공자 · 동시처리</span>
+              <span class="rx-tag" style="background:rgba(5,150,105,.1);color:var(--g500);border-color:rgba(5,150,105,.2)">🏺 아리스토텔레스 · 순차처리</span>
+              <span class="rx-tag" style="background:var(--o100);color:var(--o500);border-color:var(--o200)">☸️ 마음챙김 · 주의력</span>
+            </div>
+          </div>
+          <div class="rx-card">
+            <div class="rx-head">
+              <div class="rx-icon" style="background:var(--r100)">🐰</div>
+              <div><div class="rx-name">박하빈 <span class="badge b-mgmt">긴급</span></div><div class="rx-sub">우뇌우세형 · 만 7세</div></div>
+              <button class="ab-p" style="margin-left:auto;" onclick="openStudent('박하빈')">상세 보기</button>
+            </div>
+            <div class="rx-quote">취약: 동시처리 21% · 계획력 18% · 순차처리 0%</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <span class="rx-tag">🏛️ 스토아 · 계획력 (이야기 버전)</span>
+              <span class="rx-tag" style="background:rgba(5,150,105,.1);color:var(--g500);border-color:rgba(5,150,105,.2)">🏺 습관 루틴 형성 게임</span>
+            </div>
+          </div>
+          <div class="rx-card" style="background:var(--bg);">
+            <div class="rx-head">
+              <div class="rx-icon" style="background:var(--o100)">🐺</div>
+              <div><div class="rx-name">A4 <span class="badge b-warn">주의</span></div><div class="rx-sub">좌우뇌 균형형 · 만 17세</div></div>
+              <button class="ab-g" style="margin-left:auto;" onclick="openStudent('A4')">상세 보기</button>
+            </div>
+            <div class="rx-quote">취약: 계획력 37%</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <span class="rx-tag">🏛️ 스토아 · 소크라테스 토론</span>
+            </div>
+          </div>
+          <div class="rx-card" style="background:var(--bg);">
+            <div class="rx-head">
+              <div class="rx-icon" style="background:var(--o100)">🐱</div>
+              <div><div class="rx-name">A3 <span class="badge b-warn">주의</span></div><div class="rx-sub">좌우뇌 균형형 · 만 16세</div></div>
+              <button class="ab-g" style="margin-left:auto;" onclick="openStudent('A3')">상세 보기</button>
+            </div>
+            <div class="rx-quote">취약: 동시처리 23% · 계획력 34% · 순차처리 43%</div>
+            <div style="display:flex;flex-wrap:wrap;gap:6px;">
+              <span class="rx-tag">🏛️ 스토아</span>
+              <span class="rx-tag" style="background:var(--b100);color:var(--b500);border-color:var(--b200)">📜 공자 · 역지사지</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /wisdom -->
+
+    <!-- ══ AI ══ -->
+    <div class="screen" id="page-ai">
+      <div class="g31">
+        <!-- 상담 챗 -->
+        <div class="flex-col">
+          <div class="card">
+            <div class="card-title">🤖 AI 교사 상담 도우미</div>
+            <div class="card-sub">학생 데이터 기반 수업·상담 가이드</div>
+            <div class="chat-box">
+              <div class="chat-head">
+                <div class="chat-ai">🧭</div>
+                <div style="flex:1;">
+                  <div style="font-size:12px;font-weight:700;color:var(--p700)">MindCompass AI</div>
+                  <div style="font-size:10px;color:var(--text2)">K-PASS 기반 교사 어시스턴트</div>
+                </div>
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--g500);"></div>
+              </div>
+              <div class="chat-msgs" id="ai-msgs" style="height:300px;">
+                <div class="cmsg ai">
+                  <div class="cm-av ai">🧭</div>
+                  <div class="cm-bbl">안녕하세요, 선생님! 오늘 학급 데이터를 분석했습니다.<br><br>📊 <strong>핵심 인사이트:</strong><br>• 박민아, 박하빈 — 즉각 개입 필요<br>• 계획력이 학급 전체 취약 척도 (54%)<br>• 스토아 수업을 학급 전체에 적용 권장<br><br>무엇이 궁금하신가요?</div>
+                </div>
+              </div>
+              <div class="suggest-row">
+                <span class="sug" onclick="useSug(this)">박민아 어떻게 도와야 하나요?</span>
+                <span class="sug" onclick="useSug(this)">계획력 높이는 수업 방법은?</span>
+                <span class="sug" onclick="useSug(this)">오늘 학급 전체 수업 추천</span>
+                <span class="sug" onclick="useSug(this)">부모 상담 가이드 써줘</span>
+              </div>
+              <div class="chat-input-wrap">
+                <input class="ci" id="ai-input" placeholder="선생님, 무엇이든 물어보세요..." onkeydown="if(event.key==='Enter')sendAI()">
+                <button class="csend" id="ai-send" onclick="sendAI()">↑</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 빠른 가이드 -->
+        <div class="flex-col">
+          <div class="card">
+            <div class="card-title">📌 오늘 수업 추천</div>
+            <div class="card-sub">학급 K-PASS 기반 자동 추천</div>
+            <div class="flex-col" style="gap:8px;">
+              <div style="padding:12px;background:var(--p50);border-radius:11px;border:1px solid var(--p200);cursor:pointer;transition:.15s;" onmouseover="this.style.background='var(--p100)'" onmouseout="this.style.background='var(--p50)'" onclick="setSugAndSend('스토아 계획력 40분 수업 계획 자세히 알려줘')">
+                <div style="font-size:11px;font-weight:700;color:var(--p600);margin-bottom:3px">🏛️ 스토아 · 계획력 수업 (40분)</div>
+                <div style="font-size:12px;color:var(--text2);line-height:1.5;">"통제 가능한 것" 딜레마 토론 — 학급 전체 처방</div>
+              </div>
+              <div style="padding:12px;background:var(--o100);border-radius:11px;border:1px solid var(--o200);cursor:pointer;transition:.15s;" onmouseover="this.style.background='rgba(249,115,22,.15)'" onmouseout="this.style.background='var(--o100)'" onclick="setSugAndSend('마음챙김 수업 전 루틴 3분 방법 알려줘')">
+                <div style="font-size:11px;font-weight:700;color:var(--o500);margin-bottom:3px">🧘 마음챙김 3분 (수업 전)</div>
+                <div style="font-size:12px;color:var(--text2);line-height:1.5;">호흡 관찰 → 주의력 안정화</div>
+              </div>
+              <div style="padding:12px;background:var(--b100);border-radius:11px;border:1px solid var(--b200);cursor:pointer;transition:.15s;" onmouseover="this.style.background='rgba(59,130,246,.15)'" onmouseout="this.style.background='var(--b100)'" onclick="setSugAndSend('공자 역지사지 롤플레이 수업 30분 계획 써줘')">
+                <div style="font-size:11px;font-weight:700;color:var(--b500);margin-bottom:3px">📜 공자 서(恕) · 롤플레이 (30분)</div>
+                <div style="font-size:12px;color:var(--text2);line-height:1.5;">역지사지 상황극 — 동시처리 처방</div>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">🚨 개입 우선순위</div>
+            <div class="flex-col" style="gap:6px;margin-top:4px;">
+              <div class="priority-item" style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);" onclick="openStudent('박민아')">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--r500);flex-shrink:0;animation:blink 1.4s infinite;"></div>
+                <div style="flex:1;font-size:12px;font-weight:700;">박민아</div>
+                <div style="font-size:10px;color:var(--muted)">4축 취약</div>
+                <div style="font-size:11px;color:var(--r500);font-weight:700;">긴급 →</div>
+              </div>
+              <div class="priority-item" style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);" onclick="openStudent('박하빈')">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--r500);flex-shrink:0;animation:blink 1.4s infinite;"></div>
+                <div style="flex:1;font-size:12px;font-weight:700;">박하빈</div>
+                <div style="font-size:10px;color:var(--muted)">순차처리 0%</div>
+                <div style="font-size:11px;color:var(--r500);font-weight:700;">긴급 →</div>
+              </div>
+              <div class="priority-item" style="background:var(--o100);border:1px solid var(--o200);" onclick="openStudent('A3')">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--o400);flex-shrink:0;"></div>
+                <div style="flex:1;font-size:12px;font-weight:700;">A3</div>
+                <div style="font-size:10px;color:var(--muted)">3축 취약</div>
+                <div style="font-size:11px;color:var(--o500);font-weight:700;">주의 →</div>
+              </div>
+              <div class="priority-item" style="background:var(--o100);border:1px solid var(--o200);" onclick="openStudent('A4')">
+                <div style="width:7px;height:7px;border-radius:50%;background:var(--o400);flex-shrink:0;"></div>
+                <div style="flex:1;font-size:12px;font-weight:700;">A4</div>
+                <div style="font-size:10px;color:var(--muted)">계획력 37%</div>
+                <div style="font-size:11px;color:var(--o500);font-weight:700;">주의 →</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /ai -->
+
+    <!-- ══ REPORTS ══ -->
+    <div class="screen" id="page-reports">
+      <div class="g2">
+        <div class="card">
+          <div class="card-title">📋 자동 리포트 생성</div>
+          <div class="card-sub">K-PASS 기반 AI 자동 작성</div>
+          <div class="flex-col">
+            <div style="padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:13px;">
+              <div style="font-size:13px;font-weight:700;margin-bottom:5px">📄 학생 개인 리포트</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:12px">K-PASS 4축 + 철학 처방 + 학부모 상담 코멘트</div>
+              <select id="report-student" style="width:100%;padding:8px 12px;border-radius:10px;border:1.5px solid var(--border2);background:var(--surface);font-size:13px;color:var(--text);font-family:'Noto Sans KR',sans-serif;margin-bottom:10px;">
+                <option>박민아</option><option>박하빈</option><option>A3</option>
+                <option>A4</option><option>박건호</option><option>정상중</option>
+                <option>A1</option><option>A2</option><option>테디샘플1</option>
+              </select>
+              <button class="btn btn-p" style="width:100%;padding:10px;" onclick="genReport()">🤖 AI 리포트 생성</button>
+            </div>
+            <div style="padding:16px;background:var(--bg);border:1px solid var(--border);border-radius:13px;">
+              <div style="font-size:13px;font-weight:700;margin-bottom:5px">📊 학급 전체 리포트</div>
+              <div style="font-size:11px;color:var(--muted);margin-bottom:12px">집단 분석 + 수업 가이드 + 개입 우선순위</div>
+              <button class="btn btn-p" style="width:100%;padding:10px;background:linear-gradient(135deg,var(--b400),var(--p500));" onclick="genClassReport()">학급 리포트 생성</button>
+            </div>
+          </div>
+        </div>
+        <div class="card" id="report-output-card">
+          <div class="card-title">📄 생성된 리포트</div>
+          <div class="card-sub" id="report-output-sub">아래 버튼으로 생성해주세요</div>
+          <div id="report-content" style="font-size:13px;color:var(--muted);text-align:center;padding:50px 0;">
+            왼쪽에서 리포트를 생성해주세요 🧭
+          </div>
+        </div>
+      </div>
+    </div><!-- /reports -->
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ════ 학생 상세 모달 ════ -->
+<div class="detail-overlay" id="detail-overlay" onclick="closeOverlay('detail-overlay',event)">
+  <div class="detail-modal" onclick="event.stopPropagation()">
+    <div class="dmod-header">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--p600);margin-bottom:3px" id="dmod-type"></div>
+        <div style="font-size:17px;font-weight:800;" id="dmod-title"></div>
+      </div>
+      <button class="close-btn" onclick="closeOverlay('detail-overlay')">✕</button>
+    </div>
+    <div class="dmod-body" id="dmod-body"></div>
+  </div>
+</div>
+
+<!-- ════ 철학 상세 모달 ════ -->
+<div class="phil-overlay" id="phil-overlay" onclick="closeOverlay('phil-overlay',event)">
+  <div class="phil-modal" onclick="event.stopPropagation()">
+    <div class="dmod-header" style="border-radius:20px 20px 0 0;">
+      <div>
+        <div style="font-size:10px;font-weight:700;color:var(--p600);margin-bottom:3px" id="phil-type"></div>
+        <div style="font-size:16px;font-weight:800;" id="phil-title"></div>
+      </div>
+      <button class="close-btn" onclick="closeOverlay('phil-overlay')">✕</button>
+    </div>
+    <div style="padding:22px;" id="phil-body"></div>
+  </div>
+</div>
+
+<script>
+/* ═══════════════════════════════
+   DATA
+═══════════════════════════════ */
+const STUDENTS = [
+  {name:'테디샘플1', age:'만 8세 9개월', type:'right', s:99, p:99, a:99, seq:99, status:'ok',   emoji:'⭐'},
+  {name:'박건호',    age:'만 16세',       type:'right', s:83, p:92, a:84, seq:27, status:'mgmt', emoji:'🦊'},
+  {name:'A2',        age:'만 15세',       type:'left',  s:83, p:79, a:74, seq:84, status:'ok',   emoji:'🐸'},
+  {name:'A1',        age:'만 13세',       type:'bal',   s:66, p:74, a:65, seq:65, status:'ok',   emoji:'🐱'},
+  {name:'정상중',    age:'만 46세',       type:'left',  s:63, p:47, a:84, seq:81, status:'mgmt', emoji:'🦉'},
+  {name:'A4',        age:'만 17세',       type:'bal',   s:51, p:37, a:68, seq:54, status:'mgmt', emoji:'🐺'},
+  {name:'A3',        age:'만 16세',       type:'bal',   s:23, p:34, a:68, seq:43, status:'mgmt', emoji:'🐱'},
+  {name:'박하빈',    age:'만 7세 1개월',  type:'right', s:21, p:18, a:68, seq:0,  status:'mgmt', emoji:'🐰'},
+  {name:'박민아',    age:'만 12세 1개월', type:'right', s:1,  p:5,  a:47, seq:1,  status:'mgmt', emoji:'🦁'},
+];
+const typeLabel = {right:'우뇌우세형', bal:'좌우뇌 균형형', left:'좌뇌우세형'};
+const typeCls   = {right:'bt-right',   bal:'bt-bal',        left:'bt-left'};
+const PHIL_DATA = {
+  stoic:     {icon:'🏛️', name:'스토아 철학', kpass:'계획력(P)↓ · 충동 억제', quote:'"내가 통제할 수 있는 것과 없는 것을 구별하라." — 에픽테토스', desc:'계획력이 낮은 학생은 충동적으로 반응하고 결과를 예측하지 못하는 경향이 있습니다. 스토아 철학의 "통제의 이분법"은 "내 감정 반응은 내가 선택할 수 있다"는 인식을 키워 계획력 훈련의 기초가 됩니다.', targets:['박민아','박하빈','A3','A4','정상중','박건호']},
+  buddhism:  {icon:'☸️', name:'불교 마음챙김', kpass:'주의력(A)↓ · 현재 집중', quote:'"과거는 지났고, 미래는 오지 않았다. 오직 현재만이 살아있다." — 붓다', desc:'주의력이 낮은 학생은 현재 자극에 집중하기 어렵고 마음이 자주 떠돌아 다닙니다. 불교의 마음챙김 호흡은 "지금 여기에 머무는 훈련"으로 주의력 조절 능력을 직접 향상시킵니다.', targets:['박민아','A1','테디샘플1','A2']},
+  confucius: {icon:'📜', name:'공자 서(恕)', kpass:'동시처리(S)↓ · 공감 능력', quote:'"자기가 원하지 않는 것을 남에게 하지 말라." — 논어 위령공편', desc:'동시처리가 낮은 학생은 전체 맥락을 동시에 파악하기 어렵고 공감 능력이 부족할 수 있습니다. 역지사지 훈련은 상대의 상황을 전체적으로 이해하는 동시처리 능력을 직접 훈련합니다.', targets:['박민아','박하빈','A3','A4','A1','박건호','정상중']},
+  aristotle: {icon:'🏺', name:'아리스토텔레스 중용', kpass:'순차처리(S)↓ · 습관 형성', quote:'"우리는 우리가 반복적으로 하는 것이다. 탁월함은 행동이 아니라 습관이다." — 아리스토텔레스', desc:'순차처리가 낮은 학생은 논리적 순서를 따르거나 규칙을 일관성 있게 적용하기 어렵습니다. 중용의 "매일 조금씩 올바른 행동 반복"은 습관 기반 순차처리 훈련의 핵심입니다.', targets:['박민아','박하빈','A3','박건호','A4']},
+};
+
+/* ═══════════════════════════════
+   CHARTS — 지연 렌더 방지용 인스턴스 관리
+═══════════════════════════════ */
+const chartInstances = {};
+function initChart(id, config) {
+  if (chartInstances[id]) { chartInstances[id].destroy(); }
+  const canvas = document.getElementById(id);
+  if (!canvas) return;
+  chartInstances[id] = new Chart(canvas, config);
+}
+const CHART_COLORS = {
+  p:'rgba(168,85,247,.3)', b:'rgba(59,130,246,.3)', o:'rgba(249,115,22,.3)', g:'rgba(16,185,129,.3)',
+  pS:'#a855f7', bS:'#3b82f6', oS:'#f97316', gS:'#10b981',
+};
+function buildCharts(pageId) {
+  if (pageId === 'overview') {
+    initChart('barChart', {type:'bar',
+      data:{labels:['동시처리','계획력','주의력','순차처리'],
+        datasets:[{label:'학급 평균',data:[54,54,73,50],
+          backgroundColor:['rgba(59,130,246,.22)','rgba(249,115,22,.22)','rgba(16,185,129,.22)','rgba(168,85,247,.22)'],
+          borderColor:['#3b82f6','#f97316','#10b981','#a855f7'],borderWidth:2,borderRadius:8}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},
+        scales:{x:{grid:{display:false},ticks:{color:'#a78cc0',font:{size:11}}},
+                y:{grid:{color:'rgba(168,85,247,.07)'},ticks:{color:'#a78cc0',font:{size:10}},max:100,min:0}}}});
+    initChart('donutChart', {type:'doughnut',
+      data:{labels:['우뇌우세형','균형형','좌뇌우세형'],
+        datasets:[{data:[4,3,2],backgroundColor:['#60a5fa','#a855f7','#fb923c'],borderWidth:3,borderColor:'#fff',hoverOffset:6}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'62%',
+        plugins:{legend:{position:'bottom',labels:{color:'#6b4fa0',font:{size:11},padding:10}}}}});
+    initChart('scatterChart', {type:'scatter',
+      data:{datasets:[
+        {label:'관리필요',data:[{x:54,y:47},{x:51,y:37},{x:23,y:34},{x:21,y:18},{x:1,y:5},{x:63,y:47}],backgroundColor:'rgba(239,68,68,.55)',pointRadius:6},
+        {label:'양호',    data:[{x:99,y:99},{x:83,y:79},{x:66,y:74}],                                    backgroundColor:'rgba(16,185,129,.55)',pointRadius:6}]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#6b4fa0',font:{size:10}}}},
+        scales:{x:{title:{display:true,text:'동시처리 %',color:'#a78cc0',font:{size:10}},grid:{color:'rgba(168,85,247,.07)'},ticks:{color:'#a78cc0',font:{size:9}},min:0,max:100},
+                y:{title:{display:true,text:'계획력 %', color:'#a78cc0',font:{size:10}},grid:{color:'rgba(168,85,247,.07)'},ticks:{color:'#a78cc0',font:{size:9}},min:0,max:100}}}});
+  }
+  if (pageId === 'training') {
+    initChart('weekChart', {type:'bar',
+      data:{labels:['월','화','수','목','금'],
+        datasets:[
+          {label:'마음챙김',data:[6,7,7,0,0],backgroundColor:CHART_COLORS.p,borderRadius:5,borderWidth:0},
+          {label:'스토아',  data:[2,3,3,0,0],backgroundColor:CHART_COLORS.b,borderRadius:5,borderWidth:0},
+          {label:'AI토론',  data:[0,1,1,0,0],backgroundColor:CHART_COLORS.o,borderRadius:5,borderWidth:0},
+        ]},
+      options:{responsive:true,maintainAspectRatio:false,
+        plugins:{legend:{labels:{color:'#6b4fa0',font:{size:11}}}},
+        scales:{x:{grid:{display:false},ticks:{color:'#a78cc0',font:{size:11}}},
+                y:{grid:{color:'rgba(168,85,247,.07)'},ticks:{color:'#a78cc0',font:{size:10}},max:9,min:0}}}});
+    initChart('trainDonut', {type:'doughnut',
+      data:{labels:['마음챙김 78%','스토아 33%','AI토론 11%','글쓰기 22%'],
+        datasets:[{data:[78,33,11,22],backgroundColor:[CHART_COLORS.p,CHART_COLORS.b,CHART_COLORS.o,CHART_COLORS.g],borderWidth:3,borderColor:'#fff',hoverOffset:5}]},
+      options:{responsive:true,maintainAspectRatio:false,cutout:'58%',
+        plugins:{legend:{position:'bottom',labels:{color:'#6b4fa0',font:{size:10},padding:8}}}}});
+  }
+}
+
+/* ═══════════════════════════════
+   PAGE NAVIGATION
+═══════════════════════════════ */
+let currentPage = 'overview';
+let currentFilter = '전체';
+
+function showPage(id) {
+  // 화면 전환
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  const target = document.getElementById('page-' + id);
+  if (target) target.classList.add('active');
+  // nav active
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const navEl = document.getElementById('nav-' + id);
+  if (navEl) navEl.classList.add('active');
+  // 타이틀
+  const titles = {
+    overview:'📊 학급 인지·정서 개요',
+    students:'👥 학생 상세 현황',
+    training:'⚡ 훈련 프로그램 현황',
+    wisdom:'🔮 가치·철학 처방',
+    ai:'🤖 AI 상담 도우미',
+    reports:'📋 리포트 생성'
+  };
+  document.getElementById('page-title').textContent = titles[id] || '';
+  currentPage = id;
+  // 필터 탭 표시 여부
+  document.getElementById('filter-tabs').style.display = (id === 'students') ? 'flex' : 'none';
+  // 학생 테이블 렌더
+  if (id === 'students') renderStudentTable(currentFilter);
+  // 차트는 DOM이 보일 때 렌더 (requestAnimationFrame으로 1프레임 후)
+  if (id === 'overview' || id === 'training') {
+    requestAnimationFrame(() => buildCharts(id));
+  }
+}
+
+/* ═══════════════════════════════
+   STUDENT TABLE
+═══════════════════════════════ */
+function scoreClass(v) { return v >= 70 ? 's-hi' : v >= 50 ? 's-md' : v >= 20 ? 's-lo' : 's-vl'; }
+function getRx(s) {
+  const rx = [];
+  if (s.p   < 50) rx.push('🏛️스토아');
+  if (s.a   < 50) rx.push('☸️마음챙김');
+  if (s.s   < 50) rx.push('📜공자');
+  if (s.seq < 50) rx.push('🏺중용');
+  return rx.join(' ') || '✅ 심화 수업';
+}
+function renderStudentTable(filter) {
+  const tbody = document.getElementById('stu-tbody');
+  if (!tbody) return;
+  const list = filter === '전체' ? STUDENTS
+    : filter === '관리필요' ? STUDENTS.filter(s => s.status === 'mgmt')
+    : STUDENTS.filter(s => s.status === 'ok');
+  tbody.innerHTML = list.map(s => `
+    <tr style="cursor:pointer;" onclick="openStudent('${s.name}')">
+      <td><div class="name-cell"><div class="name-avatar" style="background:var(--p100)">${s.emoji}</div><strong>${s.name}</strong></div></td>
+      <td style="color:var(--muted);white-space:nowrap;">${s.age}</td>
+      <td><span class="badge ${typeCls[s.type]}">${typeLabel[s.type]}</span></td>
+      <td><span class="score ${scoreClass(s.s)}">${s.s}%</span></td>
+      <td><span class="score ${scoreClass(s.p)}">${s.p}%</span></td>
+      <td><span class="score ${scoreClass(s.a)}">${s.a}%</span></td>
+      <td><span class="score ${scoreClass(s.seq)}">${s.seq}%</span></td>
+      <td><span class="badge ${s.status === 'ok' ? 'b-ok' : 'b-mgmt'}">${s.status === 'ok' ? '양호' : '관리필요'}</span></td>
+      <td style="font-size:11px;color:var(--p600);">${getRx(s)}</td>
+    </tr>`).join('');
+}
+
+function setFilter(f, el) {
+  currentFilter = f;
+  document.querySelectorAll('.tbar-tab').forEach(t => t.classList.remove('active'));
+  if (el) el.classList.add('active');
+  if (currentPage === 'students') renderStudentTable(f);
+}
+
+/* ═══════════════════════════════
+   STUDENT DETAIL MODAL
+═══════════════════════════════ */
+function openStudent(name) {
+  const s = STUDENTS.find(x => x.name === name);
+  if (!s) return;
+  document.getElementById('dmod-type').textContent  = typeLabel[s.type] + ' · ' + s.age;
+  document.getElementById('dmod-title').textContent = s.emoji + ' ' + s.name;
+  const weak = [];
+  if (s.s   < 50) weak.push({name:'동시처리', val:s.s,   rx:'📜 공자 서(恕) — 역지사지 훈련'});
+  if (s.p   < 50) weak.push({name:'계획력',   val:s.p,   rx:'🏛️ 스토아 — 통제의 이분법'});
+  if (s.a   < 50) weak.push({name:'주의력',   val:s.a,   rx:'☸️ 불교 — 마음챙김 호흡'});
+  if (s.seq < 50) weak.push({name:'순차처리', val:s.seq, rx:'🏺 아리스토텔레스 — 중용·습관'});
+
+  const pctColor = v => v < 20 ? 'var(--r500)' : v < 50 ? 'var(--o500)' : 'var(--g500)';
+  const barGrad  = (v, def) => v < 20 ? 'linear-gradient(90deg,#fca5a5,var(--r500))' : def;
+
+  document.getElementById('dmod-body').innerHTML = `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;">
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:12px;">📊 K-PASS 4축 결과</div>
+        ${[
+          {lbl:'동시처리',val:s.s,   grad:'linear-gradient(90deg,var(--b300),var(--b500))'},
+          {lbl:'계획력',  val:s.p,   grad:'linear-gradient(90deg,var(--o300),var(--o500))'},
+          {lbl:'주의력',  val:s.a,   grad:'linear-gradient(90deg,var(--p300),var(--p500))'},
+          {lbl:'순차처리',val:s.seq, grad:'linear-gradient(90deg,var(--g300),var(--g500))'},
+        ].map(r=>`
+          <div class="pass-row">
+            <div class="pass-top">
+              <span class="pass-lbl">${r.lbl}</span>
+              <span class="pass-pct" style="color:${pctColor(r.val)}">${r.val}%</span>
+            </div>
+            <div class="bar-track"><div class="bar-fill" style="width:${r.val}%;background:${barGrad(r.val,r.grad)}"></div></div>
+          </div>`).join('')}
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:12px;">🔮 AI 처방 커리큘럼</div>
+        ${weak.length === 0
+          ? '<div style="font-size:12px;color:var(--g500);padding:12px;background:var(--g100);border-radius:10px;">✅ 모든 척도 양호 — 심화 토론 수업 권장</div>'
+          : weak.map(w => `
+            <div style="padding:10px 12px;background:var(--p50);border-radius:10px;border:1px solid var(--p200);margin-bottom:8px;">
+              <div style="font-size:10px;font-weight:700;color:var(--r500);margin-bottom:3px">${w.name} ${w.val}% 취약</div>
+              <div style="font-size:12px;color:var(--text2);">${w.rx}</div>
+            </div>`).join('')}
+      </div>
+    </div>
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:10px;">🤖 AI 상담</div>
+    <div class="chat-box">
+      <div class="chat-head">
+        <div class="chat-ai">🧭</div>
+        <div style="flex:1;"><div style="font-size:12px;font-weight:700;color:var(--p700)">AI 상담 도우미</div></div>
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--g500);"></div>
+      </div>
+      <div class="chat-msgs" id="stu-chat-msgs" style="height:160px;">
+        <div class="cmsg ai">
+          <div class="cm-av ai">🧭</div>
+          <div class="cm-bbl">${s.name} 프로파일 분석 완료.
+${weak.length > 0
+  ? '<strong>취약 척도: ' + weak.map(w=>w.name).join(', ') + '</strong>. 처방 철학부터 시작하시길 권장합니다.'
+  : '모든 척도 양호! 심화 미네르바 토론 수업을 추천드립니다.'}
+무엇이 궁금하신가요?</div>
+        </div>
+      </div>
+      <div class="chat-input-wrap">
+        <input class="ci" id="stu-ci" placeholder="${s.name} 학생에 대해 물어보세요..." onkeydown="if(event.key==='Enter')sendStuChat()">
+        <button class="csend" id="stu-cs" onclick="sendStuChat()">↑</button>
+      </div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="genStudentReportFromModal('${s.name}')">📄 리포트 생성</button>
+      <button class="btn btn-g" onclick="closeOverlay('detail-overlay')">닫기</button>
+    </div>`;
+
+  window._stuHistory = [];
+  window._stuName    = s.name;
+  window._stuData    = s;
+  document.getElementById('detail-overlay').classList.add('open');
+}
+
+async function sendStuChat() {
+  const inp = document.getElementById('stu-ci');
+  const txt = inp.value.trim();
+  if (!txt) return;
+  inp.value = '';
+  const msgs = document.getElementById('stu-chat-msgs');
+  const s = window._stuData;
+  addChatMsg(msgs, 'user', txt);
+  const ld = addLoader(msgs);
+  document.getElementById('stu-cs').disabled = true;
+  window._stuHistory.push({role:'user', content:txt});
+  try {
+    const res = await callAI(
+      `MindCompass 교사 상담 AI. 학생: ${s.name}, ${s.age}, ${typeLabel[s.type]}, K-PASS 동시처리${s.s}% 계획력${s.p}% 주의력${s.a}% 순차처리${s.seq}%. 실용적 교사 가이드. 한국어 150자 이내, 따뜻하고 전문적.`,
+      window._stuHistory
+    );
+    ld.remove();
+    addChatMsg(msgs, 'ai', res);
+    window._stuHistory.push({role:'assistant', content:res});
+  } catch(e) {
+    ld.remove();
+    addChatMsg(msgs, 'ai', '네트워크 오류가 발생했습니다. 다시 시도해주세요.');
+  }
+  document.getElementById('stu-cs').disabled = false;
+}
+
+/* ═══════════════════════════════
+   PHILOSOPHY DETAIL
+═══════════════════════════════ */
+function openPhilDetail(key) {
+  const d = PHIL_DATA[key];
+  if (!d) return;
+  document.getElementById('phil-type').textContent  = d.kpass;
+  document.getElementById('phil-title').textContent = d.icon + ' ' + d.name;
+  document.getElementById('phil-body').innerHTML = `
+    <div style="padding:14px 16px;background:var(--p50);border-radius:12px;border-left:3px solid var(--p400);margin-bottom:16px;font-size:13px;font-style:italic;color:var(--text2);line-height:1.7;">${d.quote}</div>
+    <div style="font-size:13px;color:var(--text2);line-height:1.75;margin-bottom:16px;">${d.desc}</div>
+    <div style="font-size:12px;font-weight:700;color:var(--text2);margin-bottom:8px;">🎯 해당 학생 (${d.targets.length}명)</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px;">
+      ${d.targets.map(n=>`<span style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;background:rgba(239,68,68,.1);color:var(--r500);border:1px solid rgba(239,68,68,.2);cursor:pointer;" onclick="closeOverlay('phil-overlay');openStudent('${n}')">${STUDENTS.find(s=>s.name===n)?.emoji||''} ${n}</span>`).join('')}
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-p" onclick="closeOverlay('phil-overlay')">닫기</button>
+    </div>`;
+  document.getElementById('phil-overlay').classList.add('open');
+}
+
+/* ═══════════════════════════════
+   MAIN AI CHAT
+═══════════════════════════════ */
+let _aiHistory = [];
+function useSug(el) {
+  document.getElementById('ai-input').value = el.textContent;
+  sendAI();
+}
+function setSugAndSend(txt) {
+  showPage('ai');
+  setTimeout(() => {
+    document.getElementById('ai-input').value = txt;
+    sendAI();
+  }, 100);
+}
+async function sendAI() {
+  const inp = document.getElementById('ai-input');
+  const txt = inp.value.trim();
+  const sendBtn = document.getElementById('ai-send');
+  if (!txt || sendBtn.disabled) return;
+  inp.value = '';
+  const msgs = document.getElementById('ai-msgs');
+  addChatMsg(msgs, 'user', txt);
+  const ld = addLoader(msgs);
+  sendBtn.disabled = true;
+  _aiHistory.push({role:'user', content:txt});
+  try {
+    const res = await callAI(
+      `MindCompass 교사 상담 AI. 학급: 9명, 관리필요 6명(67%). 학급평균 동시처리54% 계획력54% 주의력73% 순차처리50%. 위험학생: 박민아(4축), 박하빈(순차처리0%). K-PASS/스토아/불교/공자/아리스토텔레스 기반. 한국어 200자 이내, 실용적.`,
+      _aiHistory
+    );
+    ld.remove();
+    addChatMsg(msgs, 'ai', res);
+    _aiHistory.push({role:'assistant', content:res});
+  } catch(e) {
+    ld.remove();
+    addChatMsg(msgs, 'ai', '네트워크 오류. 잠시 후 다시 시도해주세요.');
+  }
+  sendBtn.disabled = false;
+}
+
+/* ═══════════════════════════════
+   REPORTS
+═══════════════════════════════ */
+async function genReport() {
+  const name = document.getElementById('report-student').value;
+  const s = STUDENTS.find(x => x.name === name);
+  if (!s) return;
+  const rc = document.getElementById('report-content');
+  document.getElementById('report-output-sub').textContent = name + ' 학생 리포트 생성 중...';
+  rc.innerHTML = '<div style="display:flex;align-items:center;gap:8px;justify-content:center;padding:50px 0;color:var(--muted)"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span>AI가 리포트를 작성 중입니다...</span></div>';
+  try {
+    const txt = await callAI(
+      `MindCompass K-PASS 리포트 작성기. 구성: 1)인지프로파일 요약 2)취약척도 분석 3)철학 처방 커리큘럼 4)학부모 상담 코멘트. 한국어, 교사용, 전문적.`,
+      [{role:'user', content:`학생: ${s.name}, ${s.age}, ${typeLabel[s.type]}\nK-PASS: 동시처리${s.s}% 계획력${s.p}% 주의력${s.a}% 순차처리${s.seq}%\n상태: ${s.status === 'ok' ? '양호' : '관리 필요'}`}]
+    );
+    document.getElementById('report-output-sub').textContent = name + ' 학생 리포트 완성';
+    rc.innerHTML = `<div class="report-text">${txt}</div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn btn-p" onclick="window.print()">🖨️ 인쇄</button>
+        <button class="btn btn-g" onclick="resetReport()">초기화</button>
+      </div>`;
+  } catch(e) {
+    rc.innerHTML = '<div style="color:var(--r500);font-size:13px;padding:20px;">오류가 발생했습니다. 다시 시도해주세요.</div>';
+  }
+}
+function resetReport() {
+  document.getElementById('report-content').innerHTML = '왼쪽에서 리포트를 생성해주세요 🧭';
+  document.getElementById('report-content').style.cssText = 'font-size:13px;color:var(--muted);text-align:center;padding:50px 0;';
+  document.getElementById('report-output-sub').textContent = '아래 버튼으로 생성해주세요';
+}
+async function genClassReport() {
+  const rc = document.getElementById('report-content');
+  document.getElementById('report-output-sub').textContent = '학급 전체 리포트 생성 중...';
+  rc.innerHTML = '<div style="display:flex;align-items:center;gap:8px;justify-content:center;padding:50px 0;color:var(--muted)"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div><span>학급 분석 중...</span></div>';
+  try {
+    const txt = await callAI(
+      `MindCompass 학급 리포트. 구성: 1)학급 개요 2)집단 취약점 분석 3)권장 수업 프로그램 4)개입 우선순위. 한국어, 교사용, 실용적.`,
+      [{role:'user', content:'학급: 9명. 평균 동시처리54% 계획력54% 주의력73% 순차처리50%. 관리필요 6명(67%). 위험: 박민아(4축), 박하빈(순차처리0%).'}]
+    );
+    document.getElementById('report-output-sub').textContent = '학급 전체 리포트 완성';
+    rc.innerHTML = `<div class="report-text">${txt}</div>
+      <div class="btn-row" style="margin-top:16px;">
+        <button class="btn btn-p" onclick="window.print()">🖨️ 인쇄</button>
+        <button class="btn btn-g" onclick="resetReport()">초기화</button>
+      </div>`;
+  } catch(e) {
+    rc.innerHTML = '<div style="color:var(--r500);font-size:13px;padding:20px;">오류 발생. 다시 시도해주세요.</div>';
+  }
+}
+function genStudentReportFromModal(name) {
+  closeOverlay('detail-overlay');
+  showPage('reports');
+  document.getElementById('report-student').value = name;
+  setTimeout(genReport, 200);
+}
+
+/* ═══════════════════════════════
+   OVERLAY HELPERS
+═══════════════════════════════ */
+function closeOverlay(id, e) {
+  if (e && e.target !== document.getElementById(id)) return;
+  document.getElementById(id).classList.remove('open');
+}
+
+/* ═══════════════════════════════
+   CHAT HELPERS
+═══════════════════════════════ */
+function addChatMsg(container, role, html) {
+  const d = document.createElement('div');
+  d.className = 'cmsg ' + role;
+  d.innerHTML = `<div class="cm-av ${role}">${role === 'ai' ? '🧭' : '👩‍🏫'}</div><div class="cm-bbl">${html}</div>`;
+  container.appendChild(d);
+  container.scrollTop = container.scrollHeight;
+  return d;
+}
+function addLoader(container) {
+  const d = document.createElement('div');
+  d.className = 'cmsg ai';
+  d.innerHTML = '<div class="cm-av ai">🧭</div><div class="cm-bbl"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+  container.appendChild(d);
+  container.scrollTop = container.scrollHeight;
+  return d;
+}
+
+/* ═══════════════════════════════
+   API HELPER
+═══════════════════════════════ */
+async function callAI(system, messages) {
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-20250514',
+      max_tokens:1000,
+      system,
+      messages
+    })
+  });
+  const data = await res.json();
+  if (data.error) throw new Error(data.error.message);
+  return data.content.find(b => b.type === 'text')?.text || '응답을 받지 못했습니다.';
+}
+
+/* ═══════════════════════════════
+   INIT
+═══════════════════════════════ */
+document.addEventListener('DOMContentLoaded', () => {
+  // 필터 탭 초기 상태 (overview에서는 숨김)
+  document.getElementById('filter-tabs').style.display = 'none';
+  // 초기 차트 렌더
+  requestAnimationFrame(() => buildCharts('overview'));
+  // 학생 테이블 미리 렌더 (숨겨진 상태라도)
+  renderStudentTable('전체');
+});
+</script>
+</body>
+</html>
