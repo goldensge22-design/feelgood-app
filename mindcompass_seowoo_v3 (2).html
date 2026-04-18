@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>MindCompass · 송서우</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #f7f5fb;
+  --surface: #ffffff;
+  --border: #ede8f5;
+  --border2: #d8d0ea;
+  --text: #18152a;
+  --sub: #6e6585;
+  --hint: #b0a8c8;
+  --accent: #6c3de0;
+  --accent-b: #ede8fd;
+  --accent-t: #4a28b0;
+  --gold: #b07800;
+  --gold-b: #fdf6dc;
+  --teal: #0e7c7b;
+  --teal-b: #e0f5f5;
+  --rose: #c23060;
+  --rose-b: #fde8f0;
+  --green: #1a7838;
+  --green-b: #e2f5e8;
+  --warn: #c25000;
+  --warn-b: #fdf0e0;
+  --r: 16px;
+  --rs: 10px;
+  --shadow: 0 2px 12px rgba(108,61,224,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);overscroll-behavior:none}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
+
+/* ── Layout ── */
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;background:var(--bg)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding-bottom:88px}
+.screen{display:none}
+.screen.active{display:block;animation:rise .22s ease}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:none}}
+
+/* ── Topbar ── */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:11px 16px 9px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.tb-left{display:flex;align-items:center;gap:10px}
+.tb-avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#6c3de0,#c23060);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.tb-name{font-family:'Gmarket Sans',sans-serif;font-size:15px;font-weight:700;letter-spacing:-.3px}
+.tb-type{font-size:10px;color:var(--sub);margin-top:1px}
+.tb-xp{text-align:right}
+.tb-lv{font-family:'Gmarket Sans',sans-serif;font-size:13px;font-weight:700;color:var(--accent)}
+.tb-xpbar{width:80px;height:5px;background:var(--border);border-radius:3px;margin-top:3px;overflow:hidden}
+.tb-xpfill{height:100%;background:linear-gradient(90deg,var(--accent),#c23060);border-radius:3px;transition:.4s}
+
+/* ── Nav ── */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 4px 6px;border:none;background:none;cursor:pointer;color:var(--hint);font-size:9.5px;font-family:'Noto Sans KR',sans-serif;gap:3px;transition:.15s;position:relative}
+.nb .ico{font-size:20px;transition:.15s}
+.nb.active{color:var(--accent)}
+.nb.active .ico{transform:scale(1.1)}
+.nb .badge{position:absolute;top:5px;right:calc(50% - 16px);background:var(--rose);color:#fff;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px;min-width:16px;text-align:center}
+
+/* ── Cards & Sections ── */
+.pad{padding:14px 16px}
+.sec-label{font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
+.card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:11px;color:var(--sub)}
+
+/* ── Wisdom Quote ── */
+.wisdom-card{background:linear-gradient(135deg,#1e1040 0%,#3a1a70 60%,#6c2080 100%);border-radius:var(--r);padding:18px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+.wisdom-card::before{content:'';position:absolute;top:-20px;right:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.05)}
+.wisdom-quote{font-size:14px;font-weight:500;color:#f0ebff;line-height:1.7;margin-bottom:8px}
+.wisdom-source{font-size:11px;color:rgba(255,255,255,.55);display:flex;align-items:center;gap:6px}
+.wisdom-tag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+/* ── Emotion Check ── */
+.emotion-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:14px;box-shadow:var(--shadow)}
+.emotion-title{font-size:13px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.emotion-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.emo-btn{border:2px solid var(--border);background:none;border-radius:12px;padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s;font-family:'Noto Sans KR',sans-serif}
+.emo-btn .e-ico{font-size:22px}
+.emo-btn .e-lbl{font-size:10px;color:var(--sub);font-weight:500}
+.emo-btn.selected{border-color:var(--accent);background:var(--accent-b)}
+.emo-btn.selected .e-lbl{color:var(--accent);font-weight:700}
+.emo-feedback{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--accent-b);font-size:12px;color:var(--accent-t);line-height:1.55;display:none}
+.emo-feedback.show{display:block}
+
+/* ── Today missions ── */
+.mission-list{display:flex;flex-direction:column;gap:9px}
+.mission-item{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:12px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;transition:.15s;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.mission-item:active{transform:scale(.98)}
+.mission-item.done{opacity:.6}
+.mi-ico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mi-body{flex:1;min-width:0}
+.mi-title{font-size:13px;font-weight:700;margin-bottom:2px}
+.mi-wisdom{font-size:11px;color:var(--gold);font-style:italic;margin-bottom:4px;line-height:1.5}
+.mi-meta{font-size:10px;color:var(--sub);display:flex;align-items:center;gap:6px}
+.mi-xp{font-size:11px;font-weight:700;color:var(--accent);white-space:nowrap}
+.mi-check{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.mi-check.done{background:var(--green);border-color:var(--green);color:#fff}
+
+/* ── PASS Bars ── */
+.pass-bars{display:flex;flex-direction:column;gap:10px}
+.pass-row{display:flex;align-items:center;gap:10px}
+.pass-label{font-size:11px;font-weight:700;width:54px;flex-shrink:0}
+.pass-track{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.pass-fill{height:100%;border-radius:4px;transition:.6s}
+.pass-val{font-size:11px;font-weight:700;width:28px;text-align:right;flex-shrink:0}
+.pass-badge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;flex-shrink:0}
+
+/* ── Dilemma Tab ── */
+.dilemma-hero{background:linear-gradient(135deg,#0f0a2e,#1e1040,#2a0a50);border-radius:var(--r);padding:20px 16px;margin-bottom:14px;position:relative;overflow:hidden}
+.dilemma-hero::after{content:'⚔️';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:60px;opacity:.15}
+.dh-label{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.5);margin-bottom:6px}
+.dh-title{font-size:18px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px}
+.dh-desc{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:14px}
+.dh-tags{display:flex;gap:6px;flex-wrap:wrap}
+.dh-tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+.q-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.q-stem{font-size:14px;font-weight:700;line-height:1.5;margin-bottom:6px}
+.q-context{font-size:12px;color:var(--sub);line-height:1.55;margin-bottom:14px}
+.q-choices{display:flex;flex-direction:column;gap:8px}
+.q-choice{border:2px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:.15s;background:none;width:100%;text-align:left;font-family:'Noto Sans KR',sans-serif}
+.q-choice:active{transform:scale(.99)}
+.q-choice.selected{border-color:var(--accent);background:var(--accent-b)}
+.q-choice-label{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.q-choice-text{font-size:12px;color:var(--sub);line-height:1.5}
+.q-choice.selected .q-choice-text{color:var(--accent-t)}
+
+.reflection-box{background:var(--accent-b);border-radius:12px;padding:14px;margin-top:10px;display:none}
+.reflection-box.show{display:block}
+.rb-title{font-size:12px;font-weight:700;color:var(--accent-t);margin-bottom:8px}
+.rb-body{font-size:12px;color:var(--accent-t);line-height:1.65}
+.rb-wisdom{margin-top:10px;padding:10px;background:#fff;border-radius:10px;border-left:3px solid var(--gold)}
+.rb-wisdom-q{font-size:12px;color:var(--gold);font-style:italic;line-height:1.6}
+.rb-wisdom-src{font-size:10px;color:var(--sub);margin-top:4px}
+
+.meta-box{background:var(--gold-b);border:1px solid #e8d080;border-radius:12px;padding:12px 14px;margin-top:8px}
+.mb-title{font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px}
+.mb-input{width:100%;border:none;background:none;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:56px;line-height:1.55}
+.mb-input::placeholder{color:var(--hint)}
+
+.dl-tab-bar{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.dl-tab{border:2px solid var(--border);border-radius:10px;padding:7px 14px;background:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:600;color:var(--sub);white-space:nowrap;transition:.15s}
+.dl-tab.active{border-color:var(--accent);background:var(--accent-b);color:var(--accent)}
+
+/* ── Growth Tab ── */
+.growth-hero{background:linear-gradient(135deg,#0e3d1a,#1a7838,#0a5c2e);border-radius:var(--r);padding:18px 16px;margin-bottom:14px}
+.gh-title{font-family:'Gmarket Sans',sans-serif;font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.gh-sub{font-size:11px;color:rgba(255,255,255,.65)}
+
+.growth-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.gstat{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px;text-align:center;box-shadow:var(--shadow)}
+.gstat-val{font-family:'Gmarket Sans',sans-serif;font-size:22px;font-weight:700;color:var(--accent);margin-bottom:3px}
+.gstat-lbl{font-size:11px;color:var(--sub)}
+
+.mini-chart{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.mc-title{font-size:12px;font-weight:700;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.chart-bars{display:flex;align-items:flex-end;gap:5px;height:80px}
+.bar-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bar-fill{width:100%;border-radius:4px 4px 0 0;transition:.5s;min-height:4px}
+.bar-lbl{font-size:9px;color:var(--sub);text-align:center}
+.bar-val{font-size:9px;font-weight:700;color:var(--accent)}
+
+.emotion-trend{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.et-title{font-size:12px;font-weight:700;margin-bottom:12px}
+.et-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.et-day{font-size:10px;color:var(--sub);width:20px;text-align:center;flex-shrink:0}
+.et-bar{flex:1;height:10px;border-radius:5px;overflow:hidden;background:var(--border)}
+.et-fill{height:100%;border-radius:5px;transition:.4s}
+.et-emo{font-size:12px;flex-shrink:0}
+
+.wisdom-count{background:linear-gradient(135deg,var(--gold-b),#fff8e0);border-radius:14px;border:1px solid #e8d080;padding:14px;margin-bottom:12px}
+.wc-title{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px}
+.wc-tags{display:flex;flex-wrap:wrap;gap:6px}
+.wc-tag{font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid #e8d080;color:var(--gold)}
+
+/* ── Mindfulness Tab ── */
+.breath-ring{width:140px;height:140px;border-radius:50%;border:3px solid var(--border);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;position:relative;cursor:pointer;transition:all .3s}
+.breath-ring.breathing{border-color:var(--teal);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1);box-shadow:0 0 0 0 rgba(14,124,123,.2)}50%{transform:scale(1.08);box-shadow:0 0 0 20px rgba(14,124,123,.0)}}
+.br-inner{text-align:center}
+.br-time{font-family:'Gmarket Sans',sans-serif;font-size:28px;font-weight:700;color:var(--teal)}
+.br-phase{font-size:11px;color:var(--sub);margin-top:4px}
+.br-wisdom{background:var(--teal-b);border-radius:12px;padding:12px;margin-top:14px;border-left:3px solid var(--teal)}
+.brw-q{font-size:12px;color:var(--teal);font-style:italic;line-height:1.6}
+.brw-src{font-size:10px;color:var(--sub);margin-top:5px}
+
+/* ── Philosophy Prescriptions ── */
+.phil-card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:.15s}
+.phil-card:active{transform:scale(.98)}
+.phil-header{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.phil-ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.phil-axis{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:auto}
+.phil-title{font-size:13px;font-weight:700}
+.phil-wisdom{font-size:12px;color:var(--gold);font-style:italic;line-height:1.55;margin-bottom:8px;padding:8px 10px;background:var(--gold-b);border-radius:8px}
+.phil-task{font-size:12px;color:var(--sub);line-height:1.55}
+.phil-xp{font-size:11px;font-weight:700;color:var(--accent);margin-top:8px}
+
+/* ── Buttons ── */
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;text-align:center}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#9c2de0);color:#fff}
+.btn-secondary{background:var(--accent-b);color:var(--accent)}
+.btn:active{transform:scale(.97)}
+
+/* ── XP Toast ── */
+.xp-toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:linear-gradient(135deg,var(--accent),#9c2de0);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+.xp-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* ── Chips ── */
+.chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px}
+.chip-accent{background:var(--accent-b);color:var(--accent)}
+.chip-gold{background:var(--gold-b);color:var(--gold)}
+.chip-teal{background:var(--teal-b);color:var(--teal)}
+.chip-rose{background:var(--rose-b);color:var(--rose)}
+.chip-green{background:var(--green-b);color:var(--green)}
+.chip-warn{background:var(--warn-b);color:var(--warn)}
+
+/* ── Modal ── */
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:430px;padding:20px 20px calc(20px + env(safe-area-inset-bottom));max-height:85vh;overflow-y:auto;animation:slideUp .25s ease}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:none}}
+.modal-handle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 16px}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:14px}
+.modal-close{position:absolute;top:16px;right:16px;font-size:22px;cursor:pointer;color:var(--sub);background:none;border:none}
+
+/* ── Streak ── */
+.streak-row{display:flex;gap:6px;justify-content:center;margin:12px 0}
+.streak-day{width:34px;height:34px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:9px;gap:1px}
+.streak-day .sd-label{font-weight:700;font-size:9px}
+.streak-day .sd-dot{width:6px;height:6px;border-radius:50%}
+.streak-day.done{background:var(--accent-b)}
+.streak-day.done .sd-label{color:var(--accent)}
+.streak-day.done .sd-dot{background:var(--accent)}
+.streak-day.today{background:var(--accent);box-shadow:0 2px 8px rgba(108,61,224,.4)}
+.streak-day.today .sd-label{color:#fff}
+.streak-day.today .sd-dot{background:rgba(255,255,255,.6)}
+.streak-day.empty{background:var(--border)}
+.streak-day.empty .sd-label{color:var(--hint)}
+.streak-day.empty .sd-dot{background:var(--hint)}
+
+/* ── Diary ── */
+.diary-prompt{background:var(--gold-b);border-radius:12px;padding:12px;margin-bottom:12px;border-left:3px solid var(--gold)}
+.dp-q{font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.dp-hint{font-size:11px;color:var(--sub);line-height:1.5}
+.diary-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:90px;line-height:1.6;background:var(--surface)}
+.diary-input:focus{border-color:var(--accent)}
+
+/* ── Badge grid ── */
+.badge-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.badge-item{display:flex;flex-direction:column;align-items:center;gap:5px}
+.badge-ico{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.badge-ico.locked{background:var(--border);filter:grayscale(1);opacity:.5}
+.badge-ico.unlocked{background:var(--gold-b);box-shadow:0 2px 8px rgba(176,120,0,.25)}
+.badge-name{font-size:10px;font-weight:600;color:var(--sub);text-align:center}
+
+.divider{height:1px;background:var(--border);margin:14px 0}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="tb-left">
+    <div class="tb-avatar">🌟</div>
+    <div>
+      <div class="tb-name">송서우</div>
+      <div class="tb-type">우뇌우세형 · 만 9세 · 3학년</div>
+    </div>
+  </div>
+  <div class="tb-xp">
+    <div class="tb-lv" id="lv-display">Lv.4</div>
+    <div class="tb-xpbar"><div class="tb-xpfill" id="xp-fill" style="width:60%"></div></div>
+    <div style="font-size:10px;color:var(--sub);margin-top:2px" id="xp-display">180 / 300 XP</div>
+  </div>
+</div>
+
+<!-- SCREENS -->
+<div class="scroll">
+
+<!-- ═══════════════════════════════════════
+  홈 화면 (보강2: 감정 체크인 + 오늘의 지혜 카드)
+════════════════════════════════════════ -->
+<div class="screen active" id="sc-home">
+<div class="pad">
+
+  <!-- 오늘의 지혜 카드 (보강2) -->
+  <div class="wisdom-card" id="today-wisdom">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.8px;color:rgba(255,255,255,.5);margin-bottom:6px">💎 오늘의 지혜</div>
+    <div class="wisdom-quote" id="wisdom-quote-text">"계획하는 데 실패하는 것은 실패를 계획하는 것이다."</div>
+    <div class="wisdom-source">
+      <span class="wisdom-tag" id="wisdom-tag-axis">계획력 PS↑</span>
+      <span class="wisdom-tag" id="wisdom-tag-phil">벤자민 프랭클린</span>
+      <span style="color:rgba(255,255,255,.4);margin-left:auto;font-size:10px" id="wisdom-date"></span>
+    </div>
+  </div>
+
+  <!-- 감정 체크인 (보강2) -->
+  <div class="emotion-card">
+    <div class="emotion-title">💭 지금 기분이 어때요, 서우야?</div>
+    <div class="emotion-grid">
+      <button class="emo-btn" onclick="selectEmo(this,'😊','좋아요','calm')">
+        <span class="e-ico">😊</span><span class="e-lbl">좋아요</span>
+      </button>
+      <button class="emo-btn" onclick="selectEmo(this,'😐','보통','neutral')">
+        <span class="e-ico">😐</span><span class="e-lbl">보통</span>
+      </button>
+      <button class="emo-btn" onclick="selectEmo(this,'😔','힘들어요','sad')">
+        <span class="e-ico">😔</span><span class="e-lbl">힘들어요</span>
+      </button>
+      <button class="emo-btn" onclick="selectEmo(this,'😤','화나요','angry')">
+        <span class="e-ico">😤</span><span class="e-lbl">화나요</span>
+      </button>
+      <button class="emo-btn" onclick="selectEmo(this,'😟','불안해요','anxious')">
+        <span class="e-ico">😟</span><span class="e-lbl">불안해요</span>
+      </button>
+      <button class="emo-btn" onclick="selectEmo(this,'😴','피곤해요','tired')">
+        <span class="e-ico">😴</span><span class="e-lbl">피곤해요</span>
+      </button>
+    </div>
+    <div class="emo-feedback" id="emo-feedback"></div>
+  </div>
+
+  <!-- K-PASS 요약 -->
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:700">⚡ 나의 K-PASS 프로필</div>
+      <span class="chip chip-accent">우뇌우세형</span>
+    </div>
+    <div class="pass-bars">
+      <div class="pass-row">
+        <span class="pass-label" style="color:#9c2de0">계획력</span>
+        <div class="pass-track"><div class="pass-fill" style="width:99.9%;background:linear-gradient(90deg,#6c3de0,#9c2de0)"></div></div>
+        <span class="pass-val" style="color:#6c3de0">145</span>
+        <span class="pass-badge chip chip-accent">PS↑</span>
+      </div>
+      <div class="pass-row">
+        <span class="pass-label" style="color:#0e7c7b">주의력</span>
+        <div class="pass-track"><div class="pass-fill" style="width:98%;background:linear-gradient(90deg,#0e7c7b,#16a4a3)"></div></div>
+        <span class="pass-val" style="color:#0e7c7b">131</span>
+        <span class="pass-badge chip chip-teal">PS↑</span>
+      </div>
+      <div class="pass-row">
+        <span class="pass-label" style="color:#c23060">동시처리</span>
+        <div class="pass-track"><div class="pass-fill" style="width:79%;background:linear-gradient(90deg,#c23060,#e0507a)"></div></div>
+        <span class="pass-val" style="color:#c23060">117</span>
+        <span class="pass-badge chip chip-rose">규준 강</span>
+      </div>
+      <div class="pass-row">
+        <span class="pass-label" style="color:#b07800">순차처리</span>
+        <div class="pass-track"><div class="pass-fill" style="width:37%;background:linear-gradient(90deg,#b07800,#d4a020)"></div></div>
+        <span class="pass-val" style="color:#b07800">95</span>
+        <span class="pass-badge chip chip-warn">PW↓</span>
+      </div>
+    </div>
+    <div style="margin-top:10px;padding:8px 10px;background:var(--warn-b);border-radius:8px;font-size:11px;color:var(--warn);line-height:1.5">
+      💡 <b>순차처리(95, PW)</b>가 개인 내적 약점이에요. 계획력(145)으로 순서를 먼저 설계하는 방식으로 보완해요!
+    </div>
+  </div>
+
+  <!-- 오늘의 훈련 미션 (보강1: 각 미션에 한 줄 지혜 삽입) -->
+  <div class="sec-label">🌟 오늘의 훈련 미션</div>
+  <div id="today-date-display" style="font-size:11px;color:var(--sub);margin-bottom:10px"></div>
+  <div class="mission-list" id="today-missions"></div>
+
+  <!-- 연속 훈련 -->
+  <div class="card" style="margin-top:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div class="card-title">🔥 연속 훈련</div>
+      <span class="chip chip-rose">4일째 🔥</span>
+    </div>
+    <div class="streak-row">
+      <div class="streak-day done"><span class="sd-label">월</span><span class="sd-dot"></span></div>
+      <div class="streak-day done"><span class="sd-label">화</span><span class="sd-dot"></span></div>
+      <div class="streak-day done"><span class="sd-label">수</span><span class="sd-dot"></span></div>
+      <div class="streak-day today"><span class="sd-label">목</span><span class="sd-dot"></span></div>
+      <div class="streak-day empty"><span class="sd-label">금</span><span class="sd-dot"></span></div>
+      <div class="streak-day empty"><span class="sd-label">토</span><span class="sd-dot"></span></div>
+      <div class="streak-day empty"><span class="sd-label">일</span><span class="sd-dot"></span></div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /home -->
+
+<!-- ═══════════════════════════════════════
+  철학 처방 화면 (보강1: 한 줄 지혜 삽입된 퀘스트)
+════════════════════════════════════════ -->
+<div class="screen" id="sc-philosophy">
+<div class="pad">
+  <div class="sec-label">🏛️ 철학·종교 처방</div>
+  <div style="font-size:12px;color:var(--sub);margin-bottom:14px">K-PASS 축별 맞춤 철학 처방 — 송서우 전용 커리큘럼</div>
+
+  <!-- 계획력 처방 -->
+  <div class="phil-card" onclick="openPhilModal('planning')">
+    <div class="phil-header">
+      <div class="phil-ico" style="background:var(--accent-b)">🏛️</div>
+      <div style="flex:1">
+        <div class="phil-title">스토아 · 통제의 이분법</div>
+        <div style="font-size:10px;color:var(--sub);margin-top:2px">에픽테토스 / 마르쿠스 아우렐리우스</div>
+      </div>
+      <span class="phil-axis chip chip-accent">계획력 PS↑</span>
+    </div>
+    <div class="phil-wisdom">💎 "통제할 수 없는 것은 내려놓고, 통제할 수 있는 것에 집중하라."</div>
+    <div class="phil-task">계획력이 뛰어난 서우의 강점을 더 깊이 활용해요. 목표 설정 → 실행 계획 → 결과 성찰 3단계 퀘스트예요.</div>
+    <div class="phil-xp">+40 XP · 선택형 퀘스트 →</div>
+  </div>
+
+  <!-- 주의력 처방 -->
+  <div class="phil-card" onclick="openPhilModal('attention')">
+    <div class="phil-header">
+      <div class="phil-ico" style="background:var(--teal-b)">☸️</div>
+      <div style="flex:1">
+        <div class="phil-title">불교 마음챙김 · 현재 집중</div>
+        <div style="font-size:10px;color:var(--sub);margin-top:2px">붓다 / 틱낫한</div>
+      </div>
+      <span class="phil-axis chip chip-teal">주의력 PS↑</span>
+    </div>
+    <div class="phil-wisdom">💎 "지금 이 순간이 유일한 순간이다. 과거도 미래도 아닌 지금 여기에 머물러라."</div>
+    <div class="phil-task">주의력(131) 강점을 마음챙김으로 더 깊이 훈련해요. 3분 호흡 관찰 + 감각 알아채기 퀘스트예요.</div>
+    <div class="phil-xp">+30 XP · 마음챙김 훈련 →</div>
+  </div>
+
+  <!-- 동시처리 처방 -->
+  <div class="phil-card" onclick="openPhilModal('simultaneous')">
+    <div class="phil-header">
+      <div class="phil-ico" style="background:var(--rose-b)">恕</div>
+      <div style="flex:1">
+        <div class="phil-title">유교 · 서(恕) 역지사지</div>
+        <div style="font-size:10px;color:var(--sub);margin-top:2px">공자 / 논어</div>
+      </div>
+      <span class="phil-axis chip chip-rose">동시처리 규준강</span>
+    </div>
+    <div class="phil-wisdom">💎 "자기가 원하지 않는 것을 남에게 하지 말라. (己所不欲 勿施於人)"</div>
+    <div class="phil-task">동시처리(117) 강점으로 공감과 맥락 파악을 심화해요. 역할 바꾸기 퀘스트와 연결돼요.</div>
+    <div class="phil-xp">+40 XP · 공감 퀘스트 →</div>
+  </div>
+
+  <!-- 순차처리 처방 (약점 보완) -->
+  <div class="phil-card" onclick="openPhilModal('successive')">
+    <div class="phil-header">
+      <div class="phil-ico" style="background:var(--gold-b)">μέση</div>
+      <div style="flex:1">
+        <div class="phil-title">아리스토텔레스 · 중용(中庸)</div>
+        <div style="font-size:10px;color:var(--sub);margin-top:2px">니코마코스 윤리학</div>
+      </div>
+      <span class="phil-axis chip chip-warn">순차처리 PW↓</span>
+    </div>
+    <div class="phil-wisdom">💎 "덕은 지식이 아니라 매일의 습관에서 온다. 오늘 하루의 루틴이 나를 만든다."</div>
+    <div class="phil-task">순차처리 약점을 보완해요. 단계별 순서를 먼저 설계하는 훈련 — 계획력(145)이 순차처리를 도와줘요!</div>
+    <div class="phil-xp">+50 XP · 단계 설계 퀘스트 →</div>
+  </div>
+
+</div>
+</div><!-- /philosophy -->
+
+<!-- ═══════════════════════════════════════
+  소크라테스 딜레마 탭 (보강3: 완전 신규)
+════════════════════════════════════════ -->
+<div class="screen" id="sc-dilemma">
+<div class="pad">
+
+  <!-- 딜레마 헤더 -->
+  <div class="dilemma-hero">
+    <div class="dh-label">⚔️ 소크라테스 딜레마</div>
+    <div class="dh-title">오늘의 질문:<br>"내가 옳다고 생각한 일이<br>틀릴 수도 있을까?"</div>
+    <div class="dh-desc">두뇌유형별 맞춤 질문으로 더 깊게 생각해요.<br>정답이 없는 질문이에요 — 과정이 훈련이에요.</div>
+    <div class="dh-tags">
+      <span class="dh-tag">🧠 계획력 PS↑ 연계</span>
+      <span class="dh-tag">☸️ 불교·스토아 처방</span>
+      <span class="dh-tag">+60 XP</span>
+    </div>
+  </div>
+
+  <!-- 딜레마 탭 선택 -->
+  <div class="dl-tab-bar">
+    <button class="dl-tab active" onclick="selectDilTab(this,'dl-today')">📅 오늘의 딜레마</button>
+    <button class="dl-tab" onclick="selectDilTab(this,'dl-past')">📚 지난 딜레마</button>
+    <button class="dl-tab" onclick="selectDilTab(this,'dl-meta')">✍️ 내 생각 기록</button>
+  </div>
+
+  <!-- 오늘의 딜레마 -->
+  <div id="dl-today">
+    <div class="q-card">
+      <div style="font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.6px;margin-bottom:6px">📍 상황</div>
+      <div class="q-stem">친구가 힘든 시험을 앞두고 "정답을 알려달라"고 부탁했어. 나는 답을 알고 있어.</div>
+      <div class="q-context">계획력이 뛰어난 서우는 이런 상황에서 어떻게 결정할까요? 장기적으로 친구에게 가장 좋은 선택은 무엇일까요?</div>
+      <div class="q-choices">
+        <button class="q-choice" onclick="chooseDil(this,'A')">
+          <div class="q-choice-label">선택 A</div>
+          <div class="q-choice-text">정답을 알려준다 — 친구를 지금 당장 돕는 것이 우정이야.</div>
+        </button>
+        <button class="q-choice" onclick="chooseDil(this,'B')">
+          <div class="q-choice-label">선택 B</div>
+          <div class="q-choice-text">함께 문제를 풀어본다 — 진짜 도움은 스스로 이해하게 돕는 것이야.</div>
+        </button>
+        <button class="q-choice" onclick="chooseDil(this,'C')">
+          <div class="q-choice-label">선택 C</div>
+          <div class="q-choice-text">알려줄 수 없다고 한다 — 진짜 친구라면 이해해줄 거야.</div>
+        </button>
+      </div>
+
+      <div class="reflection-box" id="dil-reflection">
+        <div class="rb-title">🔍 다른 관점에서 생각해봐요</div>
+        <div class="rb-body" id="dil-reflection-body"></div>
+        <div class="rb-wisdom">
+          <div class="rb-wisdom-q" id="dil-wisdom-q"></div>
+          <div class="rb-wisdom-src" id="dil-wisdom-src"></div>
+        </div>
+      </div>
+
+      <div class="meta-box" style="margin-top:12px">
+        <div class="mb-title">✍️ 내 생각이 바뀐 이유 (메타인지 기록)</div>
+        <textarea class="mb-input" placeholder="처음에는 ___이라고 생각했는데, ___를 생각해보니 ___으로 바뀌었어요." rows="3"></textarea>
+      </div>
+
+      <button class="btn btn-primary" style="margin-top:12px" onclick="submitDilemma()">완료 — +60 XP 획득</button>
+    </div>
+
+    <!-- 두뇌유형별 심화 질문 -->
+    <div class="card">
+      <div class="card-title" style="margin-bottom:10px">🧠 우뇌우세형(서우) 맞춤 심화 질문</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--accent-b);border-radius:10px;font-size:12px;color:var(--accent-t);line-height:1.55">
+          💜 <b>동시처리 관점:</b> "만약 네가 친구 입장이라면, 어떤 도움을 원할 것 같아?"
+        </div>
+        <div style="padding:10px;background:var(--gold-b);border-radius:10px;font-size:12px;color:var(--gold);line-height:1.55">
+          🟡 <b>계획력 관점:</b> "3년 후, 이 선택이 우정에 어떤 영향을 줄 것 같아?"
+        </div>
+        <div style="padding:10px;background:var(--teal-b);border-radius:10px;font-size:12px;color:var(--teal);line-height:1.55">
+          🩵 <b>주의력 관점:</b> "지금 이 순간, 가장 중요한 가치는 무엇이라고 느껴지니?"
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 지난 딜레마 -->
+  <div id="dl-past" style="display:none">
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:700;flex:1">"거짓말이 모두를 구할 수 있다면?"</div>
+        <span class="chip chip-green" style="margin-left:8px;flex-shrink:0">완료</span>
+      </div>
+      <div style="font-size:11px;color:var(--sub);margin-bottom:8px">4월 15일 · +60 XP</div>
+      <div style="font-size:12px;color:var(--text);background:var(--gold-b);padding:8px 10px;border-radius:8px;line-height:1.55;border-left:3px solid var(--gold)">
+        <span style="font-style:italic;color:var(--gold)">"사실을 말하는 것이 덕의 시작이다"</span>
+        <span style="display:block;font-size:10px;color:var(--sub);margin-top:3px">— 아리스토텔레스 · 순차처리 PW↓ 연계</span>
+      </div>
+    </div>
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+        <div style="font-size:13px;font-weight:700;flex:1">"모두가 틀렸을 때 혼자 옳다면?"</div>
+        <span class="chip chip-green" style="margin-left:8px;flex-shrink:0">완료</span>
+      </div>
+      <div style="font-size:11px;color:var(--sub);margin-bottom:8px">4월 14일 · +60 XP</div>
+      <div style="font-size:12px;color:var(--text);background:var(--teal-b);padding:8px 10px;border-radius:8px;line-height:1.55;border-left:3px solid var(--teal)">
+        <span style="font-style:italic;color:var(--teal)">"지금 이 순간, 내가 볼 수 있는 것에 집중하라"</span>
+        <span style="display:block;font-size:10px;color:var(--sub);margin-top:3px">— 붓다 · 주의력 PS↑ 연계</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메타인지 기록 -->
+  <div id="dl-meta" style="display:none">
+    <div class="card" style="margin-bottom:12px">
+      <div class="card-title" style="margin-bottom:4px">✍️ 내 생각 변화 기록</div>
+      <div class="card-sub">딜레마를 통해 생각이 어떻게 바뀌었는지 기록해요</div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+        <div style="font-size:11px;color:var(--sub);margin-bottom:4px">4월 15일 · 거짓말 딜레마</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6">"처음엔 거짓말도 괜찮다고 했는데, 결국 진실이 더 강하다는 걸 느꼈어요."</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--gold);font-style:italic">"덕은 진실을 말하는 습관에서 온다"</div>
+      </div>
+      <div style="background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px;box-shadow:var(--shadow)">
+        <div style="font-size:11px;color:var(--sub);margin-bottom:4px">4월 14일 · 다수결 딜레마</div>
+        <div style="font-size:13px;color:var(--text);line-height:1.6">"모두가 틀릴 수도 있다는 게 신기했어요. 내 생각이 소중하다고 느꼈어요."</div>
+        <div style="margin-top:8px;font-size:11px;color:var(--teal);font-style:italic">"지금 이 순간 내가 옳다고 느끼는 것을 따르라"</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /dilemma -->
+
+<!-- ═══════════════════════════════════════
+  마음챙김 화면 (보강1: 지혜 카드 강화)
+════════════════════════════════════════ -->
+<div class="screen" id="sc-mindful">
+<div class="pad">
+  <div class="sec-label">🧘 마음챙김 호흡</div>
+  <div style="font-size:12px;color:var(--sub);margin-bottom:14px">불교 호흡 관찰 · 주의력(131) 강점 훈련</div>
+
+  <div class="card" style="text-align:center;padding:20px 14px">
+    <div class="breath-ring" id="breath-ring" onclick="toggleBreath()">
+      <div class="br-inner">
+        <div class="br-time" id="breath-time">3:00</div>
+        <div class="br-phase" id="breath-phase">탭하여 시작</div>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--sub);line-height:1.6">코로 천천히 들이마시고, 입으로 내쉬세요.<br>생각이 떠올라도 판단 없이 호흡으로 돌아오세요.</div>
+    <button class="btn btn-secondary" style="margin-top:14px;width:auto;padding:10px 28px;display:inline-block" onclick="toggleBreath()" id="breath-btn">시작하기</button>
+  </div>
+
+  <!-- 오늘의 지혜 연계 (보강1) -->
+  <div class="br-wisdom" style="margin-bottom:12px">
+    <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:5px">☸️ 오늘의 마음챙김 지혜</div>
+    <div class="brw-q">"지금 이 순간에 머물러라. 과거는 지나갔고, 미래는 아직 오지 않았다."</div>
+    <div class="brw-src">— 붓다 · 주의력(A) 131 PS↑ 처방</div>
+  </div>
+
+  <div class="card">
+    <div class="card-title" style="margin-bottom:8px">🌿 서우를 위한 마음챙김 루틴</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--teal-b)">
+        <span style="font-size:18px">🌬️</span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:700;color:var(--teal)">4-7-8 호흡법</div>
+          <div style="font-size:11px;color:var(--sub)">4초 들이마시기 → 7초 멈춤 → 8초 내쉬기</div>
+        </div>
+        <span class="chip chip-teal">+10 XP</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--gold-b)">
+        <span style="font-size:18px">👁️</span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:700;color:var(--gold)">5감 알아채기</div>
+          <div style="font-size:11px;color:var(--sub)">지금 보이는 것 5가지, 들리는 것 4가지 말해봐요</div>
+        </div>
+        <span class="chip chip-gold">+15 XP</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--accent-b)">
+        <span style="font-size:18px">📝</span>
+        <div style="flex:1">
+          <div style="font-size:12px;font-weight:700;color:var(--accent)">계획 마인드맵</div>
+          <div style="font-size:11px;color:var(--sub)">오늘 할 일을 중심에서 가지 뻗듯 그려봐요</div>
+        </div>
+        <span class="chip chip-accent">+20 XP</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div><!-- /mindful -->
+
+<!-- ═══════════════════════════════════════
+  성장 기록 탭 (보강4: 인지+정서 통합 그래프)
+════════════════════════════════════════ -->
+<div class="screen" id="sc-growth">
+<div class="pad">
+
+  <div class="growth-hero">
+    <div class="gh-title">📈 인지·정서 통합 성장 대시보드</div>
+    <div class="gh-sub">K-PASS 훈련 성취 + 감정 안정도 + 지혜 카드 열람 수</div>
+  </div>
+
+  <!-- 핵심 지표 (보강4) -->
+  <div class="growth-grid">
+    <div class="gstat">
+      <div class="gstat-val" style="color:var(--accent)">18</div>
+      <div class="gstat-lbl">완료 미션</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-val" style="color:var(--teal)">4일</div>
+      <div class="gstat-lbl">연속 훈련 🔥</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-val" style="color:var(--rose)">87%</div>
+      <div class="gstat-lbl">감정 안정도</div>
+    </div>
+    <div class="gstat">
+      <div class="gstat-val" style="color:var(--gold)">12</div>
+      <div class="gstat-lbl">지혜 카드 열람</div>
+    </div>
+  </div>
+
+  <!-- 훈련 완료 차트 -->
+  <div class="mini-chart">
+    <div class="mc-title">🧠 K-PASS 훈련 완료 (최근 7일)</div>
+    <div class="chart-bars" id="train-bars"></div>
+    <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--accent)"></div><span style="font-size:10px;color:var(--sub)">계획력</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--teal)"></div><span style="font-size:10px;color:var(--sub)">주의력</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--rose)"></div><span style="font-size:10px;color:var(--sub)">동시처리</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--gold)"></div><span style="font-size:10px;color:var(--sub)">순차처리</span></div>
+    </div>
+  </div>
+
+  <!-- 감정 안정도 추이 (보강4 핵심) -->
+  <div class="emotion-trend">
+    <div class="et-title">💜 감정 안정도 추이 (최근 7일)</div>
+    <div id="emotion-trend-rows"></div>
+    <div style="font-size:11px;color:var(--sub);margin-top:8px">😊 좋아요=100 · 😐 보통=60 · 😔 힘들어요=30</div>
+  </div>
+
+  <!-- 딜레마 참여 횟수 (보강4) -->
+  <div class="card" style="margin-bottom:12px">
+    <div class="card-title" style="margin-bottom:10px">⚔️ 딜레마 참여 기록</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="text-align:center;flex:1">
+        <div style="font-family:'Gmarket Sans',sans-serif;font-size:24px;font-weight:700;color:var(--accent)">5</div>
+        <div style="font-size:10px;color:var(--sub)">총 딜레마</div>
+      </div>
+      <div style="width:1px;height:40px;background:var(--border)"></div>
+      <div style="text-align:center;flex:1">
+        <div style="font-family:'Gmarket Sans',sans-serif;font-size:24px;font-weight:700;color:var(--gold)">4</div>
+        <div style="font-size:10px;color:var(--sub)">생각 변화 기록</div>
+      </div>
+      <div style="width:1px;height:40px;background:var(--border)"></div>
+      <div style="text-align:center;flex:1">
+        <div style="font-family:'Gmarket Sans',sans-serif;font-size:24px;font-weight:700;color:var(--rose)">3</div>
+        <div style="font-size:10px;color:var(--sub)">의견 바뀐 횟수</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 지혜 카드 열람 현황 (보강4) -->
+  <div class="wisdom-count">
+    <div class="wc-title">💎 열람한 지혜 카드</div>
+    <div class="wc-tags">
+      <span class="wc-tag">에픽테토스 ×3</span>
+      <span class="wc-tag">붓다 ×3</span>
+      <span class="wc-tag">공자 ×2</span>
+      <span class="wc-tag">아리스토텔레스 ×2</span>
+      <span class="wc-tag">마르쿠스 아우렐리우스 ×1</span>
+      <span class="wc-tag">벤자민 프랭클린 ×1</span>
+    </div>
+  </div>
+
+  <!-- 뱃지 -->
+  <div class="card">
+    <div class="card-title" style="margin-bottom:10px">🏆 획득 배지</div>
+    <div class="badge-grid">
+      <div class="badge-item">
+        <div class="badge-ico unlocked">🧘</div>
+        <div class="badge-name">마음챙김 3일</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-ico unlocked">🏛️</div>
+        <div class="badge-name">스토아 입문</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-ico unlocked">⚔️</div>
+        <div class="badge-name">딜레마 참여</div>
+      </div>
+      <div class="badge-item">
+        <div class="badge-ico locked">🔮</div>
+        <div class="badge-name">철학자 (잠금)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 성찰 일기 입력 -->
+  <div class="sec-label" style="margin-top:4px">✍️ 오늘의 성찰 일기</div>
+  <div class="diary-prompt">
+    <div class="dp-q">오늘 배운 지혜를 내일 어떻게 쓸까요?</div>
+    <div class="dp-hint">"계획력이 뛰어난 서우는 배운 것을 실제로 어떻게 적용할지 계획해봐요!"</div>
+  </div>
+  <textarea class="diary-input" id="diary-text" rows="4" placeholder="오늘 훈련하며 느낀 점, 지혜 카드에서 인상 깊었던 말, 내일 실천할 한 가지..."></textarea>
+  <button class="btn btn-primary" style="margin-top:10px" onclick="saveDiary()">저장하기 ✓ +20 XP</button>
+
+</div>
+</div><!-- /growth -->
+
+</div><!-- /scroll -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb active" onclick="nav('home',this)" id="nb-home">
+    <span class="ico">🏠</span><span>홈</span>
+  </button>
+  <button class="nb" onclick="nav('philosophy',this)" id="nb-philosophy">
+    <span class="ico">🏛️</span><span>철학처방</span>
+  </button>
+  <button class="nb" onclick="nav('dilemma',this)" id="nb-dilemma">
+    <span class="ico">⚔️</span><span>딜레마</span>
+    <span class="badge" id="dil-badge">1</span>
+  </button>
+  <button class="nb" onclick="nav('mindful',this)" id="nb-mindful">
+    <span class="ico">🧘</span><span>마음챙김</span>
+  </button>
+  <button class="nb" onclick="nav('growth',this)" id="nb-growth">
+    <span class="ico">📈</span><span>성장기록</span>
+  </button>
+</nav>
+
+</div><!-- /app -->
+
+<!-- XP Toast -->
+<div class="xp-toast" id="xp-toast">+30 XP 획득!</div>
+
+<!-- Phil Modal -->
+<div class="modal-bg" id="phil-modal" onclick="closePhilModal(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div id="phil-modal-content"></div>
+  </div>
+</div>
+
+<script>
+// ── 상태 ──
+const S = {
+  xp: 180,
+  maxXp: 300,
+  lv: 4,
+  completions: {},
+  emo: null,
+  breathActive: false,
+  breathSec: 180,
+  breathTimer: null,
+  dilChoice: null,
+  dilDone: false
+};
+
+// ── 오늘 날짜 & 요일 ──
+const DAYS = ['일','월','화','수','목','금','토'];
+const today = new Date();
+const dow = today.getDay(); // 0=일
+
+document.getElementById('wisdom-date').textContent =
+  `${today.getMonth()+1}/${today.getDate()} (${DAYS[dow]})`;
+document.getElementById('today-date-display').textContent =
+  `송서우 · ${today.getFullYear()}.${today.getMonth()+1}.${today.getDate()} (${DAYS[dow]})`;
+
+// ── 오늘의 지혜 카드 (보강2: 요일 기반 자동 순환) ──
+const WISDOMS = [
+  { q:'"계획하는 데 실패하는 것은 실패를 계획하는 것이다."', src:'벤자민 프랭클린', axis:'계획력 PS↑' },
+  { q:'"지금 이 순간이 유일한 순간이다. 여기에 완전히 머물러라."', src:'틱낫한 스님', axis:'주의력 PS↑' },
+  { q:'"자기가 원하지 않는 것을 남에게 하지 말라."', src:'공자 · 논어', axis:'동시처리 규준강' },
+  { q:'"덕은 지식이 아니라 매일의 습관에서 온다."', src:'아리스토텔레스', axis:'순차처리 PW↓ 처방' },
+  { q:'"통제할 수 없는 것에 에너지를 낭비하지 말라."', src:'에픽테토스', axis:'계획력 PS↑' },
+  { q:'"현재 이 순간에 머무는 것이 자유의 시작이다."', src:'붓다', axis:'주의력 PS↑' },
+  { q:'"내가 아는 한 가지는, 내가 아무것도 모른다는 것이다."', src:'소크라테스', axis:'메타인지 훈련' }
+];
+const todayWisdom = WISDOMS[dow % WISDOMS.length];
+document.getElementById('wisdom-quote-text').textContent = todayWisdom.q;
+document.getElementById('wisdom-tag-axis').textContent = todayWisdom.axis;
+document.getElementById('wisdom-tag-phil').textContent = todayWisdom.src;
+
+// ── 미션 데이터 (보강1: 한 줄 지혜 삽입) ──
+const SCHEDULE = {
+  // 월
+  1: [
+    { id:'m1', ico:'🏛️', color:'var(--accent-b)', title:'스토아 목표 설계', wisdom:'"계획하는 데 실패하는 것은 실패를 계획하는 것이다." — 벤자민 프랭클린', axis:'계획력 PS↑', xp:40 },
+    { id:'m2', ico:'🌬️', color:'var(--teal-b)', title:'마음챙김 호흡 3분', wisdom:'"지금 이 순간, 숨 하나에 집중하라." — 붓다', axis:'주의력 PS↑', xp:20 },
+    { id:'m3', ico:'📝', color:'var(--gold-b)', title:'순서 설계 카드 (순차처리 보완)', wisdom:'"덕은 매일의 루틴에서 온다." — 아리스토텔레스', axis:'순차처리 PW↓', xp:30 }
+  ],
+  // 화
+  2: [
+    { id:'m4', ico:'☸️', color:'var(--teal-b)', title:'불교 마음챙김 심화', wisdom:'"현재 이 순간에 머무는 것이 자유의 시작이다." — 붓다', axis:'주의력 PS↑', xp:30 },
+    { id:'m5', ico:'恕', color:'var(--rose-b)', title:'역지사지 퀘스트', wisdom:'"자기가 원하지 않는 것을 남에게 하지 말라." — 공자', axis:'동시처리 규준강', xp:40 },
+    { id:'m6', ico:'⚔️', color:'var(--accent-b)', title:'소크라테스 딜레마', wisdom:'"내가 아는 한 가지는, 내가 아무것도 모른다는 것이다." — 소크라테스', axis:'통합 훈련', xp:60 }
+  ],
+  // 수
+  3: [
+    { id:'m7', ico:'📋', color:'var(--gold-b)', title:'단계별 순서 훈련 (계획력 활용)', wisdom:'"큰 목표는 작은 단계의 연속이다." — 마르쿠스 아우렐리우스', axis:'순차처리 PW↓', xp:50 },
+    { id:'m8', ico:'🏛️', color:'var(--accent-b)', title:'스토아 통제 이분법', wisdom:'"통제할 수 없는 것은 내려놓고, 가능한 것에 집중하라." — 에픽테토스', axis:'계획력 PS↑', xp:40 }
+  ],
+  // 목
+  4: [
+    { id:'m9', ico:'🌐', color:'var(--rose-b)', title:'동시처리 심화 — 맥락 파악', wisdom:'"전체를 보는 눈이 지혜의 시작이다." — 공자', axis:'동시처리 규준강', xp:40 },
+    { id:'m10', ico:'⚔️', color:'var(--accent-b)', title:'딜레마 — 우뇌형 융합 질문', wisdom:'"질문하는 자만이 성장한다." — 소크라테스', axis:'통합 훈련', xp:60 },
+    { id:'m11', ico:'🧘', color:'var(--teal-b)', title:'5감 마음챙김', wisdom:'"이 순간 오감으로 세상을 만져라." — 틱낫한', axis:'주의력 PS↑', xp:20 }
+  ],
+  // 금
+  5: [
+    { id:'m12', ico:'🚀', color:'var(--accent-b)', title:'주간 계획 프로젝트', wisdom:'"목표가 명확한 자는 장애를 기회로 본다." — 벤자민 프랭클린', axis:'계획력 PS↑', xp:60 },
+    { id:'m13', ico:'💬', color:'var(--rose-b)', title:'짝 발표 — 이번 주 배운 지혜', wisdom:'"가르치는 것이 최고의 배움이다." — 공자', axis:'동시처리 규준강', xp:40 }
+  ],
+  // 토
+  6: [
+    { id:'m14', ico:'📖', color:'var(--gold-b)', title:'자유 성찰 일기', wisdom:'"하루를 돌아보는 것이 내일을 만든다." — 마르쿠스 아우렐리우스', axis:'메타인지', xp:30 }
+  ],
+  // 일
+  0: [
+    { id:'m15', ico:'🌿', color:'var(--teal-b)', title:'자연 마음챙김 산책', wisdom:'"자연 안에서 걷는 것이 최고의 명상이다." — 붓다', axis:'휴식·회복', xp:20 }
+  ]
+};
+
+function renderTodayMissions() {
+  const missions = SCHEDULE[dow] || SCHEDULE[1];
+  const container = document.getElementById('today-missions');
+  container.innerHTML = missions.map(m => `
+    <div class="mission-item ${S.completions[m.id] ? 'done' : ''}" id="mi-${m.id}" onclick="completeMission('${m.id}',${m.xp})">
+      <div class="mi-ico" style="background:${m.color}">${m.ico}</div>
+      <div class="mi-body">
+        <div class="mi-title">${m.title}</div>
+        <div class="mi-wisdom">${m.wisdom}</div>
+        <div class="mi-meta">
+          <span class="chip chip-accent" style="font-size:9px">${m.axis}</span>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+        <span class="mi-xp">+${m.xp} XP</span>
+        <div class="mi-check ${S.completions[m.id] ? 'done' : ''}" id="check-${m.id}">${S.completions[m.id] ? '✓' : ''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function completeMission(id, xp) {
+  if (S.completions[id]) return;
+  S.completions[id] = true;
+  S.xp = Math.min(S.xp + xp, S.maxXp);
+  updateXP();
+  renderTodayMissions();
+  showToast(`+${xp} XP 획득!`);
+}
+
+function updateXP() {
+  const pct = (S.xp / S.maxXp * 100).toFixed(0);
+  document.getElementById('xp-fill').style.width = pct + '%';
+  document.getElementById('xp-display').textContent = `${S.xp} / ${S.maxXp} XP`;
+}
+
+// ── 감정 체크인 (보강2) ──
+const EMO_FEEDBACK = {
+  calm: { txt:'좋은 하루네요! 😊 오늘 계획력(145) 심화 훈련을 해볼까요? 기분이 좋을 때 더 잘 성장해요.', wisdom:'"현재의 기쁨을 충분히 누려라. 지금 이 순간이 최선이다." — 마르쿠스 아우렐리우스' },
+  neutral: { txt:'괜찮아요 😐 가볍게 시작해봐요. 마음챙김 호흡 3분으로 몸과 마음을 깨워볼까요?', wisdom:'"보통의 날이 쌓여 특별한 나를 만든다." — 아리스토텔레스' },
+  sad: { txt:'힘든 날이구나 😔 그래도 여기 와줘서 고마워요! 마음챙김 호흡부터 가볍게 해볼게요.', wisdom:'"지금 이 순간, 있는 그대로의 나를 받아들여라." — 붓다' },
+  angry: { txt:'화가 많이 났군요 😤 스토아 철학이 도움이 될 거예요. "통제할 수 없는 것은 내려놓기" — 같이 해볼까요?', wisdom:'"당신을 화나게 하는 것은 사건이 아니라 그 판단이다." — 에픽테토스' },
+  anxious: { txt:'불안한 마음이구나 😟 괜찮아요. 마음챙김 호흡으로 지금 이 순간에 머물러봐요.', wisdom:'"불안은 내일을 걱정하는 것. 오늘 숨 한 번에 집중해봐." — 틱낫한' },
+  tired: { txt:'많이 피곤하겠다 😴 가볍게 휴식 미션만 해도 좋아요! 억지로 하지 않아도 돼요.', wisdom:'"쉬는 것도 훈련이다. 회복하는 자가 오래 간다." — 마르쿠스 아우렐리우스' }
+};
+
+function selectEmo(btn, ico, lbl, type) {
+  document.querySelectorAll('.emo-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  S.emo = type;
+  const fb = EMO_FEEDBACK[type];
+  const el = document.getElementById('emo-feedback');
+  el.innerHTML = `<div style="margin-bottom:6px;font-size:12px;color:var(--accent-t)">${fb.txt}</div><div style="font-size:11px;color:var(--gold);font-style:italic">${fb.wisdom}</div>`;
+  el.classList.add('show');
+}
+
+// ── 내비게이션 ──
+function nav(name, btn) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b => b.classList.remove('active'));
+  document.getElementById('sc-' + name).classList.add('active');
+  btn.classList.add('active');
+  if (name === 'growth') renderGrowthCharts();
+}
+
+// ── 딜레마 탭 전환 (보강3) ──
+function selectDilTab(btn, id) {
+  document.querySelectorAll('.dl-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['dl-today','dl-past','dl-meta'].forEach(t => {
+    const el = document.getElementById(t);
+    if (el) el.style.display = t === id ? 'block' : 'none';
+  });
+}
+
+// ── 딜레마 선택 (보강3) ──
+const DIL_REFLECTIONS = {
+  A: {
+    body: '친구를 도왔어요! 그런데 잠깐 — 스토아 철학자 에픽테토스는 이렇게 물었어요: "진짜 도움이란 지금 편하게 해주는 것일까, 아니면 스스로 성장하도록 돕는 것일까?"',
+    wisdom: '"친구의 약점을 대신 해결하는 것은 친구를 약하게 만든다."',
+    src: '— 에픽테토스 · 계획력 PS↑ 관점'
+  },
+  B: {
+    body: '훌륭해요! 🌟 공자의 역지사지(易地思之)처럼 친구 입장에서 생각했네요. 함께 풀어보는 것이 진정한 우정이자, 동시처리(공감) 강점을 활용한 선택이에요!',
+    wisdom: '"자기가 원하지 않는 것을 남에게 하지 말라. 진짜 도움은 함께 성장하는 것이다."',
+    src: '— 공자 · 논어 · 동시처리 규준강 연계'
+  },
+  C: {
+    body: '용기있는 선택이에요! 아리스토텔레스의 중용처럼, 때로는 "안 된다"고 말하는 것이 진짜 덕이에요. 단, 이유를 설명해주면 더 좋은 우정이 될 거예요.',
+    wisdom: '"덕은 지식이 아니라 용기있는 선택에서 온다."',
+    src: '— 아리스토텔레스 · 순차처리 PW↓ 보완 연계'
+  }
+};
+
+function chooseDil(btn, choice) {
+  if (S.dilDone) return;
+  document.querySelectorAll('.q-choice').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  S.dilChoice = choice;
+  const r = DIL_REFLECTIONS[choice];
+  document.getElementById('dil-reflection-body').textContent = r.body;
+  document.getElementById('dil-wisdom-q').textContent = r.wisdom;
+  document.getElementById('dil-wisdom-src').textContent = r.src;
+  document.getElementById('dil-reflection').classList.add('show');
+}
+
+function submitDilemma() {
+  if (!S.dilChoice) { alert('선택지를 고른 뒤 완료해요!'); return; }
+  if (S.dilDone) return;
+  S.dilDone = true;
+  S.xp = Math.min(S.xp + 60, S.maxXp);
+  updateXP();
+  showToast('+60 XP 획득! ⚔️ 딜레마 완료');
+  document.getElementById('dil-badge').style.display = 'none';
+}
+
+// ── 마음챙김 타이머 ──
+function toggleBreath() {
+  if (S.breathActive) {
+    clearInterval(S.breathTimer);
+    S.breathActive = false;
+    document.getElementById('breath-ring').classList.remove('breathing');
+    document.getElementById('breath-btn').textContent = '다시 시작';
+    document.getElementById('breath-phase').textContent = '탭하여 시작';
+  } else {
+    S.breathActive = true;
+    S.breathSec = 180;
+    document.getElementById('breath-ring').classList.add('breathing');
+    document.getElementById('breath-btn').textContent = '일시정지';
+    S.breathTimer = setInterval(() => {
+      S.breathSec--;
+      const m = Math.floor(S.breathSec / 60);
+      const s = S.breathSec % 60;
+      document.getElementById('breath-time').textContent = `${m}:${s.toString().padStart(2,'0')}`;
+      const phase = S.breathSec % 12 < 4 ? '들이마시기 ↑' : S.breathSec % 12 < 8 ? '멈추기 ·' : '내쉬기 ↓';
+      document.getElementById('breath-phase').textContent = phase;
+      if (S.breathSec <= 0) {
+        clearInterval(S.breathTimer);
+        S.breathActive = false;
+        document.getElementById('breath-ring').classList.remove('breathing');
+        document.getElementById('breath-btn').textContent = '완료! 다시하기';
+        document.getElementById('breath-phase').textContent = '완료 🌿';
+        S.xp = Math.min(S.xp + 20, S.maxXp);
+        updateXP();
+        showToast('+20 XP · 마음챙김 완료!');
+      }
+    }, 1000);
+  }
+}
+
+// ── 철학 모달 (보강1: 지혜 카드 심화) ──
+const PHIL_MODALS = {
+  planning: `
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">🏛️</div>
+    <div class="modal-title" style="text-align:center">스토아 · 통제의 이분법</div>
+    <div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">에픽테토스 / 마르쿠스 아우렐리우스 · 계획력(145) 심화</div>
+    <div style="background:linear-gradient(135deg,#1e1040,#3a1a70);border-radius:12px;padding:14px;margin-bottom:14px">
+      <div style="font-size:13px;color:#f0ebff;font-style:italic;line-height:1.7;margin-bottom:8px">"통제할 수 있는 것: 나의 생각, 선택, 노력<br>통제할 수 없는 것: 남의 행동, 결과, 날씨"</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5)">— 에픽테토스 · 엔키리디온</div>
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">📝 서우의 퀘스트</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+      <div style="padding:10px;background:var(--accent-b);border-radius:10px;font-size:12px;color:var(--accent-t)">1️⃣ 오늘 내가 통제할 수 있는 것 3가지 적기</div>
+      <div style="padding:10px;background:var(--accent-b);border-radius:10px;font-size:12px;color:var(--accent-t)">2️⃣ 걱정하고 있지만 통제 못하는 것 1가지 내려놓기</div>
+      <div style="padding:10px;background:var(--accent-b);border-radius:10px;font-size:12px;color:var(--accent-t)">3️⃣ 내일을 위한 실행 계획 한 줄 쓰기</div>
+    </div>
+    <textarea style="width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;resize:none;min-height:80px;outline:none" placeholder="오늘 내가 통제할 수 있는 것은..."></textarea>
+    <button class="btn btn-primary" style="margin-top:10px" onclick="closeModal();showToast('+40 XP 퀘스트 완료!')">퀘스트 완료 +40 XP</button>
+  `,
+  attention: `
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">☸️</div>
+    <div class="modal-title" style="text-align:center">불교 마음챙김</div>
+    <div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">붓다 / 틱낫한 · 주의력(131) 강점 활용</div>
+    <div style="background:linear-gradient(135deg,#0e3d3d,#0e7c7b);border-radius:12px;padding:14px;margin-bottom:14px">
+      <div style="font-size:13px;color:#e0f5f5;font-style:italic;line-height:1.7;margin-bottom:8px">"지금 이 순간, 숨 하나하나에 집중하라.<br>그것이 깨달음의 문이다."</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5)">— 붓다</div>
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">📝 마음챙김 체크</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:14px">
+      <div style="padding:10px;background:var(--teal-b);border-radius:10px;font-size:12px;color:var(--teal)">☑️ 지금 내 숨 속도는 어때요? (빠름/보통/느림)</div>
+      <div style="padding:10px;background:var(--teal-b);border-radius:10px;font-size:12px;color:var(--teal)">☑️ 지금 몸에서 가장 편한 곳은 어디예요?</div>
+      <div style="padding:10px;background:var(--teal-b);border-radius:10px;font-size:12px;color:var(--teal)">☑️ 지금 가장 잘 들리는 소리 한 가지는?</div>
+    </div>
+    <button class="btn btn-secondary" style="margin-top:4px" onclick="closeModal();showToast('+30 XP 마음챙김 완료!')">완료 +30 XP</button>
+  `,
+  simultaneous: `
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">恕</div>
+    <div class="modal-title" style="text-align:center">유교 · 역지사지</div>
+    <div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">공자 · 논어 · 동시처리(117) 강점 심화</div>
+    <div style="background:linear-gradient(135deg,#4a0a20,#c23060);border-radius:12px;padding:14px;margin-bottom:14px">
+      <div style="font-size:13px;color:#fde8f0;font-style:italic;line-height:1.7;margin-bottom:8px">"자기가 원하지 않는 것을 남에게 하지 말라.<br>(己所不欲 勿施於人)"</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5)">— 공자 · 논어 위령공편</div>
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">📝 역지사지 퀘스트</div>
+    <textarea style="width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;resize:none;min-height:80px;outline:none;margin-bottom:10px" placeholder="오늘 있었던 일 중, 상대방 입장에서 다시 생각해보면..."></textarea>
+    <button class="btn btn-primary" onclick="closeModal();showToast('+40 XP 역지사지 완료!')">퀘스트 완료 +40 XP</button>
+  `,
+  successive: `
+    <div style="font-size:22px;text-align:center;margin-bottom:8px">μέση</div>
+    <div class="modal-title" style="text-align:center">아리스토텔레스 · 중용</div>
+    <div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">순차처리(95 PW↓) 보완 처방</div>
+    <div style="background:linear-gradient(135deg,#4a3000,#b07800);border-radius:12px;padding:14px;margin-bottom:14px">
+      <div style="font-size:13px;color:#fdf6dc;font-style:italic;line-height:1.7;margin-bottom:8px">"덕은 지식이 아니라 매일의 습관에서 온다.<br>오늘 하루의 루틴이 나를 만든다."</div>
+      <div style="font-size:11px;color:rgba(255,255,255,.5)">— 아리스토텔레스 · 니코마코스 윤리학</div>
+    </div>
+    <div style="background:var(--warn-b);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:var(--warn);line-height:1.55">
+      💡 <b>서우 맞춤 팁:</b> 계획력(145)으로 먼저 순서를 설계한 다음, 한 단계씩 실행해봐요. 강점으로 약점을 보완하는 전략이에요!
+    </div>
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">📝 단계 설계 퀘스트</div>
+    <textarea style="width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;resize:none;min-height:90px;outline:none;margin-bottom:10px" placeholder="오늘 해야 할 일을 1단계, 2단계, 3단계로 나눠봐요..."></textarea>
+    <button class="btn btn-primary" onclick="closeModal();showToast('+50 XP 단계 설계 완료!')">퀘스트 완료 +50 XP</button>
+  `
+};
+
+function openPhilModal(type) {
+  document.getElementById('phil-modal-content').innerHTML = PHIL_MODALS[type] || '';
+  document.getElementById('phil-modal').classList.add('show');
+}
+
+function closePhilModal(e) {
+  if (e.target === document.getElementById('phil-modal')) closeModal();
+}
+
+function closeModal() {
+  document.getElementById('phil-modal').classList.remove('show');
+}
+
+// ── 성장 차트 렌더링 (보강4) ──
+function renderGrowthCharts() {
+  // 훈련 바 차트
+  const trainData = [
+    { label:'월', p:2, a:1, s:1, su:1 },
+    { label:'화', p:1, a:2, s:1, su:0 },
+    { label:'수', p:2, a:0, s:0, su:2 },
+    { label:'목', p:1, a:1, s:2, su:0 },
+    { label:'금', p:0, a:0, s:0, su:0 },
+    { label:'토', p:0, a:0, s:0, su:0 },
+    { label:'일', p:0, a:0, s:0, su:0 }
+  ];
+  const maxVal = 5;
+  document.getElementById('train-bars').innerHTML = trainData.map(d => {
+    const total = d.p + d.a + d.s + d.su;
+    const h = Math.max((total / maxVal) * 70, 4);
+    return `<div class="bar-col">
+      <div class="bar-val">${total || ''}</div>
+      <div class="bar-fill" style="height:${h}px;background:linear-gradient(to top,var(--gold),var(--rose),var(--teal),var(--accent))"></div>
+      <div class="bar-lbl">${d.label}</div>
+    </div>`;
+  }).join('');
+
+  // 감정 트렌드
+  const emoData = [
+    { day:'월', val:80, emo:'😊' },
+    { day:'화', val:60, emo:'😐' },
+    { day:'수', val:90, emo:'😊' },
+    { day:'목', val:70, emo:'😊' },
+    { day:'금', val:0, emo:'' },
+    { day:'토', val:0, emo:'' },
+    { day:'일', val:0, emo:'' }
+  ];
+  document.getElementById('emotion-trend-rows').innerHTML = emoData.map(d => `
+    <div class="et-row">
+      <span class="et-day">${d.day}</span>
+      <div class="et-bar">
+        <div class="et-fill" style="width:${d.val}%;background:${d.val >= 80 ? 'var(--teal)' : d.val >= 50 ? 'var(--accent)' : 'var(--warn)'}"></div>
+      </div>
+      <span class="et-emo">${d.emo}</span>
+    </div>
+  `).join('');
+}
+
+// ── 일기 저장 ──
+function saveDiary() {
+  const txt = document.getElementById('diary-text').value.trim();
+  if (!txt) { alert('한 줄이라도 써봐요!'); return; }
+  S.xp = Math.min(S.xp + 20, S.maxXp);
+  updateXP();
+  showToast('+20 XP · 성찰 일기 저장!');
+  document.getElementById('diary-text').value = '';
+}
+
+// ── XP Toast ──
+function showToast(msg) {
+  const t = document.getElementById('xp-toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── 초기화 ──
+renderTodayMissions();
+renderGrowthCharts();
+updateXP();
+</script>
+</body>
+</html>
