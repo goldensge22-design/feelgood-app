@@ -1,0 +1,1552 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MindCompass — 교사 대시보드 v3</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#f5f3fb;
+  --surface:#fff;
+  --border:rgba(139,92,246,.13);
+  --border2:rgba(139,92,246,.22);
+  --text:#1e1535;
+  --sub:#6b5a8a;
+  --muted:#a899c0;
+  --p:#7c3aed;--pb:#ede9fe;--pt:#5b21b6;
+  --b:#2563eb;--bb:#dbeafe;--bt:#1d4ed8;
+  --o:#ea580c;--ob:#ffedd5;--ot:#9a3412;
+  --g:#059669;--gb:#d1fae5;--gt:#065f46;
+  --r:#dc2626;--rb:#fee2e2;--rt:#991b1b;
+  --gold:#d97706;--goldb:#fef3c7;
+  --sidebar:240px;
+  --topbar:58px;
+  --r:12px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:var(--bg);font-family:'Noto Sans KR',sans-serif;color:var(--text);font-size:14px;overflow:hidden}
+
+/* ─── SHELL ─── */
+.shell{display:flex;height:100vh}
+
+/* ─── SIDEBAR ─── */
+.sidebar{
+  width:var(--sidebar);flex-shrink:0;
+  background:var(--surface);
+  border-right:1px solid var(--border2);
+  display:flex;flex-direction:column;
+  overflow-y:auto;
+}
+.sb-logo{
+  padding:20px 18px 16px;
+  background:linear-gradient(135deg,#ede9fe,#dbeafe);
+  border-bottom:1px solid var(--border);
+}
+.sb-logo-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.sb-logo-ico{
+  width:38px;height:38px;border-radius:10px;
+  background:linear-gradient(135deg,#7c3aed,#2563eb);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;flex-shrink:0;
+}
+.sb-logo-name{font-family:'Gmarket Sans',sans-serif;font-size:16px;font-weight:700;color:var(--p)}
+.sb-logo-sub{font-size:10px;color:var(--sub);margin-top:1px}
+.sb-teacher{
+  display:flex;align-items:center;gap:9px;
+  background:rgba(255,255,255,.7);border-radius:10px;
+  padding:8px 10px;
+}
+.sb-teacher-ava{
+  width:30px;height:30px;border-radius:50%;
+  background:linear-gradient(135deg,#7c3aed,#ea580c);
+  display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;
+}
+.sb-teacher-name{font-size:12px;font-weight:700}
+.sb-teacher-role{font-size:10px;color:var(--sub)}
+
+.sb-nav{flex:1;padding:12px 10px}
+.sb-sec{font-size:10px;font-weight:700;color:var(--muted);letter-spacing:.08em;padding:12px 8px 6px;text-transform:uppercase}
+.sb-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 10px;border-radius:9px;
+  cursor:pointer;transition:all .18s;margin-bottom:2px;
+  font-size:13px;font-weight:500;color:var(--sub);
+  position:relative;
+}
+.sb-item:hover{background:var(--pb);color:var(--p)}
+.sb-item.active{background:var(--pb);color:var(--p);font-weight:700}
+.sb-item.active::before{
+  content:'';position:absolute;left:-10px;top:50%;transform:translateY(-50%);
+  width:3px;height:20px;border-radius:0 3px 3px 0;background:var(--p);
+}
+.sb-item-ico{font-size:15px;width:20px;text-align:center;flex-shrink:0}
+.sb-badge{
+  margin-left:auto;background:var(--r);color:#fff;
+  font-size:10px;font-weight:700;padding:1px 6px;border-radius:20px;
+}
+.sb-alert{
+  margin:0 10px 12px;background:var(--rb);border:1px solid var(--r);
+  border-radius:10px;padding:10px 12px;
+}
+.sb-alert-title{font-size:11px;font-weight:700;color:var(--r);margin-bottom:4px}
+.sb-alert-body{font-size:11px;color:#7f1d1d;line-height:1.5}
+
+/* ─── MAIN ─── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{
+  height:var(--topbar);flex-shrink:0;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 20px;
+}
+.tb-left{display:flex;align-items:center;gap:12px}
+.tb-title{font-family:'Gmarket Sans',sans-serif;font-size:17px;font-weight:700}
+.tb-sub{font-size:12px;color:var(--sub)}
+.tb-actions{display:flex;gap:8px}
+.btn{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:8px;font-size:12px;font-weight:700;
+  cursor:pointer;border:none;transition:all .18s;
+}
+.btn-primary{background:var(--p);color:#fff}
+.btn-primary:hover{background:var(--pt)}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--sub)}
+.btn-ghost:hover{background:var(--pb);color:var(--p);border-color:var(--p)}
+
+.content{flex:1;overflow-y:auto;padding:20px}
+
+/* ─── PAGES ─── */
+.page{display:none}
+.page.active{display:block}
+
+/* ─── CARDS ─── */
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-bottom:14px}
+.card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.card-sub{font-size:11px;color:var(--sub);margin-bottom:12px}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:14px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
+
+/* ─── METRIC ─── */
+.metric{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:var(--r);padding:14px 16px;
+}
+.metric-label{font-size:11px;color:var(--sub);margin-bottom:4px}
+.metric-val{font-size:26px;font-weight:900;line-height:1;margin-bottom:2px}
+.metric-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px}
+.metric-desc{font-size:10px;color:var(--muted);margin-top:4px}
+
+/* ─── STUDENT ROW ─── */
+.stu-row{
+  display:flex;align-items:center;gap:12px;
+  padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer;
+  transition:background .15s;border-radius:6px;padding-left:6px;
+}
+.stu-row:hover{background:var(--pb)}
+.stu-row:last-child{border-bottom:none}
+.stu-ava{
+  width:34px;height:34px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;
+}
+.stu-info{flex:1;min-width:0}
+.stu-name{font-size:13px;font-weight:700}
+.stu-meta{font-size:11px;color:var(--sub)}
+.stu-pass-row{display:flex;gap:6px;margin-top:4px;flex-wrap:wrap}
+.pass-chip{
+  font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;
+}
+.stu-xp{
+  text-align:right;flex-shrink:0;
+}
+.stu-xp-val{font-size:14px;font-weight:900;color:var(--p)}
+.stu-xp-label{font-size:10px;color:var(--muted)}
+.stu-status{flex-shrink:0}
+
+/* ─── SEOWOO HIGHLIGHT BOX ─── */
+.seowoo-hero{
+  background:linear-gradient(135deg,#faf5ff,#ede9fe,#dbeafe);
+  border:2px solid var(--p);border-radius:14px;
+  padding:18px;margin-bottom:16px;position:relative;overflow:hidden;
+}
+.seowoo-hero::before{
+  content:'⭐';position:absolute;right:16px;top:12px;font-size:36px;opacity:.15;
+}
+.seowoo-hero-label{font-size:10px;font-weight:700;color:var(--p);letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.seowoo-hero-name{font-size:22px;font-weight:900;margin-bottom:2px}
+.seowoo-hero-sub{font-size:12px;color:var(--sub);margin-bottom:12px}
+.seowoo-pass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+.seowoo-pass-item{
+  background:rgba(255,255,255,.7);border-radius:9px;padding:8px;text-align:center;
+}
+.seowoo-pass-label{font-size:10px;color:var(--sub);margin-bottom:2px}
+.seowoo-pass-val{font-size:18px;font-weight:900}
+.seowoo-pass-pct{font-size:10px;font-weight:700}
+.seowoo-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.seowoo-stat{
+  background:rgba(255,255,255,.7);border-radius:9px;
+  padding:8px 10px;text-align:center;
+}
+.seowoo-stat-val{font-size:17px;font-weight:900;color:var(--p)}
+.seowoo-stat-label{font-size:10px;color:var(--sub)}
+
+/* ─── TRAINING STATUS ─── */
+.training-item{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 0;border-bottom:1px solid var(--border);
+}
+.training-item:last-child{border-bottom:none}
+.training-ico{font-size:18px;width:28px;text-align:center;flex-shrink:0}
+.training-info{flex:1}
+.training-name{font-size:13px;font-weight:700}
+.training-detail{font-size:11px;color:var(--sub);margin-top:2px}
+.training-bar-wrap{height:6px;background:#eee;border-radius:3px;margin-top:5px}
+.training-bar{height:100%;border-radius:3px;transition:width .6s ease}
+.training-right{text-align:right;flex-shrink:0}
+.training-pct{font-size:14px;font-weight:900}
+.training-done{font-size:10px;color:var(--muted)}
+
+/* ─── MISSION LOG ─── */
+.mission-log-item{
+  display:flex;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);
+}
+.mission-log-item:last-child{border-bottom:none}
+.log-dot{
+  width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0;
+}
+.log-body{flex:1}
+.log-title{font-size:12px;font-weight:700}
+.log-detail{font-size:11px;color:var(--sub)}
+.log-time{font-size:10px;color:var(--muted);margin-top:2px}
+
+/* ─── PEER CHECK ─── */
+.peer-item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px;border-radius:9px;background:var(--pb);margin-bottom:8px;
+}
+.peer-from{font-size:12px;font-weight:700;flex:1}
+.peer-msg{font-size:11px;color:var(--sub)}
+.peer-tag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px;background:var(--gb);color:var(--gt);white-space:nowrap}
+
+/* ─── PROGRAM DETAIL ─── */
+.prog-card{
+  border-left:4px solid var(--p);
+  background:var(--pb);border-radius:0 10px 10px 0;
+  padding:12px 14px;margin-bottom:10px;
+}
+.prog-card-title{font-size:13px;font-weight:700;margin-bottom:4px}
+.prog-card-meta{font-size:11px;color:var(--sub);margin-bottom:8px}
+.prog-mission-list{list-style:none}
+.prog-mission-list li{
+  display:flex;align-items:flex-start;gap:8px;
+  padding:5px 0;border-bottom:1px solid rgba(139,92,246,.1);font-size:12px;
+}
+.prog-mission-list li:last-child{border-bottom:none}
+.prog-check{font-size:14px;flex-shrink:0}
+
+/* ─── WEEK HEATMAP ─── */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}
+.week-cell{
+  border-radius:5px;height:32px;display:flex;align-items:center;justify-content:center;
+  font-size:10px;font-weight:700;color:#fff;cursor:default;
+}
+
+/* ─── AI 리포트 ─── */
+.report-area{
+  background:linear-gradient(135deg,#faf5ff,#f0f9ff);
+  border:1px solid var(--border2);border-radius:12px;
+  padding:16px;min-height:120px;
+  font-size:13px;line-height:1.7;color:var(--text);
+  white-space:pre-wrap;
+}
+.report-typing::after{
+  content:'▋';animation:blink .6s step-end infinite;
+}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ─── CHART ─── */
+.chart-wrap{position:relative;height:200px}
+.chart-wrap-sm{position:relative;height:160px}
+
+/* ─── PHILOSOPHY ─── */
+.philo-card{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px;border-radius:10px;background:var(--pb);margin-bottom:8px;
+}
+.philo-ico{font-size:22px;flex-shrink:0}
+.philo-info{flex:1}
+.philo-name{font-size:12px;font-weight:700;margin-bottom:2px}
+.philo-desc{font-size:11px;color:var(--sub);line-height:1.5}
+.philo-bar-wrap{height:4px;background:#e2d9f3;border-radius:2px;margin-top:6px}
+.philo-bar{height:100%;border-radius:2px;background:var(--p)}
+
+/* ─── MODAL ─── */
+.modal-bg{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(20,10,40,.45);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--surface);border-radius:16px;
+  width:min(620px,95vw);max-height:88vh;overflow-y:auto;
+  padding:24px;animation:pop .25s ease;
+}
+@keyframes pop{from{transform:scale(.93);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-close{float:right;cursor:pointer;font-size:20px;color:var(--sub);margin:-4px -4px 0 0}
+.modal-title{font-size:18px;font-weight:900;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--sub);margin-bottom:16px}
+.modal-sec{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.07em;text-transform:uppercase;margin:14px 0 8px}
+
+/* ─── TOAST ─── */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);
+  background:#1e1535;color:#fff;padding:10px 20px;border-radius:30px;
+  font-size:13px;font-weight:700;z-index:200;transition:transform .3s ease;
+  white-space:nowrap;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* ─── SCROLL ─── */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:4px}
+
+/* ─── STUDENT TABS ─── */
+.stu-tab{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 13px;border-radius:30px;cursor:pointer;
+  border:1.5px solid var(--border2);background:var(--surface);
+  font-size:12px;font-weight:600;color:var(--sub);
+  transition:all .18s;white-space:nowrap;flex-shrink:0;
+}
+.stu-tab:hover{border-color:var(--p);color:var(--p);background:var(--pb)}
+.stu-tab.active{background:var(--p);color:#fff;border-color:var(--p)}
+.stu-tab .tab-status{
+  width:7px;height:7px;border-radius:50%;flex-shrink:0;
+}
+.nav-arrow{
+  width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border2);
+  background:var(--surface);cursor:pointer;font-size:16px;font-weight:700;
+  display:flex;align-items:center;justify-content:center;color:var(--sub);
+  transition:all .18s;line-height:1;
+}
+.nav-arrow:hover{background:var(--pb);border-color:var(--p);color:var(--p)}
+.nav-arrow:disabled{opacity:.3;cursor:default}
+
+/* ─── STUDENT DETAIL ─── */
+.detail-hero{
+  background:linear-gradient(135deg,#faf5ff,#ede9fe,#dbeafe);
+  border:2px solid var(--p);border-radius:14px;
+  padding:18px;margin-bottom:14px;position:relative;overflow:hidden;
+}
+.detail-hero::before{
+  content:'';position:absolute;right:-20px;top:-20px;
+  width:120px;height:120px;border-radius:50%;
+  background:rgba(124,58,237,.06);
+}
+.detail-hero-nav{
+  display:flex;align-items:center;gap:8px;margin-bottom:10px;
+}
+.detail-hero-name{font-size:20px;font-weight:900;flex:1}
+.detail-pass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0}
+.detail-pass-item{
+  background:rgba(255,255,255,.75);border-radius:9px;padding:8px;text-align:center;
+}
+.detail-pass-label{font-size:10px;color:var(--sub);margin-bottom:2px}
+.detail-pass-val{font-size:18px;font-weight:900}
+.detail-pass-pct{font-size:10px;font-weight:700}
+.detail-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.detail-stat{
+  background:rgba(255,255,255,.75);border-radius:9px;
+  padding:8px 10px;text-align:center;
+}
+.detail-stat-val{font-size:16px;font-weight:900;color:var(--p)}
+.detail-stat-label{font-size:10px;color:var(--sub)}
+
+/* ─── UTILS ─── */
+.flex{display:flex;align-items:center}
+.gap8{gap:8px}
+.gap12{gap:12px}
+.ml-auto{margin-left:auto}
+.mt8{margin-top:8px}
+.mt12{margin-top:12px}
+.mt16{margin-top:16px}
+.fw7{font-weight:700}
+.fs11{font-size:11px}
+.fs12{font-size:12px}
+.fs13{font-size:13px}
+.col-sub{color:var(--sub)}
+.col-p{color:var(--p)}
+.col-r{color:var(--r)}
+.col-g{color:var(--g)}
+.chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:20px}
+.urgent{background:var(--rb);color:var(--rt)}
+.good{background:var(--gb);color:var(--gt)}
+.warn{background:var(--goldb);color:var(--gold)}
+.info{background:var(--bb);color:var(--bt)}
+.purple{background:var(--pb);color:var(--pt)}
+.divider{height:1px;background:var(--border);margin:12px 0}
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+<!-- ══════ SIDEBAR ══════ -->
+<aside class="sidebar">
+  <div class="sb-logo">
+    <div class="sb-logo-row">
+      <div class="sb-logo-ico">🧭</div>
+      <div>
+        <div class="sb-logo-name">MindCompass</div>
+        <div class="sb-logo-sub">교사 대시보드 v3</div>
+      </div>
+    </div>
+    <div class="sb-teacher">
+      <div class="sb-teacher-ava">👩‍🏫</div>
+      <div>
+        <div class="sb-teacher-name">김지현 선생님</div>
+        <div class="sb-teacher-role">앱 테스트 · 담임교사</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sb-nav">
+    <div class="sb-sec">개요</div>
+    <div class="sb-item active" onclick="goPage('overview',this)">
+      <span class="sb-item-ico">📊</span>학급 개요
+    </div>
+    <div class="sb-item" onclick="goPage('students',this)">
+      <span class="sb-item-ico">👥</span>전체 학생
+      <span class="sb-badge">9</span>
+    </div>
+
+    <div class="sb-sec">학생 상세</div>
+    <div class="sb-item" id="sb-student-detail" onclick="goPage('student-detail',this)" style="display:none">
+      <span class="sb-item-ico" id="sb-stu-ico">👤</span>
+      <span id="sb-stu-name">학생 선택</span>
+      <span class="chip purple" style="margin-left:auto;font-size:9px;padding:2px 6px">상세</span>
+    </div>
+    <div class="sb-item-placeholder" id="sb-no-student" style="padding:8px 10px;font-size:12px;color:var(--muted);font-style:italic">
+      ← 학생을 선택하세요
+    </div>
+    <div class="sb-item" onclick="goPage('training',this)">
+      <span class="sb-item-ico">⚡</span>훈련 현황
+    </div>
+    <div class="sb-item" onclick="goPage('missions',this)">
+      <span class="sb-item-ico">📋</span>미션 로그
+    </div>
+    <div class="sb-item" onclick="goPage('peer',this)">
+      <span class="sb-item-ico">🤝</span>짝 확인 현황
+      <span class="sb-badge" style="background:var(--o)">3</span>
+    </div>
+
+    <div class="sb-sec">처방 & 분석</div>
+    <div class="sb-item" onclick="goPage('philosophy',this)">
+      <span class="sb-item-ico">🔮</span>가치·철학 처방
+    </div>
+    <div class="sb-item" onclick="goPage('ai',this)">
+      <span class="sb-item-ico">🤖</span>AI 상담 도우미
+    </div>
+    <div class="sb-item" onclick="goPage('report',this)">
+      <span class="sb-item-ico">📄</span>리포트 생성
+    </div>
+  </div>
+
+  <div class="sb-alert">
+    <div class="sb-alert-title">🚨 긴급 알림</div>
+    <div class="sb-alert-body">박민아 — 4축 전체 위험<br>박하빈 — 순차처리 0%</div>
+  </div>
+</aside>
+
+<!-- ══════ MAIN ══════ -->
+<div class="main">
+  <div class="topbar">
+    <div class="tb-left">
+      <div>
+        <div class="tb-title" id="tb-title">📊 학급 개요</div>
+        <div class="tb-sub" id="tb-sub">앱 테스트 · 9명 · 2026.4.18</div>
+      </div>
+    </div>
+    <div class="tb-actions">
+      <button class="btn btn-ghost" onclick="goPage('report',null)">📄 리포트</button>
+      <button class="btn btn-primary" onclick="goPage('ai',null)">🤖 AI 상담</button>
+    </div>
+  </div>
+
+  <div class="content" id="content">
+
+  <!-- ══ PAGE: 개요 ══ -->
+  <div class="page active" id="page-overview">
+    <!-- 상단 메트릭 -->
+    <div class="grid4">
+      <div class="metric">
+        <div class="metric-label">전체 학생</div>
+        <div class="metric-val" style="color:var(--p)">9</div>
+        <div class="metric-badge" style="background:var(--pb);color:var(--pt)">👥 명</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">관리 필요</div>
+        <div class="metric-val" style="color:var(--r)">6</div>
+        <div class="metric-badge urgent">⚠️ 67%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">오늘 훈련 완료</div>
+        <div class="metric-val" style="color:var(--g)">4</div>
+        <div class="metric-badge good">✅ 44%</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">학급 총 XP</div>
+        <div class="metric-val" style="color:var(--gold)">470</div>
+        <div class="metric-badge" style="background:var(--goldb);color:var(--gold)">🏆 오늘</div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <!-- PASS 레이더 -->
+      <div class="card">
+        <div class="card-title">⚡ 학급 PASS 4축 평균</div>
+        <div class="card-sub">백분위 기준 / 전체 9명</div>
+        <div class="chart-wrap">
+          <canvas id="radar-chart"></canvas>
+        </div>
+      </div>
+      <!-- 두뇌유형 -->
+      <div class="card">
+        <div class="card-title">🧠 두뇌유형 분포</div>
+        <div class="card-sub">K-PASS 기반 분류</div>
+        <div class="chart-wrap">
+          <canvas id="brain-chart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- 긴급 개입 -->
+    <div class="card">
+      <div class="card-title">🚨 즉각 개입 필요</div>
+      <div class="card-sub">2개 이상 척도 위험 수준 (5%ile 이하)</div>
+      <div>
+        <div class="stu-row" onclick="openStudentModal('park-mina')">
+          <div class="stu-ava" style="background:#fee2e2">🦁</div>
+          <div class="stu-info">
+            <div class="stu-name">박민아 <span class="chip urgent">긴급</span></div>
+            <div class="stu-meta">4개 척도 모두 5% 이하</div>
+            <div class="stu-pass-row">
+              <span class="pass-chip" style="background:#fee2e2;color:#991b1b">계획력 5%</span>
+              <span class="pass-chip" style="background:#fee2e2;color:#991b1b">동시처리 1%</span>
+              <span class="pass-chip" style="background:#fee2e2;color:#991b1b">순차처리 1%</span>
+            </div>
+          </div>
+          <div class="stu-xp">
+            <div class="stu-xp-val" style="color:var(--r)">0 XP</div>
+            <div class="stu-xp-label">미참여</div>
+          </div>
+        </div>
+        <div class="stu-row" onclick="openStudentModal('park-habin')">
+          <div class="stu-ava" style="background:#fee2e2">🐰</div>
+          <div class="stu-info">
+            <div class="stu-name">박하빈 <span class="chip urgent">긴급</span></div>
+            <div class="stu-meta">순차처리 0% — 즉각 개입</div>
+            <div class="stu-pass-row">
+              <span class="pass-chip" style="background:#fee2e2;color:#991b1b">순차처리 0%</span>
+              <span class="pass-chip" style="background:#fef3c7;color:#92400e">계획력 18%</span>
+            </div>
+          </div>
+          <div class="stu-xp">
+            <div class="stu-xp-val" style="color:var(--r)">0 XP</div>
+            <div class="stu-xp-label">미참여</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 송서우 하이라이트 -->
+    <div class="seowoo-hero" onclick="selectStudent(0);goPage('students',null)" style="cursor:pointer">
+      <div class="seowoo-hero-label">⭐ 주목할 학생 · 클릭해서 상세 보기</div>
+      <div class="seowoo-hero-name">송서우</div>
+      <div class="seowoo-hero-sub">동시처리 우세형 · 만 9세 · 계획력 최상위 (99.9%ile)</div>
+      <div class="seowoo-pass-grid">
+        <div class="seowoo-pass-item">
+          <div class="seowoo-pass-label">동시처리</div>
+          <div class="seowoo-pass-val" style="color:var(--b)">117</div>
+          <div class="seowoo-pass-pct" style="color:var(--b)">규준강 ↑</div>
+        </div>
+        <div class="seowoo-pass-item">
+          <div class="seowoo-pass-label">계획력</div>
+          <div class="seowoo-pass-val" style="color:var(--gold)">145</div>
+          <div class="seowoo-pass-pct" style="color:var(--gold)">최상위 ★</div>
+        </div>
+        <div class="seowoo-pass-item">
+          <div class="seowoo-pass-label">주의력</div>
+          <div class="seowoo-pass-val" style="color:var(--g)">131</div>
+          <div class="seowoo-pass-pct" style="color:var(--g)">규준강 ↑</div>
+        </div>
+        <div class="seowoo-pass-item">
+          <div class="seowoo-pass-label">순차처리</div>
+          <div class="seowoo-pass-val" style="color:var(--o)">95</div>
+          <div class="seowoo-pass-pct" style="color:var(--o)">내적약점 ▼</div>
+        </div>
+      </div>
+      <div class="seowoo-stats">
+        <div class="seowoo-stat">
+          <div class="seowoo-stat-val">180 XP</div>
+          <div class="seowoo-stat-label">오늘 획득</div>
+        </div>
+        <div class="seowoo-stat">
+          <div class="seowoo-stat-val">Lv.4</div>
+          <div class="seowoo-stat-label">집중러</div>
+        </div>
+        <div class="seowoo-stat">
+          <div class="seowoo-stat-val">5일 🔥</div>
+          <div class="seowoo-stat-label">연속 달성</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 오늘 훈련 현황 -->
+    <div class="card">
+      <div class="card-title">⚡ 오늘 훈련 달성률</div>
+      <div class="card-sub">4가지 훈련 유형 기준</div>
+      <div>
+        <div class="training-item">
+          <div class="training-ico">🧘</div>
+          <div class="training-info">
+            <div class="training-name">마음챙김 호흡</div>
+            <div class="training-detail">주의력(A) 훈련 · 7/9명 완료</div>
+            <div class="training-bar-wrap"><div class="training-bar" style="width:78%;background:var(--b)"></div></div>
+          </div>
+          <div class="training-right">
+            <div class="training-pct" style="color:var(--b)">78%</div>
+            <div class="training-done">7명</div>
+          </div>
+        </div>
+        <div class="training-item">
+          <div class="training-ico">🏛️</div>
+          <div class="training-info">
+            <div class="training-name">스토아 퀘스트</div>
+            <div class="training-detail">계획력(P) 훈련 · 3/9명 완료</div>
+            <div class="training-bar-wrap"><div class="training-bar" style="width:33%;background:var(--p)"></div></div>
+          </div>
+          <div class="training-right">
+            <div class="training-pct" style="color:var(--p)">33%</div>
+            <div class="training-done">3명</div>
+          </div>
+        </div>
+        <div class="training-item">
+          <div class="training-ico">⚔️</div>
+          <div class="training-info">
+            <div class="training-name">AI 토론</div>
+            <div class="training-detail">동시처리(S) 훈련 · 1/9명 완료</div>
+            <div class="training-bar-wrap"><div class="training-bar" style="width:11%;background:var(--o)"></div></div>
+          </div>
+          <div class="training-right">
+            <div class="training-pct" style="color:var(--o)">11%</div>
+            <div class="training-done">1명</div>
+          </div>
+        </div>
+        <div class="training-item">
+          <div class="training-ico">✍️</div>
+          <div class="training-info">
+            <div class="training-name">창의 글쓰기 다이어리</div>
+            <div class="training-detail">순차처리(S) 훈련 · 2/9명 완료</div>
+            <div class="training-bar-wrap"><div class="training-bar" style="width:22%;background:var(--g)"></div></div>
+          </div>
+          <div class="training-right">
+            <div class="training-pct" style="color:var(--g)">22%</div>
+            <div class="training-done">2명</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: 전체 학생 목록 ══ -->
+  <div class="page" id="page-students">
+    <!-- 학생 탭 바 -->
+    <div class="card" style="padding:12px 14px;margin-bottom:12px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+        <div class="card-title" style="margin-bottom:0">👥 전체 학생</div>
+        <span class="chip info" style="margin-left:auto">9명</span>
+        <div style="display:flex;gap:4px">
+          <button class="nav-arrow" id="stu-prev" onclick="shiftStudentTab(-1)" title="이전">‹</button>
+          <button class="nav-arrow" id="stu-next" onclick="shiftStudentTab(1)" title="다음">›</button>
+        </div>
+      </div>
+      <!-- 탭 스크롤 -->
+      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px">
+        <div id="student-tabs" style="display:flex;gap:6px;min-width:max-content"></div>
+      </div>
+    </div>
+    <!-- 학생 상세 카드 (동적) -->
+    <div id="student-detail-area"></div>
+  </div>
+
+  <!-- ══ PAGE: 학생 상세 (사이드바에서 진입) ══ -->
+  <div class="page" id="page-student-detail">
+    <div id="student-detail-area2"></div>
+  </div>
+
+  <!-- ══ PAGE: 훈련 현황 ══ -->
+  <div class="page" id="page-training">
+    <div class="card">
+      <div class="card-title">⚡ 학생별 오늘 훈련 현황</div>
+      <div class="card-sub">완료 표시 및 총 XP</div>
+      <div id="training-list"></div>
+    </div>
+    <div class="card">
+      <div class="card-title">📅 주간 달성률 트렌드</div>
+      <div class="card-sub">학급 전체 기준 (명 수)</div>
+      <div class="chart-wrap"><canvas id="week-trend-chart"></canvas></div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: 미션 로그 ══ -->
+  <div class="page" id="page-missions">
+    <div class="card">
+      <div class="card-title">📋 오늘 미션 완료 로그</div>
+      <div class="card-sub">전체 학생 실시간 기록</div>
+      <div id="mission-log-list"></div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: 짝 확인 ══ -->
+  <div class="page" id="page-peer">
+    <div class="card">
+      <div class="card-title">🤝 짝 확인 현황</div>
+      <div class="card-sub">오늘 사진 인증 요청 및 승인 현황</div>
+      <div id="peer-list"></div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: 철학 처방 ══ -->
+  <div class="page" id="page-philosophy">
+    <div class="grid2">
+      <div class="card">
+        <div class="card-title">🏛️ 스토아 철학</div>
+        <div class="card-sub">계획력(P)↓ · 충동 억제 · 대상자 6명</div>
+        <div class="training-bar-wrap" style="margin-bottom:8px"><div class="training-bar" style="width:33%;background:var(--p)"></div></div>
+        <div class="fs11 col-sub">완료율 33% · 스토아 퀘스트</div>
+        <div class="divider"></div>
+        <div class="fs12" style="line-height:1.7">박민아, 박하빈, A3, A4, 박건호, 정상중 대상. "통제 가능한 것"을 먼저 정의하고 실행 — 마르쿠스 아우렐리우스 격언 활용.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">☸️ 불교 마음챙김</div>
+        <div class="card-sub">주의력(A)↓ · 현재 집중 · 대상자 4명</div>
+        <div class="training-bar-wrap" style="margin-bottom:8px"><div class="training-bar" style="width:78%;background:var(--b)"></div></div>
+        <div class="fs11 col-sub">완료율 78% · 마음챙김 호흡</div>
+        <div class="divider"></div>
+        <div class="fs12" style="line-height:1.7">박민아, A1, A2, A3 대상. 수업 전 3분 호흡 관찰로 주의력 안정화. 오늘 7/9명 완료로 학급 내 가장 높은 달성률.</div>
+      </div>
+      <div class="card">
+        <div class="card-title">📜 공자 서(恕)</div>
+        <div class="card-sub">동시처리(S)↓ · 공감 능력 · 대상자 7명</div>
+        <div class="training-bar-wrap" style="margin-bottom:8px"><div class="training-bar" style="width:22%;background:var(--o)"></div></div>
+        <div class="fs11 col-sub">완료율 22% · 역지사지 상황극</div>
+        <div class="divider"></div>
+        <div class="fs12" style="line-height:1.7">박민아, 박하빈, A1, A2, A3, A4, 박건호 대상. 역지사지 상황극으로 동시처리 강화. <strong>송서우</strong>는 심화 버전 적용 (동시처리 강점 극대화).</div>
+      </div>
+      <div class="card">
+        <div class="card-title">🏺 아리스토텔레스 중용</div>
+        <div class="card-sub">순차처리(S)↓ · 습관 형성 · 대상자 5명</div>
+        <div class="training-bar-wrap" style="margin-bottom:8px"><div class="training-bar" style="width:40%;background:var(--g)"></div></div>
+        <div class="fs11 col-sub">완료율 40% · 습관 루틴 형성</div>
+        <div class="divider"></div>
+        <div class="fs12" style="line-height:1.7">박민아, 박하빈, A3, A4, 정상중 대상. 단계별 절차 쓰기 훈련. 박하빈은 이야기 버전 (만 7세 연령 맞춤).</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: AI 상담 ══ -->
+  <div class="page" id="page-ai">
+    <div class="card" style="padding:0;overflow:hidden">
+      <div style="background:linear-gradient(135deg,#ede9fe,#dbeafe);padding:16px 18px;border-bottom:1px solid var(--border)">
+        <div class="flex gap8">
+          <div style="width:36px;height:36px;background:linear-gradient(135deg,var(--p),var(--b));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">🧭</div>
+          <div>
+            <div class="fw7">MindCompass AI</div>
+            <div class="fs11 col-sub">K-PASS 기반 교사 어시스턴트</div>
+          </div>
+        </div>
+      </div>
+      <div id="ai-messages" style="min-height:240px;max-height:340px;overflow-y:auto;padding:16px">
+        <div style="display:flex;gap:10px;margin-bottom:12px">
+          <div style="width:28px;height:28px;background:var(--pb);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">🧭</div>
+          <div style="background:var(--pb);border-radius:0 10px 10px 10px;padding:10px 13px;font-size:13px;max-width:80%;line-height:1.6">
+            안녕하세요, 선생님! 오늘 학급 데이터를 분석했습니다.<br><br>
+            📊 <strong>핵심 인사이트:</strong><br>
+            • 박민아, 박하빈 — 즉각 개입 필요<br>
+            • 계획력이 학급 전체 취약 척도 (54%)<br>
+            • <strong>⭐ 송서우</strong>는 오늘 모든 훈련 완료! 180 XP 달성<br>
+            • 스토아 수업을 학급 전체에 적용 권장
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;padding:0 16px 12px">
+        <button class="btn btn-ghost" style="font-size:11px" onclick="aiSend('박민아 어떻게 도와야 하나요?')">박민아 개입 방법</button>
+        <button class="btn btn-ghost" style="font-size:11px" onclick="aiSend('송서우 다음 단계 심화 미션을 추천해줘')">송서우 심화 미션</button>
+        <button class="btn btn-ghost" style="font-size:11px" onclick="aiSend('오늘 학급 전체 수업 추천')">오늘 수업 추천</button>
+        <button class="btn btn-ghost" style="font-size:11px" onclick="aiSend('송서우 학부모 상담 가이드 써줘')">학부모 상담 가이드</button>
+      </div>
+      <div style="padding:0 16px 16px;display:flex;gap:8px">
+        <input id="ai-input" type="text" placeholder="선생님, 무엇이 궁금하신가요?" style="flex:1;padding:10px 13px;border:1px solid var(--border2);border-radius:9px;font-size:13px;font-family:'Noto Sans KR',sans-serif;outline:none;color:var(--text)"
+          onkeydown="if(event.key==='Enter')aiSend()">
+        <button class="btn btn-primary" onclick="aiSend()">전송 ↑</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📌 오늘 수업 추천</div>
+      <div class="card-sub">학급 K-PASS 기반 자동 추천</div>
+      <div class="philo-card">
+        <div class="philo-ico">🏛️</div>
+        <div class="philo-info">
+          <div class="philo-name">스토아 · 계획력 수업 (40분) — 학급 전체</div>
+          <div class="philo-desc">"통제 가능한 것" 딜레마 토론. 계획력 54% 전체 취약 척도 처방.</div>
+        </div>
+      </div>
+      <div class="philo-card">
+        <div class="philo-ico">🧘</div>
+        <div class="philo-info">
+          <div class="philo-name">마음챙김 3분 (수업 전)</div>
+          <div class="philo-desc">호흡 관찰 → 주의력 안정화. 오늘 78% 완료로 효과 입증.</div>
+        </div>
+      </div>
+      <div class="philo-card">
+        <div class="philo-ico">⭐</div>
+        <div class="philo-info">
+          <div class="philo-name">송서우 심화 — 계획력 프로젝트 발표</div>
+          <div class="philo-desc">계획력 145 최상위. 오늘 모든 훈련 완료. 주간 기획서를 학급 앞에서 발표하는 심화 미션 추천.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ PAGE: 리포트 ══ -->
+  <div class="page" id="page-report">
+    <div class="grid2" style="margin-bottom:14px">
+      <div class="card" style="cursor:pointer" onclick="generateReport('seowoo')">
+        <div class="card-title">⭐ 송서우 개인 리포트</div>
+        <div class="card-sub">K-PASS 4축 + 훈련현황 + 학부모 상담 코멘트</div>
+        <button class="btn btn-primary" style="width:100%;margin-top:8px;justify-content:center">🤖 AI 리포트 생성</button>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="generateReport('class')">
+        <div class="card-title">📊 학급 전체 리포트</div>
+        <div class="card-sub">집단 분석 + 수업 가이드 + 개입 우선순위</div>
+        <button class="btn btn-ghost" style="width:100%;margin-top:8px;justify-content:center">📊 학급 리포트 생성</button>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-title">📄 생성된 리포트</div>
+      <div class="card-sub" id="report-sub">왼쪽에서 리포트를 생성해주세요</div>
+      <div class="report-area" id="report-area">리포트를 생성하면 여기에 표시됩니다 🧭</div>
+    </div>
+  </div>
+
+  </div><!-- /content -->
+</div><!-- /main -->
+</div><!-- /shell -->
+
+<!-- ══ MODAL: 학생 상세 ══ -->
+<div class="modal-bg" id="student-modal">
+  <div class="modal">
+    <span class="modal-close" onclick="closeModal()">✕</span>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ══ TOAST ══ -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ════════════════════════════════
+   DATA
+════════════════════════════════ */
+const STUDENTS = [
+  {id:'seowoo', ico:'⭐', name:'송서우', age:9, type:'동시처리 우세형',
+   pass:{동시처리:87, 계획력:99, 주의력:98, 순차처리:37},
+   score:{동시처리:117, 계획력:145, 주의력:131, 순차처리:95},
+   xp:540, todayXp:180, streak:5, level:4, levelName:'집중러',
+   status:'good',
+   training:{마음챙김:true, 스토아:true, AI토론:true, 글쓰기:false},
+   missions:['P1 순차처리: 수업내용 1~5 순서 쓰기 ✅','P2 동시처리: 마인드맵 다이어리 ✅','P3 계획력: 주간 기획서 작성 ✅','P4 주의력: 뽀모도로 25분 ✅','P5 창의다이어리: 진행중 🔄'],
+   note:'계획력 최상위 (99.9%ile). 순차처리가 개인내적 약점이나 절대적으로는 정상 범위. 강점 극대화 전략 추천.'
+  },
+  {id:'park-mina', ico:'🦁', name:'박민아', age:12, type:'우뇌우세형',
+   pass:{동시처리:1, 계획력:5, 주의력:47, 순차처리:1},
+   score:{동시처리:55, 계획력:60, 주의력:100, 순차처리:55},
+   xp:0, todayXp:0, streak:0, level:1, levelName:'새싹',
+   status:'urgent',
+   training:{마음챙김:false, 스토아:false, AI토론:false, 글쓰기:false},
+   missions:['미참여'],
+   note:'4개 척도 전체 위험 수준. 즉각 개입 필요. 주의력(47%)은 상대적 강점 — 마음챙김부터 접근 권장.'
+  },
+  {id:'park-habin', ico:'🐰', name:'박하빈', age:7, type:'우뇌우세형',
+   pass:{동시처리:21, 계획력:18, 주의력:55, 순차처리:0},
+   score:{동시처리:88, 계획력:85, 주의력:104, 순차처리:50},
+   xp:0, todayXp:0, streak:0, level:1, levelName:'새싹',
+   status:'urgent',
+   training:{마음챙김:false, 스토아:false, AI토론:false, 글쓰기:false},
+   missions:['미참여'],
+   note:'순차처리 0%ile — 즉각 개입 필요. 만 7세로 연령 맞춤 이야기 버전 훈련 적용 권장.'
+  },
+  {id:'park-gunho', ico:'🦊', name:'박건호', age:14, type:'좌우균형형',
+   pass:{동시처리:52, 계획력:44, 주의력:61, 순차처리:58},
+   score:{동시처리:102, 계획력:99, 주의력:105, 순차처리:103},
+   xp:130, todayXp:50, streak:3, level:2, levelName:'도전자',
+   status:'watch',
+   training:{마음챙김:true, 스토아:true, AI토론:false, 글쓰기:false},
+   missions:['마음챙김 호흡 ✅','스토아 퀘스트 ✅'],
+   note:'좌우균형형. 계획력 44%로 약간 취약. 스토아 수업 지속 권장.'
+  },
+  {id:'jung-sangjung', ico:'🦉', name:'정상중', age:15, type:'좌우균형형',
+   pass:{동시처리:60, 계획력:48, 주의력:70, 순차처리:55},
+   score:{동시처리:105, 계획력:100, 주의력:109, 순차처리:103},
+   xp:110, todayXp:50, streak:2, level:2, levelName:'도전자',
+   status:'watch',
+   training:{마음챙김:true, 스토아:true, AI토론:false, 글쓰기:false},
+   missions:['마음챙김 호흡 ✅','스토아 퀘스트 ✅'],
+   note:'전반적으로 양호. 계획력 소폭 보완 권장.'
+  },
+  {id:'a1', ico:'🐱', name:'A1', age:14, type:'우뇌우세형',
+   pass:{동시처리:40, 계획력:55, 주의력:45, 순차처리:50},
+   score:{동시처리:96, 계획력:103, 주의력:99, 순차처리:100},
+   xp:40, todayXp:20, streak:1, level:1, levelName:'새싹',
+   status:'watch',
+   training:{마음챙김:true, 스토아:false, AI토론:false, 글쓰기:false},
+   missions:['마음챙김 호흡 ✅'],
+   note:'전반적으로 평균 수준. 동시처리 40%로 약간 취약.'
+  },
+  {id:'a2', ico:'🐸', name:'A2', age:16, type:'좌우균형형',
+   pass:{동시처리:55, 계획력:50, 주의력:60, 순차처리:52},
+   score:{동시처리:103, 계획력:100, 주의력:105, 순차처리:101},
+   xp:180, todayXp:130, streak:4, level:3, levelName:'훈련생',
+   status:'good',
+   training:{마음챙김:true, 스토아:true, AI토론:true, 글쓰기:false},
+   missions:['마음챙김 ✅','스토아 ✅','AI토론 ✅'],
+   note:'전반적으로 양호. 꾸준한 참여.'
+  },
+  {id:'a3', ico:'🐱', name:'A3', age:16, type:'좌우균형형',
+   pass:{동시처리:23, 계획력:34, 주의력:50, 순차처리:43},
+   score:{동시처리:89, 계획력:93, 주의력:100, 순차처리:97},
+   xp:40, todayXp:20, streak:1, level:1, levelName:'새싹',
+   status:'manage',
+   training:{마음챙김:true, 스토아:false, AI토론:false, 글쓰기:false},
+   missions:['마음챙김 호흡 ✅'],
+   note:'동시처리·계획력 취약. 스토아 + 공자 서 처방.'
+  },
+  {id:'a4', ico:'🐺', name:'A4', age:17, type:'좌우균형형',
+   pass:{동시처리:45, 계획력:37, 주의력:58, 순차처리:48},
+   score:{동시처리:98, 계획력:94, 주의력:104, 순차처리:99},
+   xp:40, todayXp:20, streak:2, level:1, levelName:'새싹',
+   status:'manage',
+   training:{마음챙김:true, 스토아:false, AI토론:false, 글쓰기:false},
+   missions:['마음챙김 호흡 ✅'],
+   note:'계획력 37% 취약. 스토아 소크라테스 토론 권장.'
+  },
+];
+
+const MISSION_LOG = [
+  {time:'14:32', student:'⭐ 송서우', prog:'P4 주의력', mission:'뽀모도로 25분 완료', xp:30, color:'var(--g)'},
+  {time:'14:15', student:'⭐ 송서우', prog:'P3 계획력', mission:'주간 기획서 작성 제출', xp:40, color:'var(--gold)'},
+  {time:'13:48', student:'🦊 박건호', prog:'스토아 퀘스트', mission:'"통제 가능한 것" 딜레마 작성', xp:25, color:'var(--p)'},
+  {time:'13:20', student:'⭐ 송서우', prog:'P2 동시처리', mission:'마인드맵 + 시각 스케치 제출', xp:30, color:'var(--b)'},
+  {time:'12:55', student:'🐸 A2', prog:'AI 토론', mission:'역지사지 롤플레이 완료', xp:35, color:'var(--o)'},
+  {time:'12:30', student:'⭐ 송서우', prog:'P1 순차처리', mission:'수업내용 1~5 순서 쓰기 제출', xp:20, color:'var(--p)'},
+  {time:'11:50', student:'🦉 정상중', prog:'마음챙김 호흡', mission:'3분 호흡 관찰 완료', xp:15, color:'var(--b)'},
+  {time:'11:20', student:'🦊 박건호', prog:'마음챙김 호흡', mission:'3분 호흡 관찰 완료', xp:15, color:'var(--b)'},
+  {time:'10:45', student:'⭐ 송서우', prog:'P5 창의다이어리', mission:'오늘의 창의 일기 시작 (진행중)', xp:0, color:'var(--muted)'},
+];
+
+const PEER_DATA = [
+  {from:'⭐ 송서우', to:'🦊 박건호', mission:'P3 계획력 미션 수행 사진 인증', status:'승인됨', color:'var(--g)'},
+  {from:'🦉 정상중', to:'⭐ 송서우', mission:'마인드맵 다이어리 짝 피드백', status:'확인완료', color:'var(--g)'},
+  {from:'🐸 A2', to:'🐺 A4', mission:'마음챙김 호흡 인증 사진 전송', status:'대기중', color:'var(--gold)'},
+  {from:'🦊 박건호', to:'⭐ 송서우', mission:'스토아 퀘스트 완료 사진 전송', status:'확인완료', color:'var(--g)'},
+  {from:'🐱 A1', to:'🐱 A3', mission:'마음챙김 호흡 인증', status:'대기중', color:'var(--gold)'},
+];
+
+/* ════════════════════════════════
+   NAVIGATION
+════════════════════════════════ */
+const PAGE_TITLES = {
+  overview:'📊 학급 개요',
+  students:'👥 전체 학생',
+  'student-detail':'👤 학생 상세',
+  training:'⚡ 훈련 현황',
+  missions:'📋 미션 로그',
+  peer:'🤝 짝 확인',
+  philosophy:'🔮 가치·철학 처방',
+  ai:'🤖 AI 상담 도우미',
+  report:'📄 리포트 생성',
+};
+
+let currentStudentIdx = 0; // 현재 선택된 학생 인덱스
+
+function goPage(name, el){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.sb-item').forEach(i=>i.classList.remove('active'));
+  const pg = document.getElementById('page-'+name);
+  if(pg) pg.classList.add('active');
+  if(el) el.classList.add('active');
+
+  const s = STUDENTS[currentStudentIdx];
+  let title = PAGE_TITLES[name]||name;
+  if(name==='student-detail' && s) title = `👤 ${s.ico} ${s.name}`;
+  document.getElementById('tb-title').textContent = title;
+
+  if(name==='students'){
+    renderStudentTabs();
+    renderStudentDetail('students');
+  }
+  if(name==='student-detail'){
+    renderStudentDetail('student-detail');
+    // 사이드바 학생 항목 업데이트
+    document.getElementById('sb-stu-ico').textContent = s.ico;
+    document.getElementById('sb-stu-name').textContent = s.name;
+    document.getElementById('sb-student-detail').style.display='flex';
+    document.getElementById('sb-no-student').style.display='none';
+    document.getElementById('sb-student-detail').classList.add('active');
+  }
+  if(name==='training') renderTraining();
+  if(name==='missions') renderMissions();
+  if(name==='peer') renderPeer();
+}
+
+/* ════════════════════════════════
+   RENDER FUNCTIONS
+════════════════════════════════ */
+function statusChip(s){
+  const map={urgent:'<span class="chip urgent">긴급</span>',manage:'<span class="chip warn">주의</span>',watch:'<span class="chip info">관찰</span>',good:'<span class="chip good">양호</span>'};
+  return map[s]||'';
+}
+
+/* ════════════════════════════════
+   STUDENT TABS & DETAIL
+════════════════════════════════ */
+function renderStudentTabs(){
+  const bar = document.getElementById('student-tabs');
+  if(!bar) return;
+  bar.innerHTML = STUDENTS.map((s,i)=>{
+    const dotColor = s.status==='urgent'?'var(--r)':s.status==='manage'?'var(--o)':s.status==='watch'?'var(--b)':'var(--g)';
+    return `<div class="stu-tab ${i===currentStudentIdx?'active':''}" onclick="selectStudent(${i})">
+      <span class="tab-status" style="background:${dotColor}"></span>
+      ${s.ico} ${s.name}
+    </div>`;
+  }).join('');
+  updateArrows();
+}
+
+function selectStudent(idx){
+  currentStudentIdx = idx;
+  renderStudentTabs();
+  // 현재 활성 페이지에 맞춰 리렌더
+  const activePage = document.querySelector('.page.active');
+  if(activePage && activePage.id==='page-students') renderStudentDetail('students');
+  if(activePage && activePage.id==='page-student-detail') renderStudentDetail('student-detail');
+  // 탑바 업데이트
+  const s = STUDENTS[idx];
+  document.getElementById('tb-title').textContent = `👤 ${s.ico} ${s.name}`;
+}
+
+function shiftStudentTab(dir){
+  const next = currentStudentIdx + dir;
+  if(next < 0 || next >= STUDENTS.length) return;
+  selectStudent(next);
+  // 탭 스크롤하여 활성 탭 보이게
+  const tabs = document.getElementById('student-tabs');
+  if(tabs){
+    const tab = tabs.children[next];
+    if(tab) tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }
+}
+
+function updateArrows(){
+  const prev = document.getElementById('stu-prev');
+  const next = document.getElementById('stu-next');
+  if(prev) prev.disabled = currentStudentIdx === 0;
+  if(next) next.disabled = currentStudentIdx === STUDENTS.length-1;
+}
+
+/* ── PASS 레이블 ── */
+function passLabel(pct){
+  if(pct < 5) return {text:'위험',color:'var(--r)'};
+  if(pct < 16) return {text:'약점',color:'var(--o)'};
+  if(pct < 25) return {text:'주의',color:'var(--gold)'};
+  if(pct < 75) return {text:'보통',color:'var(--b)'};
+  if(pct < 91) return {text:'강점',color:'var(--g)'};
+  return {text:'최상위',color:'var(--gold)'};
+}
+
+/* ── 훈련 처방 생성 ── */
+function getPhiloCards(s){
+  const cards = [];
+  const {동시처리:si,계획력:pl,주의력:at,순차처리:su} = s.pass;
+  if(pl < 50) cards.push({ico:'🏛️',name:'스토아 철학 — 계획력 처방',desc:`계획력 ${pl}%ile. "통제 가능한 것"을 먼저 정의하고 단계별 실행. 마르쿠스 아우렐리우스 격언 활용.`,w:pl});
+  if(at < 50) cards.push({ico:'☸️',name:'마음챙김 — 주의력 처방',desc:`주의력 ${at}%ile. 수업 전 3분 호흡 관찰. 현재 집중 훈련으로 주의력 안정화.`,w:at});
+  if(si < 50) cards.push({ico:'📜',name:'공자 서(恕) — 동시처리 처방',desc:`동시처리 ${si}%ile. 역지사지 상황극으로 다중 관점 동시 처리 강화.`,w:si});
+  if(su < 50) cards.push({ico:'🏺',name:'아리스토텔레스 중용 — 순차처리 처방',desc:`순차처리 ${su}%ile. 단계별 절차 쓰기 훈련. 습관 형성 루틴 권장.`,w:su});
+  // 강점도 표시
+  if(pl >= 75) cards.push({ico:'🎯',name:'계획력 심화 — 스토아 리더십',desc:`계획력 ${pl}%ile 강점. 주간 기획서 발표, 학급 프로젝트 리더 역할 심화 권장.`,w:95,highlight:true});
+  if(si >= 75) cards.push({ico:'🗺',name:'동시처리 심화 — 마인드맵 프로젝트',desc:`동시처리 ${si}%ile 강점. 마인드맵 + 시각 스케치 심화. 창의 다이어리 루틴 추천.`,w:85,highlight:true});
+  return cards.slice(0,4);
+}
+
+/* ── 메인 렌더 함수 ── */
+function renderStudentDetail(target){
+  const s = STUDENTS[currentStudentIdx];
+  const areaId = target==='students'?'student-detail-area':'student-detail-area2';
+  const area = document.getElementById(areaId);
+  if(!area) return;
+
+  const passKeys = ['동시처리','계획력','주의력','순차처리'];
+  const passHtml = passKeys.map(k=>{
+    const pct = s.pass[k];
+    const sc = s.score[k];
+    const {text,color} = passLabel(pct);
+    return `<div class="detail-pass-item">
+      <div class="detail-pass-label">${k}</div>
+      <div class="detail-pass-val" style="color:${color}">${sc}</div>
+      <div class="detail-pass-pct" style="color:${color}">${pct}%ile ${text}</div>
+    </div>`;
+  }).join('');
+
+  const doneCount = Object.values(s.training).filter(Boolean).length;
+  const trainingIcons = {마음챙김:'🧘',스토아:'🏛️',AI토론:'⚔️',글쓰기:'✍️'};
+  const trainingHtml = Object.entries(s.training).map(([k,v])=>{
+    const xpMap = {마음챙김:15,스토아:25,AI토론:35,글쓰기:20};
+    return `<div class="training-item">
+      <div class="training-ico">${trainingIcons[k]||'📌'}</div>
+      <div class="training-info">
+        <div class="training-name">${k} 훈련</div>
+        <div class="training-detail">${v?'완료':'미완료'} ${v?`· +${xpMap[k]} XP`:''}</div>
+        <div class="training-bar-wrap"><div class="training-bar" style="width:${v?100:0}%;background:${v?'var(--g)':'var(--border2)'}"></div></div>
+      </div>
+      <div class="training-right">
+        <div class="training-pct" style="color:${v?'var(--g)':'var(--muted)'}">${v?'✅':'⬜'}</div>
+        <div class="training-done">${v?`+${xpMap[k]} XP`:'미완료'}</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const missionHtml = s.missions.map(m=>`
+    <div class="mission-log-item">
+      <div class="log-dot" style="background:${m.includes('✅')?'var(--g)':m.includes('🔄')?'var(--o)':'var(--muted)'}"></div>
+      <div class="log-body"><div class="log-title">${m}</div></div>
+    </div>`).join('');
+
+  const philoCards = getPhiloCards(s);
+  const philoHtml = philoCards.length ? philoCards.map(c=>`
+    <div class="philo-card" style="${c.highlight?'border:1.5px solid var(--gold);':''}">
+      <div class="philo-ico">${c.ico}</div>
+      <div class="philo-info">
+        <div class="philo-name">${c.name}</div>
+        <div class="philo-desc">${c.desc}</div>
+        <div class="philo-bar-wrap"><div class="philo-bar" style="width:${c.w}%;background:${c.highlight?'var(--gold)':'var(--p)'}"></div></div>
+      </div>
+    </div>`).join('') :
+    `<div style="padding:12px;color:var(--sub);font-size:13px">전 척도 보통 이상 — 특별 처방 불필요. 현행 유지 권장.</div>`;
+
+  const statusColor = s.status==='urgent'?'var(--r)':s.status==='manage'?'var(--o)':s.status==='watch'?'var(--b)':'var(--g)';
+  const statusBg = s.status==='urgent'?'var(--rb)':s.status==='manage'?'var(--ob)':s.status==='watch'?'var(--bb)':'var(--gb)';
+
+  // 주간 XP 가상 데이터
+  const weekXp = s.xp > 0
+    ? [Math.round(s.xp*.14),Math.round(s.xp*.18),Math.round(s.xp*.17),Math.round(s.xp*.18),s.todayXp]
+    : [0,0,0,0,0];
+
+  area.innerHTML = `
+    <!-- 헤더 히어로 -->
+    <div class="detail-hero">
+      <div class="detail-hero-nav">
+        <div style="font-size:28px">${s.ico}</div>
+        <div style="flex:1">
+          <div class="detail-hero-name">${s.name}</div>
+          <div class="fs12 col-sub">${s.type} · 만 ${s.age}세</div>
+        </div>
+        <span class="chip" style="background:${statusBg};color:${statusColor}">${statusChip(s.status).replace(/<[^>]+>/g,'')}</span>
+      </div>
+      <div class="detail-pass-grid">${passHtml}</div>
+      <div class="detail-stats">
+        <div class="detail-stat">
+          <div class="detail-stat-val" style="color:var(--p)">Lv.${s.level}</div>
+          <div class="detail-stat-label">${s.levelName}</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-val" style="color:var(--gold)">${s.xp} XP</div>
+          <div class="detail-stat-label">총 누적</div>
+        </div>
+        <div class="detail-stat">
+          <div class="detail-stat-val" style="color:${s.streak>0?'var(--o)':'var(--muted)'}">${s.streak > 0 ? s.streak+'일 🔥' : '-'}</div>
+          <div class="detail-stat-label">연속 달성</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 오늘 훈련 현황 -->
+    <div class="card">
+      <div class="card-title">⚡ 오늘 훈련 현황</div>
+      <div class="card-sub">${doneCount}/4 완료 · 오늘 획득 ${s.todayXp} XP</div>
+      ${trainingHtml}
+    </div>
+
+    <!-- 미션 목록 -->
+    <div class="card">
+      <div class="card-title">📋 오늘 미션 기록</div>
+      <div class="card-sub">${s.missions.filter(m=>m.includes('✅')).length}개 완료</div>
+      ${missionHtml}
+    </div>
+
+    <!-- 주간 XP -->
+    <div class="card">
+      <div class="card-title">📅 이번 주 XP 달성</div>
+      <div class="card-sub">월~금 기준</div>
+      <div class="chart-wrap-sm"><canvas id="stu-week-chart-${s.id}"></canvas></div>
+    </div>
+
+    <!-- K-PASS 처방 -->
+    <div class="card">
+      <div class="card-title">🔮 K-PASS 기반 처방</div>
+      <div class="card-sub">취약 척도 → 철학 처방 / 강점 → 심화 미션</div>
+      ${philoHtml}
+    </div>
+
+    <!-- 교사 노트 -->
+    <div class="card">
+      <div class="card-title">📝 교사 노트</div>
+      <div style="background:var(--pb);border-radius:9px;padding:12px 14px;font-size:13px;line-height:1.7">${s.note}</div>
+    </div>
+  `;
+
+  // 주간 차트 렌더
+  setTimeout(()=>{
+    const ctx = document.getElementById(`stu-week-chart-${s.id}`);
+    if(ctx && !ctx._chartRendered){
+      ctx._chartRendered = true;
+      new Chart(ctx, {
+        type:'bar',
+        data:{
+          labels:['월','화','수','목','오늘'],
+          datasets:[{
+            label:'XP',
+            data:weekXp,
+            backgroundColor:['rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.85)'],
+            borderRadius:6,
+          }]
+        },
+        options:{
+          responsive:true,maintainAspectRatio:false,
+          plugins:{legend:{display:false}},
+          scales:{y:{beginAtZero:true,ticks:{font:{size:10}}},x:{ticks:{font:{size:11,weight:'700'}}}},
+        }
+      });
+    }
+  }, 50);
+}
+
+function renderTraining(){
+  const list = document.getElementById('training-list');
+  const icons = {마음챙김:'🧘',스토아:'🏛️',AI토론:'⚔️',글쓰기:'✍️'};
+  list.innerHTML = STUDENTS.map(s=>{
+    const done = Object.values(s.training).filter(Boolean).length;
+    const total = 4;
+    const pct = Math.round(done/total*100);
+    const items = Object.entries(s.training).map(([k,v])=>
+      `<span style="font-size:12px">${v?'✅':'⬜'} ${icons[k]||k}</span>`
+    ).join(' ');
+    return `<div class="training-item">
+      <div class="training-ico">${s.ico}</div>
+      <div class="training-info">
+        <div class="training-name">${s.name} <span class="fs11 col-sub">${s.levelName} · ${s.todayXp} XP</span></div>
+        <div style="display:flex;gap:8px;margin-top:4px">${items}</div>
+        <div class="training-bar-wrap" style="margin-top:5px"><div class="training-bar" style="width:${pct}%;background:${pct===100?'var(--g)':pct>50?'var(--b)':'var(--p)'}"></div></div>
+      </div>
+      <div class="training-right">
+        <div class="training-pct" style="color:${pct===100?'var(--g)':pct>0?'var(--p)':'var(--muted)'}">${pct}%</div>
+        <div class="training-done">${done}/${total}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderMissions(){
+  const list = document.getElementById('mission-log-list');
+  list.innerHTML = MISSION_LOG.map(m=>`
+    <div class="mission-log-item">
+      <div class="log-dot" style="background:${m.color}"></div>
+      <div class="log-body">
+        <div class="log-title">${m.student} · ${m.prog}</div>
+        <div class="log-detail">${m.mission}</div>
+        <div class="log-time">${m.time} ${m.xp>0?`· +${m.xp} XP`:''}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderPeer(){
+  const list = document.getElementById('peer-list');
+  list.innerHTML = PEER_DATA.map(p=>`
+    <div class="peer-item">
+      <div style="font-size:20px">📸</div>
+      <div style="flex:1">
+        <div class="peer-from">${p.from} → ${p.to}</div>
+        <div class="peer-msg">${p.mission}</div>
+      </div>
+      <div class="peer-tag" style="background:${p.status==='승인됨'||p.status==='확인완료'?'var(--gb)':'var(--goldb)'};color:${p.status==='승인됨'||p.status==='확인완료'?'var(--gt)':'var(--gold)'}">${p.status}</div>
+    </div>
+  `).join('');
+}
+
+/* ════════════════════════════════
+   CHARTS
+════════════════════════════════ */
+function initCharts(){
+  // 레이더
+  new Chart(document.getElementById('radar-chart'), {
+    type:'radar',
+    data:{
+      labels:['동시처리','계획력','주의력','순차처리'],
+      datasets:[{
+        label:'학급 평균',
+        data:[54,54,73,50],
+        backgroundColor:'rgba(124,58,237,.12)',
+        borderColor:'rgba(124,58,237,.7)',
+        pointBackgroundColor:'#7c3aed',
+        borderWidth:2,pointRadius:4,
+      },{
+        label:'송서우',
+        data:[87,99,98,37],
+        backgroundColor:'rgba(245,158,11,.1)',
+        borderColor:'rgba(245,158,11,.8)',
+        pointBackgroundColor:'#f59e0b',
+        borderWidth:2,pointRadius:4,borderDash:[5,3],
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      scales:{r:{min:0,max:100,ticks:{font:{size:10},stepSize:25},pointLabels:{font:{size:11,weight:'700'}}}},
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+    }
+  });
+
+  // 두뇌유형 도넛
+  new Chart(document.getElementById('brain-chart'), {
+    type:'doughnut',
+    data:{
+      labels:['우뇌우세형','좌우균형형','동시처리우세'],
+      datasets:[{
+        data:[3,5,1],
+        backgroundColor:['#fca5a5','#93c5fd','#fcd34d'],
+        borderWidth:0,hoverOffset:4,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:11},padding:12}}},
+    }
+  });
+
+  // 송서우 주간
+  new Chart(document.getElementById('seowoo-week-chart'), {
+    type:'bar',
+    data:{
+      labels:['월','화','수','목','금(오늘)'],
+      datasets:[{
+        label:'XP',
+        data:[90,120,110,80,180],
+        backgroundColor:['rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.3)','rgba(124,58,237,.9)'],
+        borderRadius:6,
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{y:{beginAtZero:true,max:220,ticks:{font:{size:10}}},x:{ticks:{font:{size:11,weight:'700'}}}},
+    }
+  });
+
+  // 주간 트렌드 (훈련 현황 페이지)
+  new Chart(document.getElementById('week-trend-chart'), {
+    type:'line',
+    data:{
+      labels:['월','화','수','목','금(오늘)'],
+      datasets:[
+        {label:'마음챙김',data:[8,7,8,7,7],borderColor:'#3b82f6',backgroundColor:'rgba(59,130,246,.08)',tension:.4,pointRadius:4},
+        {label:'스토아',data:[4,3,4,3,3],borderColor:'#7c3aed',backgroundColor:'rgba(124,58,237,.08)',tension:.4,pointRadius:4},
+        {label:'AI토론',data:[2,1,2,1,1],borderColor:'#ea580c',backgroundColor:'rgba(234,88,12,.08)',tension:.4,pointRadius:4},
+        {label:'글쓰기',data:[3,2,2,2,2],borderColor:'#059669',backgroundColor:'rgba(5,150,105,.08)',tension:.4,pointRadius:4},
+      ]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{position:'bottom',labels:{font:{size:10},padding:10}}},
+      scales:{y:{beginAtZero:true,max:9,ticks:{stepSize:3,font:{size:10}}},x:{ticks:{font:{size:11}}}},
+    }
+  });
+}
+
+/* ════════════════════════════════
+   MODAL
+════════════════════════════════ */
+function openStudentModal(id){
+  const idx = STUDENTS.findIndex(x=>x.id===id);
+  if(idx < 0) return;
+  selectStudent(idx);
+  goPage('students', document.querySelector('.sb-item[onclick*="students"]'));
+  setTimeout(()=>{
+    const tab = document.getElementById('student-tabs')?.children[idx];
+    if(tab) tab.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+  }, 80);
+}
+
+function closeModal(){
+  document.getElementById('student-modal').classList.remove('open');
+}
+document.getElementById('student-modal').addEventListener('click',function(e){
+  if(e.target===this) closeModal();
+});
+
+/* ════════════════════════════════
+   AI CHAT
+════════════════════════════════ */
+const AI_RESPONSES = {
+  '박민아': `🦁 **박민아 개입 전략**\n\n4개 척도 전체 위험이지만 주의력(47%)이 상대적 강점이에요.\n\n📌 **즉각 실행 3단계:**\n1. 마음챙김 호흡부터 — 수업 전 3분, 이미 8/9명 완료 중\n2. 미션 난이도 최하로 설정 → 첫 완료 경험이 핵심\n3. 짝을 A2(양호)로 배치 → 자연스러운 동기 부여\n\n학부모 상담 시: "뇌 발달 지연이 아닌 훈련 부족" 프레이밍 권장.`,
+  '송서우': `⭐ **송서우 심화 미션 추천**\n\n오늘 4개 훈련 모두 완료! 계획력 145 최상위. 다음 단계로:\n\n🎯 **Level 5 심화 미션:**\n• P3 계획력: 학급 전체 1주일 프로젝트 리더 역할\n• P2 동시처리: 복잡한 마인드맵을 학급 앞 발표\n• 짝 확인: 다른 학생 멘토링 (박건호, 정상중 대상)\n\n순차처리 약점은 강점(계획력)으로 보완하는 방식 유지. 아직 절대 수준은 정상범위.`,
+  '수업': `📚 **오늘 학급 전체 수업 추천**\n\n학급 계획력 54% (전체 취약) 기준:\n\n🏛️ **스토아 계획력 수업 (40분)**\n• 도입 5분: 마음챙김 호흡으로 주의력 안정화\n• 전개 30분: "통제 가능한 것 vs 불가능한 것" 딜레마 토론\n• 마무리 5분: 개인별 오늘의 실행 계획 1가지 작성\n\n⭐ **송서우 역할**: 토론 진행자로 배치 → 계획력 리더십 심화`,
+  '학부모': `👨‍👩‍👧 **송서우 학부모 상담 가이드**\n\n**강점 먼저 전달:**\n"서우는 계획력이 또래 상위 0.1%입니다. 스스로 목표를 세우고 실행하는 능력이 탁월해요."\n\n**순차처리 약점 설명:**\n"순차처리는 개인내적 약점이지만, 절대 수준은 정상입니다. 계획력으로 순서를 먼저 설계하는 방식으로 보완하고 있어요."\n\n**훈련 성과:**\n"이번 주 5일 연속 달성, 총 540 XP. 자기주도 학습 패턴이 매우 안정적입니다."`,
+};
+
+async function aiSend(preset){
+  const input = document.getElementById('ai-input');
+  const msg = preset || input.value.trim();
+  if(!msg) return;
+  input.value = '';
+
+  const msgs = document.getElementById('ai-messages');
+  msgs.innerHTML += `<div style="display:flex;justify-content:flex-end;margin-bottom:12px">
+    <div style="background:var(--p);color:#fff;border-radius:10px 0 10px 10px;padding:9px 13px;font-size:13px;max-width:80%">${msg}</div>
+  </div>`;
+
+  const typing = document.createElement('div');
+  typing.style.cssText='display:flex;gap:10px;margin-bottom:12px';
+  typing.innerHTML=`<div style="width:28px;height:28px;background:var(--pb);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px">🧭</div>
+    <div class="report-typing" style="background:var(--pb);border-radius:0 10px 10px 10px;padding:10px 13px;font-size:13px;max-width:80%;line-height:1.6">생각 중...</div>`;
+  msgs.appendChild(typing);
+  msgs.scrollTop = msgs.scrollHeight;
+
+  await new Promise(r=>setTimeout(r,900));
+
+  let reply = '죄송합니다, 아직 해당 질문에 대한 답변을 준비하지 못했어요. 좌측 빠른 버튼을 활용해보세요!';
+  for(const [k,v] of Object.entries(AI_RESPONSES)){
+    if(msg.includes(k)){reply=v;break;}
+  }
+
+  typing.querySelector('.report-typing').classList.remove('report-typing');
+  typing.querySelector('div:last-child').innerHTML = reply.replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+/* ════════════════════════════════
+   REPORT
+════════════════════════════════ */
+const REPORTS = {
+  seowoo: `⭐ 송서우 개인 리포트
+━━━━━━━━━━━━━━━━━━━━
+작성일: 2026.04.18 | 담임: 김지현 선생님
+
+【K-PASS 4축 분석】
+• 동시처리: 표준점수 117 (87%ile) — 규준적 강점
+• 계획력:   표준점수 145 (99.9%ile) — 최상위 강점 ★
+• 주의력:   표준점수 131 (98%ile) — 규준적 강점
+• 순차처리: 표준점수 95 (37%ile) — 개인내적 약점
+
+두뇌유형: 동시처리 우세형 (우뇌우세형)
+
+【오늘 훈련 성과】
+• P1 순차처리 강화: ✅ 완료 (+20 XP)
+• P2 동시처리 심화: ✅ 완료 (+30 XP)
+• P3 계획력 프로젝트: ✅ 완료 (+40 XP)
+• P4 주의력 집중: ✅ 완료 (+30 XP)
+• P5 창의 다이어리: 🔄 진행중
+오늘 XP: 180 | 총 XP: 540 | 레벨: Lv.4 집중러 | 연속: 5일 🔥
+
+【짝 확인 현황】
+• 박건호에게 P3 사진 인증 전송 → 승인됨
+• 정상중에게서 마인드맵 피드백 수신 → 확인완료
+
+【처방 요약】
+① 계획력(최강점): 스토아 철학 연계 심화 — 주간 기획서 발표
+② 동시처리(강점): 마인드맵 + 시각 스케치 심화
+③ 순차처리(약점): 강점(계획력)으로 순서 먼저 설계 후 실행
+
+【학부모 상담 코멘트】
+계획력 99.9%ile로 또래 중 최상위입니다. 자기주도 학습 능력이 탁월하며, 이번 주 5일 연속 훈련 달성으로 습관화가 잘 이루어지고 있습니다. 순차처리는 개인내적 약점이나 절대적으로는 정상 범위이므로 큰 걱정 없이 강점 중심 지원을 이어가시면 됩니다.`,
+  class: `📊 학급 전체 리포트
+━━━━━━━━━━━━━━━━━━━━
+작성일: 2026.04.18 | 담임: 김지현 선생님 | 앱 테스트반 9명
+
+【학급 PASS 4축 평균 (백분위)】
+• 동시처리: 54% | 계획력: 54% | 주의력: 73% | 순차처리: 50%
+→ 계획력 · 동시처리 취약 (학급 전체 처방 필요)
+
+【두뇌유형 분포】
+• 우뇌우세형: 3명 (박민아, 박하빈, A1)
+• 좌우균형형: 5명 (박건호, 정상중, A2, A3, A4)
+• 동시처리우세형: 1명 (송서우) — 주목할 학생
+
+【오늘 훈련 달성률】
+• 마음챙김 호흡: 78% (7/9명)
+• 스토아 퀘스트: 33% (3/9명)
+• AI 토론: 11% (1/9명)
+• 창의 글쓰기: 22% (2/9명)
+
+【즉각 개입 필요】
+🚨 박민아: 4축 전체 위험 → 마음챙김 → 스토아 순 접근
+🚨 박하빈: 순차처리 0% → 이야기 버전 습관 루틴 적용
+
+【⭐ 우수 학생】
+송서우: 오늘 4개 훈련 완료, 180 XP, 5일 연속 달성
+
+【수업 가이드】
+1순위: 스토아 계획력 수업 (전체) — 매주 월·목 40분
+2순위: 마음챙김 3분 (수업 전 매일) — 달성률 78% 입증
+3순위: 공자 서 역지사지 롤플레이 (동시처리 처방)`,
+};
+
+async function generateReport(type){
+  const area = document.getElementById('report-area');
+  const sub = document.getElementById('report-sub');
+  sub.textContent = 'AI가 리포트를 작성 중입니다...';
+  area.textContent = '';
+  area.classList.add('report-typing');
+
+  const text = REPORTS[type];
+  area.classList.remove('report-typing');
+  area.textContent = text;
+  sub.textContent = type==='seowoo'?'⭐ 송서우 개인 리포트 생성 완료':'📊 학급 전체 리포트 생성 완료';
+  toast('리포트 생성 완료! 복사하거나 인쇄하세요.');
+}
+
+/* ════════════════════════════════
+   TOAST
+════════════════════════════════ */
+function toast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(()=>el.classList.remove('show'), 2400);
+}
+
+/* ════════════════════════════════
+   INIT
+════════════════════════════════ */
+initCharts();
+// 전체 학생 탭 기본 렌더 (page-students가 열릴 때 자동 실행됨)
+renderTraining();
+renderMissions();
+renderPeer();
+</script>
+</body>
+</html>
