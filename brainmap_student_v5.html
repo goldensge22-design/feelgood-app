@@ -1,0 +1,1860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>BrainMap - Seowoo</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f5fb;--surface:#fff;--border:#ede8f5;--border2:#d8d0ea;
+  --text:#18152a;--sub:#6e6585;--hint:#b0a8c8;
+  --accent:#6c3de0;--accent-b:#ede8fd;--accent-t:#4a28b0;
+  --gold:#b07800;--gold-b:#fdf6dc;
+  --teal:#0e7c7b;--teal-b:#e0f5f5;
+  --rose:#c23060;--rose-b:#fde8f0;
+  --green:#1a7838;--green-b:#e2f5e8;
+  --warn:#c25000;--warn-b:#fdf0e0;
+  --orange:#F5A623;--blue:#2E7BC4;
+  --r:16px;--shadow:0 2px 12px rgba(108,61,224,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;background:var(--bg);overscroll-behavior:none}
+body{font-family:'Noto Sans KR',sans-serif;color:var(--text);font-size:14px;line-height:1.6}
+.app{display:flex;flex-direction:column;height:100dvh;max-width:430px;margin:0 auto;background:var(--bg)}
+.scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding-bottom:90px}
+.screen{display:none}.screen.active{display:block;animation:rise .2s ease}
+@keyframes rise{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.pad{padding:14px 16px}
+
+/* Topbar */
+.topbar{background:var(--surface);border-bottom:1px solid var(--border);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 1px 8px rgba(0,0,0,.04)}
+.logo{display:flex;align-items:center}
+.logo-brain{font-size:19px;font-weight:900;color:var(--blue);font-family:Arial,sans-serif;letter-spacing:-1px}
+.logo-dot{width:9px;height:9px;border-radius:50%;background:var(--orange);margin:0 1px;flex-shrink:0;position:relative;top:-4px}
+.logo-map{font-size:19px;font-weight:900;color:var(--orange);font-family:Arial,sans-serif;letter-spacing:-1px}
+.tb-divider{width:1px;height:26px;background:var(--border2);margin:0 10px}
+.tb-name{font-size:14px;font-weight:700}
+.tb-type{font-size:10px;color:var(--sub)}
+.tb-xp{text-align:right}
+.tb-lv{font-size:12px;font-weight:700;color:var(--accent)}
+.tb-bar{width:70px;height:4px;background:var(--border);border-radius:2px;margin-top:3px;overflow:hidden}
+.tb-fill{height:100%;background:linear-gradient(90deg,var(--accent),#c23060);border-radius:2px;transition:.4s}
+.tb-xpnum{font-size:10px;color:var(--sub);margin-top:2px}
+
+/* Nav */
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:430px;background:var(--surface);border-top:1px solid var(--border);display:flex;z-index:50;padding-bottom:env(safe-area-inset-bottom)}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;padding:8px 4px 6px;border:none;background:none;cursor:pointer;color:var(--hint);font-size:10px;font-family:'Noto Sans KR',sans-serif;gap:3px;transition:.15s;position:relative}
+.nb .ico{font-size:20px;transition:.15s}
+.nb.active{color:var(--accent)}.nb.active .ico{transform:scale(1.1)}
+.nbadge{position:absolute;top:5px;right:calc(50% - 16px);background:var(--rose);color:#fff;border-radius:10px;font-size:9px;font-weight:700;padding:1px 5px}
+
+/* Cards */
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;box-shadow:var(--shadow);margin-bottom:12px}
+.sec{font-size:10px;font-weight:700;color:var(--sub);letter-spacing:.8px;text-transform:uppercase;margin-bottom:8px}
+.chip{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px}
+.ca{background:var(--accent-b);color:var(--accent)}
+.ct{background:var(--teal-b);color:var(--teal)}
+.cr{background:var(--rose-b);color:var(--rose)}
+.cg{background:var(--gold-b);color:var(--gold)}
+.cw{background:var(--warn-b);color:var(--warn)}
+.cgr{background:var(--green-b);color:var(--green)}
+
+/* Wisdom */
+.wcard{background:linear-gradient(135deg,#1e1040,#3a1a70,#6c2080);border-radius:var(--r);padding:18px 16px;margin-bottom:14px}
+.wq{font-size:14px;font-weight:500;color:#f0ebff;line-height:1.7;margin-bottom:8px}
+.ws{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+.wtag{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+
+/* Emotion */
+.ecol{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.eb{border:2px solid var(--border);background:none;border-radius:12px;padding:8px 4px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:.15s;font-family:'Noto Sans KR',sans-serif;width:100%}
+.eb .ei{font-size:22px}.eb .el{font-size:10px;color:var(--sub);font-weight:500}
+.eb.sel{border-color:var(--accent);background:var(--accent-b)}
+.eb.sel .el{color:var(--accent);font-weight:700}
+.efb{margin-top:10px;padding:10px 12px;border-radius:10px;background:var(--accent-b);font-size:12px;color:var(--accent-t);line-height:1.55;display:none}
+.efb.show{display:block}
+
+/* PASS */
+.pbars{display:flex;flex-direction:column;gap:10px}
+.prow{display:flex;align-items:center;gap:10px}
+.plbl{font-size:11px;font-weight:700;width:58px;flex-shrink:0}
+.ptrack{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.pfill{height:100%;border-radius:4px}
+.pval{font-size:11px;font-weight:700;width:28px;text-align:right;flex-shrink:0}
+.pbadge{font-size:9px;font-weight:700;padding:2px 6px;border-radius:6px;flex-shrink:0}
+
+/* Mission */
+.mlist{display:flex;flex-direction:column;gap:9px}
+.mitem{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:12px 14px;display:flex;align-items:flex-start;gap:11px;cursor:pointer;transition:.15s;box-shadow:0 1px 6px rgba(0,0,0,.04)}
+.mitem:active{transform:scale(.98)}.mitem.done{opacity:.55}
+.mico{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.mbody{flex:1;min-width:0}
+.mtit{font-size:13px;font-weight:700;margin-bottom:2px}
+.mwis{font-size:11px;color:var(--gold);font-style:italic;margin-bottom:4px;line-height:1.5}
+.mchk{width:22px;height:22px;border-radius:50%;border:2px solid var(--border2);display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.mchk.done{background:var(--green);border-color:var(--green);color:#fff;font-size:12px}
+
+/* Streak */
+.srow{display:flex;gap:6px;justify-content:center;margin:10px 0}
+.sday{width:34px;height:34px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.sday .sdl{font-size:9px;font-weight:700}
+.sday .sdd{width:6px;height:6px;border-radius:50%}
+.sday.done{background:var(--accent-b)}.sday.done .sdl{color:var(--accent)}.sday.done .sdd{background:var(--accent)}
+.sday.today{background:var(--accent)}.sday.today .sdl{color:#fff}.sday.today .sdd{background:rgba(255,255,255,.6)}
+.sday.empty{background:var(--border)}.sday.empty .sdl{color:var(--hint)}.sday.empty .sdd{background:var(--hint)}
+
+/* Country */
+.csel{appearance:none;-webkit-appearance:none;background:var(--accent-b);border:2px solid var(--accent);border-radius:10px;padding:7px 28px 7px 10px;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:700;color:var(--accent);cursor:pointer;outline:none}
+
+/* Phil cards */
+.pcard{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:10px;box-shadow:var(--shadow);cursor:pointer;transition:.15s}
+.pcard:active{transform:scale(.98)}
+.phdr{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.pico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ptit{font-size:13px;font-weight:700}
+.psub{font-size:10px;color:var(--sub);margin-top:2px}
+.paxis{font-size:10px;font-weight:700;padding:2px 8px;border-radius:6px;margin-left:auto}
+.pwis{font-size:12px;color:var(--gold);font-style:italic;line-height:1.55;margin-bottom:8px;padding:8px 10px;background:var(--gold-b);border-radius:8px}
+.ptask{font-size:12px;color:var(--sub);line-height:1.55}
+.pxp{font-size:11px;font-weight:700;color:var(--accent);margin-top:8px}
+
+/* Tabs */
+.tabbar{display:flex;gap:6px;margin-bottom:14px;overflow-x:auto;padding-bottom:2px}
+.tab{border:2px solid var(--border);border-radius:10px;padding:7px 14px;background:none;cursor:pointer;font-family:'Noto Sans KR',sans-serif;font-size:12px;font-weight:600;color:var(--sub);white-space:nowrap;transition:.15s}
+.tab.active{border-color:var(--accent);background:var(--accent-b);color:var(--accent)}
+
+/* Dilemma */
+.dhero{background:linear-gradient(135deg,#0f0a2e,#1e1040,#2a0a50);border-radius:var(--r);padding:20px 16px;margin-bottom:14px}
+.dhlbl{font-size:10px;font-weight:700;letter-spacing:1px;color:rgba(255,255,255,.5);margin-bottom:6px}
+.dhtit{font-size:17px;font-weight:700;color:#fff;line-height:1.35;margin-bottom:10px}
+.dhdesc{font-size:12px;color:rgba(255,255,255,.65);line-height:1.6;margin-bottom:12px}
+.dhtags{display:flex;gap:6px;flex-wrap:wrap}
+.dhtag{font-size:10px;font-weight:700;padding:3px 9px;border-radius:10px;background:rgba(255,255,255,.12);color:rgba(255,255,255,.8)}
+.qcard{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:16px;margin-bottom:12px;box-shadow:var(--shadow)}
+.qstem{font-size:14px;font-weight:700;line-height:1.5;margin-bottom:6px}
+.qctx{font-size:12px;color:var(--sub);line-height:1.55;margin-bottom:14px}
+.qchoices{display:flex;flex-direction:column;gap:8px}
+.qch{border:2px solid var(--border);border-radius:12px;padding:12px 14px;cursor:pointer;transition:.15s;background:none;width:100%;text-align:left;font-family:'Noto Sans KR',sans-serif}
+.qch:active{transform:scale(.99)}.qch.sel{border-color:var(--accent);background:var(--accent-b)}
+.qchl{font-size:13px;font-weight:700;color:var(--accent);margin-bottom:2px}
+.qcht{font-size:12px;color:var(--sub);line-height:1.5}
+.rbox{background:var(--accent-b);border-radius:12px;padding:14px;margin-top:10px;display:none}
+.rbox.show{display:block}
+.rbtit{font-size:12px;font-weight:700;color:var(--accent-t);margin-bottom:8px}
+.rbbody{font-size:12px;color:var(--accent-t);line-height:1.65}
+.rbwis{margin-top:10px;padding:10px;background:#fff;border-radius:10px;border-left:3px solid var(--gold)}
+.rbwq{font-size:12px;color:var(--gold);font-style:italic;line-height:1.6}
+.rbws{font-size:10px;color:var(--sub);margin-top:4px}
+.metabox{background:var(--gold-b);border:1px solid #e8d080;border-radius:12px;padding:12px 14px;margin-top:8px}
+.metain{width:100%;border:none;background:none;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:56px;line-height:1.55}
+
+/* Breath */
+.bring{width:140px;height:140px;border-radius:50%;border:3px solid var(--border);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .3s}
+.bring.on{border-color:var(--teal);animation:breathe 4s ease-in-out infinite}
+@keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.btime{font-size:28px;font-weight:700;color:var(--teal);text-align:center}
+.bphase{font-size:11px;color:var(--sub);text-align:center;margin-top:4px}
+
+/* Growth */
+.ghero{background:linear-gradient(135deg,#0e3d1a,#1a7838);border-radius:var(--r);padding:18px 16px;margin-bottom:14px}
+.ghtit{font-size:16px;font-weight:700;color:#fff;margin-bottom:4px}
+.ghsub{font-size:11px;color:rgba(255,255,255,.65)}
+.ggrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.gstat{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px;text-align:center;box-shadow:var(--shadow)}
+.gsval{font-size:22px;font-weight:700;margin-bottom:3px}
+.gslbl{font-size:11px;color:var(--sub)}
+.mchart{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.cbars{display:flex;align-items:flex-end;gap:5px;height:80px}
+.bcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px}
+.bfill{width:100%;border-radius:4px 4px 0 0;transition:.5s;min-height:4px}
+.blbl{font-size:9px;color:var(--sub)}.bval{font-size:9px;font-weight:700;color:var(--accent)}
+.mtrend{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);padding:14px;margin-bottom:12px;box-shadow:var(--shadow)}
+.trow{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.tday{font-size:10px;color:var(--sub);width:24px;flex-shrink:0}
+.tbar{flex:1;height:10px;border-radius:5px;overflow:hidden;background:var(--border)}
+.tfill{height:100%;border-radius:5px;transition:.4s}
+.temo{font-size:12px;flex-shrink:0}
+.bgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.bitem{display:flex;flex-direction:column;align-items:center;gap:5px}
+.bico{width:50px;height:50px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.bico.locked{background:var(--border);filter:grayscale(1);opacity:.5}
+.bico.unlocked{background:var(--gold-b)}
+.bname{font-size:10px;font-weight:600;color:var(--sub);text-align:center}
+.diary-input{width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:90px;line-height:1.6;background:var(--surface)}
+.diary-input:focus{border-color:var(--accent)}
+
+/* Writing practice */
+.witem{background:var(--surface);border-radius:14px;border:1px solid var(--border);padding:14px;margin-bottom:10px;box-shadow:var(--shadow)}
+.wphrase{border-radius:10px;padding:12px;margin-bottom:10px;font-size:13px;font-style:italic;line-height:1.8;font-weight:500;background:var(--teal-b);color:var(--teal)}
+.wta{width:100%;border:2px solid var(--border);border-radius:10px;padding:10px 12px;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);resize:none;outline:none;min-height:70px;line-height:1.8;background:var(--bg);transition:.2s}
+.wta:focus{border-color:var(--accent);background:var(--surface)}
+.wbar{height:5px;border-radius:3px;background:var(--border);margin-top:8px;overflow:hidden}
+.wfill{height:100%;border-radius:3px;background:var(--teal);transition:.4s;width:0}
+.wst{font-size:11px;margin-top:5px;font-weight:600;min-height:16px}
+
+/* Fill-in blanks */
+.fcard{background:var(--teal-b);border-radius:12px;padding:14px;border:2px solid transparent;transition:.2s;margin-bottom:10px}
+.flbl{font-size:11px;font-weight:700;color:var(--teal);margin-bottom:8px}
+.frow{font-size:13px;color:var(--text);display:flex;align-items:center;flex-wrap:wrap;gap:4px;line-height:2}
+.finput{border:none;border-bottom:2px solid var(--teal);background:transparent;font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;color:var(--teal);width:80px;text-align:center;outline:none;padding:2px 4px}
+.fhint{font-size:10px;color:var(--teal);margin-top:4px;opacity:.7}
+.fpreview{background:linear-gradient(135deg,#0e3d3d,#0e7c7b);border-radius:12px;padding:12px 14px;margin-bottom:14px;display:none}
+.fpreviewt{font-size:13px;color:#e0f5f5;line-height:1.8;font-style:italic}
+
+/* Plan cards */
+.plcard{background:var(--accent-b);border-radius:12px;padding:14px;margin-bottom:10px;border:2px solid transparent;transition:.2s}
+.plhdr{display:flex;align-items:center;gap:10px;cursor:pointer}
+.plbox{width:22px;height:22px;border-radius:6px;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px;background:#fff;transition:.15s}
+.pltxt{font-size:12px;color:var(--accent-t);flex:1;font-weight:600}
+.plxpb{font-size:11px;font-weight:700;color:var(--accent)}
+.pliwrap{display:none;margin-top:10px}
+.plinput{width:100%;border:none;border-bottom:2px solid var(--accent);background:transparent;font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--accent-t);outline:none;padding:6px 4px}
+.plxpbar{width:140px;height:5px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+.plxpfill{height:100%;background:linear-gradient(90deg,#9c80ff,#c23060);border-radius:3px;transition:.4s;width:0}
+
+/* Buttons */
+.btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;font-family:'Noto Sans KR',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:.15s;text-align:center}
+.btnp{background:linear-gradient(135deg,var(--accent),#9c2de0);color:#fff}
+.btns{background:var(--accent-b);color:var(--accent)}
+.btn:active{transform:scale(.97)}
+
+/* Modal */
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:100;display:none;align-items:flex-end;justify-content:center}
+.mbg.show{display:flex}
+.modal{background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:430px;padding:20px 20px calc(20px + env(safe-area-inset-bottom));max-height:85vh;overflow-y:auto;animation:slideup .25s ease;position:relative}
+@keyframes slideup{from{transform:translateY(100%)}to{transform:none}}
+.mhandle{width:36px;height:4px;background:var(--border2);border-radius:2px;margin:0 auto 16px}
+.mtit{font-size:16px;font-weight:700;margin-bottom:14px}
+.mclose{position:absolute;top:12px;right:14px;background:var(--border);border:none;border-radius:50%;width:28px;height:28px;font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--sub)}
+
+/* Toast */
+.toast{position:fixed;top:70px;left:50%;transform:translateX(-50%) translateY(-20px);background:linear-gradient(135deg,var(--accent),#9c2de0);color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:700;z-index:200;opacity:0;transition:.3s;pointer-events:none;white-space:nowrap}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<div class="app">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div style="display:flex;align-items:center">
+    <div class="logo">
+      <span class="logo-brain">BRAIN</span>
+      <span class="logo-dot"></span>
+      <span class="logo-map">MAP</span>
+    </div>
+    <div class="tb-divider"></div>
+    <div>
+      <div class="tb-name">Seowoo</div>
+      <div class="tb-type">Right-Brain &middot; Age 9</div>
+    </div>
+  </div>
+  <div class="tb-xp">
+    <div class="tb-lv" id="lv-txt">Lv.4</div>
+    <div class="tb-bar"><div class="tb-fill" id="xp-fill" style="width:60%"></div></div>
+    <div class="tb-xpnum" id="xp-txt">180 / 300 XP</div>
+  </div>
+</div>
+
+<div class="scroll">
+
+<!-- HOME -->
+<div class="screen active" id="sc-home">
+<div class="pad">
+  <!-- Country -->
+  <div class="card" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;margin-bottom:14px">
+    <div style="font-size:13px;font-weight:700">&#127758; Country</div>
+    <div style="position:relative">
+      <select class="csel" id="csel" onchange="changeCountry(this.value)">
+        <option value="korea">&#127472;&#127479; Korea</option>
+        <option value="uae">&#127462;&#127466; UAE / Arab</option>
+        <option value="usa">&#127482;&#127480; USA</option>
+        <option value="japan">&#127471;&#127477; Japan</option>
+        <option value="china">&#127464;&#127475; China</option>
+        <option value="india">&#127470;&#127475; India</option>
+        <option value="uk">&#127468;&#127463; UK</option>
+        <option value="germany">&#127465;&#127466; Germany</option>
+      </select>
+      <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);font-size:10px;pointer-events:none;color:var(--accent)">&#9660;</span>
+    </div>
+  </div>
+  <!-- Wisdom -->
+  <div class="wcard">
+    <div style="font-size:10px;font-weight:700;letter-spacing:.8px;color:rgba(255,255,255,.5);margin-bottom:6px">&#128142; Today's Wisdom</div>
+    <div class="wq" id="wq">Loading...</div>
+    <div class="ws">
+      <span class="wtag" id="waxis"></span>
+      <span class="wtag" id="wsrc"></span>
+      <span style="color:rgba(255,255,255,.4);margin-left:auto;font-size:10px" id="wdate"></span>
+    </div>
+  </div>
+  <!-- Emotion -->
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">&#128173; How are you feeling today, Seowoo?</div>
+    <div class="ecol">
+      <button class="eb" id="eb-calm" onclick="selEmo('calm',this)"><span class="ei">&#128522;</span><span class="el">Good</span></button>
+      <button class="eb" id="eb-neutral" onclick="selEmo('neutral',this)"><span class="ei">&#128528;</span><span class="el">Okay</span></button>
+      <button class="eb" id="eb-sad" onclick="selEmo('sad',this)"><span class="ei">&#128532;</span><span class="el">Tough</span></button>
+      <button class="eb" id="eb-angry" onclick="selEmo('angry',this)"><span class="ei">&#128548;</span><span class="el">Angry</span></button>
+      <button class="eb" id="eb-anxious" onclick="selEmo('anxious',this)"><span class="ei">&#128543;</span><span class="el">Anxious</span></button>
+      <button class="eb" id="eb-tired" onclick="selEmo('tired',this)"><span class="ei">&#128564;</span><span class="el">Tired</span></button>
+    </div>
+    <div class="efb" id="efb"></div>
+  </div>
+  <!-- K-PASS -->
+  <div class="card">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:700">&#9889; My K-PASS Profile</div>
+      <span class="chip ca">Right-Brain Type</span>
+    </div>
+    <div class="pbars">
+      <div class="prow"><span class="plbl" style="color:#9c2de0">Planning</span><div class="ptrack"><div class="pfill" style="width:99%;background:linear-gradient(90deg,#6c3de0,#9c2de0)"></div></div><span class="pval" style="color:#6c3de0">145</span><span class="pbadge chip ca">PS&#8593;</span></div>
+      <div class="prow"><span class="plbl" style="color:var(--teal)">Attention</span><div class="ptrack"><div class="pfill" style="width:98%;background:linear-gradient(90deg,var(--teal),#16a4a3)"></div></div><span class="pval" style="color:var(--teal)">131</span><span class="pbadge chip ct">PS&#8593;</span></div>
+      <div class="prow"><span class="plbl" style="color:var(--rose)">Simult.</span><div class="ptrack"><div class="pfill" style="width:79%;background:linear-gradient(90deg,var(--rose),#e0507a)"></div></div><span class="pval" style="color:var(--rose)">117</span><span class="pbadge chip cr">Avg+</span></div>
+      <div class="prow"><span class="plbl" style="color:var(--warn)">Success.</span><div class="ptrack"><div class="pfill" style="width:37%;background:linear-gradient(90deg,var(--warn),#d4a020)"></div></div><span class="pval" style="color:var(--warn)">95</span><span class="pbadge chip cw">PW&#8595;</span></div>
+    </div>
+    <div style="margin-top:10px;padding:8px 10px;background:var(--warn-b);border-radius:8px;font-size:11px;color:var(--warn);line-height:1.5">&#128161; <b>Successive Processing (95)</b> is your weakness. Use Planning (145) to design steps first!</div>
+  </div>
+  <!-- Missions -->
+  <div class="sec">&#127775; Today's Training Missions</div>
+  <div id="today-date" style="font-size:11px;color:var(--sub);margin-bottom:10px"></div>
+  <div class="mlist" id="missions"></div>
+  <!-- Streak -->
+  <div class="card" style="margin-top:14px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+      <div style="font-size:13px;font-weight:700">&#128293; Training Streak</div>
+      <span class="chip cr">4 Days &#128293;</span>
+    </div>
+    <div class="srow">
+      <div class="sday done"><span class="sdl">Mon</span><span class="sdd"></span></div>
+      <div class="sday done"><span class="sdl">Tue</span><span class="sdd"></span></div>
+      <div class="sday done"><span class="sdl">Wed</span><span class="sdd"></span></div>
+      <div class="sday today"><span class="sdl">Thu</span><span class="sdd"></span></div>
+      <div class="sday empty"><span class="sdl">Fri</span><span class="sdd"></span></div>
+      <div class="sday empty"><span class="sdl">Sat</span><span class="sdd"></span></div>
+      <div class="sday empty"><span class="sdl">Sun</span><span class="sdd"></span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PHILOSOPHY -->
+<div class="screen" id="sc-philosophy">
+<div class="pad">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
+    <div class="sec" style="margin-bottom:0">&#127963; Philosophy</div>
+    <div style="position:relative">
+      <select class="csel" id="csel2" onchange="changeCountry(this.value)" style="font-size:11px;padding:5px 24px 5px 8px">
+        <option value="korea">&#127472;&#127479; Korea</option>
+        <option value="uae">&#127462;&#127466; UAE</option>
+        <option value="usa">&#127482;&#127480; USA</option>
+        <option value="japan">&#127471;&#127477; Japan</option>
+        <option value="china">&#127464;&#127475; China</option>
+        <option value="india">&#127470;&#127475; India</option>
+        <option value="uk">&#127468;&#127463; UK</option>
+        <option value="germany">&#127465;&#127466; Germany</option>
+      </select>
+      <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);font-size:10px;pointer-events:none;color:var(--accent)">&#9660;</span>
+    </div>
+  </div>
+  <div style="font-size:12px;color:var(--sub);margin-bottom:14px" id="pdesc"></div>
+  <div id="pcards"></div>
+  <div class="sec" style="margin-top:6px">&#9997; Writing Practice</div>
+  <div style="font-size:12px;color:var(--sub);margin-bottom:10px">Copy the quote slowly &mdash; trains Successive Processing too!</div>
+  <div class="tabbar" id="wtabs"></div>
+  <div id="wpanels"></div>
+</div>
+</div>
+
+<!-- DILEMMA -->
+<div class="screen" id="sc-dilemma">
+<div class="pad">
+  <div class="dhero">
+    <div class="dhlbl">&#9876; Socratic Dilemma</div>
+    <div class="dhtit">Today's Question:<br>"Could something I believe is right<br>actually be wrong?"</div>
+    <div class="dhdesc">Brain-type questions to think deeper. No right answer &mdash; the process is the training.</div>
+    <div class="dhtags"><span class="dhtag">&#129504; Planning PS&#8593;</span><span class="dhtag">&#9878; Buddhism &middot; Stoicism</span><span class="dhtag">+60 XP</span></div>
+  </div>
+  <div class="tabbar">
+    <button class="tab active" id="dt-today" onclick="dilTab('today',this)">&#128197; Today</button>
+    <button class="tab" id="dt-past" onclick="dilTab('past',this)">&#128218; Past</button>
+    <button class="tab" id="dt-notes" onclick="dilTab('notes',this)">&#9997; Notes</button>
+  </div>
+  <!-- TODAY -->
+  <div id="dp-today">
+    <div class="qcard">
+      <div style="font-size:10px;font-weight:700;color:var(--sub);margin-bottom:6px">&#128205; Situation</div>
+      <div class="qstem">A friend faces a tough exam and asks you to share the answers. You know them.</div>
+      <div class="qctx">With your strong Planning ability, how would you decide? What's the best long-term choice for your friend?</div>
+      <div class="qchoices">
+        <button class="qch" id="qch-A" onclick="pickDil('A',this)"><div class="qchl">Choice A</div><div class="qcht">Share the answers &mdash; helping your friend right now is what friendship means.</div></button>
+        <button class="qch" id="qch-B" onclick="pickDil('B',this)"><div class="qchl">Choice B</div><div class="qcht">Solve it together &mdash; real help means helping them understand it themselves.</div></button>
+        <button class="qch" id="qch-C" onclick="pickDil('C',this)"><div class="qchl">Choice C</div><div class="qcht">Say you can't share &mdash; a true friend will understand.</div></button>
+      </div>
+      <div class="rbox" id="rbox">
+        <div class="rbtit">&#128269; Consider another perspective</div>
+        <div class="rbbody" id="rbody"></div>
+        <div class="rbwis"><div class="rbwq" id="rwq"></div><div class="rbws" id="rws"></div></div>
+      </div>
+      <div class="metabox" style="margin-top:12px">
+        <div style="font-size:11px;font-weight:700;color:var(--gold);margin-bottom:6px">&#9997; Why my thinking changed</div>
+        <textarea class="metain" placeholder="At first I thought ___, but after thinking about ___, my view changed to ___."></textarea>
+      </div>
+      <button class="btn btnp" style="margin-top:12px" onclick="submitDil()">Complete &mdash; +60 XP</button>
+    </div>
+    <div class="card">
+      <div style="font-size:13px;font-weight:700;margin-bottom:10px">&#129504; Right-Brain Type &middot; Deep Questions</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div style="padding:10px;background:var(--accent-b);border-radius:10px;font-size:12px;color:var(--accent-t);line-height:1.55">&#128156; <b>Simultaneous:</b> "If you were your friend, what kind of help would you want?"</div>
+        <div style="padding:10px;background:var(--gold-b);border-radius:10px;font-size:12px;color:var(--gold);line-height:1.55">&#128993; <b>Planning:</b> "In 3 years, how might this choice affect your friendship?"</div>
+        <div style="padding:10px;background:var(--teal-b);border-radius:10px;font-size:12px;color:var(--teal);line-height:1.55">&#129401; <b>Attention:</b> "Right now, what value feels most important?"</div>
+      </div>
+    </div>
+  </div>
+  <!-- PAST -->
+  <div id="dp-past" style="display:none">
+    <div class="card" style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div style="font-size:13px;font-weight:700;flex:1">"What if a lie could save everyone?"</div><span class="chip cgr" style="margin-left:8px;flex-shrink:0">Done</span></div>
+      <div style="font-size:11px;color:var(--sub);margin-bottom:8px">Apr 15 &middot; +60 XP</div>
+      <div style="font-size:12px;background:var(--gold-b);padding:8px 10px;border-radius:8px;border-left:3px solid var(--gold);font-style:italic;color:var(--gold)">"Speaking the truth is the beginning of virtue" &mdash; Aristotle</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div style="font-size:13px;font-weight:700;flex:1">"What if you're right when everyone else is wrong?"</div><span class="chip cgr" style="margin-left:8px;flex-shrink:0">Done</span></div>
+      <div style="font-size:11px;color:var(--sub);margin-bottom:8px">Apr 14 &middot; +60 XP</div>
+      <div style="font-size:12px;background:var(--teal-b);padding:8px 10px;border-radius:8px;border-left:3px solid var(--teal);font-style:italic;color:var(--teal)">"Focus on what you can see right now" &mdash; Buddha</div>
+    </div>
+  </div>
+  <!-- NOTES -->
+  <div id="dp-notes" style="display:none">
+    <div class="card" style="margin-bottom:12px"><div style="font-size:13px;font-weight:700;margin-bottom:4px">&#9997; My Thinking Changes</div><div style="font-size:12px;color:var(--sub)">Track how your thinking evolves through dilemmas</div></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div class="card"><div style="font-size:11px;color:var(--sub);margin-bottom:4px">Apr 15 &middot; The Lie Dilemma</div><div style="font-size:13px;line-height:1.6">"At first I thought lying could be okay, but truth is stronger."</div><div style="margin-top:8px;font-size:11px;color:var(--gold);font-style:italic">"Virtue comes from the habit of speaking truth"</div></div>
+      <div class="card"><div style="font-size:11px;color:var(--sub);margin-bottom:4px">Apr 14 &middot; The Majority Dilemma</div><div style="font-size:13px;line-height:1.6">"It surprised me that everyone could be wrong. My own thinking matters."</div><div style="margin-top:8px;font-size:11px;color:var(--teal);font-style:italic">"Follow what feels right to you in this moment"</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MINDFUL -->
+<div class="screen" id="sc-mindful">
+<div class="pad">
+  <div class="sec">&#129496; Mindful Breathing</div>
+  <div style="font-size:12px;color:var(--sub);margin-bottom:14px">Buddhist breath observation &middot; Attention (131) training</div>
+  <div class="card" style="text-align:center;padding:20px 14px">
+    <div class="bring" id="bring" onclick="toggleBreath()">
+      <div><div class="btime" id="btime">3:00</div><div class="bphase" id="bphase">Tap to start</div></div>
+    </div>
+    <div style="font-size:12px;color:var(--sub);line-height:1.6">Breathe in through your nose, out through your mouth.<br>If thoughts arise, gently return to your breath.</div>
+    <button class="btn btns" style="margin-top:14px;width:auto;padding:10px 28px;display:inline-block" id="bbtn" onclick="toggleBreath()">Start</button>
+  </div>
+  <div style="background:var(--teal-b);border-radius:12px;padding:12px;margin-bottom:14px;border-left:3px solid var(--teal)">
+    <div style="font-size:10px;font-weight:700;color:var(--teal);margin-bottom:5px">&#9878; Today's Mindfulness Wisdom</div>
+    <div style="font-size:12px;color:var(--teal);font-style:italic;line-height:1.6">"Stay in this present moment. The past has gone, the future has not yet arrived."</div>
+    <div style="font-size:10px;color:var(--sub);margin-top:5px">&mdash; Buddha &middot; Attention (A) 131 PS&#8593;</div>
+  </div>
+  <!-- Fill in the blank -->
+  <div style="font-size:13px;font-weight:700;margin-bottom:12px">&#9997; Fill in this moment</div>
+  <div class="fcard" id="fc1">
+    <div class="flbl">&#127750; Breath speed</div>
+    <div class="frow"><span>My breath is</span><input class="finput" id="f1" maxlength="10" placeholder="fast?" oninput="updateFill()"><span>speed.</span></div>
+    <div class="fhint">e.g. fast / normal / slow / very slow</div>
+  </div>
+  <div class="fcard" id="fc2">
+    <div class="flbl">&#129496; Comfortable spot</div>
+    <div class="frow"><span>Most comfortable part is</span><input class="finput" id="f2" maxlength="12" placeholder="shoulder?" oninput="updateFill()"><span>.</span></div>
+    <div class="fhint">e.g. fingertips / belly / shoulder / sole</div>
+  </div>
+  <div class="fcard" id="fc3">
+    <div class="flbl">&#128066; Sound I hear</div>
+    <div class="frow"><span>Clearest sound is</span><input class="finput" id="f3" maxlength="14" placeholder="wind?" oninput="updateFill()"><span>.</span></div>
+    <div class="fhint">e.g. wind / clock / my breath / birds</div>
+  </div>
+  <div class="fpreview" id="fprev"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:6px">&#10024; Your mindfulness sentence</div><div class="fpreviewt" id="fprevt"></div></div>
+  <button class="btn btns" onclick="submitFill()">Complete +30 XP &#9878;</button>
+  <div class="card" style="margin-top:12px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:8px">&#127807; Mindfulness Routine</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--teal-b)"><span style="font-size:18px">&#127756;</span><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--teal)">4-7-8 Breathing</div><div style="font-size:11px;color:var(--sub)">Inhale 4s &rarr; Hold 7s &rarr; Exhale 8s</div></div><span class="chip ct">+10 XP</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--gold-b)"><span style="font-size:18px">&#128065;</span><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--gold)">5 Senses Check</div><div style="font-size:11px;color:var(--sub)">Name 5 things you see, 4 things you hear</div></div><span class="chip cg">+15 XP</span></div>
+      <div style="display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:var(--accent-b)"><span style="font-size:18px">&#128221;</span><div style="flex:1"><div style="font-size:12px;font-weight:700;color:var(--accent)">Planning Mind Map</div><div style="font-size:11px;color:var(--sub)">Draw today's tasks branching from a center</div></div><span class="chip ca">+20 XP</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- GROWTH -->
+<div class="screen" id="sc-growth">
+<div class="pad">
+  <div class="ghero"><div class="ghtit">&#128200; Cognitive &amp; Emotional Growth</div><div class="ghsub">K-PASS training + mood stability + wisdom cards</div></div>
+  <div class="ggrid">
+    <div class="gstat"><div class="gsval" style="color:var(--accent)">18</div><div class="gslbl">Missions Done</div></div>
+    <div class="gstat"><div class="gsval" style="color:var(--teal)">4</div><div class="gslbl">Day Streak &#128293;</div></div>
+    <div class="gstat"><div class="gsval" style="color:var(--rose)">87%</div><div class="gslbl">Mood Stability</div></div>
+    <div class="gstat"><div class="gsval" style="color:var(--gold)">12</div><div class="gslbl">Wisdom Cards</div></div>
+  </div>
+  <div class="mchart">
+    <div style="font-size:12px;font-weight:700;margin-bottom:12px">&#129504; K-PASS Training (Last 7 Days)</div>
+    <div class="cbars" id="cbars"></div>
+    <div style="display:flex;gap:10px;margin-top:10px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--accent)"></div><span style="font-size:10px;color:var(--sub)">Planning</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--teal)"></div><span style="font-size:10px;color:var(--sub)">Attention</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--rose)"></div><span style="font-size:10px;color:var(--sub)">Simult.</span></div>
+      <div style="display:flex;align-items:center;gap:5px"><div style="width:10px;height:10px;border-radius:3px;background:var(--gold)"></div><span style="font-size:10px;color:var(--sub)">Success.</span></div>
+    </div>
+  </div>
+  <div class="mtrend">
+    <div style="font-size:12px;font-weight:700;margin-bottom:12px">&#128156; Mood Stability (Last 7 Days)</div>
+    <div id="moodrows"></div>
+    <div style="font-size:11px;color:var(--sub);margin-top:8px">&#128522; Good=100 &middot; &#128528; Okay=60 &middot; &#128532; Tough=30</div>
+  </div>
+  <div class="card" style="margin-bottom:12px">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">&#9876; Dilemma Stats</div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <div style="text-align:center;flex:1"><div style="font-size:24px;font-weight:700;color:var(--accent)">5</div><div style="font-size:10px;color:var(--sub)">Total</div></div>
+      <div style="width:1px;height:40px;background:var(--border)"></div>
+      <div style="text-align:center;flex:1"><div style="font-size:24px;font-weight:700;color:var(--gold)">4</div><div style="font-size:10px;color:var(--sub)">Notes</div></div>
+      <div style="width:1px;height:40px;background:var(--border)"></div>
+      <div style="text-align:center;flex:1"><div style="font-size:24px;font-weight:700;color:var(--rose)">3</div><div style="font-size:10px;color:var(--sub)">Changed</div></div>
+    </div>
+  </div>
+  <div style="background:var(--gold-b);border-radius:14px;border:1px solid #e8d080;padding:14px;margin-bottom:12px">
+    <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:8px">&#128142; Wisdom Cards Viewed</div>
+    <div style="display:flex;flex-wrap:wrap;gap:6px">
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid #e8d080;color:var(--gold)">Epictetus x3</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid #e8d080;color:var(--gold)">Buddha x3</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid #e8d080;color:var(--gold)">Confucius x2</span>
+      <span style="font-size:11px;font-weight:600;padding:4px 10px;border-radius:10px;background:#fff;border:1px solid #e8d080;color:var(--gold)">Aristotle x2</span>
+    </div>
+  </div>
+  <div class="card">
+    <div style="font-size:13px;font-weight:700;margin-bottom:10px">&#127942; Badges Earned</div>
+    <div class="bgrid">
+      <div class="bitem"><div class="bico unlocked">&#129496;</div><div class="bname">Mindful 3d</div></div>
+      <div class="bitem"><div class="bico unlocked">&#127963;</div><div class="bname">Stoic Intro</div></div>
+      <div class="bitem"><div class="bico unlocked">&#9876;</div><div class="bname">Dilemma</div></div>
+      <div class="bitem"><div class="bico locked">&#128302;</div><div class="bname">Philosopher</div></div>
+    </div>
+  </div>
+  <div style="background:linear-gradient(135deg,var(--gold-b),#fff8e0);border-radius:var(--r);border:2px solid #e8d080;padding:16px;margin-top:4px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px">
+      <span style="font-size:20px">&#9997;</span>
+      <div><div style="font-size:14px;font-weight:700;color:var(--gold)">Today's Reflection Journal</div><div style="font-size:11px;color:var(--sub)">Write today's wisdom in your own words &middot; +20 XP</div></div>
+    </div>
+    <div style="background:var(--gold-b);border-radius:12px;padding:12px;margin-bottom:12px;border-left:3px solid var(--gold)">
+      <div style="font-size:12px;font-weight:700;color:var(--gold);margin-bottom:4px">How will you use today's wisdom tomorrow?</div>
+    </div>
+    <textarea class="diary-input" id="diary" rows="4" placeholder="What you felt during training, a quote that stuck, one thing to practice tomorrow..."></textarea>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-top:10px">
+      <div style="font-size:11px;color:var(--sub)" id="dcount">0 chars</div>
+      <button class="btn btnp" style="width:auto;padding:12px 24px" onclick="saveDiary()">Save &#10003; +20 XP</button>
+    </div>
+    <div id="dlist" style="margin-top:10px;display:flex;flex-direction:column;gap:8px"></div>
+  </div>
+</div>
+</div>
+
+</div><!-- scroll -->
+
+<!-- NAV -->
+<nav class="nav">
+  <button class="nb active" onclick="goNav('home',this)"><span class="ico">&#127968;</span><span>Home</span></button>
+  <button class="nb" onclick="goNav('philosophy',this)"><span class="ico">&#127963;</span><span>Philosophy</span></button>
+  <button class="nb" onclick="goNav('dilemma',this)"><span class="ico">&#9876;</span><span>Dilemma</span><span class="nbadge" id="dbadge">1</span></button>
+  <button class="nb" onclick="goNav('mindful',this)"><span class="ico">&#129496;</span><span>Mindful</span></button>
+  <button class="nb" onclick="goNav('growth',this)"><span class="ico">&#128200;</span><span>Growth</span></button>
+</nav>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<!-- MODAL -->
+<div class="mbg" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="mhandle"></div>
+    <button class="mclose" onclick="closeModal()">&#10005;</button>
+    <div id="mcontent"></div>
+  </div>
+</div>
+
+<script>
+(function(){
+var S={xp:180,maxXp:300,lv:4,done:{},emo:null,breathOn:false,breathSec:180,breathTimer:null,dilChoice:null,dilDone:false,country:'korea'};
+var DAYS=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+var td=new Date(), dow=td.getDay();
+
+function el(id){return document.getElementById(id);}
+function addXP(n){S.xp=Math.min(S.xp+n,S.maxXp);var f=el('xp-fill');if(f)f.style.width=Math.round(S.xp/S.maxXp*100)+'%';var t=el('xp-txt');if(t)t.textContent=S.xp+' / '+S.maxXp+' XP';}
+function showToast(msg){var t=el('toast');if(!t)return;t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show');},2200);}
+window.showToast=showToast;
+
+// Date (today-date는 applyKorean/applyEnglish에서 처리)
+var wd=el('wdate');if(wd)wd.textContent=(td.getMonth()+1)+'/'+td.getDate()+' ('+DAYS[dow]+')';
+
+// Wisdoms
+var WIS=[
+  {q:'"Failing to plan is planning to fail."',src:'Benjamin Franklin',axis:'Planning PS+'},
+  {q:'"This present moment is the only moment. Be fully here."',src:'Thich Nhat Hanh',axis:'Attention PS+'},
+  {q:'"Do not impose on others what you yourself do not want."',src:'Confucius',axis:'Simultaneous Processing'},
+  {q:'"Virtue comes not from knowledge but from daily habit."',src:'Aristotle',axis:'Successive PW-'},
+  {q:'"Do not waste energy on what you cannot control."',src:'Epictetus',axis:'Planning PS+'},
+  {q:'"Staying in the present moment is where freedom begins."',src:'Buddha',axis:'Attention PS+'},
+  {q:'"I know one thing - that I know nothing."',src:'Socrates',axis:'Metacognition'}
+];
+
+// Missions
+var MS={
+  0:[{id:'m0',ico:'&#127807;',bg:'var(--teal-b)',title:'Nature Mindfulness Walk',wis:'"Walking in nature is the finest meditation." - Buddha',axis:'Rest',xp:20}],
+  1:[{id:'m1a',ico:'&#127963;',bg:'var(--accent-b)',title:'Stoic Goal Design',wis:'"Failing to plan is planning to fail." - Franklin',axis:'Planning PS+',xp:40},{id:'m1b',ico:'&#127756;',bg:'var(--teal-b)',title:'3-min Mindful Breathing',wis:'"Focus on each breath." - Buddha',axis:'Attention PS+',xp:20},{id:'m1c',ico:'&#128221;',bg:'var(--gold-b)',title:'Step Design Card',wis:'"Virtue comes from daily routine." - Aristotle',axis:'Successive PW-',xp:30}],
+  2:[{id:'m2a',ico:'&#9878;',bg:'var(--teal-b)',title:'Buddhist Mindfulness',wis:'"Stay in the present moment." - Buddha',axis:'Attention PS+',xp:30},{id:'m2b',ico:'&#128081;',bg:'var(--rose-b)',title:'Empathy Quest',wis:'"Do not impose on others." - Confucius',axis:'Simult.',xp:40},{id:'m2c',ico:'&#9876;',bg:'var(--accent-b)',title:'Socratic Dilemma',wis:'"I know nothing." - Socrates',axis:'Integrated',xp:60}],
+  3:[{id:'m3a',ico:'&#128203;',bg:'var(--gold-b)',title:'Sequential Training',wis:'"Great goals: one small step at a time." - M.Aurelius',axis:'Successive PW-',xp:50},{id:'m3b',ico:'&#127963;',bg:'var(--accent-b)',title:'Stoic Dichotomy of Control',wis:'"Let go of what you cannot control." - Epictetus',axis:'Planning PS+',xp:40}],
+  4:[{id:'m4a',ico:'&#127760;',bg:'var(--rose-b)',title:'Simultaneous Processing',wis:'"The eye that sees the whole." - Confucius',axis:'Simult.',xp:40},{id:'m4b',ico:'&#9876;',bg:'var(--accent-b)',title:'Deep Question Dilemma',wis:'"Only those who question grow." - Socrates',axis:'Integrated',xp:60},{id:'m4c',ico:'&#129496;',bg:'var(--teal-b)',title:'5 Senses Mindfulness',wis:'"Touch the world with all five senses." - Thich Nhat Hanh',axis:'Attention PS+',xp:20}],
+  5:[{id:'m5a',ico:'&#128640;',bg:'var(--accent-b)',title:'Weekly Planning Project',wis:'"Those with clear goals see obstacles as opportunities." - Franklin',axis:'Planning PS+',xp:60},{id:'m5b',ico:'&#128172;',bg:'var(--rose-b)',title:'Pair Share Wisdom',wis:'"Teaching others is the greatest learning." - Confucius',axis:'Simult.',xp:40}],
+  6:[{id:'m6a',ico:'&#128214;',bg:'var(--gold-b)',title:'Free Reflection Journal',wis:'"Reflecting on today shapes tomorrow." - M.Aurelius',axis:'Metacognition',xp:30}]
+};
+function renderMissions(){
+  var src=(S.country==='korea'&&typeof KO!=='undefined')?KO.missions:MS;
+  var ms=src[dow]||src[1],c=el('missions');if(!c)return;
+  c.innerHTML=ms.map(function(m){
+    var done=S.done[m.id];
+    return '<div class="mitem'+(done?' done':'')+'" onclick="completeMission(\''+m.id+'\','+m.xp+')">'
+      +'<div class="mico" style="background:'+m.bg+'">'+m.ico+'</div>'
+      +'<div class="mbody"><div class="mtit">'+m.title+'</div><div class="mwis">'+m.wis+'</div>'
+      +'<span class="chip ca" style="font-size:9px">'+m.axis+'</span></div>'
+      +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">'
+      +'<span style="font-size:11px;font-weight:700;color:var(--accent)">+'+m.xp+' XP</span>'
+      +'<div class="mchk'+(done?' done':'')+'">'+( done?'&#10003;':'' )+'</div></div></div>';
+  }).join('');
+}
+window.completeMission=function(id,xp){
+  if(S.done[id])return;S.done[id]=true;addXP(xp);renderMissions();
+  showToast('+'+xp+(S.country==='korea'?' XP 획득!':' XP earned!'));
+};
+
+// Nav
+window.goNav=function(name,btn){
+  document.querySelectorAll('.screen').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.nb').forEach(function(b){b.classList.remove('active');});
+  var sc=el('sc-'+name);if(sc)sc.classList.add('active');btn.classList.add('active');
+  if(name==='growth')renderGrowth();
+  if(name==='philosophy')renderPhil();
+};
+
+// Country data
+var CD={
+  korea:{desc:'K-PASS customized philosophy - Korea',
+    cards:[
+      {m:'planning',ico:'&#127963;',bg:'var(--accent-b)',tit:'Stoicism - Dichotomy of Control',sub:'Epictetus / Marcus Aurelius',axis:'Planning PS+',chip:'ca',wis:'"Focus on what you can control; let go of what you cannot."',task:'Deepen your Planning strength. Goal setting - Action plan - Reflection 3-step quest.',xp:'+40 XP'},
+      {m:'attention',ico:'&#9878;',bg:'var(--teal-b)',tit:'Buddhist Mindfulness - Present Focus',sub:'Buddha / Thich Nhat Hanh',axis:'Attention PS+',chip:'ct',wis:'"This present moment is the only moment. Stay right here, right now."',task:'Train your Attention strength through mindfulness. 3-min breath + sensory awareness.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#9803;',bg:'var(--rose-b)',tit:'Confucianism - Shu Empathy',sub:'Confucius / Analects',axis:'Simultaneous',chip:'cr',wis:'"Do not impose on others what you yourself do not want."',task:'Deepen empathy using your Simultaneous Processing strength.',xp:'+40 XP'},
+      {m:'successive',ico:'&#956;',bg:'var(--gold-b)',tit:'Aristotle - Golden Mean',sub:'Nicomachean Ethics',axis:'Successive PW-',chip:'cw',wis:'"Virtue comes not from knowledge but from daily habit."',task:'Compensate for Successive weakness. Design step-by-step using Planning strength.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'b',lbl:'Buddhism',col:'var(--teal)',phs:['This present moment is the only moment. Stay right here, right now.','Focus on each breath. That is the gateway to awakening.','Staying in the present moment is where freedom begins.']},
+      {id:'s',lbl:'Stoicism',col:'var(--accent)',phs:['Focus on what you can control; release what you cannot.','It is not events that disturb you, but your judgments about them.','Great goals are achieved one small step at a time.']},
+      {id:'c',lbl:'Confucius',col:'var(--rose)',phs:['Do not impose on others what you yourself do not want.','Teaching others is the greatest form of learning.']},
+      {id:'a',lbl:'Aristotle',col:'var(--gold)',phs:['Virtue comes not from knowledge but from daily habit.','Ordinary days accumulated make an extraordinary you.']}
+    ]},
+  uae:{desc:'Islamic Philosophy x K-PASS - UAE / Arab',
+    cards:[
+      {m:'planning',ico:'&#129330;',bg:'var(--accent-b)',tit:'Tawakkul - Trust in Allah',sub:'Quran 2:286',axis:'Planning PS+',chip:'ca',wis:'"Allah does not burden a soul beyond that it can bear." (2:286)',task:'Plan with full effort, then trust in Allah. Goal - Action - Surrender.',xp:'+40 XP'},
+      {m:'attention',ico:'&#127769;',bg:'var(--teal-b)',tit:"Muraqaba - Allah's Awareness",sub:'Sufi tradition',axis:'Attention PS+',chip:'ct',wis:'"Worship Allah as though you see Him. He sees you." (Hadith)',task:'Train Attention through Islamic mindfulness - be present in every moment.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#129309;',bg:'var(--rose-b)',tit:'Ukhuwwa - Brotherhood',sub:'Quran 49:10',axis:'Simultaneous',chip:'cr',wis:'"The believers are but brothers." (Al-Hujurat 49:10)',task:"Strengthen empathy through Islamic brotherhood. Walk in your brother's shoes.",xp:'+40 XP'},
+      {m:'successive',ico:'&#9728;',bg:'var(--gold-b)',tit:'Istiqama - Steadfast Consistency',sub:'Quran 41:30',axis:'Successive PW-',chip:'cw',wis:'"Those who say our Lord is Allah and remain steadfast - angels descend upon them."',task:'Build Successive Processing through daily Islamic routines. 5 daily prayers as rhythm.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'q',lbl:'Quran',col:'var(--teal)',phs:['Allah does not burden a soul beyond that it can bear.','Verily, with hardship comes ease.','The believers are but brothers.']},
+      {id:'h',lbl:'Hadith',col:'var(--accent)',phs:['Worship Allah as though you see Him, for He sees you.','Make things easy and do not make them difficult.']},
+      {id:'r',lbl:'Wisdom',col:'var(--gold)',phs:['Do not grieve. Everything you lose comes around in another form.','Yesterday I was clever so I wanted to change the world. Today I am wise so I am changing myself.']}
+    ]},
+  usa:{desc:'American Philosophy x K-PASS - USA',
+    cards:[
+      {m:'planning',ico:'&#129413;',bg:'var(--accent-b)',tit:'Pragmatism - Action & Results',sub:'William James / John Dewey',axis:'Planning PS+',chip:'ca',wis:'"Act as if what you do makes a difference. It does." - William James',task:'Apply pragmatic thinking to your planning strength.',xp:'+40 XP'},
+      {m:'attention',ico:'&#127807;',bg:'var(--teal-b)',tit:'Transcendentalism - Inner Focus',sub:'Thoreau / Emerson',axis:'Attention PS+',chip:'ct',wis:'"You must live in the present, launch yourself on every wave." - Thoreau',task:'Train attention through nature-inspired mindfulness.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#9878;',bg:'var(--rose-b)',tit:'Democratic Empathy - Common Good',sub:'Lincoln / MLK Jr.',axis:'Simultaneous',chip:'cr',wis:'"Injustice anywhere is a threat to justice everywhere." - MLK Jr.',task:'See the big picture using your Simultaneous Processing strength.',xp:'+40 XP'},
+      {m:'successive',ico:'&#9881;',bg:'var(--gold-b)',tit:'Work Ethic - Step by Step',sub:'Benjamin Franklin',axis:'Successive PW-',chip:'cw',wis:'"Little strokes fell great oaks." - Benjamin Franklin',task:"Build Successive Processing through Franklin's daily routine method.",xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'p',lbl:'Pragmatism',col:'var(--accent)',phs:['Act as if what you do makes a difference. It does.','Little strokes fell great oaks.']},
+      {id:'t',lbl:'Transcend',col:'var(--teal)',phs:['You must live in the present, launch yourself on every wave.','What lies within us is far greater than what lies behind or before us.']},
+      {id:'ci',lbl:'Civil Rights',col:'var(--rose)',phs:['Injustice anywhere is a threat to justice everywhere.','The time is always right to do what is right.']}
+    ]},
+  japan:{desc:'Japanese Philosophy x K-PASS - Japan',
+    cards:[
+      {m:'planning',ico:'&#127963;',bg:'var(--accent-b)',tit:'Kaizen - Continuous Improvement',sub:'Toyota Philosophy',axis:'Planning PS+',chip:'ca',wis:'"Small daily improvements are the key to staggering long-term results."',task:'Apply Kaizen to your Planning strength. One small improvement every day.',xp:'+40 XP'},
+      {m:'attention',ico:'&#127807;',bg:'var(--teal-b)',tit:'Zen - Ichi-go Ichi-e',sub:'Zen Buddhism',axis:'Attention PS+',chip:'ct',wis:'"One time, one meeting - this moment will never come again. Be fully present."',task:'Train your Attention through Zen mindfulness.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#127800;',bg:'var(--rose-b)',tit:'Amae - Compassionate Connection',sub:'Japanese Psychology',axis:'Simultaneous',chip:'cr',wis:'"Reading the unspoken - understanding others before words are said."',task:"Use Simultaneous Processing to sense others' feelings without words.",xp:'+40 XP'},
+      {m:'successive',ico:'&#127981;',bg:'var(--gold-b)',tit:'Kata - Mastery Through Ritual',sub:'Japanese martial arts',axis:'Successive PW-',chip:'cw',wis:'"Follow the form exactly, and mastery will follow naturally."',task:'Build Successive Processing through repetition and ritual.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'z',lbl:'Zen',col:'var(--teal)',phs:['One time, one meeting - this moment will never come again.','Before enlightenment, chop wood carry water. After enlightenment, chop wood carry water.']},
+      {id:'k',lbl:'Kaizen',col:'var(--accent)',phs:['Small daily improvements lead to staggering long-term results.','The journey of a thousand miles begins with a single step.']},
+      {id:'w',lbl:'Wabi-Sabi',col:'var(--gold)',phs:['In the beauty of imperfection, we find the most honest truth.','Nothing lasts, nothing is finished, nothing is perfect - and that is beautiful.']}
+    ]},
+  china:{desc:'Chinese Philosophy x K-PASS - China',
+    cards:[
+      {m:'planning',ico:'&#9775;',bg:'var(--accent-b)',tit:'Taoism - Wu Wei',sub:'Laozi / Tao Te Ching',axis:'Planning PS+',chip:'ca',wis:'"Act without forcing. The Tao that can be told is not the eternal Tao."',task:'Plan with flow, not force. Find the path of least resistance.',xp:'+40 XP'},
+      {m:'attention',ico:'&#129496;',bg:'var(--teal-b)',tit:'Chan Mindfulness',sub:'Chan Buddhism',axis:'Attention PS+',chip:'ct',wis:'"The mind is like water - when still, it reflects perfectly."',task:'Train Attention through Chan meditation. Still the mind, reflect clearly.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#9803;',bg:'var(--rose-b)',tit:'Confucius - Shu Reciprocity',sub:'Confucius / Analects',axis:'Simultaneous',chip:'cr',wis:'"Do not impose on others what you yourself do not want."',task:"Deepen empathy through Confucian reciprocity. Walk in another's shoes.",xp:'+40 XP'},
+      {m:'successive',ico:'&#127984;',bg:'var(--gold-b)',tit:'Yi Jing - Change and Order',sub:'Book of Changes',axis:'Successive PW-',chip:'cw',wis:'"Things change in sequence. Understanding the order reveals the path forward."',task:'Build Successive Processing through the wisdom of ordered change.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'ta',lbl:'Taoism',col:'var(--teal)',phs:['The journey of a thousand miles begins with a single step.','Knowing others is wisdom; knowing yourself is enlightenment.']},
+      {id:'co',lbl:'Confucius',col:'var(--rose)',phs:['Do not impose on others what you yourself do not want.','It does not matter how slowly you go as long as you do not stop.']},
+      {id:'ch',lbl:'Chan',col:'var(--accent)',phs:['The mind is like water - when still, it reflects perfectly.']}
+    ]},
+  india:{desc:'Indian Philosophy x K-PASS - India',
+    cards:[
+      {m:'planning',ico:'&#129330;',bg:'var(--accent-b)',tit:'Karma Yoga - Purposeful Action',sub:'Bhagavad Gita',axis:'Planning PS+',chip:'ca',wis:'"You have a right to perform your duty, but not to the fruits of your actions." - Gita',task:'Act with full effort and release the outcome.',xp:'+40 XP'},
+      {m:'attention',ico:'&#127799;',bg:'var(--teal-b)',tit:'Dhyana - Meditation',sub:'Patanjali / Yoga Sutras',axis:'Attention PS+',chip:'ct',wis:'"Yoga is the stilling of the fluctuations of the mind." - Yoga Sutras',task:'Train your Attention through Dhyana meditation.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#128591;',bg:'var(--rose-b)',tit:'Ahimsa - Non-Harm',sub:'Gandhi / Jainism',axis:'Simultaneous',chip:'cr',wis:'"Be the change you wish to see in the world." - Gandhi',task:'Expand Simultaneous Processing through radical empathy.',xp:'+40 XP'},
+      {m:'successive',ico:'&#127749;',bg:'var(--gold-b)',tit:'Dharma - Right Path',sub:'Hindu tradition',axis:'Successive PW-',chip:'cw',wis:'"Follow your dharma - your own path - step by step, day by day."',task:'Build Successive Processing through daily dharmic practice.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'gi',lbl:'Bhagavad Gita',col:'var(--accent)',phs:['You have a right to perform your duty, but not to the fruits of your actions.','Change is the law of the universe.']},
+      {id:'ga',lbl:'Gandhi',col:'var(--teal)',phs:['Be the change you wish to see in the world.','Strength does not come from physical capacity. It comes from an indomitable will.']},
+      {id:'yo',lbl:'Yoga',col:'var(--gold)',phs:['Yoga is the stilling of the fluctuations of the mind.']}
+    ]},
+  uk:{desc:'British Philosophy x K-PASS - UK',
+    cards:[
+      {m:'planning',ico:'&#127891;',bg:'var(--accent-b)',tit:'Empiricism - Evidence and Planning',sub:'John Locke / Francis Bacon',axis:'Planning PS+',chip:'ca',wis:'"Knowledge is power. Plan with evidence, not assumption." - Francis Bacon',task:'Apply British empiricism to your planning.',xp:'+40 XP'},
+      {m:'attention',ico:'&#128301;',bg:'var(--teal-b)',tit:"Mindful Curiosity - Darwin's Observation",sub:'Charles Darwin',axis:'Attention PS+',chip:'ct',wis:'"A man who dares to waste one hour has not discovered the value of life." - Darwin',task:'Train Attention through careful observation.',xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#9878;',bg:'var(--rose-b)',tit:'Utilitarianism - Greatest Good',sub:'Mill / Bentham',axis:'Simultaneous',chip:'cr',wis:'"The greatest happiness for the greatest number." - Bentham',task:'Use Simultaneous Processing to consider many perspectives at once.',xp:'+40 XP'},
+      {m:'successive',ico:'&#128218;',bg:'var(--gold-b)',tit:'Stoicism Revival - Step by Step',sub:'Bertrand Russell',axis:'Successive PW-',chip:'cw',wis:'"The good life is one inspired by love and guided by knowledge." - Russell',task:'Build Successive Processing through structured, sequential learning.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'em',lbl:'Empiricism',col:'var(--accent)',phs:['Knowledge is power.','The mind is furnished with ideas by experience alone.']},
+      {id:'da',lbl:'Darwin',col:'var(--teal)',phs:['A man who dares to waste one hour has not discovered the value of life.','It is not the strongest species that survive, but those most adaptable to change.']},
+      {id:'ru',lbl:'Russell',col:'var(--gold)',phs:['The good life is one inspired by love and guided by knowledge.','The time you enjoy wasting is not wasted time.']}
+    ]},
+  germany:{desc:'German Philosophy x K-PASS - Germany',
+    cards:[
+      {m:'planning',ico:'&#9881;',bg:'var(--accent-b)',tit:'Kant - Categorical Imperative',sub:'Immanuel Kant',axis:'Planning PS+',chip:'ca',wis:'"Act only according to that maxim by which you can will it to be a universal law."',task:"Apply Kantian ethics to your planning. Make a rule you'd want everyone to follow.",xp:'+40 XP'},
+      {m:'attention',ico:'&#127754;',bg:'var(--teal-b)',tit:'Nietzsche - Flow State',sub:'Friedrich Nietzsche',axis:'Attention PS+',chip:'ct',wis:'"Become who you are - fully present in every act." - Nietzsche',task:"Train Attention through Nietzsche's idea of full presence in action.",xp:'+30 XP'},
+      {m:'simultaneous',ico:'&#129330;',bg:'var(--rose-b)',tit:'Hegel - Dialectical Thinking',sub:'G.W.F. Hegel',axis:'Simultaneous',chip:'cr',wis:'"Truth is the whole - thesis, antithesis, synthesis."',task:'Use Simultaneous Processing to hold two opposing views and find synthesis.',xp:'+40 XP'},
+      {m:'successive',ico:'&#128295;',bg:'var(--gold-b)',tit:'German Work Ethic - Ordnung',sub:'German cultural tradition',axis:'Successive PW-',chip:'cw',wis:'"There must be order. Step by step, with precision."',task:'Build Successive Processing through German-style structured, ordered work habits.',xp:'+50 XP'}
+    ],
+    tabs:[
+      {id:'ka',lbl:'Kant',col:'var(--accent)',phs:['Act only according to that maxim by which you can will it to be universal law.','Two things fill me with wonder: the starry sky above and the moral law within.']},
+      {id:'ni',lbl:'Nietzsche',col:'var(--teal)',phs:['Become who you are.','That which does not kill us makes us stronger.']},
+      {id:'go',lbl:'Goethe',col:'var(--gold)',phs:['Knowing is not enough; we must apply. Willing is not enough; we must do.']}
+    ]}
+};
+
+// ── 한국어 UI 텍스트 ──────────────────────────────────────────────
+var KO={
+  topbarType:'우뇌형 · 9세',
+  countryLabel:'🌍 국가',
+  wisdomLabel:'💎 오늘의 지혜',
+  emoTitle:'😊 오늘 기분이 어때, 서우야?',
+  emoLabels:{calm:'좋아요',neutral:'보통',sad:'힘들어',angry:'화남',anxious:'불안',tired:'피곤'},
+  passTitle:'⚡ 나의 K-PASS 프로필',
+  passChip:'우뇌형',
+  passLabels:{plan:'계획력',att:'주의집중',sim:'동시처리',suc:'순차처리'},
+  passWarn:'💡 <b>순차처리(95)</b>가 약점이에요. 계획력(145)으로 먼저 단계를 설계해보세요!',
+  missionSec:'🌟 오늘의 훈련 미션',
+  streakTitle:'🔥 연속 훈련',
+  streakChip:'4일 🔥',
+  streakDays:['월','화','수','목','금','토','일'],
+  navHome:'홈',navPhil:'철학',navDil:'딜레마',navMind:'마음챙김',navGrow:'성장',
+  philSec:'🏛 철학',
+  writeSec:'✏ 필사 연습',
+  writeSub:'명언을 천천히 따라 쓰세요 — 순차처리도 함께 훈련돼요!',
+  dilLabel:'⚔ 소크라테스 딜레마',
+  dilTit:'오늘의 질문:<br>"내가 옳다고 믿는 것이<br>실제로는 틀릴 수 있을까?"',
+  dilDesc:'두뇌 유형별 깊이 생각하는 질문. 정답은 없어 — 과정 자체가 훈련이야.',
+  dilTags:['🧠 계획력 PS↑','⚕ 불교 · 스토아','+60 XP'],
+  dilTabToday:'📅 오늘',dilTabPast:'📚 지난',dilTabNotes:'✏ 노트',
+  dilSitu:'📍 상황',
+  dilStem:'친구가 어려운 시험을 앞두고 답을 알려달라고 해. 너는 답을 알고 있어.',
+  dilCtx:'강한 계획력을 가진 너라면 어떻게 결정할까? 친구에게 가장 좋은 장기적 선택은 뭘까?',
+  dilChoices:[
+    {lbl:'선택 A',txt:'답을 알려줘 — 지금 친구를 돕는 것이 진짜 우정이야.'},
+    {lbl:'선택 B',txt:'같이 풀어봐 — 진짜 도움은 스스로 이해하도록 돕는 거야.'},
+    {lbl:'선택 C',txt:'공유할 수 없다고 말해 — 진짜 친구라면 이해할 거야.'}
+  ],
+  dilComplete:'완료 — +60 XP',
+  dilMeta:'✏ 생각이 바뀐 이유',
+  dilMetaPlaceholder:'처음엔 ___ 라고 생각했는데, ___ 를 생각해보니 ___ 로 생각이 바뀌었어.',
+  dilConsider:'🔍 다른 관점으로 생각해봐',
+  dilRbtit_A:{body:"네가 도왔구나! 그런데 에픽테토스가 물어: 진짜 도움은 지금 편하게 해주는 것일까, 아니면 스스로 성장하도록 돕는 것일까?",wis:'"친구의 약점을 대신 해결해주면, 그를 더 약하게 만들 뿐이다."',src:'- 에픽테토스 - 계획력 PS+'},
+  dilRbtit_B:{body:"훌륭해! 공자의 공감 원리처럼 친구의 입장에서 생각했어. 함께 해결하는 것이 진정한 우정이야!",wis:'"자신이 원하지 않는 것을 남에게 강요하지 말라. 진짜 도움은 함께 성장하는 것."',src:'- 공자 - 동시처리'},
+  dilRbtit_C:{body:"용감한 선택이야! 아리스토텔레스의 중용처럼, 때로는 거절하는 것이 진짜 덕목이야. 이유를 설명해줘.",wis:'"덕목은 지식이 아니라 용감한 선택에서 나온다."',src:'- 아리스토텔레스 - 순차처리 PW-'},
+  dilDeepQ:'🧠 우뇌형 · 깊이 생각하는 질문들',
+  dilQ1:'💜 <b>동시처리:</b> "네가 그 친구라면, 어떤 도움을 원할까?"',
+  dilQ2:'💛 <b>계획력:</b> "3년 후, 이 선택이 우정에 어떤 영향을 미칠까?"',
+  dilQ3:'💙 <b>주의집중:</b> "지금 이 순간, 가장 중요한 가치는 뭐라고 느껴?"',
+  mindSec:'🧘 마음챙김 호흡',
+  mindSub:'불교 호흡 관찰 · 주의집중(131) 훈련',
+  breathTap:'탭해서 시작',breathStart:'시작',breathPause:'일시정지',breathRestart:'다시 시작',breathDone:'완료! 다시 시작',breathComplete:'완료!',
+  breathInhale:'들숨',breathHold:'정지',breathExhale:'날숨',
+  breathDesc:'코로 들이쉬고, 입으로 내쉬어요.<br>생각이 떠오르면, 부드럽게 호흡으로 돌아오세요.',
+  breathWisTitle:'⚕ 오늘의 마음챙김 지혜',
+  breathWis:'"이 순간에 머물러. 과거는 지나갔고, 미래는 아직 오지 않았어."',
+  breathWisSrc:'— 부처 · 주의집중(A) 131 PS↑',
+  fillTitle:'✏ 이 순간을 채워봐',
+  fillComplete:'완료 +30 XP ⚕',
+  fillF1Lbl:'🌊 호흡 속도',fillF1Pre:'내 호흡은',fillF1Post:'속도야.',fillF1Ph:'빠름?',fillF1Hint:'예: 빠름 / 보통 / 느림 / 매우 느림',
+  fillF2Lbl:'🧘 편안한 부위',fillF2Pre:'가장 편안한 부위는',fillF2Post:'.',fillF2Ph:'어깨?',fillF2Hint:'예: 손끝 / 배 / 어깨 / 발바닥',
+  fillF3Lbl:'👂 들리는 소리',fillF3Pre:'가장 잘 들리는 소리는',fillF3Post:'.',fillF3Ph:'바람?',fillF3Hint:'예: 바람 / 시계 / 내 호흡 / 새소리',
+  fillPreviewLabel:'✨ 나의 마음챙김 문장',
+  routineTitle:'🌿 마음챙김 루틴',
+  routine:[
+    {ico:'🌊',tit:'4-7-8 호흡법',sub:'들숨 4초 → 정지 7초 → 날숨 8초',xp:'+10 XP',chip:'ct'},
+    {ico:'👁',tit:'오감 체크',sub:'보이는 것 5가지, 들리는 것 4가지 말하기',xp:'+15 XP',chip:'cg'},
+    {ico:'📝',tit:'계획력 마인드맵',sub:'오늘 할 일을 가운데서 가지 뻗어 그려봐',xp:'+20 XP',chip:'ca'}
+  ],
+  growHero:'📈 인지 & 정서 성장',
+  growSub:'K-PASS 훈련 + 감정 안정 + 지혜 카드',
+  growStats:['미션 완료','연속 일수 🔥','감정 안정도','지혜 카드'],
+  growChart:'🧠 K-PASS 훈련 (최근 7일)',
+  growLegend:['계획력','주의집중','동시처리','순차처리'],
+  growDays:['월','화','수','목','금','토','일'],
+  growMood:'💜 감정 안정도 (최근 7일)',
+  growMoodHint:'😊 좋아요=100 · 😐 보통=60 · 😢 힘들어=30',
+  growDil:'⚔ 딜레마 통계',
+  growDilLabels:['총계','노트','변화'],
+  growWisdom:'💎 열람한 지혜 카드',
+  growBadge:'🏆 획득 뱃지',
+  growBadgeNames:['마음챙김 3일','스토아 입문','딜레마','철학자'],
+  journalTitle:'✏ 오늘의 성찰 일기',
+  journalSub:'오늘의 지혜를 내 말로 써봐 · +20 XP',
+  journalQ:'오늘의 지혜를 내일 어떻게 활용할까?',
+  journalPh:'훈련하면서 느낀 점, 마음에 남는 명언, 내일 실천할 한 가지...',
+  journalSave:'저장 ✓ +20 XP',
+  journalSavedAt:'저장됨 ',
+  journalChars:'0 글자',
+  missXP:' XP 획득!',
+  toastDil:'딜레마 완료!',
+  toastAtt:'마음챙김 완료!',
+  toastSim:'공감 퀘스트 완료!',
+  toastSuc:'단계 설계 완료!',
+  toastPlan:'스토아 퀘스트 완료!',
+  toastBreath:'마음챙김 완료!',
+  toastFill:'마음챙김 완료!',
+  toastDiary:'일기 저장됨!',
+  fillValidate:'세 칸을 모두 채워주세요!',
+  dilValidate:'먼저 선택지를 골라줘!',
+  simValidate:'공감 성찰을 작성해줘!',
+  sucValidate:'단계 설계를 작성해줘!',
+  diaryValidate:'한 줄 이상 써주세요!',
+  emoFeedback:{
+    calm:{t:'좋은 날이야! 오늘 계획력(145) 심화 훈련에 도전해봐.',w:'"현재를 충분히 즐겨라." - 마르쿠스 아우렐리우스'},
+    neutral:{t:'그래도 괜찮아. 3분 마음챙김 호흡으로 가볍게 시작해봐.',w:'"평범한 날들이 쌓여 특별한 너를 만든다." - 아리스토텔레스'},
+    sad:{t:'힘든 하루구나. 와줘서 고마워! 부드럽게 시작해봐.',w:'"이 순간, 있는 그대로의 너를 받아들여." - 부처'},
+    angry:{t:'화가 났구나? 스토아 철학이 도움이 될 거야 — 통제할 수 없는 것을 놓아줘.',w:'"너를 흔드는 건 사건이 아니라 판단이야." - 에픽테토스'},
+    anxious:{t:'불안하구나? 지금 이 순간에 머물러봐.',w:'"불안은 내일을 걱정하는 것. 오늘 숨 한 번에 집중해." - 틱낫한'},
+    tired:{t:'정말 피곤하구나? 가벼운 휴식 미션만 해도 충분해!',w:'"휴식도 훈련이야. 회복하는 자가 끝까지 가장 오래 간다." - 마르쿠스 아우렐리우스'}
+  },
+  missions:{
+    0:[{id:'m0',ico:'🌿',bg:'var(--teal-b)',title:'자연 마음챙김 산책',wis:'"자연 속 걷기가 최고의 명상이야." - 부처',axis:'휴식',xp:20}],
+    1:[
+      {id:'m1a',ico:'🏛',bg:'var(--accent-b)',title:'스토아 목표 설계',wis:'"계획 없는 실패는 실패를 계획하는 것." - 프랭클린',axis:'계획력 PS+',xp:40},
+      {id:'m1b',ico:'🌊',bg:'var(--teal-b)',title:'3분 마음챙김 호흡',wis:'"각 호흡에 집중해." - 부처',axis:'주의집중 PS+',xp:20},
+      {id:'m1c',ico:'📝',bg:'var(--gold-b)',title:'단계 설계 카드',wis:'"덕목은 일상 루틴에서 온다." - 아리스토텔레스',axis:'순차처리 PW-',xp:30}
+    ],
+    2:[
+      {id:'m2a',ico:'⚕',bg:'var(--teal-b)',title:'불교 마음챙김',wis:'"현재 순간에 머물러." - 부처',axis:'주의집중 PS+',xp:30},
+      {id:'m2b',ico:'👑',bg:'var(--rose-b)',title:'공감 퀘스트',wis:'"자신이 원하지 않는 걸 남에게 강요하지 마." - 공자',axis:'동시처리',xp:40},
+      {id:'m2c',ico:'⚔',bg:'var(--accent-b)',title:'소크라테스 딜레마',wis:'"나는 아무것도 모른다." - 소크라테스',axis:'통합',xp:60}
+    ],
+    3:[
+      {id:'m3a',ico:'📋',bg:'var(--gold-b)',title:'순차 훈련',wis:'"위대한 목표: 한 번에 작은 한 걸음씩." - 마르쿠스',axis:'순차처리 PW-',xp:50},
+      {id:'m3b',ico:'🏛',bg:'var(--accent-b)',title:'스토아 통제 이분법',wis:'"통제할 수 없는 건 놓아줘." - 에픽테토스',axis:'계획력 PS+',xp:40}
+    ],
+    4:[
+      {id:'m4a',ico:'🌐',bg:'var(--rose-b)',title:'동시처리 훈련',wis:'"전체를 보는 눈." - 공자',axis:'동시처리',xp:40},
+      {id:'m4b',ico:'⚔',bg:'var(--accent-b)',title:'깊은 질문 딜레마',wis:'"질문하는 자만이 성장한다." - 소크라테스',axis:'통합',xp:60},
+      {id:'m4c',ico:'🧘',bg:'var(--teal-b)',title:'오감 마음챙김',wis:'"다섯 감각으로 세상을 만져봐." - 틱낫한',axis:'주의집중 PS+',xp:20}
+    ],
+    5:[
+      {id:'m5a',ico:'🚀',bg:'var(--accent-b)',title:'주간 계획 프로젝트',wis:'"명확한 목표를 가진 자는 장애물도 기회로 본다." - 프랭클린',axis:'계획력 PS+',xp:60},
+      {id:'m5b',ico:'💬',bg:'var(--rose-b)',title:'지혜 나누기',wis:'"남을 가르치는 것이 최고의 배움이야." - 공자',axis:'동시처리',xp:40}
+    ],
+    6:[{id:'m6a',ico:'📖',bg:'var(--gold-b)',title:'자유 성찰 일기',wis:'"오늘을 돌아보는 것이 내일을 빚는다." - 마르쿠스',axis:'메타인지',xp:30}]
+  },
+  wisdoms:[
+    {q:'"계획 없는 실패는, 실패를 계획하는 것이다."',src:'벤자민 프랭클린',axis:'계획력 PS+'},
+    {q:'"이 순간이 유일한 순간이야. 지금 여기에 온전히 있어."',src:'틱낫한',axis:'주의집중 PS+'},
+    {q:'"자신이 원하지 않는 것을 남에게 강요하지 마라."',src:'공자',axis:'동시처리'},
+    {q:'"덕목은 지식이 아니라 매일의 습관에서 온다."',src:'아리스토텔레스',axis:'순차처리 PW-'},
+    {q:'"네가 통제할 수 있는 것에 집중해; 나머지는 놓아줘."',src:'에픽테토스',axis:'계획력 PS+'},
+    {q:'"현재 순간에 머물러. 자유는 여기에서 시작돼."',src:'부처',axis:'주의집중 PS+'}
+  ],
+  koreaPhilDesc:'K-PASS 맞춤 철학 — 한국',
+  koreaCards:[
+    {m:'planning',ico:'🏛',bg:'var(--accent-b)',tit:'스토아 — 통제의 이분법',sub:'에픽테토스 / 마르쿠스 아우렐리우스',axis:'계획력 PS+',chip:'ca',wis:'"통제할 수 있는 것에 집중하고, 할 수 없는 것은 놓아줘."',task:'계획력 강점을 심화해. 목표 설정 → 실행 계획 → 성찰 3단계 퀘스트.',xp:'+40 XP'},
+    {m:'attention',ico:'⚕',bg:'var(--teal-b)',tit:'불교 마음챙김 — 현재 집중',sub:'부처 / 틱낫한',axis:'주의집중 PS+',chip:'ct',wis:'"이 순간이 유일한 순간이야. 지금 여기에 머물러."',task:'마음챙김으로 주의집중 강점을 훈련해. 3분 호흡 + 감각 인식.',xp:'+30 XP'},
+    {m:'simultaneous',ico:'☯',bg:'var(--rose-b)',tit:'유교 — 서(恕) 공감',sub:'공자 / 논어',axis:'동시처리',chip:'cr',wis:'"자신이 원하지 않는 것을 남에게 강요하지 마라."',task:'동시처리 강점을 활용해 공감을 심화해.',xp:'+40 XP'},
+    {m:'successive',ico:'μ',bg:'var(--gold-b)',tit:'아리스토텔레스 — 중용',sub:'니코마코스 윤리학',axis:'순차처리 PW-',chip:'cw',wis:'"덕목은 지식이 아니라 매일의 습관에서 온다."',task:'순차처리 약점을 보완해. 계획력 강점으로 단계를 먼저 설계해.',xp:'+50 XP'}
+  ],
+  koreaTabs:[
+    {id:'b',lbl:'불교',col:'var(--teal)',phs:['이 순간이 유일한 순간이야. 지금 여기에 머물러.','각 호흡에 집중해. 그것이 깨달음의 문이야.','현재 순간에 머물러. 자유는 여기에서 시작돼.']},
+    {id:'s',lbl:'스토아',col:'var(--accent)',phs:['통제할 수 있는 것에 집중하고, 나머지는 놓아줘.','너를 흔드는 건 사건이 아니라 판단이야.','위대한 목표는 작은 한 걸음씩 이루어진다.']},
+    {id:'c',lbl:'공자',col:'var(--rose)',phs:['자신이 원하지 않는 것을 남에게 강요하지 마라.','남을 가르치는 것이 최고의 배움이야.']},
+    {id:'a',lbl:'아리스토텔레스',col:'var(--gold)',phs:['덕목은 지식이 아니라 매일의 습관에서 온다.','평범한 날들이 쌓여 특별한 너를 만든다.']}
+  ]
+};
+
+// ── 언어에 따라 전체 UI 교체 ──────────────────────────────────────
+function applyKorean(){
+  var L=KO;
+  // ── 오늘의 지혜 & 날짜 (최우선) ──
+  renderWisdom();
+  // ── 오늘 날짜 (홈 미션 날짜) ──
+  var td2=new Date();var kodays=['일','월','화','수','목','금','토'];
+  var dd2=document.getElementById('today-date');
+  if(dd2)dd2.textContent='서우 — '+td2.getFullYear()+'.'+(td2.getMonth()+1)+'.'+td2.getDate()+' ('+kodays[td2.getDay()]+')';
+  // 탑바
+  var tt=document.querySelector('.tb-type');if(tt)tt.textContent=L.topbarType;
+  // 홈 카드 라벨
+  var cl=document.querySelector('.card .tb-name');// skip
+  // 국가 라벨
+  document.querySelectorAll('.card').forEach(function(c){
+    var lbl=c.querySelector('div[style*="font-size:13px"][style*="font-weight:700"]');
+    if(lbl&&lbl.textContent.trim()==='🌍 Country')lbl.textContent='🌍 국가';
+    if(lbl&&lbl.textContent.trim()==='Country')lbl.textContent='🌍 국가';
+  });
+  // 감정 카드 제목
+  var emot=document.querySelector('.card div[style*="font-weight:700"][style*="font-size:13px"]');
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='😊 How are you feeling today, Seowoo?')d.textContent=L.emoTitle;
+  });
+  // 감정 버튼 라벨
+  var emoMap={calm:'좋아요',neutral:'보통',sad:'힘들어',angry:'화남',anxious:'불안',tired:'피곤'};
+  Object.keys(emoMap).forEach(function(k){
+    var b=document.getElementById('eb-'+k);
+    if(b){var el2=b.querySelector('.el');if(el2)el2.textContent=emoMap[k];}
+  });
+  // K-PASS 라벨
+  var plbls=document.querySelectorAll('.plbl');
+  var plMap=['계획력','주의집중','동시처리','순차처리'];
+  plbls.forEach(function(p,i){if(plMap[i])p.textContent=plMap[i];});
+  // PASS 칩
+  var pchip=document.querySelector('.card .chip.ca');
+  if(pchip&&pchip.textContent.trim()==='Right-Brain Type')pchip.textContent='우뇌형';
+  // PASS 경고
+  var pwarn=document.querySelector('[style*="warn-b"] b');
+  if(pwarn&&pwarn.textContent.includes('Successive'))pwarn.parentNode.innerHTML=L.passWarn;
+  // 미션 섹션 제목
+  document.querySelectorAll('.sec').forEach(function(s){
+    if(s.textContent.trim()==='🌟 Today\'s Training Missions')s.textContent='🌟 오늘의 훈련 미션';
+    if(s.textContent.trim()==='✏ Writing Practice')s.textContent='✏ 필사 연습';
+    if(s.textContent.trim()==='🧘 Mindful Breathing')s.textContent='🧘 마음챙김 호흡';
+    if(s.textContent.trim()==='🏛️ Philosophy')s.textContent='🏛 철학';
+    if(s.textContent.trim()==='Philosophy')s.textContent='🏛 철학';
+  });
+  // 스트릭 요일
+  var sdls=document.querySelectorAll('.sdl');
+  var dmap={Mon:'월',Tue:'화',Wed:'수',Thu:'목',Fri:'금',Sat:'토',Sun:'일'};
+  sdls.forEach(function(s){if(dmap[s.textContent])s.textContent=dmap[s.textContent];});
+  // 스트릭 카드 타이틀
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='🔥 Training Streak')d.textContent='🔥 연속 훈련';
+  });
+  // 네비 라벨
+  document.querySelectorAll('.nb span:not(.ico):not(.nbadge)').forEach(function(s){
+    var map={Home:'홈',Philosophy:'철학',Dilemma:'딜레마',Mindful:'마음챙김',Growth:'성장'};
+    if(map[s.textContent])s.textContent=map[s.textContent];
+  });
+  // 딜레마 화면
+  var dhero=document.querySelector('.dhlbl');if(dhero)dhero.innerHTML='⚔ 소크라테스 딜레마';
+  var dhtit=document.querySelector('.dhtit');if(dhtit)dhtit.innerHTML=L.dilTit;
+  var dhdesc=document.querySelector('.dhdesc');if(dhdesc)dhdesc.textContent='두뇌 유형별 깊이 생각하는 질문. 정답은 없어 — 과정 자체가 훈련이야.';
+  var dhtags=document.querySelector('.dhtags');
+  if(dhtags)dhtags.innerHTML=L.dilTags.map(function(t){return '<span class="dhtag">'+t+'</span>';}).join('');
+  var dtToday=document.getElementById('dt-today');if(dtToday)dtToday.textContent=L.dilTabToday;
+  var dtPast=document.getElementById('dt-past');if(dtPast)dtPast.textContent=L.dilTabPast;
+  var dtNotes=document.getElementById('dt-notes');if(dtNotes)dtNotes.textContent=L.dilTabNotes;
+  // 딜레마 상황
+  document.querySelectorAll('.qcard div').forEach(function(d){
+    if(d.textContent.trim()==='📍 Situation')d.textContent=L.dilSitu;
+  });
+  var qstem=document.querySelector('.qstem');if(qstem)qstem.textContent=L.dilStem;
+  var qctx=document.querySelector('.qctx');if(qctx)qctx.textContent=L.dilCtx;
+  var qchs=document.querySelectorAll('.qch');
+  L.dilChoices.forEach(function(ch,i){
+    if(qchs[i]){
+      var lbl=qchs[i].querySelector('.qchl');var txt=qchs[i].querySelector('.qcht');
+      if(lbl)lbl.textContent=ch.lbl;if(txt)txt.textContent=ch.txt;
+    }
+  });
+  var rbtit=document.querySelector('.rbtit');if(rbtit)rbtit.textContent=L.dilConsider;
+  var metaWis=document.querySelector('.metabox div[style*="font-weight:700"]');
+  if(metaWis)metaWis.textContent=L.dilMeta;
+  var metaIn=document.querySelector('.metain');if(metaIn)metaIn.placeholder=L.dilMetaPlaceholder;
+  var dilBtn=document.querySelector('.qcard .btn.btnp');if(dilBtn)dilBtn.textContent=L.dilComplete;
+  // 딜레마 깊은질문 카드
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim().includes('Right-Brain Type · Deep Questions'))d.textContent=L.dilDeepQ;
+  });
+  // ── 마음챙김: 지혜 카드 텍스트 ──
+  document.querySelectorAll('div[style*="teal"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.includes('Today\'s Mindfulness'))d.innerHTML='⚕ 오늘의 마음챙김 지혜';
+  });
+  document.querySelectorAll('div[style*="teal"][style*="font-style:italic"]').forEach(function(d){
+    if(d.textContent.includes('Stay in this present moment'))d.textContent='"이 순간에 머물러. 과거는 지나갔고, 미래는 아직 오지 않았어."';
+  });
+  document.querySelectorAll('div[style*="sub"]').forEach(function(d){
+    if(d.textContent.includes('Buddha · Attention'))d.textContent='— 부처 · 주의집중(A) 131 PS↑';
+  });
+  // ── 마음챙김: 루틴 카드 ──
+  document.querySelectorAll('div[style*="font-size:13px"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent==='🌿 Mindfulness Routine')d.textContent='🌿 마음챙김 루틴';
+    if(d.textContent==='✏ Fill in this moment')d.textContent='✏ 이 순간을 채워봐';
+  });
+  document.querySelectorAll('div[style*="font-weight:700"][style*="teal"]').forEach(function(d){
+    if(d.textContent==='4-7-8 Breathing')d.textContent='4-7-8 호흡법';
+  });
+  document.querySelectorAll('div[style*="font-weight:700"][style*="gold"]').forEach(function(d){
+    if(d.textContent==='5 Senses Check')d.textContent='오감 체크';
+  });
+  document.querySelectorAll('div[style*="font-weight:700"][style*="accent"]').forEach(function(d){
+    if(d.textContent==='Planning Mind Map')d.textContent='계획력 마인드맵';
+  });
+  document.querySelectorAll('div[style*="font-size:11px"][style*="sub"]').forEach(function(d){
+    if(d.textContent.includes('Inhale 4s'))d.innerHTML='들숨 4초 → 정지 7초 → 날숨 8초';
+    if(d.textContent.includes('Name 5 things'))d.textContent='보이는 것 5가지, 들리는 것 4가지 말하기';
+    if(d.textContent.includes('Draw today\'s tasks'))d.textContent='오늘 할 일을 가운데서 가지 뻗어 그려봐';
+  });
+  // ── 마음챙김: fill-in-blank ──
+  document.querySelectorAll('.flbl').forEach(function(d){
+    if(d.innerHTML.includes('Breath speed'))d.innerHTML='🌊 호흡 속도';
+    if(d.innerHTML.includes('Comfortable spot'))d.innerHTML='🧘 편안한 부위';
+    if(d.innerHTML.includes('Sound I hear'))d.innerHTML='👂 들리는 소리';
+  });
+  document.querySelectorAll('.frow').forEach(function(d){
+    var spans=d.querySelectorAll('span');
+    if(spans.length>=2){
+      if(spans[0].textContent==='My breath is'){spans[0].textContent='내 호흡은';if(spans[1])spans[1].textContent='속도야.';}
+      if(spans[0].textContent==='Most comfortable part is'){spans[0].textContent='가장 편안한 부위는';if(spans[1])spans[1].textContent='.';}
+      if(spans[0].textContent==='Clearest sound is'){spans[0].textContent='가장 잘 들리는 소리는';if(spans[1])spans[1].textContent='.';}
+    }
+  });
+  document.querySelectorAll('.fhint').forEach(function(d){
+    if(d.textContent.includes('fast / normal'))d.textContent='예: 빠름 / 보통 / 느림 / 매우 느림';
+    if(d.textContent.includes('fingertips'))d.textContent='예: 손끝 / 배 / 어깨 / 발바닥';
+    if(d.textContent.includes('wind / clock'))d.textContent='예: 바람 / 시계 / 내 호흡 / 새소리';
+  });
+  var f1=document.getElementById('f1');if(f1)f1.placeholder='빠름?';
+  var f2=document.getElementById('f2');if(f2)f2.placeholder='어깨?';
+  var f3=document.getElementById('f3');if(f3)f3.placeholder='바람?';
+  var fillBtn=document.querySelector('#sc-mindful .btn.btns:not(#bbtn)');
+  if(fillBtn)fillBtn.textContent='완료 +30 XP ⚕';
+  // ── 딜레마: 깊은질문 복원 ──
+  document.querySelectorAll('.card div[style*="border-radius:10px"]').forEach(function(d){
+    if(d.innerHTML.includes('Simultaneous:'))d.innerHTML='💜 <b>동시처리:</b> "네가 그 친구라면, 어떤 도움을 원할까?"';
+    if(d.innerHTML.includes('Planning:')&&d.innerHTML.includes('3 years'))d.innerHTML='💛 <b>계획력:</b> "3년 후, 이 선택이 우정에 어떤 영향을 미칠까?"';
+    if(d.innerHTML.includes('Attention:'))d.innerHTML='💙 <b>주의집중:</b> "지금 이 순간, 가장 중요한 가치는 뭐라고 느껴?"';
+  });
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='🧠 Right-Brain Type · Deep Questions')d.textContent='🧠 우뇌형 · 깊이 생각하는 질문들';
+  });
+  // ── 성장: 딜레마 통계 라벨 ──
+  document.querySelectorAll('div[style*="font-size:10px"][style*="sub"]').forEach(function(d){
+    if(d.textContent==='Total')d.textContent='총계';
+    if(d.textContent==='Notes')d.textContent='노트';
+    if(d.textContent==='Changed')d.textContent='변화';
+  });
+  // ── 성장: 뱃지 이름 ──
+  document.querySelectorAll('.bname').forEach(function(d){
+    var map={'Mindful 3d':'마음챙김 3일','Stoic Intro':'스토아 입문','Dilemma':'딜레마','Philosopher':'철학자'};
+    if(map[d.textContent])d.textContent=map[d.textContent];
+  });
+  // ── 성장: 감정 힌트 ──
+  document.querySelectorAll('div[style*="font-size:11px"]').forEach(function(d){
+    if(d.textContent.includes('Good=100'))d.textContent='😊 좋아요=100 · 😐 보통=60 · 😢 힘들어=30';
+  });
+  // ── 성장: 차트 제목 ──
+  document.querySelectorAll('div[style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.trim()==='🧠 K-PASS Training (Last 7 Days)')d.textContent='🧠 K-PASS 훈련 (최근 7일)';
+    if(d.textContent.trim()==='💜 Mood Stability (Last 7 Days)')d.textContent='💜 감정 안정도 (최근 7일)';
+    if(d.textContent.trim()==='⚔ Dilemma Stats')d.textContent='⚔ 딜레마 통계';
+    if(d.textContent.trim()==='💎 Wisdom Cards Viewed')d.textContent='💎 열람한 지혜 카드';
+    if(d.textContent.trim()==='🏆 Badges Earned')d.textContent='🏆 획득 뱃지';
+  });
+  // ── 성장: 일기 영역 ──
+  document.querySelectorAll('div[style*="font-size:14px"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.includes('Today\'s Reflection'))d.textContent='✏ 오늘의 성찰 일기';
+  });
+  document.querySelectorAll('div[style*="font-size:11px"]').forEach(function(d){
+    if(d.textContent.includes('Write today\'s wisdom'))d.textContent='오늘의 지혜를 내 말로 써봐 · +20 XP';
+  });
+  document.querySelectorAll('div[style*="font-size:12px"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.includes('How will you use'))d.textContent='오늘의 지혜를 내일 어떻게 활용할까?';
+  });
+  var diary=document.getElementById('diary');if(diary)diary.placeholder='훈련하면서 느낀 점, 마음에 남는 명언, 내일 실천할 한 가지...';
+  var saveBtn=document.querySelector('button[onclick="saveDiary()"]');if(saveBtn)saveBtn.textContent='저장 ✓ +20 XP';
+  // ── 렌더 ──
+  renderMissions();
+  renderGrowth();
+}
+
+function applyEnglish(){
+  // ── 탑바 ──
+  var tt=document.querySelector('.tb-type');if(tt)tt.textContent='Right-Brain · Age 9';
+
+  // ── 홈: 국가 라벨 ──
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.textContent.trim()==='🌍 국가')d.textContent='🌍 Country';
+  });
+
+  // ── 홈: 오늘의 지혜 (renderWisdom이 처리) ──
+  renderWisdom();
+
+  // ── 홈: 감정 카드 제목 ──
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='😊 오늘 기분이 어때, 서우야?')d.textContent='😊 How are you feeling today, Seowoo?';
+  });
+
+  // ── 홈: 감정 버튼 라벨 ──
+  var emoMap={calm:'Good',neutral:'Okay',sad:'Tough',angry:'Angry',anxious:'Anxious',tired:'Tired'};
+  Object.keys(emoMap).forEach(function(k){
+    var b=document.getElementById('eb-'+k);
+    if(b){var el2=b.querySelector('.el');if(el2)el2.textContent=emoMap[k];}
+  });
+  // 감정 피드백 박스 초기화
+  var efb=document.getElementById('efb');if(efb){efb.innerHTML='';efb.classList.remove('show');}
+
+  // ── 홈: K-PASS ──
+  var plbls=document.querySelectorAll('.plbl');
+  ['Planning','Attention','Simult.','Success.'].forEach(function(t,i){if(plbls[i])plbls[i].textContent=t;});
+  document.querySelectorAll('.card .chip.ca').forEach(function(c){
+    if(c.textContent.trim()==='우뇌형')c.textContent='Right-Brain Type';
+  });
+  // PASS 경고 문구 복원
+  document.querySelectorAll('[style*="warn-b"]').forEach(function(d){
+    if(d.textContent.includes('순차처리'))d.innerHTML='&#128161; <b>Successive Processing (95)</b> is your weakness. Use Planning (145) to design steps first!';
+  });
+
+  // ── 홈: 미션 섹션 제목 ──
+  document.querySelectorAll('.sec').forEach(function(s){
+    if(s.textContent.trim()==='🌟 오늘의 훈련 미션')s.textContent='🌟 Today\'s Training Missions';
+  });
+
+  // ── 홈: 날짜 (renderWisdom이 처리) ──
+  var td2=new Date();
+  var DAYS2=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var dd2en=document.getElementById('today-date');
+  if(dd2en)dd2en.textContent='Seowoo - '+td2.getFullYear()+'.'+(td2.getMonth()+1)+'.'+td2.getDate()+' ('+DAYS2[td2.getDay()]+')';
+
+  // ── 홈: 스트릭 요일 ──
+  var sdls=document.querySelectorAll('.sdl');
+  ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'].forEach(function(t,i){if(sdls[i])sdls[i].textContent=t;});
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='🔥 연속 훈련')d.textContent='🔥 Training Streak';
+  });
+
+  // ── 네비 ──
+  document.querySelectorAll('.nb span:not(.ico):not(.nbadge)').forEach(function(s){
+    var map={홈:'Home',철학:'Philosophy',딜레마:'Dilemma',마음챙김:'Mindful',성장:'Growth'};
+    if(map[s.textContent])s.textContent=map[s.textContent];
+  });
+
+  // ── 철학 섹션 제목 ──
+  document.querySelectorAll('.sec').forEach(function(s){
+    if(s.textContent.trim()==='🏛 철학')s.textContent='🏛️ Philosophy';
+    if(s.textContent.trim()==='✏ 필사 연습')s.textContent='✏ Writing Practice';
+  });
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.textContent.trim()==='명언을 천천히 따라 쓰세요 — 순차처리도 함께 훈련돼요!')d.textContent='Copy the quote slowly — trains Successive Processing too!';
+  });
+
+  // ── 딜레마 화면 ──
+  var dhero=document.querySelector('.dhlbl');if(dhero)dhero.innerHTML='&#9876; Socratic Dilemma';
+  var dhtit=document.querySelector('.dhtit');if(dhtit)dhtit.innerHTML='Today\'s Question:<br>"Could something I believe is right<br>actually be wrong?"';
+  var dhdesc=document.querySelector('.dhdesc');if(dhdesc)dhdesc.textContent='Brain-type questions to think deeper. No right answer — the process is the training.';
+  var dhtags=document.querySelector('.dhtags');
+  if(dhtags)dhtags.innerHTML='<span class="dhtag">&#129504; Planning PS&#8593;</span><span class="dhtag">&#9878; Buddhism &middot; Stoicism</span><span class="dhtag">+60 XP</span>';
+  var dtToday=document.getElementById('dt-today');if(dtToday)dtToday.textContent='📅 Today';
+  var dtPast=document.getElementById('dt-past');if(dtPast)dtPast.textContent='📚 Past';
+  var dtNotes=document.getElementById('dt-notes');if(dtNotes)dtNotes.textContent='✏ Notes';
+  document.querySelectorAll('.qcard div').forEach(function(d){
+    if(d.textContent.trim()==='📍 상황')d.textContent='📍 Situation';
+  });
+  var qstem=document.querySelector('.qstem');if(qstem)qstem.textContent='A friend faces a tough exam and asks you to share the answers. You know them.';
+  var qctx=document.querySelector('.qctx');if(qctx)qctx.textContent='With your strong Planning ability, how would you decide? What\'s the best long-term choice for your friend?';
+  var qchs=document.querySelectorAll('.qch');
+  var enChoices=[
+    {lbl:'Choice A',txt:'Share the answers — helping your friend right now is what friendship means.'},
+    {lbl:'Choice B',txt:'Solve it together — real help means helping them understand it themselves.'},
+    {lbl:'Choice C',txt:'Say you can\'t share — a true friend will understand.'}
+  ];
+  enChoices.forEach(function(ch,i){
+    if(qchs[i]){
+      var lbl=qchs[i].querySelector('.qchl');var txt=qchs[i].querySelector('.qcht');
+      if(lbl)lbl.textContent=ch.lbl;if(txt)txt.textContent=ch.txt;
+    }
+  });
+  var rbtit=document.querySelector('.rbtit');if(rbtit)rbtit.textContent='🔍 Consider another perspective';
+  var rbox=document.getElementById('rbox');if(rbox)rbox.classList.remove('show');
+  document.querySelectorAll('.metabox div').forEach(function(d){
+    if(d.textContent.trim()==='✏ 생각이 바뀐 이유')d.textContent='✏ Why my thinking changed';
+  });
+  var metaIn=document.querySelector('.metain');if(metaIn)metaIn.placeholder='At first I thought ___, but after thinking about ___, my view changed to ___.';
+  var dilBtn=document.querySelector('.qcard .btn.btnp');if(dilBtn)dilBtn.textContent='Complete — +60 XP';
+  document.querySelectorAll('.card div').forEach(function(d){
+    if(d.textContent.trim()==='🧠 우뇌형 · 깊이 생각하는 질문들')d.textContent='🧠 Right-Brain Type · Deep Questions';
+  });
+  // 딜레마 deep Q 복원
+  var deepQs=document.querySelectorAll('.card[style*=""] div[style*="accent-b"], .card div[style*="accent-b"], .card div[style*="gold-b"], .card div[style*="teal-b"]');
+  document.querySelectorAll('.card div[style*="border-radius:10px"]').forEach(function(d){
+    if(d.innerHTML.includes('동시처리'))d.innerHTML='&#128156; <b>Simultaneous:</b> "If you were your friend, what kind of help would you want?"';
+    if(d.innerHTML.includes('계획력'))d.innerHTML='&#128993; <b>Planning:</b> "In 3 years, how might this choice affect your friendship?"';
+    if(d.innerHTML.includes('주의집중'))d.innerHTML='&#128153; <b>Attention:</b> "Right now, what value feels most important?"';
+  });
+
+  // ── 마음챙김 화면 ──
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.textContent.trim()==='불교 호흡 관찰 · 주의집중(131) 훈련')d.textContent='Buddhist breath observation · Attention (131) training';
+  });
+  var bphase=document.getElementById('bphase');
+  if(bphase){var bp=bphase.textContent;if(bp==='탭해서 시작')bphase.textContent='Tap to start';else if(bp==='완료!')bphase.textContent='Complete!';}
+  var bbtn=document.getElementById('bbtn');
+  if(bbtn){var bt=bbtn.textContent;if(bt==='시작')bbtn.textContent='Start';else if(bt==='일시정지')bbtn.textContent='Pause';else if(bt==='다시 시작')bbtn.textContent='Restart';else if(bt==='완료! 다시 시작')bbtn.textContent='Done! Restart';}
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.innerHTML&&d.innerHTML.includes('코로 들이쉬고'))d.innerHTML='Breathe in through your nose, out through your mouth.<br>If thoughts arise, gently return to your breath.';
+  });
+  // fill-in-blank 마음챙김
+  document.querySelectorAll('.flbl').forEach(function(d){
+    if(d.textContent.includes('호흡 속도'))d.innerHTML='&#127750; Breath speed';
+    if(d.textContent.includes('편안한 부위'))d.innerHTML='&#129496; Comfortable spot';
+    if(d.textContent.includes('들리는 소리'))d.innerHTML='&#128066; Sound I hear';
+  });
+  document.querySelectorAll('.frow').forEach(function(d){
+    var spans=d.querySelectorAll('span');
+    if(spans.length>=2){
+      if(spans[0].textContent==='내 호흡은'){spans[0].textContent='My breath is';if(spans[1])spans[1].textContent='speed.';}
+      if(spans[0].textContent==='가장 편안한 부위는'){spans[0].textContent='Most comfortable part is';if(spans[1])spans[1].textContent='.';}
+      if(spans[0].textContent==='가장 잘 들리는 소리는'){spans[0].textContent='Clearest sound is';if(spans[1])spans[1].textContent='.';}
+    }
+  });
+  document.querySelectorAll('.fhint').forEach(function(d){
+    if(d.textContent.includes('빠름'))d.textContent='e.g. fast / normal / slow / very slow';
+    if(d.textContent.includes('손끝'))d.textContent='e.g. fingertips / belly / shoulder / sole';
+    if(d.textContent.includes('바람'))d.textContent='e.g. wind / clock / my breath / birds';
+  });
+  var f1=document.getElementById('f1');if(f1&&f1.placeholder==='빠름?')f1.placeholder='fast?';
+  var f2=document.getElementById('f2');if(f2&&f2.placeholder==='어깨?')f2.placeholder='shoulder?';
+  var f3=document.getElementById('f3');if(f3&&f3.placeholder==='바람?')f3.placeholder='wind?';
+  var fillBtn=document.querySelector('#sc-mindful .btn.btns:not(#bbtn)');
+  if(fillBtn&&fillBtn.textContent.includes('완료'))fillBtn.textContent='Complete +30 XP ⚕';
+  document.querySelectorAll('div').forEach(function(d){
+    if(d.textContent.trim()==='✏ 이 순간을 채워봐')d.textContent='✏ Fill in this moment';
+  });
+  // mindfulness wisdom
+  document.querySelectorAll('div[style*="teal"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.includes('오늘의 마음챙김'))d.innerHTML='&#9878; Today\'s Mindfulness Wisdom';
+  });
+  document.querySelectorAll('div[style*="teal"][style*="font-style:italic"]').forEach(function(d){
+    if(d.textContent.includes('과거는 지나갔'))d.textContent='"Stay in this present moment. The past has gone, the future has not yet arrived."';
+  });
+  document.querySelectorAll('div[style*="sub"][style*="margin-top"]').forEach(function(d){
+    if(d.textContent.includes('부처'))d.textContent='— Buddha · Attention (A) 131 PS↑';
+  });
+  // routine
+  document.querySelectorAll('.card div[style*="font-weight:700"][style*="teal"]').forEach(function(d){
+    if(d.textContent==='4-7-8 호흡법')d.textContent='4-7-8 Breathing';
+  });
+  document.querySelectorAll('div[style*="font-weight:700"][style*="gold"]').forEach(function(d){
+    if(d.textContent==='오감 체크')d.textContent='5 Senses Check';
+  });
+  document.querySelectorAll('div[style*="font-weight:700"][style*="accent"]').forEach(function(d){
+    if(d.textContent==='계획력 마인드맵')d.textContent='Planning Mind Map';
+  });
+  document.querySelectorAll('div[style*="font-size:11px"][style*="sub"]').forEach(function(d){
+    if(d.textContent==='들숨 4초 → 정지 7초 → 날숨 8초')d.innerHTML='Inhale 4s &rarr; Hold 7s &rarr; Exhale 8s';
+    if(d.textContent.includes('보이는 것 5가지'))d.textContent='Name 5 things you see, 4 things you hear';
+    if(d.textContent.includes('오늘 할 일을 가운데서'))d.textContent='Draw today\'s tasks branching from a center';
+  });
+  // routine card title
+  document.querySelectorAll('div[style*="font-size:13px"][style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent==='🌿 마음챙김 루틴')d.textContent='🌿 Mindfulness Routine';
+    if(d.textContent==='✏ 이 순간을 채워봐')d.textContent='✏ Fill in this moment';
+  });
+
+  // ── 성장 화면 ──
+  var ghero=document.querySelector('.ghtit');if(ghero)ghero.textContent='📈 Cognitive & Emotional Growth';
+  var ghsub=document.querySelector('.ghsub');if(ghsub)ghsub.textContent='K-PASS training + mood stability + wisdom cards';
+  var gstats=document.querySelectorAll('.gslbl');
+  ['Missions Done','Day Streak 🔥','Mood Stability','Wisdom Cards'].forEach(function(t,i){if(gstats[i])gstats[i].textContent=t;});
+  // 성장 차트 제목
+  document.querySelectorAll('div[style*="font-weight:700"]').forEach(function(d){
+    if(d.textContent.trim()==='🧠 K-PASS 훈련 (최근 7일)')d.textContent='🧠 K-PASS Training (Last 7 Days)';
+    if(d.textContent.trim()==='💜 감정 안정도 (최근 7일)')d.textContent='💜 Mood Stability (Last 7 Days)';
+    if(d.textContent.trim()==='⚔ 딜레마 통계')d.textContent='⚔ Dilemma Stats';
+    if(d.textContent.trim()==='💎 열람한 지혜 카드')d.textContent='💎 Wisdom Cards Viewed';
+    if(d.textContent.trim()==='🏆 획득 뱃지')d.textContent='🏆 Badges Earned';
+  });
+  // 감정 힌트
+  document.querySelectorAll('div[style*="font-size:11px"]').forEach(function(d){
+    if(d.textContent.includes('좋아요=100'))d.textContent='😊 Good=100 · 😐 Okay=60 · 😢 Tough=30';
+  });
+  // 뱃지 이름
+  document.querySelectorAll('.bname').forEach(function(d){
+    var map={'마음챙김 3일':'Mindful 3d','스토아 입문':'Stoic Intro','딜레마':'Dilemma','철학자':'Philosopher'};
+    if(map[d.textContent])d.textContent=map[d.textContent];
+  });
+  // 딜레마 stat labels
+  document.querySelectorAll('div[style*="font-size:10px"][style*="sub"]').forEach(function(d){
+    if(d.textContent==='총계')d.textContent='Total';
+    if(d.textContent==='노트')d.textContent='Notes';
+    if(d.textContent==='변화')d.textContent='Changed';
+  });
+  // 성장 일기 영역
+  document.querySelectorAll('div[style*="font-size:14px"][style*="font-weight:700"][style*="gold"]').forEach(function(d){
+    if(d.textContent.includes('오늘의 성찰 일기'))d.textContent='Today\'s Reflection Journal';
+  });
+  document.querySelectorAll('div[style*="font-size:11px"]').forEach(function(d){
+    if(d.textContent.includes('오늘의 지혜를 내 말로'))d.textContent='Write today\'s wisdom in your own words · +20 XP';
+  });
+  document.querySelectorAll('div[style*="font-size:12px"][style*="font-weight:700"][style*="gold"]').forEach(function(d){
+    if(d.textContent.includes('오늘의 지혜를 내일'))d.textContent='How will you use today\'s wisdom tomorrow?';
+  });
+  var diary=document.getElementById('diary');if(diary)diary.placeholder='What you felt during training, a quote that stuck, one thing to practice tomorrow...';
+  var saveBtn=document.querySelector('button[onclick="saveDiary()"]');if(saveBtn)saveBtn.textContent='Save ✓ +20 XP';
+  var dcount=document.getElementById('dcount');if(dcount&&dcount.textContent.includes('글자'))dcount.textContent='0 chars';
+
+  // ── 렌더 ──
+  renderMissions();
+  renderGrowth();
+}
+
+function renderWisdom(){
+  var isKo=S.country==='korea';
+  var td2=new Date(),dow2=td2.getDay();
+  var wdl=document.querySelector('.wcard div[style*="letter-spacing"]');
+  if(wdl)wdl.innerHTML=isKo?'💎 오늘의 지혜':'&#128142; Today\'s Wisdom';
+  var src=isKo?KO.wisdoms:WIS;
+  var w=src[dow2%src.length];
+  var wqe=document.getElementById('wq');if(wqe)wqe.textContent=w.q;
+  var wae=document.getElementById('waxis');if(wae)wae.textContent=w.axis;
+  var wse=document.getElementById('wsrc');if(wse)wse.textContent=w.src;
+  var wdate=document.getElementById('wdate');
+  if(isKo){
+    var kodays=['일','월','화','수','목','금','토'];
+    if(wdate)wdate.textContent=(td2.getMonth()+1)+'/'+td2.getDate()+' ('+kodays[dow2]+')';
+  }else{
+    if(wdate)wdate.textContent=(td2.getMonth()+1)+'/'+td2.getDate()+' ('+DAYS[dow2]+')';
+  }
+}
+
+window.changeCountry=function(v){
+  S.country=v;
+  var c1=el('csel'),c2=el('csel2');
+  if(c1)c1.value=v;if(c2)c2.value=v;
+  if(v==='korea'){
+    applyKorean();
+    // CD.korea를 한글 데이터로 교체
+    CD.korea={
+      desc:KO.koreaPhilDesc,
+      cards:KO.koreaCards,
+      tabs:KO.koreaTabs
+    };
+  } else {
+    applyEnglish();
+    // CD.korea 복원
+    CD.korea={desc:'K-PASS customized philosophy - Korea',
+      cards:[
+        {m:'planning',ico:'🏛',bg:'var(--accent-b)',tit:'Stoicism - Dichotomy of Control',sub:'Epictetus / Marcus Aurelius',axis:'Planning PS+',chip:'ca',wis:'"Focus on what you can control; let go of what you cannot."',task:'Deepen your Planning strength. Goal setting - Action plan - Reflection 3-step quest.',xp:'+40 XP'},
+        {m:'attention',ico:'⚕',bg:'var(--teal-b)',tit:'Buddhist Mindfulness - Present Focus',sub:'Buddha / Thich Nhat Hanh',axis:'Attention PS+',chip:'ct',wis:'"This present moment is the only moment. Stay right here, right now."',task:'Train your Attention strength through mindfulness. 3-min breath + sensory awareness.',xp:'+30 XP'},
+        {m:'simultaneous',ico:'☯',bg:'var(--rose-b)',tit:'Confucianism - Shu Empathy',sub:'Confucius / Analects',axis:'Simultaneous',chip:'cr',wis:'"Do not impose on others what you yourself do not want."',task:'Deepen empathy using your Simultaneous Processing strength.',xp:'+40 XP'},
+        {m:'successive',ico:'μ',bg:'var(--gold-b)',tit:'Aristotle - Golden Mean',sub:'Nicomachean Ethics',axis:'Successive PW-',chip:'cw',wis:'"Virtue comes not from knowledge but from daily habit."',task:'Compensate for Successive weakness. Design step-by-step using Planning strength.',xp:'+50 XP'}
+      ],
+      tabs:[
+        {id:'b',lbl:'Buddhism',col:'var(--teal)',phs:['This present moment is the only moment. Stay right here, right now.','Focus on each breath. That is the gateway to awakening.']},
+        {id:'s',lbl:'Stoicism',col:'var(--accent)',phs:['Focus on what you can control; release what you cannot.','It is not events that disturb you, but your judgments about them.']},
+        {id:'c',lbl:'Confucius',col:'var(--rose)',phs:['Do not impose on others what you yourself do not want.','Teaching others is the greatest form of learning.']},
+        {id:'a',lbl:'Aristotle',col:'var(--gold)',phs:['Virtue comes not from knowledge but from daily habit.','Ordinary days accumulated make an extraordinary you.']}
+      ]};
+  }
+  renderPhil();
+  showToast(v==='korea'?'🇰🇷 한국어로 변경됐어요!':'Country: '+v.toUpperCase()+'!');
+};
+
+function renderPhil(){
+  var data=CD[S.country]||CD.korea;
+  var pd=el('pdesc');if(pd)pd.textContent=data.desc;
+  var pc=el('pcards');
+  if(pc){
+    pc.innerHTML=data.cards.map(function(c){
+      return '<div class="pcard" onclick="openModal(\''+c.m+'\')">'
+        +'<div class="phdr"><div class="pico" style="background:'+c.bg+'">'+c.ico+'</div>'
+        +'<div style="flex:1"><div class="ptit">'+c.tit+'</div><div class="psub">'+c.sub+'</div></div>'
+        +'<span class="paxis chip '+c.chip+'">'+c.axis+'</span></div>'
+        +'<div class="pwis">&#128142; &ldquo;'+c.wis+'&rdquo;</div>'
+        +'<div class="ptask">'+c.task+'</div>'
+        +'<div class="pxp">'+c.xp+' &rarr;</div></div>';
+    }).join('');
+  }
+  renderWriteTabs(data.tabs);
+}
+
+function renderWriteTabs(tabs){
+  var tb=el('wtabs'),wp=el('wpanels');
+  if(!tb||!wp)return;
+  tb.innerHTML='';wp.innerHTML='';
+  tabs.forEach(function(tab,i){
+    var btn=document.createElement('button');
+    btn.className='tab'+(i===0?' active':'');
+    btn.textContent=tab.lbl;
+    if(i===0){btn.style.borderColor=tab.col;btn.style.color=tab.col;}
+    (function(t,b){
+      b.onclick=function(){
+        document.querySelectorAll('#wtabs .tab').forEach(function(x){x.classList.remove('active');x.style.borderColor='';x.style.color='';});
+        b.classList.add('active');b.style.borderColor=t.col;b.style.color=t.col;
+        document.querySelectorAll('.wpanel').forEach(function(x){x.style.display='none';});
+        var p=el('wp-'+t.id);if(p)p.style.display='block';
+      };
+    })(tab,btn);
+    tb.appendChild(btn);
+    var div=document.createElement('div');
+    div.id='wp-'+tab.id;div.className='wpanel';div.style.display=i===0?'block':'none';
+    div.innerHTML='<div style="display:flex;flex-direction:column;gap:10px">'+tab.phs.map(function(ph,j){
+      var uid='wt_'+tab.id+'_'+j;
+      var phPh=S.country==='korea'?'명언을 천천히 따라 써봐...':'Copy the quote slowly...';
+      return '<div class="witem"><div class="wphrase">&ldquo;'+ph+'&rdquo;</div>'
+        +'<textarea class="wta" rows="2" placeholder="'+phPh+'" oninput="checkW(\''+uid+'\',this,\''+ph.replace(/'/g,'&apos;')+'\')"></textarea>'
+        +'<div class="wbar"><div class="wfill" id="wf-'+uid+'"></div></div>'
+        +'<div class="wst" id="wst-'+uid+'"></div></div>';
+    }).join('')+'</div>';
+    wp.appendChild(div);
+  });
+}
+
+window.checkW=function(uid,ta,phrase){
+  var norm=function(s){return s.replace(/[\s.,!?]/g,'').toLowerCase();};
+  var a=norm(ta.value),b=norm(phrase);
+  if(!b.length)return;
+  var total=0;for(var i=0;i<b.length;i++)if(a.indexOf(b[i])>=0)total++;
+  var pct=Math.round(total/b.length*100);
+  var bar=el('wf-'+uid),st=el('wst-'+uid);
+  var isKo=S.country==='korea';
+  if(bar){bar.style.width=pct+'%';bar.style.background=pct>=90?'var(--green)':pct>=50?'var(--teal)':'var(--warn)';}
+  if(st){
+    if(norm(a)===b)st.innerHTML='<span style="color:var(--green)">'+(isKo?'🎉 완벽해! 마음에 새겨졌어!':'🎉 Perfect! Engraved in your heart!')+'</span>';
+    else if(pct>=70)st.innerHTML='<span style="color:var(--teal)">'+pct+'% - '+(isKo?'거의 다 왔어!':'Almost there!')+'</span>';
+    else if(ta.value.length>0)st.innerHTML='<span style="color:var(--sub)">'+pct+'% - '+(isKo?'한 글자씩...':'One letter at a time...')+'</span>';
+  }
+};
+
+// Modal
+var MODAL_FUNCS={};
+window.openModal=function(type){
+  var mc=el('mcontent');if(!mc)return;
+  var isKo=S.country==='korea';
+  var label=isKo?'퀘스트':'Quest';
+  mc.innerHTML='<div class="mtit">'+type.charAt(0).toUpperCase()+type.slice(1)+' '+label+'</div>';
+  if(type==='planning')buildPlanModal(mc);
+  else if(type==='attention')buildAttModal(mc);
+  else if(type==='simultaneous')buildSimModal(mc);
+  else if(type==='successive')buildSucModal(mc);
+  el('modal').classList.add('show');
+};
+window.closeModal=function(){el('modal').classList.remove('show');};
+
+// ── 모달 텍스트 (한/영) ──────────────────────────────────────────
+var MT={
+  en:{
+    plan:{
+      title:'Stoicism - Dichotomy of Control',
+      sub:'Epictetus / Marcus Aurelius - Planning (145)',
+      quote:'"Control: my thoughts, choices, effort.<br>Cannot control: others actions, results, weather."',
+      src:'- Epictetus',
+      questLabel:'✏ Seowoo\'s Quest',
+      xpLabel:'XP Earned',
+      items:[
+        '1. Write 3 things I CAN control today',
+        '2. Write 1 worry I CANNOT control - and let it go',
+        '3. Write one execution plan for tomorrow'
+      ],
+      inputPh:'Type your answer...',
+      btnIdle:'Quest Complete',
+      btnActive:'Quest Complete +',
+      toast:' XP - Stoic Quest complete!'
+    },
+    att:{
+      title:'Buddhist Mindfulness',
+      sub:'Buddha / Thich Nhat Hanh - Attention (131)',
+      quote:'"Focus on each breath in this moment. That is the gateway to awakening."',
+      src:'- Buddha',
+      fillTitle:'✏ Fill in this moment',
+      f1lbl:'Breath speed', f1pre:'My breath is', f1post:'speed.', f1ph:'fast?', f1hint:'e.g. fast / normal / slow',
+      f2lbl:'Comfortable spot', f2pre:'Most comfortable part is', f2post:'.', f2ph:'shoulder?',
+      f3lbl:'Sound I hear', f3pre:'Clearest sound is', f3post:'.', f3ph:'wind?',
+      previewLabel:'✨ Your sentence',
+      previewTxt:function(v1,v2,v3){return 'My breath is "'+v1+'" speed, the most comfortable part is "'+v2+'", and the sound I hear is "'+v3+'". I am present in this moment.';},
+      btn:'Complete +30 XP',
+      validate:'Fill in all three blanks!',
+      toast:'+30 XP - Mindfulness complete!'
+    },
+    sim:{
+      title:'Confucianism - Empathy Quest',
+      sub:'Confucius - Simultaneous Processing',
+      quote:'"Do not impose on others what you yourself do not want."',
+      src:'- Confucius - Analects',
+      questLabel:'✏ Empathy Quest',
+      ph:'Think about something that happened today from the other person perspective...',
+      btn:'Quest Complete +40 XP',
+      validate:'Write your empathy reflection!',
+      toast:'+40 XP - Empathy Quest complete!'
+    },
+    suc:{
+      title:'Aristotle - Golden Mean',
+      sub:'Nicomachean Ethics - Successive PW- compensation',
+      quote:'"Virtue comes not from knowledge but from daily habit. Today routine shapes who you become."',
+      src:'- Aristotle - Nicomachean Ethics',
+      tip:'Personal Tip: Use your Planning (145) to design the sequence first, then execute step by step!',
+      questLabel:'✏ Step Design Quest',
+      ph:'Divide today tasks into Step 1, Step 2, Step 3...',
+      btn:'Quest Complete +50 XP',
+      validate:'Write your step design!',
+      toast:'+50 XP - Step Design complete!'
+    }
+  },
+  ko:{
+    plan:{
+      title:'스토아 — 통제의 이분법',
+      sub:'에픽테토스 / 마르쿠스 아우렐리우스 — 계획력(145)',
+      quote:'"통제 가능: 내 생각, 선택, 노력.<br>통제 불가: 타인의 행동, 결과, 날씨."',
+      src:'- 에픽테토스',
+      questLabel:'✏ 서우의 퀘스트',
+      xpLabel:'획득 XP',
+      items:[
+        '1. 오늘 내가 통제할 수 있는 것 3가지 써봐',
+        '2. 통제할 수 없는 걱정 1가지 — 그리고 놓아줘',
+        '3. 내일 실행 계획 하나 써봐'
+      ],
+      inputPh:'답을 입력해봐...',
+      btnIdle:'퀘스트 완료',
+      btnActive:'퀘스트 완료 +',
+      toast:' XP — 스토아 퀘스트 완료!'
+    },
+    att:{
+      title:'불교 마음챙김',
+      sub:'부처 / 틱낫한 — 주의집중(131)',
+      quote:'"이 순간 각 호흡에 집중해. 그것이 깨달음의 문이야."',
+      src:'- 부처',
+      fillTitle:'✏ 이 순간을 채워봐',
+      f1lbl:'호흡 속도', f1pre:'내 호흡은', f1post:'속도야.', f1ph:'빠름?', f1hint:'예: 빠름 / 보통 / 느림',
+      f2lbl:'편안한 부위', f2pre:'가장 편안한 부위는', f2post:'.', f2ph:'어깨?',
+      f3lbl:'들리는 소리', f3pre:'가장 잘 들리는 소리는', f3post:'.', f3ph:'바람?',
+      previewLabel:'✨ 나의 마음챙김 문장',
+      previewTxt:function(v1,v2,v3){return '내 호흡은 "'+v1+'" 속도이고, 가장 편안한 부위는 "'+v2+'", 들리는 소리는 "'+v3+'". 나는 지금 이 순간에 있어.';},
+      btn:'완료 +30 XP',
+      validate:'세 칸을 모두 채워주세요!',
+      toast:'+30 XP — 마음챙김 완료!'
+    },
+    sim:{
+      title:'유교 — 공감 퀘스트',
+      sub:'공자 — 동시처리',
+      quote:'"자신이 원하지 않는 것을 남에게 강요하지 마라."',
+      src:'- 공자 - 논어',
+      questLabel:'✏ 공감 퀘스트',
+      ph:'오늘 있었던 일을 상대방의 입장에서 생각해봐...',
+      btn:'퀘스트 완료 +40 XP',
+      validate:'공감 성찰을 작성해줘!',
+      toast:'+40 XP — 공감 퀘스트 완료!'
+    },
+    suc:{
+      title:'아리스토텔레스 — 중용',
+      sub:'니코마코스 윤리학 — 순차처리 PW- 보완',
+      quote:'"덕목은 지식이 아니라 매일의 습관에서 온다. 오늘의 루틴이 미래의 너를 만들어."',
+      src:'- 아리스토텔레스 - 니코마코스 윤리학',
+      tip:'개인 팁: 계획력(145)으로 순서를 먼저 설계하고, 그다음 단계별로 실행해봐!',
+      questLabel:'✏ 단계 설계 퀘스트',
+      ph:'오늘 할 일을 1단계, 2단계, 3단계로 나눠봐...',
+      btn:'퀘스트 완료 +50 XP',
+      validate:'단계 설계를 작성해줘!',
+      toast:'+50 XP — 단계 설계 완료!'
+    }
+  }
+};
+
+function getLang(){return (S.country==='korea')?MT.ko:MT.en;}
+
+function buildPlanModal(mc){
+  var L=getLang().plan;
+  mc.innerHTML='<div style="text-align:center;font-size:22px;margin-bottom:8px">&#127963;</div>'
+    +'<div class="mtit" style="text-align:center">'+L.title+'</div>'
+    +'<div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">'+L.sub+'</div>'
+    +'<div style="background:linear-gradient(135deg,#1e1040,#3a1a70);border-radius:12px;padding:14px;margin-bottom:14px">'
+    +'<div style="font-size:13px;color:#f0ebff;font-style:italic;line-height:1.7;margin-bottom:8px">'+L.quote+'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.5)">'+L.src+'</div></div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:12px">'+L.questLabel+'</div>'
+    +'<div id="plcards"></div>'
+    +'<div style="background:linear-gradient(135deg,#1e1040,#3a1a70);border-radius:12px;padding:12px 16px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between">'
+    +'<div><div style="font-size:10px;color:rgba(255,255,255,.55);margin-bottom:4px">'+L.xpLabel+'</div>'
+    +'<div class="plxpbar"><div class="plxpfill" id="plbar"></div></div></div>'
+    +'<div id="plxp" style="font-size:28px;font-weight:700;color:#fff">0 <span style="font-size:13px;opacity:.6">/ 40 XP</span></div></div>'
+    +'<button class="btn btnp" id="plbtn" style="opacity:.5;pointer-events:none" onclick="submitPlan()">'+L.btnIdle+'</button>';
+  initPlanCards();
+}
+
+var planSt={ch:{},wr:{}};
+var PLX={1:10,2:10,3:20};
+function initPlanCards(){
+  planSt={ch:{},wr:{}};
+  var L=getLang().plan;
+  var wrap=el('plcards');if(!wrap)return;
+  wrap.innerHTML=L.items.map(function(txt,i){
+    var n=i+1;
+    return '<div class="plcard" id="plc-'+n+'">'
+      +'<div class="plhdr" onclick="togglePlan('+n+')">'
+      +'<div class="plbox" id="plb-'+n+'"></div>'
+      +'<div class="pltxt">'+txt+'</div>'
+      +'<div class="plxpb">+'+(n===3?20:10)+' XP</div></div>'
+      +'<div class="pliwrap" id="pliw-'+n+'">'
+      +'<input class="plinput" id="pli-'+n+'" maxlength="80" placeholder="'+L.inputPh+'" oninput="updatePlan()">'
+      +'</div></div>';
+  }).join('');
+}
+window.togglePlan=function(n){
+  var chk=planSt.ch[n],box=el('plb-'+n),wrap=el('pliw-'+n),card=el('plc-'+n),inp=el('pli-'+n);
+  if(!chk){
+    planSt.ch[n]=true;
+    if(box){box.innerHTML='&#10003;';box.style.background='var(--accent)';box.style.color='#fff';}
+    if(card){card.style.borderColor='var(--accent)';card.style.background='rgba(108,61,224,.12)';}
+    if(wrap)wrap.style.display='block';
+    setTimeout(function(){if(inp)inp.focus();},50);
+  }else{
+    planSt.ch[n]=false;planSt.wr[n]=false;
+    if(box){box.innerHTML='';box.style.background='#fff';box.style.color='';}
+    if(card){card.style.borderColor='transparent';card.style.background='var(--accent-b)';}
+    if(wrap)wrap.style.display='none';
+    if(inp)inp.value='';
+  }
+  updatePlan();
+};
+window.updatePlan=function(){
+  var L=getLang().plan;
+  var total=0,any=false;
+  [1,2,3].forEach(function(n){
+    var inp=el('pli-'+n),wr=inp&&inp.value.trim().length>=2;
+    planSt.wr[n]=wr;
+    if(planSt.ch[n]&&wr){total+=PLX[n];any=true;}
+  });
+  var disp=el('plxp'),bar=el('plbar'),btn=el('plbtn');
+  if(disp)disp.innerHTML=total+' <span style="font-size:13px;opacity:.6">/ 40 XP</span>';
+  if(bar)bar.style.width=Math.round(total/40*100)+'%';
+  if(btn){
+    if(any){btn.style.opacity='1';btn.style.pointerEvents='auto';btn.textContent=L.btnActive+total+' XP';}
+    else{btn.style.opacity='.5';btn.style.pointerEvents='none';btn.textContent=L.btnIdle;}
+  }
+};
+window.submitPlan=function(){
+  var L=getLang().plan;
+  var total=0;
+  [1,2,3].forEach(function(n){var inp=el('pli-'+n);if(planSt.ch[n]&&inp&&inp.value.trim().length>=2)total+=PLX[n];});
+  if(!total)return;
+  addXP(total);closeModal();showToast('+'+total+L.toast);
+};
+
+function buildAttModal(mc){
+  var L=getLang().att;
+  mc.innerHTML='<div style="text-align:center;font-size:22px;margin-bottom:8px">&#9878;</div>'
+    +'<div class="mtit" style="text-align:center">'+L.title+'</div>'
+    +'<div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">'+L.sub+'</div>'
+    +'<div style="background:linear-gradient(135deg,#0e3d3d,#0e7c7b);border-radius:12px;padding:14px;margin-bottom:16px">'
+    +'<div style="font-size:13px;color:#e0f5f5;font-style:italic;line-height:1.7;margin-bottom:8px">'+L.quote+'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.5)">'+L.src+'</div></div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:12px">'+L.fillTitle+'</div>'
+    +'<div class="fcard"><div class="flbl">'+L.f1lbl+'</div><div class="frow"><span>'+L.f1pre+'</span><input class="finput" id="mf1" maxlength="10" placeholder="'+L.f1ph+'" oninput="updateMFill()"><span>'+L.f1post+'</span></div><div class="fhint">'+L.f1hint+'</div></div>'
+    +'<div class="fcard"><div class="flbl">'+L.f2lbl+'</div><div class="frow"><span>'+L.f2pre+'</span><input class="finput" id="mf2" maxlength="12" placeholder="'+L.f2ph+'" oninput="updateMFill()"><span>'+L.f2post+'</span></div></div>'
+    +'<div class="fcard"><div class="flbl">'+L.f3lbl+'</div><div class="frow"><span>'+L.f3pre+'</span><input class="finput" id="mf3" maxlength="14" placeholder="'+L.f3ph+'" oninput="updateMFill()"><span>'+L.f3post+'</span></div></div>'
+    +'<div class="fpreview" id="mfprev"><div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.6);margin-bottom:6px">'+L.previewLabel+'</div><div class="fpreviewt" id="mfprevt"></div></div>'
+    +'<button class="btn btns" onclick="submitAtt()">'+L.btn+'</button>';
+}
+window.updateMFill=function(){
+  var L=getLang().att;
+  var v1=(el('mf1')||{}).value||'',v2=(el('mf2')||{}).value||'',v3=(el('mf3')||{}).value||'';
+  var p=el('mfprev'),pt=el('mfprevt');
+  if(v1.trim()&&v2.trim()&&v3.trim()){
+    if(p)p.style.display='block';
+    if(pt)pt.textContent=L.previewTxt(v1.trim(),v2.trim(),v3.trim());
+  }else{if(p)p.style.display='none';}
+};
+window.submitAtt=function(){
+  var L=getLang().att;
+  var v1=(el('mf1')||{}).value||'',v2=(el('mf2')||{}).value||'',v3=(el('mf3')||{}).value||'';
+  if(!v1.trim()||!v2.trim()||!v3.trim()){showToast(L.validate);return;}
+  addXP(30);closeModal();showToast(L.toast);
+};
+
+function buildSimModal(mc){
+  var L=getLang().sim;
+  mc.innerHTML='<div style="text-align:center;font-size:22px;margin-bottom:8px">&#9803;</div>'
+    +'<div class="mtit" style="text-align:center">'+L.title+'</div>'
+    +'<div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">'+L.sub+'</div>'
+    +'<div style="background:linear-gradient(135deg,#4a0a20,#c23060);border-radius:12px;padding:14px;margin-bottom:14px">'
+    +'<div style="font-size:13px;color:#fde8f0;font-style:italic;line-height:1.7;margin-bottom:8px">'+L.quote+'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.5)">'+L.src+'</div></div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:8px">'+L.questLabel+'</div>'
+    +'<textarea id="simta" style="width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:Noto Sans KR,sans-serif;font-size:13px;resize:none;min-height:80px;outline:none;margin-bottom:10px" placeholder="'+L.ph+'"></textarea>'
+    +'<button class="btn btnp" onclick="submitSim()">'+L.btn+'</button>';
+}
+window.submitSim=function(){
+  var L=getLang().sim;
+  var ta=el('simta');
+  if(!ta||!ta.value.trim()){showToast(L.validate);return;}
+  addXP(40);closeModal();showToast(L.toast);
+};
+
+function buildSucModal(mc){
+  var L=getLang().suc;
+  mc.innerHTML='<div style="text-align:center;font-size:22px;margin-bottom:8px">&#956;</div>'
+    +'<div class="mtit" style="text-align:center">'+L.title+'</div>'
+    +'<div style="font-size:12px;color:var(--sub);text-align:center;margin-bottom:14px">'+L.sub+'</div>'
+    +'<div style="background:linear-gradient(135deg,#4a3000,#b07800);border-radius:12px;padding:14px;margin-bottom:14px">'
+    +'<div style="font-size:13px;color:#fdf6dc;font-style:italic;line-height:1.7;margin-bottom:8px">'+L.quote+'</div>'
+    +'<div style="font-size:11px;color:rgba(255,255,255,.5)">'+L.src+'</div></div>'
+    +'<div style="background:var(--warn-b);border-radius:10px;padding:10px;margin-bottom:12px;font-size:12px;color:var(--warn);line-height:1.55">'+L.tip+'</div>'
+    +'<div style="font-size:13px;font-weight:700;margin-bottom:8px">'+L.questLabel+'</div>'
+    +'<textarea id="sucta" style="width:100%;border:2px solid var(--border);border-radius:12px;padding:12px;font-family:Noto Sans KR,sans-serif;font-size:13px;resize:none;min-height:90px;outline:none;margin-bottom:10px" placeholder="'+L.ph+'"></textarea>'
+    +'<button class="btn btnp" onclick="submitSuc()">'+L.btn+'</button>';
+}
+window.submitSuc=function(){
+  var L=getLang().suc;
+  var ta=el('sucta');
+  if(!ta||!ta.value.trim()){showToast(L.validate);return;}
+  addXP(50);closeModal();showToast(L.toast);
+};
+
+// Emotion
+var EMO={
+  calm:{t:'Great day! Try Planning (145) deep-training today.',w:'"Enjoy the present fully." - Marcus Aurelius'},
+  neutral:{t:'That is okay. Start easy with 3 min mindful breathing.',w:'"Ordinary days accumulated make an extraordinary you." - Aristotle'},
+  sad:{t:'Tough day, huh. Thanks for showing up! Start gently.',w:'"In this moment, accept yourself exactly as you are." - Buddha'},
+  angry:{t:'Feeling angry? Stoic philosophy can help - let go of what you cannot control.',w:'"It is not events that disturb you, but your judgments." - Epictetus'},
+  anxious:{t:'Feeling anxious? Try staying in this present moment.',w:'"Anxiety is worrying about tomorrow. Focus on one breath today." - Thich Nhat Hanh'},
+  tired:{t:'Really tired? Just a light rest mission is fine!',w:'"Rest is also training. Those who recover last the longest." - Marcus Aurelius'}
+};
+window.selEmo=function(type,btn){
+  document.querySelectorAll('.eb').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');S.emo=type;
+  var fb=(S.country==='korea'&&typeof KO!=='undefined')?KO.emoFeedback[type]:EMO[type];
+  var ef=el('efb');
+  if(ef){ef.innerHTML='<div style="margin-bottom:6px;font-size:12px;">'+fb.t+'</div><div style="font-size:11px;color:var(--gold);font-style:italic;">'+fb.w+'</div>';ef.classList.add('show');}
+};
+
+// Dilemma
+var DIL={
+  A:{body:"You helped! But wait - Epictetus asks: Is real help making someone comfortable now, or helping them grow on their own?",wis:'"Solving your friend weakness for them only makes them weaker."',src:'- Epictetus - Planning PS+'},
+  B:{body:"Excellent! Like Confucius empathy principle, you thought from your friend perspective. Solving it together is true friendship!",wis:'"Do not impose on others what you yourself do not want. Real help is growing together."',src:'- Confucius - Simultaneous Processing'},
+  C:{body:"A courageous choice! Like Aristotle Golden Mean, sometimes saying no is the real virtue. Just explain your reasons.",wis:'"Virtue comes not from knowledge but from courageous choices."',src:'- Aristotle - Successive PW-'}
+};
+window.pickDil=function(choice,btn){
+  if(S.dilDone)return;
+  document.querySelectorAll('.qch').forEach(function(b){b.classList.remove('sel');});
+  btn.classList.add('sel');S.dilChoice=choice;
+  var dilSrc=(S.country==='korea'&&typeof KO!=='undefined')?
+    {A:KO.dilRbtit_A,B:KO.dilRbtit_B,C:KO.dilRbtit_C}:DIL;
+  var r=dilSrc[choice],rb=el('rbody'),rw=el('rwq'),rs=el('rws'),rbox=el('rbox');
+  if(rb)rb.textContent=r.body;if(rw)rw.textContent=r.wis;if(rs)rs.textContent=r.src;
+  if(rbox)rbox.classList.add('show');
+};
+window.submitDil=function(){
+  if(!S.dilChoice){showToast(S.country==='korea'?'먼저 선택지를 골라줘!':'Choose an option first!');return;}
+  if(S.dilDone)return;
+  S.dilDone=true;addXP(60);showToast('+60 XP '+(S.country==='korea'?'딜레마 완료!':'- Dilemma complete!'));
+  var db=el('dbadge');if(db)db.style.display='none';
+};
+window.dilTab=function(name,btn){
+  document.querySelectorAll('.tabbar .tab').forEach(function(b){b.classList.remove('active');});
+  btn.classList.add('active');
+  ['today','past','notes'].forEach(function(n){
+    var d=el('dp-'+n);if(d)d.style.display=(n===name)?'block':'none';
+  });
+};
+
+// Breathing
+window.toggleBreath=function(){
+  if(S.breathOn){
+    clearInterval(S.breathTimer);S.breathOn=false;
+    var ring=el('bring');if(ring)ring.classList.remove('on');
+    var bbtn=el('bbtn');if(bbtn)bbtn.textContent=S.country==='korea'?'다시 시작':'Restart';
+    var ph=el('bphase');if(ph)ph.textContent=S.country==='korea'?'탭해서 시작':'Tap to start';
+  }else{
+    S.breathOn=true;S.breathSec=180;
+    var ring2=el('bring');if(ring2)ring2.classList.add('on');
+    var bbtn2=el('bbtn');if(bbtn2)bbtn2.textContent=S.country==='korea'?'일시정지':'Pause';
+    S.breathTimer=setInterval(function(){
+      S.breathSec--;
+      var m=Math.floor(S.breathSec/60),s=S.breathSec%60;
+      var bt=el('btime');if(bt)bt.textContent=m+':'+(s<10?'0':'')+s;
+      var cyc=S.breathSec%12,ph2=el('bphase');
+      if(ph2)ph2.textContent=S.country==='korea'?(cyc<4?'들숨':cyc<8?'정지':'날숨'):(cyc<4?'Inhale':cyc<8?'Hold':'Exhale');
+      if(S.breathSec<=0){
+        clearInterval(S.breathTimer);S.breathOn=false;
+        var ring3=el('bring');if(ring3)ring3.classList.remove('on');
+        var bbtn3=el('bbtn');if(bbtn3)bbtn3.textContent=S.country==='korea'?'완료! 다시 시작':'Done! Restart';
+        var ph3=el('bphase');if(ph3)ph3.textContent=S.country==='korea'?'완료!':'Complete!';
+        addXP(20);showToast('+20 XP '+(S.country==='korea'?'마음챙김 완료!':'- Mindfulness complete!'));
+      }
+    },1000);
+  }
+};
+
+// Fill (mindful screen)
+window.updateFill=function(){
+  var v1=(el('f1')||{}).value||'',v2=(el('f2')||{}).value||'',v3=(el('f3')||{}).value||'';
+  [{id:'fc1',v:v1},{id:'fc2',v:v2},{id:'fc3',v:v3}].forEach(function(x){
+    var c=el(x.id);if(c){c.style.borderColor=x.v.trim()?'var(--teal)':'transparent';c.style.background=x.v.trim()?'rgba(14,124,123,.12)':'var(--teal-b)';}
+  });
+  var p=el('fprev'),pt=el('fprevt');
+  if(v1.trim()&&v2.trim()&&v3.trim()){
+    if(p)p.style.display='block';
+    if(pt){
+      var L2=getLang().att;
+      pt.textContent=L2.previewTxt(v1.trim(),v2.trim(),v3.trim());
+    }
+  }else{if(p)p.style.display='none';}
+};
+window.submitFill=function(){
+  var v1=(el('f1')||{}).value||'',v2=(el('f2')||{}).value||'',v3=(el('f3')||{}).value||'';
+  if(!v1.trim()||!v2.trim()||!v3.trim()){showToast(S.country==='korea'?'세 칸을 모두 채워주세요!':'Fill in all three blanks!');return;}
+  addXP(30);showToast('+30 XP '+(S.country==='korea'?'마음챙김 완료!':'- Mindfulness complete!'));
+};
+
+// Growth
+function renderGrowth(){
+  var isKo=S.country==='korea';
+  var dayEn=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  var dayKo=['월','화','수','목','금','토','일'];
+  var dayL=isKo?dayKo:dayEn;
+  var td=[{v:4},{v:4},{v:2},{v:3},{v:0},{v:0},{v:0}];
+  var cb=el('cbars');
+  if(cb)cb.innerHTML=td.map(function(d,i){var h=Math.max(d.v/5*70,4);return '<div class="bcol"><div class="bval">'+(d.v||'')+'</div><div class="bfill" style="height:'+h+'px;background:linear-gradient(to top,var(--gold),var(--rose),var(--teal),var(--accent))"></div><div class="blbl">'+dayL[i]+'</div></div>';}).join('');
+  var md=[{v:80,e:'&#128522;'},{v:60,e:'&#128528;'},{v:90,e:'&#128522;'},{v:70,e:'&#128522;'},{v:0,e:''},{v:0,e:''},{v:0,e:''}];
+  var mr=el('moodrows');
+  if(mr)mr.innerHTML=md.map(function(d,i){return '<div class="trow"><span class="tday">'+dayL[i]+'</span><div class="tbar"><div class="tfill" style="width:'+d.v+'%;background:'+(d.v>=80?'var(--teal)':d.v>=50?'var(--accent)':'var(--warn)')+'"></div></div><span class="temo">'+d.e+'</span></div>';}).join('');
+}
+
+// Diary
+var diaryList=[];
+window.saveDiary=function(){
+  var ta=el('diary');
+  if(!ta||!ta.value.trim()){showToast(S.country==='korea'?'한 줄 이상 써주세요!':'Write at least one line!');return;}
+  var now=new Date();
+  var savedAt=S.country==='korea'?'저장됨 ':'Saved at ';
+  diaryList.unshift({text:ta.value.trim(),time:now.getHours()+':'+(now.getMinutes()<10?'0':'')+now.getMinutes(),label:savedAt});
+  var dl=el('dlist');
+  if(dl)dl.innerHTML=diaryList.slice(0,3).map(function(e){
+    return '<div style="background:#fff;border-radius:10px;padding:10px 12px;border:1px solid #e8d080"><div style="font-size:10px;color:var(--sub);margin-bottom:4px">'+e.label+e.time+'</div><div style="font-size:12px;line-height:1.6">'+e.text+'</div></div>';
+  }).join('');
+  addXP(20);showToast('+20 XP '+(S.country==='korea'?'일기 저장됨!':'- Journal saved!'));
+  ta.value='';var dc=el('dcount');if(dc)dc.textContent=S.country==='korea'?'0 글자':'0 chars';
+};
+var dta=el('diary');
+if(dta)dta.addEventListener('input',function(){var dc=el('dcount');if(dc)dc.textContent=dta.value.length+(S.country==='korea'?' 글자':' chars');});
+
+// Init — 기본 국가가 korea이므로 바로 한국어 적용
+renderMissions();
+renderGrowth();
+renderPhil();
+applyKorean();
+
+})();
+</script>
+</body>
+</html>
