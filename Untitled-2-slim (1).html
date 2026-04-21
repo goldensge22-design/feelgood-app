@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeelGood — Brain Science-Based Personalized Education</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --gold:#F5A623;--gold-l:#FDE8BE;
+  --navy:#2C3E6B;--navy2:#4A5A8B;
+  --blue:#4A7EC8;--teal:#3BA8A0;
+  --purple:#7B6FAE;--purple-l:#B8ADDA;
+  --bg:#EFF2F8;--white:#FFF;
+  --text:#1A1A2E;--textm:#4A4A6A;--textl:#8888AA;
+  --r:20px;--sh:0 6px 28px rgba(44,62,107,.10);--shh:0 14px 44px rgba(44,62,107,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
+  background:rgba(235,239,250,.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(74,126,200,.13);
+  display:flex;align-items:center;padding:0 4vw;gap:0;}
+.nav-logo{display:flex;align-items:center;text-decoration:none;margin-right:22px;flex-shrink:0;}
+.nav-logo img{height:34px;width:auto;}
+.ntabs{display:flex;gap:4px;list-style:none;flex:1;overflow-x:auto;scrollbar-width:none;}
+.ntabs::-webkit-scrollbar{display:none;}
+.ntabs li a{
+  text-decoration:none;font-size:.8rem;font-weight:700;color:var(--textm);
+  padding:7px 16px;border-radius:20px;white-space:nowrap;transition:all .25s;display:block;
+}
+.ntabs li a:hover{background:rgba(245,166,35,.15);color:var(--gold);}
+.ntabs li.active a{
+  background:var(--gold);color:#fff;
+  box-shadow:0 4px 14px rgba(245,166,35,.45);
+}
+
+/* ── SECTIONS ── */
+.ps{display:none;min-height:100vh;padding:82px 5vw 60px;animation:fu .36s ease both;}
+.ps.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HOME ── */
+#sec-home{padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#1C2D55 0%,#2C3E6B 40%,#3D4F7C 70%,#4A5A8B 100%);
+  color:#fff;position:relative;overflow:hidden;}
+#sec-home.active{display:flex;}
+.hb1{position:absolute;top:-140px;right:-120px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,166,35,.16),transparent 70%);pointer-events:none;}
+.hb2{position:absolute;bottom:-100px;left:-100px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,126,200,.18),transparent 70%);pointer-events:none;}
+.hi{text-align:center;padding:130px 6vw 80px;position:relative;z-index:1;max-width:860px;margin:0 auto;}
+.hero-badge{display:inline-block;background:rgba(245,166,35,.18);border:1px solid rgba(245,166,35,.42);
+  color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2.5px;
+  padding:6px 20px;border-radius:20px;margin-bottom:32px;text-transform:uppercase;}
+.hero-logo{display:block;margin:0 auto 28px;height:70px;width:auto;
+  filter:drop-shadow(0 6px 22px rgba(0,0,0,.35));}
+.hi h1{font-size:clamp(1.1rem,2.3vw,1.55rem);font-weight:500;opacity:.9;margin-bottom:14px;line-height:1.5;}
+.hi p{font-size:.97rem;opacity:.68;line-height:1.9;max-width:530px;margin:0 auto 46px;}
+
+/* ── Home buttons ── */
+.hbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px;}
+/* Gold filled button */
+.btn-gold{
+  background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);
+  padding:13px 30px;border-radius:50px;font-size:.93rem;font-weight:700;cursor:pointer;
+  transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-gold:hover{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 6px 24px rgba(245,166,35,.42);transform:translateY(-2px);}
+/* Outline button → gold fill on hover */
+.btn-ghost{
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,.5);
+  padding:13px 30px;border-radius:50px;font-size:.93rem;font-weight:700;cursor:pointer;
+  transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-ghost:hover{
+  background:var(--gold);border-color:var(--gold);color:#fff;
+  box-shadow:0 6px 24px rgba(245,166,35,.42);transform:translateY(-2px);
+}
+/* Home button active state */
+.btn-gold.active,.btn-ghost.active{
+  background:var(--gold);border-color:var(--gold);color:#fff;
+  box-shadow:0 6px 24px rgba(245,166,35,.42);
+}
+
+.hstats{display:flex;gap:50px;justify-content:center;flex-wrap:wrap;}
+.snum{font-family:'Montserrat',sans-serif;font-size:2.4rem;font-weight:900;color:var(--gold);line-height:1;}
+.slbl{font-size:.74rem;opacity:.62;margin-top:5px;}
+
+/* ── Common ── */
+.sec-tag{display:inline-block;background:rgba(74,126,200,.13);color:var(--blue);
+  font-size:.7rem;font-weight:700;letter-spacing:2px;padding:5px 14px;border-radius:20px;
+  margin-bottom:14px;text-transform:uppercase;}
+.sec-title{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:900;color:var(--navy);line-height:1.25;margin-bottom:10px;}
+.sec-sub{font-size:.97rem;color:var(--textm);line-height:1.75;max-width:640px;}
+.sh{margin-bottom:36px;}
+.btn-navy{background:var(--navy);color:#fff;border:none;padding:13px 28px;border-radius:50px;
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;}
+.btn-navy:hover{background:var(--navy2);transform:translateY(-2px);}
+.btn-teal{background:var(--teal);color:#fff;border:none;padding:13px 28px;border-radius:50px;
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;}
+.btn-teal:hover{background:#2C9890;transform:translateY(-2px);}
+.mb24{margin-bottom:24px;} .mb32{margin-bottom:32px;} .mb40{margin-bottom:40px;}
+
+/* ── School Proposal ── */
+.pb{background:linear-gradient(135deg,var(--navy),#4A5A8B 55%,var(--purple));
+  border-radius:24px;padding:48px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden;}
+.pb::before{content:'🏫';position:absolute;right:48px;top:50%;transform:translateY(-50%);font-size:100px;opacity:.08;}
+.pb h2{font-size:1.85rem;font-weight:900;margin-bottom:12px;line-height:1.3;}
+.pb p{opacity:.82;font-size:.97rem;line-height:1.75;max-width:540px;}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:32px;}
+.wcard{background:#fff;border-radius:16px;padding:26px;box-shadow:var(--sh);border-left:4px solid var(--gold);}
+.wcard .ic{font-size:1.8rem;margin-bottom:12px;}
+.wcard h4{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.wcard p{font-size:.84rem;color:var(--textm);line-height:1.65;}
+.prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;
+  border-radius:16px;padding:28px;box-shadow:var(--sh);margin-bottom:32px;}
+.pstep{background:var(--bg);border-radius:12px;padding:16px 20px;text-align:center;flex:1;min-width:140px;}
+.pstep .num{font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;color:var(--gold);letter-spacing:2px;margin-bottom:6px;}
+.pstep h4{font-size:.87rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.pstep p{font-size:.77rem;color:var(--textm);}
+.parr{font-size:1.3rem;color:var(--purple-l);flex-shrink:0;}
+.ptbl{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--sh);}
+.ptbl th{background:var(--navy);color:#fff;padding:14px 20px;text-align:left;font-size:.82rem;font-weight:700;}
+.ptbl td{padding:14px 20px;border-bottom:1px solid #F0EFF8;font-size:.85rem;color:var(--textm);}
+.ptbl tr:last-child td{border-bottom:none;}
+.ptbl tr:hover td{background:#F8F7FF;}
+.pbadge{display:inline-block;background:var(--gold-l);color:var(--navy);font-weight:700;font-size:.78rem;padding:4px 10px;border-radius:8px;}
+
+/* ── assessment-card ── */
+.thgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:40px;}
+@media(max-width:700px){.thgrid{grid-template-columns:1fr;}}
+.tc{border-radius:24px;padding:36px;color:#fff;}
+.tc.kp{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.tc.dc{background:linear-gradient(135deg,#3BA8A0,#2C7B8A);}
+.tbadge{display:inline-block;background:rgba(255,255,255,.18);border-radius:8px;
+  padding:4px 12px;font-size:.7rem;font-weight:700;letter-spacing:1px;margin-bottom:16px;}
+.tc h3{font-size:1.6rem;font-weight:900;margin-bottom:6px;}
+.achip{background:var(--gold);color:#fff;font-weight:700;font-size:.85rem;
+  padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:20px;}
+.tc p{font-size:.88rem;opacity:.85;line-height:1.7;}
+.pr{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);
+  color:#fff;font-size:.76rem;font-weight:600;padding:5px 13px;border-radius:20px;}
+.paxes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0;}
+@media(max-width:700px){.paxes{grid-template-columns:1fr 1fr;}}
+.axc{background:#fff;border-radius:14px;padding:20px 16px;text-align:center;
+  box-shadow:var(--sh);border-top:4px solid var(--gold);}
+.axl{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:var(--navy);line-height:1;margin-bottom:6px;}
+.axn{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.axe{font-size:.72rem;color:var(--textl);margin-bottom:10px;}
+.axd{font-size:.78rem;color:var(--textm);line-height:1.5;}
+
+/* ── sample-assessment ── */
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:40px;}
+@media(max-width:600px){.srow{grid-template-columns:1fr;}}
+.sc{background:#fff;border-radius:20px;padding:32px;box-shadow:var(--sh);
+  text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.sbadge{border-radius:12px;padding:6px 20px;font-family:'Montserrat',sans-serif;
+  font-weight:900;font-size:.88rem;letter-spacing:1px;color:#fff;}
+.kpb{background:var(--navy);} .dcb{background:var(--teal);}
+.sc h4{font-size:1rem;font-weight:700;color:var(--navy);}
+.sc p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+
+/* ── video ── */
+.vfull{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);margin-bottom:24px;}
+.vinfo{padding:20px 24px;}
+.vlbl{font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.vinfo h4{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.vinfo p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+.v2col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px;}
+@media(max-width:700px){.v2col{grid-template-columns:1fr;}}
+.v2c{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);
+  transition:transform .25s,box-shadow .25s;}
+.v2c:hover{transform:translateY(-4px);box-shadow:var(--shh);}
+
+/* ── BRAINMAP ── */
+.bmh{background:linear-gradient(140deg,#1A1A2E 0%,#2C3E6B 45%,var(--purple) 100%);
+  border-radius:24px;padding:52px;color:#fff;margin-bottom:36px;position:relative;overflow:hidden;}
+.bmh::before{content:'🧠';position:absolute;right:52px;top:50%;transform:translateY(-50%);font-size:110px;opacity:.08;}
+.bmtag{display:inline-block;background:rgba(245,166,35,.22);border:1px solid rgba(245,166,35,.45);
+  color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2px;
+  padding:5px 16px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;}
+.bmh h2{font-size:1.9rem;font-weight:900;margin-bottom:12px;line-height:1.3;}
+.bmh p{opacity:.8;font-size:.97rem;line-height:1.75;max-width:560px;margin-bottom:22px;}
+.pos{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;padding:14px 22px;font-size:.87rem;font-weight:600;display:inline-block;}
+
+
+/* ── Curriculum ── */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:36px;}
+@media(max-width:900px){.phases{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.phases{grid-template-columns:1fr;}}
+.phc{border-radius:18px;overflow:hidden;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s;}
+.phc:hover{transform:translateY(-4px);box-shadow:var(--shh);}
+.phh{padding:22px 22px 16px;color:#fff;}
+.ph1 .phh{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.ph2 .phh{background:linear-gradient(135deg,#3BA8A0,#2C8A82);}
+.ph3 .phh{background:linear-gradient(135deg,#7B6FAE,#9B8FBE);}
+.ph4 .phh{background:linear-gradient(135deg,#C75B3F,#D97B5E);}
+.phnum{font-family:'Montserrat',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:2px;opacity:.72;margin-bottom:5px;}
+.phrnd{font-size:.77rem;font-weight:700;opacity:.82;margin-bottom:8px;}
+.phh h3{font-size:1.02rem;font-weight:900;line-height:1.3;}
+.phen{font-size:.71rem;opacity:.68;margin-top:4px;}
+.phb{background:#fff;padding:18px 20px;}
+.phcore{font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.phul{list-style:none;}
+.phul li{font-size:.78rem;color:var(--textm);padding:5px 0;border-bottom:1px solid #F0EFF8;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.phul li:last-child{border-bottom:none;}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ph1 .dot{background:var(--navy);} .ph2 .dot{background:var(--teal);}
+.ph3 .dot{background:var(--purple);} .ph4 .dot{background:#C75B3F;}
+.phul em{font-size:.7rem;color:#aaa;display:block;margin-top:2px;}
+
+/* ── AI personalized-section ── */
+.aisec{background:linear-gradient(135deg,#1A1A2E,#2C3E6B 50%,var(--purple));
+  border-radius:24px;padding:48px;color:#fff;margin-bottom:36px;}
+.aisec h3{font-size:1.55rem;font-weight:900;margin-bottom:14px;}
+.aisec p{opacity:.82;font-size:.95rem;line-height:1.75;max-width:580px;margin-bottom:24px;}
+.achips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.achip2{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
+  color:#fff;font-size:.82rem;font-weight:600;padding:8px 16px;border-radius:20px;}
+/* duration-highlight */
+.duration-box{
+  background:var(--gold);color:#fff;
+  border-radius:14px;padding:16px 24px;
+  display:inline-flex;align-items:center;gap:12px;
+  font-weight:700;font-size:.92rem;
+  box-shadow:0 4px 18px rgba(245,166,35,.45);
+}
+.duration-box .dicon{font-size:1.5rem;}
+
+/* ── operation/age/diff/persuasion ── */
+.ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:36px;}
+@media(max-width:700px){.ogrid{grid-template-columns:1fr;}}
+.oc{background:#fff;border-radius:16px;padding:26px;box-shadow:var(--sh);text-align:center;}
+.oi{font-size:2.2rem;margin-bottom:12px;}
+.oc h4{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.oc p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+.agegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:36px;}
+@media(max-width:700px){.agegrid{grid-template-columns:1fr;}}
+.agec{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--sh);}
+.agehd{padding:22px;color:#fff;}
+.ag1 .agehd{background:linear-gradient(135deg,#F5A623,#E8902A);}
+.ag2 .agehd{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.ag3 .agehd{background:linear-gradient(135deg,#7B6FAE,#5A4D8A);}
+.ageemoji{font-size:2rem;margin-bottom:8px;}
+.agehd h4{font-size:1.02rem;font-weight:900;margin-bottom:4px;}
+.agehd .range{font-size:.78rem;opacity:.8;}
+.agebd{padding:20px 22px;}
+.agetags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.agechip{background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:8px;}
+.agebd p{font-size:.82rem;color:var(--textm);line-height:1.6;margin-bottom:10px;}
+.qbox{background:var(--bg);border-radius:10px;padding:12px 14px;
+  font-size:.8rem;color:var(--navy);font-weight:500;line-height:1.55;font-style:italic;}
+.diffrow{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:36px;}
+@media(max-width:600px){.diffrow{grid-template-columns:1fr;}}
+.diffc{border-radius:18px;padding:28px;box-shadow:var(--sh);}
+.diffc.old{background:#FFF5F5;border:2px solid #FFD0D0;}
+.diffc.nw{background:#F0FBF0;border:2px solid #A8E0A8;}
+.diffc h4{font-size:1rem;font-weight:700;margin-bottom:16px;}
+.diffc.old h4{color:#C0392B;} .diffc.nw h4{color:#27AE60;}
+.dlist{list-style:none;}
+.dlist li{font-size:.87rem;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;gap:10px;}
+.dlist li:last-child{border-bottom:none;}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.pgrid{grid-template-columns:1fr;}}
+.pc{background:#fff;border-radius:16px;padding:22px;box-shadow:var(--sh);text-align:center;border-top:4px solid var(--gold);}
+.pn{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);margin-bottom:8px;}
+.pc h4{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.pc p{font-size:.78rem;color:var(--textm);line-height:1.55;}
+.eq{background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:16px;
+  padding:28px 32px;color:#fff;margin:24px 0 36px;}
+.eq p{font-size:.95rem;font-style:italic;line-height:1.7;margin-bottom:8px;opacity:.9;}
+.eq p:last-child{margin-bottom:0;}
+.cta{background:linear-gradient(135deg,var(--navy),var(--purple));
+  border-radius:24px;padding:48px;color:#fff;text-align:center;margin-bottom:24px;}
+.cta h3{font-size:1.6rem;font-weight:900;margin-bottom:12px;}
+.cta p{opacity:.8;font-size:.95rem;line-height:1.7;max-width:500px;margin:0 auto 28px;}
+
+/* ── modal ── */
+.moverlay{display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+.moverlay.open{display:flex;}
+.mbox{background:#fff;border-radius:20px;width:92vw;max-width:900px;max-height:90vh;
+  overflow:auto;position:relative;animation:fu .3s ease both;}
+.mclose{position:sticky;top:16px;left:100%;width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:#fff;border:none;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;float:right;margin:16px 16px 0 0;z-index:10;}
+.minner{padding:32px 36px 40px;clear:both;}
+.minner h2{font-size:1.4rem;font-weight:900;color:var(--navy);margin-bottom:20px;}
+
+/* ── Footer ── */
+footer{background:var(--navy);color:#fff;padding:48px 5vw 32px;}
+.fi{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;
+  padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.1);}
+@media(max-width:700px){.fi{grid-template-columns:1fr;}}
+.fbrand img{height:30px;width:auto;margin-bottom:14px;}
+.fbrand p{font-size:.82rem;opacity:.62;line-height:1.75;max-width:280px;}
+footer h5{font-size:.78rem;font-weight:700;opacity:.45;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+footer ul{list-style:none;}
+footer ul li{margin-bottom:10px;}
+footer ul li a{text-decoration:none;color:rgba(255,255,255,.72);font-size:.85rem;transition:color .2s;}
+footer ul li a:hover{color:var(--gold);}
+.fbot{padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fbot p{font-size:.74rem;opacity:.38;}
+
+/* ── video-thumbnail-card ── */
+.vthumb-link{display:block;text-decoration:none;}
+.vthumb-wrap{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;}
+.vthumb-img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .3s ease;}
+.vthumb-link:hover .vthumb-img{transform:scale(1.04);}
+.vplay-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.35);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  transition:background .25s;
+}
+.vthumb-link:hover .vplay-overlay{background:rgba(0,0,0,.5);}
+.vplay-btn{
+  width:68px;height:48px;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));
+  transition:transform .2s;
+}
+.vthumb-link:hover .vplay-btn{transform:scale(1.1);}
+.vwatch-txt{
+  color:#fff;font-size:.82rem;font-weight:700;
+  letter-spacing:.5px;
+  text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+.vyt-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;
+  background:#fff;border:1.5px solid #e0e0e0;
+  color:#1a1a2e;font-size:.82rem;font-weight:700;
+  padding:8px 16px;border-radius:20px;
+  text-decoration:none;transition:all .2s;
+}
+.vyt-btn:hover{background:#ff0000;border-color:#ff0000;color:#fff;}
+.vyt-btn:hover svg path:first-child{fill:#fff;}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="show('home');return false;">
+    <img src="images/img_01.png" alt="FeelGood">
+  </a>
+  <ul class="ntabs" id="ntabs">
+    <li class="active" data-s="home"><a href="#" onclick="show('home');return false;">🏠 Home</a></li>
+    <li data-s="school"><a href="#" onclick="show('school');return false;">🏫 School Proposal</a></li>
+    <li data-s="test"><a href="#" onclick="show('test');return false;">🧬 Assessment Overview</a></li>
+    <li data-s="brainmap"><a href="#" onclick="show('brainmap');return false;">🧠 BRAINMAP</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<section id="sec-home" class="ps active">
+  <div class="hb1"></div><div class="hb2"></div>
+  <div class="hi">
+    <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
+    <img class="hero-logo" src="images/img_02.png" alt="FeelGood">
+    <h1>Brain Science-Based · Advanced Personalized Education System</h1>
+    <p>K-PASS / D-CAS CognitiveAssessing each student's brain type through diagnosis,<br>delivering genuine growth through data-driven personalized education.</p>
+    <div class="hbtns">
+      <button class="btn-gold" id="hbtn-school" onclick="show('school')">🏫 School Proposal View</button>
+      <button class="btn-ghost" id="hbtn-test" onclick="show('test')">🧬 Assessment Overview</button>
+      <button class="btn-ghost" id="hbtn-brainmap" onclick="show('brainmap')">🧠 BRAINMAP</button>
+    </div>
+    <div class="hstats">
+      <div><div class="snum">40</div><div class="slbl">Years of Accumulated Data</div></div>
+      <div><div class="snum">81</div><div class="slbl">Brain Characteristic Types</div></div>
+      <div><div class="snum">4</div><div class="slbl">PASS Cognitiveaxis</div></div>
+      <div><div class="snum">32</div><div class="slbl">Annual Curriculum Sessions</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ School Proposal ═══ -->
+<section id="sec-school" class="ps">
+  <div class="sh">
+    <div class="sec-tag">School Proposal</div>
+    <h2 class="sec-title">School Proposal Summary</h2>
+    <p class="sec-sub">Upgrade existing creative activities and character education to a data-driven personalized system. Operable with mandatory hours only, without regular classes.</p>
+  </div>
+  <div class="pb mb32">
+    <h2>True excellence in global education<br>begins with understanding each student's cognitive characteristics.</h2>
+    <p>K-PASS / D-CASuses non-verbal, objective assessments to accurately evaluate brain characteristics, reducing teacher workload while creating a truly student-centered learning environment.</p>
+  </div>
+  <div class="wgrid mb32">
+    <div class="wcard"><div class="ic">🧬</div><h4>Science-Based Diagnosis</h4><p>Classifies 81 brain characteristic types via K-PASS/D-CAS. Game-based cognitive science assessments with 40 years of accumulated data for high reliability.</p></div>
+    <div class="wcard"><div class="ic">🎯</div><h4>Zero Regular Class Intrusion</h4><p>Usable within mandatory creative activities/character education hours and after-school programs. No additional workload for teachers, homeroom Teacher teachers can facilitate.</p></div>
+    <div class="wcard"><div class="ic">🤖</div><h4>AI AutoPersonalized Report</h4><p>Auto-generates character education performance reports, student growth reports, and school record descriptions. Reduces teacher administrative workload.</p></div>
+    <div class="wcard"><div class="ic">📈</div><h4>Measurable Growth</h4><p>Twice-yearly reassessment proves emotional intelligence and cognitive growth changes numerically. Usable as school evaluation data.</p></div>
+    <div class="wcard"><div class="ic">🌐</div><h4>Multicultural & Global Fit</h4><p>Non-verbal assessments optimized for multicultural and multilingual environments. Applicable to both international and private schools.</p></div>
+    <div class="wcard"><div class="ic">⚖️</div><h4>Universal Values-Based</h4><p>Character education based on Eastern and Western philosophical/ethical principles with universal values. Balanced character education without religious biasducation.</p></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">School Entry Pathways</h3></div>
+  <div class="prow mb40">
+    <div class="pstep"><div class="num">1Priority</div><h4>Mandatory Character Education Hours</h4><p>Creative Experiential Activities: 204 hours/year</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">2Priority</div><h4>After-School Program</h4><p>Elective Program Operation</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">3Priority</div><h4>morning assembly·closing assembly routine</h4><p>daily 10minutes MindCompass</p></div>
+    <div class="parr">→</div>
+    <div class="pstep" style="border-top:4px solid var(--gold);"><div class="num">Results</div><h4>Student Growth Data</h4><p>Auto-generated semester reports</p></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">adoption package</h3></div>
+  <table class="ptbl mb40">
+    <thead><tr><th>package</th><th>including content</th><th>price</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pbadge">assessmentonly</span></td><td>K-PASS / D-CAS assessment progress (Results report including)</td><td><strong>75,000KRW / person</strong></td></tr>
+      <tr><td><span class="pbadge">assessment + Program production</span></td><td>assessment progress + School personalized AI Program design production + Platform use</td><td><strong>10,000KRW / person</strong><br><span style="font-size:.8rem;color:var(--textl);">+ Program usage fee</span></td></tr>
+      <tr><td><span class="pbadge">assessment + example Program</span></td><td>assessment progress + existing example Program as-is operation</td><td><strong>10,000KRW / person</strong><br><span style="font-size:.8rem;color:var(--textl);">+ 4,000KRW / people (whole school person criteria (KRW))</span></td></tr>
+    </tbody>
+  </table>
+  <div style="background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.3);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:var(--textm);line-height:1.9;">
+    <strong style="color:var(--gold);">💡 guide</strong><br>
+    · School all personKRWnumber according to amount 협's available..<br>
+    · Program usage fee adoption Features·customizing scope according to separate guide.
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <button class="btn-navy" onclick="show('test')">🧬 Assessment Introduction View</button>
+    <button class="btn-navy" onclick="show('brainmap')">🧠 BRAINMAP Program</button>
+  </div>
+</section>
+
+<!-- ═══ Assessment Introduction ═══ -->
+<section id="sec-test" class="ps">
+  <div class="sh">
+    <div class="sec-tag">Assessment</div>
+    <h2 class="sec-title">Assessment Introduction</h2>
+    <p class="sec-sub">Korea's leading experts' 40-year accumulated data — the world's first world's first game-based brain potential assessment system.</p>
+  </div>
+  <div class="mb32">
+    <button class="btn-navy" onclick="openB()">📄 Assessment Introduction brochure View</button>
+  </div>
+  <div class="thgrid">
+    <div class="tc kp">
+      <div class="tbadge">K⁺PASS · K-PASS</div>
+      <h3>Children's Learning · Aptitude<br>Intelligence Assessment</h3>
+      <div class="achip">5ages – 13</div>
+      <p>Korea's first game-based brain potential assessment. Directly analyzes cognitive processing pathwayss across 4 P·A·S·S axes, quantifying brain development patterns.</p>
+      <div class="pr"><span class="pill">gifted & talented Analysis</span><span class="pill">ADHD early selection</span><span class="pill">Learning method recommendation</span></div>
+    </div>
+    <div class="tc dc">
+      <div class="tbadge">D⁺CAS · D-CAS</div>
+      <h3>Youth · Adult<br>Career · Job Assessment</h3>
+      <div class="achip" style="background:var(--navy);">14years old ~ adult</div>
+      <p>Brain type analysis / cognitive ability / job aptitude profiling. Applicable across corporate HR, military, police, and security institutions — a brain-based career and aptitude assessment.</p>
+      <div class="pr"><span class="pill">Job fit analysis</span><span class="pill">HR dashboard</span><span class="pill">career recommendation</span></div>
+    </div>
+  </div>
+  <div class="sh" style="margin-top:40px;"><h3 class="sec-title" style="font-size:1.35rem;">PASS 4-Axis Cognitive Assessment</h3></div>
+  <div class="paxes mb40">
+    <div class="axc"><div class="axl">P</div><div class="axn">Planning Ability</div><div class="axe">Planning</div><div class="axd">Prefrontal cortex-based executive functions: self-control, strategy building, and goal achievement</div></div>
+    <div class="axc"><div class="axl">A</div><div class="axn">Attention Ability</div><div class="axe">Attention</div><div class="axd">Selective attention · focus maintenance · learning efficiency · ADHD-related indicator</div></div>
+    <div class="axc"><div class="axl">S</div><div class="axn">simultaneous processing</div><div class="axe">Simultaneous</div><div class="axd">right brain pattern·all context understanding. creative·visual·intuitive thinking</div></div>
+    <div class="axc"><div class="axl">Ss</div><div class="axn">Successive Processing</div><div class="axe">Successive</div><div class="axd">left brain language·logic·stage processing. order·rules Based Learning strengths</div></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">sample-assessment experience</h3>
+    <p class="sec-sub">button press sample Directly try the assessment questions now. experience whiteboard animation story without sample question itemsonly experience available..</p>
+  </div>
+  <div class="srow">
+    <div class="sc">
+      <div class="sbadge kpb">K⁺PASS</div>
+      <h4>K-PASS sample-assessment</h4>
+      <p>Children's Learning · Aptitude Intelligence Assessment<br>Ages 5–13<br><br>Directly experience the game-based cognitive brain potential assessment.</p>
+      <a href="https://kpass-simple.feel-good.io/" target="_blank" class="btn-navy" style="width:100%;justify-content:center;">🎮 K-PASS sample-assessment start</a>
+      <span style="font-size:.76rem;color:var(--textl);">kpass-simple.feel-good.io</span>
+    </div>
+    <div class="sc">
+      <div class="sbadge dcb">D⁺CAS</div>
+      <h4>D-CAS sample-assessment</h4>
+      <p>Youth & Adult Career/Job Assessment<br>Ages 14 – Adult<br><br>Brain-Based Career & Job aptitude directly Try it now.</p>
+      <a href="https://dcas-simple.feel-good.io/" target="_blank" class="btn-teal" style="width:100%;justify-content:center;">🎮 D-CAS sample-assessment start</a>
+      <span style="font-size:.76rem;color:var(--textl);">dcas-simple.feel-good.io</span>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">Media Coverage &amp; Demo Videos</h3></div>
+  <!-- media video -->
+  <div class="vfull mb24">
+    <a href="https://www.youtube.com/watch?v=MLAF18acdSQ" target="_blank" class="vthumb-link" title="FeelGood Media Coverage — SBS Biz — Trend Special">
+      <div class="vthumb-wrap">
+        <img src="https://img.youtube.com/vi/MLAF18acdSQ/hqdefault.jpg" alt="FeelGood Media Coverage — SBS Biz — Trend Special" class="vthumb-img">
+        <div class="vplay-overlay">
+          <div class="vplay-btn">
+            <svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+          </div>
+          <span class="vwatch-txt">Watch on YouTube</span>
+        </div>
+      </div>
+    </a>
+    <div class="vinfo">
+      <div class="vlbl">📺 Media Coverage</div>
+      <h4>FeelGood Media Coverage — SBS Biz — Trend Special</h4>
+      <p>K-PASS brain potential assessment system as featured on SBS Biz Trend Special.</p>
+      <a href="https://www.youtube.com/watch?v=MLAF18acdSQ" target="_blank" class="vyt-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+        Watch on YouTube →
+      </a>
+    </div>
+  </div>
+  <!-- Assessment Demo + Admin page 2columns -->
+  <div class="v2col">
+    <div class="v2c">
+      <a href="https://www.youtube.com/watch?v=0D2frmT02BU" target="_blank" class="vthumb-link" title="K-PASS Game Assessment Demo">
+        <div class="vthumb-wrap">
+          <img src="https://img.youtube.com/vi/0D2frmT02BU/hqdefault.jpg" alt="K-PASS Game Assessment Demo" class="vthumb-img">
+          <div class="vplay-overlay">
+            <div class="vplay-btn">
+              <svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+            </div>
+            <span class="vwatch-txt">Watch on YouTube</span>
+          </div>
+        </div>
+      </a>
+      <div class="vinfo">
+        <div class="vlbl">🎮 Assessment Demo</div>
+        <h4>K-PASS Game Assessment Demo</h4>
+        <p>Watch the actual game-based assessment in action and see how children engage with the process.</p>
+        <a href="https://www.youtube.com/watch?v=0D2frmT02BU" target="_blank" class="vyt-btn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+          Watch on YouTube →
+        </a>
+      </div>
+    </div>
+    <div class="v2c">
+      <a href="https://www.youtube.com/watch?v=A6pwJADz3Fs" target="_blank" class="vthumb-link" title="Admin page demo">
+        <div class="vthumb-wrap">
+          <img src="https://img.youtube.com/vi/A6pwJADz3Fs/hqdefault.jpg" alt="Admin page demo" class="vthumb-img">
+          <div class="vplay-overlay">
+            <div class="vplay-btn">
+              <svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg>
+            </div>
+            <span class="vwatch-txt">Watch on YouTube</span>
+          </div>
+        </div>
+      </a>
+      <div class="vinfo">
+        <div class="vlbl">🖥 Admin page</div>
+        <h4>Administrator Dashboard Overview</h4>
+        <p>Explore the admin dashboard and student data management system designed for school administrators.</p>
+        <a href="https://www.youtube.com/watch?v=A6pwJADz3Fs" target="_blank" class="vyt-btn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+          Watch on YouTube →
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">assessment process</h3></div>
+  <div class="prow">
+    <div class="pstep"><div class="num">STEP 1</div><h4>Download</h4><p>PC / tablet<br>Windows · iOS</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">STEP 2</div><h4>assessment progress</h4><p>30~50minutes<br>game형 progress</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">STEP 3</div><h4>Results Confirm</h4><p>assessment Done 즉시<br>Auto report</p></div>
+  </div>
+</section>
+
+<!-- ═══ BRAINMAP ═══ -->
+<section id="sec-brainmap" class="ps">
+  <div class="sh">
+    <div class="sec-tag">BRAINMAP Program</div>
+    <h2 class="sec-title">BRAINMAP Program</h2>
+    <p class="sec-sub">Teachers who are making character education data visible, transforming it into student-level personalized insights for you Student growth management system..</p>
+  </div>
+  <div class="bmh mb40">
+    <div class="bmtag">BRAINMAP · MindCompass</div>
+    <h2>Assessment → Personalization<br>→ Daily Training → Measurable Growth</h2>
+    <p>existing SEL(societyemotionLearning)and characterEducation data-based individual personalized system..<br>"Education Program" — not just <strong>"Student growth management system"</strong>..</p>
+    <div class="pos">Assessment → Insight → Practice → Behavior Change → Report</div>
+  </div>
+  <div class="sh">
+    <div class="sec-tag">Curriculum</div>
+    <h3 class="sec-title">32Annual Curriculum Sessions (example)</h3>
+    <p class="sec-sub">PASS 4-axis based 4stage × 8sessions, week 1sessions 40minutes × 32week + daily 10minutes morning assembly/closing assembly routines.<br>
+    <strong>elementary Creative Experiential Activities</strong>and <strong>middle/high schooletc. career class</strong> optimized sessions of differentiated content.</p>
+  </div>
+  <div class="phases mb40">
+    <div class="phc ph1">
+      <div class="phh"><div class="phnum">PHASE 01</div><div class="phrnd">1~8sessions · 1semester pre-program class</div><h3>selfunderstanding<br>&amp; emotion awareness</h3><div class="phen">Self Awareness</div></div>
+      <div class="phb">
+        <div class="phcore">🔵 "I am what kind of the person with a unique brain"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div><strong>1sessions</strong> K-PASS initial assessment &amp; brain type overview items<em>Elementary: my brain character creating / middle/high school: brain self-introduction by brain type</em></div></li>
+          <li><span class="dot"></span><div><strong>2sessions</strong> PASS axis strengths understanding<em>Elementary: strengths bingo game / middle/high school: strengths-occupation mapping</em></div></li>
+          <li><span class="dot"></span><div><strong>3sessions</strong> emotion language expansion<em>Elementary: emotion color illustration / middle/high school: structured emotion journal</em></div></li>
+          <li><span class="dot"></span><div><strong>4sessions</strong> my emotion pattern discovery<em>Elementary: emotion calendar / middle/high school: 트리거 Analysis</em></div></li>
+          <li><span class="dot"></span><div><strong>5sessions</strong> Learning preference method exploration<em>Elementary: class method voting / middle/high school: Learningstrategy matching</em></div></li>
+          <li><span class="dot"></span><div><strong>6sessions</strong> strengths story creating<em>Elementary: superpower presentation / middle/high school: portfolio draft</em></div></li>
+          <li><span class="dot"></span><div><strong>7sessions</strong> brain type-based emotional response understanding</div></li>
+          <li><span class="dot"></span><div><strong>8sessions</strong> 1stage check &amp; growth Confirm</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph2">
+      <div class="phh"><div class="phnum">PHASE 02</div><div class="phrnd">9~16sessions · 1semester post-program class</div><h3>selfregulation<br>&amp; executionability</h3><div class="phen">Self Regulation</div></div>
+      <div class="phb">
+        <div class="phcore">🟢 "The power to transform thinking into behavior"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div><strong>9sessions</strong> Planning(Paxis) — Mind Map<em>Elementary: Today's To-Do Map / middle/high school: Career Roadmap</em></div></li>
+          <li><span class="dot"></span><div><strong>10sessions</strong> routine design &amp; habit<em>Elementary: morning routine card / middle/high school: weekly planner</em></div></li>
+          <li><span class="dot"></span><div><strong>11sessions</strong> impulse regulation strategy<em>Elementary: STOP signal game / middle/high school: self-decision matrix</em></div></li>
+          <li><span class="dot"></span><div><strong>12sessions</strong> focus ability improvement (Aaxis)<em>Elementary: pomodoro experience / middle/high school: deep work design</em></div></li>
+          <li><span class="dot"></span><div><strong>13sessions</strong> Goal Settings &amp; execution<em>Elementary: OX Goal Game / middle/high school: SMART goal</em></div></li>
+          <li><span class="dot"></span><div><strong>14sessions</strong> self dialogue pattern check</div></li>
+          <li><span class="dot"></span><div><strong>15sessions</strong> achievement experience designing</div></li>
+          <li><span class="dot"></span><div><strong>16sessions</strong> mid-term report &amp; class checkpoint review</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph3">
+      <div class="phh"><div class="phnum">PHASE 03</div><div class="phrnd">17~24sessions · 2semester pre-program class</div><h3>relationship<br>&amp; moral thinking</h3><div class="phen">Social Thinking</div></div>
+      <div class="phb">
+        <div class="phcore">🟡 "타personand together living thinking"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div><strong>17sessions</strong> by brain type conflict pattern<em>Elementary: conflict role-play / middle/high school: conflict type Analysis</em></div></li>
+          <li><span class="dot"></span><div><strong>18sessions</strong> empathy &amp; perspective transition<em>Elementary: friend mind reading / middle/high school: diversity discussion</em></div></li>
+          <li><span class="dot"></span><div><strong>19sessions</strong> Dilemma Card Discussion<em>Elementary: Fairy Tale Choices / middle/high school: society issues dilemma</em></div></li>
+          <li><span class="dot"></span><div><strong>20sessions</strong> collaboration task (Saxis)<em>Elementary: group project / middle/high school: team leader10</em></div></li>
+          <li><span class="dot"></span><div><strong>21sessions</strong> ethical judgment training<em>Elementary: right and right-and-wrong story / middle/high school: professional ethics</em></div></li>
+          <li><span class="dot"></span><div><strong>22sessions</strong> leader10 type exploration<em>Elementary: leader role experience / middle/high school: leader10 brand</em></div></li>
+          <li><span class="dot"></span><div><strong>23sessions</strong> conflict resolution strategy practice</div></li>
+          <li><span class="dot"></span><div><strong>24sessions</strong> relationship growth story writing</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph4">
+      <div class="phh"><div class="phnum">PHASE 04</div><div class="phrnd">25~32sessions · 2semester post-program class</div><h3>value<br>&amp; habit화</h3><div class="phen">Meaning &amp; Identity</div></div>
+      <div class="phb">
+        <div class="phcore">🔴 "I am what kind of as a person years old what is"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div><strong>25sessions</strong> Core Value Discovery<em>Elementary: Value Card Sorting / middle/high school: occupational value alignment</em></div></li>
+          <li><span class="dot"></span><div><strong>26sessions</strong> philosophy Based dilemma<em>Elementary: value Select / middle/high school: career·society dilemma advanced</em></div></li>
+          <li><span class="dot"></span><div><strong>27sessions</strong> self declaration writing<em>Elementary: I am ○○하 person / middle/high school: Personal Statement</em></div></li>
+          <li><span class="dot"></span><div><strong>28sessions</strong> long-term goal &amp; career connection<em>Elementary: dream occupation timeline / middle/high school: Career Roadmap completion</em></div></li>
+          <li><span class="dot"></span><div><strong>29sessions</strong> designing my own world<em>Elementary: future city drawing / middle/high school: social problem-solving planning</em></div></li>
+          <li><span class="dot"></span><div><strong>30sessions</strong> by brain type growth portfolio</div></li>
+          <li><span class="dot"></span><div><strong>31sessions</strong> change presentation &amp; 피어 feedback</div></li>
+          <li><span class="dot"></span><div><strong>32sessions</strong> 최종 Assessment &amp; growth report</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI personalized Program — duration-highlight -->
+  <div class="aisec mb40">
+    <h3>🤖 School needs according to AI personalized Program design</h3>
+    <p>for The 32-session curriculum shown is a standard example.<br>
+    School's Grade·subject·goal·schedule according to <strong>AI Personalized Program Auto design</strong>..<br>
+    K-PASS/D-CAS assessment data + School characteristics Enter → optimized sessions of differentiated personalized content.</p>
+    <div class="achips">
+      <span class="achip2">📚 elementary Creative Experiential Activities linkage</span>
+      <span class="achip2">🎓 middle/high schooletc. career class linkage</span>
+      <span class="achip2">🌍 internationalSchool IB/SEL linkage</span>
+      <span class="achip2">🏢 After-School Program personalized</span>
+      <span class="achip2">⏰ week1sessions / biweekly / focus-type selection</span>
+      <span class="achip2">🤖 by brain type individual personalized content</span>
+    </div>
+    <!-- duration-highlight box -->
+    <div class="duration-box">
+      <span class="dicon">⏳</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.85;margin-bottom:2px;">personalized content and Features according to production required period</div>
+        <div style="font-size:1.05rem;">1months ~ 2months required</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">School Annual Operating Structure</h3></div>
+  <div class="ogrid mb40">
+    <div class="oc"><div class="oi">📅</div><h4>operation structure</h4><p><strong>1semester:</strong> 1~16sessions (selfunderstanding + selfregulation)<br><strong>2semester:</strong> 17~32sessions (relationship + value)<br>Per Semester Results report provision</p></div>
+    <div class="oc"><div class="oi">⏱</div><h4>class method</h4><p><strong>week 1sessions 40minutes</strong> — creative activities·career class<br><strong>daily 10minutes</strong> — morning assembly/closing assembly MindCompass<br>regularclass intrusion none</p></div>
+    <div class="oc"><div class="oi">📊</div><h4>Assessment structure</h4><p><strong>Pre Assessment</strong> — K-PASS initial assessment<br><strong>Mid Report</strong> — 16sessions 중간 check<br><strong>Final Report</strong> — 32sessions Growth Data</p></div>
+  </div>
+  <div class="sh"><div class="sec-tag">Age Group</div><h3 class="sec-title">by age core points</h3></div>
+  <div class="agegrid mb40">
+    <div class="agec ag1">
+      <div class="agehd"><div class="ageemoji">👶</div><h4>early childhood / Kindergarten</h4><div class="range">5~7years old</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip">emotion awareness</span><span class="agechip">basic selfregulation</span><span class="agechip">social foundation</span></div>
+        <div class="qbox">"children one's own emotion underthe ability to understand and express oneself is the foundation of all learning.."</div>
+        <p style="margin-top:12px;"><strong>application:</strong> Emotion Select UI, story-based dilemmas, play-based MindCompass</p>
+      </div>
+    </div>
+    <div class="agec ag2">
+      <div class="agehd"><div class="ageemoji">🧒</div><h4>Elementary / Primary ⭐</h4><div class="range">8–12 years old · Creative Activities Class core</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip">selfregulationability</span><span class="agechip">focusability</span><span class="agechip">habit formation</span><span class="agechip">creative activities linkage</span></div>
+        <div class="qbox">"At this stage, 'children who self-regulate independently' determine growth more than 'smart children'.."</div>
+        <p style="margin-top:12px;"><strong>creative activities linkage:</strong> Planning Ability training, routine management, emotion dilemma<br><strong>effect:</strong> Learningattitude·focus·homework execution rate improvement</p>
+      </div>
+    </div>
+    <div class="agec ag3">
+      <div class="agehd"><div class="ageemoji">🧑</div><h4>middle/high schooletc. / Secondary</h4><div class="range">13~18years old · career class linkage</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip">valuerelated formation</span><span class="agechip">self identity</span><span class="agechip">career exploration</span><span class="agechip">critical thinking</span></div>
+        <div class="qbox">"'what 'more than 'how judgment and decision-making' is a critical period.."</div>
+        <p style="margin-top:12px;"><strong>career linkage:</strong> philosophy dilemma, Career Roadmap, Personal Statement<br><strong>effect:</strong> university academic advancement preparation, leader10, ethical thinking</p>
+      </div>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">What sets us apart from existing programs</h3></div>
+  <div class="diffrow mb40">
+    <div class="diffc old"><h4>❌ existing SEL / characterEducation</h4><ul class="dlist">
+      <li>😐 qualitative Assessment — measurement difficulty</li><li>😐 Results data none</li>
+      <li>😐 Uniform Education (no individual personalization)</li><li>😐 Teacher weekrelated intervention</li><li>😐 growth certificatepeople not available</li>
+    </ul></div>
+    <div class="diffc nw"><h4>✅ BRAINMAP · MindCompass</h4><ul class="dlist">
+      <li>✨ data-based quantitative Assessment</li><li>✨ Per Semester auto-generated growth report characteristics</li>
+      <li>✨ 81 by brain type individual personalized</li><li>✨ AI auto-analysis eliminates subjective bias</li>
+      <li>✨ behavior change tracking &amp; certificatepeople available</li>
+    </ul></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;">School adoption decision points</h3></div>
+  <div class="pgrid mb32">
+    <div class="pc"><div class="pn">01</div><h4>additional class 님</h4><p>creative activities & SEL hours into a data-based upgrade. Zero intrusion on regular classes.</p></div>
+    <div class="pc"><div class="pn">02</div><h4>Teacher burden none</h4><p>Auto content·Auto report. Teacher progressonly, design system.</p></div>
+    <div class="pc"><div class="pn">03</div><h4>Parent satisfaction↑</h4><p>Personalized growth reports for each student. Parents can directly verify changes.</p></div>
+    <div class="pc"><div class="pn">04</div><h4>School brand↑</h4><p>"A school that cultivates emotional and cognitive management ability" differentiated Education brand cornerstone.</p></div>
+  </div>
+  <div class="eq">
+    <p>"This is not an additional subject. It is a system that upgrades your existing SEL into a measurable, personalized learning experience."</p>
+    <p>"We don't just teach values. We track and develop how students think, feel, and act."</p>
+  </div>
+  
+<!-- ── Teacher dashboard ── -->
+<div style="border:1.5px solid rgba(74,126,200,.2);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:24px;">
+  <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;gap:10px;">
+    <span style="color:#fff;font-weight:600;font-size:1rem;">🧠 MindCompass — Teacher dashboard v3</span>
+    <span style="margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.6);">sample data experience 중</span>
+  </div>
+  <div id="teacher-dashboard" style="background:#f8f9ff;padding:24px 20px;font-family:'Pretendard','Noto Sans KR',sans-serif;">
+    <!-- class Summary card -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+      <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <div style="font-size:1.6rem;font-weight:700;color:var(--blue);">12</div>
+        <div style="font-size:.8rem;color:#666;margin-top:4px;">all Student</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <div style="font-size:1.6rem;font-weight:700;color:#4CAF82;">4</div>
+        <div style="font-size:.8rem;color:#666;margin-top:4px;">right brain dominant type</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <div style="font-size:1.6rem;font-weight:700;color:#5B7FD4;">5</div>
+        <div style="font-size:.8rem;color:#666;margin-top:4px;">left-right balanced type</div>
+      </div>
+      <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <div style="font-size:1.6rem;font-weight:700;color:#FF8C42;">3</div>
+        <div style="font-size:.8rem;color:#666;margin-top:4px;">left brain dominant형</div>
+      </div>
+    </div>
+    <!-- Student list 테블 -->
+    <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+      <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
+        <thead>
+          <tr style="background:var(--navy);color:#fff;">
+            <th style="padding:10px 14px;text-align:left;">Name</th>
+            <th style="padding:10px 14px;text-align:center;">brain type</th>
+            <th style="padding:10px 14px;text-align:center;">plan(P)</th>
+            <th style="padding:10px 14px;text-align:center;">attention(A)</th>
+            <th style="padding:10px 14px;text-align:center;">Simultaneous(S)</th>
+            <th style="padding:10px 14px;text-align:center;">successive(Ss)</th>
+            <th style="padding:10px 14px;text-align:left;">guidance points</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:10px 14px;font-weight:600;">Song Seo-woo</td>
+            <td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;">right brain dominant</span></td>
+            <td style="padding:10px 14px;text-align:center;">62</td>
+            <td style="padding:10px 14px;text-align:center;">58</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">118</td>
+            <td style="padding:10px 14px;text-align:center;">44</td>
+            <td style="padding:10px 14px;font-size:.8rem;color:#555;">creative task strengths / successive training necessary</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;">
+            <td style="padding:10px 14px;font-weight:600;">Lee Min-jun</td>
+            <td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;">balanced type</span></td>
+            <td style="padding:10px 14px;text-align:center;">78</td>
+            <td style="padding:10px 14px;text-align:center;">82</td>
+            <td style="padding:10px 14px;text-align:center;">85</td>
+            <td style="padding:10px 14px;text-align:center;">80</td>
+            <td style="padding:10px 14px;font-size:.8rem;color:#555;">balance development / advanced task provision</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:10px 14px;font-weight:600;">Kim Ji-a</td>
+            <td style="padding:10px 14px;text-align:center;"><span style="background:#FF8C4220;color:#FF8C42;padding:3px 8px;border-radius:20px;font-size:.78rem;">left brain dominant</span></td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">95</td>
+            <td style="padding:10px 14px;text-align:center;">88</td>
+            <td style="padding:10px 14px;text-align:center;">52</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">102</td>
+            <td style="padding:10px 14px;font-size:.8rem;color:#555;">logic·Analysis strengths / Creative Thinking expansion</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;">
+            <td style="padding:10px 14px;font-weight:600;">Park Ji-hun</td>
+            <td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;">balanced type</span></td>
+            <td style="padding:10px 14px;text-align:center;">71</td>
+            <td style="padding:10px 14px;text-align:center;">68</td>
+            <td style="padding:10px 14px;text-align:center;">74</td>
+            <td style="padding:10px 14px;text-align:center;">72</td>
+            <td style="padding:10px 14px;font-size:.8rem;color:#555;">balanced development / individual interests linkage advanced</td>
+          </tr>
+          <tr style="border-bottom:1px solid #f0f0f0;">
+            <td style="padding:10px 14px;font-weight:600;">Choi Seo-yeon</td>
+            <td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;">right brain dominant</span></td>
+            <td style="padding:10px 14px;text-align:center;">55</td>
+            <td style="padding:10px 14px;text-align:center;">61</td>
+            <td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">109</td>
+            <td style="padding:10px 14px;text-align:center;">48</td>
+            <td style="padding:10px 14px;font-size:.8rem;color:#555;">art·space strengths / language expression support (KRW)</td>
+          </tr>
+        </tbody>
+      </table>
+      <div style="padding:10px 14px;text-align:center;font-size:.78rem;color:#999;">📌 sample data (total 12people 중 5people 표시) — actual assessment 후 Auto update</div>
+    </div>
+  </div>
+</div>
+
+<div class="cta" style="margin-top:36px;">
+    <h3>🧠 BRAINMAP · MindCompass Try Now</h3>
+    <p>sample data Student brain Analysis report and Teacher dashboard to check the number in advance.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+      <a href="https://goldensge22-design.github.io/feelgood-app/brainmap_student_v5.html" target="_blank" class="btn-gold">
+        🚀 Try BrainMap (Student)
+      </a>
+      <a href="https://goldensge22-design.github.io/feelgood-app/BrainFit_International_GitHub%20(1).html" target="_blank" class="btn-gold" style="background:var(--teal);border-color:var(--teal);">
+        🧠 Try BrainFit (teacher1)
+      </a>
+      <a href="https://goldensge22-design.github.io/feelgood-app/feelgood_international%20(1).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);">
+        🎓 Try mind compass (teacher2)
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="fi">
+    <div class="fbrand">
+      <img src="images/img_03.png" alt="FeelGood">
+      <p>"Until the day every person becomes the hero of their own story, FeelGood without stopping does not."</p>
+    </div>
+    <div>
+      <h5>Go Now</h5>
+      <ul>
+        <li><a href="#" onclick="show('home');return false;">Home</a></li>
+        <li><a href="#" onclick="show('school');return false;">School Proposal</a></li>
+        <li><a href="#" onclick="show('test');return false;">Assessment Overview</a></li>
+        <li><a href="#" onclick="show('brainmap');return false;">BRAINMAP</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:yhim@feel-good.io">yhim@feel-good.io</a></li>
+        <li><a href="https://kpass-simple.feel-good.io/" target="_blank">kpass-simple.feel-good.io</a></li>
+        <li><a href="https://dcas-simple.feel-good.io/" target="_blank">dcas-simple.feel-good.io</a></li>
+        <li><a href="#">Seoul Brunch / Busan headquarters / Daegu research institute</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 EduTech FeelGood Co., Ltd. All rights reserved.</p>
+    <p>CEO Im Yu-ha · established 2020year 8month · venture company certified</p>
+  </div>
+</footer>
+
+<!-- brochure modal -->
+<div class="moverlay" id="bModal">
+  <div class="mbox" style="max-width:780px;width:94vw;">
+    <button class="mclose" onclick="closeB()">✕</button>
+    <div class="minner" style="padding:0;">
+      <div style="background:var(--navy);padding:14px 20px;border-radius:var(--r) var(--r) 0 0;display:flex;align-items:center;gap:12px;">
+        <span style="color:#fff;font-weight:700;font-size:1rem;">📄 Assessment Introduction brochure — FeelGood K-PASS / D-CAS</span>
+        <span id="b-page-label" style="margin-left:auto;font-size:.8rem;color:rgba(255,255,255,.7);">1 / 20</span>
+      </div>
+      <div style="background:#222;padding:16px;overflow-y:auto;max-height:72vh;display:flex;align-items:center;justify-content:center;">
+        <img id="b-page-img" src="" alt="brochure" style="max-width:100%;max-height:68vh;border-radius:6px;display:block;margin:0 auto;">
+      </div>
+      <div style="background:var(--navy);padding:12px 20px;border-radius:0 0 var(--r) var(--r);display:flex;align-items:center;justify-content:center;gap:16px;">
+        <button onclick="bPrev()" style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:8px 22px;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;">◀ Previous</button>
+        <span id="b-dots" style="display:flex;gap:6px;align-items:center;"></span>
+        <button onclick="bNext()" style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:8px 22px;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;">Next ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.ps').forEach(s => s.classList.remove('active'));
+  var t = document.getElementById('sec-' + id);
+  if (t) { t.classList.add('active'); window.scrollTo({top:0, behavior:'smooth'}); }
+  // tab active
+  document.querySelectorAll('#ntabs li').forEach(li => {
+    li.classList.toggle('active', li.dataset.s === id);
+  });
+  // Home buttons active (school/test/brainmap each response)
+  document.querySelectorAll('.hbtns button, .hbtns a').forEach(btn => {
+    btn.classList.remove('active');
+  });
+  var map = {school:'btn-school', test:'btn-test', brainmap:'btn-brainmap'};
+  var activeBtn = document.getElementById('hbtn-' + id);
+  if (activeBtn) activeBtn.classList.add('active');
+}
+
+var bPages = ["images/img_04.png",
+"images/img_05.png",
+"images/img_06.png",
+"images/img_07.png",
+"images/img_08.png",
+"images/img_09.png",
+"images/img_10.png",
+"images/img_11.png",
+"images/img_12.png",
+"images/img_13.png",
+"images/img_14.png",
+"images/img_15.png",
+"images/img_16.png",
+"images/img_17.png",
+"images/img_18.png",
+"images/img_19.png",
+"images/img_20.png",
+"images/img_21.png",
+"images/img_22.png",
+"images/img_23.png"];
+var bCur = 0;
+function bRender() {
+  document.getElementById('b-page-img').src = bPages[bCur];
+  document.getElementById('b-page-label').textContent = (bCur+1) + ' / ' + bPages.length;
+  var dots = document.getElementById('b-dots');
+  dots.innerHTML = '';
+  var s = Math.max(0,bCur-4), e = Math.min(bPages.length-1,bCur+4);
+  for(var i=s;i<=e;i++) {
+    var d = document.createElement('div');
+    d.style.cssText = 'width:'+(i===bCur?'20px':'8px')+';height:8px;border-radius:4px;background:'+(i===bCur?'#F5A623':'rgba(255,255,255,.4)')+';transition:.2s;cursor:pointer;';
+    (function(idx){d.onclick=function(){bCur=idx;bRender();};})(i);
+    dots.appendChild(d);
+  }
+}
+function bPrev() { if(bCur>0){bCur--;bRender();} }
+function bNext() { if(bCur<bPages.length-1){bCur++;bRender();} }
+function openB() { bCur=0; bRender(); document.getElementById('bModal').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeB() { document.getElementById('bModal').classList.remove('open'); document.body.style.overflow=''; }
+document.getElementById('bModal').addEventListener('click', function(e) { if(e.target===this) closeB(); });
+document.addEventListener('keydown', function(e) {
+  if(e.key==='Escape') closeB();
+  if(!document.getElementById('bModal').classList.contains('open')) return;
+  if(e.key==='ArrowRight') bNext();
+  if(e.key==='ArrowLeft') bPrev();
+});
+</script>
+</body>
+</html>
