@@ -45,17 +45,43 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
 }
 .brand-logo { font-size: 18px; font-weight: 800; color: #fff; letter-spacing: 1px; }
 .brand-tagline { font-size: 10px; color: rgba(255,255,255,.45); margin-top: 2px; letter-spacing: .5px; }
-.sidebar-country { padding: 14px 14px 10px; }
+.sidebar-country { padding: 14px 14px 10px; border-bottom: 1px solid rgba(255,255,255,.06); }
 .country-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.35); margin-bottom: 8px; }
-.country-btn {
-  display: flex; align-items: center; gap: 8px; width: 100%; padding: 8px 10px;
-  border: 1px solid rgba(255,255,255,.1); border-radius: 8px; background: transparent;
-  color: rgba(255,255,255,.7); font-family: 'Outfit', sans-serif; font-size: 12px;
-  cursor: pointer; margin-bottom: 5px; transition: all .2s;
+.country-flag { font-size: 15px; }
+
+/* ── 탑다운 드롭다운 ── */
+.country-dropdown { position: relative; }
+.country-selected {
+  display: flex; align-items: center; gap: 8px; width: 100%; padding: 9px 11px;
+  border: 1px solid rgba(255,255,255,.15); border-radius: 8px;
+  background: rgba(255,255,255,.07); color: #fff;
+  font-family: 'Outfit', sans-serif; font-size: 12.5px; font-weight: 600;
+  cursor: pointer; transition: all .2s; justify-content: space-between;
 }
-.country-btn:hover { background: rgba(255,255,255,.08); }
-.country-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
-.country-flag { font-size: 16px; }
+.country-selected:hover { background: rgba(255,255,255,.12); }
+.country-selected .cs-left { display: flex; align-items: center; gap: 8px; }
+.cs-arrow { font-size: 10px; color: rgba(255,255,255,.45); transition: transform .2s; flex-shrink: 0; }
+.cs-arrow.open { transform: rotate(180deg); }
+
+.country-list {
+  display: none; position: absolute; top: calc(100% + 4px); left: 0; right: 0;
+  background: #0D1B35; border: 1px solid rgba(255,255,255,.13); border-radius: 8px;
+  box-shadow: 0 10px 28px rgba(0,0,0,.45); z-index: 999;
+  overflow: hidden; max-height: 320px; overflow-y: auto;
+}
+.country-list.open { display: block; }
+.country-list::-webkit-scrollbar { width: 3px; }
+.country-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,.2); border-radius: 2px; }
+
+.country-opt {
+  display: flex; align-items: center; gap: 9px; padding: 9px 12px;
+  color: rgba(255,255,255,.7); font-size: 12px; font-family: 'Outfit', sans-serif;
+  cursor: pointer; transition: background .15s;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.country-opt:last-child { border-bottom: none; }
+.country-opt:hover { background: rgba(255,255,255,.08); color: #fff; }
+.country-opt.active { background: var(--primary); color: #fff; font-weight: 600; }
 
 .sidebar-nav { padding: 12px 10px; flex: 1; }
 .nav-group-label { font-size: 9px; text-transform: uppercase; letter-spacing: 1px; color: rgba(255,255,255,.3); padding: 10px 8px 5px; }
