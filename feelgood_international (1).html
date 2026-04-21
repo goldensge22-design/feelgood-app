@@ -489,15 +489,15 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
         </div>
         <div class="stat-box accent-warn">
           <div class="stat-val" id="stat-support">5 <span class="stat-unit">students</span></div>
-          <div class="stat-label">Needs Support · 62%</div>
+          <div class="stat-label" id="stat-support-label">Needs Support · 62%</div>
         </div>
         <div class="stat-box accent-success">
           <div class="stat-val" id="stat-strength">A <span class="stat-unit">73%</span></div>
-          <div class="stat-label">Class Strength ↑ (Attention)</div>
+         <div class="stat-label" id="stat-strength-label">Class Strength ↑ (Attention)</div>
         </div>
         <div class="stat-box accent-p">
           <div class="stat-val" id="stat-weak">Ss <span class="stat-unit">48%</span></div>
-          <div class="stat-label">Class Weakness ↓ (Successive)</div>
+          <div class="stat-label" id="stat-weak-label">Class Weakness ↓ (Successive)</div>
         </div>
       </div>
 
@@ -1706,11 +1706,11 @@ function renderDashboard() {
 
   document.getElementById('stat-total').innerHTML = `${total} <span class="stat-unit">students</span>`;
   document.getElementById('stat-support').innerHTML = `${support} <span class="stat-unit">students</span>`;
-  document.querySelector('#stat-support  .stat-label').textContent = `Needs Support · ${Math.round(support/total*100)}%`;
+  document.getElementById('stat-support-label').textContent = `Needs Support · ${Math.round(support/total*100)}%`;
   document.getElementById('stat-strength').innerHTML = `${strengthKey} <span class="stat-unit">${allAvg[strengthKey]}%</span>`;
-  document.querySelector('#stat-strength  .stat-label').textContent = `Class Strength ↑ (${passFullName(strengthKey)})`;
+  document.getElementById('stat-strength-label').textContent = `Class Strength ↑ (${passFullName(strengthKey)})`;
   document.getElementById('stat-weak').innerHTML = `${weakKey} <span class="stat-unit">${allAvg[weakKey]}%</span>`;
-  document.querySelector('#stat-weak  .stat-label').textContent = `Class Weakness ↓ (${passFullName(weakKey)})`;
+  document.getElementById('stat-weak-label').textContent = `Class Weakness ↓ (${passFullName(weakKey)})`;
 
   // Brain dist
   const types = ss.map(s => brainType(s));
