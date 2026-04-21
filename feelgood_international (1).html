@@ -1706,11 +1706,11 @@ function renderDashboard() {
 
   document.getElementById('stat-total').innerHTML = `${total} <span class="stat-unit">students</span>`;
   document.getElementById('stat-support').innerHTML = `${support} <span class="stat-unit">students</span>`;
-  document.querySelector('#stat-support + .stat-label').textContent = `Needs Support · ${Math.round(support/total*100)}%`;
+  document.querySelector('#stat-support  .stat-label').textContent = `Needs Support · ${Math.round(support/total*100)}%`;
   document.getElementById('stat-strength').innerHTML = `${strengthKey} <span class="stat-unit">${allAvg[strengthKey]}%</span>`;
-  document.querySelector('#stat-strength + .stat-label').textContent = `Class Strength ↑ (${passFullName(strengthKey)})`;
+  document.querySelector('#stat-strength  .stat-label').textContent = `Class Strength ↑ (${passFullName(strengthKey)})`;
   document.getElementById('stat-weak').innerHTML = `${weakKey} <span class="stat-unit">${allAvg[weakKey]}%</span>`;
-  document.querySelector('#stat-weak + .stat-label').textContent = `Class Weakness ↓ (${passFullName(weakKey)})`;
+  document.querySelector('#stat-weak  .stat-label').textContent = `Class Weakness ↓ (${passFullName(weakKey)})`;
 
   // Brain dist
   const types = ss.map(s => brainType(s));
