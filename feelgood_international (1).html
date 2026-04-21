@@ -416,16 +416,17 @@ body { font-family: 'Outfit', sans-serif; background: var(--bg); color: var(--te
   </div>
   <div class="sidebar-country">
     <div class="country-label">Select Country</div>
-    <button class="country-btn active" onclick="switchCountry('azerbaijan')">
-      <span class="country-flag">🇦🇿</span> Azerbaijan
-    </button>
-    <button class="country-btn" onclick="switchCountry('thailand')">
-      <span class="country-flag">🇹🇭</span> Thailand
-    </button>
-    <button class="country-btn" onclick="switchCountry('vietnam')">
-      <span class="country-flag">🇻🇳</span> Vietnam
-    </button>
+    <div class="country-dropdown" id="country-dropdown">
+      <button class="country-selected" id="country-selected-btn" onclick="toggleCountryDropdown()">
+        <span class="cs-left"><span class="country-flag" id="cs-flag">🇦🇿</span><span id="cs-name">Azerbaijan</span></span>
+        <span class="cs-arrow" id="cs-arrow">▼</span>
+      </button>
+      <div class="country-list" id="country-list">
+        <!-- JS로 자동 생성 -->
+      </div>
+    </div>
   </div>
+
   <div class="sidebar-nav">
     <div class="nav-group-label">Overview</div>
     <button class="nav-item active" onclick="showSection('dashboard')">
@@ -1034,9 +1035,568 @@ const COUNTRIES = {
       },
     },
   },
+
+
+  singapore: {
+    name: "Singapore", flag: "🇸🇬",
+    primaryColor: "#EF3340", accentColor: "#002868",
+    curriculum: "Nurturing Early Learners (NEL) Framework 2013",
+    classname: "Orchid Class",
+    months: [
+      { id:"jan", label:"January — Me & My World" },
+      { id:"feb", label:"February — Families & Friends" },
+      { id:"mar", label:"March — Animals & Nature" },
+      { id:"apr", label:"April — My Singapore" },
+      { id:"may", label:"May — Community Helpers" },
+      { id:"jun", label:"June — Water & Environment" },
+      { id:"jul", label:"July — Transport & Technology" },
+      { id:"aug", label:"August — National Day & Culture" },
+      { id:"sep", label:"September — Food & Health" },
+      { id:"oct", label:"October — Seasons & Weather" },
+    ],
+    curriculumAreas: [
+      "Aesthetics & Creative Expression",
+      "Discovery of the World",
+      "Language & Literacy",
+      "Motor Skills Development",
+      "Numeracy",
+      "Social & Emotional Development",
+    ],
+    observationDomains: ["Aesthetics","Discovery","Language","Motor","Numeracy","Social-Emotional"],
+    growthTimeline: [
+      { month:"Jan", label:"Initial K-PASS", type:"assess" },
+      { month:"Apr", label:"3-Month Check",  type:"check" },
+      { month:"Jul", label:"6-Month Analysis", type:"mid" },
+      { month:"Oct", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Mei Ling T.", age:5, P:55, A:78, S:80, Ss:44 },
+      { name:"Arjun R.",    age:6, P:70, A:60, S:52, Ss:76 },
+      { name:"Sofia A.",    age:5, P:42, A:80, S:88, Ss:36 },
+      { name:"Wei Hao L.",  age:6, P:64, A:66, S:58, Ss:68 },
+      { name:"Priya N.",    age:5, P:78, A:52, S:46, Ss:82 },
+      { name:"Ethan C.",    age:6, P:50, A:84, S:74, Ss:48 },
+      { name:"Aisha M.",    age:5, P:60, A:62, S:65, Ss:58 },
+      { name:"Ryan T.",     age:6, P:44, A:70, S:72, Ss:52 },
+    ],
+    books: {
+      jan: {
+        right:    ['"The Dot" — Peter H. Reynolds', '"Beautiful Oops!" — Barney Saltzberg'],
+        balanced: ['"The Name Jar" — Yangsook Choi', '"All Are Welcome" — Alexandra Penfold'],
+        left:     ['"Me on the Map" — Joan Sweeney', '"This Is Our House" — Michael Rosen'],
+        passNote: "January (Me & My World): self-portrait activities build Simultaneous spatial awareness; daily routine sequencing strengthens Successive processing."
+      },
+      apr: {
+        right:    ['"Merlion Tales" — Singapore folktales', '"Red Boat" — Tennyson Woodbridge'],
+        balanced: ['"One World, One Day" — Barbara Kerley', '"Singapore Dreaming" — picture book'],
+        left:     ['"DK Eyewitness: Singapore"', '"Gateway to Asia: Singapore" — children\'s edition'],
+        passNote: "April (My Singapore): multicultural visual art boosts Simultaneous; timeline of Singapore history is excellent Planning + Successive content."
+      },
+      aug: {
+        right:    ['"Many Hands: Singing Songs of Asia" — illustrated', '"Colours of Asia" — visual culture book'],
+        balanced: ['"Hello Singapore!" — activity reader', '"Our Multicultural Family" — bilingual picture book'],
+        left:     ['"National Day Rally for Kids"', '"Singapore Facts & Figures" — educational reader'],
+        passNote: "August (National Day): cultural pride and visual pattern recognition; sequential presentation of Singapore's founding story."
+      },
+      sep: {
+        right:    ['"Eating the Alphabet" — Lois Ehlert', '"Dim Sum for Everyone!" — Grace Lin'],
+        balanced: ['"The Seven Silly Eaters" — Mary Ann Hoberman', '"How Are You Peeling?" — Saxton Freymann'],
+        left:     ['"The Vegetables We Eat" — Gail Gibbons', '"Good Enough to Eat" — Lizzy Rockwell'],
+        passNote: "September (Food & Health): hawker centre food variety is rich Simultaneous classification material; cooking steps build Successive."
+      },
+    },
+  },
+
+  uae: {
+    name: "UAE", flag: "🇦🇪",
+    primaryColor: "#009900", accentColor: "#CC0001",
+    curriculum: "UAE Early Childhood Care & Education Standards (ECCE) 2023",
+    classname: "Falcon Class",
+    months: [
+      { id:"sep", label:"September — Me & My Identity" },
+      { id:"oct", label:"October — My Family & Home" },
+      { id:"nov", label:"November — My UAE" },
+      { id:"dec", label:"December — Winter & Celebrations" },
+      { id:"jan", label:"January — Desert & Wildlife" },
+      { id:"feb", label:"February — Community & Careers" },
+      { id:"mar", label:"March — Water & Ocean" },
+      { id:"apr", label:"April — Transport & Innovation" },
+      { id:"may", label:"May — Growing & Changing" },
+    ],
+    curriculumAreas: [
+      "Physical Well-being & Motor Development",
+      "Social & Emotional Development",
+      "Language & Communication (Arabic/English)",
+      "Cognitive Development & General Knowledge",
+      "Creative Arts & Aesthetic Appreciation",
+    ],
+    observationDomains: ["Physical","Social-Emotional","Language","Cognitive","Creative Arts"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check",  type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Fatima A.",   age:5, P:52, A:76, S:82, Ss:40 },
+      { name:"Omar K.",     age:6, P:68, A:62, S:54, Ss:74 },
+      { name:"Mariam S.",   age:5, P:76, A:54, S:46, Ss:80 },
+      { name:"Khalid R.",   age:6, P:38, A:74, S:86, Ss:36 },
+      { name:"Aisha H.",    age:5, P:60, A:68, S:58, Ss:64 },
+      { name:"Zayed M.",    age:6, P:74, A:50, S:44, Ss:80 },
+      { name:"Noura F.",    age:5, P:56, A:82, S:74, Ss:50 },
+      { name:"Saeed T.",    age:6, P:44, A:64, S:70, Ss:56 },
+    ],
+    books: {
+      sep: {
+        right:    ['"My Name Is Not Easy" — Debby Dahl Edwardson', '"The Name Jar" — Yangsook Choi'],
+        balanced: ['"All Are Welcome" — Alexandra Penfold', '"The Invisible String" — Patrice Karst'],
+        left:     ['"Me on the Map" — Joan Sweeney', '"Who Are You? The Kid\'s Guide to Gender Identity"'],
+        passNote: "September (Identity): self-portrait and family tree activities develop Simultaneous schema; name-story sequential retelling builds Successive."
+      },
+      nov: {
+        right:    ['"My UAE" — illustrated bilingual reader', '"Desert Colors" — sensory visual book'],
+        balanced: ['"Salma the Syrian Chef" — Danny Ramadan', '"The Day War Came" — Nicola Davies'],
+        left:     ['"UAE Through the Ages" — children\'s history', '"50 Years of the UAE" — educational reader'],
+        passNote: "November (My UAE): national symbols and architectural patterns build Simultaneous; UAE founding timeline is excellent Successive content."
+      },
+      jan: {
+        right:    ['"Desert Song" — Tony Johnston', '"The Desert Is Theirs" — Byrd Baylor'],
+        balanced: ['"Deserts" — DK Eyewitness Children', '"One Small Square: Desert" — Donald Silver'],
+        left:     ['"Camels: Ships of the Desert" — educational reader', '"Animals of the Arabian Desert" — reference'],
+        passNote: "January (Desert & Wildlife): desert ecosystem visual mapping builds Simultaneous; desert animal classification uses Planning + Successive."
+      },
+      apr: {
+        right:    ['"Rosie Revere, Engineer" — Andrea Beaty', '"Iggy Peck, Architect" — Andrea Beaty'],
+        balanced: ['"How Things Work" — DK Children', '"Future City" — illustrated children\'s guide'],
+        left:     ['"The Way Things Work" — David Macaulay', '"Structures" — engineering for kids'],
+        passNote: "April (Transport & Innovation): engineering design process is strong Planning content; how machines work sequentially uses Successive processing."
+      },
+    },
+  },
+
+  hongkong: {
+    name: "Hong Kong", flag: "🇭🇰",
+    primaryColor: "#DE2910", accentColor: "#FFDE00",
+    curriculum: "Pre-primary Curriculum Guide (PPCG) — Education Bureau HK 2017",
+    classname: "Bauhinia Class",
+    months: [
+      { id:"sep", label:"September — School & Friends" },
+      { id:"oct", label:"October — Autumn & Mid-Autumn" },
+      { id:"nov", label:"November — My Family" },
+      { id:"dec", label:"December — Winter & Christmas" },
+      { id:"jan", label:"January — Chinese New Year" },
+      { id:"feb", label:"February — Animals & Spring" },
+      { id:"mar", label:"March — Transport & City" },
+      { id:"apr", label:"April — Environment & Earth" },
+      { id:"may", label:"May — Growing & Harvest" },
+    ],
+    curriculumAreas: [
+      "Physical Fitness & Health (體健)",
+      "Language Development (語文)",
+      "Early Childhood Mathematics (數學)",
+      "Science & Technology (科學與科技)",
+      "Social Studies (社會)",
+      "Arts & Humanities (藝術與人文)",
+    ],
+    observationDomains: ["Physical","Language","Mathematics","Science","Social","Arts"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check",  type:"check" },
+      { month:"Feb", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Ka Wai L.",  age:5, P:50, A:79, S:83, Ss:42 },
+      { name:"Tsz Hin C.", age:6, P:66, A:63, S:55, Ss:72 },
+      { name:"Hiu Tung M.",age:5, P:75, A:55, S:47, Ss:79 },
+      { name:"Kin Fung W.",age:6, P:37, A:75, S:87, Ss:37 },
+      { name:"Yee Lam K.", age:5, P:58, A:67, S:59, Ss:61 },
+      { name:"Ho Yin T.",  age:6, P:73, A:51, S:45, Ss:79 },
+      { name:"Pui Ying N.",age:5, P:53, A:81, S:73, Ss:49 },
+      { name:"Ming Kit A.",age:6, P:43, A:61, S:69, Ss:55 },
+    ],
+    books: {
+      sep: {
+        right:    ['"The Day You Begin" — Jacqueline Woodson', '"Ish" — Peter H. Reynolds'],
+        balanced: ['"First Day Jitters" — Julie Danneberg', '"The Kissing Hand" — Audrey Penn'],
+        left:     ['"All Are Welcome" — Alexandra Penfold', '"David Goes to School" — David Shannon'],
+        passNote: "September (School): classroom-mapping activities build Simultaneous; daily school-routine sequencing strengthens Successive processing."
+      },
+      oct: {
+        right:    ['"Mooncake" — Frank Asch', '"The Moon Maiden" — Chinese folktale illustrated'],
+        balanced: ['"Thanking the Moon" — Grace Lin', '"Goldie and the Three Bears" — Chinese retelling'],
+        left:     ['"DK Eyewitness: Ancient China"', '"Chang\'e and the Moon" — graded reader'],
+        passNote: "October (Mid-Autumn): lantern pattern-making is rich Simultaneous content; moon folklore retelling builds Successive language chains."
+      },
+      jan: {
+        right:    ['"Sam and the Lucky Money" — Karen Chinn', '"Bringing in the New Year" — Grace Lin'],
+        balanced: ['"Dragon Dance" — Joan Holub', '"Red Is a Dragon" — Roseanne Thong'],
+        left:     ['"The Story of Chinese New Year" — sequential reader', '"Chinese New Year" — DK Eyewitness'],
+        passNote: "January (CNY): lion dance visual patterns for Simultaneous; preparation steps for CNY is excellent Successive and Planning content."
+      },
+      apr: {
+        right:    ['"The Lorax" — Dr. Seuss', '"The Water Hole" — Graeme Base'],
+        balanced: ['"A Drop of Water" — Walter Wick', '"What a Waste!" — Jess French'],
+        left:     ['"The Magic School Bus: The Climate Challenge"', '"Earth Day Every Day" — Lisa Bullard'],
+        passNote: "April (Environment): ecosystem visual diagrams develop Simultaneous; recycling sorting steps build Successive + Planning."
+      },
+    },
+  },
+
+  taiwan: {
+    name: "Taiwan", flag: "🇹🇼",
+    primaryColor: "#003F87", accentColor: "#FE0000",
+    curriculum: "Preschool Education Act Curriculum Guidelines (幼兒園教保活動課程大綱) 2017",
+    classname: "Lotus Class",
+    months: [
+      { id:"sep", label:"September — Me & My Body" },
+      { id:"oct", label:"October — My Family" },
+      { id:"nov", label:"November — My Community" },
+      { id:"dec", label:"December — Winter & Festivals" },
+      { id:"jan", label:"January — Lunar New Year" },
+      { id:"feb", label:"February — Animals & Spring" },
+      { id:"mar", label:"March — Nature & Plants" },
+      { id:"apr", label:"April — Earth & Environment" },
+      { id:"may", label:"May — Transport & Change" },
+    ],
+    curriculumAreas: [
+      "身體動作與健康 (Physical & Health)",
+      "認知 (Cognitive)",
+      "語文 (Language)",
+      "社會 (Social)",
+      "情緒 (Emotional)",
+      "美感 (Aesthetics)",
+    ],
+    observationDomains: ["Physical","Cognitive","Language","Social","Emotional","Aesthetics"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check",  type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"小明 Chen",  age:5, P:54, A:77, S:81, Ss:43 },
+      { name:"雅婷 Lin",   age:6, P:67, A:61, S:55, Ss:73 },
+      { name:"俊傑 Wang",  age:5, P:77, A:53, S:45, Ss:81 },
+      { name:"佳慧 Lee",   age:6, P:39, A:73, S:87, Ss:37 },
+      { name:"冠宇 Wu",    age:5, P:59, A:67, S:57, Ss:63 },
+      { name:"思穎 Chang", age:6, P:73, A:51, S:44, Ss:79 },
+      { name:"承翰 Liu",   age:5, P:53, A:82, S:74, Ss:50 },
+      { name:"依晴 Huang", age:6, P:45, A:63, S:71, Ss:57 },
+    ],
+    books: {
+      sep: {
+        right:    ['"From Head to Toe" — Eric Carle', '"My Body" — DK Children'],
+        balanced: ['"The Busy Body Book" — Lizzy Rockwell', '"Germs Are Not for Sharing" — Elizabeth Verdick'],
+        left:     ['"Me and My Amazing Body" — Joan Sweeney', '"Your Fantastic Elastic Brain" — JoAnn Deak'],
+        passNote: "September (My Body): body-mapping exercises develop Simultaneous spatial; handwashing and self-care steps build Successive."
+      },
+      jan: {
+        right:    ['"Happy New Year! Kung-Hsi Fa-Ts\'ai!" — Demi', '"Sam and the Lucky Money" — Karen Chinn'],
+        balanced: ['"Bringing in the New Year" — Grace Lin', '"The Runaway Rice Cake" — Ying Chang Compestine'],
+        left:     ['"Chinese New Year" — DK Eyewitness', '"Story of New Year" — sequential reader'],
+        passNote: "January (Lunar New Year): red envelope and lantern visual patterns are Simultaneous-rich; preparation countdown sequence is Planning + Successive."
+      },
+      mar: {
+        right:    ['"The Tiny Seed" — Eric Carle', '"Planting a Rainbow" — Lois Ehlert'],
+        balanced: ['"From Seed to Plant" — Gail Gibbons', '"The Carrot Seed" — Ruth Krauss'],
+        left:     ['"A Tree Is Nice" — Janice May Udry', '"National Geographic Kids: Plants"],
+        passNote: "March (Nature & Plants): plant life-cycle diagram is Simultaneous; sequential planting steps from seed to sprout strengthen Successive."
+      },
+      apr: {
+        right:    ['"The Lorax" — Dr. Seuss', '"Wangari\'s Trees of Peace" — Jeanette Winter'],
+        balanced: ['"What a Waste!" — Jess French', '"Why Should I Recycle?" — Jen Green'],
+        left:     ['"The Magic School Bus: Climate Challenge"', '"Earth Day Every Day" — Lisa Bullard'],
+        passNote: "April (Earth): ecosystem and habitat visual diagrams build Simultaneous; recycling sort procedures use Planning + Successive."
+      },
+    },
+  },
+
+  philippines: {
+    name: "Philippines", flag: "🇵🇭",
+    primaryColor: "#0038A8", accentColor: "#CE1126",
+    curriculum: "K to 12 Kindergarten Curriculum (DepEd Order No. 47 s. 2016)",
+    classname: "Sampaguita Class",
+    months: [
+      { id:"jun", label:"June — Myself & My School" },
+      { id:"jul", label:"July — My Family & Home" },
+      { id:"aug", label:"August — My Community" },
+      { id:"sep", label:"September — Animals & Plants" },
+      { id:"oct", label:"October — My Country Philippines" },
+      { id:"nov", label:"November — Festivals & Celebrations" },
+      { id:"dec", label:"December — Christmas & Winter" },
+      { id:"jan", label:"January — Transport & Communication" },
+      { id:"feb", label:"February — Environment & Weather" },
+      { id:"mar", label:"March — Growing & Moving On" },
+    ],
+    curriculumAreas: [
+      "Physical Health & Motor Development",
+      "Understanding of Self & Others",
+      "Expressive Arts & Aesthetics",
+      "Language & Literacy (Filipino/English)",
+      "Mathematical Concepts",
+      "Values Education (Makabayan)",
+    ],
+    observationDomains: ["Physical","Social-Emotional","Arts","Language","Mathematics","Values"],
+    growthTimeline: [
+      { month:"Jun", label:"Initial K-PASS", type:"assess" },
+      { month:"Sep", label:"3-Month Check",  type:"check" },
+      { month:"Dec", label:"6-Month Analysis", type:"mid" },
+      { month:"Mar", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Maria C.",   age:5, P:51, A:78, S:82, Ss:43 },
+      { name:"Juan R.",    age:6, P:66, A:64, S:56, Ss:70 },
+      { name:"Ana M.",     age:5, P:76, A:54, S:46, Ss:80 },
+      { name:"Jose L.",    age:6, P:38, A:74, S:86, Ss:38 },
+      { name:"Rosa T.",    age:5, P:60, A:68, S:58, Ss:62 },
+      { name:"Carlos V.",  age:6, P:74, A:50, S:44, Ss:80 },
+      { name:"Elena B.",   age:5, P:54, A:84, S:73, Ss:49 },
+      { name:"Miguel S.",  age:6, P:44, A:62, S:70, Ss:56 },
+    ],
+    books: {
+      jun: {
+        right:    ['"The Day You Begin" — Jacqueline Woodson', '"Beautiful Oops!" — Barney Saltzberg'],
+        balanced: ['"First Day Jitters" — Julie Danneberg', '"Wemberly Worried" — Kevin Henkes'],
+        left:     ['"All Are Welcome" — Alexandra Penfold', '"The Invisible String" — Patrice Karst'],
+        passNote: "June (Myself & School): self-portrait activities build Simultaneous; school-day routine sequencing strengthens Successive processing."
+      },
+      oct: {
+        right:    ['"Philippine Myths & Legends" — illustrated', '"Colors of the Philippines" — visual culture'],
+        balanced: ['"Ang Alamat ng Pinya" — retold English', '"Philippine Festivals" — visual reader'],
+        left:     ['"DK: Philippines Facts & Figures"', '"Bayani: Philippine Heroes" — graded reader'],
+        passNote: "October (Philippines): baybayin script patterns and woven designs build Simultaneous; national heroes timeline is excellent Successive + Planning."
+      },
+      dec: {
+        right:    ['"The Polar Express" — Van Allsburg', '"Christmas in the Philippines" — illustrated'],
+        balanced: ['"The Gingerbread Man" — traditional', '"Bear Stays Up for Christmas" — Karma Wilson'],
+        left:     ['"Christmas Around the World" — Mary Lankford', '"The Story of Christmas" — sequential reader'],
+        passNote: "December (Christmas): parol lantern pattern-making develops Simultaneous; simbang gabi countdown calendar is Planning + Successive."
+      },
+      feb: {
+        right:    ['"A Drop of Water" — Walter Wick', '"The Water Hole" — Graeme Base'],
+        balanced: ['"Weather" — DK Children', '"What Will the Weather Be?" — Lynda DeWitt'],
+        left:     ['"The Magic School Bus: Wet All Over"', '"Water Dance" — Thomas Locker'],
+        passNote: "February (Environment): weather pattern charts for Simultaneous; weather recording sequence builds Planning + Successive."
+      },
+    },
+  },
+
+  malaysia: {
+    name: "Malaysia", flag: "🇲🇾",
+    primaryColor: "#CC0001", accentColor: "#003893",
+    curriculum: "Kurikulum Standard Prasekolah Kebangsaan (KSPK) 2017",
+    classname: "Hibiscus Class",
+    months: [
+      { id:"jan", label:"January — Me & My Body" },
+      { id:"feb", label:"February — My Family" },
+      { id:"mar", label:"March — My School & Friends" },
+      { id:"apr", label:"April — Animals Around Us" },
+      { id:"may", label:"May — My Community" },
+      { id:"jun", label:"June — Transport & Communication" },
+      { id:"jul", label:"July — Water & Environment" },
+      { id:"aug", label:"August — My Country Malaysia" },
+      { id:"sep", label:"September — Food & Health" },
+      { id:"oct", label:"October — Festivals & Celebrations" },
+    ],
+    curriculumAreas: [
+      "Komunikasi (Communication)",
+      "Kerohanian, Sikap & Nilai (Spiritual, Attitude & Values)",
+      "Kemanusiaan (Humanity)",
+      "Fizikal & Estetika (Physical & Aesthetics)",
+      "Sains & Teknologi (Science & Technology)",
+    ],
+    observationDomains: ["Communication","Values","Humanity","Physical-Aesthetics","Science-Tech"],
+    growthTimeline: [
+      { month:"Jan", label:"Initial K-PASS", type:"assess" },
+      { month:"Apr", label:"3-Month Check",  type:"check" },
+      { month:"Jul", label:"6-Month Analysis", type:"mid" },
+      { month:"Oct", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Aisyah R.",   age:5, P:52, A:77, S:81, Ss:43 },
+      { name:"Wei Jie L.",  age:6, P:67, A:63, S:54, Ss:73 },
+      { name:"Priya M.",    age:5, P:77, A:54, S:46, Ss:80 },
+      { name:"Hafiz T.",    age:6, P:38, A:74, S:87, Ss:37 },
+      { name:"Nurul H.",    age:5, P:60, A:68, S:58, Ss:62 },
+      { name:"Siew Ling C.",age:6, P:73, A:51, S:44, Ss:80 },
+      { name:"Rajan K.",    age:5, P:53, A:82, S:73, Ss:50 },
+      { name:"Zara A.",     age:6, P:44, A:63, S:70, Ss:56 },
+    ],
+    books: {
+      jan: {
+        right:    ['"From Head to Toe" — Eric Carle', '"My Body" — DK Children'],
+        balanced: ['"The Busy Body Book" — Lizzy Rockwell', '"Eyes, Nose, Fingers & Toes" — Judy Hindley'],
+        left:     ['"Me and My Amazing Body" — Joan Sweeney', '"Your Fantastic Elastic Brain" — JoAnn Deak'],
+        passNote: "January (Me & My Body): body-mapping and self-portrait activities build Simultaneous; hygiene and self-care sequences strengthen Successive."
+      },
+      aug: {
+        right:    ['"Malaysia: A Picture Book" — visual culture', '"Batik Patterns" — illustrated art book'],
+        balanced: ['"Multicultural Malaysia" — bilingual reader', '"Hari Merdeka" — festival reader'],
+        left:     ['"Malaysia Facts & Figures" — reference', '"History of Malaysia" — children\'s reader'],
+        passNote: "August (Malaysia): batik weaving patterns are Simultaneous-rich; national day parade sequence is excellent Planning + Successive."
+      },
+      oct: {
+        right:    ['"Diwali — Festival of Lights" — illustrated', '"Eid al-Fitr" — visual celebration book'],
+        balanced: ['"Celebrate! Connections Among Cultures" — Jan Reynolds', '"Holidays Around the World" — DK'],
+        left:     ['"Why We Celebrate" — multicultural reader', '"World Holidays" — educational series'],
+        passNote: "October (Festivals): visual pattern comparison across festivals builds Simultaneous; festival preparation checklists are Planning + Successive."
+      },
+      sep: {
+        right:    ['"Eating the Alphabet" — Lois Ehlert', '"Dim Sum for Everyone!" — Grace Lin'],
+        balanced: ['"Good Enough to Eat" — Lizzy Rockwell', '"Stone Soup" — Jon J Muth'],
+        left:     ['"The Vegetables We Eat" — Gail Gibbons', '"How Did That Get in My Lunchbox?" — Chris Butterworth'],
+        passNote: "September (Food): Malaysian hawker food classification builds Simultaneous; nasi lemak recipe sequencing is Successive + Planning."
+      },
+    },
+  },
+
+  indonesia: {
+    name: "Indonesia", flag: "🇮🇩",
+    primaryColor: "#CE1126", accentColor: "#FFFFFF",
+    curriculum: "Kurikulum Merdeka PAUD (Merdeka Curriculum ECE) 2022",
+    classname: "Melati Class",
+    months: [
+      { id:"jul", label:"July — Me & My School" },
+      { id:"aug", label:"August — My Country Indonesia" },
+      { id:"sep", label:"September — My Family & Home" },
+      { id:"oct", label:"October — Animals & Plants" },
+      { id:"nov", label:"November — Transport & Vehicles" },
+      { id:"dec", label:"December — Professions & Community" },
+      { id:"jan", label:"January — Water, Earth & Universe" },
+      { id:"feb", label:"February — Traditions & Culture" },
+      { id:"mar", label:"March — Healthy Living" },
+      { id:"apr", label:"April — Environment & Recycling" },
+    ],
+    curriculumAreas: [
+      "Nilai Agama & Budi Pekerti (Religious & Character Values)",
+      "Jati Diri (Self-Identity & Social Emotional)",
+      "Dasar-dasar Literasi & STEAM",
+      "Seni (Arts)",
+      "Bahasa (Language)",
+    ],
+    observationDomains: ["Religious-Character","Social-Emotional","Literacy-STEAM","Arts","Language"],
+    growthTimeline: [
+      { month:"Jul", label:"Initial K-PASS", type:"assess" },
+      { month:"Oct", label:"3-Month Check",  type:"check" },
+      { month:"Jan", label:"6-Month Analysis", type:"mid" },
+      { month:"Apr", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Putri A.",    age:5, P:50, A:79, S:82, Ss:42 },
+      { name:"Budi S.",     age:6, P:65, A:64, S:55, Ss:72 },
+      { name:"Sari W.",     age:5, P:76, A:54, S:46, Ss:80 },
+      { name:"Agus R.",     age:6, P:37, A:75, S:87, Ss:37 },
+      { name:"Dewi H.",     age:5, P:59, A:68, S:58, Ss:62 },
+      { name:"Eko P.",      age:6, P:74, A:51, S:44, Ss:80 },
+      { name:"Fitri M.",    age:5, P:53, A:83, S:74, Ss:49 },
+      { name:"Hendra L.",   age:6, P:44, A:63, S:70, Ss:56 },
+    ],
+    books: {
+      jul: {
+        right:    ['"The Day You Begin" — Jacqueline Woodson', '"Beautiful Oops!" — Barney Saltzberg'],
+        balanced: ['"First Day Jitters" — Julie Danneberg', '"The Kissing Hand" — Audrey Penn'],
+        left:     ['"All Are Welcome" — Alexandra Penfold', '"David Goes to School" — David Shannon'],
+        passNote: "July (School): classroom spatial mapping builds Simultaneous; school-day schedule sequencing strengthens Successive processing."
+      },
+      aug: {
+        right:    ['"Batik: A Story of Colors" — illustrated', '"Indonesian Myths & Legends" — visual'],
+        balanced: ['"Nusantara: Our Archipelago" — bilingual reader', '"Kemerdekaan" — festival reader'],
+        left:     ['"DK: Indonesia Facts & Figures"', '"Sejarah Indonesia untuk Anak" — children\'s history'],
+        passNote: "August (Indonesia): batik and wayang visual patterns are Simultaneous-rich; 17 August celebration timeline is Planning + Successive."
+      },
+      feb: {
+        right:    ['"Wayang: Shadow Puppets of Indonesia" — illustrated', '"Batik Patterns" — art book'],
+        balanced: ['"Traditional Games of Nusantara" — bilingual', '"Indonesian Folktales" — retold in English'],
+        left:     ['"Rumah Adat" — traditional houses reader', '"Pakaian Tradisional" — educational series'],
+        passNote: "February (Traditions): wayang kulit visual narratives build Simultaneous; gamelan rhythm sequences are excellent Successive processing."
+      },
+      apr: {
+        right:    ['"The Lorax" — Dr. Seuss', '"The Mangrove Tree" — Susan Roth'],
+        balanced: ['"Why Should I Recycle?" — Jen Green', '"What a Waste!" — Jess French'],
+        left:     ['"The Magic School Bus: Gets Recycled"', '"Earth-Friendly Wonders" — educational reader'],
+        passNote: "April (Environment): ecosystem visual diagrams build Simultaneous; waste sorting procedure is Planning + Successive."
+      },
+    },
+  },
+
+  qatar: {
+    name: "Qatar", flag: "🇶🇦",
+    primaryColor: "#8D1B3D", accentColor: "#FFFFFF",
+    curriculum: "Qatar National Preschool Curriculum Framework (MOEQF) 2019",
+    classname: "Pearl Class",
+    months: [
+      { id:"sep", label:"September — Me & My Identity" },
+      { id:"oct", label:"October — My Family & Home" },
+      { id:"nov", label:"November — My Qatar" },
+      { id:"dec", label:"December — National Day & Celebrations" },
+      { id:"jan", label:"January — Desert & Sea" },
+      { id:"feb", label:"February — Community & Careers" },
+      { id:"mar", label:"March — Spring & Animals" },
+      { id:"apr", label:"April — Transport & Innovation" },
+      { id:"may", label:"May — Environment & Future" },
+    ],
+    curriculumAreas: [
+      "Personal, Social & Emotional Development",
+      "Communication, Language & Literacy (Arabic/English)",
+      "Mathematical Development",
+      "Knowledge & Understanding of the World",
+      "Physical Development",
+      "Creative Development",
+    ],
+    observationDomains: ["Social-Emotional","Language","Mathematics","World Knowledge","Physical","Creative"],
+    growthTimeline: [
+      { month:"Sep", label:"Initial K-PASS", type:"assess" },
+      { month:"Dec", label:"3-Month Check",  type:"check" },
+      { month:"Mar", label:"6-Month Analysis", type:"mid" },
+      { month:"May", label:"Year-End K-PASS", type:"assess" },
+    ],
+    students: [
+      { name:"Noora A.",   age:5, P:53, A:77, S:81, Ss:42 },
+      { name:"Hamad K.",   age:6, P:68, A:62, S:53, Ss:74 },
+      { name:"Maryam S.",  age:5, P:77, A:53, S:45, Ss:81 },
+      { name:"Abdullah R.",age:6, P:37, A:75, S:87, Ss:36 },
+      { name:"Hessa M.",   age:5, P:60, A:67, S:58, Ss:63 },
+      { name:"Khalifa T.", age:6, P:74, A:50, S:44, Ss:81 },
+      { name:"Sheikha F.", age:5, P:55, A:83, S:73, Ss:49 },
+      { name:"Jassim N.",  age:6, P:44, A:63, S:69, Ss:56 },
+    ],
+    books: {
+      sep: {
+        right:    ['"My Name Is Not Easy" — Debby Dahl Edwardson', '"The Name Jar" — Yangsook Choi'],
+        balanced: ['"All Are Welcome" — Alexandra Penfold', '"The Invisible String" — Patrice Karst'],
+        left:     ['"Me on the Map" — Joan Sweeney', '"This Is Our House" — Michael Rosen'],
+        passNote: "September (Identity): self-portrait and family crest activities build Simultaneous; name-story and family biography build Successive."
+      },
+      nov: {
+        right:    ['"Qatar: Colors of a Nation" — illustrated visual', '"Desert Patterns" — Islamic geometric art'],
+        balanced: ['"My Qatar" — bilingual picture book', '"Qatar: Land of the Arabian Gulf" — children\'s reader'],
+        left:     ['"Qatar Facts & History" — educational reader', '"Qatar Vision 2030" — children\'s edition'],
+        passNote: "November (Qatar): Islamic geometric patterns are highly Simultaneous; Qatar founding timeline is excellent Successive + Planning."
+      },
+      jan: {
+        right:    ['"Desert Song" — Tony Johnston', '"The Desert Is Theirs" — Byrd Baylor'],
+        balanced: ['"One Small Square: Desert" — Donald Silver', '"Under the Sea" — DK Children'],
+        left:     ['"Camels: Ships of the Desert" — educational', '"Coral Reefs" — National Geographic Kids'],
+        passNote: "January (Desert & Sea): split ecosystem visual comparison builds Simultaneous; camel/dhow historical journey is Planning + Successive."
+      },
+      dec: {
+        right:    ['"Qatar National Day" — illustrated celebration', '"Falconry: Qatar\'s Living Heritage" — visual'],
+        balanced: ['"Celebrations Around the World" — Lynda Jones', '"Desert Celebrations" — bilingual reader'],
+        left:     ['"National Day Qatar" — sequential reader', '"History of Qatar" — educational series'],
+        passNote: "December (National Day): traditional costume and flag visual pattern recognition; parade sequence preparation is Planning + Successive."
+      },
+    },
+  },
+
+"""
+
+# Vietnam 데이터 뒤에 삽입 (vietnam 블록 닫히는 부분 찾기)
+# 마지막 나라인 vietnam 이후 COUNTRIES 닫히는 };  앞에 삽입
 };
 
-// ─── STATE ───────────────────────────────────────────────────────────────────
+// ─── STATE
 let currentCountry = 'azerbaijan';
 let selectedOption = 'B';
 let obsSelectedStudent = null;
@@ -1082,10 +1642,13 @@ function switchCountry(id) {
   // Update CSS variable
   document.documentElement.style.setProperty('--primary', c.primaryColor);
 
-  // Sidebar buttons
-  document.querySelectorAll('.country-btn').forEach((btn, i) => {
-    btn.classList.toggle('active', Object.keys(COUNTRIES)[i] === id);
+ // 드롭다운 업데이트
+  document.getElementById('cs-flag').textContent = c.flag;
+  document.getElementById('cs-name').textContent = c.name;
+  document.querySelectorAll('.country-opt').forEach(opt => {
+    opt.classList.toggle('active', opt.dataset.country === id);
   });
+  closeCountryDropdown();
 
   // Topbar
   document.getElementById('topbar-flag').textContent = c.flag + ' ' + c.name;
@@ -1742,8 +2305,39 @@ function showSection(id) {
   window.scrollTo(0,0);
 }
 
+// ─── COUNTRY DROPDOWN ────────────────────────────────────────────────────────
+function buildCountryList() {
+  const list = document.getElementById('country-list');
+  list.innerHTML = Object.entries(COUNTRIES).map(([id, c]) => `
+    <div class="country-opt" data-country="${id}" onclick="switchCountry('${id}')">
+      <span style="font-size:15px;">${c.flag}</span>
+      <span>${c.name}</span>
+    </div>
+  `).join('');
+}
+
+function toggleCountryDropdown() {
+  const list = document.getElementById('country-list');
+  const arrow = document.getElementById('cs-arrow');
+  const isOpen = list.classList.contains('open');
+  if (isOpen) { list.classList.remove('open'); arrow.classList.remove('open'); }
+  else { list.classList.add('open'); arrow.classList.add('open'); }
+}
+
+function closeCountryDropdown() {
+  document.getElementById('country-list').classList.remove('open');
+  document.getElementById('cs-arrow').classList.remove('open');
+}
+
+// 드롭다운 외부 클릭 시 닫기
+document.addEventListener('click', (e) => {
+  const wrapper = document.getElementById('country-dropdown');
+  if (wrapper && !wrapper.contains(e.target)) closeCountryDropdown();
+});
+
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 function init() {
+  buildCountryList();
   switchCountry('azerbaijan');
   showSection('dashboard');
 }
