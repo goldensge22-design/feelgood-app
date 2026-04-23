@@ -228,7 +228,11 @@ async function main() {
   }
 }
 main();
-
+setTimeout(() => {
+  if (typeof fbq === 'function') {
+    fbq('track', 'PageView');
+  }
+}, 2000); 
 </script>
 </body>
 </html>
