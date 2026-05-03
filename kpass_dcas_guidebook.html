@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-PASS/D-CAS 학부모 가이드북</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@300;400;600;700&family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root {
+  --blue: #2856D6;
+  --orange: #F5820A;
+  --deep: #0D1B4B;
+  --cream: #FDF8F2;
+  --soft: #F0EBE3;
+  --mid: #8A8FA8;
+  --text: #1A1F36;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: var(--cream);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  background: rgba(253,248,242,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(40,86,214,0.12);
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 64px;
+}
+.nav-logo {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.25rem; color: var(--blue);
+  display: flex; align-items: center; gap: 8px;
+}
+.nav-logo span { color: var(--orange); }
+.nav-links { display: flex; gap: 0.2rem; }
+.nav-links a {
+  font-size: 0.78rem; font-weight: 500;
+  color: var(--mid); text-decoration: none;
+  padding: 6px 10px; border-radius: 20px;
+  transition: all 0.2s;
+}
+.nav-links a:hover { color: var(--blue); background: rgba(40,86,214,0.08); }
+@media(max-width:720px){ .nav-links { display:none; } }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 80px 2rem 4rem;
+  text-align: center;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(40,86,214,0.12) 0%, transparent 70%),
+              radial-gradient(ellipse 40% 40% at 80% 80%, rgba(245,130,10,0.10) 0%, transparent 70%);
+}
+.hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  animation: float 8s ease-in-out infinite;
+}
+.orb1 { width:400px; height:400px; background:rgba(40,86,214,0.07); top:-100px; left:-100px; animation-delay:0s; }
+.orb2 { width:300px; height:300px; background:rgba(245,130,10,0.07); bottom:0; right:-80px; animation-delay:3s; }
+@keyframes float {
+  0%,100%{ transform:translateY(0) scale(1); }
+  50%{ transform:translateY(-30px) scale(1.04); }
+}
+.hero-tag {
+  display: inline-block;
+  background: rgba(40,86,214,0.1); color: var(--blue);
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 1.5rem;
+  border: 1px solid rgba(40,86,214,0.2);
+  animation: fadeUp 0.8s ease both;
+}
+.hero-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(2rem, 5vw, 3.8rem);
+  font-weight: 700; line-height: 1.25;
+  color: var(--deep);
+  margin-bottom: 1rem;
+  animation: fadeUp 0.8s 0.15s ease both;
+}
+.hero-title em { color: var(--blue); font-style: normal; }
+.hero-title .accent { color: var(--orange); }
+.hero-sub {
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  color: var(--mid); line-height: 1.8;
+  max-width: 580px; margin: 0 auto 2.5rem;
+  animation: fadeUp 0.8s 0.3s ease both;
+}
+.hero-cta {
+  display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+  animation: fadeUp 0.8s 0.45s ease both;
+}
+.btn-primary {
+  background: var(--blue); color: #fff;
+  padding: 14px 32px; border-radius: 40px;
+  font-size: 0.95rem; font-weight: 700; cursor: pointer;
+  border: none; text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(40,86,214,0.3);
+}
+.btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(40,86,214,0.4); }
+.btn-secondary {
+  background: transparent; color: var(--blue);
+  padding: 14px 32px; border-radius: 40px;
+  font-size: 0.95rem; font-weight: 700;
+  border: 2px solid var(--blue); text-decoration: none;
+  transition: all 0.2s; cursor: pointer;
+}
+.btn-secondary:hover { background: var(--blue); color: #fff; }
+
+.hero-scroll {
+  position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  font-size: 0.7rem; color: var(--mid); letter-spacing: 0.1em;
+  animation: bounce 2s infinite;
+}
+.hero-scroll::after {
+  content: ''; display: block; width: 1px; height: 40px;
+  background: linear-gradient(to bottom, var(--mid), transparent);
+}
+@keyframes bounce { 0%,100%{transform:translateX(-50%) translateY(0)} 50%{transform:translateX(-50%) translateY(6px)} }
+@keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+
+/* ── SECTION BASE ── */
+section { padding: 6rem 2rem; max-width: 1100px; margin: 0 auto; }
+.section-tag {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.18em;
+  color: var(--orange); text-transform: uppercase; margin-bottom: 0.8rem;
+}
+.section-title {
+  font-family: 'Noto Serif KR', serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.5rem);
+  font-weight: 700; line-height: 1.35; color: var(--deep);
+  margin-bottom: 1rem;
+}
+.section-title em { color: var(--blue); font-style: normal; }
+.section-desc {
+  font-size: 1.05rem; color: var(--mid); line-height: 1.9;
+  max-width: 640px; margin-bottom: 3rem;
+}
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(40,86,214,0.2), transparent);
+  margin: 0 2rem;
+}
+
+/* ── CH1: WHY ── */
+#why { background: var(--cream); }
+.why-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 1.5rem;
+}
+.why-card {
+  background: #fff; border-radius: 20px;
+  padding: 2rem; border: 1px solid rgba(40,86,214,0.08);
+  transition: transform 0.3s, box-shadow 0.3s;
+  position: relative; overflow: hidden;
+}
+.why-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gradient);
+}
+.why-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(40,86,214,0.12); }
+.why-card .icon { font-size: 2.2rem; margin-bottom: 1rem; }
+.why-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--deep); margin-bottom: 0.6rem; }
+.why-card p { font-size: 0.88rem; color: var(--mid); line-height: 1.8; }
+.why-card .theory { font-size: 0.72rem; color: var(--blue); font-weight: 600; margin-top: 0.8rem; letter-spacing: 0.05em; }
+
+/* ── CH2: PASS ── */
+#pass { background: var(--deep); color: #fff; border-radius: 32px; margin: 0 1rem; max-width: none; }
+#pass .section-title { color: #fff; }
+#pass .section-desc { color: rgba(255,255,255,0.6); }
+#pass .section-tag { color: #F5820A; }
+
+.pass-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 1.5rem;
+}
+.pass-card {
+  border-radius: 20px; padding: 2rem;
+  position: relative; overflow: hidden;
+  transition: transform 0.3s;
+}
+.pass-card:hover { transform: translateY(-4px); }
+.pass-card.p { background: rgba(40,86,214,0.3); border: 1px solid rgba(40,86,214,0.5); }
+.pass-card.a { background: rgba(245,130,10,0.25); border: 1px solid rgba(245,130,10,0.4); }
+.pass-card.s1 { background: rgba(72,200,120,0.2); border: 1px solid rgba(72,200,120,0.4); }
+.pass-card.s2 { background: rgba(180,80,220,0.2); border: 1px solid rgba(180,80,220,0.4); }
+.pass-letter {
+  font-family: 'DM Serif Display', serif;
+  font-size: 4rem; opacity: 0.2; position: absolute; top: -10px; right: 16px;
+  line-height: 1;
+}
+.pass-badge {
+  display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  padding: 4px 10px; border-radius: 10px; margin-bottom: 0.8rem;
+}
+.pass-card.p .pass-badge { background: rgba(40,86,214,0.5); color: #a8c0ff; }
+.pass-card.a .pass-badge { background: rgba(245,130,10,0.4); color: #ffd09a; }
+.pass-card.s1 .pass-badge { background: rgba(72,200,120,0.3); color: #a8f0c0; }
+.pass-card.s2 .pass-badge { background: rgba(180,80,220,0.3); color: #dda8f0; }
+.pass-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
+.pass-card p { font-size: 0.85rem; color: rgba(255,255,255,0.65); line-height: 1.8; }
+.pass-card .brain { font-size: 0.75rem; color: rgba(255,255,255,0.4); margin-top: 0.8rem; }
+
+.pass-note {
+  margin-top: 2.5rem; padding: 1.5rem 2rem;
+  background: rgba(255,255,255,0.06); border-radius: 16px;
+  border-left: 3px solid var(--orange);
+  font-size: 0.95rem; color: rgba(255,255,255,0.75); line-height: 1.9;
+}
+.pass-note strong { color: var(--orange); }
+
+/* ── CH3: READING SCORES ── */
+#scores { }
+.scores-split {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+}
+@media(max-width:640px){ .scores-split { grid-template-columns: 1fr; } }
+.score-wrong, .score-right {
+  border-radius: 20px; padding: 2rem;
+}
+.score-wrong {
+  background: #FFF5F5; border: 1.5px solid #FFCCCC;
+}
+.score-right {
+  background: #F0F6FF; border: 1.5px solid rgba(40,86,214,0.2);
+}
+.score-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  margin-bottom: 1.2rem; display: flex; align-items: center; gap: 6px;
+}
+.score-wrong .score-label { color: #E53E3E; }
+.score-right .score-label { color: var(--blue); }
+.score-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  margin-bottom: 1rem; font-size: 0.9rem; line-height: 1.7;
+}
+.score-item .dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; }
+.score-wrong .dot { background: #E53E3E; }
+.score-right .dot { background: var(--blue); }
+
+.bell-curve {
+  margin-top: 2rem; background: #fff; border-radius: 20px;
+  padding: 2rem; border: 1px solid rgba(40,86,214,0.1);
+}
+.bell-curve h3 { font-size: 1rem; font-weight: 700; color: var(--deep); margin-bottom: 1.5rem; }
+.bell-svg-wrap { width: 100%; overflow: visible; }
+
+/* ── CH4: TALENT ── */
+#talent { background: var(--soft); border-radius: 32px; margin: 0 1rem; max-width: none; padding: 5rem 3rem; }
+.talent-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap: 1.2rem;
+}
+.talent-card {
+  background: #fff; border-radius: 16px; padding: 1.6rem;
+  border: 1px solid rgba(0,0,0,0.06);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.talent-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.08); }
+.talent-card .t-type {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  color: #fff; padding: 4px 10px; border-radius: 8px; display: inline-block; margin-bottom: 0.8rem;
+}
+.talent-card h3 { font-size: 1rem; font-weight: 700; color: var(--deep); margin-bottom: 0.5rem; }
+.talent-card p { font-size: 0.84rem; color: var(--mid); line-height: 1.8; }
+.talent-card .jobs {
+  display: flex; flex-wrap: wrap; gap: 4px; margin-top: 0.8rem;
+}
+.job-tag {
+  font-size: 0.7rem; padding: 3px 8px; border-radius: 6px;
+  background: var(--soft); color: var(--text); font-weight: 500;
+}
+
+/* ── CH5: GROWTH ── */
+#growth { }
+.neuroplasticity-banner {
+  background: linear-gradient(135deg, var(--blue) 0%, #1a3fa8 100%);
+  border-radius: 24px; padding: 3rem; color: #fff;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center;
+  margin-bottom: 3rem;
+}
+@media(max-width:640px){ .neuroplasticity-banner { grid-template-columns: 1fr; } }
+.np-text h3 { font-family: 'Noto Serif KR', serif; font-size: 1.6rem; margin-bottom: 1rem; }
+.np-text p { font-size: 0.92rem; color: rgba(255,255,255,0.75); line-height: 1.9; }
+.np-stats { display: flex; flex-direction: column; gap: 1rem; }
+.np-stat {
+  background: rgba(255,255,255,0.1); border-radius: 12px; padding: 1rem 1.5rem;
+  border: 1px solid rgba(255,255,255,0.15);
+}
+.np-stat .num { font-size: 2rem; font-weight: 700; color: var(--orange); }
+.np-stat .label { font-size: 0.8rem; color: rgba(255,255,255,0.65); margin-top: 2px; }
+
+.growth-activities {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px,1fr)); gap: 1.2rem;
+}
+.activity-card {
+  background: #fff; border-radius: 16px; padding: 1.5rem; text-align: center;
+  border: 1px solid rgba(40,86,214,0.08);
+  transition: transform 0.3s;
+}
+.activity-card:hover { transform: translateY(-4px); }
+.activity-card .emoji { font-size: 2.5rem; margin-bottom: 0.8rem; }
+.activity-card h4 { font-size: 0.95rem; font-weight: 700; color: var(--deep); margin-bottom: 0.4rem; }
+.activity-card p { font-size: 0.8rem; color: var(--mid); line-height: 1.7; }
+
+/* ── CH6: WARNING ── */
+#warning { background: var(--deep); color: #fff; border-radius: 32px; margin: 0 1rem; max-width: none; padding: 5rem 3rem; }
+#warning .section-title { color: #fff; }
+#warning .section-desc { color: rgba(255,255,255,0.6); }
+
+.warning-patterns {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+.warning-card {
+  background: rgba(255,255,255,0.05); border: 1px solid rgba(255,80,80,0.25);
+  border-radius: 16px; padding: 1.8rem;
+}
+.warning-card .num {
+  font-family: 'DM Serif Display', serif; font-size: 3rem; color: rgba(255,80,80,0.3);
+  line-height: 1; margin-bottom: 0.5rem;
+}
+.warning-card h3 { font-size: 1rem; font-weight: 700; color: #ff9090; margin-bottom: 0.5rem; }
+.warning-card p { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.8; }
+
+.compass-banner {
+  background: linear-gradient(135deg, rgba(245,130,10,0.2), rgba(40,86,214,0.2));
+  border: 1px solid rgba(245,130,10,0.3);
+  border-radius: 20px; padding: 2.5rem; text-align: center;
+}
+.compass-banner h3 {
+  font-family: 'Noto Serif KR', serif; font-size: 1.8rem;
+  color: #fff; margin-bottom: 0.8rem;
+}
+.compass-banner p { font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.9; }
+.compass-banner .highlight { color: var(--orange); font-weight: 700; }
+
+/* ── CH7: NEXT STEP ── */
+#next { }
+.roadmap {
+  display: flex; gap: 0; position: relative;
+  margin-bottom: 3rem;
+}
+.roadmap::before {
+  content: ''; position: absolute; top: 40px; left: 40px; right: 40px; height: 2px;
+  background: linear-gradient(to right, var(--blue), var(--orange));
+  z-index: 0;
+}
+@media(max-width:640px){
+  .roadmap { flex-direction: column; }
+  .roadmap::before { display: none; }
+}
+.roadmap-step {
+  flex: 1; text-align: center; position: relative; z-index: 1; padding: 0 1rem;
+}
+.roadmap-circle {
+  width: 80px; height: 80px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.8rem; margin: 0 auto 1rem; font-weight: 700;
+}
+.roadmap-step:nth-child(1) .roadmap-circle { background: rgba(40,86,214,0.12); }
+.roadmap-step:nth-child(2) .roadmap-circle { background: rgba(120,100,230,0.12); }
+.roadmap-step:nth-child(3) .roadmap-circle { background: rgba(245,130,10,0.12); }
+.roadmap-step h4 { font-size: 0.95rem; font-weight: 700; color: var(--deep); margin-bottom: 0.4rem; }
+.roadmap-step p { font-size: 0.8rem; color: var(--mid); line-height: 1.7; }
+.roadmap-step .period {
+  font-size: 0.7rem; font-weight: 700; color: var(--blue); letter-spacing: 0.1em; margin-bottom: 0.5rem;
+}
+
+.faq { margin-top: 3rem; }
+.faq h3 { font-size: 1.2rem; font-weight: 700; color: var(--deep); margin-bottom: 1.5rem; }
+.faq-item {
+  border: 1px solid rgba(40,86,214,0.1); border-radius: 12px;
+  overflow: hidden; margin-bottom: 0.8rem;
+}
+.faq-q {
+  padding: 1rem 1.5rem; cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  font-size: 0.9rem; font-weight: 600; color: var(--text);
+  background: #fff; transition: background 0.2s;
+}
+.faq-q:hover { background: rgba(40,86,214,0.04); }
+.faq-q .arrow { transition: transform 0.3s; color: var(--blue); }
+.faq-q.open .arrow { transform: rotate(180deg); }
+.faq-a {
+  display: none; padding: 1rem 1.5rem 1.2rem;
+  background: rgba(40,86,214,0.03);
+  font-size: 0.85rem; color: var(--mid); line-height: 1.9;
+  border-top: 1px solid rgba(40,86,214,0.08);
+}
+.faq-a.show { display: block; }
+
+/* ── FOOTER ── */
+footer {
+  background: var(--deep); color: rgba(255,255,255,0.5);
+  text-align: center; padding: 3rem 2rem;
+  font-size: 0.8rem; line-height: 2;
+}
+footer strong { color: #fff; font-size: 1.1rem; display: block; margin-bottom: 0.5rem; }
+footer a { color: var(--orange); text-decoration: none; }
+
+/* ── SCROLL REVEAL ── */
+.reveal {
+  opacity: 0; transform: translateY(30px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.visible { opacity: 1; transform: none; }
+
+/* ── PROGRESS BAR ── */
+#progress {
+  position: fixed; top: 64px; left: 0; height: 3px; z-index: 99;
+  background: linear-gradient(to right, var(--blue), var(--orange));
+  width: 0%; transition: width 0.1s;
+}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+
+<nav>
+  <div class="nav-logo">Feel<span>Good</span> &nbsp;|&nbsp; 학부모 가이드북</div>
+  <div class="nav-links">
+    <a href="#why">왜 필요한가</a>
+    <a href="#pass">PASS 이론</a>
+    <a href="#scores">결과 읽기</a>
+    <a href="#talent">재능·진로</a>
+    <a href="#growth">두뇌 성장</a>
+    <a href="#warning">주의사항</a>
+    <a href="#next">다음 단계</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero" style="max-width:none; padding-top:80px;">
+  <div class="hero-bg"></div>
+  <div class="hero-orb orb1"></div>
+  <div class="hero-orb orb2"></div>
+  <div class="hero-tag">K-PASS / D-CAS 학부모 가이드북</div>
+  <h1 class="hero-title">
+    점수는 지도가 아닙니다.<br>
+    <em>두뇌 유형</em>이 <span class="accent">지도</span>입니다.
+  </h1>
+  <p class="hero-sub">
+    숫자 하나로 아이를 판단하는 시대는 끝났습니다.<br>
+    이 검사는 '얼마나 잘하냐'가 아니라 <strong>어떻게 생각하냐</strong>를 봅니다.
+  </p>
+  <div class="hero-cta">
+    <a href="#why" class="btn-primary">가이드 시작하기 →</a>
+    <a href="#pass" class="btn-secondary">PASS 이론 보기</a>
+  </div>
+  <div class="hero-scroll">SCROLL</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CH1: WHY ── -->
+<section id="why" style="padding-top:5rem;">
+  <div class="section-tag reveal">Chapter 01</div>
+  <h2 class="section-title reveal">왜 지금 이 검사인가?</h2>
+  <p class="section-desc reveal">기존 IQ 검사는 아이의 가능성 중 극히 일부만 측정합니다. 시대가 요구하는 새로운 '아이 이해법'이 필요합니다.</p>
+  <div class="why-grid">
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #2856D6, #5B8EFF)">
+      <div class="icon">🧠</div>
+      <h3>IQ 검사의 한계</h3>
+      <p>단일 숫자로 환원되는 기존 지능 검사는 아이의 사고 방식, 학습 스타일, 창의성을 담아내지 못합니다.</p>
+      <div class="theory">▸ Spearman의 g 이론 비판</div>
+    </div>
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #F5820A, #FFB347)">
+      <div class="icon">🌱</div>
+      <h3>지능은 하나가 아니다</h3>
+      <p>가드너(Gardner)의 다중지능 이론은 언어·논리·음악·신체·공간·인간친화·자연친화 등 다양한 지능 유형이 존재함을 밝혔습니다.</p>
+      <div class="theory">▸ Gardner, Multiple Intelligences (1983)</div>
+    </div>
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #48C878, #80E8A0)">
+      <div class="icon">🎯</div>
+      <h3>아이마다 성장의 출발점이 다르다</h3>
+      <p>비고츠키(Vygotsky)의 근접발달영역(ZPD) 이론에 따르면, 최적의 교육은 아이 각자의 현재 발달 수준에서 시작해야 합니다.</p>
+      <div class="theory">▸ Vygotsky, ZPD Theory (1978)</div>
+    </div>
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #B450DC, #D480F0)">
+      <div class="icon">🔬</div>
+      <h3>신경심리학에서 탄생한 검사</h3>
+      <p>루리야(Luria)의 뇌 기능 연구를 기반으로 Das가 개발한 PASS 이론은 두뇌의 실제 처리 방식을 4가지 핵심 기능으로 과학적으로 분류합니다.</p>
+      <div class="theory">▸ Luria → Das, PASS Theory (1994)</div>
+    </div>
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #2856D6, #F5820A)">
+      <div class="icon">🤖</div>
+      <h3>AI 시대가 요구하는 역량</h3>
+      <p>단순 암기와 반복 계산은 AI가 대체하는 시대. 계획력, 창의적 통합, 유연한 주의 전환이야말로 미래를 이끄는 핵심 역량입니다.</p>
+      <div class="theory">▸ WEF, Future of Jobs Report (2023)</div>
+    </div>
+    <div class="why-card reveal" style="--gradient: linear-gradient(90deg, #E53E3E, #FF8080)">
+      <div class="icon">💡</div>
+      <h3>강점 기반 접근의 힘</h3>
+      <p>갤럽 연구에 따르면 강점에 집중하는 사람은 약점 보완에 집중하는 사람보다 몰입도와 성취도가 6배 높습니다.</p>
+      <div class="theory">▸ Gallup StrengthsFinder Research</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CH2: PASS ── -->
+<div style="padding: 0 1rem;">
+<section id="pass" style="max-width:none; padding: 5rem 4rem;">
+  <div class="section-tag reveal">Chapter 02</div>
+  <h2 class="section-title reveal">두뇌를 이해하는 4개의 창문</h2>
+  <p class="section-desc reveal">PASS 이론은 인간의 인지를 4가지 기능으로 설명합니다. 모든 요소가 높을 필요는 없습니다. <strong style="color:var(--orange)">프로파일이 개성입니다.</strong></p>
+  <div class="pass-grid">
+    <div class="pass-card p reveal">
+      <div class="pass-letter">P</div>
+      <div class="pass-badge">PLANNING · 계획</div>
+      <h3>목표를 세우고 실행하는 힘</h3>
+      <p>문제 해결 전략을 세우고, 행동을 계획·감시·평가하는 능력. 자기조절과 메타인지의 핵심입니다.</p>
+      <div class="brain">📍 전두엽(Frontal Lobe) 관장</div>
+    </div>
+    <div class="pass-card a reveal">
+      <div class="pass-letter">A</div>
+      <div class="pass-badge">ATTENTION · 주의</div>
+      <h3>중요한 것에 집중하는 힘</h3>
+      <p>방해 자극을 억제하고 목적에 맞는 자극에 선택적으로 집중·유지하는 능력입니다.</p>
+      <div class="brain">📍 각성-주의 시스템(Reticular Activating System)</div>
+    </div>
+    <div class="pass-card s1 reveal">
+      <div class="pass-letter">S</div>
+      <div class="pass-badge">SIMULTANEOUS · 동시처리</div>
+      <h3>전체를 한눈에 파악하는 힘</h3>
+      <p>각 요소들을 하나의 통합된 전체로 묶어 처리하는 능력. 공간 인식, 수학적 개념 이해에 강점을 보입니다.</p>
+      <div class="brain">📍 두정·후두엽(Parieto-occipital)</div>
+    </div>
+    <div class="pass-card s2 reveal">
+      <div class="pass-letter">S</div>
+      <div class="pass-badge">SUCCESSIVE · 순차처리</div>
+      <h3>순서대로 처리하는 힘</h3>
+      <p>정보를 순서·계열로 조직하고 처리하는 능력. 언어 습득, 읽기, 순서가 중요한 절차적 학습에 핵심입니다.</p>
+      <div class="brain">📍 측두엽(Temporal Lobe)</div>
+    </div>
+  </div>
+  <div class="pass-note reveal">
+    💡 <strong>핵심 메시지:</strong> PASS 4가지 요소가 모두 높은 아이는 없습니다. 어떤 아이는 P·S(동시)가 강하고, 어떤 아이는 A·S(순차)가 강합니다. 이 <strong>조합 패턴</strong>이 바로 아이 고유의 두뇌 유형이며, 그것이 재능과 학습 방식의 원천입니다.
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── CH3: SCORES ── -->
+<section id="scores">
+  <div class="section-tag reveal">Chapter 03</div>
+  <h2 class="section-title reveal">검사 결과, <em>이렇게</em> 읽으세요</h2>
+  <p class="section-desc reveal">숫자 뒤에 있는 진짜 이야기. 점수보다 패턴이 중요합니다.</p>
+
+  <div class="bell-curve reveal">
+    <h3>📊 표준점수(평균 100, SD 15)의 올바른 이해</h3>
+    <svg viewBox="0 0 700 200" class="bell-svg-wrap" style="width:100%;max-height:180px;">
+      <defs>
+        <linearGradient id="bellGrad" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stop-color="#2856D6" stop-opacity="0.1"/>
+          <stop offset="50%" stop-color="#2856D6" stop-opacity="0.35"/>
+          <stop offset="100%" stop-color="#F5820A" stop-opacity="0.1"/>
+        </linearGradient>
+      </defs>
+      <!-- Bell curve path -->
+      <path d="M50,170 C100,170 130,30 200,20 C240,15 260,160 350,160 C440,160 460,15 500,20 C570,30 600,170 650,170 Z" fill="url(#bellGrad)" stroke="#2856D6" stroke-width="2" opacity="0.6"/>
+      <!-- Center line -->
+      <line x1="350" y1="20" x2="350" y2="175" stroke="#2856D6" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <!-- Labels -->
+      <text x="350" y="192" text-anchor="middle" font-size="13" fill="#2856D6" font-weight="bold">100 (평균)</text>
+      <text x="230" y="192" text-anchor="middle" font-size="11" fill="#8A8FA8">85 (−1SD)</text>
+      <text x="470" y="192" text-anchor="middle" font-size="11" fill="#8A8FA8">115 (+1SD)</text>
+      <text x="120" y="192" text-anchor="middle" font-size="11" fill="#8A8FA8">70 (−2SD)</text>
+      <text x="580" y="192" text-anchor="middle" font-size="11" fill="#8A8FA8">130 (+2SD)</text>
+      <!-- Range bracket -->
+      <line x1="230" y1="175" x2="470" y2="175" stroke="#2856D6" stroke-width="2"/>
+      <text x="350" y="165" text-anchor="middle" font-size="10" fill="#2856D6">전체의 68% 해당 구간</text>
+    </svg>
+    <p style="font-size:0.82rem;color:var(--mid);margin-top:1rem;line-height:1.8;">
+      ※ 85~115 구간은 전체 아이의 68%가 속하는 <strong>정상 범위</strong>입니다. 이 구간 내 차이보다 <strong>어느 요소가 더 높고 낮은지의 패턴(프로파일)</strong>이 훨씬 중요합니다.
+    </p>
+  </div>
+
+  <div class="scores-split" style="margin-top:2rem;">
+    <div class="score-wrong reveal">
+      <div class="score-label">❌ 잘못된 해석 방식</div>
+      <div class="score-item"><div class="dot"></div><span>"순차처리 점수가 낮으니 국어·영어에 약하겠구나"</span></div>
+      <div class="score-item"><div class="dot"></div><span>"형(언니)이 95점이었는데 이 아이는 88점이네"</span></div>
+      <div class="score-item"><div class="dot"></div><span>"평균 이하니까 학습 문제가 있는 것 아닐까"</span></div>
+      <div class="score-item"><div class="dot"></div><span>4개 요소를 각각 따로 떼어 평가하기</span></div>
+      <div class="score-item"><div class="dot"></div><span>결과를 아이에게 직접 보여주며 압박하기</span></div>
+    </div>
+    <div class="score-right reveal">
+      <div class="score-label">✅ 올바른 해석 방식</div>
+      <div class="score-item"><div class="dot"></div><span>4개 요소의 <strong>상대적 높낮이 패턴</strong>에 집중하기</span></div>
+      <div class="score-item"><div class="dot"></div><span>가장 높은 요소 2개가 만드는 <strong>강점 조합</strong> 파악</span></div>
+      <div class="score-item"><div class="dot"></div><span>1차→2차 비교를 통한 <strong>성장 방향</strong> 확인</span></div>
+      <div class="score-item"><div class="dot"></div><span>점수가 아닌 <strong>두뇌 유형과 학습 스타일</strong>로 이해</span></div>
+      <div class="score-item"><div class="dot"></div><span>약점 보완보다 <strong>강점 확장</strong>을 우선 설계</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CH4: TALENT ── -->
+<div style="padding: 0 1rem; margin-bottom: 0;">
+<section id="talent" style="max-width:none; padding:5rem 3rem;">
+  <div class="section-tag reveal">Chapter 04</div>
+  <h2 class="section-title reveal">두뇌 유형으로 보는 <em>재능·진로·적성</em></h2>
+  <p class="section-desc reveal">두뇌 유형은 직업을 결정하지 않습니다. <strong>방향을 제시하되, 제한하지 않습니다.</strong></p>
+  <div class="talent-grid">
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:#2856D6">Planning 강세</div>
+      <h3>🎯 전략가 유형</h3>
+      <p>목표를 설정하고 체계적으로 실행하는 능력이 탁월합니다. 복잡한 상황을 조율하는 리더십이 자연스럽게 발현됩니다.</p>
+      <div class="jobs">
+        <span class="job-tag">기획·경영</span><span class="job-tag">법조</span><span class="job-tag">프로젝트 관리</span><span class="job-tag">창업</span>
+      </div>
+    </div>
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:#F5820A">Simultaneous 강세</div>
+      <h3>🎨 통합자 유형</h3>
+      <p>전체 그림을 직관적으로 파악하고 패턴을 발견하는 능력이 뛰어납니다. 공간적 사고와 시각적 창의성이 강점입니다.</p>
+      <div class="jobs">
+        <span class="job-tag">디자인</span><span class="job-tag">수학·과학</span><span class="job-tag">건축</span><span class="job-tag">예술</span>
+      </div>
+    </div>
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:#48C878">Successive 강세</div>
+      <h3>🎵 순서 마스터 유형</h3>
+      <p>정보를 순서대로 정밀하게 처리하는 능력이 탁월합니다. 언어 습득, 악기 연주, 절차적 정확성이 필요한 분야에서 빛납니다.</p>
+      <div class="jobs">
+        <span class="job-tag">언어·문학</span><span class="job-tag">음악</span><span class="job-tag">의학</span><span class="job-tag">프로그래밍</span>
+      </div>
+    </div>
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:#B450DC">Attention 강세</div>
+      <h3>🔬 집중 분석가 유형</h3>
+      <p>오랜 시간 깊이 집중하고 세밀하게 분석하는 능력이 탁월합니다. 정확성과 꼼꼼함이 강점인 분야에서 두각을 나타냅니다.</p>
+      <div class="jobs">
+        <span class="job-tag">연구·분석</span><span class="job-tag">품질관리</span><span class="job-tag">회계·감사</span><span class="job-tag">데이터과학</span>
+      </div>
+    </div>
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:linear-gradient(90deg,#2856D6,#F5820A)">P+S 복합형</div>
+      <h3>🚀 창의 리더 유형</h3>
+      <p>계획력과 통합적 사고가 결합되어 큰 그림을 그리면서도 실행까지 이끌어내는 혁신적 리더십이 특징입니다.</p>
+      <div class="jobs">
+        <span class="job-tag">CEO·임원</span><span class="job-tag">PD·감독</span><span class="job-tag">건축설계</span><span class="job-tag">전략기획</span>
+      </div>
+    </div>
+    <div class="talent-card reveal">
+      <div class="t-type" style="background:linear-gradient(90deg,#48C878,#2856D6)">균형형</div>
+      <h3>⚖️ 올라운더 유형</h3>
+      <p>4개 요소가 고르게 발달해 다양한 상황에 유연하게 적응합니다. 팀워크와 협업, 다학제적 문제 해결에 강합니다.</p>
+      <div class="jobs">
+        <span class="job-tag">교육</span><span class="job-tag">상담</span><span class="job-tag">사회복지</span><span class="job-tag">의사소통</span>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:2rem;font-size:0.85rem;color:var(--mid);line-height:1.9;padding:1.5rem;background:#fff;border-radius:16px;border-left:3px solid var(--orange);">
+    ⚠️ <strong>중요한 전제:</strong> 두뇌 유형과 진로는 가능성의 지도이지 운명이 아닙니다. Holland의 직업흥미 이론이 강조하듯, 최종적인 진로 방향은 두뇌 유형 + 흥미 + 가치관 + 경험의 종합적 탐색을 통해 아이 스스로 만들어가야 합니다.
+  </p>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── CH5: GROWTH ── -->
+<section id="growth">
+  <div class="section-tag reveal">Chapter 05</div>
+  <h2 class="section-title reveal">두뇌는 성장합니다</h2>
+  <p class="section-desc reveal">측정은 현재를 찍는 사진입니다. 사진 한 장으로 아이의 미래를 단정짓지 마세요.</p>
+
+  <div class="neuroplasticity-banner reveal">
+    <div class="np-text">
+      <h3>🧬 신경가소성(Neuroplasticity)</h3>
+      <p>두뇌는 고정된 하드웨어가 아닙니다. 올바른 경험과 훈련을 통해 새로운 신경 연결이 끊임없이 형성됩니다. 드웩(Dweck)의 성장 마인드셋 연구는 "재능은 타고나는 것이 아니라 만들어진다"는 사실을 과학적으로 입증했습니다.</p>
+    </div>
+    <div class="np-stats">
+      <div class="np-stat">
+        <div class="num">~100억</div>
+        <div class="label">성인 두뇌의 신경세포 수 — 평생 새 연결 생성 가능</div>
+      </div>
+      <div class="np-stat">
+        <div class="num">6개월</div>
+        <div class="label">꾸준한 인지 훈련으로 측정 가능한 변화가 나타나는 기간</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="growth-activities">
+    <div class="activity-card reveal">
+      <div class="emoji">📚</div>
+      <h4>독서·언어 활동</h4>
+      <p>순차처리(S) 능력과 언어 네트워크를 동시에 강화합니다.</p>
+    </div>
+    <div class="activity-card reveal">
+      <div class="emoji">🎨</div>
+      <h4>예술·창작 활동</h4>
+      <p>동시처리(S) 능력과 공간 인식, 정서 조절 능력을 발달시킵니다.</p>
+    </div>
+    <div class="activity-card reveal">
+      <div class="emoji">🏃</div>
+      <h4>신체·스포츠 활동</h4>
+      <p>소뇌-전두엽 연결을 강화해 계획력(P)과 실행 기능을 향상시킵니다.</p>
+    </div>
+    <div class="activity-card reveal">
+      <div class="emoji">🎮</div>
+      <h4>전략적 게임</h4>
+      <p>계획(P)·주의(A) 기능을 집중적으로 훈련합니다. 목표 지향적 사고를 강화합니다.</p>
+    </div>
+    <div class="activity-card reveal">
+      <div class="emoji">🤝</div>
+      <h4>사회적 상호작용</h4>
+      <p>주의 유연성과 계획력을 실생활에서 자연스럽게 훈련합니다.</p>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── CH6: WARNING ── -->
+<div style="padding: 0 1rem; margin-bottom: 0;">
+<section id="warning" style="max-width:none; padding:5rem 3rem;">
+  <div class="section-tag reveal">Chapter 06</div>
+  <h2 class="section-title reveal">점수에 집착할 때 생기는 일</h2>
+  <p class="section-desc reveal">검사를 잘못 사용하면 아이에게 독이 됩니다. 학부모가 꼭 알아야 할 심리학적 경고입니다.</p>
+
+  <div class="warning-patterns">
+    <div class="warning-card reveal">
+      <div class="num">01</div>
+      <h3>라벨링 효과의 함정</h3>
+      <p>"우리 아이 계획력이 낮아"라는 말을 아이가 반복해서 들으면, 아이는 그 라벨을 자기 정체성으로 내면화합니다. 말이 현실이 됩니다.</p>
+    </div>
+    <div class="warning-card reveal">
+      <div class="num">02</div>
+      <h3>비교에 의한 동기 저하</h3>
+      <p>형제나 친구와 점수를 비교하는 순간, 검사는 성장의 도구가 아닌 상처의 원인이 됩니다. 모든 프로파일은 유일한 개성입니다.</p>
+    </div>
+    <div class="warning-card reveal">
+      <div class="num">03</div>
+      <h3>약점 보완 과잉 처방</h3>
+      <p>낮은 요소를 높이기 위한 과도한 학습 처방은 아이의 에너지를 소진시킵니다. 강점을 먼저 키우는 것이 전뇌 성장의 더 빠른 길입니다.</p>
+    </div>
+  </div>
+
+  <div class="compass-banner reveal">
+    <h3>🧭 나침반이지, 성적표가 아닙니다</h3>
+    <p>
+      K-PASS/D-CAS 검사는 아이를 <span class="highlight">판단</span>하기 위한 도구가 아닙니다.<br>
+      아이가 어떻게 생각하고, 어떻게 배우고, 어떻게 성장할 수 있는지<br>
+      <span class="highlight">방향을 찾아주는 나침반</span>으로 사용하세요.
+    </p>
+  </div>
+</section>
+</div>
+
+<div class="divider"></div>
+
+<!-- ── CH7: NEXT ── -->
+<section id="next">
+  <div class="section-tag reveal">Chapter 07</div>
+  <h2 class="section-title reveal">검사 이후가 더 중요합니다</h2>
+  <p class="section-desc reveal">검사를 받았다면, 이제 활용할 차례입니다. 단계별 로드맵으로 시작하세요.</p>
+
+  <div class="roadmap reveal">
+    <div class="roadmap-step">
+      <div class="roadmap-circle">🔍</div>
+      <div class="period">단기 (1~3개월)</div>
+      <h4>이해 & 대화</h4>
+      <p>결과를 바탕으로 아이와 강점 대화 시작. 학교 선생님과 결과 공유.</p>
+    </div>
+    <div class="roadmap-step">
+      <div class="roadmap-circle">🌱</div>
+      <div class="period">중기 (3~12개월)</div>
+      <h4>강점 기반 활동 설계</h4>
+      <p>두뇌 유형에 맞는 학습 방식 조정. BrainFit 트레이닝 연계 시작.</p>
+    </div>
+    <div class="roadmap-step">
+      <div class="roadmap-circle">🚀</div>
+      <div class="period">장기 (1년 이상)</div>
+      <h4>재검사 & 성장 확인</h4>
+      <p>2차 검사로 두뇌 성장 측정. 진로·재능 탐색 심화.</p>
+    </div>
+  </div>
+
+  <div class="faq reveal">
+    <h3>💬 자주 묻는 질문</h3>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>검사 점수가 낮게 나왔는데, 학습 장애가 있는 건가요?</span>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a">낮은 점수 자체가 학습 장애를 의미하지 않습니다. K-PASS/D-CAS는 강점과 약점의 '패턴'을 보는 검사입니다. 특정 요소가 낮더라도 다른 강점 요소를 활용한 학습 전략으로 충분히 성장할 수 있습니다. 전문 상담사와 함께 전체 프로파일을 해석하는 것이 중요합니다.<br><br>
+      <span style="display:inline-block;margin-top:0.5rem;padding:0.8rem 1.2rem;background:rgba(245,130,10,0.10);border-left:3px solid #F5820A;border-radius:8px;font-size:0.85rem;color:#7a4400;line-height:1.8;">
+        ⚠️ <strong>단, 하나 이상의 요소에서 표준점수 85점 이하(평균 −1SD)가 나온 경우</strong>에는 단순한 학습 스타일 차이를 넘어 인지 발달 지원이 필요할 수 있습니다. 이 경우 소아청소년과 또는 신경발달 전문 병원을 방문하여 <strong>정밀 종합 검사</strong>를 받아보시길 권장합니다.
+      </span></div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>몇 살부터 검사를 받을 수 있나요?</span>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a">K-PASS는 만 5세~17세(유아~고등학생), D-CAS는 만 5세 이상을 대상으로 합니다. 유아기에는 두뇌 발달 방향 파악, 초등기에는 학습 스타일 최적화, 중고등기에는 진로·적성 탐색 목적으로 활용이 달라집니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>검사 결과를 선생님께 보여줘도 되나요?</span>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a">네, 권장합니다. 담임 선생님이나 상담 선생님과 두뇌 유형을 공유하면 수업 방식, 과제 형태, 평가 방법을 아이에게 맞게 조율하는 데 도움이 됩니다. 단, 점수 수치보다는 학습 스타일과 강점 중심으로 공유하는 것이 효과적입니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>얼마나 자주 재검사를 받아야 하나요?</span>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a">일반적으로 6개월~1년 간격을 권장합니다. 두뇌 발달은 환경과 경험에 따라 지속적으로 변화하므로, 정기적인 재검사를 통해 성장 방향을 확인하고 교육 전략을 업데이트할 수 있습니다.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q" onclick="toggleFaq(this)">
+        <span>아이에게 검사 결과를 어떻게 설명해야 할까요?</span>
+        <span class="arrow">▾</span>
+      </div>
+      <div class="faq-a">점수보다 두뇌 유형과 강점을 중심으로 긍정적으로 전달하세요. 예: "너는 큰 그림을 한눈에 보는 능력이 정말 뛰어나구나. 그래서 네가 레고나 퍼즐을 그렇게 잘했던 거야!" 이런 방식으로 아이가 자신의 강점을 인식하고 자신감을 갖도록 돕는 것이 목표입니다.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <strong>FeelGood EduTech · 필굿 에듀테크</strong>
+  K-PASS / D-CAS 인지발달 검사 기반 두뇌 성장 플랫폼<br>
+  BrainMap · MindCompass · BrainFit<br><br>
+  본 가이드북은 교육·참고 목적으로 제작되었습니다.<br>
+  개별 해석 및 상담은 전문 상담사를 통해 진행하시기 바랍니다.<br>
+  <a href="https://kpass.feel-good.io/" target="_blank">→ FeelGood 플랫폼 방문하기</a>
+</footer>
+
+<script>
+// Progress bar
+window.addEventListener('scroll', () => {
+  const total = document.body.scrollHeight - window.innerHeight;
+  const pct = (window.scrollY / total) * 100;
+  document.getElementById('progress').style.width = pct + '%';
+});
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => observer.observe(r));
+
+// FAQ toggle
+function toggleFaq(el) {
+  const answer = el.nextElementSibling;
+  const isOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-q.open').forEach(q => {
+    q.classList.remove('open');
+    q.nextElementSibling.classList.remove('show');
+  });
+  if (!isOpen) {
+    el.classList.add('open');
+    answer.classList.add('show');
+  }
+}
+</script>
+</body>
+</html>
