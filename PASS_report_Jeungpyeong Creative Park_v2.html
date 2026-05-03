@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-PASS 인지처리능력 종합 분석 보고서 — 한국교원대 증평창의파크</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700&family=Noto+Serif+KR:wght@400;600&display=swap');
+
+:root {
+  --bg:#F5F3EE; --surface:#FFFFFF; --surface2:#EDEBE5; --surface3:#E4E0D8;
+  --border:#D8D3C8; --border2:#C8C2B5;
+  --text:#1C1916; --text2:#5A5450; --text3:#9C9690;
+  --blue:#1A4FA0; --blue-l:#E6EDFB; --blue-m:#4A78D0; --blue-d:#0E3278;
+  --amber:#A85E00; --amber-l:#FEF3E0; --amber-m:#D4880A; --amber-d:#7A4200;
+  --teal:#0A6548; --teal-l:#E0F3EC; --teal-m:#2E9E74; --teal-d:#054832;
+  --purple:#4A3AB0; --purple-l:#ECEAFB; --purple-m:#7060D0; --purple-d:#32268A;
+  --red:#B82020; --red-l:#FDEAEA; --red-m:#E04848; --red-d:#881414;
+  --green:#237835; --green-l:#E4F3E8; --green-m:#3AAA54;
+  --r:12px; --r-sm:8px; --r-lg:16px;
+  --shadow:0 1px 4px rgba(0,0,0,0.05),0 4px 16px rgba(0,0,0,0.06);
+  --shadow-sm:0 1px 3px rgba(0,0,0,0.06);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.75;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+
+/* ── PRINT ── */
+@media print{
+  body{background:#fff;font-size:11px;}
+  .no-print{display:none!important;}
+  .page-break{page-break-before:always;padding-top:24px;}
+  .card{box-shadow:none!important;border:0.5px solid #ccc!important;}
+  .report-header{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  section{break-inside:avoid;}
+}
+
+/* ── LAYOUT ── */
+.wrap{max-width:1100px;margin:0 auto;padding:0 28px;}
+
+/* ══ HEADER ══ */
+.report-header{background:var(--text);color:#fff;padding:52px 0 40px;margin-bottom:44px;position:relative;overflow:hidden;}
+.report-header::before{content:'';position:absolute;top:-60px;right:-60px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.03);pointer-events:none;}
+.report-header::after{content:'';position:absolute;bottom:-40px;left:30%;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.02);pointer-events:none;}
+.hdr-inner{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;flex-wrap:wrap;position:relative;z-index:1;}
+.hdr-left .eyebrow{font-size:11px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:rgba(255,255,255,0.45);margin-bottom:10px;}
+.hdr-left h1{font-family:'Noto Serif KR',serif;font-size:30px;font-weight:600;letter-spacing:-0.3px;line-height:1.3;margin-bottom:12px;}
+.hdr-left .meta-line{font-size:12.5px;color:rgba(255,255,255,0.5);display:flex;flex-wrap:wrap;gap:0 16px;}
+.hdr-left .meta-line span{display:flex;align-items:center;gap:5px;}
+.hdr-left .meta-line span::before{content:'·';opacity:0.4;}
+.hdr-left .meta-line span:first-child::before{display:none;}
+.hdr-kpi{display:flex;gap:8px;flex-wrap:wrap;}
+.kpi-box{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-sm);padding:14px 20px;text-align:center;min-width:86px;}
+.kpi-box .kv{font-size:26px;font-weight:700;line-height:1;margin-bottom:4px;}
+.kpi-box .kl{font-size:10.5px;font-weight:500;letter-spacing:0.03em;color:rgba(255,255,255,0.45);}
+.kpi-box.k-all .kv{color:#8AB4FF;}
+.kpi-box.k-warn .kv{color:#FFD080;}
+.kpi-box.k-crit .kv{color:#FF9090;}
+.kpi-box.k-gift .kv{color:#BBA8FF;}
+
+/* ══ SECTION ══ */
+section{margin-bottom:52px;}
+.sec-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:10px;border-bottom:1.5px solid var(--border);}
+.sec-num{width:28px;height:28px;border-radius:50%;background:var(--text);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.sec-title{font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text2);}
+.sec-sub{font-size:12px;color:var(--text3);margin-left:auto;}
+
+/* ══ CARDS ══ */
+.card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:22px 26px;box-shadow:var(--shadow);}
+.card-flat{background:var(--surface2);border:none;border-radius:var(--r);padding:18px 22px;}
+.card-title{font-size:12px;font-weight:700;letter-spacing:0.05em;color:var(--text3);text-transform:uppercase;margin-bottom:14px;}
+
+/* ══ GRID ══ */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+@media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr 1fr;}}
+
+/* ══ KPI STAT CARDS ══ */
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px;}
+.sc{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r);padding:18px 20px;position:relative;overflow:hidden;box-shadow:var(--shadow-sm);}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;border-radius:var(--r) var(--r) 0 0;}
+.sc.c-teal::before{background:var(--teal-m);}
+.sc.c-amber::before{background:var(--amber-m);}
+.sc.c-blue::before{background:var(--blue-m);}
+.sc.c-purple::before{background:var(--purple-m);}
+.sc.c-red::before{background:var(--red-m);}
+.sc .sl{font-size:10.5px;font-weight:600;letter-spacing:0.05em;color:var(--text3);margin-bottom:7px;}
+.sc .sv{font-size:30px;font-weight:700;line-height:1;margin-bottom:4px;}
+.sc.c-teal .sv{color:var(--teal);}
+.sc.c-amber .sv{color:var(--amber);}
+.sc.c-blue .sv{color:var(--blue);}
+.sc.c-purple .sv{color:var(--purple);}
+.sc.c-red .sv{color:var(--red);}
+.sc .ss{font-size:11.5px;color:var(--text3);}
+
+/* ══ BADGES ══ */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap;line-height:1.4;}
+.b-blue{background:var(--blue-l);color:var(--blue-d);}
+.b-amber{background:var(--amber-l);color:var(--amber-d);}
+.b-teal{background:var(--teal-l);color:var(--teal-d);}
+.b-purple{background:var(--purple-l);color:var(--purple-d);}
+.b-red{background:var(--red-l);color:var(--red-d);}
+.b-green{background:var(--green-l);color:var(--green);}
+.b-gray{background:var(--surface2);color:var(--text2);}
+.b-dark{background:var(--text);color:#fff;}
+
+/* ══ TIER BAR ══ */
+.tier-bar{display:flex;height:30px;border-radius:8px;overflow:hidden;border:0.5px solid var(--border);}
+.tier-seg{display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;letter-spacing:0.02em;}
+
+/* ══ LEGEND ══ */
+.legend{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:10px;}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text2);}
+.ld{width:10px;height:10px;border-radius:2px;flex-shrink:0;}
+
+/* ══ BAR CHART ══ */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12px;}
+.bar-name{width:76px;text-align:right;color:var(--text2);flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:11.5px;}
+.bar-track{flex:1;height:13px;background:var(--surface2);border-radius:3px;overflow:hidden;}
+.bar-fill{height:100%;border-radius:3px;}
+.bar-val{width:36px;font-weight:600;font-size:11.5px;}
+
+/* ══ DATA TABLE ══ */
+.dt{width:100%;border-collapse:collapse;font-size:12.5px;}
+.dt th{text-align:left;padding:9px 11px;background:var(--surface2);font-size:11px;font-weight:700;color:var(--text3);letter-spacing:0.04em;border-bottom:1px solid var(--border);}
+.dt td{padding:8px 11px;border-bottom:0.5px solid var(--border);vertical-align:middle;}
+.dt tr:last-child td{border-bottom:none;}
+.dt tr:hover td{background:var(--blue-l);}
+.pct-crit{color:var(--red);font-weight:700;}
+.pct-warn{color:var(--amber);font-weight:600;}
+.pct-ok{color:var(--teal);font-weight:600;}
+.pct-top{color:var(--purple);font-weight:700;}
+.pct-mid{color:#806800;font-weight:500;}
+
+/* ══ TABS ══ */
+.tab-nav{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:16px;}
+.tab-btn{padding:6px 16px;border-radius:20px;border:1px solid var(--border);background:transparent;cursor:pointer;font-size:12.5px;font-weight:500;color:var(--text2);font-family:'Noto Sans KR',sans-serif;transition:all 0.15s;}
+.tab-btn.active{background:var(--text);color:#fff;border-color:var(--text);}
+.tab-btn:hover:not(.active){background:var(--surface2);}
+.tab-content{display:none;}
+.tab-content.active{display:block;}
+
+/* ══ GIFTED CARDS ══ */
+.gifted-card{border-radius:var(--r);padding:18px 22px;margin-bottom:12px;border-left:4px solid;position:relative;}
+.gc-multi{background:#F2EEFF;border-color:#6B50D0;}
+.gc-plan{background:var(--amber-l);border-color:var(--amber);}
+.gc-sim{background:var(--teal-l);border-color:var(--teal);}
+.gc-suc{background:var(--blue-l);border-color:var(--blue);}
+.gc-att{background:var(--purple-l);border-color:var(--purple);}
+.gifted-card h3{font-size:14px;font-weight:700;margin-bottom:5px;}
+.gc-multi h3{color:#5038B8;}
+.gc-plan h3{color:var(--amber);}
+.gc-sim h3{color:var(--teal);}
+.gc-suc h3{color:var(--blue);}
+.gc-att h3{color:var(--purple);}
+.gifted-card p{font-size:12.5px;color:var(--text2);line-height:1.65;margin-bottom:6px;}
+.gifted-card .st-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px;}
+.gifted-card .ref{font-size:11px;color:var(--text3);font-style:italic;margin-top:6px;}
+.gifted-card .criterion-pill{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,0.06);border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600;margin-bottom:6px;}
+
+/* ══ ALERT BOX ══ */
+.alert{border-radius:var(--r-sm);padding:14px 18px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;border:0.5px solid;}
+.alert .ai{font-size:17px;flex-shrink:0;margin-top:2px;}
+.alert h4{font-size:13px;font-weight:700;margin-bottom:3px;}
+.alert p{font-size:12.5px;color:var(--text2);line-height:1.6;}
+.alert-red{background:var(--red-l);border-color:var(--red-m);}
+.alert-red h4{color:var(--red);}
+.alert-amber{background:var(--amber-l);border-color:var(--amber-m);}
+.alert-amber h4{color:var(--amber);}
+.alert-purple{background:var(--purple-l);border-color:var(--purple-m);}
+.alert-purple h4{color:var(--purple);}
+.alert-teal{background:var(--teal-l);border-color:var(--teal-m);}
+.alert-teal h4{color:var(--teal);}
+
+/* ══ FOOTNOTE ══ */
+.fnote{background:var(--surface2);border-radius:var(--r-sm);padding:12px 16px;font-size:11.5px;color:var(--text3);border-left:3px solid var(--border2);margin-top:10px;line-height:1.7;}
+
+/* ══ CRITERION ══ */
+.crit-row{background:var(--surface2);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:10px 14px;margin:6px 0;font-size:13px;color:var(--text2);display:flex;gap:10px;align-items:flex-start;}
+.crit-row strong{color:var(--text);min-width:90px;flex-shrink:0;}
+
+/* ══ PROFILE MATRIX ══ */
+.pm-wrap{overflow-x:auto;}
+.pm{min-width:700px;width:100%;border-collapse:collapse;font-size:12px;}
+.pm th{padding:9px 10px;background:var(--surface2);border-bottom:1px solid var(--border);font-size:10.5px;font-weight:700;color:var(--text3);letter-spacing:0.04em;text-align:left;white-space:nowrap;}
+.pm td{padding:7px 10px;border-bottom:0.5px solid var(--border);vertical-align:middle;}
+.pm tr:last-child td{border-bottom:none;}
+.pm tr:hover td{background:var(--blue-l);}
+.cell-bar-wrap{display:flex;align-items:center;gap:5px;}
+.cell-bar{height:7px;border-radius:2px;min-width:2px;}
+
+/* ══ INTERVENTION TABLE ══ */
+.int-t{width:100%;border-collapse:collapse;font-size:12.5px;}
+.int-t th{padding:9px 12px;background:var(--text);color:#fff;font-size:11px;font-weight:600;letter-spacing:0.04em;text-align:left;}
+.int-t th:first-child{border-radius:var(--r-sm) 0 0 0;}
+.int-t th:last-child{border-radius:0 var(--r-sm) 0 0;}
+.int-t td{padding:11px 12px;border-bottom:0.5px solid var(--border);vertical-align:top;font-size:12.5px;line-height:1.65;}
+.int-t tr:last-child td{border-bottom:none;}
+.int-t tr:nth-child(even) td{background:var(--surface2);}
+
+/* ══ SCATTER ══ */
+.scatter-wrap{position:relative;height:300px;background:var(--surface2);border-radius:var(--r);overflow:hidden;border:0.5px solid var(--border);}
+.scatter-dot{position:absolute;width:9px;height:9px;border-radius:50%;transform:translate(-50%,-50%);cursor:pointer;transition:transform 0.2s;border:1.5px solid rgba(255,255,255,0.7);}
+.scatter-dot:hover{transform:translate(-50%,-50%) scale(2.2);z-index:10;}
+.scatter-label{position:absolute;font-size:9px;color:var(--text3);pointer-events:none;}
+.axis-line{position:absolute;background:rgba(0,0,0,0.1);}
+
+/* ══ RADAR SVG ══ */
+.radar-label{font-size:9px;fill:#9C9690;}
+
+/* ══ SUPPORT NEED ══ */
+.need-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px;}
+.need-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--r-sm);padding:16px 18px;box-shadow:var(--shadow-sm);}
+.need-card .nl{font-size:11px;color:var(--text3);margin-bottom:5px;}
+.need-card .nv{font-size:24px;font-weight:700;margin-bottom:3px;}
+.need-card .np{font-size:11px;color:var(--text3);}
+.need-card .nbar{height:5px;border-radius:2px;margin-top:8px;background:var(--surface2);overflow:hidden;}
+.need-card .nbar-fill{height:100%;border-radius:2px;}
+
+/* ══ PRINT BTN ══ */
+.print-btn{position:fixed;bottom:28px;right:28px;background:var(--text);color:#fff;border:none;border-radius:50px;padding:13px 26px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 4px 20px rgba(0,0,0,0.2);font-family:'Noto Sans KR',sans-serif;z-index:200;transition:transform 0.15s,box-shadow 0.15s;}
+.print-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,0,0,0.25);}
+
+/* ══ DIVIDER ══ */
+.divider{height:0.5px;background:var(--border);margin:20px 0;}
+
+/* ══ PAGE BREAK HINT ══ */
+.pb{page-break-before:always;}
+</style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">🖨 인쇄 / PDF 저장</button>
+
+<!-- ════════════════════════════════════════
+     HEADER
+════════════════════════════════════════ -->
+<div class="report-header">
+<div class="wrap">
+<div class="hdr-inner">
+  <div class="hdr-left">
+    <div class="eyebrow">K-PASS 인지처리능력 종합 분석 보고서</div>
+    <h1>한국교원대 증평창의파크<br>학급 인지능력 분석</h1>
+    <div class="meta-line">
+      <span>검사일: 2026. 5. 3</span>
+      <span>검사 유형: 인지·적성</span>
+      <span>분석 기준: PASS Theory (Das &amp; Naglieri, 1994)</span>
+      <span>CAS2 해석 기준 적용</span>
+    </div>
+  </div>
+  <div class="hdr-kpi">
+    <div class="kpi-box k-all"><div class="kv">55</div><div class="kl">전체 인원</div></div>
+    <div class="kpi-box k-warn"><div class="kv">41</div><div class="kl">지원 필요</div></div>
+    <div class="kpi-box k-crit"><div class="kv">7</div><div class="kl">위기 관리</div></div>
+    <div class="kpi-box k-gift"><div class="kv">9</div><div class="kl">영재 판별</div></div>
+  </div>
+</div>
+</div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════════════════════════════════
+     §1  학급 인지능력 개요
+════════════════════════════════════════ -->
+<section>
+<div class="sec-head">
+  <div class="sec-num">1</div>
+  <div class="sec-title">학급 인지능력 개요</div>
+  <div class="sec-sub">4개 PASS 척도 학급 평균</div>
+</div>
+
+<!-- 4-SCALE STAT STRIP -->
+<div class="stat-strip">
+  <div class="sc c-teal">
+    <div class="sl">동시처리 (Simultaneous)</div>
+    <div class="sv">24<small style="font-size:16px;font-weight:400;">%</small></div>
+    <div class="ss">우뇌 공간·통합 — <strong style="color:var(--red);">최저</strong></div>
+  </div>
+  <div class="sc c-amber">
+    <div class="sl">계획력 (Planning)</div>
+    <div class="sv">46<small style="font-size:16px;font-weight:400;">%</small></div>
+    <div class="ss">전략·창의·실행기능</div>
+  </div>
+  <div class="sc c-blue">
+    <div class="sl">주의력 (Attention)</div>
+    <div class="sv">62<small style="font-size:16px;font-weight:400;">%</small></div>
+    <div class="ss">선택적·지속적 집중 — <strong style="color:var(--teal);">최고</strong></div>
+  </div>
+  <div class="sc c-purple">
+    <div class="sl">순차처리 (Successive)</div>
+    <div class="sv">41<small style="font-size:16px;font-weight:400;">%</small></div>
+    <div class="ss">좌뇌 언어·순서 처리</div>
+  </div>
+</div>
+
+<!-- BRAIN TYPE + GRADE DIST -->
+<div class="g2" style="margin-bottom:16px;">
+  <div class="card">
+    <div class="card-title">두뇌 유형 분포 · 55명</div>
+    <div class="tier-bar">
+      <div class="tier-seg" style="flex:40;background:var(--blue);color:#fff;">우뇌우세형 40%</div>
+      <div class="tier-seg" style="flex:13;background:var(--teal-m);color:#fff;font-size:10px;">균형 13%</div>
+      <div class="tier-seg" style="flex:47;background:var(--purple);color:#fff;">좌뇌우세형 47%</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ld" style="background:var(--blue);"></div>우뇌우세형 22명 (40%)</div>
+      <div class="legend-item"><div class="ld" style="background:var(--teal-m);"></div>좌우뇌 균형형 7명 (13%)</div>
+      <div class="legend-item"><div class="ld" style="background:var(--purple);"></div>좌뇌우세형 26명 (47%)</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">5단계 관리 등급 분포</div>
+    <div class="tier-bar">
+      <div class="tier-seg" style="flex:7;background:var(--red);color:#fff;font-size:10px;">위기 7</div>
+      <div class="tier-seg" style="flex:20;background:#C07000;color:#fff;">지원 20</div>
+      <div class="tier-seg" style="flex:14;background:#9A9030;color:#fff;font-size:11px;">관찰 14</div>
+      <div class="tier-seg" style="flex:5;background:var(--teal);color:#fff;font-size:10px;">평균 5</div>
+      <div class="tier-seg" style="flex:9;background:var(--purple);color:#fff;font-size:10px;">영재 9</div>
+    </div>
+    <div class="legend">
+      <div class="legend-item"><div class="ld" style="background:var(--red);"></div>위기 관리 7명</div>
+      <div class="legend-item"><div class="ld" style="background:#C07000;"></div>지원 필요 20명</div>
+      <div class="legend-item"><div class="ld" style="background:#9A9030;"></div>관찰 유지 14명</div>
+      <div class="legend-item"><div class="ld" style="background:var(--teal);"></div>평균 이상 5명</div>
+      <div class="legend-item"><div class="ld" style="background:var(--purple);"></div>영재 판별 9명</div>
+    </div>
+  </div>
+</div>
+
+<!-- RADAR: 두뇌 유형별 PASS 프로파일 비교 -->
+<div class="card">
+  <div class="card-title">두뇌 유형별 PASS 프로파일 비교</div>
+  <div class="g3">
+    <!-- 우뇌우세형 -->
+    <div style="text-align:center;">
+      <div style="font-size:12px;font-weight:700;color:var(--blue);margin-bottom:8px;">우뇌우세형 (22명)</div>
+      <svg width="170" height="170" viewBox="0 0 170 170">
+        <defs>
+          <style>.rl{font-size:9.5px;font-family:'Noto Sans KR',sans-serif;fill:#9C9690;}</style>
+        </defs>
+        <!-- grid -->
+        <polygon points="85,19 151,85 85,151 19,85" fill="#F0EDE8" stroke="#D8D3C8" stroke-width="1"/>
+        <polygon points="85,36 134,85 85,134 36,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <polygon points="85,53 117,85 85,117 53,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="85" y1="19" x2="85" y2="151" stroke="#D8D3C8" stroke-width="0.5"/>
+        <line x1="19" y1="85" x2="151" y2="85" stroke="#D8D3C8" stroke-width="0.5"/>
+        <!-- 주의68 계획52 순차45 동시38 → 축: top=주의, right=계획, bottom=순차, left=동시 -->
+        <!-- top: 85, 19+(66*(1-0.68))=19+21=40 -->
+        <!-- right: 85+(66*0.52)=119, 85 -->
+        <!-- bottom: 85, 85+(66*0.45)=115 -->
+        <!-- left: 85-(66*0.38)=60, 85 -->
+        <polygon points="85,40 119,85 85,115 60,85" fill="#1A4FA0" fill-opacity="0.18" stroke="#1A4FA0" stroke-width="2"/>
+        <circle cx="85" cy="40" r="3.5" fill="#1A4FA0"/>
+        <circle cx="119" cy="85" r="3.5" fill="#1A4FA0"/>
+        <circle cx="85" cy="115" r="3.5" fill="#1A4FA0"/>
+        <circle cx="60" cy="85" r="3.5" fill="#1A4FA0"/>
+        <text class="rl" x="85" y="13" text-anchor="middle">주의 68%</text>
+        <text class="rl" x="157" y="88" text-anchor="start">계획 52%</text>
+        <text class="rl" x="85" y="164" text-anchor="middle">순차 45%</text>
+        <text class="rl" x="13" y="88" text-anchor="end">동시 38%</text>
+      </svg>
+    </div>
+    <!-- 좌우뇌 균형형 -->
+    <div style="text-align:center;">
+      <div style="font-size:12px;font-weight:700;color:var(--teal);margin-bottom:8px;">좌우뇌 균형형 (7명)</div>
+      <svg width="170" height="170" viewBox="0 0 170 170">
+        <polygon points="85,19 151,85 85,151 19,85" fill="#E0F3EC" stroke="#D8D3C8" stroke-width="1"/>
+        <polygon points="85,36 134,85 85,134 36,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <polygon points="85,53 117,85 85,117 53,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="85" y1="19" x2="85" y2="151" stroke="#D8D3C8" stroke-width="0.5"/>
+        <line x1="19" y1="85" x2="151" y2="85" stroke="#D8D3C8" stroke-width="0.5"/>
+        <!-- 주의67 계획52 순차52 동시46 -->
+        <polygon points="85,41 119,85 85,116 55,85" fill="#0A6548" fill-opacity="0.18" stroke="#0A6548" stroke-width="2"/>
+        <circle cx="85" cy="41" r="3.5" fill="#0A6548"/>
+        <circle cx="119" cy="85" r="3.5" fill="#0A6548"/>
+        <circle cx="85" cy="116" r="3.5" fill="#0A6548"/>
+        <circle cx="55" cy="85" r="3.5" fill="#0A6548"/>
+        <text class="rl" x="85" y="13" text-anchor="middle">주의 67%</text>
+        <text class="rl" x="157" y="88" text-anchor="start">계획 52%</text>
+        <text class="rl" x="85" y="164" text-anchor="middle">순차 52%</text>
+        <text class="rl" x="13" y="88" text-anchor="end">동시 46%</text>
+      </svg>
+    </div>
+    <!-- 좌뇌우세형 -->
+    <div style="text-align:center;">
+      <div style="font-size:12px;font-weight:700;color:var(--purple);margin-bottom:8px;">좌뇌우세형 (26명)</div>
+      <svg width="170" height="170" viewBox="0 0 170 170">
+        <polygon points="85,19 151,85 85,151 19,85" fill="#ECEAFB" stroke="#D8D3C8" stroke-width="1"/>
+        <polygon points="85,36 134,85 85,134 36,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <polygon points="85,53 117,85 85,117 53,85" fill="none" stroke="#D8D3C8" stroke-width="0.5" stroke-dasharray="3,3"/>
+        <line x1="85" y1="19" x2="85" y2="151" stroke="#D8D3C8" stroke-width="0.5"/>
+        <line x1="19" y1="85" x2="151" y2="85" stroke="#D8D3C8" stroke-width="0.5"/>
+        <!-- 주의58 계획42 순차38 동시12 -->
+        <polygon points="85,47 113,85 85,110 77,85" fill="#4A3AB0" fill-opacity="0.18" stroke="#4A3AB0" stroke-width="2"/>
+        <circle cx="85" cy="47" r="3.5" fill="#4A3AB0"/>
+        <circle cx="113" cy="85" r="3.5" fill="#4A3AB0"/>
+        <circle cx="85" cy="110" r="3.5" fill="#4A3AB0"/>
+        <circle cx="77" cy="85" r="3.5" fill="#4A3AB0"/>
+        <text class="rl" x="85" y="13" text-anchor="middle">주의 58%</text>
+        <text class="rl" x="157" y="88" text-anchor="start">계획 42%</text>
+        <text class="rl" x="85" y="164" text-anchor="middle">순차 38%</text>
+        <text class="rl" x="13" y="88" text-anchor="end">동시 12%</text>
+      </svg>
+    </div>
+  </div>
+  <div class="fnote">좌뇌우세형 집단에서 동시처리(12%) 저하가 특히 두드러짐. 순차처리(38%)도 취약하며 계획력(42%)도 평균 이하. 주의력만 상대적으로 유지. 좌뇌우세형 집단의 집중 지원이 가장 시급.</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §2  분석 기준 체계
+════════════════════════════════════════ -->
+<section>
+<div class="sec-head">
+  <div class="sec-num">2</div>
+  <div class="sec-title">분석 기준 체계</div>
+  <div class="sec-sub">논문 근거 기반 5단계 등급 + 편차 경보</div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="card-title">5단계 관리 등급 기준 (개선된 기준)</div>
+    <div class="crit-row"><strong>🔴 위기 관리</strong><div>1개↑ 척도 &lt;10% (SS &lt;81)<br><small style="color:var(--text3);">즉각 전문 개입 · ADHD/SLD 선별</small></div></div>
+    <div class="crit-row"><strong>🟠 지원 필요</strong><div>1개↑ 척도 10~29%<br><small style="color:var(--text3);">PASS 기반 맞춤 인지전략 훈련</small></div></div>
+    <div class="crit-row"><strong>🟡 관찰 유지</strong><div>모든 척도 30~49%<br><small style="color:var(--text3);">강점 기반 접근 + 편차 모니터링</small></div></div>
+    <div class="crit-row"><strong>🟢 평균 이상</strong><div>모든 척도 50~79%<br><small style="color:var(--text3);">일반 수업 적합 · 강점 확장</small></div></div>
+    <div class="crit-row"><strong>🟣 영재 판별</strong><div>1개↑ 척도 ≥80%<br><small style="color:var(--text3);">영역별 영재 유형 분류 · 심화 연계</small></div></div>
+    <div class="fnote" style="margin-top:12px;">
+      <strong>개선 근거</strong> — Naglieri &amp; Otero (2017) CAS2 해석 매뉴얼: SS 90 미만(백분위 25%) = 처리 과정 장애 임상 기준. 기존 단일 "50% 미만" 기준은 변별력 부족. 10% 미만(SS 81)은 즉각 개입 필요 수준.
+    </div>
+  </div>
+
+  <div>
+    <div class="card" style="margin-bottom:12px;">
+      <div class="card-title">편차 경보 기준 (Discrepancy Alert)</div>
+      <div class="alert alert-amber" style="margin-bottom:8px;">
+        <div class="ai">⚠️</div>
+        <div><h4>프로파일 불균형</h4><p>4척도 최고-최저 차 ≥ 40점 → 강점·약점 격차 과대. 전체 평균으로 실력 파악 불가.</p></div>
+      </div>
+      <div class="alert alert-red" style="margin-bottom:8px;">
+        <div class="ai">⚡</div>
+        <div><h4>2E (Twice-Exceptional) 경보</h4><p>1개↑ 척도 ≥80% + 1개↑ 척도 &lt;15%. 영재성과 취약성 공존. 일반 평가에서 놓치기 쉬움.</p></div>
+      </div>
+      <div class="alert alert-purple">
+        <div class="ai">🎯</div>
+        <div><h4>DCM 개인 내 편차 분석</h4><p>개인 평균 대비 유의하게 낮은 척도 = 상대적 약점. 높은 척도 = 상대적 강점. (Naglieri, 1999)</p></div>
+      </div>
+    </div>
+    <div class="fnote">DCM 근거: Naglieri (1999) Discrepancy Consistency Method. SS 15점(백분위 약 20~25점) 이상 격차 = 임상적으로 유의한 프로파일 변산성.</div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §3  척도별 분포 및 지원 필요 현황
+════════════════════════════════════════ -->
+<section>
+<div class="sec-head">
+  <div class="sec-num">3</div>
+  <div class="sec-title">척도별 분포 및 지원 필요 현황</div>
+  <div class="sec-sub">30% 미만 기준 (신기준) 적용</div>
+</div>
+
+<!-- NEED GRID -->
+<div class="need-grid">
+  <div class="need-card">
+    <div class="nl">동시처리 &lt;30%</div>
+    <div class="nv" style="color:var(--red);">42명</div>
+    <div class="np">전체의 76% — 최다 취약</div>
+    <div class="nbar"><div class="nbar-fill" style="width:76%;background:var(--red);"></div></div>
+  </div>
+  <div class="need-card">
+    <div class="nl">계획력 &lt;30%</div>
+    <div class="nv" style="color:var(--amber);">29명</div>
+    <div class="np">전체의 53%</div>
+    <div class="nbar"><div class="nbar-fill" style="width:53%;background:var(--amber);"></div></div>
+  </div>
+  <div class="need-card">
+    <div class="nl">주의력 &lt;30%</div>
+    <div class="nv" style="color:var(--blue);">14명</div>
+    <div class="np">전체의 25% — 상대적 양호</div>
+    <div class="nbar"><div class="nbar-fill" style="width:25%;background:var(--blue);"></div></div>
+  </div>
+  <div class="need-card">
+    <div class="nl">순차처리 &lt;30%</div>
+    <div class="nv" style="color:var(--purple);">32명</div>
+    <div class="np">전체의 58%</div>
+    <div class="nbar"><div class="nbar-fill" style="width:58%;background:var(--purple);"></div></div>
+  </div>
+</div>
+
+<!-- INDIVIDUAL BARS with TABS -->
+<div class="card">
+  <div class="card-title">척도별 개인 점수 분포 (높은 순)</div>
+  <div style="font-size:11px;color:var(--text3);margin-bottom:10px;">
+    <span style="color:var(--red);font-weight:600;">■</span> &lt;10% &nbsp;
+    <span style="color:var(--amber);font-weight:600;">■</span> 10~29% &nbsp;
+    <span style="color:#8A7800;font-weight:600;">■</span> 30~49% &nbsp;
+    <span style="color:var(--teal);font-weight:600;">■</span> 50~79% &nbsp;
+    <span style="color:var(--purple);font-weight:600;">■</span> ≥80% 영재
+  </div>
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="showTab('ts','t-s',this)">동시처리</button>
+    <button class="tab-btn" onclick="showTab('ts','t-p',this)">계획력</button>
+    <button class="tab-btn" onclick="showTab('ts','t-a',this)">주의력</button>
+    <button class="tab-btn" onclick="showTab('ts','t-su',this)">순차처리</button>
+  </div>
+  <div id="t-s" class="tab-content active"><div id="bars-s"></div></div>
+  <div id="t-p" class="tab-content"><div id="bars-p"></div></div>
+  <div id="t-a" class="tab-content"><div id="bars-a"></div></div>
+  <div id="t-su" class="tab-content"><div id="bars-su"></div></div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §4  영재성 판별 (영역별 유형 분류)
+════════════════════════════════════════ -->
+<section class="pb">
+<div class="sec-head">
+  <div class="sec-num">4</div>
+  <div class="sec-title">영재성 판별 — 영역별 유형 분류</div>
+  <div class="sec-sub">Renzulli (1978) · Naglieri &amp; Kaufman (2001) · Gagné (2004)</div>
+</div>
+
+<!-- WHY DOMAIN GIFTEDNESS -->
+<div class="alert alert-teal" style="margin-bottom:18px;">
+  <div class="ai">💡</div>
+  <div><h4>영역별 영재 판별이 더 중요한 이유</h4>
+  <p>Naglieri &amp; Kaufman (2001): CAS/PASS는 전통 IQ로 식별되지 않는 영재를 발굴할 수 있다. Renzulli (1978): 전체 평균이 평범해도 특수 영역 상위 능력이 존재하면 영재적 잠재성을 인정한다. 전체 점수 기준만 쓰면 영역 영재를 놓친다.</p>
+  </div>
+</div>
+
+<div class="g2">
+<div>
+  <!-- 복합형 -->
+  <div class="gifted-card gc-multi">
+    <h3>⭐ 복합형 영재 — 전뇌 통합형</h3>
+    <div class="criterion-pill">3척도↑ ≥75% &amp; 평균 ≥70%</div>
+    <p>PASS 전 영역에 걸친 인지 효율성 우수. 학문적 영재의 전형 프로파일.</p>
+    <div class="st-list">
+      <span class="badge b-purple">전유준 (동98·계99·주91·순70)</span>
+      <span class="badge b-purple">정은우 (동91·계97·주94·순76)</span>
+    </div>
+    <div class="ref">Naglieri &amp; Kaufman (2001, Roeper Review) — 영재 아동은 동시처리·순차처리 모두 또래 대비 유의하게 높음.</div>
+  </div>
+
+  <!-- 계획력 영재 -->
+  <div class="gifted-card gc-plan">
+    <h3>📐 계획력 영재 — 전략·창의형</h3>
+    <div class="criterion-pill">계획력 ≥80% &amp; 평균 ≥50%</div>
+    <p>전두엽·전전두엽 실행기능 탁월. 창의적 문제해결·리더십·전략 수립 역량. 계획력은 읽기·수학 양쪽의 유의한 예측 변수.</p>
+    <div class="st-list">
+      <span class="badge b-amber">황성준 (계99·주98)</span>
+      <span class="badge b-amber">안지율 (계98)</span>
+      <span class="badge b-amber">조수진 (계89)</span>
+      <span class="badge b-amber">장서연 (계99) *동시취약</span>
+    </div>
+    <div class="ref">Naglieri &amp; Kaufman (2001) — 계획력과 창의성의 강한 연결. Dunn, Georgiou &amp; Das (2020) — 계획력은 읽기·수학 모두의 독립적 예측 변수.</div>
+  </div>
+</div>
+<div>
+  <!-- 우뇌 공간 영재 -->
+  <div class="gifted-card gc-sim">
+    <h3>🎨 우뇌 공간 영재 — 시공간·예술형</h3>
+    <div class="criterion-pill">동시처리 ≥80% &amp; 평균 ≥50%</div>
+    <p>공간추론·전체패턴인식·시각통합 탁월. 수학(기하)·미술·건축·과학 시각화. K-ABC 연구: 영재성은 동시처리(우뇌)와 더 강하게 상관.</p>
+    <div class="st-list">
+      <span class="badge b-teal">이은서 (동92)</span>
+      <span class="badge b-teal">조은율 (동91)</span>
+      <span class="badge b-teal">전유준 (동98) ✦복합</span>
+    </div>
+    <div class="ref">Sage Encyclopedia of Giftedness (2009) — 영재성은 동시처리(공간·우뇌)와 더 강한 상관. Benbow 등: 영재 아동 우반구 기능 강화 확인.</div>
+  </div>
+
+  <!-- 언어·논리 영재 -->
+  <div class="gifted-card gc-suc">
+    <h3>📚 언어·논리 영재 — 순차·언어형</h3>
+    <div class="criterion-pill">순차처리 ≥80% &amp; 평균 ≥50%</div>
+    <p>순서기억·음운처리·언어정밀성 탁월. 읽기·외국어·음악·절차적 추론. 순차처리는 읽기 유창성의 독립적 예측 변수.</p>
+    <div class="st-list">
+      <span class="badge b-blue">엄주한 (순99·주99)</span>
+      <span class="badge b-blue">박수빈 (순95)</span>
+      <span class="badge b-blue">신하율 (순92)</span>
+      <span class="badge b-blue">김루율 (순82)</span>
+    </div>
+    <div class="ref">Dunn, Georgiou &amp; Das (2020) — 순차처리는 읽기(단어인식·유창성) 독립 예측 변수. Georgiou et al. Kindergarten 연구 재확인.</div>
+  </div>
+
+  <!-- 집중·감각 영재 -->
+  <div class="gifted-card gc-att">
+    <h3>🔬 집중·감각 영재 — 주의·탐구형 (보조)</h3>
+    <div class="criterion-pill">주의력 ≥85% &amp; 타척도 1개↑ ≥70%</div>
+    <p>선택적·지속 주의력 탁월. 세밀 관찰·연구·분석 강점. 다른 척도와 복합 시 영재 판별 강화.</p>
+    <div class="st-list">
+      <span class="badge b-purple">조예준 (주99·계99) *2E</span>
+      <span class="badge b-purple">이선후 (주99·계99) *2E</span>
+    </div>
+    <div class="ref">CAS2 Interpretive Manual — 주의력 척도: 선택적·지속적·집중적 주의 측정. 타 척도 복합 시 영재 식별력 향상.</div>
+  </div>
+</div>
+</div>
+
+<!-- 2E ALERT -->
+<div class="alert alert-red" style="margin-top:4px;">
+  <div class="ai">⚡</div>
+  <div>
+    <h4>2E (Twice-Exceptional) — 영재성 + 인지 취약 공존 경보 3명</h4>
+    <p><strong>이선후</strong> (계획99·주의99 / 동시처리 1%) · <strong>조예준</strong> (계획99·주의99 / 동시처리 7%) · <strong>장서연</strong> (계획99 / 동시처리 2%) — 계획력·주의력이 상위 1~3%이나 동시처리 극단 저하. 전체 평균 낮아 일반 IQ 검사에서 영재 미분류. Renzulli(1978) "특수 영역 상위 능력" 기준에 해당하는 창의·리더십 잠재 영재. <strong>공간 처리 보완 지원 필수 병행.</strong></p>
+  </div>
+</div>
+
+<div class="fnote" style="margin-top:10px;">영역별 영재 판별 근거: (1) Renzulli (1978, Phi Delta Kappan) — 특수 능력이 일반 능력과 독립적으로 영재성 구성 가능. (2) Gagné DMGT (2004, High Ability Studies) — 인지·창의·사회·감각·운동 5영역 각각 독립 영재성. (3) Naglieri &amp; Kaufman (2001, Roeper Review) — PASS/CAS는 기존 IQ로 식별 불가 영재 발굴 가능. (4) Sage Encyclopedia of Giftedness (2009) — 영재성은 동시처리(공간)와 더 강한 상관.</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §5  문제성 경보 — 위기 관리 대상
+════════════════════════════════════════ -->
+<section>
+<div class="sec-head">
+  <div class="sec-num">5</div>
+  <div class="sec-title">문제성 경보 — 위기 관리 대상</div>
+  <div class="sec-sub">Qin et al. (2018) BMC Psychiatry · Naglieri DCM (1999)</div>
+</div>
+
+<div class="g2">
+  <div class="card">
+    <div class="card-title" style="color:var(--red);">4척도 전반 저하 — 즉각 지원 필요</div>
+    <p style="font-size:12.5px;color:var(--text2);margin-bottom:12px;">4개 척도 모두 20% 미만 → 종합적 발달 지원 권고</p>
+    <table class="dt">
+      <thead><tr><th>이름</th><th>동시</th><th>계획</th><th>주의</th><th>순차</th><th>비고</th></tr></thead>
+      <tbody>
+        <tr><td><strong>권율</strong></td><td class="pct-crit">5%</td><td class="pct-crit">5%</td><td class="pct-crit">12%</td><td class="pct-crit">4%</td><td><span class="badge b-red">전반 저하</span></td></tr>
+        <tr><td><strong>안채율</strong></td><td class="pct-crit">1%</td><td class="pct-crit">1%</td><td class="pct-crit">7%</td><td class="pct-crit">1%</td><td><span class="badge b-red">전반 저하</span></td></tr>
+        <tr><td><strong>홍지안</strong></td><td class="pct-crit">5%</td><td class="pct-crit">1%</td><td class="pct-crit">9%</td><td class="pct-crit">6%</td><td><span class="badge b-red">전반 저하</span></td></tr>
+        <tr><td><strong>도은호</strong></td><td class="pct-crit">3%</td><td class="pct-crit">0%</td><td class="pct-warn">21%</td><td class="pct-crit">1%</td><td><span class="badge b-red">전반 저하</span></td></tr>
+        <tr><td><strong>김여진</strong></td><td class="pct-warn">16%</td><td class="pct-crit">4%</td><td class="pct-warn">32%</td><td class="pct-warn">14%</td><td><span class="badge b-red">다영역 저하</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <div class="alert alert-red" style="margin-bottom:10px;">
+      <div class="ai">🧠</div>
+      <div>
+        <h4>계획력 단독 저하 (&lt;10%) — 실행기능·충동조절 우려</h4>
+        <p><strong>도은호(0%)</strong> · <strong>연하율(1%)</strong> · <strong>홍지안(1%)</strong> · <strong>박준우(1%)</strong> — 계획력+주의력 동반 저하 시 ADHD 선별 권고. Qin et al.(2018) BMC Psychiatry: DN:CAS 연구에서 ADHD 집단은 계획력·주의력이 가장 낮았고 동시·순차처리는 정상.</p>
+      </div>
+    </div>
+    <div class="alert alert-amber" style="margin-bottom:10px;">
+      <div class="ai">👁</div>
+      <div>
+        <h4>주의력 단독 저하 (&lt;10%) — ADHD 선별 필요</h4>
+        <p><strong>안채율(7%)</strong> · <strong>김루희(9%)</strong> · <strong>홍지안(9%)</strong> — 주의력 단독 저하 시 ADHD 부주의형 가능성. 전문 기관 연계 권고.</p>
+      </div>
+    </div>
+    <div class="alert alert-purple">
+      <div class="ai">📊</div>
+      <div>
+        <h4>동시+순차 동반 저하 — SLD(학습장애) 연관</h4>
+        <p>동시처리+순차처리 모두 20% 미만이면서 계획력·주의력은 상대적 유지 → SLD(특수학습장애) 패턴. Qin et al.(2018): 동시+순차 저하는 읽기·수학 학습장애와 연관.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §6  상대적 약점 관리 — PASS 기반 개입
+════════════════════════════════════════ -->
+<section class="pb">
+<div class="sec-head">
+  <div class="sec-num">6</div>
+  <div class="sec-title">상대적 약점 관리 — PASS 기반 개입 전략</div>
+  <div class="sec-sub">Naglieri &amp; Gottling (1997) · Cai et al. (2024)</div>
+</div>
+
+<div class="card" style="padding:0;">
+<table class="int-t">
+<thead>
+  <tr>
+    <th style="width:130px;">취약 척도</th>
+    <th style="width:190px;">학습·행동 영향</th>
+    <th>PASS 기반 개입 전략</th>
+    <th style="width:160px;">논문 근거</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><span class="badge b-teal">동시처리 ↓</span><br><small style="color:var(--text3);">76% 해당 · 최다</small></td>
+    <td style="font-size:12px;">공간추론·전체-부분 통합 어려움<br>지도·도형·수학 개념화 취약<br>전체 맥락 파악 어려움</td>
+    <td style="font-size:12.5px;">
+      ① <strong>Graphic Organizer</strong> — 시각적 전체 맵 먼저 제공<br>
+      ② 마인드맵·스토리 구조화 활동<br>
+      ③ PREP 프로그램 연계 (그림-개념 연결)<br>
+      ④ 블록·퍼즐·공간 놀이 반복 훈련
+    </td>
+    <td style="font-size:11px;color:var(--text3);">Das et al. (1994)<br>Naglieri &amp; Johnson (2000)<br>J. Learning Disabilities</td>
+  </tr>
+  <tr>
+    <td><span class="badge b-amber">계획력 ↓</span><br><small style="color:var(--text3);">53% 해당</small></td>
+    <td style="font-size:12px;">과제 조직·자기조절 어려움<br>충동성·전략 수립 부재<br>시작·완료에 반복 실패</td>
+    <td style="font-size:12.5px;">
+      ① 단계별 <strong>체크리스트</strong> 제공<br>
+      ② PASS Reading Enhancement (자기점검 루틴)<br>
+      ③ 과제 전 계획 시간 의무화 (3분 플래닝)<br>
+      ④ 수학: 전략 선택 → 실행 → 검토 3단계 훈련
+    </td>
+    <td style="font-size:11px;color:var(--text3);">Naglieri &amp; Gottling (1997)<br>Cai, Ge, Wang &amp; Leung (2024)<br>J. Intelligence</td>
+  </tr>
+  <tr>
+    <td><span class="badge b-blue">주의력 ↓</span><br><small style="color:var(--text3);">25% 해당</small></td>
+    <td style="font-size:12px;">지속 집중·선택적 주의 어려움<br>오류 모니터링 부재<br>산만·과제 이탈 반복</td>
+    <td style="font-size:12.5px;">
+      ① <strong>포모도로</strong> 기법 (25분 집중 단위)<br>
+      ② 감각 차단 환경 (소음·시각 자극 최소화)<br>
+      ③ 주의력 훈련 게임 (TEA-Ch 과제 활용)<br>
+      ④ 과제 전 집중 루틴 (호흡·스트레칭)
+    </td>
+    <td style="font-size:11px;color:var(--text3);">Qin et al. (2018)<br>BMC Psychiatry<br>Cai et al. (2024)</td>
+  </tr>
+  <tr>
+    <td><span class="badge b-purple">순차처리 ↓</span><br><small style="color:var(--text3);">58% 해당</small></td>
+    <td style="font-size:12px;">순서 기억·음운 처리 어려움<br>읽기 유창성·절차적 수학 취약<br>외국어 학습 어려움</td>
+    <td style="font-size:12.5px;">
+      ① <strong>순서 카드</strong> 배열 활동 (절차 시각화)<br>
+      ② 리듬·운율 기반 학습 (챈트, 노래)<br>
+      ③ 단계별 절차 카드 상시 제공<br>
+      ④ 음운 인식 훈련 프로그램
+    </td>
+    <td style="font-size:11px;color:var(--text3);">Das et al. (1994)<br>Naglieri &amp; Das (1997)<br>CAS Manual</td>
+  </tr>
+</tbody>
+</table>
+</div>
+
+<div class="fnote" style="margin-top:12px;">개입 전략 근거: Naglieri &amp; Gottling (1997) — PASS 기반 수학 개입으로 계획력 저하 집단에서 유의미한 수학 성취 향상. Cai et al. (2024, J. Intelligence) — 주의력 저하 아동 PASS 기반 훈련 시 계획력·동시처리 동반 향상 확인 (훈련 전이 효과). Das et al. (1994) — PREP(PASS 읽기 향상 프로그램) 임상 효과 검증.</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §7  전체 학생 프로파일 매트릭스
+════════════════════════════════════════ -->
+<section>
+<div class="sec-head">
+  <div class="sec-num">7</div>
+  <div class="sec-title">전체 학생 프로파일 매트릭스</div>
+  <div class="sec-sub">55명 전체 · 5단계 등급 + 영재유형 자동 분류</div>
+</div>
+
+<!-- FILTER TABS -->
+<div class="tab-nav" style="margin-bottom:12px;">
+  <button class="tab-btn active" onclick="filterTable('all',this)">전체 (55)</button>
+  <button class="tab-btn" onclick="filterTable('위기',this)">🔴 위기</button>
+  <button class="tab-btn" onclick="filterTable('지원',this)">🟠 지원</button>
+  <button class="tab-btn" onclick="filterTable('관찰',this)">🟡 관찰</button>
+  <button class="tab-btn" onclick="filterTable('평균',this)">🟢 평균+</button>
+  <button class="tab-btn" onclick="filterTable('영재',this)">🟣 영재</button>
+  <button class="tab-btn" onclick="filterTable('2E',this)">⚡ 2E</button>
+</div>
+
+<div class="card" style="padding:0;">
+<div class="pm-wrap">
+<table class="pm" id="pm-table">
+<thead>
+  <tr>
+    <th>이름</th><th>나이</th><th>두뇌유형</th>
+    <th>동시처리</th><th>계획력</th><th>주의력</th><th>순차처리</th>
+    <th>편차</th><th>등급</th><th>영재 유형</th>
+  </tr>
+</thead>
+<tbody id="pm-tbody"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════
+     §8  논문 근거 문헌
+════════════════════════════════════════ -->
+<section class="pb">
+<div class="sec-head">
+  <div class="sec-num">8</div>
+  <div class="sec-title">분석 근거 문헌 (References)</div>
+  <div class="sec-sub">본 보고서 분석 기준의 학술적 출처</div>
+</div>
+
+<div class="card" style="padding:0;">
+<table class="dt">
+<thead>
+  <tr><th style="width:220px;">출처</th><th>핵심 내용</th><th style="width:130px;">적용 기준</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td><strong>Das, Naglieri &amp; Kirby (1994)</strong><br><small style="color:var(--text3);">Planning, Attention, Simultaneous, Successive cognitive processes</small></td>
+    <td style="font-size:12.5px;">PASS 4요인 이론 원전. 계획·주의·동시·순차처리가 독립적 신경인지 처리 과정임을 확립. Luria 신경심리학 + 정보처리 이론 통합.</td>
+    <td><span class="badge b-gray">전체 분석 기반</span></td>
+  </tr>
+  <tr>
+    <td><strong>Naglieri &amp; Otero (2017)</strong><br><small style="color:var(--text3);">Essentials of CAS2 Assessment, Wiley</small></td>
+    <td style="font-size:12.5px;">SS 90 미만(백분위 25%) = 처리 과정 장애 임상 기준. 프로파일 강점·약점 해석 DCM 방법론. 위기 등급 기준(SS 81=백분위 10%) 근거.</td>
+    <td><span class="badge b-red">위기/지원 기준</span></td>
+  </tr>
+  <tr>
+    <td><strong>Naglieri (1999)</strong><br><small style="color:var(--text3);">Essentials of CAS Assessment, Wiley</small></td>
+    <td style="font-size:12.5px;">Discrepancy Consistency Method (DCM) — 개인 내 편차 분석. 개인 평균 대비 유의한 척도 저하 + 규준 대비 저하 시 처리 장애로 분류.</td>
+    <td><span class="badge b-amber">편차 분석</span></td>
+  </tr>
+  <tr>
+    <td><strong>Naglieri &amp; Kaufman (2001)</strong><br><small style="color:var(--text3);">Roeper Review, 23(3), 151–156</small></td>
+    <td style="font-size:12.5px;">PASS/CAS는 기존 IQ로 식별 불가한 영재 발굴 가능. 계획력-창의성 강한 연결. 복합 영재 프로파일 기준 제시.</td>
+    <td><span class="badge b-purple">영재 판별</span></td>
+  </tr>
+  <tr>
+    <td><strong>Renzulli (1978)</strong><br><small style="color:var(--text3);">Phi Delta Kappan, 60(3), 180–184</small></td>
+    <td style="font-size:12.5px;">3-Ring 영재 모델 — 특수 능력(specific ability)이 일반 능력과 독립적으로 영재성 구성 가능. 영역별 영재 판별의 이론 근거.</td>
+    <td><span class="badge b-purple">영역별 영재</span></td>
+  </tr>
+  <tr>
+    <td><strong>Gagné (2004)</strong><br><small style="color:var(--text3);">High Ability Studies, 15(2), 119–147</small></td>
+    <td style="font-size:12.5px;">DMGT — 지적·창의·사회·감각·운동 5영역 각각 독립 영재성 인정. PASS 4척도와 직접 매핑. 영역별 영재 유형 분류 근거.</td>
+    <td><span class="badge b-purple">영역별 영재</span></td>
+  </tr>
+  <tr>
+    <td><strong>Qin et al. (2018)</strong><br><small style="color:var(--text3);">BMC Psychiatry, 18(1), 386</small></td>
+    <td style="font-size:12.5px;">DN:CAS ADHD 집단 연구. 계획력+주의력 동반 저하 = ADHD 연관. 동시+순차 저하 = SLD(학습장애) 연관. 문제성 경보 판별 기준.</td>
+    <td><span class="badge b-red">문제성 경보</span></td>
+  </tr>
+  <tr>
+    <td><strong>Dunn, Georgiou &amp; Das (2020)</strong><br><small style="color:var(--text3);">Roeper Review</small></td>
+    <td style="font-size:12.5px;">영재 아동 142명. 계획력 = 읽기·수학 양쪽 예측. 동시처리 = 수학, 순차처리 = 읽기의 독립 예측 변수. 영역별 영재 프로파일 기준.</td>
+    <td><span class="badge b-purple">영역별 영재</span></td>
+  </tr>
+  <tr>
+    <td><strong>Sage Encyclopedia of Giftedness (2009)</strong><br><small style="color:var(--text3);">Visual-Spatial Learners 항목</small></td>
+    <td style="font-size:12.5px;">K-ABC 연구: 영재성은 동시처리(공간·우뇌)와 더 강하게 상관. Benbow: 영재 아동 우반구 기능 강화. 우뇌 공간 영재 판별 근거.</td>
+    <td><span class="badge b-teal">공간 영재</span></td>
+  </tr>
+  <tr>
+    <td><strong>Cai, Ge, Wang &amp; Leung (2024)</strong><br><small style="color:var(--text3);">J. Intelligence, 12(9), 83</small></td>
+    <td style="font-size:12.5px;">주의력 저하 아동 대상 PASS 기반 수학 훈련. 계획력·동시처리 향상 확인. 개입의 훈련 전이 효과 입증.</td>
+    <td><span class="badge b-blue">개입 전략</span></td>
+  </tr>
+  <tr>
+    <td><strong>Naglieri &amp; Gottling (1997)</strong><br><small style="color:var(--text3);">J. Learning Disabilities, 30(5)</small></td>
+    <td style="font-size:12.5px;">계획력 저하 아동 대상 PASS 기반 수학 개입 연구. 계획력 향상이 수학 성취로 전이됨을 확인. 계획력 훈련 전략 근거.</td>
+    <td><span class="badge b-amber">개입 전략</span></td>
+  </tr>
+</tbody>
+</table>
+</div>
+</section>
+
+<!-- FOOTER -->
+<div style="text-align:center;padding:28px 0 48px;color:var(--text3);font-size:11.5px;border-top:0.5px solid var(--border);margin-top:12px;line-height:1.8;">
+  본 보고서는 PASS Theory (Das, Naglieri &amp; Kirby, 1994) 및 CAS2 해석 기준(Naglieri &amp; Otero, 2017)에 근거하여 작성되었습니다.<br>
+  개별 학생의 진단·처방은 반드시 전문 심리사와의 추가 상담을 통해 최종 확인하시기 바랍니다.<br>
+  <strong style="color:var(--text2);">FeelGood EduTech</strong> &nbsp;|&nbsp; K-PASS / D-CAS 인지능력 검사 시스템 &nbsp;|&nbsp; © 2026
+</div>
+
+</div><!-- /wrap -->
+<script>
+// ══════════════════════════════════
+// STUDENT DATA (55명)
+// ══════════════════════════════════
+const ST = [
+  {n:"김도진",  age:"만 6세 9개월", type:"좌뇌우세형", s:1,  p:42, a:73, su:37},
+  {n:"김도아",  age:"만 5세 5개월", type:"좌뇌우세형", s:18, p:37, a:81, su:53},
+  {n:"홍준표",  age:"만 33세",      type:"좌우뇌 균형형", s:66,p:32, a:48, su:68},
+  {n:"김진아",  age:"만 39세",      type:"우뇌우세형", s:74, p:37, a:77, su:65},
+  {n:"김여진",  age:"만 5세 0개월", type:"우뇌우세형", s:16, p:4,  a:32, su:14},
+  {n:"김루율",  age:"만 7세 11개월",type:"좌뇌우세형", s:5,  p:99, a:70, su:82},
+  {n:"연하율",  age:"만 4세 5개월", type:"우뇌우세형", s:16, p:1,  a:55, su:12},
+  {n:"권율",    age:"만 6세 4개월", type:"우뇌우세형", s:5,  p:5,  a:12, su:4},
+  {n:"조예린",  age:"만 18세",      type:"좌우뇌 균형형", s:20,p:18, a:71, su:43},
+  {n:"김지호",  age:"만 10세 5개월",type:"좌뇌우세형", s:3,  p:18, a:79, su:12},
+  {n:"조수진",  age:"만 37세",      type:"좌뇌우세형", s:23, p:89, a:81, su:59},
+  {n:"고유준",  age:"만 6세 7개월", type:"우뇌우세형", s:25, p:47, a:87, su:45},
+  {n:"목아윤",  age:"만 7세 3개월", type:"좌뇌우세형", s:1,  p:25, a:68, su:75},
+  {n:"김다은",  age:"만 8세 1개월", type:"우뇌우세형", s:8,  p:66, a:30, su:1},
+  {n:"박수빈",  age:"만 6세 5개월", type:"좌뇌우세형", s:14, p:47, a:87, su:95},
+  {n:"박규빈",  age:"만 8세",       type:"좌뇌우세형", s:12, p:12, a:53, su:77},
+  {n:"김루희",  age:"만 6세 3개월", type:"좌뇌우세형", s:7,  p:13, a:9,  su:21},
+  {n:"윤은재",  age:"만 35세",      type:"좌우뇌 균형형", s:51,p:74, a:81, su:54},
+  {n:"엄주한",  age:"만 6세 8개월", type:"좌뇌우세형", s:6,  p:30, a:99, su:99},
+  {n:"홍지안",  age:"만 5세 5개월", type:"좌뇌우세형", s:5,  p:1,  a:9,  su:6},
+  {n:"장서호",  age:"만 5세 6개월", type:"좌뇌우세형", s:5,  p:1,  a:39, su:53},
+  {n:"장서연",  age:"만 9세 4개월", type:"좌뇌우세형", s:2,  p:99, a:68, su:62},
+  {n:"신하율",  age:"만 5세 5개월", type:"좌뇌우세형", s:18, p:58, a:61, su:92},
+  {n:"조예준",  age:"만 11세",      type:"우뇌우세형", s:7,  p:99, a:99, su:10},
+  {n:"조은율",  age:"만 14세",      type:"우뇌우세형", s:91, p:92, a:74, su:54},
+  {n:"박준우",  age:"만 5세 1개월", type:"우뇌우세형", s:13, p:1,  a:18, su:4},
+  {n:"주하영",  age:"만 5세 2개월", type:"좌우뇌 균형형", s:27,p:1,  a:84, su:27},
+  {n:"정희승",  age:"만 46세",      type:"우뇌우세형", s:74, p:84, a:84, su:59},
+  {n:"정은우",  age:"만 15세",      type:"우뇌우세형", s:91, p:97, a:94, su:76},
+  {n:"김정미",  age:"만 45세",      type:"좌뇌우세형", s:26, p:84, a:74, su:76},
+  {n:"이선후",  age:"만 12세",      type:"우뇌우세형", s:1,  p:99, a:99, su:39},
+  {n:"이소라",  age:"만 43세",      type:"좌뇌우세형", s:17, p:68, a:58, su:68},
+  {n:"조예빈",  age:"만 7세 10개월",type:"좌뇌우세형", s:19, p:63, a:88, su:25},
+  {n:"김주원",  age:"만 8세 3개월", type:"우뇌우세형", s:8,  p:23, a:39, su:7},
+  {n:"김도윤",  age:"만 9세 10개월",type:"좌뇌우세형", s:42, p:99, a:12, su:75},
+  {n:"이은서",  age:"만 8세 11개월",type:"우뇌우세형", s:92, p:5,  a:77, su:18},
+  {n:"장미영",  age:"만 37세",      type:"좌우뇌 균형형", s:74,p:89, a:61, su:73},
+  {n:"전유준",  age:"만 7세 6개월", type:"우뇌우세형", s:98, p:99, a:91, su:70},
+  {n:"도은호",  age:"만 8세 9개월", type:"우뇌우세형", s:3,  p:0,  a:21, su:1},
+  {n:"공예슬",  age:"만 7세 7개월", type:"좌뇌우세형", s:18, p:27, a:84, su:58},
+  {n:"공우현",  age:"만 10세 6개월",type:"좌뇌우세형", s:0,  p:1,  a:53, su:4},
+  {n:"공우빈",  age:"만 12세 3개월",type:"우뇌우세형", s:12, p:1,  a:34, su:5},
+  {n:"황성준",  age:"만 8세 5개월", type:"우뇌우세형", s:55, p:99, a:98, su:58},
+  {n:"황원준",  age:"만 10세 2개월",type:"좌뇌우세형", s:2,  p:16, a:70, su:10},
+  {n:"이혜민",  age:"만 6세 4개월", type:"좌뇌우세형", s:19, p:84, a:92, su:45},
+  {n:"이로운",  age:"만 5세 4개월", type:"좌뇌우세형", s:18, p:37, a:21, su:42},
+  {n:"이시현",  age:"만 8세 9개월", type:"좌우뇌 균형형", s:50,p:23, a:63, su:75},
+  {n:"연도현",  age:"만 8세 11개월",type:"좌뇌우세형", s:2,  p:9,  a:42, su:18},
+  {n:"최민준",  age:"만 9세",       type:"좌우뇌 균형형", s:45,p:55, a:73, su:42},
+  {n:"안지율",  age:"만 8세 7개월", type:"좌뇌우세형", s:3,  p:98, a:82, su:34},
+  {n:"안채율",  age:"만 9세 7개월", type:"우뇌우세형", s:1,  p:1,  a:7,  su:1},
+  {n:"안소율",  age:"만 11세 2개월",type:"우뇌우세형", s:3,  p:95, a:70, su:18},
+  {n:"이서호",  age:"만 11세",      type:"우뇌우세형", s:2,  p:99, a:62, su:42},
+  {n:"유찬희",  age:"만 10세 5개월",type:"좌뇌우세형", s:1,  p:2,  a:68, su:4},
+  {n:"지현호",  age:"만 10세 5개월",type:"우뇌우세형", s:4,  p:2,  a:30, su:0},
+];
+
+// ──────────────────────────────
+// HELPERS
+// ──────────────────────────────
+function pctColor(v){
+  if(v<10) return '#B82020';
+  if(v<30) return '#A85E00';
+  if(v<50) return '#7A6800';
+  if(v<80) return '#0A6548';
+  return '#4A3AB0';
+}
+function pctCls(v){
+  if(v<10) return 'pct-crit';
+  if(v<30) return 'pct-warn';
+  if(v<50) return 'pct-mid';
+  if(v<80) return 'pct-ok';
+  return 'pct-top';
+}
+function deviation(d){ return Math.max(d.s,d.p,d.a,d.su)-Math.min(d.s,d.p,d.a,d.su); }
+
+function getGrade(d){
+  const v=[d.s,d.p,d.a,d.su];
+  if(v.some(x=>x>=80)) return {lbl:'영재',cls:'b-purple'};
+  if(v.every(x=>x>=50)) return {lbl:'평균+',cls:'b-green'};
+  if(v.some(x=>x<10))  return {lbl:'위기',cls:'b-red'};
+  if(v.some(x=>x<30))  return {lbl:'지원',cls:'b-amber'};
+  return {lbl:'관찰',cls:'b-gray'};
+}
+
+function is2E(d){
+  const v=[d.s,d.p,d.a,d.su];
+  return v.some(x=>x>=80) && v.some(x=>x<15);
+}
+
+function getGiftedTypes(d){
+  const v=[d.s,d.p,d.a,d.su];
+  const avg=v.reduce((a,b)=>a+b,0)/4;
+  const top3=v.filter(x=>x>=75).length;
+  const tags=[];
+  if(top3>=3 && avg>=70) return ['<span class="badge b-purple">⭐복합형</span>'];
+  if(d.p>=80 && avg>=50) tags.push('<span class="badge b-amber">계획력</span>');
+  if(d.s>=80 && avg>=50) tags.push('<span class="badge b-teal">우뇌공간</span>');
+  if(d.su>=80 && avg>=50) tags.push('<span class="badge b-blue">언어논리</span>');
+  if(d.a>=85 && (d.p>=70||d.s>=70||d.su>=70)) tags.push('<span class="badge b-purple">집중탐구</span>');
+  if(is2E(d) && tags.length) tags.push('<span class="badge b-red">2E</span>');
+  return tags;
+}
+
+// ──────────────────────────────
+// BUILD BAR CHARTS
+// ──────────────────────────────
+function buildBars(containerId, key){
+  const sorted=[...ST].sort((a,b)=>b[key]-a[key]);
+  const c=document.getElementById(containerId);
+  sorted.forEach(d=>{
+    const v=d[key];
+    const row=document.createElement('div');
+    row.className='bar-row';
+    row.innerHTML=`
+      <div class="bar-name" title="${d.n}">${d.n}</div>
+      <div class="bar-track">
+        <div class="bar-fill" style="width:${v}%;background:${pctColor(v)};"></div>
+      </div>
+      <div class="bar-val ${pctCls(v)}">${v}%</div>
+    `;
+    c.appendChild(row);
+  });
+}
+buildBars('bars-s','s');
+buildBars('bars-p','p');
+buildBars('bars-a','a');
+buildBars('bars-su','su');
+
+// ──────────────────────────────
+// BUILD PROFILE MATRIX
+// ──────────────────────────────
+function buildMatrix(data){
+  const tbody=document.getElementById('pm-tbody');
+  tbody.innerHTML='';
+  data.forEach(d=>{
+    const grade=getGrade(d);
+    const dev=deviation(d);
+    const devStr=dev>=40
+      ?`<span class="badge b-red">${dev}점 ⚠</span>`
+      :`<span style="font-size:11.5px;color:var(--text3);">${dev}</span>`;
+    const typeColor=d.type==='우뇌우세형'?'var(--blue)':d.type==='좌뇌우세형'?'var(--purple)':'var(--teal)';
+    const typeShort=d.type==='우뇌우세형'?'우뇌':d.type==='좌뇌우세형'?'좌뇌':'균형';
+    const giftedTypes=getGiftedTypes(d);
+
+    function cell(v){
+      const barW=Math.min(v,100);
+      return `<td>
+        <div class="cell-bar-wrap">
+          <span class="${pctCls(v)}" style="font-weight:600;font-size:12px;min-width:32px;">${v}%</span>
+          <div class="cell-bar" style="width:${barW*0.6}px;background:${pctColor(v)};"></div>
+        </div>
+      </td>`;
+    }
+
+    const tr=document.createElement('tr');
+    tr.dataset.grade=grade.lbl;
+    tr.dataset.is2e=is2E(d)?'1':'0';
+    tr.innerHTML=`
+      <td><strong>${d.n}</strong></td>
+      <td style="font-size:11px;color:var(--text3);white-space:nowrap;">${d.age}</td>
+      <td><span style="font-size:11px;font-weight:700;color:${typeColor};">${typeShort}</span></td>
+      ${cell(d.s)}${cell(d.p)}${cell(d.a)}${cell(d.su)}
+      <td>${devStr}</td>
+      <td><span class="badge ${grade.cls}">${grade.lbl}</span></td>
+      <td style="font-size:11px;">${giftedTypes.join(' ')||'—'}</td>
+    `;
+    tbody.appendChild(tr);
+  });
+}
+buildMatrix(ST);
+
+// ──────────────────────────────
+// FILTER TABLE
+// ──────────────────────────────
+function filterTable(key, btn){
+  document.querySelectorAll('.tab-nav .tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const rows=document.querySelectorAll('#pm-tbody tr');
+  rows.forEach(tr=>{
+    if(key==='all'){tr.style.display='';return;}
+    if(key==='2E'){tr.style.display=tr.dataset.is2e==='1'?'':'none';return;}
+    tr.style.display=tr.dataset.grade===key?'':'none';
+  });
+}
+
+// ──────────────────────────────
+// TAB SWITCHING
+// ──────────────────────────────
+function showTab(groupId, id, btn){
+  // find all tab-contents sharing parent
+  const parent=btn.closest('.card')||btn.closest('section');
+  parent.querySelectorAll('.tab-content').forEach(el=>el.classList.remove('active'));
+  parent.querySelectorAll('.tab-btn').forEach(el=>el.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
