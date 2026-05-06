@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeelGood 대학 K-PASS 커리어 대시보드 — 데모</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --blue:#185FA5;--blue2:#378ADD;--blue-bg:#E6F1FB;
+  --teal:#0F6E56;--teal2:#1D9E75;--teal-bg:#E1F5EE;
+  --amber:#854F0B;--amber2:#BA7517;--amber-bg:#FAEEDA;
+  --coral:#993C1D;--coral2:#D85A30;--coral-bg:#FAECE7;
+  --purple:#534AB7;--purple2:#7F77DD;--purple-bg:#EEEDFE;
+  --green:#3B6D11;--green2:#639922;--green-bg:#EAF3DE;
+  --gray:#5F5E5A;--gray-bg:#F1EFE8;--gray2:#888780;
+  --bg:#F7F6F2;--surface:#FFFFFF;--border:#E0DED8;
+  --text:#1A1917;--text2:#5F5E5A;--text3:#888780;
+  --radius:10px;--radius-lg:16px;--radius-xl:20px;
+  --shadow:0 1px 3px rgba(0,0,0,.08),0 4px 12px rgba(0,0,0,.04);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6}
+
+/* ── HEADER ── */
+.header{background:var(--surface);border-bottom:1px solid var(--border);padding:0 32px;position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;height:60px}
+.header-logo{display:flex;align-items:center;gap:10px}
+.logo-mark{width:36px;height:36px;background:var(--blue);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.logo-mark svg{width:20px;height:20px;fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round}
+.logo-text .main{font-size:15px;font-weight:700;color:var(--blue);letter-spacing:-.02em}
+.logo-text .sub{font-size:11px;color:var(--text3);margin-top:-2px}
+.header-badge{font-size:11px;padding:4px 10px;background:var(--blue-bg);color:var(--blue);border-radius:20px;font-weight:500}
+
+/* ── HERO SEARCH ── */
+.hero{background:linear-gradient(135deg,#0d3f73 0%,#185FA5 50%,#1D9E75 100%);padding:48px 32px 40px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Ccircle cx='30' cy='30' r='20'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")}
+.hero-inner{max-width:900px;margin:0 auto;position:relative;z-index:1}
+.hero-eyebrow{font-size:11px;color:rgba(255,255,255,.6);letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,42px);color:#fff;line-height:1.15;margin-bottom:8px}
+.hero-title em{font-style:italic;color:rgba(255,255,255,.75)}
+.hero-desc{font-size:14px;color:rgba(255,255,255,.65);margin-bottom:28px;max-width:560px}
+.search-card{background:rgba(255,255,255,.96);border-radius:var(--radius-lg);padding:20px 24px;display:flex;flex-direction:column;gap:14px;box-shadow:0 8px 32px rgba(0,0,0,.2)}
+.search-row{display:flex;gap:10px;flex-wrap:wrap}
+.field-group{display:flex;flex-direction:column;gap:6px;flex:1;min-width:200px}
+.field-label{font-size:12px;font-weight:500;color:var(--text2)}
+.field-group input,.field-group select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--radius);font-size:14px;font-family:'Noto Sans KR',sans-serif;color:var(--text);background:var(--surface);outline:none;transition:border-color .2s}
+.field-group input:focus,.field-group select:focus{border-color:var(--blue)}
+.search-btn{align-self:flex-end;padding:11px 28px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius);font-size:14px;font-weight:500;font-family:'Noto Sans KR',sans-serif;cursor:pointer;transition:background .15s,transform .1s;white-space:nowrap}
+.search-btn:hover{background:var(--blue2)}
+.search-btn:active{transform:scale(.98)}
+.search-hint{font-size:12px;color:var(--text3)}
+.search-hint span{color:var(--blue);cursor:pointer;text-decoration:underline;margin-right:8px}
+.search-hint span:hover{color:var(--blue2)}
+
+/* ── MAIN LAYOUT ── */
+.main{max-width:960px;margin:0 auto;padding:32px 24px 60px}
+.empty-state{text-align:center;padding:60px 20px;color:var(--text3)}
+.empty-icon{font-size:48px;margin-bottom:16px;opacity:.4}
+.empty-text{font-size:15px;color:var(--text2);margin-bottom:6px;font-weight:500}
+.empty-sub{font-size:13px;color:var(--text3)}
+
+/* ── PROFILE BANNER ── */
+.profile-banner{background:var(--surface);border-radius:var(--radius-lg);padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:18px;border:1px solid var(--border);flex-wrap:wrap;animation:fadeUp .4s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+.avatar{width:52px;height:52px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700;flex-shrink:0}
+.profile-info .name{font-size:18px;font-weight:700;margin-bottom:2px}
+.profile-info .meta{font-size:12px;color:var(--text3);margin-bottom:8px}
+.pass-badges{display:flex;gap:6px;flex-wrap:wrap}
+.pass-badge{font-size:12px;padding:4px 10px;border-radius:20px;font-weight:500}
+.pb-p{background:var(--blue-bg);color:var(--blue)}
+.pb-a{background:var(--teal-bg);color:var(--teal)}
+.pb-s{background:var(--amber-bg);color:var(--amber)}
+.pb-ss{background:var(--coral-bg);color:var(--coral)}
+.profile-radar{margin-left:auto;width:160px;height:160px;flex-shrink:0}
+
+/* ── METRIC STRIP ── */
+.metric-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px;animation:fadeUp .4s .1s ease both}
+.mc{background:var(--surface);border-radius:var(--radius);padding:14px 16px;border:1px solid var(--border)}
+.mc-label{font-size:11px;color:var(--text3);margin-bottom:6px;letter-spacing:.02em}
+.mc-val{font-size:22px;font-weight:700}
+.mc-val.blue{color:var(--blue)}
+.mc-val.teal{color:var(--teal2)}
+.mc-val.amber{color:var(--amber2)}
+.mc-val.coral{color:var(--coral2)}
+.mc-val.purple{color:var(--purple2)}
+
+/* ── TABS ── */
+.tabs-wrap{background:var(--surface);border-radius:var(--radius-lg) var(--radius-lg) 0 0;border:1px solid var(--border);border-bottom:none;animation:fadeUp .4s .15s ease both}
+.tabs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tabs::-webkit-scrollbar{display:none}
+.tab-btn{flex-shrink:0;padding:14px 18px;font-size:13px;font-weight:500;font-family:'Noto Sans KR',sans-serif;background:none;border:none;color:var(--text3);cursor:pointer;border-bottom:2.5px solid transparent;transition:color .15s,border-color .15s;white-space:nowrap}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--blue);border-bottom-color:var(--blue)}
+
+/* ── PANEL ── */
+.panel-wrap{background:var(--surface);border-radius:0 0 var(--radius-lg) var(--radius-lg);border:1px solid var(--border);border-top:none;padding:24px;min-height:400px;animation:fadeUp .4s .2s ease both}
+.panel{display:none}.panel.active{display:block}
+.panel-title{font-size:12px;font-weight:500;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:18px}
+
+/* ── DEPT GRID ── */
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px}
+.dept-card{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:16px;cursor:default;transition:border-color .15s,box-shadow .15s;position:relative;overflow:hidden}
+.dept-card:hover{border-color:var(--blue2);box-shadow:var(--shadow)}
+.dept-card.rank1{border-color:var(--blue);background:linear-gradient(135deg,rgba(24,95,165,.04) 0%,transparent 100%)}
+.rank-crown{position:absolute;top:12px;right:12px;font-size:16px}
+.dept-badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;padding:3px 9px;border-radius:20px;margin-bottom:10px;font-weight:500}
+.dept-badge.hi{background:var(--blue-bg);color:var(--blue)}
+.dept-badge.mid{background:var(--teal-bg);color:var(--teal)}
+.dept-badge.lo{background:var(--amber-bg);color:var(--amber)}
+.dept-name{font-size:15px;font-weight:700;margin-bottom:6px}
+.dept-why{font-size:12px;color:var(--text2);line-height:1.6;margin-bottom:12px}
+.dept-bar-wrap{background:var(--gray-bg);border-radius:4px;height:5px;overflow:hidden}
+.dept-bar{height:100%;border-radius:4px;background:var(--blue);transition:width .8s ease}
+.dept-score-row{display:flex;justify-content:flex-end;margin-top:5px}
+.dept-score{font-size:11px;color:var(--text3)}
+
+/* ── JOB LIST ── */
+.job-list{display:flex;flex-direction:column;gap:10px}
+.job-item{display:flex;align-items:flex-start;gap:14px;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px;transition:box-shadow .15s}
+.job-item:hover{box-shadow:var(--shadow)}
+.job-rank-num{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;flex-shrink:0}
+.job-body{flex:1}
+.job-title{font-size:15px;font-weight:700;margin-bottom:3px}
+.job-desc{font-size:12px;color:var(--text2);margin-bottom:8px}
+.job-tags{display:flex;gap:5px;flex-wrap:wrap}
+.jtag{font-size:11px;padding:3px 8px;border-radius:20px;background:var(--gray-bg);color:var(--text2);font-weight:500}
+.job-fit-col{text-align:right;flex-shrink:0}
+.job-fit-num{font-size:22px;font-weight:700}
+.job-fit-label{font-size:11px;color:var(--text3)}
+.job-bar-wrap{margin-top:6px;background:var(--gray-bg);border-radius:3px;height:3px;width:80px;overflow:hidden;margin-left:auto}
+.job-bar{height:100%;border-radius:3px}
+
+/* ── INDUSTRY ── */
+.ind-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.ind-card{border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;transition:box-shadow .15s}
+.ind-card:hover{box-shadow:var(--shadow)}
+.ind-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.ind-name{font-size:14px;font-weight:700}
+.ind-pct{font-size:24px;font-weight:700}
+.ind-bar-bg{background:var(--gray-bg);border-radius:4px;height:7px;overflow:hidden;margin-bottom:10px}
+.ind-bar-fill{height:100%;border-radius:4px;transition:width .9s ease}
+.ind-note{font-size:12px;color:var(--text2);line-height:1.5}
+.ind-tag{display:inline-block;font-size:10px;padding:2px 7px;border-radius:20px;margin-top:6px;font-weight:600}
+
+/* ── COLLAB ── */
+.collab-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.collab-card{border:1.5px solid var(--border);border-radius:var(--radius-lg);padding:18px;transition:box-shadow .15s;position:relative}
+.collab-card.top{border-color:var(--purple2);background:linear-gradient(135deg,rgba(83,74,183,.04) 0%,transparent 100%)}
+.collab-card:hover{box-shadow:var(--shadow)}
+.collab-top-badge{position:absolute;top:12px;right:12px;font-size:10px;padding:2px 8px;border-radius:20px;background:var(--purple-bg);color:var(--purple);font-weight:600}
+.collab-icon{font-size:28px;margin-bottom:10px}
+.collab-type{font-size:15px;font-weight:700;margin-bottom:4px}
+.collab-pct{font-size:28px;font-weight:700;margin-bottom:8px}
+.collab-bar-bg{background:var(--gray-bg);border-radius:4px;height:6px;overflow:hidden;margin-bottom:10px}
+.collab-bar-fill{height:100%;border-radius:4px}
+.collab-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* ── CAREER TYPE ── */
+.ctype-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.ctype-card{border:1.5px solid var(--border);border-radius:var(--radius-xl);padding:24px 20px;text-align:center;transition:box-shadow .15s;position:relative}
+.ctype-card:hover{box-shadow:var(--shadow)}
+.ctype-card.top-pick{border-color:var(--blue);background:linear-gradient(160deg,rgba(24,95,165,.05) 0%,transparent 100%)}
+.top-pick-badge{position:absolute;top:-1px;left:50%;transform:translateX(-50%);font-size:10px;padding:3px 12px;background:var(--blue);color:#fff;border-radius:0 0 8px 8px;font-weight:600;white-space:nowrap}
+.ctype-emoji{font-size:36px;margin-bottom:12px;display:block}
+.ctype-label{font-size:15px;font-weight:700;margin-bottom:6px}
+.ctype-score{font-size:36px;font-weight:700;margin-bottom:10px;line-height:1}
+.ctype-bar-bg{background:var(--gray-bg);border-radius:4px;height:6px;overflow:hidden;margin-bottom:12px}
+.ctype-bar-fill{height:100%;border-radius:4px}
+.ctype-desc{font-size:12px;color:var(--text2);line-height:1.6}
+
+/* ── ROADMAP ── */
+.roadmap{position:relative}
+.rm-step{display:flex;gap:16px;margin-bottom:16px;animation:fadeUp .3s ease}
+.rm-left{display:flex;flex-direction:column;align-items:center;flex-shrink:0}
+.rm-dot{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;color:#fff;flex-shrink:0;z-index:1}
+.rm-line{width:2px;flex:1;background:var(--border);margin:4px 0;min-height:16px}
+.rm-body{flex:1;border:1px solid var(--border);border-radius:var(--radius-lg);padding:16px 18px;transition:box-shadow .15s}
+.rm-body:hover{box-shadow:var(--shadow)}
+.rm-year{font-size:11px;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.rm-task{font-size:15px;font-weight:700;margin-bottom:6px}
+.rm-detail{font-size:13px;color:var(--text2);line-height:1.65}
+.rm-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.rm-chip{font-size:11px;padding:3px 9px;border-radius:20px;font-weight:500}
+
+/* ── CHART WRAP ── */
+.chart-section{margin-top:20px}
+.chart-wrap{position:relative;height:280px;margin-bottom:4px}
+
+/* ── FOOTER NOTE ── */
+.footer-note{margin-top:32px;padding:16px 20px;background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);font-size:12px;color:var(--text3);line-height:1.7}
+.footer-note strong{color:var(--text2)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px){
+  .header{padding:0 16px}
+  .hero{padding:32px 16px 28px}
+  .main{padding:20px 14px 48px}
+  .metric-strip{grid-template-columns:repeat(3,1fr)}
+  .collab-grid,.ctype-grid{grid-template-columns:1fr}
+  .profile-radar{display:none}
+  .tab-btn{padding:12px 14px;font-size:12px}
+}
+@media(max-width:480px){
+  .metric-strip{grid-template-columns:repeat(2,1fr)}
+  .search-row{flex-direction:column}
+  .search-btn{width:100%}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg>
+    </div>
+    <div class="logo-text">
+      <div class="main">FeelGood EduTech</div>
+      <div class="sub">K-PASS 대학 커리어 대시보드</div>
+    </div>
+  </div>
+  <div class="header-badge">Demo v1.0</div>
+</header>
+
+<!-- HERO SEARCH -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">K-PASS 인지능력 기반 진로설계 시스템</div>
+    <h1 class="hero-title">무전공 1학년을 위한<br><em>맞춤 학과 · 커리어 설계</em></h1>
+    <p class="hero-desc">PASS 이론 기반 인지능력 데이터와 대학별 학과 정보를 결합하여<br>개인에게 최적화된 진로 로드맵을 제공합니다.</p>
+    <div class="search-card">
+      <div class="search-row">
+        <div class="field-group">
+          <div class="field-label">대학교 입력</div>
+          <input id="uni-input" type="text" placeholder="예: 연세대학교, 고려대학교...">
+        </div>
+        <div class="field-group">
+          <div class="field-label">학생 선택</div>
+          <select id="student-select">
+            <option value="">— 학생 선택 —</option>
+            <option value="박건호">박건호 (만 16세 · 우뇌우세형)</option>
+            <option value="A2">A2 (만 15세 · 좌뇌우세형)</option>
+            <option value="A1">A1 (만 13세 · 좌우뇌 균형형)</option>
+            <option value="A4">A4 (만 17세 · 좌우뇌 균형형)</option>
+            <option value="A3">A3 (만 16세 · 좌우뇌 균형형)</option>
+            <option value="정상중">정상중 (만 46세 · 좌뇌우세형)</option>
+            <option value="김혜영">김혜영 (만 13세 · 좌우뇌 균형형)</option>
+          </select>
+        </div>
+        <button class="search-btn" id="analyze-btn">분석 시작 →</button>
+      </div>
+      <div class="search-hint">
+        <strong>빠른 샘플:</strong>
+        <span onclick="demo('연세대학교','박건호')">연세대 · 박건호</span>
+        <span onclick="demo('고려대학교','A2')">고려대 · A2</span>
+        <span onclick="demo('서울대학교','A1')">서울대 · A1</span>
+        <span onclick="demo('한양대학교','정상중')">한양대 · 정상중</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="main">
+  <div id="empty-state" class="empty-state">
+    <div class="empty-icon">🎓</div>
+    <div class="empty-text">위에서 대학교와 학생을 선택하고 분석을 시작하세요</div>
+    <div class="empty-sub">K-PASS 인지능력 데이터 기반 학과 추천 · 직무 · 커리어 로드맵 제공</div>
+  </div>
+
+  <div id="result-wrap" style="display:none">
+    <!-- PROFILE -->
+    <div class="profile-banner" id="profile-banner"></div>
+
+    <!-- METRICS -->
+    <div class="metric-strip" id="metric-strip"></div>
+
+    <!-- TABS -->
+    <div class="tabs-wrap">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="dept">🎓 학과 추천</button>
+        <button class="tab-btn" data-tab="job">💼 직무 TOP5</button>
+        <button class="tab-btn" data-tab="industry">🏭 산업군 적합도</button>
+        <button class="tab-btn" data-tab="collab">🤝 협업 스타일</button>
+        <button class="tab-btn" data-tab="ctype">🚀 창업/전문직/조직형</button>
+        <button class="tab-btn" data-tab="roadmap">🗺 AI 커리어 로드맵</button>
+      </div>
+    </div>
+    <div class="panel-wrap">
+      <div id="panel-dept" class="panel active"></div>
+      <div id="panel-job" class="panel"></div>
+      <div id="panel-industry" class="panel"></div>
+      <div id="panel-collab" class="panel"></div>
+      <div id="panel-ctype" class="panel"></div>
+      <div id="panel-roadmap" class="panel"></div>
+    </div>
+
+    <div class="footer-note">
+      <strong>데이터 기반 안내:</strong> 본 추천 결과는 K-PASS 인지능력 검사(계획력·주의력·동시처리·순차처리) 백분위 점수를 기반으로 산출됩니다. 실제 전공 선택 시 진로 전문가 상담을 병행하시기 바랍니다. | FeelGood EduTech · 2026
+    </div>
+  </div>
+</main>
+
+<script>
+/* ── DATA ── */
+const STUDENTS = {
+  '김혜영':{age:13,type:'좌우뇌 균형형',brain:'balance',P:26,A:55,S:0,Ss:0,init:'김혜'},
+  '정상중':{age:46,type:'좌뇌우세형',brain:'left',P:47,A:84,S:63,Ss:81,init:'정상'},
+  'A4':{age:17,type:'좌우뇌 균형형',brain:'balance',P:37,A:68,S:51,Ss:54,init:'A4'},
+  'A3':{age:16,type:'좌우뇌 균형형',brain:'balance',P:34,A:68,S:23,Ss:43,init:'A3'},
+  'A2':{age:15,type:'좌뇌우세형',brain:'left',P:79,A:74,S:83,Ss:84,init:'A2'},
+  'A1':{age:13,type:'좌우뇌 균형형',brain:'balance',P:74,A:65,S:66,Ss:65,init:'A1'},
+  '박건호':{age:16,type:'우뇌우세형',brain:'right',P:92,A:84,S:83,Ss:27,init:'박건호'}
+};
+
+const UNI_DB = {
+  '연세대학교':['경영학과','컴퓨터과학과','심리학과','교육학과','사회학과','생명공학과','언론홍보영상학부','경제학과','행정학과','수학과','철학과','영어영문학과'],
+  '서울대학교':['경영학과','전기정보공학부','사회학과','철학과','물리학과','언론정보학과','수리과학부','경제학부','교육학과','인류학과','컴퓨터공학과','심리학과'],
+  '고려대학교':['경영학과','컴퓨터학과','심리학부','미디어학부','사회학과','경제학과','행정학과','데이터과학과','보건정책관리학부','영어영문학과','교육학과','생명과학과'],
+  '성균관대학교':['경영학과','소프트웨어학과','글로벌경영학과','사회과학부','교육학과','데이터사이언스학과','경제학과','심리학과','행정학과','생명과학과','철학과','통계학과'],
+  '한양대학교':['경영학부','컴퓨터소프트웨어학부','교육학과','사회학과','미디어커뮤니케이션학과','데이터사이언스학과','경제금융학부','심리뇌과학과','행정학과','생명공학과'],
+};
+const DEFAULT_DEPTS = ['경영학과','컴퓨터공학과','심리학과','교육학과','사회학과','데이터사이언스학과','미디어커뮤니케이션학과','경제학과','행정학과','생명과학과'];
+
+const DEPT_WEIGHTS = {
+  '경영학과':{P:1.25,A:0.8,S:0.85,Ss:1.0,why:'계획력 강점 → 전략적 의사결정·팀 리더십 발휘'},
+  '컴퓨터과학과':{P:1.0,A:0.9,S:1.1,Ss:1.2,why:'순차·동시처리 → 알고리즘·시스템 설계에 최적'},
+  '컴퓨터공학과':{P:1.0,A:0.9,S:1.1,Ss:1.2,why:'순차·동시처리 → 알고리즘·시스템 설계에 최적'},
+  '컴퓨터학과':{P:1.0,A:0.9,S:1.1,Ss:1.2,why:'순차·동시처리 → 알고리즘·시스템 설계에 최적'},
+  '소프트웨어학과':{P:1.0,A:0.85,S:1.1,Ss:1.25,why:'순차처리 → 코드 로직·디버깅 집중력 요구'},
+  '컴퓨터소프트웨어학부':{P:1.0,A:0.85,S:1.1,Ss:1.25,why:'순차처리 → 코드 로직·디버깅 집중력 요구'},
+  '전기정보공학부':{P:0.95,A:0.9,S:1.15,Ss:1.2,why:'동시+순차처리 → 복잡 시스템 분석·설계'},
+  '심리학과':{P:0.85,A:1.25,S:1.0,Ss:0.8,why:'주의력 강점 → 인간 행동 관찰·상담 역량 부합'},
+  '심리학부':{P:0.85,A:1.25,S:1.0,Ss:0.8,why:'주의력 강점 → 인간 행동 관찰·상담 역량 부합'},
+  '심리뇌과학과':{P:1.0,A:1.2,S:1.0,Ss:0.9,why:'주의력·동시처리 → 뇌과학 기반 심리 분석'},
+  '교육학과':{P:1.0,A:1.1,S:0.9,Ss:1.0,why:'주의력·계획력 → 수업 설계·학습자 분석 역량'},
+  '사회학과':{P:0.9,A:1.0,S:1.15,Ss:0.85,why:'동시처리 → 복잡 사회 현상 구조적 파악'},
+  '사회과학부':{P:0.9,A:1.0,S:1.1,Ss:0.9,why:'동시처리 → 복잡한 사회 현상 통합 이해'},
+  '경제학과':{P:1.1,A:0.85,S:1.0,Ss:1.1,why:'계획력·순차처리 → 논리적 모델링·수량 분석'},
+  '경제학부':{P:1.1,A:0.85,S:1.0,Ss:1.1,why:'계획력·순차처리 → 논리적 모델링·수량 분석'},
+  '경제금융학부':{P:1.1,A:0.85,S:1.0,Ss:1.15,why:'계획력·순차처리 → 금융 모델·리스크 분석'},
+  '행정학과':{P:1.0,A:1.0,S:0.9,Ss:1.1,why:'균형적 PASS → 정책 기획·조직 관리 역량'},
+  '생명공학과':{P:0.9,A:1.05,S:1.2,Ss:0.95,why:'동시처리 → 복잡 생물계 통합적 이해 강점'},
+  '생명과학과':{P:0.85,A:1.05,S:1.2,Ss:0.95,why:'동시처리 → 복잡 생물계 통합적 이해 강점'},
+  '언론홍보영상학부':{P:1.1,A:1.1,S:1.0,Ss:0.8,why:'계획력+주의력 → 미디어 기획·커뮤니케이션 전략'},
+  '미디어학부':{P:1.1,A:1.1,S:1.0,Ss:0.8,why:'계획력+주의력 → 콘텐츠 기획·미디어 전략'},
+  '미디어커뮤니케이션학과':{P:1.1,A:1.1,S:1.0,Ss:0.8,why:'계획력+주의력 → 콘텐츠 기획·미디어 전략'},
+  '언론정보학과':{P:1.1,A:1.1,S:1.0,Ss:0.8,why:'계획력+주의력 → 저널리즘·PR 전략 설계'},
+  '수학과':{P:0.95,A:0.8,S:1.1,Ss:1.35,why:'순차처리 최강점 → 증명·논리 연산 집중'},
+  '수리과학부':{P:0.95,A:0.8,S:1.1,Ss:1.35,why:'순차처리 최강점 → 증명·논리 연산 집중'},
+  '통계학과':{P:1.0,A:0.85,S:1.1,Ss:1.25,why:'순차+동시처리 → 데이터 모델링·통계 분석'},
+  '데이터과학과':{P:1.1,A:0.9,S:1.2,Ss:1.2,why:'동시+순차처리 → 데이터 패턴 탐색에 탁월'},
+  '데이터사이언스학과':{P:1.1,A:0.9,S:1.2,Ss:1.2,why:'동시+순차처리 → 데이터 패턴 탐색에 탁월'},
+  '철학과':{P:1.2,A:1.0,S:1.1,Ss:0.7,why:'계획력+동시처리 → 논리·추론·비판적 사고 역량'},
+  '물리학과':{P:0.9,A:0.8,S:1.2,Ss:1.3,why:'동시+순차처리 → 물리 법칙 모델링·분석력'},
+  '영어영문학과':{P:0.9,A:1.05,S:0.95,Ss:1.1,why:'주의력·순차처리 → 언어 감수성·정밀 읽기'},
+  '인류학과':{P:1.0,A:1.1,S:1.2,Ss:0.8,why:'동시처리+주의력 → 문화 현상 통합적 해석'},
+  '글로벌경영학과':{P:1.15,A:0.9,S:1.0,Ss:1.0,why:'계획력 → 글로벌 전략·리더십 발휘'},
+  '경영학부':{P:1.25,A:0.8,S:0.85,Ss:1.0,why:'계획력 강점 → 전략적 의사결정·리더십 발휘'},
+  '보건정책관리학부':{P:1.0,A:1.05,S:1.0,Ss:1.05,why:'균형 PASS → 보건 정책·의료 관리 역량'},
+};
+
+function getDeptScore(dept, st) {
+  const w = DEPT_WEIGHTS[dept] || {P:1.0,A:1.0,S:1.0,Ss:1.0};
+  const raw = (st.P*w.P + st.A*w.A + st.S*w.S + st.Ss*w.Ss) / 4;
+  return Math.min(98, Math.round(raw));
+}
+function getDeptWhy(dept, st) {
+  if (DEPT_WEIGHTS[dept]) return DEPT_WEIGHTS[dept].why;
+  const max = Math.max(st.P,st.A,st.S,st.Ss);
+  if (max===st.P) return '계획력 강점 → 전략적 사고와 연결';
+  if (max===st.A) return '주의력 강점 → 관찰·분석 역량과 연결';
+  if (max===st.S) return '동시처리 강점 → 통합적 사고와 연결';
+  return '순차처리 강점 → 논리적 분석과 연결';
+}
+
+const JOBS_ALL = [
+  {title:'UX 연구원',pass:'A',desc:'사용자 행동 관찰·분석·서비스 개선',tags:['주의력','리서치','공감'],base:80,color:'#185FA5'},
+  {title:'데이터 분석가',pass:'Ss',desc:'수치·패턴 기반 인사이트 도출',tags:['통계','논리','SQL'],base:77,color:'#1D9E75'},
+  {title:'프로젝트 매니저',pass:'P',desc:'전략 기획·팀 조율·일정 관리',tags:['계획력','리더십','소통'],base:82,color:'#BA7517'},
+  {title:'콘텐츠 기획자',pass:'P',desc:'미디어·마케팅 전략 기획·실행',tags:['창의','기획','트렌드'],base:73,color:'#7F77DD'},
+  {title:'AI 프롬프트 엔지니어',pass:'Ss',desc:'LLM 최적화·프롬프트 설계·자동화',tags:['AI','언어','논리'],base:88,color:'#D85A30'},
+  {title:'뇌인지 상담사',pass:'A',desc:'인지능력 기반 코칭·심리 상담',tags:['심리','공감','관찰'],base:70,color:'#0F6E56'},
+  {title:'교육 콘텐츠 개발자',pass:'P',desc:'교육과정 설계·이러닝·평가 개발',tags:['교육','기획','창의'],base:72,color:'#534AB7'},
+  {title:'연구원 (사회과학)',pass:'S',desc:'복잡 현상 실증 연구·논문 발표',tags:['분석','학술','데이터'],base:68,color:'#854F0B'},
+  {title:'스타트업 창업가',pass:'P',desc:'기회 발굴·팀 빌딩·실행 주도',tags:['창업','리더십','기획'],base:75,color:'#993C1D'},
+  {title:'IT 컨설턴트',pass:'Ss',desc:'시스템 분석·디지털 전환 솔루션',tags:['IT','전략','분석'],base:78,color:'#185FA5'},
+];
+
+function getJobs(st) {
+  const map={P:st.P,A:st.A,S:st.S,Ss:st.Ss};
+  return JOBS_ALL.map(j=>({...j,fit:Math.min(98,Math.round(j.base+(map[j.pass]||50)*0.16))}))
+    .sort((a,b)=>b.fit-a.fit).slice(0,5);
+}
+
+function getIndustry(st) {
+  return [
+    {name:'교육·에듀테크',color:'#185FA5',bg:'#E6F1FB',score:Math.min(98,Math.round(st.P*0.4+st.A*0.4+st.S*0.1+st.Ss*0.1)),tag:'계획+주의력'},
+    {name:'IT·소프트웨어',color:'#1D9E75',bg:'#E1F5EE',score:Math.min(98,Math.round(st.S*0.35+st.Ss*0.4+st.P*0.15+st.A*0.1)),tag:'동시+순차처리'},
+    {name:'미디어·마케팅',color:'#7F77DD',bg:'#EEEDFE',score:Math.min(98,Math.round(st.P*0.35+st.A*0.35+st.S*0.2+st.Ss*0.1)),tag:'계획+주의력'},
+    {name:'의료·바이오',color:'#BA7517',bg:'#FAEEDA',score:Math.min(98,Math.round(st.A*0.4+st.Ss*0.3+st.S*0.2+st.P*0.1)),tag:'주의+순차처리'},
+    {name:'금융·컨설팅',color:'#D85A30',bg:'#FAECE7',score:Math.min(98,Math.round(st.P*0.4+st.Ss*0.3+st.S*0.2+st.A*0.1)),tag:'계획+순차처리'},
+    {name:'공공·사회서비스',color:'#0F6E56',bg:'#E1F5EE',score:Math.min(98,Math.round(st.A*0.3+st.P*0.3+st.Ss*0.2+st.S*0.2)),tag:'균형형 PASS'},
+  ].sort((a,b)=>b.score-a.score);
+}
+
+function getCollab(st) {
+  return [
+    {type:'전략 리더형',icon:'🎯',pct:Math.min(98,Math.round(st.P*0.6+st.A*0.2+st.S*0.1+st.Ss*0.1)),color:'#185FA5',fill:'#378ADD',desc:'목표를 설정하고 팀의 방향을 제시합니다. 계획력이 높을수록 자연스럽게 리더십을 발휘합니다.'},
+    {type:'데이터 분석형',icon:'📊',pct:Math.min(98,Math.round(st.Ss*0.45+st.S*0.35+st.P*0.12+st.A*0.08)),color:'#1D9E75',fill:'#1D9E75',desc:'논리·수치 기반으로 의사결정을 지원합니다. 순차처리 강점 시 탁월한 분석력 발휘.'},
+    {type:'소통 조율형',icon:'🤝',pct:Math.min(98,Math.round(st.A*0.5+st.P*0.2+st.S*0.2+st.Ss*0.1)),color:'#7F77DD',fill:'#7F77DD',desc:'팀 내 갈등을 조율하고 구성원을 연결합니다. 주의력이 높을수록 공감 능력이 두드러집니다.'},
+    {type:'창의 아이디어형',icon:'💡',pct:Math.min(98,Math.round(st.S*0.45+st.P*0.3+st.A*0.15+st.Ss*0.1)),color:'#BA7517',fill:'#BA7517',desc:'새로운 관점과 아이디어를 제시합니다. 동시처리 강점 시 창의적 연결 능력 발휘.'},
+  ].sort((a,b)=>b.pct-a.pct);
+}
+
+function getCareerType(st) {
+  return [
+    {label:'창업형',emoji:'🚀',score:Math.min(98,Math.round(st.P*0.5+st.S*0.3+st.A*0.12+st.Ss*0.08)),color:'#D85A30',fill:'#D85A30',desc:'기회 발굴·실행력·위험 감수 능력. 계획력+동시처리 조합이 높을 때 창업 역량 극대화.'},
+    {label:'전문직형',emoji:'🔬',score:Math.min(98,Math.round(st.Ss*0.5+st.A*0.3+st.P*0.1+st.S*0.1)),color:'#185FA5',fill:'#185FA5',desc:'깊은 전문성·정밀성 요구 직군. 순차처리+주의력이 강할 때 전문가로 성장 최적화.'},
+    {label:'조직형',emoji:'🏛',score:Math.min(98,Math.round(st.A*0.35+st.Ss*0.3+st.P*0.2+st.S*0.15)),color:'#1D9E75',fill:'#1D9E75',desc:'안정적 조직 내 전문가로 성장. 균형적 PASS 프로파일에서 조직 적응력이 두드러짐.'},
+  ].sort((a,b)=>b.score-a.score);
+}
+
+function getRoadmap(st) {
+  const max = Math.max(st.P,st.A,st.S,st.Ss);
+  const strength = max===st.P?'계획력(P)':max===st.A?'주의력(A)':max===st.S?'동시처리(S)':'순차처리(Ss)';
+  const topJob = getJobs(st)[0].title;
+  return [
+    {year:'1학년',task:'기초 역량 탐색 & 학과 결정',detail:`PASS 강점(${strength}) 기반 전공 탐색. 다양한 교양 수강 후 적합 학과를 확정합니다. 전공 박람회·교수 면담 활용.`,chips:['전공 탐색','복수전공 검토','기초 프로그래밍'],color:'#185FA5'},
+    {year:'2학년',task:'전공 심화 & AI 도구 습득',detail:`${topJob} 관련 심화 과목 수강. Notion AI, GPT, 데이터 분석 툴을 활용한 리서치·정리 습관 형성. 관심 분야 스터디 가입.`,chips:['AI 툴 마스터','전공 심화','스터디 가입'],color:'#1D9E75'},
+    {year:'3학년',task:'인턴십 & 실전 포트폴리오',detail:'관련 산업 인턴십 1회 이상 경험. 캡스톤 프로젝트·공모전으로 포트폴리오 구축. 네트워킹·멘토 확보.',chips:['인턴십','캡스톤 프로젝트','공모전'],color:'#7F77DD'},
+    {year:'4학년',task:'취업·창업 런칭',detail:'AI 기반 이력서 최적화·포트폴리오 정제. 목표 기업 집중 지원 및 네트워킹. 대학원 진학 또는 창업 가속화 프로그램 참여.',chips:['이력서 최적화','집중 지원','네트워킹'],color:'#D85A30'},
+  ];
+}
+
+/* ── CHARTS ── */
+let radarChart = null;
+let industryChart = null;
+
+function drawRadar(st) {
+  const el = document.getElementById('radar-canvas');
+  if (!el) return;
+  if (radarChart) { radarChart.destroy(); radarChart = null; }
+  radarChart = new Chart(el, {
+    type: 'radar',
+    data: {
+      labels: ['계획력(P)', '주의력(A)', '동시처리(S)', '순차처리(Ss)'],
+      datasets: [{
+        label: 'PASS 백분위',
+        data: [st.P, st.A, st.S, st.Ss],
+        backgroundColor: 'rgba(24,95,165,0.12)',
+        borderColor: '#185FA5',
+        pointBackgroundColor: '#185FA5',
+        pointBorderColor: '#fff',
+        pointBorderWidth: 2,
+        pointRadius: 5,
+        borderWidth: 2.5
+      }]
+    },
+    options: {
+      responsive: true, maintainAspectRatio: true,
+      plugins: { legend: { display: false } },
+      scales: { r: { min: 0, max: 100, ticks: { stepSize: 25, font: { size: 10 }, backdropColor: 'transparent' }, pointLabels: { font: { size: 12, family: "'Noto Sans KR'" } } } }
+    }
+  });
+}
+
+/* ── RENDER FUNCTIONS ── */
+function renderProfile(name, st, uniName) {
+  const brainColors = { right:'#D85A30', left:'#185FA5', balance:'#1D9E75' };
+  const col = brainColors[st.brain] || '#185FA5';
+  document.getElementById('profile-banner').innerHTML = `
+    <div class="avatar" style="background:${col}">${st.init}</div>
+    <div style="flex:1">
+      <div class="profile-info">
+        <div class="name">${name} <span style="font-size:14px;font-weight:400;color:var(--text3)">· ${uniName}</span></div>
+        <div class="meta">만 ${st.age}세 · ${st.type} · 무전공 1학년</div>
+      </div>
+      <div class="pass-badges">
+        <span class="pass-badge pb-p">계획력(P) ${st.P}%</span>
+        <span class="pass-badge pb-a">주의력(A) ${st.A}%</span>
+        <span class="pass-badge pb-s">동시처리(S) ${st.S}%</span>
+        <span class="pass-badge pb-ss">순차처리(Ss) ${st.Ss}%</span>
+      </div>
+    </div>
+    <div class="profile-radar"><canvas id="radar-canvas" role="img" aria-label="PASS 레이더 차트"></canvas></div>
+  `;
+  setTimeout(() => drawRadar(st), 80);
+}
+
+function renderMetrics(st) {
+  const max = Math.max(st.P,st.A,st.S,st.Ss);
+  const strength = max===st.P?'계획력':max===st.A?'주의력':max===st.S?'동시처리':'순차처리';
+  const weak = Math.min(st.P,st.A,st.S,st.Ss);
+  const weakName = weak===st.P?'계획력':weak===st.A?'주의력':weak===st.S?'동시처리':'순차처리';
+  document.getElementById('metric-strip').innerHTML = `
+    <div class="mc"><div class="mc-label">계획력 (P)</div><div class="mc-val blue">${st.P}%</div></div>
+    <div class="mc"><div class="mc-label">주의력 (A)</div><div class="mc-val teal">${st.A}%</div></div>
+    <div class="mc"><div class="mc-label">동시처리 (S)</div><div class="mc-val amber">${st.S}%</div></div>
+    <div class="mc"><div class="mc-label">순차처리 (Ss)</div><div class="mc-val coral">${st.Ss}%</div></div>
+    <div class="mc"><div class="mc-label">핵심 강점</div><div class="mc-val purple" style="font-size:16px;padding-top:2px">${strength}</div></div>
+  `;
+}
+
+function renderDept(depts, st) {
+  const scored = depts.map(d => ({ name:d, score:getDeptScore(d,st), why:getDeptWhy(d,st) }))
+    .sort((a,b) => b.score-a.score).slice(0, 6);
+  let html = `<div class="panel-title">K-PASS 기반 학과 추천 — ${st.type} 패턴 분석</div><div class="dept-grid">`;
+  scored.forEach((d,i) => {
+    const fitClass = d.score>=76?'hi':d.score>=62?'mid':'lo';
+    const fitLabel = d.score>=76?'높은 적합도':d.score>=62?'적합':'참고';
+    html += `<div class="dept-card${i===0?' rank1':''}">
+      ${i===0?'<div class="rank-crown">👑</div>':''}
+      <span class="dept-badge ${fitClass}">${i<3?['🥇','🥈','🥉'][i]+' ':''} ${fitLabel}</span>
+      <div class="dept-name">${d.name}</div>
+      <div class="dept-why">${d.why}</div>
+      <div class="dept-bar-wrap"><div class="dept-bar" style="width:${d.score}%"></div></div>
+      <div class="dept-score-row"><span class="dept-score">적합도 ${d.score}%</span></div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-dept').innerHTML = html;
+}
+
+function renderJob(st) {
+  const jobs = getJobs(st);
+  let html = `<div class="panel-title">직무 추천 TOP 5 — PASS 강점 연계</div><div class="job-list">`;
+  jobs.forEach((j,i) => {
+    html += `<div class="job-item">
+      <div class="job-rank-num" style="background:${j.color}20;color:${j.color}">${i+1}</div>
+      <div class="job-body">
+        <div class="job-title">${j.title}</div>
+        <div class="job-desc">${j.desc}</div>
+        <div class="job-tags">${j.tags.map(t=>`<span class="jtag">${t}</span>`).join('')}</div>
+      </div>
+      <div class="job-fit-col">
+        <div class="job-fit-num" style="color:${j.color}">${j.fit}%</div>
+        <div class="job-fit-label">적합도</div>
+        <div class="job-bar-wrap"><div class="job-bar" style="width:${j.fit}%;background:${j.color}"></div></div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-job').innerHTML = html;
+}
+
+function renderIndustry(st) {
+  const inds = getIndustry(st);
+  let html = `<div class="panel-title">산업군 적합도 분석 — 6개 주요 산업</div>
+  <div class="ind-grid">`;
+  inds.forEach((ind,i) => {
+    html += `<div class="ind-card">
+      <div class="ind-head">
+        <div>
+          <span class="ind-tag" style="background:${ind.bg};color:${ind.color}">${i===0?'✦ 최적합':'#'+(i+1)}</span>
+          <div class="ind-name" style="margin-top:6px">${ind.name}</div>
+        </div>
+        <div class="ind-pct" style="color:${ind.color}">${ind.score}%</div>
+      </div>
+      <div class="ind-bar-bg"><div class="ind-bar-fill" style="width:${ind.score}%;background:${ind.color}"></div></div>
+      <div class="ind-note">핵심 강점: ${ind.tag}</div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-industry').innerHTML = html;
+}
+
+function renderCollab(st) {
+  const cols = getCollab(st);
+  let html = `<div class="panel-title">협업 스타일 분석 — PASS 역할 유형</div><div class="collab-grid">`;
+  cols.forEach((c,i) => {
+    html += `<div class="collab-card${i===0?' top':''}">
+      ${i===0?'<div class="collab-top-badge">주요 스타일</div>':''}
+      <div class="collab-icon">${c.icon}</div>
+      <div class="collab-type" style="color:${c.color}">${c.type}</div>
+      <div class="collab-pct" style="color:${c.color}">${c.pct}%</div>
+      <div class="collab-bar-bg"><div class="collab-bar-fill" style="width:${c.pct}%;background:${c.fill}"></div></div>
+      <div class="collab-desc">${c.desc}</div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-collab').innerHTML = html;
+}
+
+function renderCareerType(st) {
+  const types = getCareerType(st);
+  let html = `<div class="panel-title">창업형 / 전문직형 / 조직형 분석</div><div class="ctype-grid">`;
+  types.forEach((t,i) => {
+    html += `<div class="ctype-card${i===0?' top-pick':''}">
+      ${i===0?'<div class="top-pick-badge" style="background:'+t.color+'">최적합 유형</div>':''}
+      <div class="ctype-emoji">${t.emoji}</div>
+      <div class="ctype-label" style="color:${t.color}">${t.label}</div>
+      <div class="ctype-score" style="color:${t.color}">${t.score}%</div>
+      <div class="ctype-bar-bg"><div class="ctype-bar-fill" style="width:${t.score}%;background:${t.fill}"></div></div>
+      <div class="ctype-desc">${t.desc}</div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-ctype').innerHTML = html;
+}
+
+function renderRoadmap(st) {
+  const steps = getRoadmap(st);
+  let html = `<div class="panel-title">AI 시대 커리어 로드맵 — 4년 단계별 설계</div><div class="roadmap">`;
+  steps.forEach((s,i) => {
+    html += `<div class="rm-step">
+      <div class="rm-left">
+        <div class="rm-dot" style="background:${s.color}">${i+1}</div>
+        ${i<steps.length-1?'<div class="rm-line"></div>':''}
+      </div>
+      <div class="rm-body">
+        <div class="rm-year">${s.year}</div>
+        <div class="rm-task">${s.task}</div>
+        <div class="rm-detail">${s.detail}</div>
+        <div class="rm-chips">${s.chips.map(c=>`<span class="rm-chip" style="background:${s.color}18;color:${s.color}">${c}</span>`).join('')}</div>
+      </div>
+    </div>`;
+  });
+  html += '</div>';
+  document.getElementById('panel-roadmap').innerHTML = html;
+}
+
+/* ── MAIN ANALYZE ── */
+function analyze(uniName, studentName) {
+  uniName = uniName || document.getElementById('uni-input').value.trim();
+  studentName = studentName || document.getElementById('student-select').value;
+  if (!uniName || !studentName) { alert('대학교 이름과 학생을 모두 입력해주세요.'); return; }
+
+  const st = STUDENTS[studentName];
+  if (!st) return;
+
+  const knownKey = Object.keys(UNI_DB).find(k => uniName.includes(k.replace('대학교','')) || uniName === k);
+  const finalName = knownKey || uniName;
+  const depts = knownKey ? UNI_DB[knownKey] : DEFAULT_DEPTS;
+
+  document.getElementById('uni-input').value = finalName;
+  document.getElementById('student-select').value = studentName;
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('result-wrap').style.display = 'block';
+
+  renderProfile(studentName, st, finalName);
+  renderMetrics(st);
+  renderDept(depts, st);
+  renderJob(st);
+  renderIndustry(st);
+  renderCollab(st);
+  renderCareerType(st);
+  renderRoadmap(st);
+
+  document.getElementById('result-wrap').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function demo(uni, student) {
+  document.getElementById('uni-input').value = uni;
+  document.getElementById('student-select').value = student;
+  analyze(uni, student);
+}
+
+document.getElementById('analyze-btn').addEventListener('click', () => analyze());
+document.getElementById('uni-input').addEventListener('keydown', e => { if (e.key === 'Enter') analyze(); });
+
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('panel-' + btn.dataset.tab).classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
