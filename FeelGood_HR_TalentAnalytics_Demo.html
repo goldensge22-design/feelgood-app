@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FeelGood AI Talent Analytics — Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+:root {
+  --bg: #0B0E14;
+  --bg2: #12161F;
+  --bg3: #1A1F2C;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #E8EAF0;
+  --text2: #8A90A0;
+  --text3: #555B6E;
+  --blue: #3B8BF5;
+  --blue2: #1A5FCC;
+  --teal: #1EC99A;
+  --amber: #F5A623;
+  --red: #F05252;
+  --purple: #8B72F5;
+  --brand: #2856D6;
+  --brand-o: #F5820A;
+  --r: 10px;
+  --r2: 16px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0;
+  width: 220px;
+  background: var(--bg2);
+  border-right: 0.5px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  padding: 0 0 1.5rem;
+}
+.logo-wrap {
+  padding: 1.5rem 1.25rem 1rem;
+  border-bottom: 0.5px solid var(--border);
+  margin-bottom: 0.75rem;
+}
+.logo-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(40,86,214,0.15);
+  border: 0.5px solid rgba(40,86,214,0.3);
+  border-radius: 6px; padding: 5px 10px;
+  font-size: 11px; font-weight: 500; color: #6B9BF5;
+  letter-spacing: 0.04em;
+  margin-bottom: 8px;
+}
+.logo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--brand); }
+.logo-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 18px; color: var(--text);
+  line-height: 1.1;
+}
+.logo-sub { font-size: 10px; color: var(--text3); margin-top: 2px; letter-spacing: 0.06em; }
+.nav-group { padding: 0 0.75rem; margin-bottom: 0.25rem; }
+.nav-label { font-size: 9px; letter-spacing: 0.1em; color: var(--text3); padding: 0 0.5rem; margin-bottom: 4px; text-transform: uppercase; }
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 12px; border-radius: 8px; cursor: pointer;
+  font-size: 12.5px; color: var(--text2);
+  transition: all 0.15s; margin-bottom: 1px;
+  border: 0.5px solid transparent;
+}
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: rgba(59,139,245,0.12); color: var(--blue); border-color: rgba(59,139,245,0.2); }
+.nav-icon { font-size: 15px; width: 18px; text-align: center; }
+.sidebar-footer {
+  margin-top: auto; padding: 1rem 1.25rem 0;
+  border-top: 0.5px solid var(--border);
+}
+.demo-tag {
+  font-size: 10px; color: var(--brand-o); font-weight: 500;
+  background: rgba(245,130,10,0.1); border: 0.5px solid rgba(245,130,10,0.2);
+  border-radius: 4px; padding: 3px 8px; display: inline-block;
+}
+.cohort-info { font-size: 10px; color: var(--text3); margin-top: 6px; line-height: 1.5; }
+
+/* ── MAIN ── */
+.main { margin-left: 220px; padding: 2rem 2rem 3rem; min-height: 100vh; }
+.page { display: none; animation: fadeIn 0.25s ease; }
+.page.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+
+/* ── PAGE HEADER ── */
+.page-hd {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 1.75rem; padding-bottom: 1.25rem;
+  border-bottom: 0.5px solid var(--border);
+}
+.page-title { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--text); line-height: 1.1; }
+.page-sub { font-size: 12px; color: var(--text2); margin-top: 4px; }
+.tag { font-size: 10px; font-weight: 500; padding: 3px 9px; border-radius: 20px; }
+.tag-blue { background: rgba(59,139,245,0.12); color: #6B9BF5; border: 0.5px solid rgba(59,139,245,0.2); }
+.tag-teal { background: rgba(30,201,154,0.1); color: #1EC99A; border: 0.5px solid rgba(30,201,154,0.2); }
+.tag-amber { background: rgba(245,166,35,0.1); color: #F5A623; border: 0.5px solid rgba(245,166,35,0.2); }
+.tag-red { background: rgba(240,82,82,0.1); color: #F05252; border: 0.5px solid rgba(240,82,82,0.2); }
+.tag-purple { background: rgba(139,114,245,0.1); color: #A99BF8; border: 0.5px solid rgba(139,114,245,0.2); }
+
+/* ── METRIC CARDS ── */
+.metrics { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 1.5rem; }
+.mcard {
+  background: var(--bg2); border: 0.5px solid var(--border);
+  border-radius: var(--r2); padding: 1.1rem 1.25rem;
+  position: relative; overflow: hidden;
+}
+.mcard::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  border-radius: var(--r2) var(--r2) 0 0;
+}
+.mcard.blue::before { background: var(--blue); }
+.mcard.teal::before { background: var(--teal); }
+.mcard.amber::before { background: var(--amber); }
+.mcard.red::before { background: var(--red); }
+.mcard-lbl { font-size: 10px; color: var(--text3); letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 6px; }
+.mcard-val { font-size: 28px; font-weight: 300; color: var(--text); line-height: 1; }
+.mcard-val span { font-size: 13px; color: var(--text2); margin-left: 3px; }
+.mcard-sub { font-size: 11px; color: var(--text2); margin-top: 5px; }
+
+/* ── CARDS ── */
+.card {
+  background: var(--bg2); border: 0.5px solid var(--border);
+  border-radius: var(--r2); padding: 1.25rem 1.5rem;
+}
+.card-hd { font-size: 12px; font-weight: 500; color: var(--text2); letter-spacing: 0.04em; margin-bottom: 1rem; text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+.card-hd-icon { font-size: 14px; }
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 14px; }
+
+/* ── PEOPLE ── */
+.person-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 0.5px solid var(--border);
+}
+.person-row:last-child { border-bottom: none; }
+.avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500; flex-shrink: 0;
+}
+.pname { font-size: 13px; font-weight: 500; color: var(--text); }
+.ptype { font-size: 10px; color: var(--text3); }
+
+/* ── PASS BAR ── */
+.pass-bars { display: flex; gap: 4px; align-items: center; margin-top: 5px; }
+.pass-seg { flex: 1; height: 4px; border-radius: 2px; position: relative; }
+.pass-seg-lbl { font-size: 9px; color: var(--text3); text-align: center; margin-top: 2px; }
+
+/* ── SCORE BADGE ── */
+.score-wrap { display: flex; gap: 5px; margin-top: 5px; }
+.score-b {
+  font-size: 10px; font-weight: 500; padding: 2px 7px;
+  border-radius: 5px; border: 0.5px solid;
+}
+.score-hi { color: var(--teal); border-color: rgba(30,201,154,0.3); background: rgba(30,201,154,0.08); }
+.score-mid { color: var(--amber); border-color: rgba(245,166,35,0.3); background: rgba(245,166,35,0.08); }
+.score-lo { color: var(--red); border-color: rgba(240,82,82,0.3); background: rgba(240,82,82,0.08); }
+
+/* ── RISK PILL ── */
+.risk { display: inline-flex; align-items: center; gap: 4px; font-size: 10px; font-weight: 500; padding: 2px 8px; border-radius: 20px; }
+.risk-hi { background: rgba(240,82,82,0.12); color: var(--red); border: 0.5px solid rgba(240,82,82,0.2); }
+.risk-med { background: rgba(245,166,35,0.1); color: var(--amber); border: 0.5px solid rgba(245,166,35,0.2); }
+.risk-ok { background: rgba(30,201,154,0.08); color: var(--teal); border: 0.5px solid rgba(30,201,154,0.2); }
+
+/* ── RADAR WRAP ── */
+.radar-box { position: relative; width: 100%; height: 240px; }
+
+/* ── HIPO CARD ── */
+.hipo-card {
+  background: var(--bg3); border: 0.5px solid var(--border2);
+  border-radius: var(--r); padding: 1rem 1.1rem; margin-bottom: 10px;
+  position: relative; overflow: hidden;
+}
+.hipo-card::after {
+  content: ''; position: absolute; top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: radial-gradient(circle at top right, rgba(30,201,154,0.12), transparent 70%);
+}
+.hipo-name { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); }
+.hipo-meta { font-size: 11px; color: var(--text2); margin: 3px 0 10px; }
+.hipo-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.hipo-s { text-align: center; }
+.hipo-s-key { font-size: 9px; color: var(--text3); margin-bottom: 3px; }
+.hipo-s-val { font-size: 16px; font-weight: 300; }
+
+/* ── SYNERGY MATRIX ── */
+.syn-wrap { overflow-x: auto; }
+.syn-table { border-collapse: collapse; min-width: 100%; }
+.syn-table th, .syn-table td { font-size: 10px; text-align: center; padding: 5px; }
+.syn-table th { color: var(--text3); font-weight: 500; border-bottom: 0.5px solid var(--border); }
+.syn-table td.row-lbl { text-align: left; color: var(--text2); padding-left: 0; white-space: nowrap; }
+.syn-cell { border-radius: 4px; width: 36px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 500; }
+
+/* ── JOB FIT ── */
+.fit-card {
+  background: var(--bg3); border: 0.5px solid var(--border);
+  border-radius: var(--r); padding: 10px 12px; margin-bottom: 8px;
+}
+.fit-job { font-size: 11px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.fit-desc { font-size: 10px; color: var(--text3); margin-bottom: 7px; }
+
+/* ── COLLAB CARD ── */
+.collab-icon { font-size: 28px; margin-bottom: 8px; }
+.collab-type { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.collab-sub { font-size: 10px; color: var(--text3); margin-bottom: 10px; }
+.collab-members { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; }
+.member-chip { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: var(--bg); border: 0.5px solid var(--border2); color: var(--text2); }
+
+/* ── LEADER RANK ── */
+.leader-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 0; border-bottom: 0.5px solid var(--border);
+}
+.leader-row:last-child { border-bottom: none; }
+.rank-num { font-size: 20px; font-weight: 300; color: var(--text3); width: 28px; text-align: center; }
+.rank-num.gold { color: var(--amber); }
+.rank-num.silver { color: #9CA3AF; }
+.rank-num.bronze { color: #B45309; }
+.leader-bar-wrap { flex: 1; height: 4px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 4px; }
+.leader-bar { height: 100%; border-radius: 2px; }
+
+/* ── TEAM PRESET ── */
+.preset-card {
+  background: var(--bg3); border: 0.5px solid var(--border);
+  border-radius: var(--r); padding: 1rem 1.1rem; margin-bottom: 10px;
+}
+.preset-name { font-size: 12px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+.preset-desc { font-size: 10px; color: var(--text3); margin-bottom: 8px; }
+.preset-members { display: flex; gap: 5px; flex-wrap: wrap; }
+
+/* ── OVERVIEW DIVIDER ── */
+.section-sep { 
+  font-size: 9px; letter-spacing: 0.12em; color: var(--text3); text-transform: uppercase;
+  margin: 1.5rem 0 0.75rem; padding-bottom: 0.4rem;
+  border-bottom: 0.5px solid var(--border);
+}
+
+/* ── CHART COLORS ── */
+.chart-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 10px; }
+.legend-item { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text2); }
+.legend-dot { width: 8px; height: 8px; border-radius: 2px; flex-shrink: 0; }
+
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg2); }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="logo-wrap">
+    <div class="logo-badge"><div class="logo-dot"></div>FeelGood AI</div>
+    <div class="logo-title">Talent<br>Analytics</div>
+    <div class="logo-sub">PASS-BASED HR INTELLIGENCE</div>
+  </div>
+
+  <div class="nav-group">
+    <div class="nav-label">분석</div>
+    <div class="nav-item active" onclick="showPage('overview')">
+      <span class="nav-icon">◈</span> 종합 개요
+    </div>
+    <div class="nav-item" onclick="showPage('hiPot')">
+      <span class="nav-icon">✦</span> High Potential
+    </div>
+    <div class="nav-item" onclick="showPage('jobfit')">
+      <span class="nav-icon">◎</span> 직무 적합도
+    </div>
+    <div class="nav-item" onclick="showPage('risk')">
+      <span class="nav-icon">⚠</span> 조직 리스크
+    </div>
+  </div>
+  <div class="nav-group" style="margin-top:0.5rem">
+    <div class="nav-label">팀 설계</div>
+    <div class="nav-item" onclick="showPage('leadership')">
+      <span class="nav-icon">▲</span> 리더십 잠재력
+    </div>
+    <div class="nav-item" onclick="showPage('collab')">
+      <span class="nav-icon">⬡</span> 협업 유형
+    </div>
+    <div class="nav-item" onclick="showPage('synergy')">
+      <span class="nav-icon">⟐</span> 팀 시너지
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="demo-tag">DEMO VERSION</div>
+    <div class="cohort-info">앱 테스트 코호트<br>7명 · 2026.05.06<br>K-PASS 인지·적성 검사</div>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+<!-- ===== OVERVIEW ===== -->
+<div class="page active" id="page-overview">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">종합 개요</div>
+      <div class="page-sub">PASS 4개 척도 기반 인재풀 전체 현황</div>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <span class="tag tag-blue">인지·적성</span>
+      <span class="tag tag-amber">7명</span>
+    </div>
+  </div>
+
+  <div class="metrics">
+    <div class="mcard blue">
+      <div class="mcard-lbl">전체 인원</div>
+      <div class="mcard-val">7 <span>명</span></div>
+      <div class="mcard-sub">분석 완료 · 전원</div>
+    </div>
+    <div class="mcard teal">
+      <div class="mcard-lbl">High Potential</div>
+      <div class="mcard-val" style="color:var(--teal)">2 <span>명</span></div>
+      <div class="mcard-sub">상위 잠재군 · 29%</div>
+    </div>
+    <div class="mcard amber">
+      <div class="mcard-lbl">개입 필요</div>
+      <div class="mcard-val" style="color:var(--amber)">5 <span>명</span></div>
+      <div class="mcard-sub">관리 권장 · 71%</div>
+    </div>
+    <div class="mcard red">
+      <div class="mcard-lbl">최취약 척도</div>
+      <div class="mcard-val" style="color:var(--red);font-size:18px;padding-top:6px">순차처리</div>
+      <div class="mcard-sub">학급 평균 51%ile</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-hd"><span class="card-hd-icon">◈</span> PASS 척도별 학급 평균</div>
+      <div class="chart-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:#3B8BF5"></div>학급 전체</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1EC99A;border:1px dashed #1EC99A"></div>HiPo 평균</div>
+      </div>
+      <div class="radar-box"><canvas id="radarOverview" role="img" aria-label="PASS 척도 레이더 차트">동시처리 53%, 계획력 56%, 주의력 71%, 순차처리 51%</canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-hd"><span class="card-hd-icon">◎</span> 두뇌 유형 분포</div>
+      <div style="position:relative;width:100%;height:180px;margin-bottom:12px">
+        <canvas id="brainChart" role="img" aria-label="두뇌 유형 도넛 차트">우뇌우세형 1명, 좌우뇌균형형 4명, 좌뇌우세형 2명</canvas>
+      </div>
+      <div class="chart-legend" style="justify-content:center">
+        <div class="legend-item"><div class="legend-dot" style="background:#8B72F5"></div>우뇌우세형 14%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#3B8BF5"></div>좌우뇌 균형형 57%</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#1EC99A"></div>좌뇌우세형 29%</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep">전체 인재 PASS 프로파일</div>
+  <div class="card">
+    <div id="overviewList"></div>
+  </div>
+</div>
+
+<!-- ===== HIGH POTENTIAL ===== -->
+<div class="page" id="page-hiPot">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">High Potential</div>
+      <div class="page-sub">PASS 종합 역량 상위군 — 조기 발굴 & 육성 대상</div>
+    </div>
+    <span class="tag tag-teal">2명 선별</span>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <div class="hipo-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div class="avatar" style="background:rgba(30,201,154,0.15);color:#1EC99A">박건</div>
+          <div>
+            <div class="hipo-name">박건호</div>
+            <div class="hipo-meta">만 16세 · 우뇌우세형 <span class="tag tag-teal" style="margin-left:4px">HiPo #1</span></div>
+          </div>
+        </div>
+        <div class="hipo-scores">
+          <div class="hipo-s"><div class="hipo-s-key">동시처리</div><div class="hipo-s-val" style="color:var(--teal)">83%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">계획력</div><div class="hipo-s-val" style="color:var(--teal)">92%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">주의력</div><div class="hipo-s-val" style="color:var(--teal)">84%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">순차처리</div><div class="hipo-s-val" style="color:var(--red)">27%</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:var(--text3);padding-top:8px;border-top:0.5px solid var(--border)">
+          강점: 전략적 사고·창의적 기획 / 보완: 절차적 실행 지원 필요
+        </div>
+      </div>
+      <div class="hipo-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+          <div class="avatar" style="background:rgba(59,139,245,0.15);color:#3B8BF5">A2</div>
+          <div>
+            <div class="hipo-name">A2</div>
+            <div class="hipo-meta">만 15세 · 좌뇌우세형 <span class="tag tag-blue" style="margin-left:4px">HiPo #2</span></div>
+          </div>
+        </div>
+        <div class="hipo-scores">
+          <div class="hipo-s"><div class="hipo-s-key">동시처리</div><div class="hipo-s-val" style="color:var(--teal)">83%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">계획력</div><div class="hipo-s-val" style="color:var(--teal)">79%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">주의력</div><div class="hipo-s-val" style="color:var(--teal)">74%</div></div>
+          <div class="hipo-s"><div class="hipo-s-key">순차처리</div><div class="hipo-s-val" style="color:var(--teal)">84%</div></div>
+        </div>
+        <div style="margin-top:10px;font-size:10px;color:var(--text3);padding-top:8px;border-top:0.5px solid var(--border)">
+          강점: 전 척도 균형 고득점 · 실행·분석 모두 가능한 올라운더
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd">HiPo vs 학급 평균 PASS 비교</div>
+      <div class="radar-box" style="height:280px"><canvas id="radarHipo" role="img" aria-label="HiPo vs 학급 평균 레이더"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section-sep">전체 인재 종합 역량 순위</div>
+  <div class="card">
+    <div id="hipoRankList"></div>
+  </div>
+</div>
+
+<!-- ===== JOB FIT ===== -->
+<div class="page" id="page-jobfit">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">직무 적합도 분석</div>
+      <div class="page-sub">PASS 척도 패턴 기반 직무군 매핑</div>
+    </div>
+    <span class="tag tag-purple">5개 직무군</span>
+  </div>
+
+  <div class="grid2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-hd">조직 직무군 충족도</div>
+      <div style="position:relative;width:100%;height:220px">
+        <canvas id="jobChart" role="img" aria-label="직무군 충족도 가로 막대 차트"></canvas>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd">직무별 적합 인재</div>
+      <div class="fit-card">
+        <div class="fit-job">⚡ 전략·기획 — 高계획력 + 高동시처리</div>
+        <div class="fit-desc">복잡한 상황을 통합적으로 파악하고 전략 수립</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span class="tag tag-teal">박건호 ★★★</span>
+          <span class="tag tag-teal">A2 ★★★</span>
+          <span class="tag tag-blue">A1 ★★</span>
+        </div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-job">🔬 분석·연구 — 高순차처리 + 高주의력</div>
+        <div class="fit-desc">데이터를 체계적으로 처리하고 정밀 분석</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span class="tag tag-teal">A2 ★★★</span>
+          <span class="tag tag-teal">정상중 ★★★</span>
+          <span class="tag tag-blue">A1 ★★</span>
+        </div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-job">🎨 창의·기획 — 高동시처리 + 우뇌우세형</div>
+        <div class="fit-desc">아이디어 발굴·창의적 문제 해결 주도</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span class="tag tag-teal">박건호 ★★★</span>
+          <span class="tag tag-blue">A2 ★★</span>
+        </div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-job">🎯 실행·운영 — 高주의력 + 안정형</div>
+        <div class="fit-desc">집중력을 바탕으로 실무·운영 업무 수행</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span class="tag tag-teal">정상중 ★★★</span>
+          <span class="tag tag-blue">A4 ★★</span>
+          <span class="tag tag-blue">A3 ★★</span>
+        </div>
+      </div>
+      <div class="fit-card">
+        <div class="fit-job">💬 커뮤니케이션 — 高주의력 + 균형형</div>
+        <div class="fit-desc">팀 내 소통·협업 조율 역할</div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span class="tag tag-teal">A1 ★★★</span>
+          <span class="tag tag-blue">A4 ★★</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RISK ===== -->
+<div class="page" id="page-risk">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">조직 리스크 분석</div>
+      <div class="page-sub">PASS 취약 척도 기반 — 개입 우선순위 도출</div>
+    </div>
+    <span class="tag tag-red">관리필요 5명</span>
+  </div>
+
+  <div class="metrics">
+    <div class="mcard red"><div class="mcard-lbl">동시처리 취약</div><div class="mcard-val" style="color:var(--red)">2 <span>명</span></div><div class="mcard-sub">50% 미만</div></div>
+    <div class="mcard amber"><div class="mcard-lbl">계획력 취약</div><div class="mcard-val" style="color:var(--amber)">4 <span>명</span></div><div class="mcard-sub">50% 미만</div></div>
+    <div class="mcard teal"><div class="mcard-lbl">주의력 취약</div><div class="mcard-val" style="color:var(--teal)">0 <span>명</span></div><div class="mcard-sub">조직 강점</div></div>
+    <div class="mcard amber"><div class="mcard-lbl">순차처리 취약</div><div class="mcard-val" style="color:var(--amber)">3 <span>명</span></div><div class="mcard-sub">50% 미만</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-hd">개인별 리스크 등급</div>
+      <div id="riskList"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">척도별 저성취 인원</div>
+      <div style="position:relative;width:100%;height:200px">
+        <canvas id="riskChart" role="img" aria-label="척도별 50% 미만 인원">동시처리 2, 계획력 4, 주의력 0, 순차처리 3</canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep">리스크 요인 분석 & 개입 전략</div>
+  <div class="grid2">
+    <div class="card" style="border-color:rgba(240,82,82,0.2)">
+      <div class="card-hd" style="color:var(--red)">⚠ 즉각 개입 필요</div>
+      <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">김혜영 — 최고 위험</div>
+        <div style="font-size:10px;color:var(--text3)">동시처리 0% · 순차처리 0% · 계획력 26% — 인지 3개 척도 극저점. 직무 재배치 또는 집중 코칭 즉각 필요.</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:8px;padding:10px 12px">
+        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">A3 — 고위험</div>
+        <div style="font-size:10px;color:var(--text3)">동시처리 23% · 계획력 34% · 순차처리 43% — 자기주도 업무 부적합. 구조화된 지원 환경 필요.</div>
+      </div>
+    </div>
+    <div class="card" style="border-color:rgba(245,166,35,0.2)">
+      <div class="card-hd" style="color:var(--amber)">◎ 조직 전반 취약 포인트</div>
+      <div style="background:var(--bg3);border-radius:8px;padding:10px 12px;margin-bottom:8px">
+        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">순차처리 취약 (평균 51%)</div>
+        <div style="font-size:10px;color:var(--text3)">절차적 업무 오류 리스크. SOP 의존 체계 강화, 체크리스트 도구 도입 권장.</div>
+      </div>
+      <div style="background:var(--bg3);border-radius:8px;padding:10px 12px">
+        <div style="font-size:12px;font-weight:500;color:var(--text);margin-bottom:3px">계획력 취약 (평균 56%)</div>
+        <div style="font-size:10px;color:var(--text3)">자기관리 역량 부족. 외부 코칭·프로젝트 매니지먼트 지원 체계 필요.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== LEADERSHIP ===== -->
+<div class="page" id="page-leadership">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">리더십 잠재력 분석</div>
+      <div class="page-sub">계획력·동시처리 기반 리더십 역량 예측</div>
+    </div>
+    <span class="tag tag-amber">3개 유형</span>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-hd">리더십 잠재력 순위 (계획력 기준)</div>
+      <div id="leaderList"></div>
+    </div>
+    <div class="card">
+      <div class="card-hd">계획력 분포</div>
+      <div style="position:relative;width:100%;height:240px">
+        <canvas id="leaderChart" role="img" aria-label="인재별 계획력 점수 가로 막대 차트"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-sep">리더십 유형 분류</div>
+  <div class="grid3">
+    <div class="card" style="border-color:rgba(30,201,154,0.2)">
+      <div style="font-size:22px;margin-bottom:8px">🚀</div>
+      <div style="font-size:13px;font-weight:500;color:var(--teal);margin-bottom:4px">비전형 리더</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:10px">高계획력 + 高동시처리 — 큰 그림 설계·혁신 드라이브</div>
+      <div style="font-size:11px;color:var(--text2);background:var(--bg3);padding:8px;border-radius:8px">박건호 (계획력 92% · 동시처리 83%)</div>
+    </div>
+    <div class="card" style="border-color:rgba(59,139,245,0.2)">
+      <div style="font-size:22px;margin-bottom:8px">⚙️</div>
+      <div style="font-size:13px;font-weight:500;color:var(--blue);margin-bottom:4px">실행형 리더</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:10px">전 척도 균형 — 팀 조율·실행 관리에 강점</div>
+      <div style="font-size:11px;color:var(--text2);background:var(--bg3);padding:8px;border-radius:8px">A2 (계획력 79% · 순차처리 84%)</div>
+    </div>
+    <div class="card" style="border-color:rgba(245,166,35,0.2)">
+      <div style="font-size:22px;margin-bottom:8px">🌱</div>
+      <div style="font-size:13px;font-weight:500;color:var(--amber);margin-bottom:4px">잠재형 리더</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:10px">중간 이상 계획력 — 경험 축적 시 리더십 발현</div>
+      <div style="font-size:11px;color:var(--text2);background:var(--bg3);padding:8px;border-radius:8px">A1 (74%) · 정상중 (47% · 경험치↑)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== COLLAB ===== -->
+<div class="page" id="page-collab">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">협업 유형 매칭</div>
+      <div class="page-sub">두뇌 유형 × PASS 패턴 기반 협업 스타일 분류</div>
+    </div>
+    <span class="tag tag-purple">3개 유형</span>
+  </div>
+
+  <div class="grid3" style="margin-bottom:14px">
+    <div class="card" style="border-color:rgba(139,114,245,0.2)">
+      <div class="collab-icon">💡</div>
+      <div class="collab-type">직관형</div>
+      <div class="collab-sub">우뇌우세 · 아이디어 드라이브<br>빠른 패턴 인식, 브레인스토밍 주도</div>
+      <div class="collab-members"><span class="member-chip">박건호</span></div>
+      <div style="font-size:10px;color:var(--text3)">세부 실행보다 아이디어 생성에 강점. 논리형과 페어링 시 최적.</div>
+    </div>
+    <div class="card" style="border-color:rgba(59,139,245,0.2)">
+      <div class="collab-icon">🔄</div>
+      <div class="collab-type">통합형</div>
+      <div class="collab-sub">좌우뇌 균형 · 유연 협업<br>다양한 팀원과 유연하게 소통</div>
+      <div class="collab-members"><span class="member-chip">A1</span><span class="member-chip">A3</span><span class="member-chip">A4</span><span class="member-chip">김혜영</span></div>
+      <div style="font-size:10px;color:var(--text3)">중재자·브리지 역할에 적합. 팀 갈등 완충 역할 가능.</div>
+    </div>
+    <div class="card" style="border-color:rgba(30,201,154,0.2)">
+      <div class="collab-icon">📐</div>
+      <div class="collab-type">논리형</div>
+      <div class="collab-sub">좌뇌우세 · 구조·절차 선호<br>데이터·논리 기반 의사결정</div>
+      <div class="collab-members"><span class="member-chip">A2</span><span class="member-chip">정상중</span></div>
+      <div style="font-size:10px;color:var(--text3)">복잡한 문제 구조화·정리에 최적. 직관형 보완 역할.</div>
+    </div>
+  </div>
+
+  <div class="section-sep">최적 페어링 추천</div>
+  <div class="grid3">
+    <div class="card">
+      <div style="font-size:11px;font-weight:500;color:var(--text);margin-bottom:4px">⚡ 창의×논리 시너지</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px">아이디어 × 실행력 최강 조합</div>
+      <div style="display:flex;gap:5px;align-items:center">
+        <span class="member-chip">박건호</span>
+        <span style="font-size:10px;color:var(--text3)">+</span>
+        <span class="member-chip">A2</span>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;font-weight:500;color:var(--text);margin-bottom:4px">🌿 경험×잠재 멘토링</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px">경험치 전수 최적 구성</div>
+      <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+        <span class="member-chip">정상중</span>
+        <span style="font-size:10px;color:var(--text3)">+</span>
+        <span class="member-chip">A3</span>
+        <span class="member-chip">A4</span>
+      </div>
+    </div>
+    <div class="card">
+      <div style="font-size:11px;font-weight:500;color:var(--text);margin-bottom:4px">🛡 취약 보완 지원</div>
+      <div style="font-size:10px;color:var(--text3);margin-bottom:8px">집중 지원 필요 페어</div>
+      <div style="display:flex;gap:5px;align-items:center">
+        <span class="member-chip">김혜영</span>
+        <span style="font-size:10px;color:var(--text3)">+</span>
+        <span class="member-chip">박건호</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== SYNERGY ===== -->
+<div class="page" id="page-synergy">
+  <div class="page-hd">
+    <div>
+      <div class="page-title">팀 시너지 예측</div>
+      <div class="page-sub">PASS 상호보완도 매트릭스 × 최적 팀 구성 추천</div>
+    </div>
+    <span class="tag tag-blue">7×7 매트릭스</span>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="card-hd">PASS 상호보완도 매트릭스</div>
+    <div class="syn-wrap">
+      <table class="syn-table" id="synergyTable" aria-label="팀원 간 PASS 상호보완도 매트릭스"></table>
+    </div>
+    <div style="display:flex;gap:14px;margin-top:12px">
+      <div class="legend-item"><div class="legend-dot" style="background:#1EC99A"></div>높은 보완 (70+)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F5A623"></div>중간 (50–69)</div>
+      <div class="legend-item"><div class="legend-dot" style="background:#F05252"></div>낮음 (50 미만)</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div>
+      <div class="section-sep" style="margin-top:0">최적 팀 구성 추천</div>
+      <div class="preset-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div class="preset-name">드림팀 A — 전략기획</div>
+          <span class="tag tag-teal">시너지 ★★★</span>
+        </div>
+        <div class="preset-desc">계획력 × 순차처리 상호보완. 주의력 평균 83% 강팀.</div>
+        <div class="preset-members">
+          <span class="member-chip">박건호</span><span class="member-chip">A2</span><span class="member-chip">정상중</span>
+        </div>
+      </div>
+      <div class="preset-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div class="preset-name">드림팀 B — 창의혁신</div>
+          <span class="tag tag-blue">시너지 ★★</span>
+        </div>
+        <div class="preset-desc">우뇌 창의 + 균형형 2명. 동시처리 보완 구조.</div>
+        <div class="preset-members">
+          <span class="member-chip">박건호</span><span class="member-chip">A1</span><span class="member-chip">A4</span>
+        </div>
+      </div>
+      <div class="preset-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+          <div class="preset-name">서포트 팀 — 실행운영</div>
+          <span class="tag tag-amber">개입 필요</span>
+        </div>
+        <div class="preset-desc">주의력 우세. 계획력 보완 코칭 병행 권장.</div>
+        <div class="preset-members">
+          <span class="member-chip">A3</span><span class="member-chip">A4</span><span class="member-chip">김혜영</span>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-hd">드림팀 A vs 학급 평균</div>
+      <div class="radar-box" style="height:260px"><canvas id="teamRadar" role="img" aria-label="드림팀 A vs 학급 평균 레이더"></canvas></div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+const PEOPLE = [
+  { name:'김혜영', short:'김혜', age:13, type:'좌우뇌 균형형', S:0,  P:26, A:55, Ss:0,  risk:'high', color:'#F5C4B3', tc:'#712B13' },
+  { name:'정상중', short:'정상', age:46, type:'좌뇌우세형',  S:63, P:47, A:84, Ss:81, risk:'med',  color:'#FAC775', tc:'#633806' },
+  { name:'A4',    short:'A4',  age:17, type:'좌우뇌 균형형', S:51, P:37, A:68, Ss:54, risk:'med',  color:'#CECBF6', tc:'#3C3489' },
+  { name:'A3',    short:'A3',  age:16, type:'좌우뇌 균형형', S:23, P:34, A:68, Ss:43, risk:'high', color:'#B5D4F4', tc:'#0C447C' },
+  { name:'A2',    short:'A2',  age:15, type:'좌뇌우세형',  S:83, P:79, A:74, Ss:84, risk:'ok',   color:'#9FE1CB', tc:'#085041' },
+  { name:'A1',    short:'A1',  age:13, type:'좌우뇌 균형형', S:66, P:74, A:65, Ss:65, risk:'ok',   color:'#CECBF6', tc:'#3C3489' },
+  { name:'박건호', short:'박건', age:16, type:'우뇌우세형',  S:83, P:92, A:84, Ss:27, risk:'med',  color:'#9FE1CB', tc:'#085041' },
+];
+const AVG = { S:Math.round(PEOPLE.reduce((a,p)=>a+p.S,0)/7), P:Math.round(PEOPLE.reduce((a,p)=>a+p.P,0)/7), A:Math.round(PEOPLE.reduce((a,p)=>a+p.A,0)/7), Ss:Math.round(PEOPLE.reduce((a,p)=>a+p.Ss,0)/7) };
+const HIPO = [PEOPLE[6], PEOPLE[4]]; // 박건호, A2
+
+function avg(p) { return Math.round((p.S+p.P+p.A+p.Ss)/4); }
+function scoreCls(v) { return v>=70?'score-hi':v>=50?'score-mid':'score-lo'; }
+function riskPill(r) {
+  if(r==='high') return '<span class="risk risk-hi">● 고위험</span>';
+  if(r==='med')  return '<span class="risk risk-med">● 주의</span>';
+  return '<span class="risk risk-ok">● 양호</span>';
+}
+
+// ── OVERVIEW LIST ──
+const overviewList = document.getElementById('overviewList');
+[...PEOPLE].sort((a,b)=>avg(b)-avg(a)).forEach(p=>{
+  const a = avg(p);
+  const barW = a;
+  const barC = a>=70?'#1EC99A':a>=50?'#F5A623':'#F05252';
+  overviewList.innerHTML += `
+  <div class="person-row">
+    <div class="avatar" style="background:${p.color}22;color:${p.tc}">${p.short}</div>
+    <div style="flex:1;min-width:0">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:4px">
+        <span class="pname">${p.name}</span>
+        <span class="ptype">만 ${p.age}세 · ${p.type}</span>
+        ${riskPill(p.risk)}
+      </div>
+      <div style="display:flex;gap:4px;margin-bottom:5px">
+        <span class="score-b ${scoreCls(p.S)}">동 ${p.S}%</span>
+        <span class="score-b ${scoreCls(p.P)}">계 ${p.P}%</span>
+        <span class="score-b ${scoreCls(p.A)}">주 ${p.A}%</span>
+        <span class="score-b ${scoreCls(p.Ss)}">순 ${p.Ss}%</span>
+      </div>
+      <div style="height:3px;background:rgba(255,255,255,0.06);border-radius:2px">
+        <div style="width:${barW}%;height:3px;background:${barC};border-radius:2px;transition:width 0.6s"></div>
+      </div>
+    </div>
+    <div style="font-size:18px;font-weight:300;color:${barC};min-width:36px;text-align:right">${a}%</div>
+  </div>`;
+});
+
+// ── HIPO RANK LIST ──
+const hipoRankList = document.getElementById('hipoRankList');
+[...PEOPLE].sort((a,b)=>avg(b)-avg(a)).forEach((p,i)=>{
+  const a = avg(p);
+  const rankCls = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+  const barC = a>=70?'#1EC99A':a>=50?'#F5A623':'#F05252';
+  hipoRankList.innerHTML += `
+  <div class="leader-row">
+    <div class="rank-num ${rankCls}">${i+1}</div>
+    <div class="avatar" style="background:${p.color}22;color:${p.tc}">${p.short}</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span class="pname">${p.name}</span>
+        <span style="font-size:11px;color:var(--text2)">종합 ${a}%</span>
+      </div>
+      <div class="leader-bar-wrap"><div class="leader-bar" style="width:${a}%;background:${barC}"></div></div>
+    </div>
+  </div>`;
+});
+
+// ── RISK LIST ──
+const riskList = document.getElementById('riskList');
+[...PEOPLE].sort((a,b)=>{ const o={high:0,med:1,ok:2}; return o[a.risk]-o[b.risk]; }).forEach(p=>{
+  const weak = [];
+  if(p.S<50) weak.push(`동시처리 ${p.S}%`);
+  if(p.P<50) weak.push(`계획력 ${p.P}%`);
+  if(p.A<50) weak.push(`주의력 ${p.A}%`);
+  if(p.Ss<50) weak.push(`순차처리 ${p.Ss}%`);
+  riskList.innerHTML += `
+  <div class="person-row">
+    <div class="avatar" style="background:${p.color}22;color:${p.tc}">${p.short}</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px">
+        <span class="pname">${p.name}</span>${riskPill(p.risk)}
+      </div>
+      <div style="font-size:10px;color:var(--text3)">${weak.length?'취약: '+weak.join(' · '):'취약 척도 없음 — 양호'}</div>
+    </div>
+  </div>`;
+});
+
+// ── LEADER LIST ──
+const leaderList = document.getElementById('leaderList');
+[...PEOPLE].sort((a,b)=>b.P-a.P).forEach((p,i)=>{
+  const rankCls = i===0?'gold':i===1?'silver':i===2?'bronze':'';
+  const barC = p.P>=70?'#1EC99A':p.P>=50?'#F5A623':'#F05252';
+  leaderList.innerHTML += `
+  <div class="leader-row">
+    <div class="rank-num ${rankCls}">${i+1}</div>
+    <div class="avatar" style="background:${p.color}22;color:${p.tc}">${p.short}</div>
+    <div style="flex:1">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+        <span class="pname">${p.name}</span>
+        <span style="font-size:11px;color:var(--text2)">계획력 ${p.P}%</span>
+      </div>
+      <div class="leader-bar-wrap"><div class="leader-bar" style="width:${p.P}%;background:${barC}"></div></div>
+    </div>
+  </div>`;
+});
+
+// ── SYNERGY MATRIX ──
+const names = PEOPLE.map(p=>p.name.length>3?p.name.slice(0,3):p.name);
+const tbl = document.getElementById('synergyTable');
+let hdr = '<thead><tr><th></th>' + names.map(n=>`<th>${n}</th>`).join('') + '</tr></thead>';
+let body = '<tbody>';
+PEOPLE.forEach((p,i)=>{
+  body += `<tr><td class="row-lbl">${names[i]}</td>`;
+  PEOPLE.forEach((q,j)=>{
+    if(i===j){ body += `<td><div class="syn-cell" style="background:rgba(255,255,255,0.04);color:var(--text3)">—</div></td>`; return; }
+    const sim = Math.round(100 - (Math.abs(p.S-q.S)+Math.abs(p.P-q.P)+Math.abs(p.A-q.A)+Math.abs(p.Ss-q.Ss))/4*0.5);
+    const bg = sim>=70?'rgba(30,201,154,0.15)':sim>=50?'rgba(245,166,35,0.12)':'rgba(240,82,82,0.12)';
+    const fc = sim>=70?'#1EC99A':sim>=50?'#F5A623':'#F05252';
+    body += `<td><div class="syn-cell" style="background:${bg};color:${fc}">${sim}</div></td>`;
+  });
+  body += '</tr>';
+});
+body += '</tbody>';
+tbl.innerHTML = hdr + body;
+
+// ── CHARTS ──
+const gridC = 'rgba(255,255,255,0.06)';
+const textC = '#555B6E';
+
+// Radar Overview
+new Chart(document.getElementById('radarOverview'), {
+  type:'radar',
+  data:{
+    labels:['동시처리','계획력','주의력','순차처리'],
+    datasets:[
+      { label:'학급 평균', data:[53,56,71,51], backgroundColor:'rgba(59,139,245,0.12)', borderColor:'#3B8BF5', pointBackgroundColor:'#3B8BF5', borderWidth:2, pointRadius:4 },
+      { label:'HiPo 평균', data:[83,85.5,79,55.5], backgroundColor:'rgba(30,201,154,0.1)', borderColor:'#1EC99A', pointBackgroundColor:'#1EC99A', borderWidth:2, borderDash:[5,3], pointRadius:4 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ r:{ min:0, max:100, ticks:{ stepSize:25, color:textC, font:{size:9}, backdropColor:'transparent' }, grid:{ color:gridC }, angleLines:{ color:gridC }, pointLabels:{ color:'#8A90A0', font:{size:11} } } } }
+});
+
+// Brain type donut
+new Chart(document.getElementById('brainChart'), {
+  type:'doughnut',
+  data:{
+    labels:['우뇌우세형','좌우뇌 균형형','좌뇌우세형'],
+    datasets:[{ data:[1,4,2], backgroundColor:['#8B72F5','#3B8BF5','#1EC99A'], borderWidth:0, hoverOffset:4 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, cutout:'65%', plugins:{ legend:{ display:false } } }
+});
+
+// HiPo radar
+new Chart(document.getElementById('radarHipo'), {
+  type:'radar',
+  data:{
+    labels:['동시처리','계획력','주의력','순차처리'],
+    datasets:[
+      { label:'박건호', data:[83,92,84,27], backgroundColor:'rgba(30,201,154,0.12)', borderColor:'#1EC99A', pointBackgroundColor:'#1EC99A', borderWidth:2, pointRadius:4 },
+      { label:'A2', data:[83,79,74,84], backgroundColor:'rgba(59,139,245,0.1)', borderColor:'#3B8BF5', pointBackgroundColor:'#3B8BF5', borderWidth:2, borderDash:[4,3], pointRadius:4 },
+      { label:'학급 평균', data:[53,56,71,51], backgroundColor:'transparent', borderColor:'rgba(255,255,255,0.15)', pointBackgroundColor:'rgba(255,255,255,0.3)', borderWidth:1, borderDash:[2,4], pointRadius:3 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ color:'#8A90A0', font:{size:10}, boxWidth:10, padding:12 } } }, scales:{ r:{ min:0, max:100, ticks:{ stepSize:25, color:textC, font:{size:9}, backdropColor:'transparent' }, grid:{ color:gridC }, angleLines:{ color:gridC }, pointLabels:{ color:'#8A90A0', font:{size:11} } } } }
+});
+
+// Job chart
+new Chart(document.getElementById('jobChart'), {
+  type:'bar', indexAxis:'y',
+  data:{
+    labels:['전략·기획','분석·연구','창의·기획','실행·운영','커뮤니케이션'],
+    datasets:[{ label:'충족도', data:[64,57,42,51,71], backgroundColor:['#3B8BF5','#3B8BF5','#F5A623','#F5A623','#1EC99A'], borderRadius:4 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true, max:100, ticks:{ color:textC, font:{size:10} }, grid:{ color:gridC } }, y:{ ticks:{ color:'#8A90A0', font:{size:11} }, grid:{ display:false } } } }
+});
+
+// Risk chart
+new Chart(document.getElementById('riskChart'), {
+  type:'bar',
+  data:{
+    labels:['동시처리','계획력','주의력','순차처리'],
+    datasets:[{ label:'50% 미만', data:[2,4,0,3], backgroundColor:['#F05252','#F5A623','#1EC99A','#F5A623'], borderRadius:6 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ y:{ beginAtZero:true, max:7, ticks:{ stepSize:1, color:textC, font:{size:10} }, grid:{ color:gridC } }, x:{ ticks:{ color:'#8A90A0', font:{size:11} }, grid:{ display:false } } } }
+});
+
+// Leader chart
+new Chart(document.getElementById('leaderChart'), {
+  type:'bar', indexAxis:'y',
+  data:{
+    labels:['박건호','A2','A1','정상중','A4','A3','김혜영'],
+    datasets:[{ label:'계획력', data:[92,79,74,47,37,34,26], backgroundColor:['#1EC99A','#1EC99A','#3B8BF5','#F5A623','#F5A623','#F05252','#F05252'], borderRadius:4 }]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:false } }, scales:{ x:{ beginAtZero:true, max:100, ticks:{ color:textC, font:{size:10} }, grid:{ color:gridC } }, y:{ ticks:{ color:'#8A90A0', font:{size:11} }, grid:{ display:false } } } }
+});
+
+// Team radar
+new Chart(document.getElementById('teamRadar'), {
+  type:'radar',
+  data:{
+    labels:['동시처리','계획력','주의력','순차처리'],
+    datasets:[
+      { label:'드림팀 A', data:[76,73,83,64], backgroundColor:'rgba(30,201,154,0.15)', borderColor:'#1EC99A', pointBackgroundColor:'#1EC99A', borderWidth:2, pointRadius:4 },
+      { label:'학급 평균', data:[53,56,71,51], backgroundColor:'transparent', borderColor:'rgba(59,139,245,0.4)', pointBackgroundColor:'#3B8BF5', borderWidth:1.5, borderDash:[4,3], pointRadius:3 }
+    ]
+  },
+  options:{ responsive:true, maintainAspectRatio:false, plugins:{ legend:{ display:true, position:'bottom', labels:{ color:'#8A90A0', font:{size:10}, boxWidth:10, padding:12 } } }, scales:{ r:{ min:0, max:100, ticks:{ stepSize:25, color:textC, font:{size:9}, backdropColor:'transparent' }, grid:{ color:gridC }, angleLines:{ color:gridC }, pointLabels:{ color:'#8A90A0', font:{size:11} } } } }
+});
+
+// ── NAV ──
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+</script>
+</body>
+</html>
