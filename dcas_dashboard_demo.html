@@ -1,0 +1,916 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>D-CAS 학급 분석 대시보드 · 앱 테스트</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Gmarket+Sans:wght@300;500;700&display=swap');
+
+:root {
+  --bg:#F0F4FA; --surface:#fff; --surface2:#F7F9FD;
+  --border:#E2E8F4; --navy:#1B2D52; --blue:#4070E8;
+  --blue-lt:#EBF1FF; --green:#1DAE7A; --green-lt:#E6F8F1;
+  --orange:#E8841A; --orange-lt:#FEF3E4; --red:#E03E3E;
+  --red-lt:#FEE9E9; --purple:#7B5DC8; --purple-lt:#F0EBFD;
+  --yellow:#E8B21A; --yellow-lt:#FEF8E4;
+  --text:#1B2D52; --text2:#475569; --text3:#8096B0;
+  --r:14px; --sh:0 2px 14px rgba(27,45,82,.08);
+  --sh2:0 8px 32px rgba(27,45,82,.13);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);font-size:14px;line-height:1.6;}
+
+/* ── TOP BAR ── */
+.topbar{
+  background:var(--navy);color:#fff;
+  padding:13px 28px;display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.2);
+}
+.tl{display:flex;align-items:center;gap:12px;}
+.logo{font-family:'Gmarket Sans',sans-serif;font-size:1rem;font-weight:700;}
+.logo em{color:#6FA3FF;font-style:normal;}
+.tdiv{width:1px;height:18px;background:rgba(255,255,255,.2);}
+.tsub{font-size:.82rem;color:rgba(255,255,255,.65);}
+.tdate{font-size:.78rem;color:rgba(255,255,255,.45);}
+
+/* ── NAV ── */
+.nav{
+  background:var(--surface);border-bottom:1px solid var(--border);
+  padding:0 28px;display:flex;gap:0;
+  position:sticky;top:50px;z-index:150;
+  box-shadow:var(--sh);overflow-x:auto;
+}
+.ntab{
+  padding:13px 18px;font-size:.84rem;font-weight:500;
+  color:var(--text3);cursor:pointer;border-bottom:3px solid transparent;
+  white-space:nowrap;transition:all .2s;
+}
+.ntab:hover{color:var(--blue);}
+.ntab.on{color:var(--blue);border-bottom-color:var(--blue);font-weight:700;}
+
+/* ── MAIN ── */
+.main{max-width:1200px;margin:0 auto;padding:26px 22px 60px;}
+.sec{display:none;}
+.sec.on{display:block;}
+.sec-title{
+  font-family:'Gmarket Sans',sans-serif;font-size:1.15rem;font-weight:700;
+  color:var(--navy);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.sec-title::before{content:'';display:block;width:4px;height:20px;background:var(--blue);border-radius:2px;}
+
+/* ── CARDS ── */
+.card{background:var(--surface);border-radius:var(--r);border:1px solid var(--border);box-shadow:var(--sh);padding:22px 24px;margin-bottom:18px;}
+.ctag{font-size:.73rem;font-weight:700;color:var(--text3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:12px;}
+
+/* ── GRIDS ── */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:18px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:18px;}
+.g4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:18px;}
+.g5{display:grid;grid-template-columns:repeat(5,1fr);gap:13px;margin-bottom:18px;}
+@media(max-width:800px){.g2,.g3,.g4,.g5{grid-template-columns:1fr 1fr;}}
+@media(max-width:520px){.g2,.g3,.g4,.g5{grid-template-columns:1fr;}}
+
+/* ── KPI ── */
+.kpi{
+  background:var(--surface);border-radius:var(--r);border:1px solid var(--border);
+  padding:18px 20px;box-shadow:var(--sh);position:relative;overflow:hidden;
+}
+.kpi::after{content:'';position:absolute;top:0;left:0;width:100%;height:4px;}
+.kpi.bl::after{background:var(--blue);}
+.kpi.gr::after{background:var(--green);}
+.kpi.or::after{background:var(--orange);}
+.kpi.re::after{background:var(--red);}
+.kpi.pu::after{background:var(--purple);}
+.kpi.ye::after{background:var(--yellow);}
+.kl{font-size:.75rem;color:var(--text3);margin-bottom:6px;font-weight:500;}
+.kv{font-family:'Gmarket Sans',sans-serif;font-size:1.9rem;font-weight:700;}
+.ks{font-size:.73rem;color:var(--text3);margin-top:3px;}
+.kpi.bl .kv{color:var(--blue);}
+.kpi.gr .kv{color:var(--green);}
+.kpi.or .kv{color:var(--orange);}
+.kpi.re .kv{color:var(--red);}
+.kpi.pu .kv{color:var(--purple);}
+.kpi.ye .kv{color:var(--yellow);}
+
+/* ── RISK BADGE ── */
+.rb{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;font-weight:700;padding:3px 9px;border-radius:20px;}
+.rh{background:var(--red-lt);color:var(--red);}
+.rm{background:var(--orange-lt);color:var(--orange);}
+.rl{background:var(--yellow-lt);color:var(--yellow);}
+.ro{background:var(--green-lt);color:var(--green);}
+
+/* ── SCORE PILL ── */
+.sp{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.79rem;font-weight:700;min-width:44px;text-align:center;}
+.sph{background:var(--green-lt);color:var(--green);}
+.spm{background:var(--blue-lt);color:var(--blue);}
+.spl{background:var(--orange-lt);color:var(--orange);}
+.spc{background:var(--red-lt);color:var(--red);}
+.spz{background:#f0f0f0;color:#999;} /* 0% 특수 처리 */
+
+/* ── BRAIN TAG ── */
+.bt{display:inline-flex;align-items:center;gap:3px;padding:2px 8px;border-radius:5px;font-size:.72rem;font-weight:700;}
+.btr{background:var(--blue-lt);color:var(--blue);}
+.btl{background:var(--green-lt);color:var(--green);}
+.btb{background:var(--purple-lt);color:var(--purple);}
+
+/* ── PROGRESS BAR ── */
+.pb-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.pb-lbl{width:64px;font-size:.79rem;font-weight:500;flex-shrink:0;}
+.pb{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden;}
+.pb-f{height:100%;border-radius:4px;transition:width .6s ease;}
+.pb-val{font-size:.79rem;font-weight:700;min-width:36px;text-align:right;}
+
+/* ── TABLE ── */
+.tbl{width:100%;border-collapse:collapse;font-size:.84rem;}
+.tbl th{background:var(--surface2);padding:9px 13px;text-align:left;font-size:.72rem;font-weight:700;color:var(--text3);border-bottom:2px solid var(--border);letter-spacing:.5px;}
+.tbl td{padding:10px 13px;border-bottom:1px solid var(--border);vertical-align:middle;}
+.tbl tr:last-child td{border-bottom:none;}
+.tbl tr:hover td{background:var(--surface2);}
+
+/* ── ALERT ── */
+.alert{display:flex;align-items:flex-start;gap:11px;padding:13px 15px;border-radius:10px;margin-bottom:10px;border:1px solid;}
+.alert.ah{background:var(--red-lt);border-color:#FCBBBB;}
+.alert.am{background:var(--orange-lt);border-color:#FDC894;}
+.alert.al{background:var(--yellow-lt);border-color:#F9DC80;}
+.alert.ao{background:var(--green-lt);border-color:#A8E6C8;}
+.ai{font-size:1.1rem;flex-shrink:0;margin-top:1px;}
+.at2{font-weight:700;font-size:.88rem;margin-bottom:2px;}
+.as2{font-size:.8rem;color:var(--text2);}
+
+/* ── STRATEGY ── */
+.strat{background:var(--surface2);border-radius:9px;padding:14px 16px;border-left:4px solid;margin-bottom:11px;}
+.st{font-weight:700;margin-bottom:5px;font-size:.88rem;}
+.sb2{font-size:.82rem;color:var(--text2);line-height:1.7;}
+
+/* ── RISK MAP ── */
+.rmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px;}
+@media(max-width:600px){.rmap{grid-template-columns:1fr 1fr;}}
+.rc{border-radius:10px;padding:13px 10px;text-align:center;cursor:pointer;transition:all .2s;border:2px solid transparent;}
+.rc:hover{transform:translateY(-3px);box-shadow:var(--sh2);}
+.rc.rcr{background:var(--red-lt);border-color:#F5AAAA;}
+.rc.rcw{background:var(--orange-lt);border-color:#FDCC90;}
+.rc.rcwt{background:var(--yellow-lt);border-color:#F9DC80;}
+.rc.rco{background:var(--green-lt);border-color:#A8E6C8;}
+.rcn{font-weight:700;font-size:.9rem;margin-bottom:3px;}
+.rct{font-size:.68rem;color:var(--text3);margin-bottom:7px;}
+.rcb{display:flex;flex-direction:column;gap:3px;}
+.rbb{height:5px;border-radius:3px;}
+
+/* ── PRIORITY ROW ── */
+.prow{display:flex;align-items:center;gap:13px;padding:12px 15px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);margin-bottom:9px;cursor:pointer;transition:all .2s;}
+.prow:hover{border-color:var(--blue);background:var(--blue-lt);}
+.pnum{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.82rem;color:#fff;flex-shrink:0;}
+.pinfo{flex:1;}
+.pname{font-weight:700;font-size:.92rem;}
+.pdesc{font-size:.78rem;color:var(--text3);}
+.pscore{text-align:right;}
+.pv{font-family:'Gmarket Sans',sans-serif;font-size:1.15rem;font-weight:700;}
+
+/* ── CAREER ── */
+.cc{background:var(--surface);border:1px solid var(--border);border-radius:11px;padding:16px 18px;position:relative;overflow:hidden;}
+.cc::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;}
+.cc.c1::before{background:var(--blue);}
+.cc.c2::before{background:var(--green);}
+.cc.c3::before{background:var(--orange);}
+.cc.c4::before{background:var(--purple);}
+.ccn{font-weight:700;font-size:.9rem;margin-bottom:4px;}
+.ccct{font-size:.75rem;color:var(--text3);margin-bottom:8px;}
+.ccns{font-size:.8rem;color:var(--text2);}
+
+/* ── MODAL ── */
+.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.modal.on{display:flex;}
+.mbox{background:var(--surface);border-radius:16px;padding:32px 36px;max-width:600px;width:92%;max-height:85vh;overflow-y:auto;box-shadow:var(--sh2);}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.mt2{font-family:'Gmarket Sans',sans-serif;font-size:1rem;font-weight:700;}
+.mcl{width:30px;height:30px;border-radius:50%;background:var(--border);border:none;cursor:pointer;font-size:.95rem;display:flex;align-items:center;justify-content:center;transition:background .2s;}
+.mcl:hover{background:var(--red-lt);}
+
+/* ── REPORT ── */
+.rsec{margin-bottom:16px;}
+.rlb{font-size:.72rem;font-weight:700;color:var(--text3);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px;}
+.rct2{background:var(--surface2);border-radius:8px;padding:12px 15px;font-size:.86rem;color:var(--text2);line-height:1.8;border:1px solid var(--border);white-space:pre-wrap;}
+.print-btn{padding:11px 26px;background:var(--blue);color:#fff;border:none;border-radius:8px;font-size:.9rem;font-weight:700;cursor:pointer;font-family:'Noto Sans KR',sans-serif;transition:all .2s;width:100%;}
+.print-btn:hover{background:#2a5fd4;}
+
+/* ── GIBUB ── */
+.gibub{background:var(--surface2);border-radius:9px;padding:15px 17px;font-size:.86rem;color:var(--text);line-height:1.9;border:1px solid var(--border);white-space:pre-wrap;min-height:80px;}
+.gsel{padding:9px 13px;border-radius:8px;border:1px solid var(--border);background:var(--surface);font-family:'Noto Sans KR',sans-serif;font-size:.88rem;color:var(--text);outline:none;cursor:pointer;margin-bottom:13px;width:100%;max-width:360px;}
+
+/* ── HEATMAP ── */
+.hm-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.hm-nm{width:58px;font-size:.77rem;font-weight:500;text-align:right;flex-shrink:0;color:var(--text2);}
+.hm-cell{flex:1;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;}
+.hm-hdrs{display:flex;gap:7px;margin-bottom:10px;padding-left:65px;}
+.hm-hdr{flex:1;font-size:.7rem;color:var(--text3);text-align:center;font-weight:600;}
+
+/* chart wrap */
+.cwrap{position:relative;}
+.cwrap canvas{max-height:260px;}
+
+/* zero score special */
+.zero-warn{display:inline-block;padding:2px 8px;border-radius:4px;background:#FEE9E9;color:#E03E3E;font-size:.72rem;font-weight:700;margin-left:4px;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="tl">
+    <div class="logo">Feel<em>Good</em> BrainMap</div>
+    <div class="tdiv"></div>
+    <div class="tsub">D-CAS 학급 인지능력 분석 대시보드</div>
+  </div>
+  <div class="tdate">앱 테스트 · 7명 · 2026. 5. 6.</div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+  <div class="ntab on" onclick="show('overview',this)">📊 종합 대시보드</div>
+  <div class="ntab" onclick="show('risk',this)">🚨 위기·관리 필요</div>
+  <div class="ntab" onclick="show('domain',this)">🧠 영역별 분석</div>
+  <div class="ntab" onclick="show('riskmap',this)">🗺️ 리스크 맵</div>
+  <div class="ntab" onclick="show('priority',this)">📋 상담 우선순위</div>
+  <div class="ntab" onclick="show('strategy',this)">📚 학습 전략</div>
+  <div class="ntab" onclick="show('career',this)">🎯 진로 적합도</div>
+  <div class="ntab" onclick="show('report',this)">📄 상담 리포트</div>
+</div>
+
+<div class="main">
+
+<!-- ════════════════════════════
+  SECTION 1: 종합 대시보드
+════════════════════════════ -->
+<div class="sec on" id="s-overview">
+  <div class="sec-title">종합 대시보드 — 앱 테스트 핵심 요약</div>
+
+  <!-- KPI 5개 -->
+  <div class="g5">
+    <div class="kpi bl"><div class="kl">전체 학생</div><div class="kv">7명</div><div class="ks">앱 테스트</div></div>
+    <div class="kpi re"><div class="kl">🚨 위기 (하위 20%)</div><div class="kv">2명</div><div class="ks">전체평균 30% 미만</div></div>
+    <div class="kpi or"><div class="kl">⚠️ 관리 필요</div><div class="kv">5명</div><div class="ks">71% · 1개 이상 영역 50% 미만</div></div>
+    <div class="kpi gr"><div class="kl">✅ 양호</div><div class="kv">2명</div><div class="ks">전 영역 50% 이상</div></div>
+    <div class="kpi ye"><div class="kl">계획력 평균</div><div class="kv">56%</div><div class="ks">주요 취약 영역</div></div>
+  </div>
+
+  <!-- 4개 영역 평균 -->
+  <div class="g4">
+    <div class="kpi bl"><div class="kl">동시처리 평균</div><div class="kv">53%</div><div class="ks">우뇌 처리</div></div>
+    <div class="kpi pu"><div class="kl">계획력 평균</div><div class="kv">56%</div><div class="ks">편차 최대</div></div>
+    <div class="kpi gr"><div class="kl">주의력 평균</div><div class="kv">71%</div><div class="ks">가장 안정</div></div>
+    <div class="kpi or"><div class="kl">순차처리 평균</div><div class="kv">51%</div><div class="ks">좌뇌 처리</div></div>
+  </div>
+
+  <!-- 차트 2개 -->
+  <div class="g2">
+    <div class="card">
+      <div class="ctag">척도별 학급 평균 — 레이더</div>
+      <div class="cwrap"><canvas id="radarC"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="ctag">두뇌 유형 분포</div>
+      <div class="cwrap"><canvas id="pieC"></canvas></div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:12px">
+        <span class="bt btr">🔵 우뇌우세형 1명(14%)</span>
+        <span class="bt btb">🟢 좌우뇌 균형형 4명(57%)</span>
+        <span class="bt btl">🩵 좌뇌우세형 2명(29%)</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- 지원 필요도 -->
+  <div class="card">
+    <div class="ctag">영역별 50% 미만 학생 현황 — 지원 필요도</div>
+    <div class="g4" style="margin-bottom:0">
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-weight:700;color:var(--green)">주의력</span>
+          <span class="rb ro">양호 · 0명</span>
+        </div>
+        <div class="pb-row"><div class="pb"><div class="pb-f" style="width:0%;background:var(--green)"></div></div><div class="pb-val" style="color:var(--green)">0%</div></div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:5px">전원 50% 이상 · 평균 71%</div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-weight:700;color:var(--orange)">동시처리</span>
+          <span class="rb rm">집중지원 · 2명</span>
+        </div>
+        <div class="pb-row"><div class="pb"><div class="pb-f" style="width:29%;background:var(--orange)"></div></div><div class="pb-val" style="color:var(--orange)">29%</div></div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:5px">김혜영(0%), A3(23%)</div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-weight:700;color:var(--orange)">순차처리</span>
+          <span class="rb rm">집중지원 · 2명</span>
+        </div>
+        <div class="pb-row"><div class="pb"><div class="pb-f" style="width:29%;background:var(--orange)"></div></div><div class="pb-val" style="color:var(--orange)">29%</div></div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:5px">김혜영(0%), 박건호(27%)</div>
+      </div>
+      <div>
+        <div style="display:flex;justify-content:space-between;margin-bottom:5px">
+          <span style="font-weight:700;color:var(--red)">계획력</span>
+          <span class="rb rm">집중지원 · 3명</span>
+        </div>
+        <div class="pb-row"><div class="pb"><div class="pb-f" style="width:43%;background:var(--red)"></div></div><div class="pb-val" style="color:var(--red)">43%</div></div>
+        <div style="font-size:.75rem;color:var(--text3);margin-top:5px">김혜영(26%), A4(37%), A3(34%)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 히트맵 -->
+  <div class="card">
+    <div class="ctag">전체 학생 인지 히트맵 (동시·계획·주의·순차 순)</div>
+    <div class="hm-hdrs">
+      <div class="hm-hdr">동시처리</div>
+      <div class="hm-hdr">계획력</div>
+      <div class="hm-hdr">주의력</div>
+      <div class="hm-hdr">순차처리</div>
+    </div>
+    <div id="heatmap"></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 2: 위기·관리 필요
+════════════════════════════ -->
+<div class="sec" id="s-risk">
+  <div class="sec-title">위기·관리 필요 학생 분류</div>
+
+  <!-- 하위 20% 위기 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div>
+        <div class="ctag">🚨 위기 관리 필요 — 하위 20% (2명)</div>
+        <div style="font-size:.8rem;color:var(--text3)">전체 평균 30% 미만 또는 0점 영역 존재 · 즉시 개별 상담 필요</div>
+      </div>
+      <span class="rb rh">즉시 상담</span>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>순위</th><th>이름</th><th>나이</th><th>두뇌유형</th><th>동시처리</th><th>계획력</th><th>주의력</th><th>순차처리</th><th>전체평균</th><th>위험요인</th></tr></thead>
+      <tbody id="crisis-tb"></tbody>
+    </table>
+  </div>
+
+  <!-- 관리 필요 5명 전체 -->
+  <div class="card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div>
+        <div class="ctag">⚠️ 관리 필요 전체 (5명) — D-CAS 결과지 지정</div>
+        <div style="font-size:.8rem;color:var(--text3)">1개 이상 영역 50% 미만 · 1~2주 내 상담 권고</div>
+      </div>
+      <span class="rb rm">1~2주 내</span>
+    </div>
+    <table class="tbl">
+      <thead><tr><th>이름</th><th>나이</th><th>두뇌유형</th><th>동시처리</th><th>계획력</th><th>주의력</th><th>순차처리</th><th>취약 영역</th><th>권장 조치</th></tr></thead>
+      <tbody id="manage-tb"></tbody>
+    </table>
+  </div>
+
+  <!-- 특이 패턴 경보 -->
+  <div class="card">
+    <div class="ctag">⚡ 인지-정서 불일치 경보 — 특이 패턴 학생</div>
+    <div class="alert ah">
+      <div class="ai">🔴</div>
+      <div>
+        <div class="at2">김혜영 (좌우뇌 균형형, 만13세) — 동시처리 0% · 순차처리 0%</div>
+        <div class="as2">양쪽 처리 영역이 모두 0%로 극히 이례적인 결과. 검사 참여 태도·이해도 확인 필요. 재검사 또는 개별 심층 면담 즉시 시행 권고. 단순 인지 취약이 아닌 정서·행동적 요인 개입 가능성 높음.</div>
+      </div>
+    </div>
+    <div class="alert am">
+      <div class="ai">🟠</div>
+      <div>
+        <div class="at2">박건호 (우뇌우세형, 만16세) — 순차처리 27% · 계획력 92%</div>
+        <div class="as2">계획력(92%)은 매우 우수하나 순차처리(27%)가 극히 낮음. 아이디어는 넘치지만 실행·절차화가 어려운 패턴. 과제 미완성·제출 지연 가능성 높음. 계획→실행 연결 코칭 필요.</div>
+      </div>
+    </div>
+    <div class="alert am">
+      <div class="ai">🟠</div>
+      <div>
+        <div class="at2">정상중 (좌뇌우세형, 만46세) — 성인 대상자 특이사항</div>
+        <div class="as2">만46세 성인 대상자 포함. 계획력(47%)만 50% 미만. 청소년 중심 규준 해석 시 주의 필요. 성인 기준 재해석 권고.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 3: 영역별 분석
+════════════════════════════ -->
+<div class="sec" id="s-domain">
+  <div class="sec-title">영역별 관리 필요 학생 상세 분석</div>
+  <div class="g2">
+    <div class="card"><div class="ctag">동시처리 분포 (높은 순)</div><div class="cwrap"><canvas id="simC"></canvas></div></div>
+    <div class="card"><div class="ctag">계획력 분포 (높은 순)</div><div class="cwrap"><canvas id="planC"></canvas></div></div>
+  </div>
+  <div class="g2">
+    <div class="card"><div class="ctag">주의력 분포 (높은 순)</div><div class="cwrap"><canvas id="attC"></canvas></div></div>
+    <div class="card"><div class="ctag">순차처리 분포 (높은 순)</div><div class="cwrap"><canvas id="sucC"></canvas></div></div>
+  </div>
+
+  <!-- 영역별 개입 -->
+  <div class="card">
+    <div class="ctag">영역별 50% 미만 학생 명단 및 개입 방향</div>
+    <div class="g2" style="margin-bottom:0">
+      <div>
+        <div style="font-weight:700;color:var(--orange);margin-bottom:10px">동시처리 50% 미만 (2명)</div>
+        <div id="sim-low"></div>
+        <div class="strat" style="border-color:var(--orange)">
+          <div class="st" style="color:var(--orange)">개입 전략</div>
+          <div class="sb2">마인드맵·도식·영상 활용 전체 맥락 통합 훈련. 세부보다 전체→세부 순서로 수업 설계. 특히 김혜영(0%)은 재검사 후 개별 지원 체계 수립 필요.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--red);margin-bottom:10px">계획력 50% 미만 (3명)</div>
+        <div id="plan-low"></div>
+        <div class="strat" style="border-color:var(--red)">
+          <div class="st" style="color:var(--red)">개입 전략</div>
+          <div class="sb2">주간 플래너·목표 설정 코칭, 단계별 과제 분해 구조 제공. 김혜영(26%) 및 A3(34%) 개별 피드백 시급. A4(37%) 자기조절 루틴 형성 지원.</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--green);margin-bottom:10px">주의력 50% 미만 (0명)</div>
+        <div class="alert ao"><div class="ai">✅</div><div><div class="at2">전원 양호</div><div class="as2">주의력은 전 학생 50% 이상. 평균 71%로 가장 안정적인 영역.</div></div></div>
+      </div>
+      <div>
+        <div style="font-weight:700;color:var(--orange);margin-bottom:10px">순차처리 50% 미만 (2명)</div>
+        <div id="suc-low"></div>
+        <div class="strat" style="border-color:var(--orange)">
+          <div class="st" style="color:var(--orange)">개입 전략</div>
+          <div class="sb2">단계별 체크리스트·순서도 제공. 박건호(27%)는 계획은 뛰어나나 실행 절차화 어려움 — 계획→실행 연결 코칭 집중 필요.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 4: 리스크 맵
+════════════════════════════ -->
+<div class="sec" id="s-riskmap">
+  <div class="sec-title">학생 정서 리스크 맵</div>
+  <div class="card" style="margin-bottom:14px">
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:15px">
+      <span class="rb rh">🔴 위기 — 0점 영역 또는 전체평균 30% 미만</span>
+      <span class="rb rm">🟠 경고 — 1개 영역 30% 미만</span>
+      <span class="rb rl">🟡 주의 — 전체평균 50% 미만</span>
+      <span class="rb ro">🟢 양호 — 전 영역 50% 이상</span>
+    </div>
+    <div class="rmap" id="riskMap"></div>
+  </div>
+  <div class="card">
+    <div class="ctag">계획력 vs 주의력 산점도</div>
+    <div class="cwrap"><canvas id="scatterC"></canvas></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 5: 상담 우선순위
+════════════════════════════ -->
+<div class="sec" id="s-priority">
+  <div class="sec-title">상담 우선순위 AI 추천</div>
+  <div class="card" style="margin-bottom:14px">
+    <div class="ctag">전체 학생 상담 우선순위 (자동 산출)</div>
+    <div id="priority-list"></div>
+  </div>
+  <div class="card">
+    <div class="ctag">📊 우선순위 산출 기준</div>
+    <div class="g3" style="margin-bottom:0">
+      <div class="strat" style="border-color:var(--red)"><div class="st" style="color:var(--red)">🔴 1단계 — 즉시 상담</div><div class="sb2">0점 영역 존재 또는 전체평균 30% 미만<br>→ 이번 주 안 긴급 면담 + 학부모 연락</div></div>
+      <div class="strat" style="border-color:var(--orange)"><div class="st" style="color:var(--orange)">🟠 2단계 — 1~2주 내</div><div class="sb2">1개 이상 영역 30% 미만 또는 전체평균 40% 미만<br>→ 격주 모니터링 시작</div></div>
+      <div class="strat" style="border-color:var(--yellow)"><div class="st" style="color:var(--yellow)">🟡 3단계 — 월 1회 점검</div><div class="sb2">전체평균 40~55% 구간<br>→ 담임 관찰 강화</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 6: 학습 전략
+════════════════════════════ -->
+<div class="sec" id="s-strategy">
+  <div class="sec-title">두뇌 유형별 학습 전략 추천</div>
+  <div class="g3">
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span class="bt btr">🔵 우뇌우세형</span><span style="font-size:.78rem;color:var(--text3)">1명 (14%)</span>
+      </div>
+      <div class="strat" style="border-color:var(--blue)"><div class="st" style="color:var(--blue)">수업 방식</div><div class="sb2">시각 자료(도식·영상) 활용 하향식 수업. 직관적 창의 활동으로 동기 강화.</div></div>
+      <div class="strat" style="border-color:var(--blue)"><div class="st" style="color:var(--blue)">박건호 — 주의사항</div><div class="sb2">계획력(92%) 강점이지만 순차처리(27%) 매우 낮음. 절차화·단계 체크리스트 필수 제공.</div></div>
+      <div style="font-size:.78rem;color:var(--text3);margin-top:8px">해당: 박건호</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span class="bt btb">🟢 좌우뇌 균형형</span><span style="font-size:.78rem;color:var(--text3)">4명 (57%)</span>
+      </div>
+      <div class="strat" style="border-color:var(--purple)"><div class="st" style="color:var(--purple)">수업 방식</div><div class="sb2">논리+시각 병행 수업. 분석적 활동과 창의 활동을 균형 있게 배치.</div></div>
+      <div class="strat" style="border-color:var(--purple)"><div class="st" style="color:var(--purple)">취약 보완</div><div class="sb2">김혜영 재검사 우선. A3·A4는 계획력 집중 지원. A1은 전반 양호하나 주기적 점검.</div></div>
+      <div style="font-size:.78rem;color:var(--text3);margin-top:8px">해당: 김혜영, A1, A3, A4</div>
+    </div>
+    <div class="card">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        <span class="bt btl">🩵 좌뇌우세형</span><span style="font-size:.78rem;color:var(--text3)">2명 (29%)</span>
+      </div>
+      <div class="strat" style="border-color:var(--green)"><div class="st" style="color:var(--green)">수업 방식</div><div class="sb2">논리·순서 기반 강화. 실험 프로토콜 순서도·귀납적 독해 전략 활용.</div></div>
+      <div class="strat" style="border-color:var(--green)"><div class="st" style="color:var(--green)">특이사항</div><div class="sb2">A2는 전 영역 양호(83/79/74/84). 정상중은 성인 기준 별도 해석 필요.</div></div>
+      <div style="font-size:.78rem;color:var(--text3);margin-top:8px">해당: 정상중, A2</div>
+    </div>
+  </div>
+
+  <!-- 학습 회피 패턴 -->
+  <div class="card">
+    <div class="ctag">📉 학습 회피 패턴 분석 — 계획력 극저 학생</div>
+    <div class="alert ah"><div class="ai">🔴</div><div><div class="at2">김혜영 — 계획력 26% (+ 동시·순차 0%)</div><div class="as2">계획력 매우 낮고 처리 영역 전멸. 과제 시작 불가·학습 회피 극단적 위험. 즉각 개별 루틴 코칭 + 재검사 필요.</div></div></div>
+    <div class="alert am"><div class="ai">🟠</div><div><div class="at2">A3 — 계획력 34% · 동시처리 23%</div><div class="as2">계획력과 동시처리 모두 낮음. 과제 시작 어려움과 맥락 파악 동시 취약. 단계별 과제 분해 + 시각 자료 병행 지원 권고.</div></div></div>
+    <div class="alert al"><div class="ai">🟡</div><div><div class="at2">A4 — 계획력 37%</div><div class="as2">계획력만 취약. 자기조절 루틴 형성 지원으로 개선 가능성 높음.</div></div></div>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 7: 진로 적합도
+════════════════════════════ -->
+<div class="sec" id="s-career">
+  <div class="sec-title">인지 강점 기반 진로 적합도 예측</div>
+  <div class="g4" style="margin-bottom:18px">
+    <div class="cc c1"><div class="ccn">🎨 예술·디자인·공간 계열</div><div class="ccct">동시처리 강점형</div><div class="ccns" id="cc1"></div></div>
+    <div class="cc c2"><div class="ccn">🔬 이공·의료·데이터 계열</div><div class="ccct">순차처리 강점형</div><div class="ccns" id="cc2"></div></div>
+    <div class="cc c3"><div class="ccn">📋 경영·기획·행정 계열</div><div class="ccct">계획력 강점형</div><div class="ccns" id="cc3"></div></div>
+    <div class="cc c4"><div class="ccn">🎓 교육·상담·사회 계열</div><div class="ccct">주의력 강점형</div><div class="ccns" id="cc4"></div></div>
+  </div>
+  <div class="card">
+    <div class="ctag">학생별 인지 강점 × 진로 적합 계열</div>
+    <table class="tbl">
+      <thead><tr><th>이름</th><th>나이</th><th>두뇌유형</th><th>최고 강점 영역</th><th>적합 계열</th><th>생기부 키워드</th></tr></thead>
+      <tbody id="career-tb"></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ════════════════════════════
+  SECTION 8: 상담 리포트
+════════════════════════════ -->
+<div class="sec" id="s-report">
+  <div class="sec-title">교사용 개별 상담 리포트 자동 생성</div>
+  <div class="card">
+    <div class="ctag">학생 선택 → 리포트 자동 생성</div>
+    <select class="gsel" id="repSel" onchange="makeReport()">
+      <option value="">-- 학생을 선택하세요 --</option>
+    </select>
+    <div id="repOut" style="display:none"></div>
+  </div>
+  <div class="card">
+    <div class="ctag">📝 생기부 특기사항 초안 자동 생성</div>
+    <select class="gsel" id="gibSel" onchange="makeGibub()">
+      <option value="">-- 학생을 선택하세요 --</option>
+    </select>
+    <div class="gibub" id="gibOut">학생을 선택하면 인지 프로파일 기반 생기부 특기사항 초안이 자동 생성됩니다.</div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<!-- MODAL -->
+<div class="modal" id="modal">
+  <div class="mbox">
+    <div class="mh">
+      <div class="mt2" id="modal-title">학생 리포트</div>
+      <button class="mcl" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modal-body"></div>
+    <button class="print-btn" onclick="window.print()" style="margin-top:14px">🖨️ 인쇄 / PDF 저장</button>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════
+// 실제 데이터 (PDF 결과지 기반)
+// ══════════════════════════════
+const STU = [
+  {name:'김혜영', age:13, brain:'좌우뇌 균형형', sim:0,  plan:26, att:55, suc:0,  note:'관리필요'},
+  {name:'정상중', age:46, brain:'좌뇌우세형',    sim:63, plan:47, att:84, suc:81, note:'관리필요'},
+  {name:'A4',    age:17, brain:'좌우뇌 균형형', sim:51, plan:37, att:68, suc:54, note:'관리필요'},
+  {name:'A3',    age:16, brain:'좌우뇌 균형형', sim:23, plan:34, att:68, suc:43, note:'관리필요'},
+  {name:'A2',    age:15, brain:'좌뇌우세형',    sim:83, plan:79, att:74, suc:84, note:''},
+  {name:'A1',    age:13, brain:'좌우뇌 균형형', sim:66, plan:74, att:65, suc:65, note:''},
+  {name:'박건호', age:16, brain:'우뇌우세형',    sim:83, plan:92, att:84, suc:27, note:'관리필요'},
+];
+STU.forEach(s=>{
+  s.avg = Math.round((s.sim+s.plan+s.att+s.suc)/4);
+  s.top = ['sim','plan','att','suc'].reduce((a,b)=>s[a]>s[b]?a:b);
+});
+
+// ── 유틸 ──
+const pc = v => v>=70?'sph':v>=50?'spm':v>=30?'spl':v==0?'spz':'spc';
+const pcolor = v => v>=70?'var(--green)':v>=50?'var(--blue)':v>=30?'var(--orange)':'var(--red)';
+const bc = b => b==='우뇌우세형'?'btr':b==='좌뇌우세형'?'btl':'btb';
+
+function rLevel(s){
+  if(s.sim===0||s.suc===0||s.avg<25) return 'crit';
+  const lows=[s.sim,s.plan,s.att,s.suc].filter(v=>v<30).length;
+  if(lows>=1||s.avg<40) return 'warn';
+  if(s.avg<55) return 'watch';
+  return 'ok';
+}
+function rLabel(r){
+  return {crit:'<span class="rb rh">🔴 위기</span>',warn:'<span class="rb rm">🟠 경고</span>',watch:'<span class="rb rl">🟡 주의</span>',ok:'<span class="rb ro">🟢 양호</span>'}[r];
+}
+function weakAreas(s){
+  const m={sim:'동시처리',plan:'계획력',att:'주의력',suc:'순차처리'};
+  const ws=['sim','plan','att','suc'].filter(k=>s[k]<50).map(k=>`${m[k]}(${s[k]}%)`);
+  return ws.length?ws.join(', '):'없음';
+}
+function action(s){
+  const r=rLevel(s);
+  if(r==='crit') return '긴급 면담 + 학부모 연락 + 재검사';
+  if(r==='warn') return '1~2주 내 개별 상담';
+  if(r==='watch') return '월 1회 모니터링';
+  return '정기 점검';
+}
+const careerMap={sim:'예술·디자인·공간',plan:'경영·기획·행정',att:'교육·상담·사회',suc:'이공·의료·데이터'};
+const domainKw={sim:'시각적 맥락 파악·공간 추론·직관적 사고',plan:'체계적 계획·목표 지향·과제 분해',att:'지속적 집중·세부 관찰·주의 조절',suc:'논리적 순서 처리·절차 준수·단계적 실행'};
+
+// ── 섹션 전환 ──
+function show(id, el){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.ntab').forEach(t=>t.classList.remove('on'));
+  document.getElementById('s-'+id).classList.add('on');
+  el.classList.add('on');
+}
+
+// ══════════════════════════════
+// 종합 대시보드
+// ══════════════════════════════
+function renderOverview(){
+  // Radar
+  new Chart(document.getElementById('radarC').getContext('2d'),{
+    type:'radar',
+    data:{labels:['동시처리(53%)','계획력(56%)','주의력(71%)','순차처리(51%)'],
+      datasets:[{label:'학급 평균',data:[53,56,71,51],backgroundColor:'rgba(64,112,232,0.15)',borderColor:'#4070E8',pointBackgroundColor:'#4070E8',borderWidth:2}]},
+    options:{responsive:true,plugins:{legend:{display:false}},scales:{r:{min:0,max:100,ticks:{display:false}}}}
+  });
+  // Pie
+  new Chart(document.getElementById('pieC').getContext('2d'),{
+    type:'doughnut',
+    data:{labels:['우뇌우세형(1)','좌우뇌 균형형(4)','좌뇌우세형(2)'],
+      datasets:[{data:[1,4,2],backgroundColor:['#4070E8','#7B5DC8','#1DAE7A'],borderWidth:0}]},
+    options:{responsive:true,plugins:{legend:{position:'bottom',labels:{font:{size:12}}}}}
+  });
+  // 히트맵
+  const sorted=[...STU].sort((a,b)=>a.avg-b.avg);
+  document.getElementById('heatmap').innerHTML=sorted.map(s=>`
+    <div class="hm-row">
+      <div class="hm-nm">${s.name}</div>
+      ${[s.sim,s.plan,s.att,s.suc].map(v=>`<div class="hm-cell" style="background:${v===0?'#CCC':v>=70?'var(--green)':v>=50?'#5B8DEF':v>=30?'var(--orange)':'var(--red)'}">${v}%</div>`).join('')}
+    </div>`).join('');
+}
+
+// ══════════════════════════════
+// 위기·관리 필요
+// ══════════════════════════════
+function renderRisk(){
+  const sorted=[...STU].sort((a,b)=>a.avg-b.avg);
+  // 하위 20% = 하위 2명 (7명의 20%)
+  const crisis=sorted.slice(0,2);
+  document.getElementById('crisis-tb').innerHTML=crisis.map((s,i)=>`
+    <tr>
+      <td><b style="color:var(--red)">${i+1}</b></td>
+      <td><b>${s.name}</b></td><td>${s.age}세</td>
+      <td><span class="bt ${bc(s.brain)}">${s.brain}</span></td>
+      <td><span class="sp ${pc(s.sim)}">${s.sim}%</span>${s.sim===0?'<span class="zero-warn">⚠️0점</span>':''}</td>
+      <td><span class="sp ${pc(s.plan)}">${s.plan}%</span></td>
+      <td><span class="sp ${pc(s.att)}">${s.att}%</span></td>
+      <td><span class="sp ${pc(s.suc)}">${s.suc}%</span>${s.suc===0?'<span class="zero-warn">⚠️0점</span>':''}</td>
+      <td><b style="color:var(--red)">${s.avg}%</b></td>
+      <td style="font-size:.78rem;color:var(--red)">${s.sim===0||s.suc===0?'0점 영역 존재 — 재검사 필요':'전체평균 최하위'}</td>
+    </tr>`).join('');
+
+  // 관리 필요 5명
+  const manage=STU.filter(s=>s.note==='관리필요');
+  document.getElementById('manage-tb').innerHTML=manage.map(s=>`
+    <tr>
+      <td><b>${s.name}</b></td><td>${s.age}세</td>
+      <td><span class="bt ${bc(s.brain)}">${s.brain}</span></td>
+      <td><span class="sp ${pc(s.sim)}">${s.sim}%</span>${s.sim===0?'<span class="zero-warn">⚠️</span>':''}</td>
+      <td><span class="sp ${pc(s.plan)}">${s.plan}%</span></td>
+      <td><span class="sp ${pc(s.att)}">${s.att}%</span></td>
+      <td><span class="sp ${pc(s.suc)}">${s.suc}%</span>${s.suc===0?'<span class="zero-warn">⚠️</span>':''}</td>
+      <td style="font-size:.78rem;color:var(--orange)">${weakAreas(s)}</td>
+      <td><span class="rb rm" style="font-size:.7rem">${action(s)}</span></td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════
+// 영역별 분석
+// ══════════════════════════════
+function renderDomain(){
+  const keys=['sim','plan','att','suc'];
+  const ids=['simC','planC','attC','sucC'];
+  const cols={sim:'#4070E8',plan:'#7B5DC8',att:'#1DAE7A',suc:'#E8841A'};
+  keys.forEach((k,i)=>{
+    const sorted=[...STU].sort((a,b)=>b[k]-a[k]);
+    new Chart(document.getElementById(ids[i]).getContext('2d'),{
+      type:'bar',
+      data:{labels:sorted.map(s=>s.name),datasets:[{data:sorted.map(s=>s[k]),
+        backgroundColor:sorted.map(s=>s[k]<50?'rgba(224,62,62,.7)':cols[k]+'AA'),borderRadius:4}]},
+      options:{responsive:true,indexAxis:'y',plugins:{legend:{display:false}},
+        scales:{x:{max:100,grid:{color:'#eee'}},y:{ticks:{font:{size:11}}}}}
+    });
+  });
+
+  // 명단
+  const lowIds={sim:'sim-low',plan:'plan-low',suc:'suc-low'};
+  ['sim','plan','suc'].forEach(k=>{
+    const lows=STU.filter(s=>s[k]<50).sort((a,b)=>a[k]-b[k]);
+    document.getElementById(lowIds[k]).innerHTML=lows.map(s=>`
+      <div class="pb-row" style="margin-bottom:7px">
+        <span style="width:58px;font-size:.79rem;font-weight:500">${s.name}</span>
+        <div class="pb"><div class="pb-f" style="width:${s[k]}%;background:${pcolor(s[k])}"></div></div>
+        <div class="pb-val" style="color:${pcolor(s[k])}">${s[k]}%</div>
+      </div>`).join('');
+  });
+}
+
+// ══════════════════════════════
+// 리스크 맵
+// ══════════════════════════════
+function renderRiskmap(){
+  const sorted=[...STU].sort((a,b)=>a.avg-b.avg);
+  const rcls={crit:'rcr',warn:'rcw',watch:'rcwt',ok:'rco'};
+  document.getElementById('riskMap').innerHTML=sorted.map(s=>{
+    const r=rLevel(s);
+    return `<div class="rc ${rcls[r]}" onclick="openModal('${s.name}')">
+      <div class="rcn">${s.name}</div>
+      <div class="rct">${s.brain.substring(0,3)}</div>
+      <div class="rcb">
+        <div class="rbb" style="width:${s.sim}%;background:#4070E8;opacity:.8"></div>
+        <div class="rbb" style="width:${s.plan}%;background:#7B5DC8;opacity:.8"></div>
+        <div class="rbb" style="width:${s.att}%;background:#1DAE7A;opacity:.8"></div>
+        <div class="rbb" style="width:${s.suc}%;background:#E8841A;opacity:.8"></div>
+      </div>
+      <div style="margin-top:7px">${rLabel(r)}</div>
+    </div>`;
+  }).join('');
+
+  // Scatter
+  const cmap={'우뇌우세형':'#4070E8','좌우뇌 균형형':'#7B5DC8','좌뇌우세형':'#1DAE7A'};
+  new Chart(document.getElementById('scatterC').getContext('2d'),{
+    type:'scatter',
+    data:{datasets:[{label:'학생',
+      data:STU.map(s=>({x:s.plan,y:s.att,label:s.name})),
+      backgroundColor:STU.map(s=>cmap[s.brain]+'CC'),pointRadius:9}]},
+    options:{responsive:true,plugins:{legend:{display:false},
+      tooltip:{callbacks:{label:ctx=>{const d=ctx.raw;return `${d.label} — 계획:${d.x}% 주의:${d.y}%`;}}}},
+      scales:{x:{title:{display:true,text:'계획력 (%)'},min:0,max:100},y:{title:{display:true,text:'주의력 (%)'},min:0,max:100}}}
+  });
+}
+
+// ══════════════════════════════
+// 상담 우선순위
+// ══════════════════════════════
+function renderPriority(){
+  const sorted=[...STU].sort((a,b)=>a.avg-b.avg);
+  const bgMap={crit:'#E03E3E',warn:'#E8841A',watch:'#E8B21A',ok:'#1DAE7A'};
+  document.getElementById('priority-list').innerHTML=sorted.map((s,i)=>{
+    const r=rLevel(s);
+    return `<div class="prow" onclick="openModal('${s.name}')">
+      <div class="pnum" style="background:${bgMap[r]}">${i+1}</div>
+      <div class="pinfo">
+        <div class="pname">${s.name} <span class="bt ${bc(s.brain)}" style="font-size:.68rem">${s.brain}</span></div>
+        <div class="pdesc">취약: ${weakAreas(s)} · ${action(s)}</div>
+      </div>
+      <div class="pscore">
+        <div class="pv" style="color:${bgMap[r]}">${s.avg}%</div>
+        ${rLabel(r)}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ══════════════════════════════
+// 진로 적합도
+// ══════════════════════════════
+function renderCareer(){
+  const groups={sim:[],plan:[],att:[],suc:[]};
+  STU.forEach(s=>groups[s.top].push(s));
+  ['sim','plan','att','suc'].forEach((k,i)=>{
+    document.getElementById(`cc${i+1}`).textContent=groups[k].length?groups[k].map(s=>s.name).join(', '):'해당 없음';
+  });
+  document.getElementById('career-tb').innerHTML=[...STU].sort((a,b)=>b[b.top]-a[a.top]).map(s=>`
+    <tr>
+      <td><b>${s.name}</b></td><td>${s.age}세</td>
+      <td><span class="bt ${bc(s.brain)}">${s.brain}</span></td>
+      <td><span class="sp ${pc(s[s.top])}">${{sim:'동시처리',plan:'계획력',att:'주의력',suc:'순차처리'}[s.top]}(${s[s.top]}%)</span></td>
+      <td style="font-weight:600;color:var(--blue)">${careerMap[s.top]}</td>
+      <td style="font-size:.77rem;color:var(--text3)">${domainKw[s.top]}</td>
+    </tr>`).join('');
+}
+
+// ══════════════════════════════
+// 상담 리포트 / 생기부
+// ══════════════════════════════
+function renderReport(){
+  STU.sort((a,b)=>a.avg-b.avg).forEach(s=>{
+    document.getElementById('repSel').innerHTML+=`<option value="${s.name}">${s.name} (평균 ${s.avg}%)</option>`;
+    document.getElementById('gibSel').innerHTML+=`<option value="${s.name}">${s.name}</option>`;
+  });
+}
+
+function makeReport(){
+  const name=document.getElementById('repSel').value;
+  if(!name)return;
+  const s=STU.find(x=>x.name===name);
+  const r=rLevel(s);
+  const rc={crit:'var(--red)',warn:'var(--orange)',watch:'var(--yellow)',ok:'var(--green)'}[r];
+  const rl={crit:'위기',warn:'경고',watch:'주의',ok:'양호'}[r];
+  document.getElementById('repOut').style.display='block';
+  document.getElementById('repOut').innerHTML=`
+    <div style="border:2px solid ${rc};border-radius:12px;overflow:hidden;margin-bottom:14px">
+      <div style="background:${rc};color:#fff;padding:13px 17px;display:flex;justify-content:space-between">
+        <b style="font-size:1rem">${s.name} — 개별 상담 리포트</b>
+        <span style="font-size:.82rem;opacity:.9">위험등급: ${rl} · 2026. 5. 6.</span>
+      </div>
+      <div style="padding:18px">
+        <div class="rsec"><div class="rlb">기본 정보</div><div class="rct2">이름: ${s.name} · 나이: 만${s.age}세 · 두뇌유형: ${s.brain} · 전체평균: ${s.avg}%</div></div>
+        <div class="rsec"><div class="rlb">D-CAS 4개 영역 점수</div>
+          <div class="rct2">동시처리: <b style="color:${pcolor(s.sim)}">${s.sim}%</b>${s.sim===0?' ⚠️0점':''} &nbsp;|&nbsp; 계획력: <b style="color:${pcolor(s.plan)}">${s.plan}%</b> &nbsp;|&nbsp; 주의력: <b style="color:${pcolor(s.att)}">${s.att}%</b> &nbsp;|&nbsp; 순차처리: <b style="color:${pcolor(s.suc)}">${s.suc}%</b>${s.suc===0?' ⚠️0점':''}</div></div>
+        <div class="rsec"><div class="rlb">인지 프로파일 분석</div><div class="rct2">${genAnalysis(s)}</div></div>
+        <div class="rsec"><div class="rlb">취약 영역 개입 방향</div><div class="rct2">${genIntv(s)}</div></div>
+        <div class="rsec"><div class="rlb">진로 적합 계열</div><div class="rct2"><b>${careerMap[s.top]}</b> — ${domainKw[s.top]}</div></div>
+        <div class="rsec"><div class="rlb">권장 상담 질문</div><div class="rct2">${genQ(s)}</div></div>
+        <div class="rsec"><div class="rlb">다음 조치</div><div class="rct2" style="color:${rc};font-weight:700">${action(s)}</div></div>
+      </div>
+    </div>
+    <button class="print-btn" onclick="window.print()">🖨️ 인쇄 / PDF 저장</button>`;
+}
+
+function makeGibub(){
+  const name=document.getElementById('gibSel').value;
+  if(!name)return;
+  const s=STU.find(x=>x.name===name);
+  const tm={sim:'시각적 전체 맥락을 빠르게 파악하고 공간적 관계를 직관적으로 이해하는 능력이 우수함. 도식화, 시각 표현 활동에서 두드러진 역량을 발휘하며',plan:'목표를 설정하고 이를 달성하기 위한 단계적 계획을 수립하는 능력이 뛰어남. 체계적 사고와 과제 분해 능력을 바탕으로',att:'지속적이고 선택적인 집중력이 뛰어나 학습 과정에서 세부 사항을 정확하게 파악하는 역량이 탁월함. 꼼꼼한 관찰력과 주의 조절 능력을 바탕으로',suc:'순서와 절차를 정확하게 처리하는 논리적 사고력이 강점임. 단계적이고 체계적인 방식으로 문제를 접근하며'};
+  const text=s.sim===0&&s.suc===0?`D-CAS 인지능력 검사 결과 일부 영역에서 이례적인 수행 패턴을 보임. 재검사 및 추가 관찰 후 종합적 평가가 필요하며, 개별 맞춤형 지원 계획 수립 예정임.`:`D-CAS 인지능력 검사 결과, 본 학생은 ${s.brain} 유형으로 나타났음. ${tm[s.top]} ${careerMap[s.top]}에 높은 적합도를 보임. 인지 강점을 살린 학습 활동에서 우수한 참여도와 성취를 보이며, 향후 관련 분야 탐색 활동을 통해 진로 역량을 심화 발전시킬 것이 기대됨.`;
+  document.getElementById('gibOut').textContent=text;
+}
+
+function genAnalysis(s){
+  if(s.sim===0&&s.suc===0) return `${s.name} 학생은 동시처리(0%)와 순차처리(0%)가 모두 0점으로 나타나 이례적인 결과를 보이고 있습니다. 검사 참여 태도 및 이해도 확인 후 재검사를 강력 권고합니다. 단순 인지 취약이 아닌 정서·행동적 요인 개입 가능성을 배제할 수 없습니다.`;
+  let t=`${s.name} 학생은 ${s.brain} 유형으로, `;
+  const tm={sim:'동시처리(전체 맥락·시각공간)',plan:'계획력(목표 설정·절차 설계)',att:'주의력(집중 지속·선택적 주의)',suc:'순차처리(단계별 처리·순서 기억)'};
+  t+=`${tm[s.top]} 영역(${s[s.top]}%)이 최고 강점입니다. `;
+  if(s.avg>=70) t+='전반적으로 안정적인 인지 수행을 보입니다.';
+  else if(s.avg>=50) t+='일부 영역 지원이 필요하나 강점을 활용한 학습 전략이 효과적입니다.';
+  else t+='여러 영역에서 지원이 필요하며 개별 맞춤 계획 수립이 요구됩니다.';
+  return t;
+}
+
+function genIntv(s){
+  const items=[];
+  if(s.sim===0) items.push('• 동시처리(0%): 재검사 우선. 확인 후 마인드맵·도식 활용 맥락 파악 훈련');
+  else if(s.sim<50) items.push(`• 동시처리(${s.sim}%): 시각 자료 활용, 전체→세부 순서 수업 설계`);
+  if(s.plan<50) items.push(`• 계획력(${s.plan}%): 주간 플래너, 목표 설정 코칭, 단계별 과제 분해`);
+  if(s.att<50) items.push(`• 주의력(${s.att}%): 짧은 학습 단위, 집중 환경 조성`);
+  if(s.suc===0) items.push('• 순차처리(0%): 재검사 우선. 확인 후 체크리스트·순서도 제공');
+  else if(s.suc<50) items.push(`• 순차처리(${s.suc}%): 단계별 체크리스트, 절차 시각화 지원`);
+  return items.length?items.join('\n'):'현재 특별한 개입 불필요. 강점 기반 심화 학습 지원 고려.';
+}
+
+function genQ(s){
+  const qs=['최근 수업 중 어렵다고 느낀 과목이 있나요?','공부할 때 어떻게 계획을 세우나요?'];
+  if(s.sim===0||s.suc===0) qs.push('검사 당일 컨디션이 어땠나요? 검사 내용이 잘 이해됐나요?');
+  if(s.plan<30) qs.push('숙제나 시험 준비를 어디서부터 시작해야 할지 막막한 적 있나요?');
+  if(s.avg<35) qs.push('학교 오는 게 즐거운가요? 힘든 점이 있으면 이야기해줄 수 있나요?');
+  return qs.map((q,i)=>`${i+1}. ${q}`).join('\n');
+}
+
+function openModal(name){
+  const s=STU.find(x=>x.name===name);
+  document.getElementById('modal-title').textContent=`${name} 학생 상세`;
+  document.getElementById('modal-body').innerHTML=`
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+      ${['sim','plan','att','suc'].map((k,i)=>{
+        const ls=['동시처리','계획력','주의력','순차처리'];
+        return `<div style="background:var(--surface2);border-radius:8px;padding:11px;border:1px solid var(--border)">
+          <div style="font-size:.72rem;color:var(--text3);margin-bottom:4px">${ls[i]}</div>
+          <div class="pb-row"><div class="pb"><div class="pb-f" style="width:${s[k]}%;background:${pcolor(s[k])}"></div></div>
+          <div class="pb-val" style="color:${pcolor(s[k])};font-weight:700">${s[k]}%</div></div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="rsec"><div class="rlb">분석</div><div class="rct2">${genAnalysis(s)}</div></div>
+    <div class="rsec"><div class="rlb">개입 방향</div><div class="rct2">${genIntv(s)}</div></div>`;
+  document.getElementById('modal').classList.add('on');
+}
+function closeModal(){document.getElementById('modal').classList.remove('on');}
+
+// ── INIT ──
+renderOverview();
+renderRisk();
+renderDomain();
+renderRiskmap();
+renderPriority();
+renderCareer();
+renderReport();
+</script>
+</body>
+</html>
