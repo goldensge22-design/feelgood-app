@@ -225,30 +225,63 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
 <section class="section" id="simulator">
   <div class="inner">
     <div class="sec-eye">Interactive Revenue Simulator</div>
-    <div class="sec-title">국내·해외 통합 매출 시뮬레이터</div>
-    <div class="sec-desc">침투율 슬라이더를 조정하면 2030년 예상 매출이 실시간으로 업데이트됩니다.<br>
-    <strong>국내:</strong> K-PASS 15만원 / D-CAS 5만원 &nbsp;|&nbsp; <strong>해외:</strong> 50% 할인(현지 구매력 반영) K-PASS 7.5만 / D-CAS 2.5만</div>
+   <div class="sec-title">검사 + 구독 국내·해외 통합 매출 시뮬레이터</div>
+    <div class="sec-desc">
+      침투율·구독자 슬라이더를 조정하면 <strong>검사 매출 + 구독 플랫폼 매출</strong>이 실시간으로 업데이트됩니다.<br>
+      <strong>국내:</strong> K-PASS 15만원 / D-CAS 5만원 &nbsp;|&nbsp; <strong>해외:</strong> 50% 할인 &nbsp;|&nbsp; <strong>구독:</strong> 인당 월 4,000원 (해외 50% 할인)
+    </div>
 
     <div class="sim-wrap">
-      <div class="sim-result">
-        <div class="sim-result-grid">
-          <div class="sr-card"><div class="sr-num" id="r-dom">710억</div><div class="sr-label">국내 목표매출액</div></div>
-          <div class="sr-card"><div class="sr-num" id="r-ovs">522억</div><div class="sr-label">해외 목표매출액</div></div>
-          <div class="sr-card"><div class="sr-num" id="r-total">1,232억</div><div class="sr-label">매출 합산액</div></div>
-          <div class="sr-card"><div class="sr-num" id="r-pct">0.9%</div><div class="sr-label">평균 TAM 침투율</div></div>
+
+      <!-- ── 결과 패널 ── -->
+      <div class="sim-result" style="margin-bottom:20px">
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:.08em;margin-bottom:10px">📊 2030년 목표매출 (기본값)</div>
+
+        <!-- ① 검사 매출 -->
+        <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:6px">① 검사 수수료 매출</div>
+        <div class="sim-result-grid" style="margin-bottom:10px">
+          <div class="sr-card"><div class="sr-num" id="r-dom">710억</div><div class="sr-label">국내 검사매출</div></div>
+          <div class="sr-card"><div class="sr-num" id="r-ovs">522억</div><div class="sr-label">해외 검사매출</div></div>
+          <div class="sr-card"><div class="sr-num" id="r-exam">1,232억</div><div class="sr-label">검사 합산</div></div>
+          <div class="sr-card"><div class="sr-num" id="r-pct">0.9%</div><div class="sr-label">평균 침투율</div></div>
         </div>
-        <div class="bar-wrap">
-          <div class="bar-label"><span>🇰🇷 국내</span><span id="bar-dom-pct">58%</span></div>
-          <div class="bar-track"><div class="bar-fill bf-dom" id="bar-dom" style="width:58%"></div></div>
-          <div class="bar-label"><span>🌏 해외</span><span id="bar-ovs-pct">42%</span></div>
-          <div class="bar-track"><div class="bar-fill bf-ovs" id="bar-ovs" style="width:42%"></div></div>
+
+        <!-- ② 구독 매출 -->
+        <div style="font-size:11px;color:rgba(255,255,255,.55);margin-bottom:6px">② 구독 플랫폼 매출 (월 4,000원)</div>
+        <div class="sim-result-grid" style="margin-bottom:12px">
+          <div class="sr-card"><div class="sr-num" id="r-sub-dom">72억</div><div class="sr-label">국내 구독매출<div style="font-size:9px;opacity:.6">15만명</div></div></div>
+          <div class="sr-card"><div class="sr-num" id="r-sub-ovs">24억</div><div class="sr-label">해외 구독매출<div style="font-size:9px;opacity:.6">10만명</div></div></div>
+          <div class="sr-card"><div class="sr-num" id="r-sub">96억</div><div class="sr-label">구독 합산</div></div>
+          <div class="sr-card"><div class="sr-num" id="r-sub-users">25만명</div><div class="sr-label">총 구독자</div></div>
+        </div>
+
+        <!-- ③ 통합 합산 -->
+        <div style="background:rgba(93,202,165,.15);border:1px solid rgba(93,202,165,.3);border-radius:10px;padding:12px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
+          <div style="font-size:11px;color:rgba(255,255,255,.65)">검사 + 구독 통합 2030</div>
+          <div style="font-family:'Noto Serif KR',serif;font-size:30px;font-weight:700;color:#5DCAA5" id="r-total">1,328억</div>
+          <div style="display:flex;gap:12px">
+            <div style="text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.45)">검사</div><div style="font-size:14px;font-weight:700;color:#5DCAA5" id="r-exam-mini">1,232억</div></div>
+            <div style="color:rgba(255,255,255,.3);font-size:18px">+</div>
+            <div style="text-align:center"><div style="font-size:10px;color:rgba(255,255,255,.45)">구독</div><div style="font-size:14px;font-weight:700;color:#F59E0B" id="r-sub-mini">96억</div></div>
+          </div>
+        </div>
+
+        <!-- 바 차트 -->
+        <div class="bar-wrap" style="margin-top:14px">
+          <div class="bar-label"><span>🇰🇷 국내 검사+구독</span><span id="bar-dom-pct">59%</span></div>
+          <div class="bar-track"><div class="bar-fill bf-dom" id="bar-dom" style="width:59%"></div></div>
+          <div class="bar-label"><span>🌏 해외 검사+구독</span><span id="bar-ovs-pct">41%</span></div>
+          <div class="bar-track"><div class="bar-fill bf-ovs" id="bar-ovs" style="width:41%"></div></div>
         </div>
       </div>
 
-      <div class="panels">
-        <!-- 국내 슬라이더 -->
+      <!-- ── 슬라이더 3열 ── -->
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px">
+
+        <!-- 국내 검사 침투율 -->
         <div class="panel">
-          <div class="panel-title">🇰🇷 국내 침투율 조정 (K-PASS 15만 / D-CAS 5만)</div>
+          <div class="panel-title">🇰🇷 국내 검사 침투율</div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:10px">K-PASS 15만원 / D-CAS 5만원</div>
           <div class="slider-row">
             <div class="s-label">유아·초등 5~13세<span class="tam">K-PASS · TAM 5,100억</span></div>
             <input type="range" min="0" max="30" step="0.5" value="5" id="dk1" oninput="calc()">
@@ -281,9 +314,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
           </div>
         </div>
 
-        <!-- 해외 슬라이더 -->
+        <!-- 해외 검사 침투율 -->
         <div class="panel">
-          <div class="panel-title">🌏 해외 침투율 조정 (K-PASS 7.5만 / D-CAS 2.5만)</div>
+          <div class="panel-title">🌏 해외 검사 침투율</div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:10px">K-PASS 7.5만원 / D-CAS 2.5만원</div>
           <div class="slider-row">
             <div class="s-label">🇦🇿 아제르바이잔 유초등<span class="tam">K-PASS · MOU완료 · TAM 390억</span></div>
             <input type="range" min="0" max="40" step="0.5" value="15" id="ok1" oninput="calc()">
@@ -305,32 +339,65 @@ nav{position:sticky;top:0;z-index:100;background:rgba(255,255,255,.96);backdrop-
             <span class="s-val" id="ov4">2%</span>
           </div>
           <div class="slider-row">
-            <div class="s-label">🇲🇳 몽골 전 분야<span class="tam">K+D · 보건부협의 · TAM 80억</span></div>
+            <div class="s-label">🇲🇳 몽골 전 분야<span class="tam">K+D · 보건부협의 · TAM 360억</span></div>
             <input type="range" min="0" max="40" step="0.5" value="10" id="ok5" oninput="calc()">
             <span class="s-val" id="ov5">10%</span>
           </div>
           <div class="slider-row">
-            <div class="s-label">🇮🇳 인도 전 분야<span class="tam">K+D · 협의중 · TAM 65,000억</span></div>
+            <div class="s-label">🇮🇳 인도 전 분야<span class="tam">K+D · 협의중 · TAM 260,000억</span></div>
             <input type="range" min="0" max="2" step="0.05" value="0.3" id="ok6" oninput="calc()">
             <span class="s-val" id="ov6">0.3%</span>
           </div>
           <div class="slider-row">
-            <div class="s-label">🇮🇶 이라크 전 분야<span class="tam">K+D · 협의중 · TAM 2,750억</span></div>
+            <div class="s-label">🇮🇶 이라크 전 분야<span class="tam">K+D · 협의중 · TAM 4,400억</span></div>
             <input type="range" min="0" max="10" step="0.5" value="2" id="ok7" oninput="calc()">
             <span class="s-val" id="ov7">2%</span>
           </div>
           <div class="slider-row">
-            <div class="s-label">🇲🇾🇮🇩🇻🇳🇹🇭 동남아 전 분야<span class="tam">K+D · 예정 · TAM 23,450억</span></div>
+            <div class="s-label">🇲🇾🇮🇩🇻🇳🇹🇭 동남아 전 분야<span class="tam">K+D · 예정 · TAM 32,900억</span></div>
             <input type="range" min="0" max="5" step="0.1" value="0.35" id="ok8" oninput="calc()">
             <span class="s-val" id="ov8">0.4%</span>
           </div>
           <div class="slider-row">
-            <div class="s-label">🇰🇿 중앙아시아 전 분야<span class="tam">K+D · 예정 · TAM 3,750억</span></div>
+            <div class="s-label">🇰🇿 중앙아시아 전 분야<span class="tam">K+D · 예정 · TAM 6,000억</span></div>
             <input type="range" min="0" max="5" step="0.1" value="0.3" id="ok9" oninput="calc()">
             <span class="s-val" id="ov9">0.3%</span>
           </div>
         </div>
+
+        <!-- 구독 슬라이더 -->
+        <div class="panel" style="border:1.5px solid var(--amber);background:rgba(250,238,218,.3)">
+          <div class="panel-title" style="color:var(--amber)">📱 구독 플랫폼 (월 4,000원)</div>
+          <div style="font-size:10px;color:var(--muted);margin-bottom:10px">BrainMap + International · 해외 월 2천원</div>
+          <div class="slider-row">
+            <div class="s-label">🇰🇷 국내 구독자 수<span class="tam">월 4,000원</span></div>
+            <input type="range" min="0" max="300000" step="5000" value="150000" id="sk1" oninput="calc()">
+            <span class="s-val" id="sv1">15만명</span>
+          </div>
+          <div class="slider-row">
+            <div class="s-label">🌏 해외 구독자 수<span class="tam">월 2,000원</span></div>
+            <input type="range" min="0" max="500000" step="10000" value="100000" id="sk2" oninput="calc()">
+            <span class="s-val" id="sv2">10만명</span>
+          </div>
+          <div style="background:var(--amber-l);border-radius:8px;padding:10px;margin-top:8px;font-size:11px;line-height:1.7;color:var(--muted)">
+            <b style="color:var(--amber)">구독 SaaS 마진: 75~85%</b><br>
+            검사 완료 고객 자동 퍼널 진입.<br>
+            인도 교사 1% 구독 = 수백억 잠재.
+          </div>
+          <div style="margin-top:12px">
+            <a href="https://goldensge22-design.github.io/feelgood-app/brainmap_student_v5.html" target="_blank"
+               style="display:block;text-align:center;padding:8px;border-radius:7px;background:var(--blue);color:#fff;font-size:11px;font-weight:700;text-decoration:none;margin-bottom:6px">
+              🧭 BrainMap 데모 테스트 →
+            </a>
+            <a href="https://goldensge22-design.github.io/feelgood-app/feelgood_international%20(2).html" target="_blank"
+               style="display:block;text-align:center;padding:8px;border-radius:7px;background:var(--teal);color:#fff;font-size:11px;font-weight:700;text-decoration:none">
+              🌍 International 플랫폼 데모 →
+            </a>
+          </div>
+        </div>
+
       </div>
+
 
       <!-- 연도별 테이블 -->
       <div style="overflow-x:auto">
