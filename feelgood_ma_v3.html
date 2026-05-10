@@ -1496,6 +1496,30 @@ function calc() {
   });
 
   const total = dom + ovs;
+  // ✅ 구독 매출 계산 추가
+const subDomUsers = parseFloat(document.getElementById('sk1').value);
+const subOvsUsers = parseFloat(document.getElementById('sk2').value);
+const subDom = Math.round(subDomUsers * 4000 * 12 / 1e8);
+const subOvs = Math.round(subOvsUsers * 2000 * 12 / 1e8);
+const subTotal = subDom + subOvs;
+const subUsers = subDomUsers + subOvsUsers;
+
+// 구독 결과 카드 업데이트
+document.getElementById('sv1').textContent = (subDomUsers/10000).toFixed(0) + '만명';
+document.getElementById('sv2').textContent = (subOvsUsers/10000).toFixed(0) + '만명';
+document.getElementById('r-sub-dom').textContent = subDom + '억';
+document.getElementById('r-sub-ovs').textContent = subOvs + '억';
+document.getElementById('r-sub').textContent = subTotal + '억';
+document.getElementById('r-sub-users').textContent = (subUsers/10000).toFixed(0) + '만명';
+
+// 검사 합산 업데이트
+const examTotal = dom + ovs;
+document.getElementById('r-exam').textContent = fmt(examTotal);
+document.getElementById('r-exam-mini').textContent = fmt(examTotal);
+document.getElementById('r-sub-mini').textContent = subTotal + '억';
+
+// 통합 합산 = 검사 + 구독
+const total = examTotal + subTotal;
   document.getElementById('r-dom').textContent = fmt(dom);
   document.getElementById('r-ovs').textContent = fmt(ovs);
   document.getElementById('r-total').textContent = fmt(total);
@@ -1503,10 +1527,11 @@ function calc() {
 
   // 평균 침투율 (TAM 가중)
   const totalTam = DOM_SEGS.reduce((a,s)=>a+s.tam,0) + OVS_SEGS.reduce((a,s)=>a+s.tam,0);
-  document.getElementById('r-pct').textContent = (total/totalTam*100).toFixed(3) + '%';
+  document.getElementById('r-pct').textContent = (examtotal/totalTam*100).toFixed(3) + '%';
 
   // 바
-  const dp = total > 0 ? Math.round(dom/total*100) : 0;
+ const domCombined = dom + subDom;
+ const dp = total > 0 ? Math.round(domCombined/total*100) : 0;
   const op = 100 - dp;
   document.getElementById('bar-dom').style.width = dp + '%';
   document.getElementById('bar-ovs').style.width = op + '%';
@@ -1519,7 +1544,7 @@ function calc() {
   const stages   = ['초기 확장','성장기','스케일업','성숙기 진입','시장 리더십'];
   const yoys     = ['+150%','+120%','+80%', '+50%', '+43%'];
   const grounds  = ['교육청+MOU','T2D3 Triple','T2D3 Double','CAGR 17%','SOM 5~15%'];
-  const domR = total > 0 ? dom/total : 0.58;
+  const domR = total > 0 ? domCombined/total : 0.58;
 
   let rows = '';
   ratios.forEach((r,i) => {
