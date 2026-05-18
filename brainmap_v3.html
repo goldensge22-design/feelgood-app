@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>브레인맵 플래너</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pu: #5B4FBE;
+  --pub: #F0EEFF;
+  --pum: #8B7FDE;
+  --gr: #1A1A2E;
+  --grm: #444;
+  --grl: #888;
+  --grs: #f8f7ff;
+  --border: #e8e4ff;
+  --success: #1D9E75;
+  --warn: #BA7517;
+  --card: #fff;
+  --nav-h: 60px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--grs); color: var(--gr); min-height: 100vh; }
+
+/* NAV */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; height: var(--nav-h);
+  background: #fff; border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 1rem; z-index: 100; max-width: 480px; margin: 0 auto;
+}
+nav .logo { font-size: 1.05rem; font-weight: 700; color: var(--pu); letter-spacing: -0.5px; }
+nav .logo span { color: var(--gr); }
+.tab-bar {
+  position: fixed; bottom: 0; left: 0; right: 0; height: 60px;
+  background: #fff; border-top: 1px solid var(--border);
+  display: flex; max-width: 480px; margin: 0 auto; z-index: 100;
+}
+.tab-bar button {
+  flex: 1; border: none; background: none; cursor: pointer;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 3px; color: var(--grl); font-size: 10px; font-family: 'Noto Sans KR', sans-serif;
+  transition: color 0.2s;
+}
+.tab-bar button.active { color: var(--pu); }
+.tab-bar button svg { width: 22px; height: 22px; stroke-width: 1.8; }
+
+/* MAIN */
+main {
+  max-width: 480px; margin: 0 auto; padding: calc(var(--nav-h) + 1rem) 1rem 80px;
+  min-height: 100vh;
+}
+.page { display: none; }
+.page.active { display: block; }
+
+/* CARDS */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 1.25rem; margin-bottom: 1rem;
+}
+.card-title {
+  font-size: 0.8rem; font-weight: 500; color: var(--pum);
+  letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 0.75rem;
+}
+
+/* API KEY BANNER */
+.api-banner {
+  background: var(--pub); border: 1px solid var(--border);
+  border-radius: 12px; padding: 1rem; margin-bottom: 1rem;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.api-banner p { font-size: 0.82rem; color: var(--grm); line-height: 1.5; }
+.api-banner .api-row { display: flex; gap: 8px; }
+.api-banner input {
+  flex: 1; border: 1px solid var(--border); border-radius: 8px;
+  padding: 0.5rem 0.75rem; font-size: 0.82rem; font-family: 'Noto Sans KR', sans-serif;
+  background: #fff; color: var(--gr);
+}
+.api-banner input:focus { outline: 2px solid var(--pu); outline-offset: 0; }
+.btn-sm {
+  background: var(--pu); color: #fff; border: none; border-radius: 8px;
+  padding: 0.5rem 0.85rem; font-size: 0.82rem; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; white-space: nowrap;
+  transition: opacity 0.2s;
+}
+.btn-sm:hover { opacity: 0.85; }
+.btn-sm.secondary {
+  background: #fff; color: var(--pu); border: 1px solid var(--border);
+}
+
+/* INPUT FORM */
+.pass-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;
+}
+.pass-item label {
+  display: block; font-size: 0.78rem; font-weight: 500; color: var(--grm); margin-bottom: 4px;
+}
+.pass-item .pass-tag {
+  display: inline-block; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--pu); color: #fff; font-size: 0.72rem; font-weight: 700;
+  text-align: center; line-height: 20px; margin-right: 4px;
+}
+.pass-item input[type=number] {
+  width: 100%; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.6rem 0.75rem; font-size: 1rem; font-family: 'Noto Sans KR', sans-serif;
+  background: #fff; color: var(--gr);
+}
+.pass-item input:focus { outline: 2px solid var(--pu); }
+.pass-item .hint { font-size: 0.72rem; color: var(--grl); margin-top: 3px; }
+
+.form-row { margin-bottom: 0.85rem; }
+.form-row label { display: block; font-size: 0.82rem; font-weight: 500; color: var(--grm); margin-bottom: 5px; }
+.form-row input, .form-row select {
+  width: 100%; border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.6rem 0.75rem; font-size: 0.9rem; font-family: 'Noto Sans KR', sans-serif;
+  background: #fff; color: var(--gr);
+}
+.form-row input:focus, .form-row select:focus { outline: 2px solid var(--pu); }
+
+.btn-primary {
+  width: 100%; background: var(--pu); color: #fff; border: none;
+  border-radius: 12px; padding: 0.9rem; font-size: 1rem; font-weight: 700;
+  font-family: 'Noto Sans KR', sans-serif; cursor: pointer; transition: opacity 0.2s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-primary:hover:not(:disabled) { opacity: 0.85; }
+.btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* PROFILE BADGE */
+.profile-bar {
+  background: linear-gradient(135deg, var(--pub) 0%, #e8e4ff 100%);
+  border: 1px solid var(--border); border-radius: 14px; padding: 1rem; margin-bottom: 1rem;
+}
+.profile-name { font-size: 1.05rem; font-weight: 700; color: var(--gr); margin-bottom: 0.25rem; }
+.profile-type { font-size: 0.82rem; color: var(--pu); font-weight: 500; }
+.profile-scores {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 0.75rem;
+}
+.score-chip {
+  background: #fff; border-radius: 8px; text-align: center; padding: 6px 4px;
+  border: 1px solid var(--border);
+}
+.score-chip .label { font-size: 0.65rem; color: var(--grl); }
+.score-chip .val { font-size: 1rem; font-weight: 700; color: var(--pu); }
+.score-chip.strength .val { color: var(--success); }
+.score-chip.weakness .val { color: #E24B4A; }
+
+/* STRENGTH / WEAKNESS TAGS */
+.sw-row { display: flex; gap: 8px; margin-bottom: 1rem; flex-wrap: wrap; }
+.tag {
+  font-size: 0.78rem; padding: 4px 10px; border-radius: 20px; font-weight: 500;
+}
+.tag.str { background: #EAF3DE; color: #3B6D11; }
+.tag.wk { background: #FCEBEB; color: #A32D2D; }
+.tag.info { background: var(--pub); color: var(--pu); }
+
+/* ROUTINE CARDS */
+.day-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 14px;
+  padding: 1rem; margin-bottom: 0.75rem; cursor: pointer;
+  transition: border-color 0.2s;
+}
+.day-card:hover { border-color: var(--pum); }
+.day-card .day-header {
+  display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;
+}
+.day-label {
+  font-size: 0.75rem; font-weight: 700; color: #fff; background: var(--pu);
+  padding: 3px 10px; border-radius: 20px;
+}
+.day-label.weekend { background: var(--grl); }
+.check-count { font-size: 0.78rem; color: var(--grl); }
+.activity-list { display: flex; flex-direction: column; gap: 8px; }
+.activity-item {
+  display: flex; align-items: flex-start; gap: 10px; padding: 8px 10px;
+  background: var(--grs); border-radius: 10px;
+  transition: background 0.2s;
+}
+.activity-item.done { opacity: 0.5; }
+.activity-item .check-btn {
+  width: 22px; height: 22px; min-width: 22px; border-radius: 50%;
+  border: 2px solid var(--border); background: #fff; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s;
+}
+.activity-item.done .check-btn { background: var(--success); border-color: var(--success); }
+.activity-item .act-text { font-size: 0.85rem; line-height: 1.4; color: var(--gr); flex: 1; }
+.activity-item .act-type { font-size: 0.68rem; color: var(--pum); font-weight: 500; }
+
+/* PROGRESS BAR */
+.progress-wrap { background: var(--border); border-radius: 10px; height: 8px; margin: 8px 0; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--pu); border-radius: 10px; transition: width 0.4s ease; }
+.progress-fill.green { background: var(--success); }
+
+/* WEEK NAV */
+.week-nav {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1rem; background: #fff; border: 1px solid var(--border);
+  border-radius: 12px; padding: 0.6rem 1rem;
+}
+.week-nav button {
+  background: none; border: none; cursor: pointer; color: var(--pu); font-size: 1.2rem;
+  padding: 0 4px; display: flex; align-items: center;
+}
+.week-nav span { font-size: 0.85rem; font-weight: 500; color: var(--gr); }
+
+/* REPORT */
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+.stat-box {
+  background: var(--pub); border-radius: 12px; padding: 0.85rem; text-align: center;
+}
+.stat-box .s-val { font-size: 1.5rem; font-weight: 700; color: var(--pu); }
+.stat-box .s-lbl { font-size: 0.75rem; color: var(--grm); margin-top: 2px; }
+.bar-chart { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 8px; }
+.bar-row .b-label { font-size: 0.78rem; color: var(--grm); width: 20px; text-align: center; font-weight: 600; }
+.bar-row .b-bar { flex: 1; background: var(--border); border-radius: 6px; height: 10px; overflow: hidden; }
+.bar-row .b-fill { height: 100%; border-radius: 6px; background: var(--pu); transition: width 0.6s ease; }
+.bar-row .b-pct { font-size: 0.75rem; color: var(--grl); width: 36px; text-align: right; }
+
+/* CHAT */
+.chat-area { display: flex; flex-direction: column; gap: 10px; margin-bottom: 1rem; }
+.bubble {
+  max-width: 85%; padding: 0.7rem 0.9rem; border-radius: 16px; font-size: 0.87rem; line-height: 1.55;
+}
+.bubble.user { align-self: flex-end; background: var(--pu); color: #fff; border-radius: 16px 16px 4px 16px; }
+.bubble.ai { align-self: flex-start; background: #fff; color: var(--gr); border: 1px solid var(--border); border-radius: 16px 16px 16px 4px; }
+.bubble.ai .thinking { color: var(--grl); font-style: italic; font-size: 0.8rem; }
+.chat-input-row { display: flex; gap: 8px; position: sticky; bottom: 70px; background: var(--grs); padding: 8px 0; }
+.chat-input-row input {
+  flex: 1; border: 1px solid var(--border); border-radius: 24px;
+  padding: 0.6rem 1rem; font-size: 0.87rem; font-family: 'Noto Sans KR', sans-serif;
+  background: #fff; color: var(--gr);
+}
+.chat-input-row input:focus { outline: 2px solid var(--pu); }
+.chat-input-row button {
+  background: var(--pu); color: #fff; border: none; border-radius: 50%;
+  width: 40px; height: 40px; cursor: pointer; font-size: 1rem; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.2s;
+}
+.chat-input-row button:hover:not(:disabled) { opacity: 0.85; }
+.chat-input-row button:disabled { opacity: 0.5; }
+
+/* LOADING */
+.loading-dots { display: inline-flex; gap: 4px; align-items: center; padding: 4px 0; }
+.loading-dots span {
+  width: 7px; height: 7px; border-radius: 50%; background: var(--pum);
+  animation: bounce 1s infinite;
+}
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes bounce { 0%,80%,100%{transform:scale(0.7);opacity:0.4} 40%{transform:scale(1);opacity:1} }
+
+/* EMPTY STATE */
+.empty-state {
+  text-align: center; padding: 3rem 1rem; color: var(--grl);
+}
+.empty-state .e-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+.empty-state p { font-size: 0.87rem; line-height: 1.6; }
+.empty-state button {
+  margin-top: 1rem; background: var(--pub); color: var(--pu);
+  border: 1px solid var(--border); border-radius: 10px;
+  padding: 0.6rem 1.25rem; font-size: 0.85rem; cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif; font-weight: 500;
+}
+
+/* SECTION TITLE */
+.section-title { font-size: 1.1rem; font-weight: 700; color: var(--gr); margin-bottom: 0.75rem; }
+.section-sub { font-size: 0.82rem; color: var(--grl); margin-bottom: 1rem; line-height: 1.5; }
+
+/* TOAST */
+#toast {
+  position: fixed; bottom: 80px; left: 50%; transform: translateX(-50%) translateY(20px);
+  background: var(--gr); color: #fff; padding: 0.6rem 1.25rem; border-radius: 24px;
+  font-size: 0.82rem; opacity: 0; transition: all 0.3s; pointer-events: none; z-index: 999;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* WEEK HISTORY */
+.week-hist-item {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 0; border-bottom: 1px solid var(--border);
+}
+.week-hist-item:last-child { border-bottom: none; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">Brain<span>Map</span></div>
+  <div id="nav-name" style="font-size:0.85rem;color:var(--grl);"></div>
+</nav>
+
+<main>
+  <!-- PAGE 0: HOME / INPUT -->
+  <div class="page active" id="page-home">
+    <div id="api-section"></div>
+
+    <div id="profile-display" style="display:none;"></div>
+
+    <div id="input-section">
+      <div class="card">
+        <div class="card-title">PASS 백분위 점수 입력</div>
+        <div class="pass-grid">
+          <div class="pass-item">
+            <label><span class="pass-tag">P</span>Planning</label>
+            <input type="number" id="sc-p" min="1" max="99" placeholder="예) 63">
+            <div class="hint">계획·자기조절·전략</div>
+          </div>
+          <div class="pass-item">
+            <label><span class="pass-tag">A</span>Attention</label>
+            <input type="number" id="sc-a" min="1" max="99" placeholder="예) 45">
+            <div class="hint">집중·선택적 주의</div>
+          </div>
+          <div class="pass-item">
+            <label><span class="pass-tag">S</span>Simultaneous</label>
+            <input type="number" id="sc-s" min="1" max="99" placeholder="예) 78">
+            <div class="hint">공간·전체통합·유추</div>
+          </div>
+          <div class="pass-item">
+            <label><span class="pass-tag">S</span>Successive</label>
+            <input type="number" id="sc-su" min="1" max="99" placeholder="예) 52">
+            <div class="hint">순서·언어계열·음운</div>
+          </div>
+        </div>
+        <div class="pass-grid">
+          <div class="form-row" style="margin-bottom:0">
+            <label>아이 이름</label>
+            <input type="text" id="child-name" placeholder="홍길동 (선택)">
+          </div>
+          <div class="form-row" style="margin-bottom:0">
+            <label>연령대</label>
+            <select id="age-group">
+              <option value="">선택</option>
+              <option value="5-7">5~7세 (K-PASS)</option>
+              <option value="8-10">8~10세 (K-PASS)</option>
+              <option value="11-13">11~13세 (K-PASS)</option>
+              <option value="14-18">14~18세 (D-CAS)</option>
+              <option value="19+">19세 이상 (D-CAS)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary" id="btn-analyze" onclick="startAnalysis()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="20" height="20">
+          <path d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+        AI 분석 + 1주차 루틴 설계
+      </button>
+      <p style="text-align:center;font-size:0.75rem;color:var(--grl);margin-top:0.5rem;">
+        점수는 이 기기에만 저장됩니다
+      </p>
+    </div>
+
+    <div id="analysis-loading" style="display:none;" class="card" style="text-align:center;">
+      <div style="text-align:center;padding:1rem 0;">
+        <div class="loading-dots"><span></span><span></span><span></span></div>
+        <p style="font-size:0.85rem;color:var(--grm);margin-top:0.75rem;" id="loading-msg">PASS 프로파일 분석 중...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 1: ROUTINE -->
+  <div class="page" id="page-routine">
+    <div id="routine-empty" class="empty-state">
+      <div class="e-icon">📅</div>
+      <p>아직 분석이 완료되지 않았어요.<br>홈에서 점수를 입력해주세요.</p>
+      <button onclick="switchPage(0)">홈으로 가기</button>
+    </div>
+    <div id="routine-content" style="display:none;">
+      <div class="week-nav">
+        <button onclick="changeWeek(-1)">◀</button>
+        <span id="week-label">1주차</span>
+        <button onclick="changeWeek(1)" id="btn-next-week">▶</button>
+      </div>
+      <div id="week-header" style="margin-bottom:0.75rem;"></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+        <span style="font-size:0.78rem;color:var(--grl);">이번 주 완료율</span>
+        <span id="week-pct-text" style="font-size:0.78rem;font-weight:600;color:var(--pu);">0%</span>
+      </div>
+      <div class="progress-wrap"><div class="progress-fill" id="week-progress" style="width:0%"></div></div>
+      <div id="routine-days" style="margin-top:0.85rem;"></div>
+      <button class="btn-primary" id="btn-gen-next" style="display:none;margin-top:0.5rem;" onclick="generateNextWeek()">
+        다음 주 루틴 생성하기 →
+      </button>
+    </div>
+  </div>
+
+  <!-- PAGE 2: REPORT -->
+  <div class="page" id="page-report">
+    <div id="report-empty" class="empty-state">
+      <div class="e-icon">📊</div>
+      <p>루틴을 시작하고 체크인을 쌓으면<br>성과 보고서가 생성됩니다.</p>
+      <button onclick="switchPage(1)">루틴 보기</button>
+    </div>
+    <div id="report-content" style="display:none;">
+      <div class="section-title">성과 보고서</div>
+      <div class="stat-grid" id="report-stats"></div>
+      <div class="card">
+        <div class="card-title">PASS 영역별 완료율</div>
+        <div class="bar-chart" id="pass-bars"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">주차별 기록</div>
+        <div id="week-history"></div>
+      </div>
+      <div class="card">
+        <div class="card-title">AI 월간 총평</div>
+        <div id="ai-report-text" style="font-size:0.85rem;line-height:1.7;color:var(--grm);"></div>
+        <button class="btn-primary" id="btn-gen-report" style="margin-top:0.75rem;" onclick="generateReport()">
+          AI 총평 생성하기
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAGE 3: CHAT -->
+  <div class="page" id="page-chat">
+    <div class="section-title">AI 상담</div>
+    <div class="section-sub">PASS 프로파일을 바탕으로 자유롭게 질문해보세요</div>
+    <div class="chat-area" id="chat-area"></div>
+    <div class="chat-input-row">
+      <input type="text" id="chat-input" placeholder="궁금한 점을 입력하세요..." 
+             onkeydown="if(event.key==='Enter')sendChat()">
+      <button id="btn-chat-send" onclick="sendChat()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" width="18" height="18">
+          <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</main>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="active" id="tab-0" onclick="switchPage(0)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round"/><polyline points="9 22 9 12 15 12 15 22" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    홈
+  </button>
+  <button id="tab-1" onclick="switchPage(1)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2" ry="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="16" y1="2" x2="16" y2="6" stroke-linecap="round"/><line x1="8" y1="2" x2="8" y2="6" stroke-linecap="round"/><line x1="3" y1="10" x2="21" y2="10" stroke-linecap="round"/></svg>
+    이번 주 루틴
+  </button>
+  <button id="tab-2" onclick="switchPage(2)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="18" y1="20" x2="18" y2="10" stroke-linecap="round"/><line x1="12" y1="20" x2="12" y2="4" stroke-linecap="round"/><line x1="6" y1="20" x2="6" y2="14" stroke-linecap="round"/></svg>
+    성과 보고서
+  </button>
+  <button id="tab-3" onclick="switchPage(3)">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    AI 상담
+  </button>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ─── STATE ───────────────────────────────────────────────────────────────────
+const STATE = {
+  apiKey: localStorage.getItem('fg_api_key') || '',
+  profile: JSON.parse(localStorage.getItem('fg_profile') || 'null'),
+  weeks: JSON.parse(localStorage.getItem('fg_weeks') || '[]'),
+  currentWeek: 0,
+  chatHistory: []
+};
+
+const DAYS_KO = ['월','화','수','목','금','토','일'];
+const DAYS_FULL = ['월요일','화요일','수요일','목요일','금요일','토요일','일요일'];
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.onload = function() {
+  renderApiSection();
+  if (STATE.profile) {
+    renderProfileDisplay();
+    document.getElementById('input-section').style.display = 'none';
+  }
+  if (STATE.weeks.length > 0) {
+    STATE.currentWeek = STATE.weeks.length - 1;
+    renderRoutinePage();
+    renderReportPage();
+  }
+  addChatGreeting();
+};
+
+// ─── API KEY ──────────────────────────────────────────────────────────────────
+function renderApiSection() {
+  const el = document.getElementById('api-section');
+  if (STATE.apiKey) {
+    el.innerHTML = `<div class="api-banner" style="flex-direction:row;align-items:center;justify-content:space-between;">
+      <p style="margin:0;">🔑 API 키 연결됨</p>
+      <button class="btn-sm secondary" id="btn-clear-key">변경</button>
+    </div>`;
+    document.getElementById('btn-clear-key').addEventListener('click', clearApiKey);
+  } else {
+    el.innerHTML = `<div class="api-banner">
+      <p>Anthropic API 키를 입력하면 AI 분석과 루틴 생성이 활성화됩니다.<br>
+      키는 이 기기에만 저장됩니다.</p>
+      <div class="api-row">
+        <input type="password" id="api-key-input" placeholder="sk-ant-...">
+        <button class="btn-sm" id="btn-save-key">저장</button>
+      </div>
+    </div>`;
+    document.getElementById('btn-save-key').addEventListener('click', saveApiKey);
+    document.getElementById('api-key-input').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') saveApiKey();
+    });
+  }
+}
+
+function saveApiKey() {
+  const val = document.getElementById('api-key-input').value.trim();
+  if (!val.startsWith('sk-ant-') && !val.startsWith('sk-')) {
+    showToast('올바른 API 키 형식이 아닙니다');
+    return;
+  }
+  STATE.apiKey = val;
+  localStorage.setItem('fg_api_key', val);
+  renderApiSection();
+  showToast('API 키가 저장되었습니다 ✓');
+}
+
+function clearApiKey() {
+  STATE.apiKey = '';
+  localStorage.removeItem('fg_api_key');
+  renderApiSection();
+}
+
+// ─── CLAUDE API CALL ──────────────────────────────────────────────────────────
+async function callClaude(systemPrompt, userMessage, onChunk) {
+  if (!STATE.apiKey) { showToast('API 키를 먼저 입력해주세요'); return null; }
+  
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': STATE.apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 4000,
+      system: systemPrompt,
+      messages: [{ role: 'user', content: userMessage }]
+    })
+  });
+
+  if (response.status === 401) {
+    localStorage.removeItem('fg_api_key');
+    STATE.apiKey = '';
+    renderApiSection();
+    showToast('API 키가 유효하지 않습니다. 다시 입력해주세요.');
+    return null;
+  }
+  if (!response.ok) {
+    showToast('API 오류: ' + response.status);
+    return null;
+  }
+
+  const data = await response.json();
+  const text = data.content.map(b => b.text || '').join('');
+  return text;
+}
+
+async function callClaudeChat(messages) {
+  if (!STATE.apiKey) { showToast('API 키를 먼저 입력해주세요'); return null; }
+
+  const response = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-api-key': STATE.apiKey,
+      'anthropic-version': '2023-06-01',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
+    body: JSON.stringify({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 800,
+      system: buildChatSystem(),
+      messages: messages
+    })
+  });
+
+  if (response.status === 401) {
+    localStorage.removeItem('fg_api_key');
+    STATE.apiKey = '';
+    renderApiSection();
+    showToast('API 키가 유효하지 않습니다.');
+    return null;
+  }
+  if (!response.ok) return null;
+
+  const data = await response.json();
+  return data.content.map(b => b.text || '').join('');
+}
+
+function buildChatSystem() {
+  const p = STATE.profile;
+  const base = `당신은 K-PASS / D-CAS 인지발달 전문 상담사입니다. PASS 이론(Planning, Attention, Simultaneous, Successive)을 기반으로 아이의 인지 강점을 살리는 맞춤 조언을 한국어로 친절하게 제공합니다. 답변은 200자 이내로 핵심만 말씀해주세요.`;
+  if (!p) return base;
+  return base + `\n\n현재 상담 아동: ${p.name || '이름 미입력'} (${p.ageGroup}세)
+PASS 점수: P=${p.scores.p}, A=${p.scores.a}, S=${p.scores.s}, Su=${p.scores.su}
+강점영역: ${p.strengths.join(', ')} / 훈련영역: ${p.weaknesses.join(', ')}
+인지유형: ${p.type}`;
+}
+
+// ─── ANALYSIS ─────────────────────────────────────────────────────────────────
+async function startAnalysis() {
+  const p = +document.getElementById('sc-p').value;
+  const a = +document.getElementById('sc-a').value;
+  const s = +document.getElementById('sc-s').value;
+  const su = +document.getElementById('sc-su').value;
+  const name = document.getElementById('child-name').value.trim() || '아이';
+  const age = document.getElementById('age-group').value;
+
+  if (!p || !a || !s || !su) { showToast('4개 영역 점수를 모두 입력해주세요'); return; }
+  if ([p, a, s, su].some(v => v < 1 || v > 99)) { showToast('백분위는 1~99 사이로 입력하세요'); return; }
+  if (!STATE.apiKey) { showToast('API 키를 먼저 입력해주세요'); return; }
+
+  document.getElementById('input-section').style.display = 'none';
+  document.getElementById('analysis-loading').style.display = 'block';
+
+  const scores = { p, a, s, su };
+  const strengths = getStrengths(scores);
+  const weaknesses = getWeaknesses(scores);
+  const type = getCogType(scores);
+
+  const loadingMsgs = ['PASS 프로파일 분석 중...', '강점·훈련 영역 판별 중...', '1주차 루틴 설계 중...'];
+  let mi = 0;
+  const ltimer = setInterval(() => {
+    mi = (mi + 1) % loadingMsgs.length;
+    const el = document.getElementById('loading-msg');
+    if (el) el.textContent = loadingMsgs[mi];
+  }, 1500);
+
+  const systemPrompt = `K-PASS/D-CAS 전문가. 반드시 순수 JSON만 반환. 마크다운 코드블록 금지. 설명 텍스트 금지. JSON 시작 전후로 어떤 텍스트도 없어야 함.`;
+  
+  const userMsg = `아동:${name} 연령:${age} PASS백분위:P${p}A${a}S${s}Su${su}
+강점:${strengths.join('/')} 훈련:${weaknesses.join('/')}
+
+강점70%+훈련30%로 월~일 7일, 하루 3개 활동 생성.
+활동설명은 한 문장 이내로 짧게.
+
+JSON형식(반드시 이 형식만):
+{"summary":"2문장요약","weekRoutine":[{"day":"월요일","activities":[{"title":"활동명","desc":"한문장설명","passArea":"P","type":"strength","mins":20}]}]}`;
+
+  try {
+    const raw = await callClaude(systemPrompt, userMsg);
+    clearInterval(ltimer);
+    document.getElementById('analysis-loading').style.display = 'none';
+
+    if (!raw) {
+      document.getElementById('input-section').style.display = 'block';
+      return;
+    }
+
+    const cleaned = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+    
+    // JSON 시작/끝 위치 찾기
+    const jsonStart = cleaned.indexOf('{');
+    const jsonEnd = cleaned.lastIndexOf('}');
+    if (jsonStart === -1) throw new Error('JSON 없음');
+    
+    let jsonStr = cleaned.slice(jsonStart, jsonEnd + 1);
+    
+    let parsed;
+    try {
+      parsed = JSON.parse(jsonStr);
+    } catch(e1) {
+      // 잘린 JSON 복구 시도: 마지막 완전한 활동까지만 사용
+      // weekRoutine 배열이 있는 위치까지 찾아서 강제로 닫기
+      const routineStart = jsonStr.indexOf('"weekRoutine"');
+      if (routineStart === -1) throw new Error('weekRoutine 없음');
+      
+      // 이미 파싱된 부분만 추출 시도 - 각 day 단위로 자르기
+      const dayMatches = [];
+      const dayRegex = /\{"day":"[^}]+","activities":\[[^\]]*\]\}/g;
+      let m;
+      // 더 단순한 방법: 완전한 day 블록 수동 추출
+      let depth = 0, inStr = false, esc = false, start = -1;
+      const arrStart = jsonStr.indexOf('[', routineStart);
+      for (let i = arrStart; i < jsonStr.length; i++) {
+        const c = jsonStr[i];
+        if (esc) { esc = false; continue; }
+        if (c === '\\' && inStr) { esc = true; continue; }
+        if (c === '"') { inStr = !inStr; continue; }
+        if (inStr) continue;
+        if (c === '{') { if (depth === 0) start = i; depth++; }
+        else if (c === '}') {
+          depth--;
+          if (depth === 0 && start !== -1) {
+            try {
+              const dayObj = JSON.parse(jsonStr.slice(start, i+1));
+              if (dayObj.day && dayObj.activities) dayMatches.push(dayObj);
+            } catch(e2) {}
+            start = -1;
+          }
+        }
+      }
+      
+      if (dayMatches.length === 0) throw new Error('day 블록 파싱 실패');
+      
+      // summary 추출
+      const sumMatch = jsonStr.match(/"summary"\s*:\s*"([^"]+)"/);
+      parsed = {
+        summary: sumMatch ? sumMatch[1] : `${name}의 PASS 프로파일 기반 맞춤 루틴입니다.`,
+        weekRoutine: dayMatches
+      };
+    }
+
+    STATE.profile = { name, ageGroup: age, scores, strengths, weaknesses, type, summary: parsed.summary };
+    localStorage.setItem('fg_profile', JSON.stringify(STATE.profile));
+
+    const week1 = { weekNum: 1, routine: parsed.weekRoutine, checks: {}, generated: Date.now() };
+    STATE.weeks = [week1];
+    localStorage.setItem('fg_weeks', JSON.stringify(STATE.weeks));
+    STATE.currentWeek = 0;
+
+    renderProfileDisplay();
+    renderRoutinePage();
+    renderReportPage();
+    showToast('분석 완료! 1주차 루틴이 생성되었습니다 ✓');
+    switchPage(1);
+  } catch(e) {
+    clearInterval(ltimer);
+    document.getElementById('analysis-loading').style.display = 'none';
+    document.getElementById('input-section').style.display = 'block';
+    showToast('JSON 파싱 오류. 다시 시도해주세요.');
+    console.error(e);
+  }
+}
+
+function getStrengths(sc) {
+  const avg = (sc.p + sc.a + sc.s + sc.su) / 4;
+  const map = {p:'Planning', a:'Attention', s:'Simultaneous', su:'Successive'};
+  return Object.keys(map).filter(k => sc[k] >= avg + 5).map(k => map[k]);
+}
+function getWeaknesses(sc) {
+  const avg = (sc.p + sc.a + sc.s + sc.su) / 4;
+  const map = {p:'Planning', a:'Attention', s:'Simultaneous', su:'Successive'};
+  return Object.keys(map).filter(k => sc[k] <= avg - 5).map(k => map[k]);
+}
+function getCogType(sc) {
+  const scores = [
+    {k:'P', v:sc.p}, {k:'A', v:sc.a}, {k:'S', v:sc.s}, {k:'Su', v:sc.su}
+  ].sort((a,b) => b.v - a.v);
+  const top = scores[0];
+  if (top.k === 'P') return '계획형 전략가';
+  if (top.k === 'A') return '집중형 탐구자';
+  if (top.k === 'S') return '공간형 통합자';
+  return '언어형 순서가';
+}
+
+// ─── PROFILE DISPLAY ──────────────────────────────────────────────────────────
+function renderProfileDisplay() {
+  const p = STATE.profile;
+  if (!p) return;
+  const el = document.getElementById('profile-display');
+  el.style.display = 'block';
+  const sc = p.scores;
+  const avg = (sc.p + sc.a + sc.s + sc.su) / 4;
+  function chipClass(v) { return v >= avg+5 ? 'strength' : v <= avg-5 ? 'weakness' : ''; }
+  el.innerHTML = `<div class="profile-bar">
+    <div class="profile-name">${p.name} <span style="font-size:0.75rem;color:var(--pum);font-weight:400;">${p.ageGroup ? p.ageGroup+'세' : ''}</span></div>
+    <div class="profile-type">${p.type}</div>
+    <div class="profile-scores">
+      <div class="score-chip ${chipClass(sc.p)}"><div class="label">P</div><div class="val">${sc.p}</div></div>
+      <div class="score-chip ${chipClass(sc.a)}"><div class="label">A</div><div class="val">${sc.a}</div></div>
+      <div class="score-chip ${chipClass(sc.s)}"><div class="label">S</div><div class="val">${sc.s}</div></div>
+      <div class="score-chip ${chipClass(sc.su)}"><div class="label">Su</div><div class="val">${sc.su}</div></div>
+    </div>
+    ${p.summary ? `<p style="font-size:0.8rem;color:var(--grm);margin-top:0.75rem;line-height:1.55;">${p.summary}</p>` : ''}
+  </div>
+  <div class="sw-row">
+    ${p.strengths.map(s => `<span class="tag str">💪 ${s}</span>`).join('')}
+    ${p.weaknesses.map(w => `<span class="tag wk">🎯 ${w}</span>`).join('')}
+    <span class="tag info" style="cursor:pointer;" onclick="resetProfile()">✎ 재입력</span>
+  </div>`;
+  document.getElementById('nav-name').textContent = p.name || '';
+}
+
+function resetProfile() {
+  if (!confirm('점수를 다시 입력하시겠어요?')) return;
+  document.getElementById('profile-display').style.display = 'none';
+  document.getElementById('input-section').style.display = 'block';
+}
+
+// ─── ROUTINE PAGE ─────────────────────────────────────────────────────────────
+function renderRoutinePage() {
+  if (!STATE.weeks.length) return;
+  document.getElementById('routine-empty').style.display = 'none';
+  document.getElementById('routine-content').style.display = 'block';
+
+  const wk = STATE.weeks[STATE.currentWeek];
+  document.getElementById('week-label').textContent = wk.weekNum + '주차';
+
+  const totalActs = wk.routine.reduce((s, d) => s + d.activities.length, 0);
+  const doneActs = Object.values(wk.checks).filter(Boolean).length;
+  const pct = totalActs > 0 ? Math.round((doneActs / totalActs) * 100) : 0;
+  document.getElementById('week-pct-text').textContent = pct + '%';
+  document.getElementById('week-progress').style.width = pct + '%';
+  document.getElementById('week-progress').className = 'progress-fill' + (pct >= 80 ? ' green' : '');
+
+  const headerEl = document.getElementById('week-header');
+  if (pct >= 80) {
+    headerEl.innerHTML = `<div style="background:#EAF3DE;border-radius:10px;padding:8px 12px;font-size:0.8rem;color:#3B6D11;font-weight:500;">🎉 이번 주 목표 달성! 다음 주 루틴을 생성해보세요.</div>`;
+  } else {
+    headerEl.innerHTML = '';
+  }
+
+  const daysEl = document.getElementById('routine-days');
+  daysEl.innerHTML = '';
+  wk.routine.forEach((day, di) => {
+    const card = document.createElement('div');
+    card.className = 'day-card';
+    const isWeekend = di >= 5;
+    const dayDone = day.activities.filter((_, ai) => wk.checks[`${di}-${ai}`]).length;
+    card.innerHTML = `<div class="day-header">
+      <span class="day-label${isWeekend ? ' weekend' : ''}">${day.day}</span>
+      <span class="check-count">${dayDone}/${day.activities.length} 완료</span>
+    </div>
+    <div class="activity-list" id="acts-${di}"></div>`;
+    daysEl.appendChild(card);
+
+    const actList = document.getElementById(`acts-${di}`);
+    day.activities.forEach((act, ai) => {
+      const key = `${di}-${ai}`;
+      const done = !!wk.checks[key];
+      const item = document.createElement('div');
+      item.className = 'activity-item' + (done ? ' done' : '');
+      item.dataset.key = key;
+      item.innerHTML = `<div class="check-btn" data-key="${key}" aria-label="완료 체크">
+        ${done ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
+      </div>
+      <div>
+        <div class="act-type">${act.passArea} · ${act.type === 'strength' ? '강점' : '훈련'} · ${act.mins}분</div>
+        <div class="act-text"><strong>${act.title}</strong><br>${act.desc}</div>
+      </div>`;
+      
+      const checkBtn = item.querySelector('.check-btn');
+      checkBtn.addEventListener('click', function() {
+        const k = this.dataset.key;
+        wk.checks[k] = !wk.checks[k];
+        localStorage.setItem('fg_weeks', JSON.stringify(STATE.weeks));
+        renderRoutinePage();
+        renderReportPage();
+      });
+      actList.appendChild(item);
+    });
+  });
+
+  const isLastWeek = STATE.currentWeek === STATE.weeks.length - 1;
+  document.getElementById('btn-gen-next').style.display = (isLastWeek && pct >= 60) ? 'flex' : 'none';
+}
+
+function changeWeek(dir) {
+  const newIdx = STATE.currentWeek + dir;
+  if (newIdx < 0 || newIdx >= STATE.weeks.length) return;
+  STATE.currentWeek = newIdx;
+  renderRoutinePage();
+}
+
+async function generateNextWeek() {
+  if (!STATE.profile || !STATE.weeks.length) return;
+  const prevWk = STATE.weeks[STATE.currentWeek];
+  const totalActs = prevWk.routine.reduce((s, d) => s + d.activities.length, 0);
+  const doneActs = Object.values(prevWk.checks).filter(Boolean).length;
+  const pct = Math.round((doneActs / totalActs) * 100);
+
+  document.getElementById('btn-gen-next').disabled = true;
+  document.getElementById('btn-gen-next').textContent = '생성 중...';
+
+  const p = STATE.profile;
+  const systemPrompt = `K-PASS/D-CAS 전문가. 반드시 순수 JSON만 반환. 마크다운 코드블록 금지.`;
+  const userMsg = `아동:${p.name} PASS:P${p.scores.p}A${p.scores.a}S${p.scores.s}Su${p.scores.su}
+강점:${p.strengths.join('/')} 훈련:${p.weaknesses.join('/')}
+이전주완료율:${pct}%
+${pct >= 80 ? '난이도 약간 높게' : pct < 50 ? '더 쉽고 짧게' : '비슷한 난이도로'}
+
+강점70%+훈련30%로 월~일 7일, 하루 3개 활동. 설명 한 문장 이내.
+{"weekRoutine":[{"day":"월요일","activities":[{"title":"","desc":"","passArea":"P","type":"strength","mins":20}]}]}`;
+
+  const raw = await callClaude(systemPrompt, userMsg);
+  if (!raw) {
+    document.getElementById('btn-gen-next').disabled = false;
+    document.getElementById('btn-gen-next').textContent = '다음 주 루틴 생성하기 →';
+    return;
+  }
+
+  const cleaned2 = raw.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim();
+  const j2Start = cleaned2.indexOf('{');
+  const j2End = cleaned2.lastIndexOf('}');
+  const jsonStr2 = j2Start !== -1 ? cleaned2.slice(j2Start, j2End + 1) : cleaned2;
+  try {
+    const parsed = JSON.parse(jsonStr2);
+    const newWk = { weekNum: prevWk.weekNum + 1, routine: parsed.weekRoutine, checks: {}, generated: Date.now() };
+    STATE.weeks.push(newWk);
+    localStorage.setItem('fg_weeks', JSON.stringify(STATE.weeks));
+    STATE.currentWeek = STATE.weeks.length - 1;
+    renderRoutinePage();
+    renderReportPage();
+    showToast(`${newWk.weekNum}주차 루틴이 생성됐습니다 ✓`);
+  } catch(e) {
+    showToast('생성 오류. 다시 시도해주세요.');
+    document.getElementById('btn-gen-next').disabled = false;
+    document.getElementById('btn-gen-next').textContent = '다음 주 루틴 생성하기 →';
+  }
+}
+
+// ─── REPORT PAGE ──────────────────────────────────────────────────────────────
+function renderReportPage() {
+  if (!STATE.weeks.length) return;
+  document.getElementById('report-empty').style.display = 'none';
+  document.getElementById('report-content').style.display = 'block';
+
+  let totalActs = 0, totalDone = 0;
+  const passCount = {P:0, A:0, S:0, Su:0};
+  const passDone = {P:0, A:0, S:0, Su:0};
+
+  STATE.weeks.forEach((wk) => {
+    wk.routine.forEach((day, di) => {
+      day.activities.forEach((act, ai) => {
+        totalActs++;
+        passCount[act.passArea] = (passCount[act.passArea] || 0) + 1;
+        if (wk.checks[`${di}-${ai}`]) {
+          totalDone++;
+          passDone[act.passArea] = (passDone[act.passArea] || 0) + 1;
+        }
+      });
+    });
+  });
+
+  const overallPct = totalActs > 0 ? Math.round((totalDone / totalActs) * 100) : 0;
+  document.getElementById('report-stats').innerHTML = `
+    <div class="stat-box"><div class="s-val">${STATE.weeks.length}주</div><div class="s-lbl">진행 기간</div></div>
+    <div class="stat-box"><div class="s-val">${overallPct}%</div><div class="s-lbl">전체 완료율</div></div>
+    <div class="stat-box"><div class="s-val">${totalDone}</div><div class="s-lbl">완료 활동 수</div></div>
+    <div class="stat-box"><div class="s-val">${totalActs - totalDone}</div><div class="s-lbl">남은 활동 수</div></div>`;
+
+  const bars = document.getElementById('pass-bars');
+  bars.innerHTML = ['P','A','S','Su'].map(k => {
+    const pct = passCount[k] > 0 ? Math.round((passDone[k] / passCount[k]) * 100) : 0;
+    return `<div class="bar-row">
+      <div class="b-label">${k}</div>
+      <div class="b-bar"><div class="b-fill" style="width:${pct}%"></div></div>
+      <div class="b-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+
+  const hist = document.getElementById('week-history');
+  hist.innerHTML = STATE.weeks.map(wk => {
+    const ta = wk.routine.reduce((s, d) => s + d.activities.length, 0);
+    const td = Object.values(wk.checks).filter(Boolean).length;
+    const p = ta > 0 ? Math.round((td / ta) * 100) : 0;
+    return `<div class="week-hist-item">
+      <span style="font-size:0.85rem;font-weight:500;">${wk.weekNum}주차</span>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="progress-wrap" style="width:80px;margin:0;"><div class="progress-fill${p>=80?' green':''}" style="width:${p}%"></div></div>
+        <span style="font-size:0.8rem;color:var(--grm);width:36px;text-align:right;">${p}%</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+async function generateReport() {
+  if (!STATE.profile) return;
+  const btn = document.getElementById('btn-gen-report');
+  const reportEl = document.getElementById('ai-report-text');
+  btn.disabled = true;
+  btn.textContent = 'AI 분석 중...';
+  reportEl.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+
+  let totalActs = 0, totalDone = 0;
+  STATE.weeks.forEach(wk => {
+    wk.routine.forEach((d, di) => {
+      d.activities.forEach((a, ai) => {
+        totalActs++;
+        if (wk.checks[`${di}-${ai}`]) totalDone++;
+      });
+    });
+  });
+  const pct = totalActs > 0 ? Math.round((totalDone / totalActs) * 100) : 0;
+  const p = STATE.profile;
+
+  const msg = `아동: ${p.name}, PASS 프로파일 (강점: ${p.strengths.join('/')}, 훈련: ${p.weaknesses.join('/')})
+${STATE.weeks.length}주간 루틴 진행, 전체 완료율 ${pct}%
+인지 유형: ${p.type}
+
+이 아이의 성장을 격려하는 월간 총평을 부모님께 편지 형식으로 200자 이내로 써주세요. 한국어로.`;
+
+  const result = await callClaude('당신은 K-PASS 인지발달 전문 상담사입니다. 따뜻하고 전문적인 한국어로 답변하세요.', msg);
+  if (result) {
+    reportEl.innerHTML = result.replace(/\n/g, '<br>');
+    btn.style.display = 'none';
+  } else {
+    reportEl.innerHTML = '';
+    btn.disabled = false;
+    btn.textContent = 'AI 총평 생성하기';
+  }
+}
+
+// ─── CHAT ─────────────────────────────────────────────────────────────────────
+function addChatGreeting() {
+  const p = STATE.profile;
+  const greeting = p
+    ? `안녕하세요! ${p.name}의 PASS 프로파일을 알고 있어요. ${p.type} 유형이네요 😊 궁금하신 점을 편하게 물어보세요.`
+    : '안녕하세요! PASS/D-CAS 인지발달에 관해 무엇이든 질문해보세요.';
+  
+  STATE.chatHistory = [{ role: 'assistant', content: greeting }];
+  renderChat();
+}
+
+function renderChat() {
+  const area = document.getElementById('chat-area');
+  area.innerHTML = STATE.chatHistory.map(m =>
+    `<div class="bubble ${m.role === 'user' ? 'user' : 'ai'}">${m.content.replace(/\n/g, '<br>')}</div>`
+  ).join('');
+  area.scrollTop = area.scrollHeight;
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if (!text) return;
+  if (!STATE.apiKey) { showToast('API 키를 먼저 입력해주세요'); return; }
+
+  input.value = '';
+  STATE.chatHistory.push({ role: 'user', content: text });
+
+  const typingBubble = document.createElement('div');
+  typingBubble.className = 'bubble ai';
+  typingBubble.innerHTML = '<div class="loading-dots"><span></span><span></span><span></span></div>';
+  document.getElementById('chat-area').appendChild(typingBubble);
+  document.getElementById('chat-area').scrollTop = 9999;
+  document.getElementById('btn-chat-send').disabled = true;
+
+  const msgs = STATE.chatHistory.filter(m => m.role !== 'assistant' || STATE.chatHistory.indexOf(m) > 0)
+    .slice(-10)
+    .map(m => ({ role: m.role, content: m.content }));
+
+  const result = await callClaudeChat(msgs);
+  typingBubble.remove();
+  document.getElementById('btn-chat-send').disabled = false;
+
+  if (result) {
+    STATE.chatHistory.push({ role: 'assistant', content: result });
+    renderChat();
+  }
+}
+
+// ─── NAV ──────────────────────────────────────────────────────────────────────
+function switchPage(idx) {
+  document.querySelectorAll('.page').forEach((p, i) => {
+    p.classList.toggle('active', i === idx);
+  });
+  document.querySelectorAll('.tab-bar button').forEach((b, i) => {
+    b.classList.toggle('active', i === idx);
+  });
+  if (idx === 3 && STATE.chatHistory.length === 0) addChatGreeting();
+}
+
+// ─── TOAST ────────────────────────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
+}
+</script>
+</body>
+</html>
