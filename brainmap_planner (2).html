@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>브레인맵 플래너</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+<style>
+:root{
+  --bg:#F7F5F0;--card:#fff;--text:#1A1A1A;--text2:#6B6860;--text3:#A8A49E;
+  --border:#E8E4DC;--green:#1D9E75;--gl:#E1F5EE;--gm:#5DCAA5;
+  --amber:#EF9F27;--al:#FAEEDA;--purple:#534AB7;--pl:#EEEDFE;
+  --coral:#D85A30;--cl:#FAECE7;--r:14px;--rs:8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px;line-height:1.6;}
+
+.header{background:var(--card);border-bottom:1px solid var(--border);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;}
+.logo{font-family:'DM Serif Display',serif;font-size:20px;}
+.logo span{color:var(--green);}
+.nav-tabs{display:flex;gap:0;}
+.nav-tab{padding:10px 16px;font-size:12px;font-weight:500;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap;}
+.nav-tab.active{color:var(--green);border-bottom-color:var(--green);}
+
+.container{max-width:880px;margin:0 auto;padding:2rem 1.5rem 5rem;}
+.page{display:none;}.page.active{display:block;}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:1.5rem;margin-bottom:1rem;}
+.card-title{font-size:13px;font-weight:700;margin-bottom:1rem;}
+.sec-title{font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:.4rem;line-height:1.3;}
+.sec-sub{font-size:13px;color:var(--text2);margin-bottom:1.5rem;line-height:1.6;}
+
+.badge{display:inline-block;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.badge-g{background:var(--gl);color:#085041;}
+.badge-a{background:var(--al);color:#633806;}
+.badge-p{background:var(--pl);color:#3C3489;}
+
+.btn{padding:11px 20px;border-radius:var(--rs);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;cursor:pointer;transition:all .15s;border:none;}
+.btn-primary{background:var(--green);color:#fff;width:100%;}
+.btn-primary:hover{opacity:.9;}
+.btn-primary:disabled{background:var(--border);color:var(--text3);cursor:not-allowed;}
+.btn-outline{background:var(--card);color:var(--text);border:1.5px solid var(--border);}
+.btn-outline:hover{background:var(--bg);}
+.btn-sm{padding:7px 14px;font-size:12px;}
+
+.pass-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:1.25rem;}
+.pass-field{display:flex;flex-direction:column;gap:6px;}
+.pass-label{font-size:11px;font-weight:700;display:flex;align-items:center;gap:6px;}
+.pass-letter{width:22px;height:22px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.pl-p{background:var(--pl);color:var(--purple);}
+.pl-a{background:var(--gl);color:var(--green);}
+.pl-s1{background:var(--al);color:#854F0B;}
+.pl-s2{background:var(--cl);color:var(--coral);}
+.pass-wrap{position:relative;}
+.pass-input{width:100%;padding:10px 32px 10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-size:20px;font-weight:700;color:var(--text);background:var(--bg);text-align:center;outline:none;transition:border-color .15s;font-family:'Noto Sans KR',sans-serif;}
+.pass-input:focus{border-color:var(--green);background:var(--card);}
+.pass-input::placeholder{font-size:13px;font-weight:400;color:var(--text3);}
+.pass-unit{position:absolute;right:9px;top:50%;transform:translateY(-50%);font-size:10px;color:var(--text3);}
+.pass-bar{height:3px;border-radius:2px;background:var(--border);margin-top:5px;overflow:hidden;}
+.pass-bar-fill{height:100%;border-radius:2px;transition:width .4s ease;}
+
+.sel-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:1.25rem;}
+.field-group{display:flex;flex-direction:column;gap:5px;}
+.field-label{font-size:11px;font-weight:700;color:var(--text2);}
+.field-sel,.field-inp{padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:'Noto Sans KR',sans-serif;font-size:13px;color:var(--text);background:var(--bg);outline:none;}
+.field-sel:focus,.field-inp:focus{border-color:var(--green);}
+
+/* WEEK GRID */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:.75rem;}
+.day-card{border-radius:var(--rs);padding:10px 6px;text-align:center;border:1.5px solid transparent;position:relative;transition:transform .1s;}
+.day-card.ds{background:var(--gl);border-color:var(--gm);}
+.day-card.dw{background:var(--al);border-color:var(--amber);}
+.day-card.dr{background:var(--bg);border-color:var(--border);}
+.day-name{font-size:10px;font-weight:700;color:var(--text3);margin-bottom:4px;}
+.day-type{font-size:10px;font-weight:700;margin-bottom:2px;}
+.day-card.ds .day-type{color:var(--green);}
+.day-card.dw .day-type{color:#854F0B;}
+.day-card.dr .day-type{color:var(--text3);}
+.day-area{font-size:10px;color:var(--text2);margin-bottom:3px;line-height:1.3;}
+.day-min{font-size:10px;color:var(--text3);}
+.chk-btn{margin-top:6px;width:22px;height:22px;border-radius:50%;border:1.5px solid var(--border);background:var(--card);cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:auto;margin-right:auto;font-size:10px;transition:all .15s;}
+.chk-btn.done{background:var(--green);border-color:var(--green);color:#fff;}
+.chk-btn.skip{background:var(--text3);border-color:var(--text3);color:#fff;}
+
+/* PROFILE */
+.profile-hd{background:var(--green);border-radius:var(--r) var(--r) 0 0;padding:1.25rem 1.5rem;color:#fff;display:flex;align-items:center;gap:1rem;}
+.profile-avatar{width:50px;height:50px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.profile-name{font-size:16px;font-weight:700;margin-bottom:2px;}
+.profile-type{font-size:12px;opacity:.85;}
+.profile-bd{padding:1.25rem 1.5rem;}
+
+.pass-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:1rem;}
+.sc-item{border-radius:var(--rs);padding:10px 8px;text-align:center;border:1.5px solid var(--border);}
+.sc-item.is-s{background:var(--gl);border-color:var(--gm);}
+.sc-item.is-w{background:var(--al);border-color:var(--amber);}
+.sc-lbl{font-size:10px;font-weight:700;color:var(--text3);margin-bottom:2px;}
+.sc-item.is-s .sc-lbl{color:var(--green);}
+.sc-item.is-w .sc-lbl{color:#854F0B;}
+.sc-num{font-size:20px;font-weight:700;}
+.sc-tag{font-size:9px;font-weight:700;margin-top:2px;}
+
+.ana-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:1rem;}
+.ana-box{border-radius:var(--rs);padding:12px;}
+.ana-s{background:var(--gl);border:1px solid #9FE1CB;}
+.ana-w{background:var(--al);border:1px solid #FAC775;}
+.ana-label{font-size:10px;font-weight:700;letter-spacing:.06em;margin-bottom:5px;}
+.lbl-s{color:var(--green);}
+.lbl-w{color:#854F0B;}
+.ana-text{font-size:12px;color:var(--text);line-height:1.6;}
+
+/* ACTIVITY */
+.act-list{display:flex;flex-direction:column;gap:8px;}
+.act-item{display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:var(--rs);border:1px solid var(--border);}
+.act-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.dot-g{background:var(--green);}
+.dot-a{background:var(--amber);}
+.act-title{font-size:13px;font-weight:700;margin-bottom:2px;}
+.act-desc{font-size:12px;color:var(--text2);line-height:1.5;}
+.act-meta{font-size:10px;color:var(--text3);margin-top:3px;font-weight:700;}
+
+/* ENCOURAGEMENT BOX */
+.enc-box{border-radius:var(--r);padding:1.25rem 1.5rem;margin-bottom:1rem;border:1px solid;}
+.enc-high{background:#E1F5EE;border-color:#5DCAA5;}
+.enc-mid{background:#FAEEDA;border-color:#EF9F27;}
+.enc-low{background:#EEEDFE;border-color:#AFA9EC;}
+.enc-icon{font-size:24px;margin-bottom:.5rem;}
+.enc-title{font-size:14px;font-weight:700;margin-bottom:.25rem;}
+.enc-high .enc-title{color:#085041;}
+.enc-mid .enc-title{color:#633806;}
+.enc-low .enc-title{color:#3C3489;}
+.enc-text{font-size:13px;line-height:1.7;}
+.enc-high .enc-text{color:#0F6E56;}
+.enc-mid .enc-text{color:#854F0B;}
+.enc-low .enc-text{color:#534AB7;}
+
+/* STAT CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem;}
+.stat-card{background:var(--bg);border-radius:var(--rs);padding:1rem;text-align:center;}
+.stat-num{font-size:28px;font-weight:700;margin-bottom:2px;}
+.stat-lbl{font-size:11px;color:var(--text2);}
+.stat-sub{font-size:10px;color:var(--text3);margin-top:2px;}
+
+/* PROGRESS BAR */
+.prog-row{display:flex;flex-direction:column;gap:10px;}
+.prog-item{display:flex;flex-direction:column;gap:4px;}
+.prog-header{display:flex;justify-content:space-between;align-items:center;}
+.prog-label{font-size:12px;font-weight:700;}
+.prog-pct{font-size:12px;font-weight:700;color:var(--green);}
+.prog-bar{height:8px;border-radius:4px;background:var(--border);overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;background:var(--green);transition:width .6s ease;}
+.prog-fill.amber{background:var(--amber);}
+
+/* WEEK NAV */
+.week-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.week-nav-title{font-size:15px;font-weight:700;}
+.week-nav-sub{font-size:11px;color:var(--text2);margin-top:2px;}
+.week-btns{display:flex;gap:8px;}
+
+/* QA */
+.qa-input-row{display:flex;gap:8px;margin-bottom:1rem;}
+.qa-input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:'Noto Sans KR',sans-serif;font-size:13px;outline:none;}
+.qa-input:focus{border-color:var(--green);}
+.btn-ask{padding:10px 16px;background:var(--green);color:#fff;border:none;border-radius:var(--rs);font-family:'Noto Sans KR',sans-serif;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap;}
+.qa-bubbles{display:flex;flex-direction:column;gap:10px;}
+.bubble{padding:12px 14px;border-radius:var(--rs);font-size:13px;line-height:1.6;}
+.b-user{background:var(--gl);color:var(--text);}
+.b-ai{background:var(--bg);border:1px solid var(--border);}
+.b-loading{color:var(--text3);font-style:italic;}
+.quick-qs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:1rem;}
+.quick-q{padding:6px 12px;background:var(--card);border:1.5px solid var(--border);border-radius:20px;font-size:12px;cursor:pointer;transition:all .15s;}
+.quick-q:hover{border-color:var(--green);background:var(--gl);color:var(--green);}
+
+/* LOADING */
+.loading-wrap{display:none;flex-direction:column;align-items:center;justify-content:center;padding:3rem;text-align:center;}
+.loading-wrap.show{display:flex;}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--green);border-radius:50%;animation:spin .8s linear infinite;margin-bottom:1.25rem;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.loading-text{font-size:14px;color:var(--text2);}
+.loading-step{font-size:12px;color:var(--text3);margin-top:.5rem;}
+
+/* MODAL */
+.modal-ov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:center;justify-content:center;}
+.modal-ov.show{display:flex;}
+.modal{background:var(--card);border-radius:var(--r);padding:2rem;width:90%;max-width:420px;}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:.5rem;}
+.modal-desc{font-size:13px;color:var(--text2);margin-bottom:1.25rem;line-height:1.6;}
+.modal-inp{width:100%;padding:10px 12px;border:1.5px solid var(--border);border-radius:var(--rs);font-family:'Noto Sans KR',sans-serif;font-size:13px;margin-bottom:1rem;outline:none;}
+.modal-inp:focus{border-color:var(--green);}
+.modal-btns{display:flex;gap:8px;}
+
+.notif{position:fixed;bottom:2rem;left:50%;transform:translateX(-50%);background:var(--text);color:#fff;padding:11px 20px;border-radius:40px;font-size:13px;font-weight:500;opacity:0;transition:opacity .3s;z-index:300;white-space:nowrap;}
+.notif.show{opacity:1;}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+.fade-in{animation:fadeIn .35s ease forwards;}
+
+.divider{height:1px;background:var(--border);margin:1rem 0;}
+.row-between{display:flex;justify-content:space-between;align-items:center;}
+.chart-wrap{position:relative;height:200px;margin-bottom:1rem;}
+
+@media(max-width:600px){
+  .pass-grid{grid-template-columns:repeat(2,1fr);}
+  .ana-grid,.stat-grid{grid-template-columns:1fr;}
+  .sel-row{grid-template-columns:1fr;}
+  .week-grid{gap:3px;}
+  .day-area{display:none;}
+  .nav-tab{padding:10px 10px;font-size:11px;}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo">Brain<span>Map</span> Planner</div>
+  <div class="nav-tabs">
+    <div class="nav-tab active" onclick="showPage('home')">홈</div>
+    <div class="nav-tab" onclick="showPage('routine')">이번주 루틴</div>
+    <div class="nav-tab" onclick="showPage('report')">성과 보고서</div>
+    <div class="nav-tab" onclick="showPage('qa')">AI 상담</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ===== HOME ===== -->
+<div class="page active" id="page-home">
+
+  <div id="home-input">
+    <div class="sec-title">결과지 점수 입력</div>
+    <div class="sec-sub">K-PASS / D-CAS 요약 결과지의 PASS 4영역 백분위 점수를 입력하면<br>AI가 매주 맞춤 학습 루틴을 자동 설계합니다.</div>
+
+    <div class="card">
+      <div class="card-title">PASS 4영역 백분위 점수</div>
+      <div class="pass-grid">
+        <div class="pass-field">
+          <div class="pass-label"><span class="pass-letter pl-p">P</span>Planning</div>
+          <div class="pass-wrap">
+            <input class="pass-input" type="number" min="1" max="99" placeholder="백분위" id="sc-p" oninput="updateBar('p')">
+            <span class="pass-unit">%ile</span>
+          </div>
+          <div class="pass-bar"><div class="pass-bar-fill" id="bar-p" style="width:0%;background:#534AB7"></div></div>
+        </div>
+        <div class="pass-field">
+          <div class="pass-label"><span class="pass-letter pl-a">A</span>Attention</div>
+          <div class="pass-wrap">
+            <input class="pass-input" type="number" min="1" max="99" placeholder="백분위" id="sc-a" oninput="updateBar('a')">
+            <span class="pass-unit">%ile</span>
+          </div>
+          <div class="pass-bar"><div class="pass-bar-fill" id="bar-a" style="width:0%;background:#1D9E75"></div></div>
+        </div>
+        <div class="pass-field">
+          <div class="pass-label"><span class="pass-letter pl-s1">S¹</span>Simultaneous</div>
+          <div class="pass-wrap">
+            <input class="pass-input" type="number" min="1" max="99" placeholder="백분위" id="sc-s1" oninput="updateBar('s1')">
+            <span class="pass-unit">%ile</span>
+          </div>
+          <div class="pass-bar"><div class="pass-bar-fill" id="bar-s1" style="width:0%;background:#EF9F27"></div></div>
+        </div>
+        <div class="pass-field">
+          <div class="pass-label"><span class="pass-letter pl-s2">S²</span>Successive</div>
+          <div class="pass-wrap">
+            <input class="pass-input" type="number" min="1" max="99" placeholder="백분위" id="sc-s2" oninput="updateBar('s2')">
+            <span class="pass-unit">%ile</span>
+          </div>
+          <div class="pass-bar"><div class="pass-bar-fill" id="bar-s2" style="width:0%;background:#D85A30"></div></div>
+        </div>
+      </div>
+      <div class="sel-row">
+        <div class="field-group">
+          <div class="field-label">아이 이름 (선택)</div>
+          <input class="field-inp" type="text" placeholder="예: 서우" id="child-name">
+        </div>
+        <div class="field-group">
+          <div class="field-label">연령대</div>
+          <select class="field-sel" id="age-group">
+            <option value="">선택하세요</option>
+            <option value="5-7">5~7세 (K-PASS)</option>
+            <option value="8-10">8~10세 (K-PASS)</option>
+            <option value="11-13">11~13세 (K-PASS)</option>
+            <option value="14-18">14~18세 (D-CAS)</option>
+            <option value="19+">19세 이상 (D-CAS)</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startAnalysis()">AI 분석 + 1주차 루틴 설계 시작하기</button>
+    </div>
+    <div class="card" style="padding:1rem 1.5rem;">
+      <div style="display:flex;align-items:center;gap:8px;color:var(--text2);font-size:12px;">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        점수는 이 기기에만 저장되며 외부로 전송되지 않습니다.
+      </div>
+    </div>
+  </div>
+
+  <div class="loading-wrap" id="loading">
+    <div class="spinner"></div>
+    <div class="loading-text">AI가 PASS 프로파일을 분석하고 있습니다</div>
+    <div class="loading-step" id="loading-step">강점 · 약점 영역 판별 중...</div>
+  </div>
+
+  <div id="home-profile" style="display:none;">
+    <div class="fade-in" style="border:1px solid var(--border);border-radius:var(--r);overflow:hidden;margin-bottom:1rem;">
+      <div class="profile-hd">
+        <div class="profile-avatar" id="p-avatar">🧠</div>
+        <div>
+          <div class="profile-name" id="p-name">-</div>
+          <div class="profile-type" id="p-type">-</div>
+        </div>
+      </div>
+      <div class="profile-bd">
+        <div class="pass-scores" id="pass-scores"></div>
+        <div class="ana-grid">
+          <div class="ana-box ana-s">
+            <div class="ana-label lbl-s">강점 영역</div>
+            <div class="ana-text" id="strength-desc">-</div>
+          </div>
+          <div class="ana-box ana-w">
+            <div class="ana-label lbl-w">훈련 영역</div>
+            <div class="ana-text" id="weakness-desc">-</div>
+          </div>
+        </div>
+        <div id="profile-summary" style="font-size:13px;color:var(--text2);line-height:1.7;padding-top:.75rem;border-top:1px solid var(--border);"></div>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" onclick="showPage('routine')">이번 주 루틴 보기 →</button>
+      <button class="btn btn-outline btn-sm" onclick="resetAll()">↺ 점수 다시 입력</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== ROUTINE ===== -->
+<div class="page" id="page-routine">
+  <div id="routine-empty" style="text-align:center;padding:3rem 1rem;color:var(--text2);">
+    <div style="font-size:32px;margin-bottom:1rem;">📋</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:.5rem;">아직 분석이 완료되지 않았어요</div>
+    <div style="font-size:13px;margin-bottom:1.5rem;">홈에서 점수를 입력하고 AI 분석을 완료해주세요.</div>
+    <button class="btn btn-outline btn-sm" onclick="showPage('home')">홈으로 가기</button>
+  </div>
+
+  <div id="routine-content" style="display:none;">
+    <div class="week-nav">
+      <div>
+        <div class="week-nav-title" id="week-title">-</div>
+        <div class="week-nav-sub" id="week-sub">-</div>
+      </div>
+      <div class="week-btns">
+        <button class="btn btn-outline btn-sm" id="btn-prev-week" onclick="prevWeek()" style="display:none;">← 이전 주</button>
+        <button class="btn btn-primary btn-sm" onclick="generateNextWeek()" id="btn-next-week" style="width:auto;">다음 주 루틴 생성 →</button>
+      </div>
+    </div>
+
+    <div id="enc-box-wrap"></div>
+
+    <div class="card">
+      <div class="row-between" style="margin-bottom:.75rem;">
+        <div class="card-title" style="margin-bottom:0;">주간 학습 루틴</div>
+        <div style="display:flex;gap:6px;">
+          <span class="badge badge-g">강점 70%</span>
+          <span class="badge badge-a">약점 30%</span>
+        </div>
+      </div>
+      <div class="week-grid" id="week-grid"></div>
+      <div style="font-size:11px;color:var(--text3);">✓ 버튼을 눌러 완료를 체크하세요 · 다음 주 루틴은 이번 주 성취율을 반영해 자동 조정됩니다</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">이번 주 추천 활동</div>
+      <div class="act-list" id="act-list"></div>
+    </div>
+
+    <div class="card" style="padding:1rem 1.5rem;">
+      <div class="row-between">
+        <div style="font-size:13px;font-weight:700;">이번 주 완료율</div>
+        <div style="font-size:18px;font-weight:700;color:var(--green);" id="week-pct-display">0%</div>
+      </div>
+      <div class="pass-bar" style="height:8px;border-radius:4px;margin-top:.75rem;">
+        <div class="pass-bar-fill" id="week-prog-bar" style="width:0%;background:var(--green);height:100%;border-radius:4px;transition:width .5s ease;"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== REPORT ===== -->
+<div class="page" id="page-report">
+  <div id="report-empty" style="text-align:center;padding:3rem 1rem;color:var(--text2);">
+    <div style="font-size:32px;margin-bottom:1rem;">📊</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:.5rem;">아직 데이터가 없어요</div>
+    <div style="font-size:13px;margin-bottom:1.5rem;">루틴을 시작하고 체크인을 쌓으면 성과 보고서가 생성됩니다.</div>
+    <button class="btn btn-outline btn-sm" onclick="showPage('home')">홈으로 가기</button>
+  </div>
+
+  <div id="report-content" style="display:none;">
+    <div class="sec-title">성과 보고서</div>
+    <div class="sec-sub">매주 체크인 기록을 바탕으로 성장을 추적합니다.</div>
+
+    <!-- 주간 보고서 -->
+    <div class="card">
+      <div class="card-title">주간 성과 요약</div>
+      <div class="stat-grid" id="weekly-stats"></div>
+      <div id="weekly-enc-box"></div>
+      <div class="divider"></div>
+      <div class="card-title" style="margin-top:.5rem;">영역별 완료율</div>
+      <div class="prog-row" id="area-prog"></div>
+    </div>
+
+    <!-- 월간 추이 -->
+    <div class="card">
+      <div class="card-title">월간 성취율 추이 (주차별)</div>
+      <div class="chart-wrap"><canvas id="monthly-chart"></canvas></div>
+      <div id="monthly-enc-box"></div>
+    </div>
+
+    <!-- 주차별 상세 -->
+    <div class="card">
+      <div class="card-title">주차별 기록</div>
+      <div id="week-history"></div>
+    </div>
+
+    <!-- AI 월간 총평 -->
+    <div class="card">
+      <div class="card-title">AI 월간 총평</div>
+      <div id="monthly-summary-wrap">
+        <button class="btn btn-outline btn-sm" onclick="generateMonthlySummary()">AI 총평 생성하기</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== QA ===== -->
+<div class="page" id="page-qa">
+  <div id="qa-empty" style="text-align:center;padding:3rem 1rem;color:var(--text2);">
+    <div style="font-size:32px;margin-bottom:1rem;">💬</div>
+    <div style="font-size:15px;font-weight:700;margin-bottom:.5rem;">분석 완료 후 이용 가능합니다</div>
+    <button class="btn btn-outline btn-sm" onclick="showPage('home')">홈으로 가기</button>
+  </div>
+  <div id="qa-content" style="display:none;">
+    <div class="sec-title">AI 상담</div>
+    <div class="sec-sub">PASS 프로파일을 바탕으로 궁금한 점을 자유롭게 물어보세요.</div>
+    <div class="card">
+      <div class="quick-qs" id="quick-qs"></div>
+      <div class="qa-input-row">
+        <input class="qa-input" type="text" id="qa-input" placeholder="예: 왜 수학을 싫어할까요?" onkeydown="if(event.key==='Enter')askQ()">
+        <button class="btn-ask" onclick="askQ()">질문하기</button>
+      </div>
+      <div class="qa-bubbles" id="qa-bubbles"></div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /container -->
+
+
+
+<div class="notif" id="notif"></div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+const PNAMES = {p:'Planning',a:'Attention',s1:'Simultaneous',s2:'Successive'};
+const PCOLS  = {p:'#534AB7',a:'#1D9E75',s1:'#EF9F27',s2:'#D85A30'};
+const DAYS   = ['월','화','수','목','금','토','일'];
+const DTYPES = ['강점','약점','강점','강점','약점','강점','휴식']; // 기본 패턴
+
+let state = {
+  profile: null,       // AI 분석 결과
+  scores: null,        // PASS 점수
+  meta: null,          // childName, ageLabel, testType, strengths, weaknesses
+  weeks: [],           // [{weekNum, plan:[{day,type,area,activity,minutes,done}], generatedAt}]
+  currentWeekIdx: 0,
+  chart: null
+};
+
+let pendingCb = null;
+
+// ============================================================
+// PERSIST
+// ============================================================
+function save() { localStorage.setItem('bmp_v2', JSON.stringify(state)); }
+function load() {
+  const d = localStorage.getItem('bmp_v2');
+  if (d) { try { state = JSON.parse(d); } catch(e) {} }
+}
+
+// ============================================================
+// INIT
+// ============================================================
+window.addEventListener('DOMContentLoaded', () => {
+  load();
+  if (state.profile && state.scores) {
+    // 저장된 데이터 복원
+    renderProfile();
+    renderRoutinePage();
+    renderReportPage();
+    renderQAPage();
+    showPage('routine');
+  }
+  // 저장된 점수 복원
+  if (state.scores) {
+    ['p','a','s1','s2'].forEach(k => {
+      const el = document.getElementById('sc-'+k);
+      if (el) { el.value = state.scores[k]; updateBar(k); }
+    });
+    if (state.meta) {
+      const cn = document.getElementById('child-name');
+      const ag = document.getElementById('age-group');
+      if (cn) cn.value = state.meta.childName || '';
+      if (ag) ag.value = state.meta.ageGroup || '';
+    }
+  }
+});
+
+// ============================================================
+// NAV
+// ============================================================
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  const tabs = document.querySelectorAll('.nav-tab');
+  const idx = {home:0,routine:1,report:2,qa:3}[id];
+  if (tabs[idx]) tabs[idx].classList.add('active');
+}
+
+// ============================================================
+// INPUT
+// ============================================================
+function updateBar(k) {
+  const v = Math.min(Math.max(parseInt(document.getElementById('sc-'+k).value)||0,0),99);
+  document.getElementById('bar-'+k).style.width = v+'%';
+}
+
+// ============================================================
+// API KEY
+// ============================================================
+function getKey() { return 'FEELGOOD_API_KEY_PLACEHOLDER'; }
+function requireKey(cb) { cb(); }
+function closeModal() {}
+
+// ============================================================
+// NOTIF
+// ============================================================
+function showNotif(msg) {
+  const n = document.getElementById('notif');
+  n.textContent = msg; n.classList.add('show');
+  setTimeout(()=>n.classList.remove('show'), 2800);
+}
+
+// ============================================================
+// ANALYSIS — 최초 분석
+// ============================================================
+function startAnalysis() {
+  const scores = {
+    p:  parseInt(document.getElementById('sc-p').value)||0,
+    a:  parseInt(document.getElementById('sc-a').value)||0,
+    s1: parseInt(document.getElementById('sc-s1').value)||0,
+    s2: parseInt(document.getElementById('sc-s2').value)||0
+  };
+  const age = document.getElementById('age-group').value;
+  if (!scores.p||!scores.a||!scores.s1||!scores.s2) { showNotif('4영역 점수를 모두 입력해주세요'); return; }
+  if (!age) { showNotif('연령대를 선택해주세요'); return; }
+  requireKey(()=>runAnalysis(scores, age));
+}
+
+async function runAnalysis(scores, age) {
+  document.getElementById('home-input').style.display = 'none';
+  document.getElementById('loading').classList.add('show');
+
+  const loadMsgs = ['강점·약점 영역 판별 중...','뇌 유형 프로파일 생성 중...','1주차 루틴 설계 중...','활동 목록 구성 중...'];
+  let li = 0;
+  const lEl = document.getElementById('loading-step');
+  const lInt = setInterval(()=>{ li=(li+1)%loadMsgs.length; lEl.textContent=loadMsgs[li]; }, 1000);
+
+  const childName = document.getElementById('child-name').value.trim()||'아이';
+  const ageLabelMap = {'5-7':'5~7세','8-10':'8~10세','11-13':'11~13세','14-18':'14~18세','19+':'19세 이상'};
+  const ageLabel = ageLabelMap[age];
+  const testType = (age==='14-18'||age==='19+') ? 'D-CAS' : 'K-PASS';
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const strengths = sorted.slice(0,2).map(e=>e[0]);
+  const weaknesses = sorted.slice(2,4).map(e=>e[0]);
+  const sn0=PNAMES[strengths[0]], sn1=PNAMES[strengths[1]];
+  const wn0=PNAMES[weaknesses[0]], wn1=PNAMES[weaknesses[1]];
+
+  const sys = `You are a PASS theory cognitive expert. Respond ONLY in Korean. Output ONLY valid JSON without any markdown fences or extra text.`;
+  const prompt = `아이정보: 이름=${childName}, 연령=${ageLabel}, 검사=${testType}
+PASS백분위: Planning=${scores.p}, Attention=${scores.a}, Simultaneous=${scores.s1}, Successive=${scores.s2}
+강점=${sn0},${sn1} / 훈련=${wn0},${wn1}
+
+아래 JSON을 그대로 채워 반환하라. 문자열 내부에 큰따옴표 절대 금지.
+
+{"brainType":"뇌유형명","emoji":"이모지1개","strengthDesc":"강점이 실생활에서 나타나는 방식 2문장","weaknessDesc":"훈련영역 접근법 2문장","summary":"전체인지특성과 잠재력 3문장","weekPlan":[{"day":"월","type":"강점","area":"${sn0}","activity":"구체적활동","minutes":15},{"day":"화","type":"약점","area":"${wn0}","activity":"구체적활동","minutes":15},{"day":"수","type":"강점","area":"${sn0}","activity":"구체적활동","minutes":15},{"day":"목","type":"강점","area":"${sn1}","activity":"구체적활동","minutes":15},{"day":"금","type":"약점","area":"${wn1}","activity":"구체적활동","minutes":15},{"day":"토","type":"강점","area":"${sn0}","activity":"구체적활동","minutes":20},{"day":"일","type":"휴식","area":"회고","activity":"이번주돌아보기","minutes":5}],"activities":[{"type":"강점","title":"활동제목","desc":"활동설명","area":"${sn0}"},{"type":"강점","title":"활동제목","desc":"활동설명","area":"${sn1}"},{"type":"강점","title":"활동제목","desc":"활동설명","area":"${sn0}"},{"type":"약점","title":"활동제목","desc":"활동설명","area":"${wn0}"},{"type":"약점","title":"활동제목","desc":"활동설명","area":"${wn1}"}],"quickQuestions":["질문1","질문2","질문3"]}`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+      body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:2000,system:sys,messages:[{role:'user',content:prompt}]})
+    });
+    clearInterval(lInt);
+
+    if (res.status===401) { localStorage.removeItem('fg_api_key'); throw new Error('API 키가 올바르지 않습니다'); }
+    if (!res.ok) { const e=await res.json().catch(()=>{}); throw new Error(e?.error?.message||'HTTP '+res.status); }
+
+    const data = await res.json();
+    const raw = data.content[0].text;
+    const profile = safeParseJSON(raw);
+    if (!profile) throw new Error('JSON 파싱 실패. 다시 시도해주세요.');
+
+    // 상태 저장
+    state.scores = scores;
+    state.profile = profile;
+    state.meta = {childName, ageLabel, testType, ageGroup:document.getElementById('age-group').value, strengths, weaknesses};
+    state.weeks = [{
+      weekNum: 1,
+      plan: profile.weekPlan.map(d=>({...d, done:false})),
+      generatedAt: Date.now()
+    }];
+    state.currentWeekIdx = 0;
+    save();
+
+    renderProfile();
+    renderRoutinePage();
+    renderReportPage();
+    renderQAPage();
+
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('home-profile').style.display = 'block';
+
+  } catch(e) {
+    clearInterval(lInt);
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('home-input').style.display = 'block';
+    showNotif('오류: '+(e.message||'알 수 없는 오류').substring(0,60));
+    console.error(e);
+  }
+}
+
+// ============================================================
+// NEXT WEEK ROUTINE — 전주 완료율 반영
+// ============================================================
+async function generateNextWeek() {
+  if (!state.profile) return;
+  requireKey(async ()=>{
+    const curWeek = state.weeks[state.currentWeekIdx];
+    const completedPlan = curWeek.plan;
+    const totalAct = completedPlan.filter(d=>d.type!=='휴식').length;
+    const doneAct  = completedPlan.filter(d=>d.done&&d.type!=='휴식').length;
+    const rate = totalAct>0 ? Math.round(doneAct/totalAct*100) : 0;
+
+    const weakDone  = completedPlan.filter(d=>d.type==='약점'&&d.done).length;
+    const weakTotal = completedPlan.filter(d=>d.type==='약점').length;
+    const weakRate  = weakTotal>0 ? Math.round(weakDone/weakTotal*100) : 0;
+
+    const nextWeekNum = state.weeks.length+1;
+    const {strengths, weaknesses, childName, ageLabel} = state.meta;
+    const sn0=PNAMES[strengths[0]], sn1=PNAMES[strengths[1]];
+    const wn0=PNAMES[weaknesses[0]], wn1=PNAMES[weaknesses[1]];
+
+    // 완료율에 따라 약점 비율 조정 지시
+    let adjustNote = '';
+    if (rate >= 80) adjustNote = `지난주 완료율이 ${rate}%로 높습니다. 이번 주는 약점 훈련 활동의 난이도를 한 단계 높이고 시간을 5분 늘리세요.`;
+    else if (rate >= 50) adjustNote = `지난주 완료율이 ${rate}%입니다. 비슷한 난이도를 유지하되 활동 내용을 다양하게 변경하세요.`;
+    else adjustNote = `지난주 완료율이 ${rate}%로 낮습니다. 이번 주는 강점 활동 비중을 늘리고(월수목토금 강점, 화 약점만), 약점 활동 시간을 10분으로 줄여 부담을 낮추세요. 약점영역 완료율은 ${weakRate}%였습니다.`;
+
+    document.getElementById('btn-next-week').disabled = true;
+    document.getElementById('btn-next-week').textContent = '생성 중...';
+
+    const sys = `You are a PASS theory cognitive expert. Respond ONLY in Korean. Output ONLY valid JSON without any markdown fences.`;
+    const prompt = `아이: ${childName}, ${ageLabel}
+강점=${sn0},${sn1} / 훈련=${wn0},${wn1}
+지난주(${curWeek.weekNum}주차) 완료율: ${rate}%
+조정지시: ${adjustNote}
+
+${nextWeekNum}주차 주간루틴을 아래 JSON으로 반환하라. 문자열 내부에 큰따옴표 절대 금지.
+{"weekPlan":[{"day":"월","type":"강점","area":"영역","activity":"활동","minutes":15},{"day":"화","type":"약점","area":"영역","activity":"활동","minutes":15},{"day":"수","type":"강점","area":"영역","activity":"활동","minutes":15},{"day":"목","type":"강점","area":"영역","activity":"활동","minutes":15},{"day":"금","type":"약점","area":"영역","activity":"활동","minutes":15},{"day":"토","type":"강점","area":"영역","activity":"활동","minutes":20},{"day":"일","type":"휴식","area":"회고","activity":"이번주돌아보기","minutes":5}],"activities":[{"type":"강점","title":"제목","desc":"설명","area":"영역"},{"type":"강점","title":"제목","desc":"설명","area":"영역"},{"type":"강점","title":"제목","desc":"설명","area":"영역"},{"type":"약점","title":"제목","desc":"설명","area":"영역"},{"type":"약점","title":"제목","desc":"설명","area":"영역"}]}`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:1500,system:sys,messages:[{role:'user',content:prompt}]})
+      });
+      if (!res.ok) throw new Error('HTTP '+res.status);
+      const data = await res.json();
+      const parsed = safeParseJSON(data.content[0].text);
+      if (!parsed) throw new Error('파싱 실패');
+
+      state.weeks.push({weekNum:nextWeekNum, plan:parsed.weekPlan.map(d=>({...d,done:false})), activities:parsed.activities, generatedAt:Date.now()});
+      state.currentWeekIdx = state.weeks.length-1;
+      save();
+      renderRoutinePage();
+      renderReportPage();
+      showNotif(`${nextWeekNum}주차 루틴이 생성되었습니다!`);
+    } catch(e) {
+      showNotif('루틴 생성 오류: '+e.message.substring(0,40));
+    } finally {
+      document.getElementById('btn-next-week').disabled = false;
+      document.getElementById('btn-next-week').textContent = '다음 주 루틴 생성 →';
+    }
+  });
+}
+
+function prevWeek() {
+  if (state.currentWeekIdx > 0) {
+    state.currentWeekIdx--;
+    renderRoutinePage();
+  }
+}
+
+// ============================================================
+// CHECK IN
+// ============================================================
+function toggleCheck(weekIdx, dayIdx) {
+  const day = state.weeks[weekIdx].plan[dayIdx];
+  if (day.type === '휴식') return;
+  day.done = !day.done;
+  save();
+  renderRoutinePage();
+  renderReportPage();
+}
+
+// ============================================================
+// RENDER PROFILE
+// ============================================================
+function renderProfile() {
+  const {profile, scores, meta} = state;
+  if (!profile) return;
+  document.getElementById('p-avatar').textContent = profile.emoji||'🧠';
+  document.getElementById('p-name').textContent = `${meta.childName}의 뇌 유형 — ${profile.brainType}`;
+  document.getElementById('p-type').textContent = `${meta.testType} · ${meta.ageLabel}`;
+
+  const sorted = Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const s2 = sorted.slice(0,2).map(e=>e[0]);
+  const w2 = sorted.slice(2).map(e=>e[0]);
+  document.getElementById('pass-scores').innerHTML = ['p','a','s1','s2'].map(k=>{
+    const isS=s2.includes(k), isW=w2.includes(k);
+    return `<div class="sc-item ${isS?'is-s':isW?'is-w':''}">
+      <div class="sc-lbl">${PNAMES[k]}</div>
+      <div class="sc-num" style="color:${PCOLS[k]}">${scores[k]}</div>
+      <div class="sc-tag ${isS?'tag-s':'tag-w'}">${isS?'강점':isW?'훈련':''}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('strength-desc').textContent = profile.strengthDesc||'-';
+  document.getElementById('weakness-desc').textContent = profile.weaknessDesc||'-';
+  document.getElementById('profile-summary').textContent = profile.summary||'';
+}
+
+// ============================================================
+// RENDER ROUTINE PAGE
+// ============================================================
+function renderRoutinePage() {
+  if (!state.profile || !state.weeks.length) {
+    document.getElementById('routine-empty').style.display='block';
+    document.getElementById('routine-content').style.display='none';
+    return;
+  }
+  document.getElementById('routine-empty').style.display='none';
+  document.getElementById('routine-content').style.display='block';
+
+  const wi = state.currentWeekIdx;
+  const week = state.weeks[wi];
+  const isLatest = wi === state.weeks.length-1;
+
+  document.getElementById('week-title').textContent = `${week.weekNum}주차 루틴`;
+  document.getElementById('week-sub').textContent = isLatest ? '현재 진행 중인 주차' : `${wi+1}/${state.weeks.length} 주차 열람 중`;
+  document.getElementById('btn-prev-week').style.display = wi>0?'inline-block':'none';
+  document.getElementById('btn-next-week').style.display = isLatest?'inline-block':'none';
+
+  // 완료율 계산
+  const plan = week.plan;
+  const totalAct = plan.filter(d=>d.type!=='휴식').length;
+  const doneAct  = plan.filter(d=>d.done&&d.type!=='휴식').length;
+  const rate = totalAct>0 ? Math.round(doneAct/totalAct*100) : 0;
+
+  // 독려 메시지
+  document.getElementById('enc-box-wrap').innerHTML = renderEncouragement(rate, doneAct, isLatest);
+
+  // 주간 그리드
+  document.getElementById('week-grid').innerHTML = plan.map((d,i)=>{
+    const cls = d.type==='강점'?'ds':d.type==='약점'?'dw':'dr';
+    const chkCls = d.done?'done':'';
+    const chkTxt = d.done?'✓':'';
+    const isRest = d.type==='휴식';
+    return `<div class="day-card ${cls}">
+      <div class="day-name">${d.day}</div>
+      <div class="day-type">${d.type}</div>
+      <div class="day-area">${d.area}</div>
+      <div class="day-min">${d.minutes}분</div>
+      ${!isRest?`<div class="chk-btn ${chkCls}" onclick="toggleCheck(${wi},${i})" title="완료 체크">${chkTxt}</div>`:''}
+    </div>`;
+  }).join('');
+
+  // 활동 목록 (최신 주차 우선, 없으면 초기 프로파일 활동)
+  const acts = week.activities || state.profile.activities || [];
+  document.getElementById('act-list').innerHTML = acts.map(a=>`
+    <div class="act-item">
+      <div class="act-dot ${a.type==='강점'?'dot-g':'dot-a'}"></div>
+      <div>
+        <div class="act-title">${a.title}</div>
+        <div class="act-desc">${a.desc}</div>
+        <div class="act-meta">${a.type} · ${a.area}</div>
+      </div>
+    </div>`).join('');
+
+  // 완료율 바
+  document.getElementById('week-pct-display').textContent = rate+'%';
+  document.getElementById('week-prog-bar').style.width = rate+'%';
+}
+
+// ============================================================
+// ENCOURAGEMENT — 성취율별 독려 메시지
+// ============================================================
+function renderEncouragement(rate, doneCount, isLatest) {
+  if (!isLatest) return '';
+  let cls, icon, title, text;
+  if (rate >= 80) {
+    cls='enc-high'; icon='🌟';
+    title='정말 대단해요!';
+    text=`완료율 ${rate}%! 꾸준히 해낸 것 자체가 가장 큰 성취예요. 이번 주 ${doneCount}개 활동을 해낸 노력이 뇌에 새로운 회로를 만들고 있어요. 다음 주도 이 흐름 그대로 가봐요!`;
+  } else if (rate >= 50) {
+    cls='enc-mid'; icon='💪';
+    title='잘 하고 있어요, 계속 가요!';
+    text=`완료율 ${rate}%! ${doneCount}개 활동을 완료했어요. 완벽하게 다 하지 못해도 괜찮아요 — 시작하고 시도한 것만으로도 뇌는 충분히 자극받고 있어요. 남은 활동을 조금만 더 해보면 어떨까요?`;
+  } else if (rate > 0) {
+    cls='enc-low'; icon='🌱';
+    title='작은 시작이 큰 변화를 만들어요';
+    text=`${doneCount}개 활동을 완료했어요. 적게 해도 괜찮아요! Naglieri 연구에 따르면 짧더라도 꾸준한 인지 자극이 장기적으로 훨씬 효과적이에요. 오늘 딱 한 가지만 더 해보는 건 어떨까요?`;
+  } else {
+    cls='enc-low'; icon='✨';
+    title='오늘 시작하면 돼요!';
+    text=`아직 체크인이 없어요. 하루 15분으로 시작해보세요. 완벽하게 다 하려고 하지 않아도 돼요 — 지금 아무 활동 하나만 눌러서 시작해보는 것만으로도 충분해요!`;
+  }
+  return `<div class="enc-box ${cls}" style="margin-bottom:1rem;">
+    <div class="enc-icon">${icon}</div>
+    <div class="enc-title">${title}</div>
+    <div class="enc-text">${text}</div>
+  </div>`;
+}
+
+// ============================================================
+// RENDER REPORT PAGE
+// ============================================================
+function renderReportPage() {
+  if (!state.profile || !state.weeks.length) {
+    document.getElementById('report-empty').style.display='block';
+    document.getElementById('report-content').style.display='none';
+    return;
+  }
+  document.getElementById('report-empty').style.display='none';
+  document.getElementById('report-content').style.display='block';
+
+  const weeks = state.weeks;
+  // 각 주차 완료율 계산
+  const weekRates = weeks.map(w=>{
+    const acts = w.plan.filter(d=>d.type!=='휴식');
+    const done = acts.filter(d=>d.done).length;
+    return {
+      weekNum: w.weekNum,
+      rate: acts.length>0?Math.round(done/acts.length*100):0,
+      total: acts.length,
+      done,
+      strongDone: w.plan.filter(d=>d.type==='강점'&&d.done).length,
+      strongTotal: w.plan.filter(d=>d.type==='강점').length,
+      weakDone: w.plan.filter(d=>d.type==='약점'&&d.done).length,
+      weakTotal: w.plan.filter(d=>d.type==='약점').length
+    };
+  });
+
+  const curRate = weekRates[weekRates.length-1];
+  const avgRate = Math.round(weekRates.reduce((s,w)=>s+w.rate,0)/weekRates.length);
+  const totalDone = weekRates.reduce((s,w)=>s+w.done,0);
+  const totalActs = weekRates.reduce((s,w)=>s+w.total,0);
+
+  // 통계 카드
+  document.getElementById('weekly-stats').innerHTML = `
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--green)">${curRate.rate}%</div>
+      <div class="stat-lbl">이번 주 완료율</div>
+      <div class="stat-sub">${curRate.done}/${curRate.total} 활동</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--purple)">${avgRate}%</div>
+      <div class="stat-lbl">전체 평균 완료율</div>
+      <div class="stat-sub">${weeks.length}주 기준</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" style="color:var(--amber)">${totalDone}</div>
+      <div class="stat-lbl">총 완료 활동 수</div>
+      <div class="stat-sub">전체 ${totalActs}개 중</div>
+    </div>`;
+
+  // 독려 (보고서용)
+  document.getElementById('weekly-enc-box').innerHTML = renderReportEncouragement(curRate.rate, avgRate, weeks.length);
+
+  // 영역별 완료율
+  const sTotal = weekRates.reduce((s,w)=>s+w.strongTotal,0);
+  const sDone  = weekRates.reduce((s,w)=>s+w.strongDone,0);
+  const wTotal = weekRates.reduce((s,w)=>s+w.weakTotal,0);
+  const wDone  = weekRates.reduce((s,w)=>s+w.weakDone,0);
+  const sPct = sTotal>0?Math.round(sDone/sTotal*100):0;
+  const wPct = wTotal>0?Math.round(wDone/wTotal*100):0;
+  document.getElementById('area-prog').innerHTML = `
+    <div class="prog-item">
+      <div class="prog-header"><span class="prog-label">강점 강화 활동</span><span class="prog-pct">${sPct}%</span></div>
+      <div class="prog-bar"><div class="prog-fill" style="width:${sPct}%"></div></div>
+    </div>
+    <div class="prog-item">
+      <div class="prog-header"><span class="prog-label">약점 훈련 활동</span><span class="prog-pct" style="color:var(--amber)">${wPct}%</span></div>
+      <div class="prog-bar"><div class="prog-fill amber" style="width:${wPct}%"></div></div>
+    </div>`;
+
+  // 월간 차트
+  renderMonthlyChart(weekRates);
+
+  // 주차별 기록
+  document.getElementById('week-history').innerHTML = weekRates.map(w=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid var(--border);">
+      <div>
+        <div style="font-size:13px;font-weight:700;">${w.weekNum}주차</div>
+        <div style="font-size:11px;color:var(--text2);">강점 ${Math.round(w.strongDone/Math.max(w.strongTotal,1)*100)}% · 약점 ${Math.round(w.weakDone/Math.max(w.weakTotal,1)*100)}%</div>
+      </div>
+      <div style="text-align:right;">
+        <div style="font-size:18px;font-weight:700;color:${w.rate>=70?'var(--green)':w.rate>=40?'var(--amber)':'var(--coral)'};">${w.rate}%</div>
+        <div style="font-size:11px;color:var(--text2);">${w.done}/${w.total} 완료</div>
+      </div>
+    </div>`).join('');
+}
+
+function renderReportEncouragement(curRate, avgRate, weekCount) {
+  let cls, icon, title, text;
+  if (curRate >= 70) {
+    cls='enc-high'; icon='🏆';
+    title='꾸준함이 빛나고 있어요!';
+    text=`이번 주 ${curRate}%, 전체 평균 ${avgRate}%! ${weekCount}주 동안 한 걸음씩 쌓아온 노력이 실력이 되고 있어요. 이 페이스라면 다음 달은 훨씬 더 성장한 모습을 볼 수 있을 거예요.`;
+  } else if (curRate >= 40) {
+    cls='enc-mid'; icon='📈';
+    title='성장하고 있어요!';
+    text=`이번 주 ${curRate}%, ${weekCount}주 평균 ${avgRate}%. 완벽하지 않아도 괜찮아요 — 매주 조금씩 시도하는 것 자체가 뇌에 긍정적 자극을 주고 있어요. 다음 주에는 딱 1개만 더 해보는 게 목표예요!`;
+  } else {
+    cls='enc-low'; icon='💙';
+    title='작은 발걸음도 충분히 소중해요';
+    text=`완료율보다 중요한 건 포기하지 않는 것이에요. ${weekCount}주 동안 루틴을 유지한 것 자체가 대단한 일이에요. 이번 주는 가장 쉬운 활동 하나만 골라서 시작해보세요. 그것으로 충분해요.`;
+  }
+  return `<div class="enc-box ${cls}" style="margin-top:.75rem;">
+    <div class="enc-icon">${icon}</div>
+    <div class="enc-title">${title}</div>
+    <div class="enc-text">${text}</div>
+  </div>`;
+}
+
+function renderMonthlyChart(weekRates) {
+  const ctx = document.getElementById('monthly-chart').getContext('2d');
+  if (state.chart) state.chart.destroy();
+  state.chart = new Chart(ctx, {
+    type:'line',
+    data:{
+      labels: weekRates.map(w=>w.weekNum+'주차'),
+      datasets:[
+        {label:'전체 완료율(%)',data:weekRates.map(w=>w.rate),borderColor:'#1D9E75',backgroundColor:'rgba(29,158,117,.1)',fill:true,tension:.4,pointBackgroundColor:'#1D9E75',pointRadius:5},
+        {label:'강점 완료율(%)',data:weekRates.map(w=>Math.round(w.strongDone/Math.max(w.strongTotal,1)*100)),borderColor:'#534AB7',backgroundColor:'transparent',borderDash:[5,5],tension:.4,pointRadius:4},
+        {label:'약점 완료율(%)',data:weekRates.map(w=>Math.round(w.weakDone/Math.max(w.weakTotal,1)*100)),borderColor:'#EF9F27',backgroundColor:'transparent',borderDash:[5,5],tension:.4,pointRadius:4}
+      ]
+    },
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{font:{family:'Noto Sans KR',size:11},boxWidth:12}}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{family:'Noto Sans KR',size:11}},grid:{color:'rgba(0,0,0,.06)'}},x:{ticks:{font:{family:'Noto Sans KR',size:11}},grid:{display:false}}}}
+  });
+
+  // 월간 독려
+  const avgRate = Math.round(weekRates.reduce((s,w)=>s+w.rate,0)/weekRates.length);
+  const trend = weekRates.length>=2 ? weekRates[weekRates.length-1].rate - weekRates[weekRates.length-2].rate : 0;
+  let mText = '';
+  if (trend > 0) mText = `지난 주보다 ${trend}%p 상승했어요! 이 상승세를 계속 이어가봐요.`;
+  else if (trend === 0) mText = `지난 주와 같은 완료율을 유지했어요. 꾸준함이 가장 강력한 힘이에요!`;
+  else mText = `이번 주는 조금 힘들었을 수도 있어요. 괜찮아요 — 기복은 누구에게나 있어요. 다음 주를 기대해봐요.`;
+  document.getElementById('monthly-enc-box').innerHTML = `<div style="font-size:12px;color:var(--text2);margin-top:.75rem;padding:.75rem;background:var(--bg);border-radius:var(--rs);">📊 ${mText}</div>`;
+}
+
+// ============================================================
+// AI 월간 총평
+// ============================================================
+async function generateMonthlySummary() {
+  if (!state.profile) return;
+  requireKey(async ()=>{
+    document.getElementById('monthly-summary-wrap').innerHTML = '<div style="color:var(--text2);font-size:13px;">AI 총평 생성 중...</div>';
+    const weekRates = state.weeks.map(w=>{
+      const acts=w.plan.filter(d=>d.type!=='휴식');
+      return {wn:w.weekNum, rate:acts.length?Math.round(acts.filter(d=>d.done).length/acts.length*100):0};
+    });
+    const {childName, ageLabel, strengths, weaknesses} = state.meta;
+    const avgRate = Math.round(weekRates.reduce((s,w)=>s+w.rate,0)/weekRates.length);
+    const prompt = `아이: ${childName} (${ageLabel}), 강점=${strengths.map(k=>PNAMES[k]).join(',')}, 훈련=${weaknesses.map(k=>PNAMES[k]).join(',')}
+주차별 완료율: ${weekRates.map(w=>w.wn+'주차='+w.rate+'%').join(', ')}
+전체 평균: ${avgRate}%
+
+위 데이터를 바탕으로 따뜻하고 구체적인 월간 총평을 작성해주세요. 성취율이 낮더라도 긍정적으로 독려하고, 다음 달 구체적 목표를 제안하세요. 200자 이내로.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,messages:[{role:'user',content:prompt}]})
+      });
+      const data = await res.json();
+      const text = data.content[0].text;
+      document.getElementById('monthly-summary-wrap').innerHTML = `
+        <div class="enc-box enc-mid" style="margin-bottom:.75rem;">
+          <div class="enc-icon">🤖</div>
+          <div class="enc-text">${text}</div>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="generateMonthlySummary()">↺ 다시 생성</button>`;
+    } catch(e) {
+      document.getElementById('monthly-summary-wrap').innerHTML = `<div style="color:var(--coral);font-size:12px;">오류: ${e.message}</div><button class="btn btn-outline btn-sm" onclick="generateMonthlySummary()">다시 시도</button>`;
+    }
+  });
+}
+
+// ============================================================
+// QA PAGE
+// ============================================================
+function renderQAPage() {
+  if (!state.profile) return;
+  document.getElementById('qa-empty').style.display='none';
+  document.getElementById('qa-content').style.display='block';
+  const {strengths, weaknesses} = state.meta;
+  const qs = state.profile.quickQuestions || [
+    `왜 ${PNAMES[weaknesses[0]]}이 약할 때 학습에 어려움이 생기나요?`,
+    `강점인 ${PNAMES[strengths[0]]}을 어떻게 공부에 활용하나요?`,
+    '이 유형 아이에게 맞는 학습 환경은 어떻게 만들어야 하나요?'
+  ];
+  document.getElementById('quick-qs').innerHTML = qs.map(q=>`<button class="quick-q" onclick="askWithText(decodeURIComponent('${encodeURIComponent(q)}'))">${q}</button>`).join('');
+}
+
+async function askQ() {
+  const inp = document.getElementById('qa-input');
+  const q = inp.value.trim();
+  if (!q) return;
+  inp.value = '';
+  await askWithText(q);
+}
+
+async function askWithText(q) {
+  if (!state.profile) return;
+  requireKey(async ()=>{
+    const bubbles = document.getElementById('qa-bubbles');
+    bubbles.innerHTML += `<div class="bubble b-user">${q}</div>`;
+    const lid = 'load-'+Date.now();
+    bubbles.innerHTML += `<div class="bubble b-ai b-loading" id="${lid}">답변 생성 중...</div>`;
+    bubbles.scrollTop = bubbles.scrollHeight;
+
+    const {profile, scores, meta} = state;
+    const sys = `PASS 이론 기반 인지 전문가. ${meta.childName}(${meta.ageLabel}) 분석 완료.
+PASS: P=${scores.p} A=${scores.a} S1=${scores.s1} S2=${scores.s2}
+뇌유형: ${profile.brainType} / 강점: ${meta.strengths.map(k=>PNAMES[k]).join(',')} / 훈련: ${meta.weaknesses.map(k=>PNAMES[k]).join(',')}
+부모 질문에 따뜻하고 실용적으로 150자 이내로 답하라.`;
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages',{
+        method:'POST',
+        headers:{'Content-Type':'application/json','x-api-key':getKey(),'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
+        body:JSON.stringify({model:'claude-haiku-4-5-20251001',max_tokens:400,system:sys,messages:[{role:'user',content:q}]})
+      });
+      if (res.status===401){localStorage.removeItem('fg_api_key');throw new Error('API 키 오류');}
+      const data = await res.json();
+      document.getElementById(lid).textContent = data.content[0].text;
+      document.getElementById(lid).classList.remove('b-loading');
+    } catch(e) {
+      document.getElementById(lid).textContent = '오류: '+e.message;
+    }
+    bubbles.scrollTop = bubbles.scrollHeight;
+  });
+}
+
+// ============================================================
+// UTILS
+// ============================================================
+function safeParseJSON(raw) {
+  try {
+    let s = raw.replace(/```json\s*/gi,'').replace(/```\s*/g,'').trim();
+    const st = s.indexOf('{'), en = s.lastIndexOf('}');
+    if (st!==-1&&en!==-1) s = s.substring(st,en+1);
+    return JSON.parse(s);
+  } catch(e1) {
+    try {
+      const s2 = raw.replace(/[\u0000-\u001F\u007F]/g,' ').replace(/,\s*([}\]])/g,'$1');
+      const st=s2.indexOf('{'),en=s2.lastIndexOf('}');
+      return JSON.parse(st!==-1?s2.substring(st,en+1):s2);
+    } catch(e2) { console.error('Parse fail:',raw); return null; }
+  }
+}
+
+function resetAll() {
+  if (!confirm('점수를 다시 입력하면 현재 데이터가 초기화됩니다. 계속할까요?')) return;
+  state = {profile:null,scores:null,meta:null,weeks:[],currentWeekIdx:0,chart:null};
+  localStorage.removeItem('bmp_v2');
+  ['p','a','s1','s2'].forEach(k=>{ document.getElementById('sc-'+k).value=''; document.getElementById('bar-'+k).style.width='0%'; });
+  document.getElementById('child-name').value='';
+  document.getElementById('age-group').value='';
+  document.getElementById('home-input').style.display='block';
+  document.getElementById('home-profile').style.display='none';
+  showPage('home');
+}
+</script>
+</body>
+</html>
