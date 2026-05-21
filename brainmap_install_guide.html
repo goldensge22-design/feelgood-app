@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BrainMap — Daily Training Setup Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=DM+Mono:wght@400;500&display=swap');
+
+  :root {
+    --navy: #0f0e1a;
+    --purple: #6c5ce7;
+    --purple-light: #a29bfe;
+    --violet: #4a3fa8;
+    --pink: #fd79a8;
+    --teal: #00cec9;
+    --yellow: #fdcb6e;
+    --white: #f8f7ff;
+    --gray: #8e8ea0;
+    --card-bg: #1a1830;
+    --ios-blue: #007AFF;
+    --android-green: #3DDC84;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Background mesh */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 10% 20%, rgba(108,92,231,0.18) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 60% at 90% 80%, rgba(0,206,201,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 50% 50%, rgba(253,121,168,0.06) 0%, transparent 70%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* HEADER */
+  .header {
+    text-align: center;
+    margin-bottom: 52px;
+    animation: fadeDown 0.8s ease both;
+  }
+
+  .logo-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(108,92,231,0.15);
+    border: 1px solid rgba(108,92,231,0.4);
+    border-radius: 100px;
+    padding: 8px 20px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--purple-light);
+    text-transform: uppercase;
+  }
+
+  .logo-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--teal);
+    box-shadow: 0 0 8px var(--teal);
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  h1 {
+    font-size: clamp(28px, 6vw, 44px);
+    font-weight: 900;
+    line-height: 1.15;
+    margin-bottom: 14px;
+  }
+
+  h1 span {
+    background: linear-gradient(135deg, var(--purple-light), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .subtitle {
+    font-size: 16px;
+    color: var(--gray);
+    max-width: 460px;
+    margin: 0 auto;
+    line-height: 1.6;
+  }
+
+  /* STEP WRAPPER */
+  .steps-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* STEP CARD */
+  .step-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.07);
+    overflow: hidden;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .step-card:nth-child(1) { animation-delay: 0.1s; }
+  .step-card:nth-child(2) { animation-delay: 0.2s; }
+  .step-card:nth-child(3) { animation-delay: 0.3s; }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 22px 24px;
+    background: rgba(255,255,255,0.03);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .step-num {
+    width: 44px; height: 44px;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .step-1 .step-num { background: linear-gradient(135deg, #6c5ce7, #a29bfe); }
+  .step-2 .step-num { background: linear-gradient(135deg, #fd79a8, #e84393); }
+  .step-3 .step-num { background: linear-gradient(135deg, #00cec9, #00b894); }
+
+  .step-title-block h2 {
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 3px;
+  }
+
+  .step-title-block p {
+    font-size: 13px;
+    color: var(--gray);
+  }
+
+  .step-body {
+    padding: 24px;
+  }
+
+  /* MOCK PHONE SCREEN */
+  .phone-frame {
+    background: #12111f;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .phone-frame::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--purple), var(--teal));
+  }
+
+  /* Summary card mock (Step 1) */
+  .mock-card {
+    background: #1e1c35;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+
+  .mock-hero {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .mock-owl {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, #6c5ce7, #a29bfe);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+
+  .mock-text-block { flex: 1; }
+
+  .mock-name-badge {
+    display: inline-block;
+    background: rgba(108,92,231,0.3);
+    border: 1px solid rgba(108,92,231,0.5);
+    border-radius: 6px;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--purple-light);
+    margin-bottom: 4px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .mock-title {
+    font-size: 13px; font-weight: 700;
+    margin-bottom: 4px;
+  }
+
+  .mock-desc {
+    font-size: 10px; color: var(--gray); line-height: 1.5;
+  }
+
+  .mock-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mock-btn {
+    border-radius: 10px;
+    padding: 11px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    font-size: 12px; font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.15s;
+    position: relative;
+  }
+
+  .mock-btn:hover { transform: scale(0.98); }
+
+  .mock-btn-summary {
+    background: linear-gradient(135deg, #6c5ce7, #4a3fa8);
+  }
+
+  .mock-btn-training {
+    background: linear-gradient(135deg, #fd79a8, #b8247d);
+  }
+
+  .mock-btn-arrow {
+    width: 24px; height: 24px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+
+  .highlight-ring {
+    position: absolute;
+    inset: -2px;
+    border-radius: 12px;
+    border: 2.5px solid;
+    pointer-events: none;
+    animation: ringPulse 1.8s ease-in-out infinite;
+  }
+
+  .ring-purple { border-color: var(--purple-light); }
+  .ring-pink { border-color: var(--pink); }
+
+  .tap-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(108,92,231,0.1);
+    border: 1px solid rgba(108,92,231,0.2);
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--purple-light);
+    margin-top: 10px;
+  }
+
+  .tap-icon { font-size: 18px; }
+
+  /* STEP 2 MOCK - Planner */
+  .planner-header {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .planner-logo { font-size: 14px; font-weight: 900; }
+  .planner-week {
+    background: #6c5ce7;
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 11px;
+    font-weight: 700;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .day-label {
+    display: inline-block;
+    background: #6c5ce7;
+    border-radius: 6px;
+    padding: 3px 10px;
+    font-size: 10px;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .mission-item {
+    background: rgba(255,255,255,0.04);
+    border-radius: 10px;
+    padding: 10px 12px;
+    margin-bottom: 6px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .mission-tag {
+    font-size: 9px;
+    font-weight: 700;
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .tag-strength { background: rgba(0,206,201,0.2); color: var(--teal); }
+  .tag-training { background: rgba(253,121,168,0.2); color: var(--pink); }
+
+  .mission-text { font-size: 11px; font-weight: 600; }
+  .mission-sub { font-size: 10px; color: var(--gray); margin-top: 2px; }
+
+  /* ADDRESS BAR */
+  .address-bar {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,0.06);
+    border-radius: 10px;
+    padding: 8px 12px;
+    margin-bottom: 12px;
+  }
+
+  .lock-icon { font-size: 12px; opacity: 0.6; }
+  .url-text { font-size: 11px; color: var(--purple-light); font-family: 'DM Mono', monospace; flex: 1; }
+
+  /* INSTALL SECTION */
+  .platform-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 500px) {
+    .platform-grid { grid-template-columns: 1fr; }
+  }
+
+  .platform-card {
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .platform-ios {
+    background: linear-gradient(135deg, rgba(0,122,255,0.15), rgba(0,122,255,0.05));
+    border: 1px solid rgba(0,122,255,0.3);
+  }
+
+  .platform-android {
+    background: linear-gradient(135deg, rgba(61,220,132,0.15), rgba(61,220,132,0.05));
+    border: 1px solid rgba(61,220,132,0.3);
+  }
+
+  .platform-icon-row {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 16px;
+  }
+
+  .platform-icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+  }
+
+  .ios-icon { background: var(--ios-blue); }
+  .android-icon { background: var(--android-green); }
+
+  .platform-name { font-size: 15px; font-weight: 800; }
+  .platform-sub { font-size: 11px; color: var(--gray); }
+
+  /* Steps inside platform */
+  .install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .install-step {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .install-step-num {
+    width: 22px; height: 22px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .ios-num { background: var(--ios-blue); }
+  .android-num { background: var(--android-green); color: #000; }
+
+  .install-step-content {}
+  .install-step-label { font-size: 12px; font-weight: 700; margin-bottom: 2px; }
+  .install-step-desc { font-size: 11px; color: var(--gray); line-height: 1.4; }
+
+  /* Icon illustrations */
+  .icon-pill {
+    display: inline-flex; align-items: center; gap: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 6px;
+    padding: 2px 7px;
+    font-size: 11px;
+    vertical-align: middle;
+  }
+
+  /* SVG share illustrations */
+  .share-illus {
+    display: flex;
+    justify-content: center;
+    margin: 14px 0 4px;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin: 4px 0 16px;
+  }
+
+  /* Final CTA */
+  .cta-block {
+    text-align: center;
+    margin-top: 40px;
+    padding: 32px 24px;
+    background: var(--card-bg);
+    border-radius: 20px;
+    border: 1px solid rgba(108,92,231,0.25);
+    animation: fadeUp 0.6s ease 0.4s both;
+  }
+
+  .cta-emoji { font-size: 40px; margin-bottom: 12px; }
+  .cta-title { font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+  .cta-desc { font-size: 14px; color: var(--gray); line-height: 1.6; }
+
+  .streak-bar {
+    display: flex; justify-content: center; gap: 6px; margin-top: 20px;
+  }
+
+  .streak-day {
+    width: 32px; height: 32px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+  }
+
+  .streak-done { background: linear-gradient(135deg, var(--purple), var(--teal)); }
+  .streak-today { background: rgba(108,92,231,0.3); border: 2px solid var(--purple-light); }
+  .streak-future { background: rgba(255,255,255,0.05); color: var(--gray); }
+
+  /* ANIMATIONS */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.85); }
+  }
+
+  @keyframes ringPulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 transparent; }
+    50% { opacity: 0.6; box-shadow: 0 0 12px 2px rgba(162,155,254,0.3); }
+  }
+
+  /* Arrow connector between steps */
+  .step-connector {
+    display: flex; justify-content: center; align-items: center;
+    height: 28px;
+    color: var(--gray);
+    font-size: 20px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-badge">
+      <span class="logo-dot"></span>
+      Setup Guide · 3 Easy Steps
+    </div>
+    <h1>Start Your Daily<br><span>Brain Training</span></h1>
+    <p class="subtitle">Install the Cognitive Training Planner on your home screen and build a daily habit — in under 2 minutes.</p>
+  </div>
+
+  <div class="steps-wrapper">
+
+    <!-- STEP 1: View Summary -->
+    <div class="step-card step-1">
+      <div class="step-header">
+        <div class="step-num">1</div>
+        <div class="step-title-block">
+          <h2>Open Your Test Results</h2>
+          <p>Find your K-PASS report and tap <strong>View Summary</strong></p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="phone-frame">
+          <div class="mock-card">
+            <div class="mock-hero">
+              <div class="mock-owl">🦉</div>
+              <div class="mock-text-block">
+                <div class="mock-name-badge">New!</div>
+                <div class="mock-title">송채원's Education Map has been ready!</div>
+                <div class="mock-desc">Understand innate strengths and weaknesses based on temperament traits.</div>
+              </div>
+            </div>
+            <div class="mock-buttons">
+              <div class="mock-btn mock-btn-summary" style="position:relative;">
+                <span>View Summary →</span>
+                <span class="mock-btn-arrow">→</span>
+                <span class="highlight-ring ring-purple"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tap-indicator">
+          <span class="tap-icon">👆</span>
+          <span>Tap <strong style="color:var(--white)">View Summary</strong> to see your child's K-PASS cognitive profile overview</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-connector">↓</div>
+
+    <!-- STEP 2: Go to Planner -->
+    <div class="step-card step-2">
+      <div class="step-header">
+        <div class="step-num">2</div>
+        <div class="step-title-block">
+          <h2>Open the Training Planner</h2>
+          <p>Tap <strong>Cognitive Training Planner Go</strong> to launch your weekly plan</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <div class="phone-frame">
+          <div class="mock-card">
+            <div class="mock-buttons">
+              <div class="mock-btn mock-btn-summary">
+                <span>View Summary</span>
+                <span class="mock-btn-arrow">→</span>
+              </div>
+              <div class="mock-btn mock-btn-training" style="position:relative;">
+                <span>Cognitive Training Planner Go</span>
+                <span class="mock-btn-arrow">→</span>
+                <span class="highlight-ring ring-pink"></span>
+              </div>
+            </div>
+          </div>
+          <!-- Planner preview -->
+          <div style="margin-top:12px;">
+            <div class="planner-header">
+              <span class="planner-logo">🧠 BrainMap</span>
+              <span class="planner-week">2026-W21</span>
+            </div>
+            <div class="day-label">Monday</div>
+            <div class="mission-item">
+              <span class="mission-tag tag-strength">strength</span>
+              <div>
+                <div class="mission-text">Designing this week's mission map</div>
+                <div class="mission-sub">Planning Ability · 20 min</div>
+              </div>
+            </div>
+            <div class="mission-item">
+              <span class="mission-tag tag-training">training</span>
+              <div>
+                <div class="mission-text">Simple Cooking Follow-along Recipe Steps</div>
+                <div class="mission-sub">Sequential Processing · 25 min</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="tap-indicator" style="background:rgba(253,121,168,0.08);border-color:rgba(253,121,168,0.2);color:var(--pink);">
+          <span class="tap-icon">🎯</span>
+          <span>Your personalized weekly training plan loads instantly — AI-generated from your PASS scores</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step-connector">↓</div>
+
+    <!-- STEP 3: Install shortcut -->
+    <div class="step-card step-3">
+      <div class="step-header">
+        <div class="step-num">3</div>
+        <div class="step-title-block">
+          <h2>Add to Your Home Screen</h2>
+          <p>One tap every morning — no app store needed</p>
+        </div>
+      </div>
+      <div class="step-body">
+        <!-- Address bar preview -->
+        <div class="address-bar">
+          <span class="lock-icon">🔒</span>
+          <span class="url-text">brainmap.feel-good.io</span>
+          <span style="font-size:14px;">⋯</span>
+        </div>
+
+        <div class="platform-grid">
+
+          <!-- iOS -->
+          <div class="platform-card platform-ios">
+            <div class="platform-icon-row">
+              <div class="platform-icon ios-icon">🍎</div>
+              <div>
+                <div class="platform-name">iPhone / iPad</div>
+                <div class="platform-sub">Safari browser</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="install-steps">
+              <div class="install-step">
+                <div class="install-step-num ios-num">1</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Open in Safari</div>
+                  <div class="install-step-desc">Make sure you use <strong>Safari</strong> (not Chrome)</div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num ios-num">2</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Tap the Share button</div>
+                  <div class="install-step-desc">
+                    <div class="share-illus">
+                      <!-- iOS share icon SVG -->
+                      <svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="60" height="60" rx="14" fill="rgba(0,122,255,0.15)" stroke="rgba(0,122,255,0.4)" stroke-width="1.5"/>
+                        <!-- box bottom -->
+                        <rect x="18" y="28" width="24" height="18" rx="3" stroke="#007AFF" stroke-width="2" fill="none"/>
+                        <!-- arrow up -->
+                        <line x1="30" y1="22" x2="30" y2="38" stroke="#007AFF" stroke-width="2" stroke-linecap="round"/>
+                        <polyline points="24,28 30,21 36,28" stroke="#007AFF" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                    </div>
+                    Bottom center of Safari toolbar
+                  </div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num ios-num">3</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Add to Home Screen</div>
+                  <div class="install-step-desc">
+                    <div class="share-illus">
+                      <svg width="100" height="44" viewBox="0 0 100 44" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="100" height="44" rx="10" fill="rgba(0,122,255,0.12)" stroke="rgba(0,122,255,0.3)" stroke-width="1.2"/>
+                        <rect x="8" y="12" width="20" height="20" rx="5" fill="rgba(0,122,255,0.3)"/>
+                        <text x="18" y="26" text-anchor="middle" font-size="12" fill="#007AFF">＋</text>
+                        <text x="58" y="21" text-anchor="middle" font-size="9" fill="#f8f7ff" font-family="Outfit, sans-serif" font-weight="600">Add to</text>
+                        <text x="58" y="33" text-anchor="middle" font-size="9" fill="#f8f7ff" font-family="Outfit, sans-serif" font-weight="600">Home Screen</text>
+                      </svg>
+                    </div>
+                    Scroll down and tap it
+                  </div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num ios-num">4</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Tap Add</div>
+                  <div class="install-step-desc">Confirm with <strong style="color:#007AFF">Add</strong> in the top right</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Android -->
+          <div class="platform-card platform-android">
+            <div class="platform-icon-row">
+              <div class="platform-icon android-icon">🤖</div>
+              <div>
+                <div class="platform-name">Android</div>
+                <div class="platform-sub">Chrome browser</div>
+              </div>
+            </div>
+            <div class="divider"></div>
+            <div class="install-steps">
+              <div class="install-step">
+                <div class="install-step-num android-num">1</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Open in Chrome</div>
+                  <div class="install-step-desc">Use <strong>Chrome</strong> browser for best experience</div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num android-num">2</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Tap the menu</div>
+                  <div class="install-step-desc">
+                    <div class="share-illus">
+                      <svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="44" height="44" rx="10" fill="rgba(61,220,132,0.12)" stroke="rgba(61,220,132,0.35)" stroke-width="1.5"/>
+                        <circle cx="22" cy="13" r="2.5" fill="#3DDC84"/>
+                        <circle cx="22" cy="22" r="2.5" fill="#3DDC84"/>
+                        <circle cx="22" cy="31" r="2.5" fill="#3DDC84"/>
+                      </svg>
+                    </div>
+                    Three dots ⋮ in the top right
+                  </div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num android-num">3</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Add to Home screen</div>
+                  <div class="install-step-desc">
+                    <div class="share-illus">
+                      <svg width="110" height="44" viewBox="0 0 110 44" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="110" height="44" rx="10" fill="rgba(61,220,132,0.1)" stroke="rgba(61,220,132,0.3)" stroke-width="1.2"/>
+                        <rect x="8" y="12" width="20" height="20" rx="4" fill="rgba(61,220,132,0.25)"/>
+                        <text x="18" y="26" text-anchor="middle" font-size="11" fill="#3DDC84">⊕</text>
+                        <text x="66" y="21" text-anchor="middle" font-size="9" fill="#f8f7ff" font-family="Outfit, sans-serif" font-weight="600">Add to Home</text>
+                        <text x="66" y="33" text-anchor="middle" font-size="9" fill="#f8f7ff" font-family="Outfit, sans-serif" font-weight="600">screen</text>
+                      </svg>
+                    </div>
+                    Select from dropdown menu
+                  </div>
+                </div>
+              </div>
+              <div class="install-step">
+                <div class="install-step-num android-num">4</div>
+                <div class="install-step-content">
+                  <div class="install-step-label">Tap Add</div>
+                  <div class="install-step-desc">Confirm by tapping <strong style="color:#3DDC84">Add</strong> in the dialog</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="tap-indicator" style="background:rgba(0,206,201,0.08);border-color:rgba(0,206,201,0.2);color:var(--teal);margin-top:16px;">
+          <span class="tap-icon">✅</span>
+          <span>Done! A <strong style="color:var(--white)">BrainMap icon</strong> will appear on your home screen — tap it every morning to start today's training</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="cta-block">
+    <div class="cta-emoji">🔥</div>
+    <div class="cta-title">Build a 7-Day Streak!</div>
+    <div class="cta-desc">Just 20–25 minutes a day. Train consistently and watch your brain grow stronger week by week.</div>
+    <div class="streak-bar">
+      <div class="streak-day streak-done">M</div>
+      <div class="streak-day streak-done">T</div>
+      <div class="streak-day streak-done">W</div>
+      <div class="streak-day streak-today">T</div>
+      <div class="streak-day streak-future">F</div>
+      <div class="streak-day streak-future">S</div>
+      <div class="streak-day streak-future">S</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
