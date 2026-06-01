@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>MindCompass 추가 기능 3개 — 개발자 전달 코드</title>
+<style>
+  /* ───────────────────────────────────────────────────
+     개발자 안내용 래퍼 스타일 (실제 앱에는 포함하지 않음)
+  ─────────────────────────────────────────────────── */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Noto Sans KR', sans-serif; background: #0f0f13; color: #e8e6f0; min-height: 100vh; padding: 24px 16px 60px; }
+  .doc-header { max-width: 640px; margin: 0 auto 32px; }
+  .doc-header h1 { font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 8px; }
+  .doc-header p { font-size: 13px; color: #8b8a9a; line-height: 1.7; }
+  .feature-section { max-width: 640px; margin: 0 auto 48px; }
+  .feature-label { display: inline-flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .08em; color: #9b8fe8; background: rgba(155,143,232,.12); border: 1px solid rgba(155,143,232,.25); border-radius: 20px; padding: 4px 12px; margin-bottom: 16px; }
+  .feature-label span { background: #9b8fe8; color: #1a1728; border-radius: 50%; width: 18px; height: 18px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; }
+  .feature-section h2 { font-size: 16px; font-weight: 700; color: #fff; margin-bottom: 6px; }
+  .feature-section .desc { font-size: 13px; color: #8b8a9a; margin-bottom: 20px; line-height: 1.7; }
+  .insert-guide { background: rgba(155,143,232,.07); border: 1px solid rgba(155,143,232,.2); border-radius: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 12px; color: #b0aec8; line-height: 1.7; }
+  .insert-guide strong { color: #c8c3f0; font-weight: 600; }
+  .divider { border: none; border-top: 1px solid rgba(255,255,255,.06); margin: 48px 0; max-width: 640px; margin-left: auto; margin-right: auto; }
+
+  /* ───────────────────────────────────────────────────
+     앱 공통 CSS 변수 (기존 앱에 이미 있다면 중복 제거)
+  ─────────────────────────────────────────────────── */
+  :root {
+    --bg: #0f0f13;
+    --card: #1a1728;
+    --card2: #221e33;
+    --border: rgba(255,255,255,.08);
+    --purple: #9b8fe8;
+    --purple-soft: rgba(155,143,232,.15);
+    --green: #4caf7d;
+    --green-soft: rgba(76,175,125,.15);
+    --amber: #f0a050;
+    --amber-soft: rgba(240,160,80,.13);
+    --red: #e05a5a;
+    --red-soft: rgba(224,90,90,.13);
+    --blue: #5b9cf0;
+    --blue-soft: rgba(91,156,240,.13);
+    --text: #e8e6f0;
+    --text2: #b0aec8;
+    --text3: #6e6c80;
+    --radius: 14px;
+    --radius-sm: 8px;
+  }
+
+  /* ═══════════════════════════════════════════════════
+     [기능 1] 이번 달 여정 미리보기 컴포넌트
+     삽입 위치: 홈 탭 상단 or 루틴 탭 상단
+  ═══════════════════════════════════════════════════ */
+  .journey-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 16px;
+  }
+  .journey-card .jc-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .journey-card .jc-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .journey-card .jc-course-badge {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 10px;
+    border-radius: 20px;
+  }
+  .course-badge-red    { background: var(--red-soft);    color: var(--red);    }
+  .course-badge-blue   { background: var(--blue-soft);   color: var(--blue);   }
+  .course-badge-amber  { background: var(--amber-soft);  color: var(--amber);  }
+  .course-badge-green  { background: var(--green-soft);  color: var(--green);  }
+
+  /* 타임라인 도트 행 */
+  .journey-timeline {
+    display: flex;
+    align-items: flex-start;
+    gap: 0;
+    position: relative;
+    padding-bottom: 4px;
+  }
+  .journey-week {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  /* 도트 사이 연결선 */
+  .journey-week:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--border);
+    z-index: 0;
+  }
+  .journey-week.done:not(:last-child)::after  { background: var(--green); opacity: .5; }
+  .journey-week.current:not(:last-child)::after { background: linear-gradient(to right, var(--purple) 40%, var(--border) 100%); opacity: .5; }
+
+  .week-dot-wrap {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+    margin-bottom: 6px;
+    font-size: 11px;
+  }
+  .week-dot-wrap.done    { background: var(--green);  color: #fff; }
+  .week-dot-wrap.current { background: var(--purple); color: #fff; box-shadow: 0 0 0 4px rgba(155,143,232,.25); }
+  .week-dot-wrap.future  { background: var(--card2);  color: var(--text3); border: 1.5px solid var(--border); }
+
+  .week-info { text-align: center; }
+  .week-num  { font-size: 10px; font-weight: 700; color: var(--text2); display: block; }
+  .week-act  { font-size: 10px; color: var(--text3); display: block; line-height: 1.4; margin-top: 2px; word-break: keep-all; }
+  .week-act.current-text { color: var(--purple); font-weight: 600; }
+
+  /* 이행률 바 */
+  .journey-footer {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .completion-bar-wrap { flex: 1; }
+  .completion-bar-label { display: flex; justify-content: space-between; font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+  .completion-bar-label span:last-child { color: var(--text2); font-weight: 600; }
+  .completion-bar-track { height: 5px; background: var(--card2); border-radius: 10px; overflow: hidden; }
+  .completion-bar-fill  { height: 100%; border-radius: 10px; transition: width .8s cubic-bezier(.4,0,.2,1); }
+  .next-month-hint { font-size: 11px; color: var(--text3); text-align: right; line-height: 1.5; min-width: 80px; }
+  .next-month-hint strong { color: var(--text2); font-weight: 600; display: block; }
+
+  /* ═══════════════════════════════════════════════════
+     [기능 2] 이행률 기반 다음 달 코스 자동 설계 알림 배너
+     삽입 위치: 매월 말 5주차 완료 후 홈 탭 상단
+  ═══════════════════════════════════════════════════ */
+  .course-transition-banner {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+    overflow: hidden;
+  }
+  .course-transition-banner::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+  .banner-upgrade::before  { background: linear-gradient(90deg, var(--purple), var(--blue)); }
+  .banner-same::before     { background: linear-gradient(90deg, var(--blue), var(--green)); }
+  .banner-downgrade::before{ background: linear-gradient(90deg, var(--amber), var(--green)); }
+
+  .ctb-row1 { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 12px; }
+  .ctb-icon { font-size: 28px; line-height: 1; flex-shrink: 0; }
+  .ctb-text { flex: 1; }
+  .ctb-label { font-size: 11px; font-weight: 600; color: var(--text3); margin-bottom: 3px; }
+  .ctb-main  { font-size: 15px; font-weight: 700; color: var(--text); line-height: 1.4; }
+  .ctb-sub   { font-size: 12px; color: var(--text2); margin-top: 4px; line-height: 1.6; }
+  .close-btn { background: none; border: none; color: var(--text3); font-size: 18px; cursor: pointer; padding: 2px 4px; line-height: 1; }
+
+  /* 코스 비교 전환 표시 */
+  .ctb-course-change {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card2);
+    border-radius: var(--radius-sm);
+    padding: 10px 12px;
+  }
+  .ctb-course-chip {
+    flex: 1;
+    text-align: center;
+    padding: 6px 8px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .ctb-arrow-mid { color: var(--text3); font-size: 14px; flex-shrink: 0; }
+  .ctb-confirm-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    letter-spacing: .02em;
+  }
+  .btn-upgrade  { background: var(--purple); color: #fff; }
+  .btn-same     { background: var(--blue-soft); color: var(--blue); border: 1px solid rgba(91,156,240,.3); }
+  .btn-downgrade{ background: var(--green-soft); color: var(--green); border: 1px solid rgba(76,175,125,.3); }
+
+  /* ═══════════════════════════════════════════════════
+     [기능 3] 월별 이행률 → 다음 달 코스 자동 계산 로직
+     (순수 JS — 기존 앱에 붙여넣기)
+  ═══════════════════════════════════════════════════ */
+  .code-block {
+    background: #12111a;
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: var(--radius-sm);
+    padding: 16px;
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: #b8f0c8;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.7;
+    margin-top: 12px;
+  }
+
+  /* 미리보기 컨테이너 */
+  .preview-wrap {
+    background: #0a0910;
+    border: 1px solid rgba(255,255,255,.06);
+    border-radius: var(--radius);
+    padding: 20px 16px;
+    max-width: 375px;
+    margin: 0 auto;
+  }
+  .preview-label {
+    font-size: 11px; color: var(--text3);
+    text-align: center;
+    margin-bottom: 12px;
+    letter-spacing: .05em;
+  }
+
+  /* 인터랙티브 토글 데모 */
+  .demo-controls {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 16px;
+  }
+  .demo-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1px solid var(--border);
+    background: var(--card2);
+    color: var(--text2);
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .demo-btn.active { background: var(--purple); color: #fff; border-color: transparent; }
+</style>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- 문서 헤더 -->
+<div class="doc-header">
+  <h1>MindCompass 추가 기능 3개 — 개발자 전달 코드</h1>
+  <p>기존 <code>mindcompass_seowoo_v3</code> 파일에 붙여넣는 추가 코드입니다.<br>
+  각 섹션마다 <strong>삽입 위치 안내</strong>가 포함되어 있습니다.</p>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════════
+     기능 1: 이번 달 여정 미리보기
+══════════════════════════════════════════════════ -->
+<div class="feature-section">
+  <div class="feature-label"><span>1</span> 이번 달 여정 미리보기</div>
+  <h2>홈 + 루틴 탭 상단 타임라인 컴포넌트</h2>
+  <p class="desc">
+    1–5주차 진행 상황을 도트 타임라인으로 표시합니다.<br>
+    완료 주(초록) · 현재 주(보라 강조) · 예정 주(빈 도트) + 하단 이행률 바.
+  </p>
+  <div class="insert-guide">
+    📌 <strong>삽입 위치:</strong> 홈 탭(<code>id="tab-home"</code>) 섹션 최상단 &amp; 루틴 탭(<code>id="tab-routine"</code>) 최상단 두 곳에 동일하게 삽입.<br>
+    📌 <strong>CSS:</strong> 아래 &lt;style&gt; 블록을 기존 파일의 <code>&lt;style&gt;</code> 안에 추가.<br>
+    📌 <strong>JS:</strong> 문서 하단 &lt;script&gt; 안에 <code>initJourneyCard()</code> 함수 추가 후 페이지 로드 시 호출.
+  </div>
+
+  <!-- 라이브 미리보기 -->
+  <div class="preview-wrap">
+    <div class="preview-label">▶ 실제 렌더링 미리보기</div>
+
+    <!-- 데모 컨트롤 -->
+    <div class="demo-controls">
+      <button class="demo-btn" onclick="setDemo('red')">🔴 심화(75%+)</button>
+      <button class="demo-btn active" onclick="setDemo('blue')">🔵 표준(62%)</button>
+      <button class="demo-btn" onclick="setDemo('amber')">🟡 즐거운(40%)</button>
+      <button class="demo-btn" onclick="setDemo('green')">🟢 시작(20%)</button>
+    </div>
+
+    <!-- 여정 카드 (실제 컴포넌트) -->
+    <div class="journey-card" id="journey-demo">
+      <!-- JS가 동적으로 렌더링 -->
+    </div>
+  </div>
+
+  <!-- HTML 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:24px; margin-bottom:8px;">▼ HTML — 기존 파일에 복사·붙여넣기</p>
+  <div class="code-block">
+&lt;!-- ★ 기능1: 이번 달 여정 미리보기 카드 ★ --&gt;
+&lt;div class="journey-card" id="journey-card"&gt;&lt;/div&gt;
+  </div>
+
+  <!-- CSS 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:20px; margin-bottom:8px;">▼ CSS — &lt;style&gt; 태그 안에 추가</p>
+  <div class="code-block">
+/* ── [기능1] 이번 달 여정 미리보기 ── */
+.journey-card{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;margin-bottom:16px;}
+.journey-card .jc-header{display:flex;align-items:center;
+  justify-content:space-between;margin-bottom:16px;}
+.journey-card .jc-title{font-size:13px;font-weight:700;color:var(--text);}
+.jc-course-badge{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;}
+.course-badge-red   {background:rgba(224,90,90,.13);color:#e05a5a;}
+.course-badge-blue  {background:rgba(91,156,240,.13);color:#5b9cf0;}
+.course-badge-amber {background:rgba(240,160,80,.13);color:#f0a050;}
+.course-badge-green {background:rgba(76,175,125,.15);color:#4caf7d;}
+.journey-timeline{display:flex;align-items:flex-start;gap:0;position:relative;}
+.journey-week{flex:1;display:flex;flex-direction:column;align-items:center;position:relative;}
+.journey-week:not(:last-child)::after{content:'';position:absolute;top:10px;left:50%;
+  width:100%;height:2px;background:rgba(255,255,255,.08);z-index:0;}
+.journey-week.done:not(:last-child)::after{background:#4caf7d;opacity:.5;}
+.journey-week.current:not(:last-child)::after{background:linear-gradient(
+  to right,#9b8fe8 40%,rgba(255,255,255,.08) 100%);opacity:.5;}
+.week-dot-wrap{width:22px;height:22px;border-radius:50%;display:flex;
+  align-items:center;justify-content:center;position:relative;z-index:1;
+  margin-bottom:6px;font-size:11px;}
+.week-dot-wrap.done   {background:#4caf7d;color:#fff;}
+.week-dot-wrap.current{background:#9b8fe8;color:#fff;
+  box-shadow:0 0 0 4px rgba(155,143,232,.25);}
+.week-dot-wrap.future {background:#221e33;color:#6e6c80;
+  border:1.5px solid rgba(255,255,255,.08);}
+.week-num{font-size:10px;font-weight:700;color:#b0aec8;display:block;text-align:center;}
+.week-act{font-size:10px;color:#6e6c80;display:block;line-height:1.4;
+  margin-top:2px;word-break:keep-all;text-align:center;}
+.week-act.current-text{color:#9b8fe8;font-weight:600;}
+.journey-footer{margin-top:16px;padding-top:12px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;gap:10px;}
+.completion-bar-wrap{flex:1;}
+.completion-bar-label{display:flex;justify-content:space-between;
+  font-size:11px;color:#6e6c80;margin-bottom:4px;}
+.completion-bar-label span:last-child{color:#b0aec8;font-weight:600;}
+.completion-bar-track{height:5px;background:#221e33;border-radius:10px;overflow:hidden;}
+.completion-bar-fill{height:100%;border-radius:10px;
+  transition:width .8s cubic-bezier(.4,0,.2,1);}
+.next-month-hint{font-size:11px;color:#6e6c80;text-align:right;line-height:1.5;min-width:80px;}
+.next-month-hint strong{color:#b0aec8;font-weight:600;display:block;}
+  </div>
+
+  <!-- JS 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:20px; margin-bottom:8px;">▼ JavaScript — &lt;script&gt; 태그 안에 추가</p>
+  <div class="code-block">
+/* ── [기능1] 이번 달 여정 미리보기 ── */
+
+// 학생 데이터 (기존 앱의 전역 변수에 병합할 것)
+const JOURNEY_DATA = {
+  currentWeek: 3,           // 현재 진행 중인 주차 (1~5)
+  completionRate: 62,       // 이번 달 현재 이행률(%)
+  courseLevel: 'blue',      // 현재 코스: 'red'|'blue'|'amber'|'green'
+  weeks: [
+    { act: '게임+타이머' },
+    { act: '딜레마+기록' },
+    { act: '마음챙김+일지' },  // 현재 주
+    { act: 'AI미션+통합' },
+    { act: '성장 리뷰' }
+  ]
+};
+
+const COURSE_META = {
+  red:   { label: '🔴 심화 코스',   nextLabel: '심화 코스 유지', barColor: '#e05a5a', cls: 'course-badge-red'   },
+  blue:  { label: '🔵 표준 코스',   nextLabel: '표준 코스 유지', barColor: '#5b9cf0', cls: 'course-badge-blue'  },
+  amber: { label: '🟡 즐거운 코스', nextLabel: '즐거운 코스',   barColor: '#f0a050', cls: 'course-badge-amber' },
+  green: { label: '🟢 시작 코스',   nextLabel: '시작 코스',     barColor: '#4caf7d', cls: 'course-badge-green' }
+};
+
+function getNextCourse(rate) {
+  if (rate >= 75) return 'red';
+  if (rate >= 50) return 'blue';
+  if (rate >= 30) return 'amber';
+  return 'green';
+}
+
+function renderJourneyCard(containerId, data) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const meta = COURSE_META[data.courseLevel];
+  const nextCourse = getNextCourse(data.completionRate);
+  const nextMeta = COURSE_META[nextCourse];
+
+  let weeksHTML = '';
+  data.weeks.forEach((w, i) => {
+    const wNum = i + 1;
+    let cls = 'future', dotContent = wNum;
+    if (wNum < data.currentWeek)  { cls = 'done';    dotContent = '✓'; }
+    if (wNum === data.currentWeek){ cls = 'current';  dotContent = wNum; }
+    weeksHTML += `
+      &lt;div class="journey-week ${cls}"&gt;
+        &lt;div class="week-dot-wrap ${cls}"&gt;${dotContent}&lt;/div&gt;
+        &lt;div class="week-info"&gt;
+          &lt;span class="week-num"&gt;${wNum}주&lt;/span&gt;
+          &lt;span class="week-act ${cls === 'current' ? 'current-text' : ''}"&gt;${w.act}&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;`;
+  });
+
+  el.innerHTML = `
+    &lt;div class="jc-header"&gt;
+      &lt;span class="jc-title"&gt;📅 이번 달 여정&lt;/span&gt;
+      &lt;span class="jc-course-badge ${meta.cls}"&gt;${meta.label}&lt;/span&gt;
+    &lt;/div&gt;
+    &lt;div class="journey-timeline"&gt;${weeksHTML}&lt;/div&gt;
+    &lt;div class="journey-footer"&gt;
+      &lt;div class="completion-bar-wrap"&gt;
+        &lt;div class="completion-bar-label"&gt;
+          &lt;span&gt;이행률&lt;/span&gt;&lt;span&gt;${data.completionRate}%&lt;/span&gt;
+        &lt;/div&gt;
+        &lt;div class="completion-bar-track"&gt;
+          &lt;div class="completion-bar-fill"
+               style="width:${data.completionRate}%;background:${meta.barColor};"&gt;&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="next-month-hint"&gt;
+        다음 달&lt;strong&gt;${nextMeta.nextLabel}&lt;/strong&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;`;
+}
+
+// 페이지 로드 시 호출
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  renderJourneyCard('journey-card', JOURNEY_DATA);
+});
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════════
+     기능 2: 코스 전환 알림 배너
+══════════════════════════════════════════════════ -->
+<div class="feature-section">
+  <div class="feature-label"><span>2</span> 코스 전환 알림 배너</div>
+  <h2>달 전환 시 자동 알림 컴포넌트</h2>
+  <p class="desc">
+    5주차 완료 후 다음 주 루틴 생성 시 자동 표시됩니다.<br>
+    상향: "레벨업" 프레이밍 / 하향: "더 편안하게" 프레이밍 / 유지: 응원 메시지.
+  </p>
+  <div class="insert-guide">
+    📌 <strong>삽입 위치:</strong> 홈 탭 최상단 — <code>journey-card</code> 위에 삽입.<br>
+    📌 <strong>표시 조건:</strong> <code>localStorage.getItem('showCourseBanner') === 'true'</code> 일 때만 표시.<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;월말 루틴 생성 시 이 값을 <code>'true'</code>로 세팅, 배너 닫으면 <code>'false'</code>로 변경.
+  </div>
+
+  <!-- 라이브 미리보기 -->
+  <div class="preview-wrap">
+    <div class="preview-label">▶ 실제 렌더링 미리보기</div>
+    <div class="demo-controls">
+      <button class="demo-btn" onclick="showBanner('upgrade')">⬆ 상향 전환</button>
+      <button class="demo-btn active" onclick="showBanner('same')">➡ 유지</button>
+      <button class="demo-btn" onclick="showBanner('downgrade')">⬇ 하향 전환</button>
+    </div>
+    <div id="banner-demo-wrap"></div>
+  </div>
+
+  <!-- HTML 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:24px; margin-bottom:8px;">▼ HTML — 기존 파일에 복사·붙여넣기 (<code>journey-card</code> 위에)</p>
+  <div class="code-block">
+&lt;!-- ★ 기능2: 코스 전환 알림 배너 ★ --&gt;
+&lt;div id="course-transition-banner" style="display:none;"&gt;&lt;/div&gt;
+  </div>
+
+  <!-- CSS 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:20px; margin-bottom:8px;">▼ CSS — &lt;style&gt; 태그 안에 추가</p>
+  <div class="code-block">
+/* ── [기능2] 코스 전환 알림 배너 ── */
+.course-transition-banner{background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius);padding:16px;margin-bottom:16px;
+  position:relative;overflow:hidden;}
+.course-transition-banner::before{content:'';position:absolute;
+  top:0;left:0;right:0;height:3px;border-radius:var(--radius) var(--radius) 0 0;}
+.banner-upgrade::before {background:linear-gradient(90deg,#9b8fe8,#5b9cf0);}
+.banner-same::before    {background:linear-gradient(90deg,#5b9cf0,#4caf7d);}
+.banner-downgrade::before{background:linear-gradient(90deg,#f0a050,#4caf7d);}
+.ctb-row1{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.ctb-icon{font-size:28px;line-height:1;flex-shrink:0;}
+.ctb-text{flex:1;}
+.ctb-label{font-size:11px;font-weight:600;color:#6e6c80;margin-bottom:3px;}
+.ctb-main {font-size:15px;font-weight:700;color:#e8e6f0;line-height:1.4;}
+.ctb-sub  {font-size:12px;color:#b0aec8;margin-top:4px;line-height:1.6;}
+.close-btn{background:none;border:none;color:#6e6c80;font-size:18px;
+  cursor:pointer;padding:2px 4px;line-height:1;}
+.ctb-course-change{display:flex;align-items:center;gap:8px;
+  background:#221e33;border-radius:8px;padding:10px 12px;}
+.ctb-course-chip{flex:1;text-align:center;padding:6px 8px;
+  border-radius:8px;font-size:12px;font-weight:600;}
+.ctb-arrow-mid{color:#6e6c80;font-size:14px;flex-shrink:0;}
+.ctb-confirm-btn{width:100%;margin-top:12px;padding:12px;border:none;
+  border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.02em;}
+.btn-upgrade  {background:#9b8fe8;color:#fff;}
+.btn-same     {background:rgba(91,156,240,.13);color:#5b9cf0;
+  border:1px solid rgba(91,156,240,.3);}
+.btn-downgrade{background:rgba(76,175,125,.15);color:#4caf7d;
+  border:1px solid rgba(76,175,125,.3);}
+  </div>
+
+  <!-- JS 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:20px; margin-bottom:8px;">▼ JavaScript — &lt;script&gt; 태그 안에 추가</p>
+  <div class="code-block">
+/* ── [기능2] 코스 전환 알림 배너 ── */
+
+const BANNER_CONFIG = {
+  upgrade: {
+    cls: 'banner-upgrade',
+    icon: '🚀',
+    label: '다음 달 코스 알림',
+    main: '레벨업! 심화 코스로 올라가요 💜',
+    sub: '이번 달 이행률 75% 달성! 다음 달부터 더 깊은 훈련이 시작돼요.',
+    fromChip: { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    toChip:   { text: '심화 코스', bg: 'rgba(224,90,90,.13)',   color: '#e05a5a' },
+    btnCls: 'btn-upgrade',
+    btnText: '심화 코스 시작하기 →'
+  },
+  same: {
+    cls: 'banner-same',
+    icon: '⭐',
+    label: '다음 달 코스 알림',
+    main: '잘 하고 있어요! 표준 코스 계속 진행해요',
+    sub: '이번 달 이행률 62% — 꾸준히 유지 중이에요. 다음 달도 파이팅!',
+    fromChip: { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    toChip:   { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    btnCls: 'btn-same',
+    btnText: '다음 달도 계속하기 →'
+  },
+  downgrade: {
+    cls: 'banner-downgrade',
+    icon: '🌿',
+    label: '다음 달 코스 알림',
+    main: '더 편안하게, 즐거운 코스로 충전해요',
+    sub: '이번 달은 조금 바빴나요? 괜찮아요. 다음 달엔 더 가볍게 시작해요.',
+    fromChip: { text: '표준 코스',   bg: 'rgba(91,156,240,.13)',  color: '#5b9cf0' },
+    toChip:   { text: '즐거운 코스', bg: 'rgba(240,160,80,.13)',  color: '#f0a050' },
+    btnCls: 'btn-downgrade',
+    btnText: '즐거운 코스로 시작하기 →'
+  }
+};
+
+function renderCourseBanner(type, containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const cfg = BANNER_CONFIG[type];
+  el.className = 'course-transition-banner ' + cfg.cls;
+  el.style.display = 'block';
+  el.innerHTML = `
+    &lt;div class="ctb-row1"&gt;
+      &lt;span class="ctb-icon"&gt;${cfg.icon}&lt;/span&gt;
+      &lt;div class="ctb-text"&gt;
+        &lt;div class="ctb-label"&gt;${cfg.label}&lt;/div&gt;
+        &lt;div class="ctb-main"&gt;${cfg.main}&lt;/div&gt;
+        &lt;div class="ctb-sub"&gt;${cfg.sub}&lt;/div&gt;
+      &lt;/div&gt;
+      &lt;button class="close-btn" onclick="dismissBanner()"&gt;✕&lt;/button&gt;
+    &lt;/div&gt;
+    &lt;div class="ctb-course-change"&gt;
+      &lt;div class="ctb-course-chip"
+           style="background:${cfg.fromChip.bg};color:${cfg.fromChip.color};"&gt;
+        이번 달&lt;br&gt;${cfg.fromChip.text}
+      &lt;/div&gt;
+      &lt;span class="ctb-arrow-mid"&gt;→&lt;/span&gt;
+      &lt;div class="ctb-course-chip"
+           style="background:${cfg.toChip.bg};color:${cfg.toChip.color};"&gt;
+        다음 달&lt;br&gt;${cfg.toChip.text}
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;button class="ctb-confirm-btn ${cfg.btnCls}"
+            onclick="confirmCourseTransition('${type}')"&gt;
+      ${cfg.btnText}
+    &lt;/button&gt;`;
+}
+
+function dismissBanner() {
+  const el = document.getElementById('course-transition-banner');
+  if (el) { el.style.display = 'none'; }
+  localStorage.setItem('showCourseBanner', 'false');
+}
+
+function confirmCourseTransition(type) {
+  // 여기에 다음 달 코스 반영 로직 연결
+  console.log('코스 전환 확정:', type);
+  dismissBanner();
+  // 필요시: updateUserCourse(type); renderJourneyCard(...);
+}
+
+// ── 월말 루틴 생성 시 호출하는 함수 ──
+function checkAndShowCourseBanner(completionRate, prevCourse) {
+  const show = localStorage.getItem('showCourseBanner');
+  if (show === 'false') return; // 이미 닫은 경우 생략
+
+  const nextCourse = getNextCourse(completionRate);   // 기능1의 함수 재사용
+  let type = 'same';
+  const order = ['green', 'amber', 'blue', 'red'];
+  const prevIdx = order.indexOf(prevCourse);
+  const nextIdx = order.indexOf(nextCourse);
+  if (nextIdx > prevIdx) type = 'upgrade';
+  if (nextIdx &lt; prevIdx) type = 'downgrade';
+
+  renderCourseBanner(type, 'course-transition-banner');
+  localStorage.setItem('showCourseBanner', 'true');
+}
+
+// 페이지 로드 시 저장된 배너 상태 복원
+document.addEventListener('DOMContentLoaded', () =&gt; {
+  // 예시: 이행률 62%, 이전 코스 'blue'
+  checkAndShowCourseBanner(JOURNEY_DATA.completionRate, JOURNEY_DATA.courseLevel);
+});
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══════════════════════════════════════════════════
+     기능 3: 월별 이행률 자동 계산 + 저장 로직
+══════════════════════════════════════════════════ -->
+<div class="feature-section">
+  <div class="feature-label"><span>3</span> 월별 이행률 자동 계산 + 코스 저장 로직</div>
+  <h2>미션 완료 시 이행률 누적 · 코스 자동 결정</h2>
+  <p class="desc">
+    기존 앱의 미션 완료 버튼에 연결하는 이행률 추적 엔진입니다.<br>
+    localStorage에 월별 데이터를 저장하며, 달이 바뀌면 자동으로 코스를 재계산합니다.
+  </p>
+  <div class="insert-guide">
+    📌 <strong>연결 위치:</strong> 기존 미션 완료 버튼의 onclick 핸들러 안에 <code>recordMissionComplete()</code> 호출 추가.<br>
+    📌 <strong>성찰 일기 저장:</strong> 기존 "저장하기" 버튼에 <code>recordReflectionSaved()</code> 호출 추가.<br>
+    📌 <strong>마음챙김 완료:</strong> 기존 타이머 완료 시 <code>recordMindfulnessDone()</code> 호출 추가.
+  </div>
+
+  <!-- JS 코드 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:8px; margin-bottom:8px;">▼ JavaScript — &lt;script&gt; 태그 안에 추가</p>
+  <div class="code-block">
+/* ── [기능3] 월별 이행률 자동 계산 + 코스 저장 로직 ── */
+
+// localStorage 키 상수
+const STORAGE_KEY = 'mc_monthly_data';
+
+// 이번 달 키 (예: "2025-06")
+function getMonthKey() {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+// 이번 달 데이터 불러오기 (없으면 초기화)
+function getMonthlyData() {
+  const key = getMonthKey();
+  const stored = localStorage.getItem(STORAGE_KEY);
+  const all = stored ? JSON.parse(stored) : {};
+  if (!all[key]) {
+    all[key] = {
+      totalMissions: 0,    // 이번 달 목표 미션 수 (주 5일 × 5주 = 25 기본)
+      completedMissions: 0,
+      reflectionsSaved: 0,
+      mindfulnessDone: 0,
+      courseLevel: all[getPrevMonthKey()] 
+        ? getNextCourse(calcCompletionRate(all[getPrevMonthKey()]))
+        : 'blue',           // 첫 달은 표준 코스 시작
+      startDate: new Date().toISOString()
+    };
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  }
+  return { key, all, data: all[key] };
+}
+
+// 이전 달 키
+function getPrevMonthKey() {
+  const d = new Date();
+  d.setMonth(d.getMonth() - 1);
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`;
+}
+
+// 이행률 계산
+function calcCompletionRate(data) {
+  if (!data || data.totalMissions === 0) return 0;
+  // 미션 완료 60% + 성찰 일기 20% + 마음챙김 20% 가중치 합산
+  const missionScore = Math.min(data.completedMissions / data.totalMissions, 1) * 60;
+  const reflectionScore = Math.min(data.reflectionsSaved / 20, 1) * 20;
+  const mindfulScore = Math.min(data.mindfulnessDone / 10, 1) * 20;
+  return Math.round(missionScore + reflectionScore + mindfulScore);
+}
+
+// ── 각 활동 완료 시 호출하는 함수들 ──
+
+function recordMissionComplete() {
+  const { key, all, data } = getMonthlyData();
+  data.completedMissions += 1;
+  all[key] = data;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  updateJourneyUI();  // 기능1 UI 갱신
+}
+
+function recordReflectionSaved() {
+  const { key, all, data } = getMonthlyData();
+  data.reflectionsSaved += 1;
+  all[key] = data;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  updateJourneyUI();
+}
+
+function recordMindfulnessDone() {
+  const { key, all, data } = getMonthlyData();
+  data.mindfulnessDone += 1;
+  all[key] = data;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+  updateJourneyUI();
+}
+
+// 목표 미션 수 설정 (월 시작 시 호출)
+function setMonthlyMissionTarget(count) {
+  const { key, all, data } = getMonthlyData();
+  data.totalMissions = count;
+  all[key] = data;
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(all));
+}
+
+// 기능1 여정 카드 UI 실시간 갱신
+function updateJourneyUI() {
+  const { data } = getMonthlyData();
+  const rate = calcCompletionRate(data);
+  JOURNEY_DATA.completionRate = rate;
+  renderJourneyCard('journey-card', JOURNEY_DATA);
+}
+
+// 현재 이행률 조회 (외부에서 사용)
+function getCurrentCompletionRate() {
+  const { data } = getMonthlyData();
+  return calcCompletionRate(data);
+}
+
+// 현재 코스 레벨 조회
+function getCurrentCourseLevel() {
+  const { data } = getMonthlyData();
+  return data.courseLevel;
+}
+
+// ── 기존 미션 완료 버튼에 연결 예시 ──
+// 기존 코드:
+//   completeMission() { ... addXP(40); showPopup(); }
+//
+// 수정 후:
+//   completeMission() { ... addXP(40); showPopup(); recordMissionComplete(); }
+//
+// 기존 성찰 일기 저장 버튼:
+//   saveReflection() { ... addXP(20); }
+// 수정 후:
+//   saveReflection() { ... addXP(20); recordReflectionSaved(); }
+//
+// 기존 마음챙김 타이머 완료:
+//   onTimerComplete() { ... addXP(30); }
+// 수정 후:
+//   onTimerComplete() { ... addXP(30); recordMindfulnessDone(); }
+  </div>
+
+  <!-- 연결 흐름 요약 -->
+  <p style="font-size:12px; color:#6e6c80; margin-top:20px; margin-bottom:8px;">▼ 세 기능 연결 흐름 요약</p>
+  <div class="code-block">
+/* ── 전체 연결 흐름 ──────────────────────────────────
+
+  [활동 완료]
+    미션 완료       → recordMissionComplete()
+    성찰 일기 저장  → recordReflectionSaved()
+    마음챙김 완료   → recordMindfulnessDone()
+         ↓
+  [기능3] calcCompletionRate() 로 이행률 계산
+         ↓
+  [기능1] renderJourneyCard() 로 타임라인 UI 갱신
+         ↓
+  [월말] checkAndShowCourseBanner() 호출
+         ↓
+  [기능2] 코스 전환 배너 표시 (상향/유지/하향 분기)
+         ↓
+  [확인 버튼] confirmCourseTransition() → 다음 달 코스 반영
+
+────────────────────────────────────────────────── */
+  </div>
+</div>
+
+<hr class="divider">
+<div style="max-width:640px; margin:0 auto; font-size:12px; color:#6e6c80; line-height:1.8; padding-bottom:40px;">
+  <p>⚠️ <strong style="color:#b0aec8;">주의사항</strong></p>
+  <p>• 위 코드의 <code>&lt;</code> <code>&gt;</code> HTML 엔티티는 <strong>코드블록 디스플레이용</strong>입니다. 실제 파일에 붙여넣을 때는 정상 태그 문자(<code>&lt; &gt;</code>)로 사용하세요.</p>
+  <p>• CSS 변수(<code>--card</code>, <code>--purple</code> 등)는 기존 앱의 <code>:root</code>에 이미 유사한 값이 있다면 변수명을 맞춰 수정하세요.</p>
+  <p>• <code>getNextCourse()</code> 함수는 기능1과 기능2에서 공통 사용 — 파일에 한 번만 선언하세요.</p>
+</div>
+
+<!-- 데모용 JavaScript -->
+<script>
+// ── 데모 전용 스크립트 (개발자 전달 파일에서 제거) ──
+
+function setDemo(level) {
+  document.querySelectorAll('.demo-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+
+  const rates = { red: 82, blue: 62, amber: 40, green: 18 };
+  const weeks = { red: 4, blue: 3, amber: 2, green: 1 };
+  const acts = [
+    { act: '게임+타이머' }, { act: '딜레마+기록' },
+    { act: '마음챙김+일지' }, { act: 'AI미션+통합' }, { act: '성장 리뷰' }
+  ];
+
+  const data = {
+    currentWeek: weeks[level],
+    completionRate: rates[level],
+    courseLevel: level,
+    weeks: acts
+  };
+  renderJourneyCard('journey-demo', data);
+}
+
+function showBanner(type) {
+  document.querySelectorAll('.demo-controls .demo-btn').forEach(b => b.classList.remove('active'));
+  event.target.classList.add('active');
+  renderCourseBanner(type, 'banner-demo');
+}
+
+// 기능1 함수들
+const COURSE_META = {
+  red:   { label: '🔴 심화 코스',   nextLabel: '심화 코스 유지', barColor: '#e05a5a', cls: 'course-badge-red'   },
+  blue:  { label: '🔵 표준 코스',   nextLabel: '표준 코스 유지', barColor: '#5b9cf0', cls: 'course-badge-blue'  },
+  amber: { label: '🟡 즐거운 코스', nextLabel: '즐거운 코스',   barColor: '#f0a050', cls: 'course-badge-amber' },
+  green: { label: '🟢 시작 코스',   nextLabel: '시작 코스',     barColor: '#4caf7d', cls: 'course-badge-green' }
+};
+
+function getNextCourse(rate) {
+  if (rate >= 75) return 'red';
+  if (rate >= 50) return 'blue';
+  if (rate >= 30) return 'amber';
+  return 'green';
+}
+
+function renderJourneyCard(containerId, data) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const meta = COURSE_META[data.courseLevel];
+  const nextCourse = getNextCourse(data.completionRate);
+  const nextMeta = COURSE_META[nextCourse];
+
+  let weeksHTML = '';
+  data.weeks.forEach((w, i) => {
+    const wNum = i + 1;
+    let cls = 'future', dotContent = wNum;
+    if (wNum < data.currentWeek)  { cls = 'done';    dotContent = '✓'; }
+    if (wNum === data.currentWeek){ cls = 'current';  dotContent = wNum; }
+    weeksHTML += `
+      <div class="journey-week ${cls}">
+        <div class="week-dot-wrap ${cls}">${dotContent}</div>
+        <div class="week-info">
+          <span class="week-num">${wNum}주</span>
+          <span class="week-act ${cls === 'current' ? 'current-text' : ''}">${w.act}</span>
+        </div>
+      </div>`;
+  });
+
+  el.innerHTML = `
+    <div class="jc-header">
+      <span class="jc-title">📅 이번 달 여정</span>
+      <span class="jc-course-badge ${meta.cls}">${meta.label}</span>
+    </div>
+    <div class="journey-timeline">${weeksHTML}</div>
+    <div class="journey-footer">
+      <div class="completion-bar-wrap">
+        <div class="completion-bar-label">
+          <span>이행률</span><span>${data.completionRate}%</span>
+        </div>
+        <div class="completion-bar-track">
+          <div class="completion-bar-fill"
+               style="width:${data.completionRate}%;background:${meta.barColor};"></div>
+        </div>
+      </div>
+      <div class="next-month-hint">
+        다음 달<strong>${nextMeta.nextLabel}</strong>
+      </div>
+    </div>`;
+}
+
+// 기능2 함수들
+const BANNER_CONFIG = {
+  upgrade: {
+    cls: 'banner-upgrade', icon: '🚀', label: '다음 달 코스 알림',
+    main: '레벨업! 심화 코스로 올라가요 💜',
+    sub: '이번 달 이행률 75% 달성! 다음 달부터 더 깊은 훈련이 시작돼요.',
+    fromChip: { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    toChip:   { text: '심화 코스', bg: 'rgba(224,90,90,.13)',  color: '#e05a5a' },
+    btnCls: 'btn-upgrade', btnText: '심화 코스 시작하기 →'
+  },
+  same: {
+    cls: 'banner-same', icon: '⭐', label: '다음 달 코스 알림',
+    main: '잘 하고 있어요! 표준 코스 계속 진행해요',
+    sub: '이번 달 이행률 62% — 꾸준히 유지 중이에요. 다음 달도 파이팅!',
+    fromChip: { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    toChip:   { text: '표준 코스', bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    btnCls: 'btn-same', btnText: '다음 달도 계속하기 →'
+  },
+  downgrade: {
+    cls: 'banner-downgrade', icon: '🌿', label: '다음 달 코스 알림',
+    main: '더 편안하게, 즐거운 코스로 충전해요',
+    sub: '이번 달은 조금 바빴나요? 괜찮아요. 다음 달엔 더 가볍게 시작해요.',
+    fromChip: { text: '표준 코스',   bg: 'rgba(91,156,240,.13)', color: '#5b9cf0' },
+    toChip:   { text: '즐거운 코스', bg: 'rgba(240,160,80,.13)', color: '#f0a050' },
+    btnCls: 'btn-downgrade', btnText: '즐거운 코스로 시작하기 →'
+  }
+};
+
+function renderCourseBanner(type, containerId) {
+  const el = document.getElementById(containerId);
+  if (!el) return;
+  const cfg = BANNER_CONFIG[type];
+  el.className = 'course-transition-banner ' + cfg.cls;
+  el.style.display = 'block';
+  el.innerHTML = `
+    <div class="ctb-row1">
+      <span class="ctb-icon">${cfg.icon}</span>
+      <div class="ctb-text">
+        <div class="ctb-label">${cfg.label}</div>
+        <div class="ctb-main">${cfg.main}</div>
+        <div class="ctb-sub">${cfg.sub}</div>
+      </div>
+      <button class="close-btn" onclick="this.closest('.course-transition-banner').style.display='none'">✕</button>
+    </div>
+    <div class="ctb-course-change">
+      <div class="ctb-course-chip" style="background:${cfg.fromChip.bg};color:${cfg.fromChip.color};">
+        이번 달<br>${cfg.fromChip.text}
+      </div>
+      <span class="ctb-arrow-mid">→</span>
+      <div class="ctb-course-chip" style="background:${cfg.toChip.bg};color:${cfg.toChip.color};">
+        다음 달<br>${cfg.toChip.text}
+      </div>
+    </div>
+    <button class="ctb-confirm-btn ${cfg.btnCls}">
+      ${cfg.btnText}
+    </button>`;
+}
+
+// 초기 렌더링
+window.addEventListener('DOMContentLoaded', () => {
+  setDemo('blue');
+  // 배너 데모 wrap에 id 생성
+  const bw = document.getElementById('banner-demo-wrap');
+  if (bw) { bw.innerHTML = '<div id="banner-demo"></div>'; }
+  showBanner('same');
+});
+</script>
+</body>
+</html>
