@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>81 뇌유형 진단 시스템 | FeelGood EduTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --P: #FF6B35;   /* 계획력 - 주황 */
+    --A: #4ECDC4;   /* 주의력 - 청록 */
+    --Si: #A78BFA;  /* 동시처리 - 보라 */
+    --Su: #34D399;  /* 순차처리 - 초록 */
+    --H: #FFD700;   /* 상 */
+    --M: #94A3B8;   /* 중 */
+    --L: #F87171;   /* 하 */
+    --bg: #0A0A0F;
+    --card: #12121A;
+    --border: rgba(255,255,255,0.08);
+    --text: #E2E8F0;
+    --muted: #64748B;
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* ── 헤더 ── */
+  .header {
+    padding: 40px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    position: sticky; top:0; z-index:100;
+    background: rgba(10,10,15,0.92);
+    backdrop-filter: blur(12px);
+  }
+  .header-top {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 20px;
+  }
+  .logo { font-family:'Space Mono',monospace; font-size:13px; color:var(--muted); letter-spacing:2px; }
+  .title { font-size:28px; font-weight:900; line-height:1.2; }
+  .title span { background: linear-gradient(90deg,#FF6B35,#A78BFA,#4ECDC4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  .subtitle { font-size:13px; color:var(--muted); margin-top:4px; }
+
+  /* ── PASS 입력 슬라이더 ── */
+  .pass-input {
+    display: grid; grid-template-columns: repeat(4,1fr); gap:12px;
+    margin-top: 16px;
+  }
+  .pass-axis {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .pass-axis:hover { border-color: rgba(255,255,255,0.2); }
+  .axis-header {
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px;
+  }
+  .axis-name { font-size:13px; font-weight:700; }
+  .axis-ss { font-family:'Space Mono',monospace; font-size:11px; color:var(--muted); }
+  .level-btns { display:flex; gap:6px; }
+  .lvl-btn {
+    flex:1; padding:6px 0; border-radius:6px; border:1px solid var(--border);
+    background:transparent; color:var(--muted); font-size:11px; font-weight:700;
+    cursor:pointer; transition:all 0.2s; font-family:'Noto Sans KR',sans-serif;
+  }
+  .lvl-btn.active-H { background:#FFD700; border-color:#FFD700; color:#000; }
+  .lvl-btn.active-M { background:#475569; border-color:#94A3B8; color:#fff; }
+  .lvl-btn.active-L { background:#F87171; border-color:#F87171; color:#fff; }
+
+  .axis-P .axis-name { color: var(--P); }
+  .axis-A .axis-name { color: var(--A); }
+  .axis-Si .axis-name { color: var(--Si); }
+  .axis-Su .axis-name { color: var(--Su); }
+
+  /* ── 메인 레이아웃 ── */
+  .main { display:grid; grid-template-columns:380px 1fr; gap:0; min-height:calc(100vh - 200px); }
+
+  /* ── 사이드바: 뇌유형 카드 ── */
+  .sidebar {
+    border-right: 1px solid var(--border);
+    padding: 24px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+  }
+  .type-card {
+    background: var(--card);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .type-card.active {
+    border-color: #A78BFA;
+    box-shadow: 0 0 24px rgba(167,139,250,0.2);
+  }
+  .type-card-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:12px; }
+  .type-code {
+    font-family:'Space Mono',monospace; font-size:22px; font-weight:700;
+    letter-spacing:3px;
+  }
+  .type-name { font-size:16px; font-weight:700; margin-top:2px; }
+  .type-meta { font-size:11px; color:var(--muted); margin-top:2px; }
+  .type-rarity {
+    font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px;
+    font-family:'Space Mono',monospace;
+  }
+  .rarity-rare { background:rgba(255,215,0,0.15); color:#FFD700; border:1px solid rgba(255,215,0,0.3); }
+  .rarity-common { background:rgba(148,163,184,0.1); color:var(--muted); border:1px solid var(--border); }
+  .rarity-unique { background:rgba(167,139,250,0.15); color:#A78BFA; border:1px solid rgba(167,139,250,0.3); }
+
+  .pass-bars { display:flex; gap:6px; margin-top:10px; }
+  .pass-bar-wrap { flex:1; }
+  .pass-bar-label { font-size:9px; color:var(--muted); margin-bottom:3px; text-align:center; }
+  .pass-bar { height:6px; border-radius:3px; }
+
+  /* ── 상세 패널 ── */
+  .detail-panel {
+    padding: 32px;
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+  }
+  .detail-empty {
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    height:100%; color:var(--muted); text-align:center; gap:12px;
+  }
+  .detail-empty .big { font-size:64px; opacity:0.3; }
+
+  .detail-type-code {
+    font-family:'Space Mono',monospace; font-size:48px; font-weight:700;
+    letter-spacing:6px; margin-bottom:4px;
+  }
+  .detail-type-name { font-size:28px; font-weight:900; margin-bottom:4px; }
+  .detail-type-en { font-size:14px; color:var(--muted); margin-bottom:24px; font-style:italic; }
+
+  .section-title {
+    font-size:11px; font-weight:700; letter-spacing:3px; color:var(--muted);
+    text-transform:uppercase; margin-bottom:12px; margin-top:28px;
+  }
+
+  .pass-radar-row { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:24px; }
+  .radar-item {
+    background: var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:14px; text-align:center;
+  }
+  .radar-axis { font-size:10px; color:var(--muted); margin-bottom:6px; }
+  .radar-level {
+    font-size:22px; font-weight:900; font-family:'Space Mono',monospace;
+  }
+  .radar-level.H { color:#FFD700; }
+  .radar-level.M { color:#94A3B8; }
+  .radar-level.L { color:#F87171; }
+  .radar-desc { font-size:10px; color:var(--muted); margin-top:4px; line-height:1.4; }
+
+  .tag-list { display:flex; flex-wrap:wrap; gap:8px; }
+  .tag {
+    padding:5px 12px; border-radius:20px; font-size:12px; font-weight:500;
+    border:1px solid var(--border); background:var(--card);
+  }
+  .tag.strength { border-color:rgba(78,205,196,0.4); color:#4ECDC4; background:rgba(78,205,196,0.08); }
+  .tag.weakness { border-color:rgba(248,113,113,0.4); color:#F87171; background:rgba(248,113,113,0.08); }
+  .tag.career { border-color:rgba(167,139,250,0.4); color:#A78BFA; background:rgba(167,139,250,0.08); }
+  .tag.emotion { border-color:rgba(255,107,53,0.4); color:#FF6B35; background:rgba(255,107,53,0.08); }
+
+  .desc-block {
+    background: var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:16px 20px; margin-bottom:12px; line-height:1.8; font-size:14px;
+  }
+  .desc-block.highlight {
+    border-color:rgba(167,139,250,0.3);
+    background: linear-gradient(135deg, rgba(167,139,250,0.05), rgba(78,205,196,0.05));
+  }
+
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+
+  .badge-preview {
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border:1px solid rgba(167,139,250,0.3); border-radius:12px;
+    padding:16px; text-align:center;
+  }
+  .badge-icon { font-size:36px; margin-bottom:8px; }
+  .badge-name { font-size:12px; font-weight:700; color:#A78BFA; }
+  .badge-cond { font-size:11px; color:var(--muted); margin-top:4px; line-height:1.4; }
+
+  .emotion-meter {
+    background:var(--card); border:1px solid var(--border); border-radius:12px;
+    padding:16px 20px;
+  }
+  .emotion-row {
+    display:flex; align-items:center; gap:12px; margin-bottom:10px;
+  }
+  .emotion-label { font-size:12px; min-width:80px; color:var(--muted); }
+  .emotion-bar-bg {
+    flex:1; height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden;
+  }
+  .emotion-bar-fill { height:100%; border-radius:4px; transition: width 1s ease; }
+  .emotion-val { font-size:11px; font-family:'Space Mono',monospace; min-width:28px; text-align:right; }
+
+  /* ── 탐색 ── */
+  .search-wrap { margin-bottom:16px; }
+  .search-input {
+    width:100%; background:var(--card); border:1px solid var(--border);
+    border-radius:10px; padding:10px 16px; color:var(--text); font-size:13px;
+    font-family:'Noto Sans KR',sans-serif; outline:none;
+  }
+  .search-input:focus { border-color:rgba(167,139,250,0.5); }
+  .search-input::placeholder { color:var(--muted); }
+
+  .filter-row { display:flex; gap:6px; margin-bottom:16px; flex-wrap:wrap; }
+  .filter-btn {
+    padding:5px 12px; border-radius:20px; font-size:11px; font-weight:700;
+    border:1px solid var(--border); background:transparent; color:var(--muted);
+    cursor:pointer; transition:all 0.2s; font-family:'Noto Sans KR',sans-serif;
+  }
+  .filter-btn.on { background:rgba(167,139,250,0.2); border-color:#A78BFA; color:#A78BFA; }
+
+  .count-badge {
+    display:inline-block; background:rgba(167,139,250,0.2); color:#A78BFA;
+    border-radius:20px; padding:2px 8px; font-size:11px;
+    font-family:'Space Mono',monospace; margin-left:6px;
+  }
+
+  /* 애니메이션 */
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .fade-in { animation: fadeIn 0.3s ease forwards; }
+
+  /* 스크롤바 */
+  ::-webkit-scrollbar { width:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:var(--border); border-radius:2px; }
+
+  @media(max-width:900px) {
+    .pass-input { grid-template-columns:repeat(2,1fr); }
+    .main { grid-template-columns:1fr; }
+    .sidebar { max-height:400px; border-right:none; border-bottom:1px solid var(--border); }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── 헤더 ── -->
+<div class="header">
+  <div class="header-top">
+    <div>
+      <div class="logo">FEELGOOD EDUTECH · PASS THEORY</div>
+      <div class="title"><span>81 뇌유형</span> 진단 시스템</div>
+      <div class="subtitle">Planning · Attention · Simultaneous · Successive — 각 3단계(상/중/하) × 4축 = 81가지 인지 프로파일</div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-family:'Space Mono',monospace;font-size:11px;color:var(--muted)">현재 유형</div>
+      <div id="current-code" style="font-family:'Space Mono',monospace;font-size:24px;font-weight:700;letter-spacing:3px;color:#A78BFA">----</div>
+    </div>
+  </div>
+
+  <!-- PASS 입력 -->
+  <div class="pass-input">
+    <div class="pass-axis axis-P">
+      <div class="axis-header">
+        <div>
+          <div class="axis-name">P 계획력</div>
+          <div class="axis-ss">Planning</div>
+        </div>
+      </div>
+      <div class="level-btns">
+        <button class="lvl-btn" data-axis="P" data-level="H">상</button>
+        <button class="lvl-btn active-M" data-axis="P" data-level="M">중</button>
+        <button class="lvl-btn" data-axis="P" data-level="L">하</button>
+      </div>
+    </div>
+    <div class="pass-axis axis-A">
+      <div class="axis-header">
+        <div>
+          <div class="axis-name">A 주의력</div>
+          <div class="axis-ss">Attention</div>
+        </div>
+      </div>
+      <div class="level-btns">
+        <button class="lvl-btn" data-axis="A" data-level="H">상</button>
+        <button class="lvl-btn active-M" data-axis="A" data-level="M">중</button>
+        <button class="lvl-btn" data-axis="A" data-level="L">하</button>
+      </div>
+    </div>
+    <div class="pass-axis axis-Si">
+      <div class="axis-header">
+        <div>
+          <div class="axis-name">Si 동시처리</div>
+          <div class="axis-ss">Simultaneous</div>
+        </div>
+      </div>
+      <div class="level-btns">
+        <button class="lvl-btn" data-axis="Si" data-level="H">상</button>
+        <button class="lvl-btn active-M" data-axis="Si" data-level="M">중</button>
+        <button class="lvl-btn" data-axis="Si" data-level="L">하</button>
+      </div>
+    </div>
+    <div class="pass-axis axis-Su">
+      <div class="axis-header">
+        <div>
+          <div class="axis-name">Su 순차처리</div>
+          <div class="axis-ss">Successive</div>
+        </div>
+      </div>
+      <div class="level-btns">
+        <button class="lvl-btn" data-axis="Su" data-level="H">상</button>
+        <button class="lvl-btn active-M" data-axis="Su" data-level="M">중</button>
+        <button class="lvl-btn" data-axis="Su" data-level="L">하</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── 메인 ── -->
+<div class="main">
+
+  <!-- 사이드바 -->
+  <div class="sidebar">
+    <div class="search-wrap">
+      <input type="text" class="search-input" id="search-input" placeholder="뇌유형명, 코드, 키워드 검색...">
+    </div>
+    <div class="filter-row">
+      <button class="filter-btn on" data-filter="all">전체<span class="count-badge" id="cnt-all">81</span></button>
+      <button class="filter-btn" data-filter="allH">전상위</button>
+      <button class="filter-btn" data-filter="allM">전중위</button>
+      <button class="filter-btn" data-filter="allL">전하위</button>
+      <button class="filter-btn" data-filter="hasL">하위포함</button>
+      <button class="filter-btn" data-filter="balanced">균형형</button>
+    </div>
+    <div id="type-list"></div>
+  </div>
+
+  <!-- 상세 패널 -->
+  <div class="detail-panel" id="detail-panel">
+    <div class="detail-empty">
+      <div class="big">🧠</div>
+      <div style="font-size:16px;font-weight:700">뇌유형을 선택하거나</div>
+      <div style="font-size:13px">위 PASS 축을 조정하면 해당 유형이 표시됩니다</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ════════════════════════════════════════════
+// 데이터: 81가지 뇌유형 정의
+// ════════════════════════════════════════════
+
+const LEVELS = ['H','M','L'];
+const LEVEL_KO = { H:'상', M:'중', L:'하' };
+const LEVEL_SS = {
+  H: 'SS 120+',
+  M: 'SS 86–119',
+  L: 'SS 85 이하'
+};
+const AXIS_COLORS = {
+  P: '#FF6B35', A: '#4ECDC4', Si: '#A78BFA', Su: '#34D399'
+};
+
+// ── 각 축별 상중하 특성 정의 ──
+const AXIS_DESC = {
+  P: {
+    H: { short:'전략적 사고', detail:'목표 설정·계획 수립·메타인지가 뛰어남. 자기주도 학습, 프로젝트 리더십에 강함.' },
+    M: { short:'평균적 계획력', detail:'기본적인 계획 수립은 가능하나 복잡한 다단계 전략에서 지원이 필요할 수 있음.' },
+    L: { short:'충동적·즉흥적', detail:'계획보다 즉각 행동 경향. 목표 지속이 어렵고, 충동 조절 훈련이 핵심 개입 포인트.' }
+  },
+  A: {
+    H: { short:'집중력·정밀함', detail:'선택적 주의, 지속 주의, 억제력이 강함. 세밀한 작업, 오류 탐지, 관찰에 탁월.' },
+    M: { short:'평균적 주의력', detail:'일반 과제에서 주의 유지 가능. 자극이 많거나 지루한 환경에서 분산될 수 있음.' },
+    L: { short:'산만·과활성', detail:'주의 분산, 충동성, 과잉행동 경향. ADHD 스펙트럼 가능성 탐색 권장.' }
+  },
+  Si: {
+    H: { short:'전체·패턴 인식', detail:'공간 추론, 개념 통합, 비유·은유 이해가 뛰어남. 창의성·예술·수학적 직관에 강함.' },
+    M: { short:'평균적 동시처리', detail:'전체 맥락 파악은 가능하나 복잡한 공간·개념 통합 과제에서 성취도 차이 발생.' },
+    L: { short:'부분·순서 의존', detail:'전체보다 부분에 집중. 맥락 파악 어려움. 명시적 개념 설명과 시각화 지원 필요.' }
+  },
+  Su: {
+    H: { short:'순서·절차 마스터', detail:'순서 기억, 음운 처리, 절차 학습에 강함. 읽기·외국어·수학 절차에 탁월.' },
+    M: { short:'평균적 순차처리', detail:'기본 절차 학습 가능. 긴 순서 정보나 복잡한 연쇄 과제에서 오류 빈도 증가.' },
+    L: { short:'절차·순서 취약', detail:'순서 기억 어려움, 읽기장애(난독) 가능성. 청각적 순차 처리 훈련 집중 개입 필요.' }
+  }
+};
+
+// ── 복합 뇌유형 이름 데이터베이스 ──
+// 특수 조합 60개 + 나머지는 자동 생성
+const NAMED_TYPES = {
+  'HHHH': { name:'전뇌 마스터', en:'Whole Brain Master', rarity:'unique',
+    summary:'4개 축 모두 상위. 극히 희귀한 균형 천재형. 전략·집중·통합·절차 모두 탁월.',
+    strengths:['전략적 리더십','창의적 문제해결','정밀한 실행력','다중 지식 통합'],
+    weaknesses:['완벽주의로 인한 지연','기준 설정 과도함'],
+    emotions:{ stability:92, impulse:8, stress:15, empathy:80 },
+    careers:['연구과학자','의사','전략컨설턴트','교수','CEO'],
+    badges:[{ icon:'👑', name:'전뇌왕', cond:'모든 PASS 축 상위 달성' }],
+    wisdom:'계획과 직관이 균형을 이룰 때 진정한 지혜가 꽃핀다 — Aristotle' },
+
+  'HHHL': { name:'전략적 탐험가', en:'Strategic Explorer', rarity:'rare',
+    summary:'계획·주의·동시처리 강, 순차처리 약. 큰 그림은 완벽하나 세부 절차 실행에서 실수 가능.',
+    strengths:['전략 수립','창의적 발상','집중적 탐구'],
+    weaknesses:['세부 절차 오류','순서 기억 실수','읽기 속도'],
+    emotions:{ stability:75, impulse:30, stress:40, empathy:70 },
+    careers:['전략기획가','디자이너','프로젝트 매니저','기업가'],
+    badges:[{ icon:'🗺️', name:'탐험가', cond:'계획력+주의력 훈련 21일 완료' }],
+    wisdom:'전략은 단순함 속에 있다. 세부는 팀에게 맡겨라.' },
+
+  'HHLH': { name:'창의적 전략가', en:'Creative Strategist', rarity:'rare',
+    summary:'계획·주의·순차처리 강, 동시처리 약. 체계적이고 집중력 있지만 직관적 통합보다 분석적 접근 선호.',
+    strengths:['체계적 계획','집중 실행','절차적 정확성'],
+    weaknesses:['직관적 도약','전체 맥락 파악','메타포 이해'],
+    emotions:{ stability:78, impulse:20, stress:35, empathy:55 },
+    careers:['외과의','프로그래머','회계사','법률가'],
+    badges:[{ icon:'⚙️', name:'정밀기계', cond:'순차처리 훈련 연속 14일' }],
+    wisdom:'완벽한 계획보다 완벽한 실행이 먼저다.' },
+
+  'HLHH': { name:'직관적 전략가', en:'Intuitive Strategist', rarity:'rare',
+    summary:'계획·동시처리·순차처리 강, 주의력 약. 아이디어와 전략은 풍부하나 집중 지속이 약점.',
+    strengths:['전략적 비전','패턴 인식','절차적 실행'],
+    weaknesses:['주의 지속','세부 집중','충동 조절'],
+    emotions:{ stability:65, impulse:45, stress:50, empathy:60 },
+    careers:['기업가','발명가','작가','아키텍트'],
+    badges:[{ icon:'💡', name:'아이디어뱅크', cond:'주의력 훈련 7일 연속' }],
+    wisdom:'아이디어는 넘치지만 실행이 부족한 당신—오늘 하나만 끝내라.' },
+
+  'LHHH': { name:'감각적 실행가', en:'Sensory Executor', rarity:'rare',
+    summary:'주의·동시처리·순차처리 강, 계획력 약. 현재에 집중하며 뛰어난 실행력 보유. 장기 전략 수립 지원 필요.',
+    strengths:['현재 집중력','패턴 감지','절차 실행'],
+    weaknesses:['장기 계획','목표 지속','메타인지'],
+    emotions:{ stability:68, impulse:42, stress:45, empathy:72 },
+    careers:['외과의','운동선수','요리사','음악가'],
+    badges:[{ icon:'🎯', name:'현재집중', cond:'계획력 훈련 완료율 80% 달성' }],
+    wisdom:'지금 이 순간이 당신의 가장 강한 무기다.' },
+
+  'MMMM': { name:'균형 성장형', en:'Balanced Grower', rarity:'common',
+    summary:'4축 모두 평균. 가장 흔한 유형. 특출난 약점 없이 전반적 성장 가능한 안정적 기반.',
+    strengths:['적응력','안정적 학습','다양한 환경 적응'],
+    weaknesses:['두드러진 강점 부재','경쟁에서 차별화 어려움'],
+    emotions:{ stability:70, impulse:30, stress:35, empathy:65 },
+    careers:['교사','행정가','상담사','관리자'],
+    badges:[{ icon:'⚖️', name:'균형인', cond:'4축 균형 훈련 30일' }],
+    wisdom:'평범함 속에서 비범함을 찾는 것이 진정한 성장이다.' },
+
+  'LLLL': { name:'전뇌 성장 필요', en:'Full Support Needed', rarity:'rare',
+    summary:'4축 모두 하위. 전반적 인지 지원 및 집중 개입 필요. 신경발달 전문가 협진 권고.',
+    strengths:['개입 여지 최대','특수 지원 효과 높음'],
+    weaknesses:['전반적 인지 처리','학업·사회적 적응'],
+    emotions:{ stability:35, impulse:72, stress:78, empathy:40 },
+    careers:['구체적 지원 후 재평가 필요'],
+    badges:[{ icon:'🌱', name:'씨앗', cond:'첫 훈련 프로그램 완료' }],
+    wisdom:'모든 성장은 지금 이 순간의 작은 한 걸음에서 시작된다.' },
+
+  'HHMM': { name:'집중 전략가', en:'Focused Strategist', rarity:'common',
+    summary:'계획·주의 강, 동시·순차 중간. 뚜렷한 전략과 집중력으로 목표 달성. 감각적 유연성 개발 여지.',
+    strengths:['전략 실행','집중 지속','목표 관리'],
+    weaknesses:['창의적 도약','유연한 전환'],
+    emotions:{ stability:76, impulse:22, stress:38, empathy:60 },
+    careers:['프로젝트 매니저','연구원','변호사'],
+    badges:[{ icon:'🔭', name:'목표추적자', cond:'주간 목표 달성 4주' }],
+    wisdom:'집중이 곧 전략이다.' },
+
+  'HHLL': { name:'예리한 관리자', en:'Sharp Manager', rarity:'common',
+    summary:'계획·주의 강, 동시·순차 하위. 전략과 집중은 뛰어나지만 직관적 통합과 절차 실행 지원 필요.',
+    strengths:['전략 수립','집중력','의사결정'],
+    weaknesses:['직관적 통합','절차 기억','읽기 처리'],
+    emotions:{ stability:65, impulse:28, stress:52, empathy:50 },
+    careers:['관리자','기획자','분석가'],
+    badges:[{ icon:'📊', name:'전략집중', cond:'계획력 집중 훈련 완료' }],
+    wisdom:'강점을 극대화하고 약점은 시스템으로 보완하라.' },
+
+  'LLHH': { name:'감각 실행형', en:'Sensory Executor', rarity:'common',
+    summary:'계획·주의 하위, 동시·순차 강. 패턴 인식과 절차 실행은 뛰어나지만 충동 조절과 계획 수립 집중 개입 필요.',
+    strengths:['패턴 감지','절차 실행','순서 기억'],
+    weaknesses:['충동 조절','장기 계획','집중 지속'],
+    emotions:{ stability:45, impulse:65, stress:60, empathy:55 },
+    careers:['기술자','음악가','운동선수','예술가'],
+    badges:[{ icon:'🎵', name:'리듬감각', cond:'순차처리 훈련 우수 달성' }],
+    wisdom:'당신의 감각은 타인이 갖지 못한 선물이다.' },
+
+  'HLHL': { name:'창의 직관형', en:'Creative Intuitive', rarity:'common',
+    summary:'계획·동시처리 강, 주의·순차처리 약. 아이디어가 풍부하고 전략적이나 세부 실행과 절차에서 오류 발생.',
+    strengths:['창의적 발상','전략적 비전','개념 통합'],
+    weaknesses:['주의 산만','절차적 실수','집중 지속'],
+    emotions:{ stability:58, impulse:55, stress:48, empathy:65 },
+    careers:['예술가','발명가','디자이너','작가'],
+    badges:[{ icon:'🎨', name:'창의폭발', cond:'동시처리 창의 훈련 완료' }],
+    wisdom:'아이디어는 행동이 따를 때 비로소 가치를 가진다.' },
+
+  'LHLH': { name:'감성 분석가', en:'Emotional Analyst', rarity:'common',
+    summary:'주의·순차처리 강, 계획·동시처리 약. 세밀하고 순서적이나 전략과 맥락 파악 지원 필요.',
+    strengths:['세밀한 관찰','절차적 정확','집중 지속'],
+    weaknesses:['전략 수립','전체 맥락','창의적 도약'],
+    emotions:{ stability:62, impulse:35, stress:42, empathy:75 },
+    careers:['데이터 분석가','편집자','회계사','교사'],
+    badges:[{ icon:'🔍', name:'세밀한눈', cond:'주의력 정밀 훈련 완료' }],
+    wisdom:'세부가 전체를 만든다—당신은 그 진리를 살고 있다.' },
+};
+
+// ── 81가지 전체 자동 생성 ──
+function generateAllTypes() {
+  const all = [];
+  for (const p of LEVELS) {
+    for (const a of LEVELS) {
+      for (const si of LEVELS) {
+        for (const su of LEVELS) {
+          const code = p + a + si + su;
+          const named = NAMED_TYPES[code];
+
+          // 자동 이름 생성 (미정의 유형)
+          let name, en, rarity, summary, strengths, weaknesses, emotions, careers, badges, wisdom;
+
+          if (named) {
+            ({ name, en, rarity, summary, strengths, weaknesses, emotions, careers, badges, wisdom } = named);
+          } else {
+            // 자동 생성 로직
+            const parts = [p, a, si, su];
+            const hCnt = parts.filter(x=>x==='H').length;
+            const lCnt = parts.filter(x=>x==='L').length;
+
+            rarity = hCnt >= 3 ? 'rare' : lCnt >= 3 ? 'rare' : hCnt === lCnt ? 'common' : 'common';
+
+            // 주도 축 파악
+            const dominant = [];
+            const weak = [];
+            if(p==='H') dominant.push('계획'); else if(p==='L') weak.push('계획');
+            if(a==='H') dominant.push('주의'); else if(a==='L') weak.push('주의');
+            if(si==='H') dominant.push('동시처리'); else if(si==='L') weak.push('동시처리');
+            if(su==='H') dominant.push('순차처리'); else if(su==='L') weak.push('순차처리');
+
+            const nameMap = {
+              P: {H:'전략', M:'', L:'즉흥'},
+              A: {H:'집중', M:'', L:'산만'},
+              Si: {H:'창의', M:'', L:'분석'},
+              Su: {H:'정밀', M:'', L:'유동'}
+            };
+
+            const pStr = nameMap.P[p]; const aStr = nameMap.A[a];
+            const siStr = nameMap.Si[si]; const suStr = nameMap.Su[su];
+
+            const nonEmpty = [pStr,aStr,siStr,suStr].filter(Boolean);
+            name = nonEmpty.length > 0 ? nonEmpty.slice(0,2).join('·') + '형' : '균형성장형';
+            en = `Type ${code}`;
+
+            summary = `${dominant.length>0?dominant.join('·')+' 강':'특출 강점 없음'}, ${weak.length>0?weak.join('·')+' 약':'특출 약점 없음'}. `
+              + `${hCnt>lCnt?'강점 기반 특화 훈련':lCnt>hCnt?'약점 보완 집중 개입':'균형 성장 프로그램'} 권장.`;
+
+            strengths = dominant.length>0 ? dominant.map(d=>d+'력 활용') : ['전반적 균형'];
+            weaknesses = weak.length>0 ? weak.map(d=>d+' 훈련 필요') : ['두드러진 약점 없음'];
+
+            const baseStab = 50 + (hCnt*8) - (lCnt*10);
+            const baseImpulse = 30 + (p==='L'?25:0) + (a==='L'?20:0) - (p==='H'?10:0);
+            emotions = {
+              stability: Math.min(95, Math.max(20, baseStab)),
+              impulse: Math.min(90, Math.max(5, baseImpulse)),
+              stress: Math.min(90, Math.max(10, 50-(hCnt*5)+(lCnt*8))),
+              empathy: Math.min(90, Math.max(30, 55+(si==='H'?12:0)+(si==='L'?-8:0)))
+            };
+
+            careers = dominant.length>0 ? [dominant[0]+'분야 전문가', '지원 환경 내 역할'] : ['다양한 직종 탐색 가능'];
+            badges = [{ icon: hCnt>lCnt?'⭐':'🌱', name: hCnt>lCnt?'강점발휘':'성장도전', cond: '해당 PASS 훈련 완료' }];
+            wisdom = weak.length>0 ? `${weak[0]} 훈련이 당신의 잠재력을 깨울 열쇠다.` : '균형 속에서 탁월함을 찾아라.';
+          }
+
+          all.push({
+            code, p, a, si, su,
+            name, en, rarity, summary, strengths, weaknesses,
+            emotions, careers, badges, wisdom,
+            hCnt: [p,a,si,su].filter(x=>x==='H').length,
+            lCnt: [p,a,si,su].filter(x=>x==='L').length,
+            mCnt: [p,a,si,su].filter(x=>x==='M').length,
+          });
+        }
+      }
+    }
+  }
+  return all;
+}
+
+const ALL_TYPES = generateAllTypes();
+
+// ════════════════════════════════════════════
+// 상태
+// ════════════════════════════════════════════
+let state = { P:'M', A:'M', Si:'M', Su:'M' };
+let activeFilter = 'all';
+let searchQuery = '';
+let selectedCode = null;
+
+// ════════════════════════════════════════════
+// 렌더링
+// ════════════════════════════════════════════
+
+function getBarColor(level) {
+  if(level==='H') return '#FFD700';
+  if(level==='M') return '#94A3B8';
+  return '#F87171';
+}
+
+function getBarWidth(level) {
+  if(level==='H') return '90%';
+  if(level==='M') return '55%';
+  return '25%';
+}
+
+function renderTypeCard(t, isActive) {
+  return `
+  <div class="type-card ${isActive?'active':''} fade-in" data-code="${t.code}">
+    <div class="type-card-header">
+      <div>
+        <div class="type-code" style="color:${t.hCnt>=3?'#FFD700':t.lCnt>=3?'#F87171':'#A78BFA'}">${t.code}</div>
+        <div class="type-name">${t.name}</div>
+        <div class="type-meta">${t.en}</div>
+      </div>
+      <div class="type-rarity ${t.rarity==='unique'?'rarity-unique':t.rarity==='rare'?'rarity-rare':'rarity-common'}">
+        ${t.rarity==='unique'?'UNIQUE':t.rarity==='rare'?'RARE':'COMMON'}
+      </div>
+    </div>
+    <div class="pass-bars">
+      ${['P','A','Si','Su'].map((ax,i)=>{
+        const lv = [t.p,t.a,t.si,t.su][i];
+        return `<div class="pass-bar-wrap">
+          <div class="pass-bar-label" style="color:${Object.values(AXIS_COLORS)[i]}">${ax}</div>
+          <div class="pass-bar" style="background:${getBarColor(lv)};width:${getBarWidth(lv)};height:6px;border-radius:3px;"></div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+function filterTypes() {
+  let filtered = ALL_TYPES;
+
+  if(activeFilter==='allH') filtered = filtered.filter(t=>t.hCnt===4);
+  else if(activeFilter==='allM') filtered = filtered.filter(t=>t.mCnt===4);
+  else if(activeFilter==='allL') filtered = filtered.filter(t=>t.lCnt===4);
+  else if(activeFilter==='hasL') filtered = filtered.filter(t=>t.lCnt>0);
+  else if(activeFilter==='balanced') filtered = filtered.filter(t=>Math.abs(t.hCnt-t.lCnt)<=1 && t.mCnt>=2);
+
+  if(searchQuery) {
+    const q = searchQuery.toLowerCase();
+    filtered = filtered.filter(t=>
+      t.code.toLowerCase().includes(q) ||
+      t.name.includes(q) ||
+      t.en.toLowerCase().includes(q) ||
+      t.summary.includes(q)
+    );
+  }
+  return filtered;
+}
+
+function renderList() {
+  const filtered = filterTypes();
+  const currentCode = state.P + state.A + state.Si + state.Su;
+  const list = document.getElementById('type-list');
+  list.innerHTML = filtered.map(t=>renderTypeCard(t, t.code===selectedCode||t.code===currentCode)).join('');
+  document.getElementById('cnt-all').textContent = filtered.length;
+}
+
+function renderDetail(code) {
+  const t = ALL_TYPES.find(x=>x.code===code);
+  if(!t) return;
+
+  const axes = [
+    { label:'P 계획력', level:t.p, color:AXIS_COLORS.P },
+    { label:'A 주의력', level:t.a, color:AXIS_COLORS.A },
+    { label:'Si 동시처리', level:t.si, color:AXIS_COLORS.Si },
+    { label:'Su 순차처리', level:t.su, color:AXIS_COLORS.Su },
+  ];
+  const axisKeys = ['P','A','Si','Su'];
+
+  document.getElementById('detail-panel').innerHTML = `
+  <div class="fade-in">
+    <div class="detail-type-code" style="color:${t.hCnt>=3?'#FFD700':t.lCnt>=3?'#F87171':'#A78BFA'}">${t.code}</div>
+    <div class="detail-type-name">${t.name}</div>
+    <div class="detail-type-en">${t.en} · ${['unique','rare','common'].includes(t.rarity)?t.rarity.toUpperCase():''}</div>
+
+    <div class="pass-radar-row">
+      ${axes.map((ax,i)=>{
+        const desc = AXIS_DESC[axisKeys[i]][ax.level];
+        return `<div class="radar-item">
+          <div class="radar-axis" style="color:${ax.color}">${ax.label}</div>
+          <div class="radar-level ${ax.level}">${LEVEL_KO[ax.level]}</div>
+          <div style="font-size:9px;color:${ax.color};margin-top:2px;">${LEVEL_SS[ax.level]}</div>
+          <div class="radar-desc">${desc.short}</div>
+        </div>`;
+      }).join('')}
+    </div>
+
+    <div class="section-title">📋 유형 요약</div>
+    <div class="desc-block highlight">${t.summary}</div>
+
+    <div class="grid-2">
+      <div>
+        <div class="section-title">✅ 강점</div>
+        <div class="tag-list">
+          ${t.strengths.map(s=>`<span class="tag strength">${s}</span>`).join('')}
+        </div>
+      </div>
+      <div>
+        <div class="section-title">⚠️ 약점 / 개입 포인트</div>
+        <div class="tag-list">
+          ${t.weaknesses.map(w=>`<span class="tag weakness">${w}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title">🧭 PASS 축별 상세 특성</div>
+    ${axes.map((ax,i)=>{
+      const desc = AXIS_DESC[axisKeys[i]][ax.level];
+      return `<div class="desc-block" style="border-left:3px solid ${ax.color};padding-left:16px;">
+        <div style="font-size:12px;color:${ax.color};font-weight:700;margin-bottom:4px;">${ax.label} · ${LEVEL_KO[ax.level]}</div>
+        <div style="font-size:13px;line-height:1.7;">${desc.detail}</div>
+      </div>`;
+    }).join('')}
+
+    <div class="section-title">💼 어울리는 직업/분야</div>
+    <div class="tag-list">
+      ${t.careers.map(c=>`<span class="tag career">${c}</span>`).join('')}
+    </div>
+
+    <div class="section-title">📊 감정 안정도 프로파일</div>
+    <div class="emotion-meter">
+      ${[
+        {label:'정서 안정성', val:t.emotions.stability, color:'#4ECDC4'},
+        {label:'충동성 위험', val:t.emotions.impulse, color:'#F87171'},
+        {label:'스트레스 지수', val:t.emotions.stress, color:'#FF6B35'},
+        {label:'공감 능력', val:t.emotions.empathy, color:'#A78BFA'},
+      ].map(e=>`
+        <div class="emotion-row">
+          <div class="emotion-label">${e.label}</div>
+          <div class="emotion-bar-bg">
+            <div class="emotion-bar-fill" style="width:${e.val}%;background:${e.color};"></div>
+          </div>
+          <div class="emotion-val" style="color:${e.color}">${e.val}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="section-title">🏅 획득 가능 뱃지</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+      ${t.badges.map(b=>`
+        <div class="badge-preview">
+          <div class="badge-icon">${b.icon}</div>
+          <div class="badge-name">${b.name}</div>
+          <div class="badge-cond">${b.cond}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div class="section-title">📚 지혜카드 추천 문구</div>
+    <div class="desc-block" style="border-left:3px solid #FFD700;padding-left:16px;font-style:italic;color:#FFD700;">
+      "${t.wisdom}"
+    </div>
+  </div>`;
+}
+
+// ════════════════════════════════════════════
+// 이벤트
+// ════════════════════════════════════════════
+
+// PASS 레벨 버튼
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.lvl-btn');
+  if(btn) {
+    const axis = btn.dataset.axis;
+    const level = btn.dataset.level;
+    state[axis] = level;
+
+    // 버튼 UI 업데이트
+    btn.closest('.level-btns').querySelectorAll('.lvl-btn').forEach(b=>{
+      b.className = 'lvl-btn';
+    });
+    btn.classList.add(`active-${level}`);
+
+    const code = state.P + state.A + state.Si + state.Su;
+    document.getElementById('current-code').textContent = code;
+    selectedCode = code;
+    renderList();
+    renderDetail(code);
+  }
+
+  // 유형 카드 클릭
+  const card = e.target.closest('.type-card');
+  if(card) {
+    const code = card.dataset.code;
+    selectedCode = code;
+
+    // state 동기화
+    state.P = code[0]; state.A = code[1]; state.Si = code[2]; state.Su = code[3];
+    document.getElementById('current-code').textContent = code;
+
+    // 헤더 버튼 동기화
+    ['P','A','Si','Su'].forEach((ax,i)=>{
+      const level = code[i];
+      document.querySelectorAll(`.lvl-btn[data-axis="${ax}"]`).forEach(b=>{
+        b.className = 'lvl-btn';
+        if(b.dataset.level === level) b.classList.add(`active-${level}`);
+      });
+    });
+
+    renderList();
+    renderDetail(code);
+  }
+
+  // 필터 버튼
+  const filterBtn = e.target.closest('.filter-btn');
+  if(filterBtn) {
+    activeFilter = filterBtn.dataset.filter;
+    document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('on'));
+    filterBtn.classList.add('on');
+    renderList();
+  }
+});
+
+// 검색
+document.getElementById('search-input').addEventListener('input', e=>{
+  searchQuery = e.target.value;
+  renderList();
+});
+
+// ── 초기 렌더 ──
+renderList();
+const initCode = 'MMMM';
+selectedCode = initCode;
+document.getElementById('current-code').textContent = initCode;
+renderDetail(initCode);
+</script>
+</body>
+</html>
