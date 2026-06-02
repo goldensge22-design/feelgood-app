@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>교육청·국가기관 제안서 | FeelGood EduTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pu:#4A3FC0;--pu2:#7F77DD;--pu3:#EEEDFE;--pu6:#534AB7;--pu8:#3C3489;
+  --tl:#0F6E56;--tl2:#1D9E75;--tl3:#E1F5EE;--tl8:#085041;
+  --am:#854F0B;--am2:#BA7517;--am3:#FAEEDA;--am8:#633806;
+  --co:#993C1D;--co2:#D85A30;--co3:#FAECE7;--co8:#712B13;
+  --bl:#185FA5;--bl2:#378ADD;--bl3:#E6F1FB;--bl8:#0C447C;
+  --pi:#993556;--pi2:#D4537E;--pi3:#FBEAF0;--pi8:#72243E;
+  --rd:#A32D2D;--rd2:#E24B4A;--rd3:#FCEBEB;--rd8:#791F1F;
+  --gr:#5F5E5A;--gr2:#888780;--gr3:#F1EFE8;
+  --bg:#F8F7F4;
+  --card:#ffffff;
+  --border:#E8E6E0;
+  --text:#1A1917;
+  --muted:#6B6965;
+  --subtle:#9B9894;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.6}
+
+/* ── NAV ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:rgba(248,247,244,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:4px;overflow-x:auto;height:52px}
+.nav-logo{font-size:13px;font-weight:700;color:var(--pu);white-space:nowrap;margin-right:16px;letter-spacing:-.02em}
+.nb{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid transparent;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);font-family:'Noto Sans KR',sans-serif;transition:all .2s;white-space:nowrap}
+.nb:hover{background:white;border-color:var(--border);color:var(--text)}
+.nb.on{background:white;border-color:var(--border);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* ── PAGES ── */
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 20px 60px}
+.page.on{display:block}
+
+/* ── HERO ── */
+.hero{border-radius:16px;padding:32px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;color:#fff;margin-bottom:14px}
+.hero h1{font-size:22px;font-weight:700;color:#fff;line-height:1.45;margin-bottom:10px;font-family:'Noto Serif KR',serif}
+.hero p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.7}
+.hero.pu{background:linear-gradient(135deg,var(--pu6),var(--pu))}
+.hero.tl{background:linear-gradient(135deg,var(--tl8),var(--tl))}
+.hero.am{background:linear-gradient(135deg,var(--am8),var(--am))}
+.hero.co{background:linear-gradient(135deg,var(--co8),var(--co))}
+.hero.bl{background:linear-gradient(135deg,var(--bl8),var(--bl))}
+
+/* ── SECTION ── */
+.sec{margin-bottom:28px}
+.sec-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;flex-shrink:0}
+.sec-title.pu::before{background:var(--pu)}
+.sec-title.tl::before{background:var(--tl)}
+.sec-title.am::before{background:var(--am)}
+.sec-title.co::before{background:var(--co)}
+.sec-title.bl::before{background:var(--bl)}
+.sec-title.rd::before{background:var(--rd)}
+.sec-title.pi::before{background:var(--pi)}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.metric-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.metric-val{font-size:24px;font-weight:700;color:var(--text);line-height:1}
+.metric-sub{font-size:11px;color:var(--subtle);margin-top:4px}
+
+/* ── PROBLEM BOX ── */
+.prob{background:#fff;border-left:3px solid var(--rd2);border-radius:0 8px 8px 0;padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.65}
+
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.flow-node{border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;line-height:1.35;text-align:center}
+.flow-node.pu{background:var(--pu3);color:var(--pu8)}
+.flow-node.tl{background:var(--tl3);color:var(--tl8)}
+.flow-node.am{background:var(--am3);color:var(--am8)}
+.flow-node.co{background:var(--co3);color:var(--co8)}
+.flow-node.rd{background:var(--rd3);color:var(--rd8)}
+.flow-node.pi{background:var(--pi3);color:var(--pi8)}
+.flow-arr{color:var(--subtle);font-size:14px;flex-shrink:0}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin-bottom:8px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--gr3);padding:9px 11px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 11px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gr3)}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:500;margin:2px}
+.tag.pu{background:var(--pu3);color:var(--pu6)}
+.tag.tl{background:var(--tl3);color:var(--tl)}
+.tag.am{background:var(--am3);color:var(--am)}
+.tag.co{background:var(--co3);color:var(--co)}
+.tag.bl{background:var(--bl3);color:var(--bl)}
+.tag.rd{background:var(--rd3);color:var(--rd)}
+.tag.pi{background:var(--pi3);color:var(--pi)}
+
+/* ── STRENGTH ROW ── */
+.str-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.str-row:last-child{border-bottom:none;padding-bottom:0}
+.str-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.str-num.pu{background:var(--pu)}
+.str-num.tl{background:var(--tl)}
+.str-num.am{background:var(--am)}
+.str-num.co{background:var(--co)}
+.str-num.bl{background:var(--bl)}
+.str-body strong{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.str-body span{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ── PAPER CARD ── */
+.paper{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;border-left:3px solid}
+.paper.pu{border-left-color:var(--pu)}
+.paper.tl{border-left-color:var(--tl)}
+.paper.am{border-left-color:var(--am)}
+.paper.pi{border-left-color:var(--pi)}
+.paper.rd{border-left-color:var(--rd)}
+.paper.co{border-left-color:var(--co)}
+.paper-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px}
+.paper-ttl{font-size:12px;font-weight:700;color:var(--text);line-height:1.45;flex:1}
+.paper-jnl{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;flex-shrink:0;white-space:nowrap}
+.paper-jnl.pu{background:var(--pu3);color:var(--pu6)}
+.paper-jnl.tl{background:var(--tl3);color:var(--tl)}
+.paper-jnl.am{background:var(--am3);color:var(--am)}
+.paper-jnl.pi{background:var(--pi3);color:var(--pi)}
+.paper-jnl.rd{background:var(--rd3);color:var(--rd)}
+.paper-jnl.co{background:var(--co3);color:var(--co)}
+.paper-desc{font-size:12px;color:var(--muted);line-height:1.65}
+.paper-desc strong{color:var(--text)}
+.stat-pill{display:inline-block;background:var(--gr3);border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:11px;font-weight:600;color:var(--text);margin-top:6px;margin-right:4px}
+
+/* ── CHAIN BOX ── */
+.chain-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.chain-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px}
+.chain-sub{font-size:11px;color:var(--subtle);margin-top:6px}
+
+/* ── IMPLICATION ── */
+.impl{border-radius:10px;padding:16px;margin-top:14px;border:1px solid}
+.impl.pu{background:var(--pu3);border-color:var(--pu2)}
+.impl.rd{background:var(--rd3);border-color:var(--rd2)}
+.impl-title{font-size:12px;font-weight:700;margin-bottom:6px}
+.impl-title.pu{color:var(--pu8)}
+.impl-title.rd{color:var(--rd8)}
+.impl-body{font-size:12px;color:var(--text);line-height:1.7}
+.impl-body strong{color:var(--pu8)}
+.impl-body.rd strong{color:var(--rd8)}
+
+/* ── QUOTE ── */
+.quote{border-radius:10px;padding:14px 16px;margin-bottom:14px;border-left:4px solid}
+.quote.pu{background:var(--pu3);border-color:var(--pu)}
+.quote.tl{background:var(--tl3);border-color:var(--tl)}
+.quote.am{background:var(--am3);border-color:var(--am)}
+.quote.bl{background:var(--bl3);border-color:var(--bl)}
+.quote p{font-size:13px;color:var(--text);line-height:1.7;font-weight:500}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* ── CTA ── */
+.cta{border-radius:12px;padding:20px;text-align:center;color:#fff;margin-top:8px}
+.cta.pu{background:var(--pu)}
+.cta.tl{background:var(--tl)}
+.cta.am{background:var(--am)}
+.cta.co{background:var(--co)}
+.cta.bl{background:var(--bl)}
+.cta strong{display:block;font-size:15px;margin-bottom:6px}
+.cta p{font-size:12px;opacity:.85;margin-bottom:8px;line-height:1.6}
+.cta a{color:rgba(255,255,255,.88);font-size:12px;text-decoration:none}
+.cta a:hover{text-decoration:underline}
+
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .hero h1{font-size:18px}
+  .flow{flex-direction:column;align-items:flex-start}
+  .flow-arr{transform:rotate(90deg)}
+}
+
+/* ── 단일 페이지 오버라이드 ── */
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 20px 60px}
+.page.on{display:block}
+.nav-single{background:rgba(248,247,244,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-single-inner{max-width:960px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:12px}
+.nav-single-logo{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.nav-single-sep{color:var(--muted);font-size:13px}
+.nav-single-title{font-size:13px;font-weight:600;color:var(--pu)}
+.nav-single-home{margin-left:auto;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:16px;padding:4px 12px;transition:all .2s}
+.nav-single-home:hover{background:white;color:var(--text)}
+.footer{background:var(--text);padding:28px 20px;text-align:center;margin-top:40px}
+.footer p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.8}
+.footer a{color:rgba(255,255,255,.7);text-decoration:none}
+.footer a:hover{color:#fff}
+.footer-brand{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="nav-single">
+  <div class="nav-single-inner">
+    <span class="nav-single-logo">FeelGood EduTech</span>
+    <span class="nav-single-sep">/</span>
+    <span class="nav-single-title">교육청·국가기관 제안서</span>
+    <a class="nav-single-home" href="mailto:yhim@feel-good.io">문의하기 →</a>
+  </div>
+</div>
+
+<div class="page on" id="edu">
+
+  <div class="hero pu">
+    <div class="hero-badge">🏫 교육청·교육부 제안서</div>
+    <h1>초등 전수검사로 위험군을 조기 발견하는<br>인지능력 스크리닝 플랫폼</h1>
+    <p>K-PASS 기반 집단 선별검사 → 자동 위험군 분류 → Wee센터·병원 연계<br>웩슬러 대비 1/10 비용 · 집단 실시 가능 · 디지털 보고서 자동 생성</p>
+  </div>
+
+  <!-- 문제 -->
+  <div class="sec">
+    <div class="sec-title rd">현재 교육 현장의 문제</div>
+    <div class="prob">📌 경계선지능·ADHD 의심군·학습부진·정서위기 아동을 찾고 싶지만 웩슬러는 비용·시간·검사인력 문제로 <strong>전수검사 불가능</strong></div>
+    <div class="prob">📌 교사 추천·성적 기반 선별은 <strong>객관성 부족</strong>, 은닉된 위험군 누락</div>
+    <div class="prob">📌 발견 후 연계할 <strong>표준화된 프로토콜 부재</strong> → 조기개입 실기</div>
+  </div>
+
+  <!-- 솔루션 플로우 -->
+  <div class="sec">
+    <div class="sec-title pu">K-PASS 솔루션 플로우</div>
+    <div class="card" style="margin-bottom:14px">
+      <div class="flow">
+        <div class="flow-node pu">초1~3 전수검사</div><div class="flow-arr">→</div>
+        <div class="flow-node pu">4개 인지축 분석</div><div class="flow-arr">→</div>
+        <div class="flow-node pu">위험군 자동분류</div><div class="flow-arr">→</div>
+        <div class="flow-node pu">병원·Wee센터 연계</div><div class="flow-arr">→</div>
+        <div class="flow-node pu">BrainMap 학교훈련</div>
+      </div>
+    </div>
+    <div class="grid3">
+      <div class="metric-card">
+        <div class="metric-label">분류 기준 (표준점수)</div>
+        <div class="metric-val" style="font-size:18px">3단계</div>
+        <div class="metric-sub">하(SS≤85) · 중(86~119) · 상(≥120)</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">검사 소요시간</div>
+        <div class="metric-val">40분</div>
+        <div class="metric-sub">학급 단위 집단 실시 가능</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-label">웩슬러 대비 비용</div>
+        <div class="metric-val">1/10</div>
+        <div class="metric-sub">전수검사 예산 내 실현 가능</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 위험군 프로파일 -->
+  <div class="sec">
+    <div class="sec-title pu">발견 가능한 위험군 프로파일</div>
+    <div class="tbl-wrap">
+      <table>
+        <tr><th>위험군 유형</th><th>K-PASS 신호</th><th>연계 기관</th></tr>
+        <tr><td><span class="tag co">경계선지능</span></td><td>전체 PASS SS 70~84 구간</td><td>특수교육지원센터, 병원</td></tr>
+        <tr><td><span class="tag co">ADHD 의심</span></td><td>주의력(A) 단독 저하 + 계획력(P) 저하</td><td>소아정신과, Wee센터</td></tr>
+        <tr><td><span class="tag am">학습부진</span></td><td>순차처리(Suc) 저하 → 읽기·수학 어려움</td><td>기초학력지원실</td></tr>
+        <tr><td><span class="tag pu">잠재 영재</span></td><td>동시처리(Sim) 고점 + 성적 불일치</td><td>영재교육원</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ★ 인지→정서 예방 (논문 근거) -->
+  <div class="sec">
+    <div class="sec-title pu">인지 문제 → 정서·행동 문제 예방 | 연구 근거</div>
+
+    <div class="chain-box">
+      <div class="chain-title">K-PASS 조기 발견이 차단하는 발달 경로</div>
+      <div class="flow">
+        <div class="flow-node pu">인지능력<br>저하 미발견</div><div class="flow-arr">→</div>
+        <div class="flow-node co">학습실패<br>반복</div><div class="flow-arr">→</div>
+        <div class="flow-node pi">자존감↓<br>좌절 누적</div><div class="flow-arr">→</div>
+        <div class="flow-node rd">불안·우울<br>행동문제</div><div class="flow-arr">→</div>
+        <div class="flow-node am">성인기<br>정신장애</div>
+      </div>
+      <div class="chain-sub">K-PASS 전수검사 → 첫 단계에서 차단 가능</div>
+    </div>
+
+    <div class="paper pu">
+      <div class="paper-head">
+        <div class="paper-ttl">인지능력 저하 아동의 정서·행동 문제 위험 — 아일랜드 코호트 종단 연구</div>
+        <div class="paper-jnl pu">MDPI / PMC 2021</div>
+      </div>
+      <div class="paper-desc">7,134명 아동을 3세~9세까지 추적. 평균 이하 인지능력(SD 1~2 미만) 아동은 정서·행동 문제(EBD) 발생 위험이 <strong>1.39배 유의하게 높음</strong>. 인지능력 저하는 다른 변수 보정 후에도 독립적 예측변수로 확인됨. "공중보건 차원의 조기 선별 시스템 구축이 최우선 연구과제"라고 명시.</div>
+      <span class="stat-pill">AOR 1.39 (p&lt;0.001)</span><span class="stat-pill">n=7,134</span><span class="stat-pill">3~9세 종단</span>
+    </div>
+
+    <div class="paper pi">
+      <div class="paper-head">
+        <div class="paper-ttl">아동기 인지 결핍 → 청소년·성인기 정신병리 종단 연구</div>
+        <div class="paper-jnl pi">JAMA Network Open 2021</div>
+      </div>
+      <div class="paper-desc">ALSPAC 코호트 5,315명. 8세 지속 주의력 우수 → 17~18세 우울·경계성 성격장애 감소. 8세 억제능력 우수 → 17~18세 정신병적 경험 감소. <strong>"특정 인지 결핍은 정신장애 예측·개입의 표적 내표현형(endophenotype)이 될 수 있다"</strong>고 결론.</div>
+      <span class="stat-pill">PASS 주의력 직접 대응</span><span class="stat-pill">n=5,315</span><span class="stat-pill">8세→22세 추적</span>
+    </div>
+
+    <div class="paper am">
+      <div class="paper-head">
+        <div class="paper-ttl">아동기 불안장애 — 학교 기반 예방 연구 (Dunedin 코호트)</div>
+        <div class="paper-jnl am">PACES Project / PMC</div>
+      </div>
+      <div class="paper-desc">성인 우울·불안의 <strong>52~55%는 15세 이전에 기준 충족, 75%는 18세 이전 첫 진단</strong>. 아동기 불안은 성인기 불안·우울·물질남용·학업 저성취의 위험 요인. 학교 기반 조기개입이 성인기 정신장애 발생률을 구조적으로 낮출 수 있는 유일한 창문임을 강조.</div>
+      <span class="stat-pill">75% — 18세 이전 첫 진단</span><span class="stat-pill">Dunedin 코호트</span>
+    </div>
+
+    <div class="paper tl">
+      <div class="paper-head">
+        <div class="paper-ttl">PASS 이론(CAS) 기반 계획력 훈련과 ADHD 정서·행동 개선</div>
+        <div class="paper-jnl tl">Naglieri & Das / PMC 2024</div>
+      </div>
+      <div class="paper-desc">CAS 기반 ADHD 아동은 계획력(P) 저하가 일반 아동 대비 효과크기 0.6. 계획력 저하 → 충동성 → 정서조절 실패 → 행동 문제로 이어지는 경로 입증. <strong>계획력 훈련 개입 효과크기 1.4</strong> — 다른 인지축 개입 대비 가장 높음. K-PASS 계획력 축이 핵심 표적.</div>
+      <span class="stat-pill">계획력 훈련 ES=1.4</span><span class="stat-pill">K-PASS 직접 연계</span>
+    </div>
+
+    <div class="impl pu">
+      <div class="impl-title pu">💡 K-PASS가 교육청에 제공하는 정서 예방 가치</div>
+      <div class="impl-body">K-PASS 4개 축(계획력·주의력·동시처리·순차처리) 중 <strong>계획력·주의력 저하</strong>는 ADHD·충동성·정서조절 실패의 조기 신호. 초등 1~3학년 전수검사로 이 신호를 포착하면 — 학습실패 → 자존감 저하 → 불안·우울 → 성인기 정신장애로 이어지는 연쇄를 학교 단계에서 차단 가능. <strong>아동기 1회 조기개입 비용 &lt; 성인기 정신장애 치료비 1/10.</strong></div>
+    </div>
+  </div>
+
+  <!-- ★ 인지→중독 예방 (논문 근거) -->
+  <div class="sec">
+    <div class="sec-title rd">인지 문제 → 중독 예방 | 연구 근거</div>
+
+    <div class="chain-box">
+      <div class="chain-title">계획력·주의력 결핍이 중독으로 이어지는 경로</div>
+      <div class="flow">
+        <div class="flow-node pu">계획력(P)·<br>주의력(A) 저하</div><div class="flow-arr">→</div>
+        <div class="flow-node co">충동 억제<br>실패</div><div class="flow-arr">→</div>
+        <div class="flow-node rd">즉각 보상<br>추구</div><div class="flow-arr">→</div>
+        <div class="flow-node am">게임·스마트폰<br>물질 중독</div><div class="flow-arr">→</div>
+        <div class="flow-node pi">전두엽 기능<br>추가 저하</div>
+      </div>
+      <div class="chain-sub">악순환 구조 — K-PASS로 첫 단계 차단이 핵심</div>
+    </div>
+
+    <div class="paper rd">
+      <div class="paper-head">
+        <div class="paper-ttl">아동기 ADHD → 성인기 약물의존 위험 — 종단 코호트 연구</div>
+        <div class="paper-jnl rd">PLOS ONE 2014</div>
+      </div>
+      <div class="paper-desc">ADHD 아동 232명 vs 비ADHD 335명, 평균 27세까지 추적. ADHD 아동의 성인기 <strong>알코올의존 OR 14.38, 약물의존 OR 3.48</strong>. 청소년기에 물질사용장애 없었던 ADHD 군도 성인기 신규 약물의존 위험이 유의하게 높음. "뇌 신경학적 취약성이 중독 감수성을 높인다"고 결론.</div>
+      <span class="stat-pill">알코올의존 OR 14.38</span><span class="stat-pill">약물의존 OR 3.48</span><span class="stat-pill">n=567 종단</span>
+    </div>
+
+    <div class="paper am">
+      <div class="paper-head">
+        <div class="paper-ttl">ADHD와 물질사용장애 메타분석 — 종단 연구 통합</div>
+        <div class="paper-jnl am">ScienceDirect 2011</div>
+      </div>
+      <div class="paper-desc">ADHD 아동은 일반 아동 대비 니코틴·알코올·마리화나·코카인 남용·의존 위험이 유의하게 높음. 성별·인종·DSM 버전 무관하게 일관된 결과. <strong>"ADHD 자체가 물질사용장애의 독립적 위험인자"</strong>이며, 충동성과 인지적 억제 실패가 핵심 매개 경로.</div>
+      <span class="stat-pill">니코틴·알코올·마리화나 일관</span><span class="stat-pill">메타분석</span>
+    </div>
+
+    <div class="paper co">
+      <div class="paper-head">
+        <div class="paper-ttl">인터넷·스마트폰 중독과 전두엽 실행기능 손상 — fMRI 연구</div>
+        <div class="paper-jnl co">ScienceDirect 2024</div>
+      </div>
+      <div class="paper-desc">인터넷·스마트폰 중독 청소년은 전두엽 실행기능(계획력·자기통제·작업기억·선택적 주의력) 손상이 일관되게 관찰됨. 전전두엽 피질(DLPFC·OFC) 기능 저하 → 즉각 보상 선호 → 중독 심화의 <strong>양방향 악순환 구조</strong> fMRI로 입증. 계획력·주의력 훈련이 중독 예방의 뇌과학적 근거.</div>
+      <span class="stat-pill">PASS 계획력(P)·주의력(A) 직결</span><span class="stat-pill">fMRI 근거</span>
+    </div>
+
+    <div class="paper pi">
+      <div class="paper-head">
+        <div class="paper-ttl">한국 아동 인터넷 과사용 ↔ 실행기능 문제 — 종단 상호인과 연구</div>
+        <div class="paper-jnl pi">PMC / 한국 NIA 2022</div>
+      </div>
+      <div class="paper-desc">스마트기기 보유 한국 아동의 약 <strong>1/5(20%)이 인터넷 중독 위험군</strong>. 종단 연구에서 인터넷 과사용 ↔ 주의력 문제·실행기능 저하는 <strong>양방향 인과관계</strong> 확인. 인지 개입(주의력 훈련)이 인터넷 과사용을 유의하게 감소. 한국 아동에게 직접 적용되는 국내 맥락 근거.</div>
+      <span class="stat-pill">한국 아동 1/5 위험군</span><span class="stat-pill">양방향 인과 입증</span>
+    </div>
+
+    <div class="impl rd">
+      <div class="impl-title rd">💡 K-PASS가 교육청에 제공하는 중독 예방 가치</div>
+      <div class="impl-body rd">K-PASS 계획력(P)·주의력(A) 저하는 충동통제 실패·즉각보상 추구의 뇌과학적 선행 신호. 초등 저학년 단계에서 이를 감지하고 BrainMap 인지훈련으로 개입하면 — 게임중독·스마트폰중독·물질남용으로 이어지는 경로를 사전에 차단 가능. <strong>한국 아동 인터넷 중독 위험군 약 20%</strong>는 교육청이 K-PASS 전수검사를 도입해야 할 직접적 정책 근거.</div>
+    </div>
+  </div>
+
+  <!-- FeelGood 강점 -->
+  <div class="sec">
+    <div class="sec-title pu">FeelGood 강점</div>
+    <div class="card">
+      <div class="str-row"><div class="str-num pu">1</div><div class="str-body"><strong>국내 유일 PASS 이론 표준화 도구</strong><span>한국심리표준화연구소 개발, 규준집단 기반 SS·백분위 자동산출</span></div></div>
+      <div class="str-row"><div class="str-num pu">2</div><div class="str-body"><strong>디지털 보고서 자동 생성</strong><span>BrainMap 플랫폼 연동, 교사·학부모·전문가용 3종 보고서 즉시 출력</span></div></div>
+      <div class="str-row"><div class="str-num pu">3</div><div class="str-body"><strong>81 뇌유형 훈련 프로그램</strong><span>위험군 발견 후 학교 내 인지훈련 BrainMap으로 즉시 연결 — 정서·중독 예방 효과까지</span></div></div>
+      <div class="str-row"><div class="str-num pu">4</div><div class="str-body"><strong>몽골·태국 교육부 MOU 실적</strong><span>해외 교육청과의 협력 경험, 국내 확장 신뢰성 입증</span></div></div>
+    </div>
+  </div>
+
+  <div class="cta pu">
+    <strong>교육청 파일럿 제안</strong>
+    <p>관내 초등학교 3~5개교 시범 적용 → 효과 검증 → 전체 확산<br>인지 조기발견 + 정서·중독 예방 3중 효과 실증</p>
+    <a href="mailto:yhim@feel-good.io">yhim@feel-good.io | FeelGood EduTech</a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     2. 해외 제안서
+══════════════════════════════════════════ -->
+
+<div class="footer">
+  <div style="max-width:960px;margin:0 auto">
+    <div class="footer-brand">FeelGood EduTech — 필굿 주식회사</div>
+    <p>
+      <a href="mailto:yhim@feel-good.io">yhim@feel-good.io</a> &nbsp;|&nbsp;
+      <a href="https://kpass.feel-good.io" target="_blank">kpass.feel-good.io</a> &nbsp;|&nbsp;
+      070-4235-1234 &nbsp;|&nbsp; 서울 / 부산 / 대구
+    </p>
+    <p style="margin-top:8px">K-PASS · D-CAS · BrainMap — PASS 이론 기반 인지능력 플랫폼 &nbsp;|&nbsp; Since 1988</p>
+  </div>
+</div>
+
+</body>
+</html>
