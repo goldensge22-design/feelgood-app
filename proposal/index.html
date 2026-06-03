@@ -24,7 +24,7 @@ fbq('init','819167357455139');fbq('track','PageView');
     <li data-s="test"><a href="#" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
     <li data-s="brainmap"><a href="#" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 BRAINMAP</a></li>
   </ul>
-  <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+  <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Language / 언어"></select>
 </nav>
 
 <!-- ═══ HOME ═══ -->
@@ -643,6 +643,12 @@ fbq('init','819167357455139');fbq('track','PageView');
 </div>
 <script src="i18n/ko.js"></script>
 <script src="i18n/en.js"></script>
+<script src="i18n/zh.js"></script>
+<script src="i18n/mn.js"></script>
+<script src="i18n/th.js"></script>
+<script src="i18n/vi.js"></script>
+<script src="i18n/ja.js"></script>
+<script src="i18n/ar.js"></script>
 <script src="assets/app.js"></script>
 </body>
 </html>
