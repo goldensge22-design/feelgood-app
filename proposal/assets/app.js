@@ -4,20 +4,45 @@
 // ── 언어 적용 ────────────────────────────────────────────────────
 // 사용 가능한 언어 = 로드된 i18n 파일들. i18n/<코드>.js 를 추가하면 자동 인식됩니다.
 function availableLangs() { return Object.keys(window.LANG || {}); }
-function nextLang(lang) {
-  const langs = availableLangs();
-  const i = langs.indexOf(lang);
-  return langs[(i + 1) % langs.length];
-}
+
+// 드롭다운에 표시할 언어명(국기 + 원어 표기). 새 언어 추가 시 여기 한 줄만 더하면 됩니다.
+// (없어도 동작하며, 그 경우 언어 코드가 그대로 표시됩니다.)
+const LANG_NAMES = {
+  ko: '🇰🇷 한국어',
+  en: '🇺🇸 English',
+  zh: '🇨🇳 中文',
+  mn: '🇲🇳 Монгол',
+  th: '🇹🇭 ไทย',
+  vi: '🇻🇳 Tiếng Việt',
+  ja: '🇯🇵 日本語',
+  ar: '🇸🇦 العربية',
+};
+
+// RTL(오른쪽→왼쪽) 표기 언어
+const RTL_LANGS = ['ar', 'he', 'fa', 'ur'];
 
 let currentLang = localStorage.getItem('fg_lang') || 'ko';
 if (!LANG[currentLang]) currentLang = availableLangs()[0] || 'ko';
+
+// 드롭다운 옵션을 로드된 언어로 채운다
+function buildLangSelect() {
+  const sel = document.getElementById('langSelect');
+  if (!sel) return;
+  sel.innerHTML = '';
+  availableLangs().forEach(code => {
+    const opt = document.createElement('option');
+    opt.value = code;
+    opt.textContent = LANG_NAMES[code] || code.toUpperCase();
+    sel.appendChild(opt);
+  });
+}
 
 function setLang(lang) {
   if (!LANG[lang]) lang = availableLangs()[0];
   currentLang = lang;
   localStorage.setItem('fg_lang', lang);
   document.documentElement.lang = lang;
+  document.documentElement.dir = RTL_LANGS.indexOf(lang) >= 0 ? 'rtl' : 'ltr';
   document.title = LANG[lang].title;
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -27,13 +52,9 @@ function setLang(lang) {
     }
   });
 
-  // 토글 버튼에는 "다음 언어" 코드를 표시 (ko→EN, en→KO, 3개면 순환)
-  document.getElementById('langToggle').textContent = nextLang(lang).toUpperCase();
+  const sel = document.getElementById('langSelect');
+  if (sel) sel.value = lang;
   updateVideos(lang);
-}
-
-function toggleLang() {
-  setLang(nextLang(currentLang));
 }
 
 // ── 섹션 전환 ────────────────────────────────────────────────────
@@ -130,6 +151,7 @@ document.addEventListener('keydown',function(e){
   if(e.key==='ArrowLeft')bPrev();
 });
 // ── 초기화 ───────────────────────────────────────────────────────
+buildLangSelect();
 setLang(currentLang);
 // footer 로고 = nav 로고와 동일
 (function(){

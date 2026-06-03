@@ -381,6 +381,22 @@ footer ul li a:hover{color:var(--gold);}
 }
 .lang-toggle:hover{background:var(--navy);color:#fff;}
 
+/* ── 언어 선택 드롭다운 ── */
+.lang-select{
+  margin-left:auto;flex-shrink:0;
+  background:transparent;border:1.5px solid var(--navy2);
+  color:var(--navy);font-size:.78rem;font-weight:700;
+  padding:5px 30px 5px 14px;border-radius:20px;cursor:pointer;
+  transition:all .2s;line-height:1.4;
+  -webkit-appearance:none;appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%231e3a5f' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;
+}
+.lang-select:hover{background-color:var(--navy);color:#fff;}
+.lang-select option{color:#1e293b;background:#fff;font-weight:600;}
+/* RTL (아랍어) 화살표/정렬 보정 */
+html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 12px center;}
+
 
 /* ── 활동 갤러리 ── */
 .act-gallery-wrap{padding:40px 0 8px;}
