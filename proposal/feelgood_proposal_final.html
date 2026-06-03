@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title data-i18n-attr="title">FeelGood — 뇌과학 기반 맞춤 교육</title>
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init','819167357455139');fbq('track','PageView');
+</script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
+<style>
+
+:root{
+  --gold:#F5A623;--gold-l:#FDE8BE;
+  --navy:#2C3E6B;--navy2:#4A5A8B;
+  --blue:#4A7EC8;--teal:#3BA8A0;
+  --purple:#7B6FAE;--purple-l:#B8ADDA;
+  --bg:#EFF2F8;--white:#FFF;
+  --text:#1A1A2E;--textm:#4A4A6A;--textl:#8888AA;
+  --r:20px;--sh:0 6px 28px rgba(44,62,107,.10);--shh:0 14px 44px rgba(44,62,107,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
+  background:rgba(235,239,250,.96);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(74,126,200,.13);
+  display:flex;align-items:center;padding:0 4vw;gap:0;}
+.nav-logo{display:flex;align-items:center;text-decoration:none;margin-right:22px;flex-shrink:0;}
+.nav-logo img{height:34px;width:auto;}
+.ntabs{display:flex;gap:4px;list-style:none;flex:1;overflow-x:auto;scrollbar-width:none;}
+.ntabs::-webkit-scrollbar{display:none;}
+.ntabs li a{
+  text-decoration:none;font-size:.8rem;font-weight:700;color:var(--textm);
+  padding:7px 16px;border-radius:20px;white-space:nowrap;transition:all .25s;display:block;
+}
+.ntabs li a:hover{background:rgba(245,166,35,.15);color:var(--gold);}
+.ntabs li.active a{
+  background:var(--gold);color:#fff;
+  box-shadow:0 4px 14px rgba(245,166,35,.45);
+}
+
+/* ── SECTIONS ── */
+.ps{display:none;min-height:100vh;padding:82px 5vw 60px;animation:fu .36s ease both;}
+.ps.active{display:block;}
+@keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HOME ── */
+#sec-home{padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:linear-gradient(145deg,#1C2D55 0%,#2C3E6B 40%,#3D4F7C 70%,#4A5A8B 100%);
+  color:#fff;position:relative;overflow:hidden;}
+#sec-home.active{display:flex;}
+.hb1{position:absolute;top:-140px;right:-120px;width:520px;height:520px;border-radius:50%;
+  background:radial-gradient(circle,rgba(245,166,35,.16),transparent 70%);pointer-events:none;}
+.hb2{position:absolute;bottom:-100px;left:-100px;width:420px;height:420px;border-radius:50%;
+  background:radial-gradient(circle,rgba(74,126,200,.18),transparent 70%);pointer-events:none;}
+.hi{text-align:center;padding:130px 6vw 80px;position:relative;z-index:1;max-width:860px;margin:0 auto;}
+.hero-badge{display:inline-block;background:rgba(245,166,35,.18);border:1px solid rgba(245,166,35,.42);
+  color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2.5px;
+  padding:6px 20px;border-radius:20px;margin-bottom:32px;text-transform:uppercase;}
+.hero-logo{display:block;margin:0 auto 28px;height:70px;width:auto;
+  filter:drop-shadow(0 6px 22px rgba(0,0,0,.35));}
+.hi h1{font-size:clamp(1.1rem,2.3vw,1.55rem);font-weight:500;opacity:.9;margin-bottom:14px;line-height:1.5;}
+.hi p{font-size:.97rem;opacity:.68;line-height:1.9;max-width:530px;margin:0 auto 46px;}
+
+/* ── Home buttons ── */
+.hbtns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-bottom:64px;}
+/* Gold filled button */
+.btn-gold{
+  background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5);
+  padding:13px 30px;border-radius:50px;font-size:.93rem;font-weight:700;cursor:pointer;
+  transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-gold:hover{background:var(--gold);border-color:var(--gold);color:#fff;box-shadow:0 6px 24px rgba(245,166,35,.42);transform:translateY(-2px);}
+/* Outline button → gold fill on hover */
+.btn-ghost{
+  background:transparent;color:#fff;
+  border:2px solid rgba(255,255,255,.5);
+  padding:13px 30px;border-radius:50px;font-size:.93rem;font-weight:700;cursor:pointer;
+  transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;
+}
+.btn-ghost:hover{
+  background:var(--gold);border-color:var(--gold);color:#fff;
+  box-shadow:0 6px 24px rgba(245,166,35,.42);transform:translateY(-2px);
+}
+/* Home button active state */
+.btn-gold.active,.btn-ghost.active{
+  background:var(--gold);border-color:var(--gold);color:#fff;
+  box-shadow:0 6px 24px rgba(245,166,35,.42);
+}
+
+.hstats{display:flex;gap:50px;justify-content:center;flex-wrap:wrap;}
+.snum{font-family:'Montserrat',sans-serif;font-size:2.4rem;font-weight:900;color:var(--gold);line-height:1;}
+.slbl{font-size:.74rem;opacity:.62;margin-top:5px;}
+
+/* ── Common ── */
+.sec-tag{display:inline-block;background:rgba(74,126,200,.13);color:var(--blue);
+  font-size:.7rem;font-weight:700;letter-spacing:2px;padding:5px 14px;border-radius:20px;
+  margin-bottom:14px;text-transform:uppercase;}
+.sec-title{font-size:clamp(1.5rem,3.5vw,2.3rem);font-weight:900;color:var(--navy);line-height:1.25;margin-bottom:10px;}
+.sec-sub{font-size:.97rem;color:var(--textm);line-height:1.75;max-width:640px;}
+.sh{margin-bottom:36px;}
+.btn-navy{background:var(--navy);color:#fff;border:none;padding:13px 28px;border-radius:50px;
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;}
+.btn-navy:hover{background:var(--navy2);transform:translateY(-2px);}
+.btn-teal{background:var(--teal);color:#fff;border:none;padding:13px 28px;border-radius:50px;
+  font-size:.88rem;font-weight:700;cursor:pointer;transition:all .25s;text-decoration:none;
+  display:inline-flex;align-items:center;gap:8px;}
+.btn-teal:hover{background:#2C9890;transform:translateY(-2px);}
+.btn-ol{background:transparent;color:var(--navy);border:2px solid var(--navy);
+  padding:13px 28px;border-radius:50px;font-size:.88rem;font-weight:700;cursor:pointer;
+  transition:all .25s;text-decoration:none;display:inline-flex;align-items:center;gap:8px;}
+.btn-ol:hover{background:var(--navy);color:#fff;}
+.mb24{margin-bottom:24px;} .mb32{margin-bottom:32px;} .mb40{margin-bottom:40px;}
+
+/* ── School Proposal ── */
+.pb{background:linear-gradient(135deg,var(--navy),#4A5A8B 55%,var(--purple));
+  border-radius:24px;padding:48px;color:#fff;margin-bottom:32px;position:relative;overflow:hidden;}
+.pb::before{content:'🏫';position:absolute;right:48px;top:50%;transform:translateY(-50%);font-size:100px;opacity:.08;}
+.pb h2{font-size:1.85rem;font-weight:900;margin-bottom:12px;line-height:1.3;}
+.pb p{opacity:.82;font-size:.97rem;line-height:1.75;max-width:540px;}
+.wgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:18px;margin-bottom:32px;}
+.wcard{background:#fff;border-radius:16px;padding:26px;box-shadow:var(--sh);border-left:4px solid var(--gold);}
+.wcard .ic{font-size:1.8rem;margin-bottom:12px;}
+.wcard h4{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.wcard p{font-size:.84rem;color:var(--textm);line-height:1.65;}
+.prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;
+  border-radius:16px;padding:28px;box-shadow:var(--sh);margin-bottom:32px;}
+.pstep{background:var(--bg);border-radius:12px;padding:16px 20px;text-align:center;flex:1;min-width:140px;}
+.pstep .num{font-family:'Montserrat',sans-serif;font-size:.68rem;font-weight:700;color:var(--gold);letter-spacing:2px;margin-bottom:6px;}
+.pstep h4{font-size:.87rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.pstep p{font-size:.77rem;color:var(--textm);}
+.parr{font-size:1.3rem;color:var(--purple-l);flex-shrink:0;}
+.ptbl{width:100%;border-collapse:collapse;background:#fff;border-radius:16px;overflow:hidden;box-shadow:var(--sh);}
+.ptbl th{background:var(--navy);color:#fff;padding:14px 20px;text-align:left;font-size:.82rem;font-weight:700;}
+.ptbl td{padding:14px 20px;border-bottom:1px solid #F0EFF8;font-size:.85rem;color:var(--textm);}
+.ptbl tr:last-child td{border-bottom:none;}
+.ptbl tr:hover td{background:#F8F7FF;}
+.pbadge{display:inline-block;background:var(--gold-l);color:var(--navy);font-weight:700;font-size:.78rem;padding:4px 10px;border-radius:8px;}
+
+/* ── assessment-card ── */
+.thgrid{display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-bottom:40px;}
+@media(max-width:700px){.thgrid{grid-template-columns:1fr;}}
+.tc{border-radius:24px;padding:36px;color:#fff;}
+.tc.kp{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.tc.dc{background:linear-gradient(135deg,#3BA8A0,#2C7B8A);}
+.tbadge{display:inline-block;background:rgba(255,255,255,.18);border-radius:8px;
+  padding:4px 12px;font-size:.7rem;font-weight:700;letter-spacing:1px;margin-bottom:16px;}
+.tc h3{font-size:1.6rem;font-weight:900;margin-bottom:6px;}
+.achip{background:var(--gold);color:#fff;font-weight:700;font-size:.85rem;
+  padding:6px 14px;border-radius:20px;display:inline-block;margin-bottom:20px;}
+.tc p{font-size:.88rem;opacity:.85;line-height:1.7;}
+.pr{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.pill{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.28);
+  color:#fff;font-size:.76rem;font-weight:600;padding:5px 13px;border-radius:20px;}
+.paxes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0;}
+@media(max-width:700px){.paxes{grid-template-columns:1fr 1fr;}}
+.axc{background:#fff;border-radius:14px;padding:20px 16px;text-align:center;
+  box-shadow:var(--sh);border-top:4px solid var(--gold);}
+.axl{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:var(--navy);line-height:1;margin-bottom:6px;}
+.axn{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
+.axe{font-size:.72rem;color:var(--textl);margin-bottom:10px;}
+.axd{font-size:.78rem;color:var(--textm);line-height:1.5;}
+
+/* ── sample-assessment ── */
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:40px;}
+@media(max-width:600px){.srow{grid-template-columns:1fr;}}
+.sc{background:#fff;border-radius:20px;padding:32px;box-shadow:var(--sh);
+  text-align:center;display:flex;flex-direction:column;align-items:center;gap:14px;}
+.sbadge{border-radius:12px;padding:6px 20px;font-family:'Montserrat',sans-serif;
+  font-weight:900;font-size:.88rem;letter-spacing:1px;color:#fff;}
+.kpb{background:var(--navy);} .dcb{background:var(--teal);}
+.sc h4{font-size:1rem;font-weight:700;color:var(--navy);}
+.sc p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+
+/* ── video ── */
+/* yt-wrap removed */
+.vfull{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);margin-bottom:24px;}
+.vinfo{padding:20px 24px;}
+.vlbl{font-size:.7rem;font-weight:700;letter-spacing:2px;color:var(--gold);text-transform:uppercase;margin-bottom:6px;}
+.vinfo h4{font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:5px;}
+.vinfo p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+.v2col{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px;}
+@media(max-width:700px){.v2col{grid-template-columns:1fr;}}
+.v2c{background:#fff;border-radius:20px;overflow:hidden;box-shadow:var(--sh);
+  transition:transform .25s,box-shadow .25s;}
+.v2c:hover{transform:translateY(-4px);box-shadow:var(--shh);}
+
+/* ── BRAINMAP ── */
+.bmh{background:linear-gradient(140deg,#1A1A2E 0%,#2C3E6B 45%,var(--purple) 100%);
+  border-radius:24px;padding:52px;color:#fff;margin-bottom:36px;position:relative;overflow:hidden;}
+.bmh::before{content:'🧠';position:absolute;right:52px;top:50%;transform:translateY(-50%);font-size:110px;opacity:.08;}
+.bmtag{display:inline-block;background:rgba(245,166,35,.22);border:1px solid rgba(245,166,35,.45);
+  color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2px;
+  padding:5px 16px;border-radius:20px;margin-bottom:18px;text-transform:uppercase;}
+.bmh h2{font-size:1.9rem;font-weight:900;margin-bottom:12px;line-height:1.3;}
+.bmh p{opacity:.8;font-size:.97rem;line-height:1.75;max-width:560px;margin-bottom:22px;}
+.pos{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+  border-radius:12px;padding:14px 22px;font-size:.87rem;font-weight:600;display:inline-block;}
+
+/* ── AI highlight-box ── */
+.ai-highlight{
+  background:linear-gradient(135deg,rgba(245,166,35,.12),rgba(245,166,35,.05));
+  border:2px solid var(--gold);border-radius:16px;padding:24px 28px;
+  margin-top:16px;margin-bottom:28px;
+}
+.ai-highlight .ai-title{
+  display:flex;align-items:center;gap:10px;
+  font-size:1.05rem;font-weight:900;color:var(--navy);margin-bottom:10px;
+}
+.ai-highlight .ai-title .badge{
+  background:var(--gold);color:#fff;font-size:.72rem;font-weight:700;
+  padding:3px 10px;border-radius:20px;letter-spacing:1px;
+}
+.ai-highlight p{font-size:.88rem;color:var(--textm);line-height:1.7;}
+.ai-highlight .duration{
+  display:inline-block;margin-top:12px;
+  background:var(--navy);color:#fff;
+  font-size:.8rem;font-weight:700;
+  padding:6px 16px;border-radius:20px;
+}
+
+/* ── Curriculum ── */
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-bottom:36px;}
+@media(max-width:900px){.phases{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.phases{grid-template-columns:1fr;}}
+.phc{border-radius:18px;overflow:hidden;box-shadow:var(--sh);transition:transform .25s,box-shadow .25s;}
+.phc:hover{transform:translateY(-4px);box-shadow:var(--shh);}
+.phh{padding:22px 22px 16px;color:#fff;}
+.ph1 .phh{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.ph2 .phh{background:linear-gradient(135deg,#3BA8A0,#2C8A82);}
+.ph3 .phh{background:linear-gradient(135deg,#7B6FAE,#9B8FBE);}
+.ph4 .phh{background:linear-gradient(135deg,#C75B3F,#D97B5E);}
+.phnum{font-family:'Montserrat',sans-serif;font-size:.67rem;font-weight:700;letter-spacing:2px;opacity:.72;margin-bottom:5px;}
+.phrnd{font-size:.77rem;font-weight:700;opacity:.82;margin-bottom:8px;}
+.phh h3{font-size:1.02rem;font-weight:900;line-height:1.3;}
+.phen{font-size:.71rem;opacity:.68;margin-top:4px;}
+.phb{background:#fff;padding:18px 20px;}
+.phcore{font-size:.78rem;font-weight:700;color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.phul{list-style:none;}
+.phul li{font-size:.78rem;color:var(--textm);padding:5px 0;border-bottom:1px solid #F0EFF8;
+  display:flex;align-items:flex-start;gap:8px;line-height:1.4;}
+.phul li:last-child{border-bottom:none;}
+.dot{width:6px;height:6px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ph1 .dot{background:var(--navy);} .ph2 .dot{background:var(--teal);}
+.ph3 .dot{background:var(--purple);} .ph4 .dot{background:#C75B3F;}
+.phul em{font-size:.7rem;color:#aaa;display:block;margin-top:2px;}
+
+/* ── AI personalized-section ── */
+.aisec{background:linear-gradient(135deg,#1A1A2E,#2C3E6B 50%,var(--purple));
+  border-radius:24px;padding:48px;color:#fff;margin-bottom:36px;}
+.aisec h3{font-size:1.55rem;font-weight:900;margin-bottom:14px;}
+.aisec p{opacity:.82;font-size:.95rem;line-height:1.75;max-width:580px;margin-bottom:24px;}
+.achips{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px;}
+.achip2{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);
+  color:#fff;font-size:.82rem;font-weight:600;padding:8px 16px;border-radius:20px;}
+/* duration-highlight */
+.duration-box{
+  background:var(--gold);color:#fff;
+  border-radius:14px;padding:16px 24px;
+  display:inline-flex;align-items:center;gap:12px;
+  font-weight:700;font-size:.92rem;
+  box-shadow:0 4px 18px rgba(245,166,35,.45);
+}
+.duration-box .dicon{font-size:1.5rem;}
+
+/* ── operation/age/diff/persuasion ── */
+.ogrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:36px;}
+@media(max-width:700px){.ogrid{grid-template-columns:1fr;}}
+.oc{background:#fff;border-radius:16px;padding:26px;box-shadow:var(--sh);text-align:center;}
+.oi{font-size:2.2rem;margin-bottom:12px;}
+.oc h4{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
+.oc p{font-size:.82rem;color:var(--textm);line-height:1.6;}
+.agegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;margin-bottom:36px;}
+@media(max-width:700px){.agegrid{grid-template-columns:1fr;}}
+.agec{background:#fff;border-radius:18px;overflow:hidden;box-shadow:var(--sh);}
+.agehd{padding:22px;color:#fff;}
+.ag1 .agehd{background:linear-gradient(135deg,#F5A623,#E8902A);}
+.ag2 .agehd{background:linear-gradient(135deg,#2C3E6B,#4A5A8B);}
+.ag3 .agehd{background:linear-gradient(135deg,#7B6FAE,#5A4D8A);}
+.ageemoji{font-size:2rem;margin-bottom:8px;}
+.agehd h4{font-size:1.02rem;font-weight:900;margin-bottom:4px;}
+.agehd .range{font-size:.78rem;opacity:.8;}
+.agebd{padding:20px 22px;}
+.agetags{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.agechip{background:var(--bg);color:var(--navy);font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:8px;}
+.agebd p{font-size:.82rem;color:var(--textm);line-height:1.6;margin-bottom:10px;}
+.qbox{background:var(--bg);border-radius:10px;padding:12px 14px;
+  font-size:.8rem;color:var(--navy);font-weight:500;line-height:1.55;font-style:italic;}
+.diffrow{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:36px;}
+@media(max-width:600px){.diffrow{grid-template-columns:1fr;}}
+.diffc{border-radius:18px;padding:28px;box-shadow:var(--sh);}
+.diffc.old{background:#FFF5F5;border:2px solid #FFD0D0;}
+.diffc.nw{background:#F0FBF0;border:2px solid #A8E0A8;}
+.diffc h4{font-size:1rem;font-weight:700;margin-bottom:16px;}
+.diffc.old h4{color:#C0392B;} .diffc.nw h4{color:#27AE60;}
+.dlist{list-style:none;}
+.dlist li{font-size:.87rem;padding:7px 0;border-bottom:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;gap:10px;}
+.dlist li:last-child{border-bottom:none;}
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:36px;}
+@media(max-width:900px){.pgrid{grid-template-columns:1fr 1fr;}}
+@media(max-width:500px){.pgrid{grid-template-columns:1fr;}}
+.pc{background:#fff;border-radius:16px;padding:22px;box-shadow:var(--sh);text-align:center;border-top:4px solid var(--gold);}
+.pn{font-family:'Montserrat',sans-serif;font-size:1.6rem;font-weight:900;color:var(--gold);margin-bottom:8px;}
+.pc h4{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:6px;}
+.pc p{font-size:.78rem;color:var(--textm);line-height:1.55;}
+.eq{background:linear-gradient(135deg,var(--navy),var(--purple));border-radius:16px;
+  padding:28px 32px;color:#fff;margin:24px 0 36px;}
+.eq p{font-size:.95rem;font-style:italic;line-height:1.7;margin-bottom:8px;opacity:.9;}
+.eq p:last-child{margin-bottom:0;}
+.cta{background:linear-gradient(135deg,var(--navy),var(--purple));
+  border-radius:24px;padding:48px;color:#fff;text-align:center;margin-bottom:24px;}
+.cta h3{font-size:1.6rem;font-weight:900;margin-bottom:12px;}
+.cta p{opacity:.8;font-size:.95rem;line-height:1.7;max-width:500px;margin:0 auto 28px;}
+
+/* ── modal ── */
+.moverlay{display:none;position:fixed;inset:0;z-index:2000;
+  background:rgba(0,0,0,.78);backdrop-filter:blur(8px);align-items:center;justify-content:center;}
+.moverlay.open{display:flex;}
+.mbox{background:#fff;border-radius:20px;width:92vw;max-width:900px;max-height:90vh;
+  overflow:auto;position:relative;animation:fu .3s ease both;}
+.mclose{position:sticky;top:16px;left:100%;width:36px;height:36px;border-radius:50%;
+  background:var(--navy);color:#fff;border:none;font-size:1rem;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;float:right;margin:16px 16px 0 0;z-index:10;}
+.minner{padding:32px 36px 40px;clear:both;}
+.minner h2{font-size:1.4rem;font-weight:900;color:var(--navy);margin-bottom:20px;}
+.pdfembed{width:100%;height:70vh;border:none;border-radius:12px;background:#f5f5f5;}
+
+/* ── Footer ── */
+footer{background:var(--navy);color:#fff;padding:48px 5vw 32px;}
+.fi{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:40px;
+  padding-bottom:28px;border-bottom:1px solid rgba(255,255,255,.1);}
+@media(max-width:700px){.fi{grid-template-columns:1fr;}}
+.fbrand img{height:30px;width:auto;margin-bottom:14px;}
+.fbrand p{font-size:.82rem;opacity:.62;line-height:1.75;max-width:280px;}
+footer h5{font-size:.78rem;font-weight:700;opacity:.45;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:14px;}
+footer ul{list-style:none;}
+footer ul li{margin-bottom:10px;}
+footer ul li a{text-decoration:none;color:rgba(255,255,255,.72);font-size:.85rem;transition:color .2s;}
+footer ul li a:hover{color:var(--gold);}
+.fbot{padding-top:22px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;}
+.fbot p{font-size:.74rem;opacity:.38;}
+
+/* ── video-thumbnail-card ── */
+.vthumb-link{display:block;text-decoration:none;}
+.vthumb-wrap{position:relative;overflow:hidden;aspect-ratio:16/9;background:#111;}
+.vthumb-img{width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .3s ease;}
+.vthumb-link:hover .vthumb-img{transform:scale(1.04);}
+.vplay-overlay{
+  position:absolute;inset:0;
+  background:rgba(0,0,0,.35);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;gap:10px;
+  transition:background .25s;
+}
+.vthumb-link:hover .vplay-overlay{background:rgba(0,0,0,.5);}
+.vplay-btn{
+  width:68px;height:48px;
+  filter:drop-shadow(0 2px 8px rgba(0,0,0,.5));
+  transition:transform .2s;
+}
+.vthumb-link:hover .vplay-btn{transform:scale(1.1);}
+.vwatch-txt{
+  color:#fff;font-size:.82rem;font-weight:700;
+  letter-spacing:.5px;
+  text-shadow:0 1px 4px rgba(0,0,0,.8);
+}
+.vyt-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:10px;
+  background:#fff;border:1.5px solid #e0e0e0;
+  color:#1a1a2e;font-size:.82rem;font-weight:700;
+  padding:8px 16px;border-radius:20px;
+  text-decoration:none;transition:all .2s;
+}
+.vyt-btn:hover{background:#ff0000;border-color:#ff0000;color:#fff;}
+.vyt-btn:hover svg path:first-child{fill:#fff;}
+
+
+/* ── LANG TOGGLE ── */
+.lang-toggle{
+  margin-left:auto;flex-shrink:0;
+  background:transparent;border:1.5px solid var(--navy2);
+  color:var(--navy);font-size:.78rem;font-weight:700;
+  padding:5px 14px;border-radius:20px;cursor:pointer;
+  transition:all .2s;letter-spacing:1px;
+}
+.lang-toggle:hover{background:var(--navy);color:#fff;}
+
+
+/* ── 활동 갤러리 ── */
+.act-gallery-wrap{padding:40px 0 8px;}
+.act-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin-bottom:8px;}
+.act-card{background:var(--card,#fff);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(0,0,0,0.08);transition:transform .22s,box-shadow .22s;}
+.act-card:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(0,0,0,0.14);}
+.act-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#e2e8f0;}
+.act-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.act-card:hover .act-img img{transform:scale(1.05);}
+.act-info{padding:14px 16px 16px;}
+.act-title{font-size:13.5px;font-weight:800;color:var(--text,#0f172a);margin-bottom:5px;line-height:1.4;}
+.act-desc{font-size:12px;color:var(--textl,#64748b);line-height:1.6;}
+@media(max-width:600px){.act-grid{grid-template-columns:1fr 1fr;}}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav>
+  <a class="nav-logo" href="#" onclick="show('home');return false;">
+    <img src="images/img-01.png" height="34" alt="FeelGood">
+  </a>
+  <ul class="ntabs" id="ntabs">
+    <li class="active" data-s="home"><a href="#" onclick="show('home');return false;" data-i18n="nav_home">🏠 홈</a></li>
+    <li data-s="school"><a href="#" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
+    <li data-s="test"><a href="#" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
+    <li data-s="brainmap"><a href="#" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 BRAINMAP</a></li>
+  </ul>
+  <button class="lang-toggle" id="langToggle" onclick="toggleLang()">EN</button>
+</nav>
+
+<!-- ═══ HOME ═══ -->
+<section id="sec-home" class="ps active">
+  <div class="hb1"></div>
+  <div class="hb2"></div>
+  <div class="hi">
+    <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
+    <img class="hero-logo" src="images/img-01.png" alt="FeelGood">
+    <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
+    <p data-i18n="hero_p">K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.</p>
+    <div class="hbtns">
+      <button class="btn-gold" id="hbtn-school" onclick="show('school')" data-i18n="hero_btn_school">🏫 학교 제안서 보기</button>
+      <button class="btn-ghost" id="hbtn-test" onclick="show('test')" data-i18n="hero_btn_test">🧬 검사 소개</button>
+      <button class="btn-ghost" id="hbtn-brainmap" onclick="show('brainmap')">🧠 BRAINMAP</button>
+    </div>
+    <div class="hstats">
+      <div><div class="snum">40</div><div class="slbl" data-i18n="stat1">년간 축적 데이터</div></div>
+      <div><div class="snum">81</div><div class="slbl" data-i18n="stat2">두뇌 특성 유형</div></div>
+      <div><div class="snum">4</div><div class="slbl" data-i18n="stat3">PASS 인지축</div></div>
+      <div><div class="snum">32</div><div class="slbl" data-i18n="stat4">회 연간 커리큘럼</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ 학교 제안 / School Proposal ═══ -->
+<section id="sec-school" class="ps">
+  <div class="sh">
+    <div class="sec-tag">School Proposal</div>
+    <h2 class="sec-title" data-i18n="school_title">학교 제안 요약</h2>
+    <p class="sec-sub" data-i18n="school_sub">기존 창체·인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다. 정규수업 없이 의무시수만으로 운영 가능합니다.</p>
+  </div>
+  <div class="pb mb32">
+    <h2 data-i18n="school_pb_h2">진정한 글로벌 교육의 탁월함은<br>학생 개인의 인지적 특성을 이해하는 것에서 시작됩니다.</h2>
+    <p data-i18n="school_pb_p">K-PASS / D-CAS는 비언어 중심, 정답이 존재하는 문제평가로 정확한 뇌 기능을 평가합니다. 교사의 업무 부담을 줄이는 동시에 진정한 학생 중심 학습 환경을 구현합니다.</p>
+  </div>
+  <div class="wgrid mb32">
+    <div class="wcard"><div class="ic">🧬</div><h4 data-i18n="school_c1_h">과학적 진단 기반</h4><p data-i18n="school_c1_p">K-PASS/D-CAS 검사로 81가지 두뇌 특성 분류. 게임형 인지과학 검사, 40년 축적 데이터 기반 높은 신뢰도.</p></div>
+    <div class="wcard"><div class="ic">🎯</div><h4 data-i18n="school_c2_h">정규수업 Zero 침범</h4><p data-i18n="school_c2_p">창체·인성교육 의무시수 및 방과후 활용 가능. 교과 교사 업무 추가 없음, 담임 진행 가능.</p></div>
+    <div class="wcard"><div class="ic">🤖</div><h4 data-i18n="school_c3_h">AI 자동화 리포트</h4><p data-i18n="school_c3_p">인성교육 실적보고서, 학생 성장 리포트, 생기부 참고 서술 자동 생성. 교사 행정 업무 절감.</p></div>
+    <div class="wcard"><div class="ic">📈</div><h4 data-i18n="school_c4_h">측정 가능한 성장</h4><p data-i18n="school_c4_p">연 2회 재진단으로 정서지능·인지성장 변화를 수치로 증명. 학교 평가 자료로 활용 가능.</p></div>
+    <div class="wcard"><div class="ic">🌐</div><h4 data-i18n="school_c5_h">다문화·글로벌 적합</h4><p data-i18n="school_c5_p">비언어 중심 검사로 다문화·다언어 환경 최적화. 국제학교·사립학교 모두 적용 가능.</p></div>
+    <div class="wcard"><div class="ic">⚖️</div><h4 data-i18n="school_c6_h">보편 가치 기반</h4><p data-i18n="school_c6_p">동서양 철학·윤리 원리 기반 공통 가치교육. 특정 종교 편향 없는 균형 잡힌 인성교육.</p></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_entry_title">학교 진입 경로</h3></div>
+  <div class="prow mb40">
+    <div class="pstep"><div class="num" data-i18n="school_s1_num">1순위</div><h4 data-i18n="school_s1_h">인성교육 의무시수</h4><p data-i18n="school_s1_p">창의적 체험활동 연 204시간</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num" data-i18n="school_s2_num">2순위</div><h4 data-i18n="school_s2_h">방과후학교</h4><p data-i18n="school_s2_p">선택형 프로그램 운영</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num" data-i18n="school_s3_num">3순위</div><h4 data-i18n="school_s3_h">조례·종례 루틴</h4><p data-i18n="school_s3_p">매일 10분 MindCompass</p></div>
+    <div class="parr">→</div>
+    <div class="pstep" style="border-top:4px solid var(--gold);"><div class="num" data-i18n="school_s4_num">결과</div><h4 data-i18n="school_s4_h">학생 성장 데이터</h4><p data-i18n="school_s4_p">학기별 리포트 자동 생성</p></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_pkg_title">도입 패키지</h3></div>
+  <table class="ptbl mb40">
+    <thead><tr><th data-i18n="school_th1">패키지</th><th data-i18n="school_th2">포함 내용</th><th data-i18n="school_th3">가격</th></tr></thead>
+    <tbody>
+      <tr><td><span class="pbadge" data-i18n="school_p1_name">검사만</span></td><td data-i18n="school_p1_desc">K-PASS / D-CAS 검사 진행 (결과 리포트 포함)</td><td><strong data-i18n="school_p1_price">75,000원 / 인</strong></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p2_name">검사 + 프로그램 제작</span></td><td data-i18n="school_p2_desc">검사 진행 + 학교 맞춤 AI 프로그램 설계 제작 + 플랫폼 이용</td><td><strong data-i18n="school_p2_price">10,000원 / 인</strong><br><span style="font-size:.8rem;color:var(--textl);" data-i18n="school_p2_note">+ 프로그램 사용료</span></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p3_name">검사 + 예시 프로그램</span></td><td data-i18n="school_p3_desc">검사 진행 + 기존 예시 프로그램 그대로 운영</td><td><strong data-i18n="school_p3_price">10,000원 / 인</strong><br><span style="font-size:.8rem;color:var(--textl);" data-i18n="school_p3_note">+ 4,000원 / 명 (전교 인원 기준)</span></td></tr>
+    </tbody>
+  </table>
+  <div style="background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.3);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:var(--textm);line-height:1.9;">
+    <strong style="color:var(--gold);" data-i18n="school_guide_title">💡 안내</strong><br>
+    <span data-i18n="school_guide_body">· 학교 전체 인원수에 따라 금액 협의 가능합니다.<br>· 프로그램 사용료는 도입 기능·커스터마이징 범위에 따라 별도 안내드립니다.</span>
+  </div>
+  <div style="display:flex;gap:14px;flex-wrap:wrap;">
+    <button class="btn-navy" onclick="show('test')" data-i18n="school_btn_test">🧬 검사 소개 보기</button>
+    <button class="btn-navy" onclick="show('brainmap')" data-i18n="school_btn_brainmap">🧠 BRAINMAP 프로그램</button>
+    <a href="https://docs.google.com/forms/d/1YhpZ6UkRy9n2Niwlccqx_q_5nZkJ8f0FeRS2uleQSW4/viewform" target="_blank" class="btn-ol" data-i18n="school_btn_contact">✉ 문의하기</a>
+  </div>
+</section>
+
+<!-- ═══ 검사 소개 / Assessment ═══ -->
+<section id="sec-test" class="ps">
+  <div class="sh">
+    <div class="sec-tag">Assessment</div>
+    <h2 class="sec-title" data-i18n="test_title">검사 소개</h2>
+    <p class="sec-sub" data-i18n="test_sub">한국 최고 전문가의 40년간 축적된 분석 데이터 기반, 세계 최초 게임형 두뇌 잠재력 평가 시스템.</p>
+  </div>
+  <div class="mb32">
+    <button class="btn-navy" onclick="openB()" data-i18n="test_brochure_btn">📄 검사 소개 브로셔 보기</button>
+  </div>
+  <div class="thgrid">
+    <div class="tc kp">
+      <div class="tbadge" data-i18n="test_kp_badge">K⁺PASS · 케이-패스</div>
+      <h3 data-i18n="test_kp_title">아동 학습·적성<br>지능검사</h3>
+      <div class="achip" data-i18n="test_kp_age">5세 ~ 13세</div>
+      <p data-i18n="test_kp_p">한국 최초 게임형 두뇌 잠재력 평가. P·A·S·S 4축 기반 인지처리 경로 직접 분석, 두뇌 발달 패턴 정량화.</p>
+      <div class="pr"><span class="pill" data-i18n="test_kp_pill1">영재·재능 분석</span><span class="pill" data-i18n="test_kp_pill2">ADHD 조기 선별</span><span class="pill" data-i18n="test_kp_pill3">학습법 추천</span></div>
+    </div>
+    <div class="tc dc">
+      <div class="tbadge" data-i18n="test_dc_badge">D⁺CAS · 다-카스</div>
+      <h3 data-i18n="test_dc_title">청소년·성인<br>진로·직무 검사</h3>
+      <div class="achip" style="background:var(--navy);" data-i18n="test_dc_age">14세 ~ 성인</div>
+      <p data-i18n="test_dc_p">두뇌유형 분석 / 인지적 능력 / 직무적성 리스트. 기업 HR·군·경·보안 기관까지 활용 가능한 뇌 기반 진로·적성 검사.</p>
+      <div class="pr"><span class="pill" data-i18n="test_dc_pill1">직무 적합도 분석</span><span class="pill" data-i18n="test_dc_pill2">HR 대시보드</span><span class="pill" data-i18n="test_dc_pill3">진로 추천</span></div>
+    </div>
+  </div>
+  <div class="sh" style="margin-top:40px;"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_pass_title">PASS 4축 인지 평가</h3></div>
+  <div class="paxes mb40">
+    <div class="axc"><div class="axl">P</div><div class="axn" data-i18n="test_p_name">계획력</div><div class="axe">Planning</div><div class="axd" data-i18n="test_p_desc">전두엽 기반 실행 기능. 자기통제·전략 수립·목표 달성 능력</div></div>
+    <div class="axc"><div class="axl">A</div><div class="axn" data-i18n="test_a_name">주의력</div><div class="axe">Attention</div><div class="axd" data-i18n="test_a_desc">선택적 주의·집중 유지. 학습 효율성·ADHD 관련 지표</div></div>
+    <div class="axc"><div class="axl">S</div><div class="axn" data-i18n="test_s_name">동시처리</div><div class="axe">Simultaneous</div><div class="axd" data-i18n="test_s_desc">우뇌 패턴·전체 맥락 파악. 창의적·시각적·직관적 사고</div></div>
+    <div class="axc"><div class="axl">Ss</div><div class="axn" data-i18n="test_ss_name">순차처리</div><div class="axe">Successive</div><div class="axd" data-i18n="test_ss_desc">좌뇌 언어·논리·단계 처리. 순서·규칙 기반 학습 강점</div></div>
+  </div>
+  <div class="sh">
+    <h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_sample_title">샘플 검사 체험</h3>
+    <p class="sec-sub" data-i18n="test_sample_sub">버튼을 눌러 샘플 문항을 직접 체험해보세요. 체험판에서는 애니메이션 스토리 없이 샘플 문항만 체험 가능합니다.</p>
+  </div>
+  <div class="srow">
+    <div class="sc">
+      <div class="sbadge kpb">K⁺PASS</div>
+      <h4 data-i18n="test_kp_sample_h">K-PASS 샘플 검사</h4>
+      <p data-i18n="test_kp_sample_p">아동 학습·적성 지능검사<br>5세 ~ 13세 대상<br><br>게임형 인지 과제로 두뇌 잠재력을 직접 체험해보세요.</p>
+      <a href="https://kpass-simple.feel-good.io/" target="_blank" class="btn-navy" style="width:100%;justify-content:center;" data-i18n="test_kp_sample_btn">🎮 K-PASS 샘플 검사 시작</a>
+      <span style="font-size:.76rem;color:var(--textl);">kpass-simple.feel-good.io</span>
+    </div>
+    <div class="sc">
+      <div class="sbadge dcb">D⁺CAS</div>
+      <h4 data-i18n="test_dc_sample_h">D-CAS 샘플 검사</h4>
+      <p data-i18n="test_dc_sample_p">청소년·성인 진로·직무 검사<br>14세 ~ 성인 대상<br><br>뇌 기반 진로·직무 적성을 직접 체험해보세요.</p>
+      <a href="https://dcas-simple.feel-good.io/" target="_blank" class="btn-teal" style="width:100%;justify-content:center;" data-i18n="test_dc_sample_btn">🎮 D-CAS 샘플 검사 시작</a>
+      <span style="font-size:.76rem;color:var(--textl);">dcas-simple.feel-good.io</span>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_video_title">방송 &amp; 시연 영상</h3></div>
+  <div class="vfull mb24">
+    <a href="#" id="vid1-link" target="_blank" class="vthumb-link">
+      <div class="vthumb-wrap">
+        <img id="vid1-thumb" src="" alt="" class="vthumb-img">
+        <div class="vplay-overlay">
+          <div class="vplay-btn"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></div>
+          <span class="vwatch-txt" data-i18n="test_ytwatch">YouTube에서 보기</span>
+        </div>
+      </div>
+    </a>
+    <div class="vinfo">
+      <div class="vlbl" data-i18n="test_vid1_lbl">📺 방송 소개</div>
+      <h4 data-i18n="test_vid1_title">K-PASS 언론 영상 — SBS Biz 〈트렌드스페셜〉</h4>
+      <p data-i18n="test_vid1_desc">SBS Biz 트렌드스페셜에 소개된 K-PASS 두뇌 잠재력 평가 시스템 방송 편집본입니다.</p>
+      <a id="vid1-ytbtn" href="#" target="_blank" class="vyt-btn">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+        <span data-i18n="test_ytbtn">YouTube에서 보기 →</span>
+      </a>
+    </div>
+  </div>
+  <div class="v2col">
+    <div class="v2c">
+      <a href="#" id="vid2-link" target="_blank" class="vthumb-link">
+        <div class="vthumb-wrap">
+          <img id="vid2-thumb" src="" alt="" class="vthumb-img">
+          <div class="vplay-overlay">
+            <div class="vplay-btn"><svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></div>
+            <span class="vwatch-txt" data-i18n="test_ytwatch">YouTube에서 보기</span>
+          </div>
+        </div>
+      </a>
+      <div class="vinfo">
+        <div class="vlbl" data-i18n="test_vid2_lbl">🎮 검사 시연</div>
+        <h4 data-i18n="test_vid2_title">K-PASS 게임 검사 시연</h4>
+        <p data-i18n="test_vid2_desc">실제 게임형 검사 진행 화면. 아동이 흥미롭게 참여하는 과정을 확인하세요.</p>
+        <a id="vid2-ytbtn" href="#" target="_blank" class="vyt-btn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+          <span data-i18n="test_ytbtn">YouTube에서 보기 →</span>
+        </a>
+      </div>
+    </div>
+    <div class="v2c">
+      <a href="#" id="vid3-link" target="_blank" class="vthumb-link">
+        <div class="vthumb-wrap">
+          <img id="vid3-thumb" src="" alt="" class="vthumb-img">
+          <div class="vplay-overlay">
+            <div class="vplay-btn"><svg viewBox="0 0 68 48" width="56" height="40"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></div>
+            <span class="vwatch-txt" data-i18n="test_ytwatch">YouTube에서 보기</span>
+          </div>
+        </div>
+      </a>
+      <div class="vinfo">
+        <div class="vlbl" data-i18n="test_vid3_lbl">🖥 관리자 페이지</div>
+        <h4 data-i18n="test_vid3_title">소속 관리자 어드민 소개</h4>
+        <p data-i18n="test_vid3_desc">기관 담당자용 관리자 대시보드 및 학생 데이터 관리 시스템을 확인하세요.</p>
+        <a id="vid3-ytbtn" href="#" target="_blank" class="vyt-btn">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
+          <span data-i18n="test_ytbtn">YouTube에서 보기 →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_process_title">검사 프로세스</h3></div>
+  <div class="prow">
+    <div class="pstep"><div class="num">STEP 1</div><h4 data-i18n="test_step1_h">다운로드</h4><p>PC / 태블릿<br>Windows · iOS</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">STEP 2</div><h4 data-i18n="test_step2_h">검사 진행</h4><p data-i18n="test_step2_p">30~50분 소요<br>게임형 진행</p></div>
+    <div class="parr">→</div>
+    <div class="pstep"><div class="num">STEP 3</div><h4 data-i18n="test_step3_h">결과 확인</h4><p data-i18n="test_step3_p">검사 완료 즉시<br>자동 리포트</p></div>
+  </div>
+
+<!-- ═══ 활동 실적 갤러리 ═══ -->
+<div class="act-gallery-wrap">
+  <div class="sh">
+    <div class="sec-tag">Track Record</div>
+    <h3 class="sec-title" style="font-size:1.35rem;">검사 도입 & 활동 실적</h3>
+    <p class="sec-sub">K-PASS · D-CAS 기반 인지검사를 전국 대학, 청년기관, 초등학교, 해외 기관에 성공적으로 도입한 실제 현장 기록입니다.</p>
+  </div>
+
+  <div class="act-cat-block" style="margin-bottom:36px;">
+    <div class="act-cat-hd" style="border-left:4px solid #1e40af;background:#eff6ff;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:20px;">🏫</span>
+      <span style="font-size:15px;font-weight:800;color:#1e40af;">국내 대학 파트너십</span>
+    </div>
+    <div class="act-grid">
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-02.jpg" alt="홍남대학교 RISE 취업스쿨" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">홍남대학교 RISE 취업스쿨</div>
+          <div class="act-desc">진로취업 파워UP 워크숍 — D-CAS 기반 자기이해 및 진로설계</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-03.jpg" alt="동서대학교 D-CAS 강의" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">동서대학교 D-CAS 강의</div>
+          <div class="act-desc">뇌과학 기반 D-CAS 검사 소개 및 진로 매핑 강의</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-04.jpg" alt="D-CAS 1:1 커리어 멘토링" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">D-CAS 1:1 커리어 멘토링</div>
+          <div class="act-desc">청년취업ON 프로그램 — D-CAS 강점 분석 기반 취업 실행 지원</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-05.jpg" alt="동의대학교 온라인 K-PASS 실습" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">동의대학교 온라인 K-PASS 실습</div>
+          <div class="act-desc">학생들이 직접 K-PASS 인지검사를 체험하는 수업</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-06.jpg" alt="부산외대 글로벌마케터 5기" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">부산외대 글로벌마케터 5기</div>
+          <div class="act-desc">D-CAS 검사결과를 활용한 자기이해 강의</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-07.jpg" alt="부산외대 대규모 특강" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">부산외대 대규모 특강</div>
+          <div class="act-desc">아이디어 박스 세션 — 뇌유형별 팀 프로젝트</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="act-cat-block" style="margin-bottom:36px;">
+    <div class="act-cat-hd" style="border-left:4px solid #065f46;background:#f0fdf4;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:20px;">💼</span>
+      <span style="font-size:15px;font-weight:800;color:#065f46;">취업 · 청년 지원</span>
+    </div>
+    <div class="act-grid">
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-08.jpg" alt="청년센터 CanCan 워크숍" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">청년센터 CanCan 워크숍</div>
+          <div class="act-desc">뇌유형 MY 워크시트 활동 — 강점 분석 및 직무 연결</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-09.jpg" alt="산자부 취업준비 청년 D-CAS 교육" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">산자부 취업준비 청년 D-CAS 교육</div>
+          <div class="act-desc">D-CAS 검사 및 인지특성 기반 취업 역량 강화 교육</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="act-cat-block" style="margin-bottom:36px;">
+    <div class="act-cat-hd" style="border-left:4px solid #6d28d9;background:#f5f3ff;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:20px;">🧒</span>
+      <span style="font-size:15px;font-weight:800;color:#6d28d9;">초등 K-PASS 검사</span>
+    </div>
+    <div class="act-grid">
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-10.jpg" alt="7개 교육기관 K-PASS 단체검사" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">7개 교육기관 K-PASS 단체검사</div>
+          <div class="act-desc">초등학생 대상 게임형 인지능력검사 실시</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-11.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ①" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">한국교원대 × 증평군 K-PASS 검사 ①</div>
+          <div class="act-desc">충청북도 증평군 학생 대상 K-PASS 시범 운영</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-12.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ②" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">한국교원대 × 증평군 K-PASS 검사 ②</div>
+          <div class="act-desc">태블릿 기반 게임형 인지검사 — 학생·학부모 동반 참여</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="act-cat-block" style="margin-bottom:36px;">
+    <div class="act-cat-hd" style="border-left:4px solid #92400e;background:#fffbeb;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:20px;">🌍</span>
+      <span style="font-size:15px;font-weight:800;color:#92400e;">해외 진출</span>
+    </div>
+    <div class="act-grid">
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-13.jpg" alt="몽골 공립학교 K-PASS 시범검사" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">몽골 공립학교 K-PASS 시범검사</div>
+          <div class="act-desc">울란바토르 공립학교 첫 해외 현장 시범</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-14.jpg" alt="몽골 국립아동병원 온라인 검사" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">몽골 국립아동병원 온라인 검사</div>
+          <div class="act-desc">부산·울란바토르 의료진 입회 비대면 지능검사 — 언론 보도</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-15.jpg" alt="아제르바이잔 정신치료센터 MOU 체결" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">아제르바이잔 정신치료센터 MOU 체결</div>
+          <div class="act-desc">K-PASS & D-CAS 해외 수출 달성 — 공식 업무협약 서명</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-16.jpg" alt="이라크 교육부 관계자 미팅" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">이라크 교육부 관계자 미팅</div>
+          <div class="act-desc">K-PASS / D-CAS 도입 협의 — 중동 시장 진출 논의</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-img"><img src="images/img-17.jpg" alt="인도 릴라이언스그룹 미팅" loading="lazy"></div>
+        <div class="act-info">
+          <div class="act-title">인도 릴라이언스그룹 미팅</div>
+          <div class="act-desc">K-PASS / D-CAS Implementation Initiative — 인도 전역 도입 제안</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- ═══ /활동 실적 갤러리 ═══ -->
+</section>
+
+<!-- ═══ BRAINMAP ═══ -->
+<section id="sec-brainmap" class="ps">
+  <div class="sh">
+    <div class="sec-tag">BRAINMAP Program</div>
+    <h2 class="sec-title" data-i18n="bm_title">BRAINMAP 프로그램</h2>
+    <p class="sec-sub" data-i18n="bm_sub">선생님들이 하고 계신 인성교육을 데이터로 보이게 만들고, 학생별 맞춤으로 바꿔드리는 학생 성장 관리 시스템입니다.</p>
+  </div>
+  <div class="bmh mb40">
+    <div class="bmtag">BRAINMAP · MindCompass</div>
+    <h2>Assessment → Personalization<br>→ Daily Training → Measurable Growth</h2>
+    <p data-i18n="bm_pb_p">기존 SEL(사회정서학습)과 인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다.<br>"교육 프로그램"이 아닌 <strong>"학생 성장 관리 시스템"</strong>입니다.</p>
+    <div class="pos">Assessment → Insight → Practice → Behavior Change → Report</div>
+  </div>
+  <div class="sh">
+    <div class="sec-tag">Curriculum</div>
+    <h3 class="sec-title" data-i18n="bm_cur_title">32회 연간 커리큘럼 (예시)</h3>
+    <p class="sec-sub" data-i18n="bm_cur_sub">PASS 4축 기반 4단계 × 8회, 주 1회 40분 × 32주 + 매일 10분 조례/종례 루틴 병행.<br><strong>초등 창의적 체험활동</strong>과 <strong>중고등 진로 수업</strong>에 최적화된 회차별 콘텐츠로 구성됩니다.</p>
+  </div>
+  <div class="phases mb40">
+    <div class="phc ph1">
+      <div class="phh"><div class="phnum">PHASE 01</div><div class="phrnd" data-i18n="ph1_rnd">1~8회 · 1학기 전반</div><h3 data-i18n="ph1_h3">자기이해<br>&amp; 감정 인식</h3><div class="phen">Self Awareness</div></div>
+      <div class="phb">
+        <div class="phcore" data-i18n="ph1_core">🔵 "나는 어떤 뇌를 가진 사람인가"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div data-i18n="ph1_s1"><strong>1회</strong> K-PASS 초기검사 &amp; 두뇌유형 공개<em>초등: 내 뇌 캐릭터 만들기 / 중고: 두뇌유형 자기소개서</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s2"><strong>2회</strong> PASS 축 강점 이해<em>초등: 강점 빙고게임 / 중고: 강점-직업 매핑</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s3"><strong>3회</strong> 감정 언어 확장<em>초등: 감정 색깔 그림 / 중고: 감정일기 구조화</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s4"><strong>4회</strong> 내 감정 패턴 발견<em>초등: 감정 달력 / 중고: 트리거 분석</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s5"><strong>5회</strong> 학습 선호 방식 탐색<em>초등: 수업 방식 투표 / 중고: 학습전략 매칭</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s6"><strong>6회</strong> 강점 스토리 만들기<em>초등: 슈퍼파워 발표 / 중고: 포트폴리오 초안</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s7"><strong>7회</strong> 두뇌유형별 감정 반응 이해</div></li>
+          <li><span class="dot"></span><div data-i18n="ph1_s8"><strong>8회</strong> 1단계 점검 &amp; 성장 확인</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph2">
+      <div class="phh"><div class="phnum">PHASE 02</div><div class="phrnd" data-i18n="ph2_rnd">9~16회 · 1학기 후반</div><h3 data-i18n="ph2_h3">자기조절<br>&amp; 실행력</h3><div class="phen">Self Regulation</div></div>
+      <div class="phb">
+        <div class="phcore" data-i18n="ph2_core">🟢 "생각을 행동으로 바꾸는 힘"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div data-i18n="ph2_s1"><strong>9회</strong> 계획력(P축) — 마인드맵<em>초등: 오늘 할일 맵 / 중고: 진로 로드맵</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s2"><strong>10회</strong> 루틴 설계 &amp; 습관<em>초등: 아침루틴 카드 / 중고: 주간 플래너</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s3"><strong>11회</strong> 충동 조절 전략<em>초등: STOP 신호 게임 / 중고: 의사결정 매트릭스</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s4"><strong>12회</strong> 집중력 향상 (A축)<em>초등: 뽀모도로 체험 / 중고: 딥워크 설계</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s5"><strong>13회</strong> 목표 설정 &amp; 실행<em>초등: OX 목표 게임 / 중고: SMART 목표</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s6"><strong>14회</strong> 자기 대화 패턴 점검</div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s7"><strong>15회</strong> 성취 경험 설계하기</div></li>
+          <li><span class="dot"></span><div data-i18n="ph2_s8"><strong>16회</strong> 중간 리포트 &amp; 반환점 점검</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph3">
+      <div class="phh"><div class="phnum">PHASE 03</div><div class="phrnd" data-i18n="ph3_rnd">17~24회 · 2학기 전반</div><h3 data-i18n="ph3_h3">관계<br>&amp; 도덕적 사고</h3><div class="phen">Social Thinking</div></div>
+      <div class="phb">
+        <div class="phcore" data-i18n="ph3_core">🟡 "타인과 함께 살아가는 사고"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div data-i18n="ph3_s1"><strong>17회</strong> 두뇌유형별 갈등 패턴<em>초등: 갈등 역할극 / 중고: 갈등 유형 분석</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s2"><strong>18회</strong> 공감 &amp; 관점 전환<em>초등: 친구 마음 읽기 / 중고: 다양성 토론</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s3"><strong>19회</strong> 딜레마 카드 토론<em>초등: 동화 속 선택 / 중고: 사회 이슈 딜레마</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s4"><strong>20회</strong> 협력 과제 (S축)<em>초등: 모둠 프로젝트 / 중고: 팀 리더십</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s5"><strong>21회</strong> 윤리적 판단 훈련<em>초등: 옳고 그름 스토리 / 중고: 직업윤리</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s6"><strong>22회</strong> 리더십 유형 탐색<em>초등: 리더 역할 체험 / 중고: 리더십 브랜드</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s7"><strong>23회</strong> 갈등 해결 전략 실습</div></li>
+          <li><span class="dot"></span><div data-i18n="ph3_s8"><strong>24회</strong> 관계 성장 스토리 작성</div></li>
+        </ul>
+      </div>
+    </div>
+    <div class="phc ph4">
+      <div class="phh"><div class="phnum">PHASE 04</div><div class="phrnd" data-i18n="ph4_rnd">25~32회 · 2학기 후반</div><h3 data-i18n="ph4_h3">가치<br>&amp; 습관화</h3><div class="phen">Meaning &amp; Identity</div></div>
+      <div class="phb">
+        <div class="phcore" data-i18n="ph4_core">🔴 "나는 어떤 사람으로 살 것인가"</div>
+        <ul class="phul">
+          <li><span class="dot"></span><div data-i18n="ph4_s1"><strong>25회</strong> 핵심 가치 발견<em>초등: 가치 카드 분류 / 중고: 직업 가치관 매칭</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s2"><strong>26회</strong> 철학 기반 딜레마<em>초등: 가치 선택 / 중고: 진로·사회 딜레마 심화</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s3"><strong>27회</strong> 자기 선언문 작성<em>초등: 나는 ○○하는 사람 / 중고: Personal Statement</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s4"><strong>28회</strong> 장기 목표 &amp; 진로 연결<em>초등: 꿈 직업 타임라인 / 중고: 진로 로드맵 완성</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s5"><strong>29회</strong> 내가 만들 세상 디자인<em>초등: 미래 도시 그리기 / 중고: 사회문제 해결 기획</em></div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s6"><strong>30회</strong> 두뇌유형별 성장 포트폴리오</div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s7"><strong>31회</strong> 변화 발표 &amp; 피어 피드백</div></li>
+          <li><span class="dot"></span><div data-i18n="ph4_s8"><strong>32회</strong> 최종 평가 &amp; 성장 리포트</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="aisec mb40">
+    <h3 data-i18n="bm_ai_h">🤖 학교 니즈에 따른 AI 맞춤 프로그램 설계</h3>
+    <p data-i18n="bm_ai_p">위 32회 커리큘럼은 표준 예시입니다.<br>학교의 학년·교과·목표·일정에 따라 <strong>AI가 맞춤형 프로그램을 자동 설계</strong>합니다.<br>K-PASS/D-CAS 검사 데이터 + 학교 특성 입력 → 최적화된 회차별 맞춤 콘텐츠 생성.</p>
+    <div class="achips">
+      <span class="achip2" data-i18n="bm_chip1">📚 초등 창의적 체험활동 연계</span>
+      <span class="achip2" data-i18n="bm_chip2">🎓 중고등 진로 수업 연계</span>
+      <span class="achip2" data-i18n="bm_chip3">🌍 국제학교 IB/SEL 연계</span>
+      <span class="achip2" data-i18n="bm_chip4">🏢 방과후 프로그램 맞춤</span>
+      <span class="achip2" data-i18n="bm_chip5">⏰ 주1회 / 격주 / 집중형 선택</span>
+      <span class="achip2" data-i18n="bm_chip6">🤖 두뇌유형별 개인 맞춤 콘텐츠</span>
+    </div>
+    <div class="duration-box">
+      <span class="dicon">⏳</span>
+      <div>
+        <div style="font-size:.75rem;opacity:.85;margin-bottom:2px;" data-i18n="bm_ai_dur_lbl">맞춤 콘텐츠 및 기능에 따른 제작 소요 기간</div>
+        <div style="font-size:1.05rem;" data-i18n="bm_ai_dur">1개월 ~ 2개월 소요</div>
+      </div>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_ops_title">학교 연간 운영 구조</h3></div>
+  <div class="ogrid mb40">
+    <div class="oc"><div class="oi">📅</div><h4 data-i18n="bm_op1_h">운영 구조</h4><p data-i18n="bm_op1_p"><strong>1학기:</strong> 1~16회 (자기이해 + 자기조절)<br><strong>2학기:</strong> 17~32회 (관계 + 가치)<br>학기별 결과 리포트 제공</p></div>
+    <div class="oc"><div class="oi">⏱</div><h4 data-i18n="bm_op2_h">수업 방식</h4><p data-i18n="bm_op2_p"><strong>주 1회 40분</strong> — 창체·진로 수업<br><strong>매일 10분</strong> — 조례/종례 MindCompass<br>정규수업 침범 없음</p></div>
+    <div class="oc"><div class="oi">📊</div><h4 data-i18n="bm_op3_h">평가 구조</h4><p data-i18n="bm_op3_p"><strong>Pre Assessment</strong> — K-PASS 초기검사<br><strong>Mid Report</strong> — 16회 중간 점검<br><strong>Final Report</strong> — 32회 성장 데이터</p></div>
+  </div>
+  <div class="sh"><div class="sec-tag">Age Group</div><h3 class="sec-title" data-i18n="bm_age_title">연령별 핵심 포인트</h3></div>
+  <div class="agegrid mb40">
+    <div class="agec ag1">
+      <div class="agehd"><div class="ageemoji">👶</div><h4 data-i18n="bm_age1_h">유치 / Kindergarten</h4><div class="range" data-i18n="bm_age1_range">5~7세</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip" data-i18n="bm_age1_t1">감정 인식</span><span class="agechip" data-i18n="bm_age1_t2">기본 자기조절</span><span class="agechip" data-i18n="bm_age1_t3">사회성 기초</span></div>
+        <div class="qbox" data-i18n="bm_age1_q">"아이들이 자신의 감정을 이해하고 표현하는 능력은 모든 학습의 출발점입니다."</div>
+        <p style="margin-top:12px;" data-i18n="bm_age1_app"><strong>적용:</strong> 감정 선택 UI, 스토리 기반 딜레마, 놀이형 MindCompass</p>
+      </div>
+    </div>
+    <div class="agec ag2">
+      <div class="agehd"><div class="ageemoji">🧒</div><h4 data-i18n="bm_age2_h">초등 / Primary ⭐</h4><div class="range" data-i18n="bm_age2_range">8~12세 · 창체 수업 핵심</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip" data-i18n="bm_age2_t1">자기조절력</span><span class="agechip" data-i18n="bm_age2_t2">집중력</span><span class="agechip" data-i18n="bm_age2_t3">습관 형성</span><span class="agechip" data-i18n="bm_age2_t4">창체 연계</span></div>
+        <div class="qbox" data-i18n="bm_age2_q">"이 시기는 '머리가 좋은 아이'보다 '스스로 조절하는 아이'가 성장을 결정합니다."</div>
+        <p style="margin-top:12px;" data-i18n="bm_age2_app"><strong>창체 연계:</strong> 계획력 훈련, 루틴 관리, 감정 딜레마<br><strong>효과:</strong> 학습태도·집중력·숙제 수행률 개선</p>
+      </div>
+    </div>
+    <div class="agec ag3">
+      <div class="agehd"><div class="ageemoji">🧑</div><h4 data-i18n="bm_age3_h">중고등 / Secondary</h4><div class="range" data-i18n="bm_age3_range">13~18세 · 진로 수업 연계</div></div>
+      <div class="agebd">
+        <div class="agetags"><span class="agechip" data-i18n="bm_age3_t1">가치관 형성</span><span class="agechip" data-i18n="bm_age3_t2">자기 정체성</span><span class="agechip" data-i18n="bm_age3_t3">진로 탐색</span><span class="agechip" data-i18n="bm_age3_t4">비판적 사고</span></div>
+        <div class="qbox" data-i18n="bm_age3_q">"'무엇을 아는가'보다 '어떻게 판단하고 선택하는가'가 중요한 시기입니다."</div>
+        <p style="margin-top:12px;" data-i18n="bm_age3_app"><strong>진로 연계:</strong> 철학 딜레마, 진로 로드맵, Personal Statement<br><strong>효과:</strong> 대학 진학 준비, 리더십, 윤리적 사고</p>
+      </div>
+    </div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_diff_title">기존 프로그램과의 차별점</h3></div>
+  <div class="diffrow mb40">
+    <div class="diffc old"><h4 data-i18n="bm_old_h">❌ 기존 SEL / 인성교육</h4><ul class="dlist">
+      <li data-i18n="bm_old_1">😐 정성적 평가 — 측정 어려움</li><li data-i18n="bm_old_2">😐 결과 데이터 없음</li>
+      <li data-i18n="bm_old_3">😐 일괄적 교육 (개인 맞춤 없음)</li><li data-i18n="bm_old_4">😐 교사 주관 개입</li><li data-i18n="bm_old_5">😐 성장 증명 불가</li>
+    </ul></div>
+    <div class="diffc nw"><h4>✅ BRAINMAP · MindCompass</h4><ul class="dlist">
+      <li data-i18n="bm_new_1">✨ 데이터 기반 정량 평가</li><li data-i18n="bm_new_2">✨ 학기별 성장 리포트 자동 생성</li>
+      <li data-i18n="bm_new_3">✨ 81가지 두뇌유형별 개인 맞춤</li><li data-i18n="bm_new_4">✨ AI 자동 분석으로 주관 차단</li><li data-i18n="bm_new_5">✨ 행동 변화 추적 &amp; 증명 가능</li>
+    </ul></div>
+  </div>
+  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_decide_title">학교 도입 결정 포인트</h3></div>
+  <div class="pgrid mb32">
+    <div class="pc"><div class="pn">01</div><h4 data-i18n="bm_d1_h">추가 수업 아님</h4><p data-i18n="bm_d1_p">창체·SEL 시수를 데이터 기반 업그레이드. 정규수업 침범 Zero.</p></div>
+    <div class="pc"><div class="pn">02</div><h4 data-i18n="bm_d2_h">교사 부담 없음</h4><p data-i18n="bm_d2_p">자동 콘텐츠·자동 리포트. 교사는 진행만, 설계는 시스템이.</p></div>
+    <div class="pc"><div class="pn">03</div><h4 data-i18n="bm_d3_h">학부모 만족도↑</h4><p data-i18n="bm_d3_p">개인별 성장 리포트 제공. 학부모가 직접 변화를 확인 가능.</p></div>
+    <div class="pc"><div class="pn">04</div><h4 data-i18n="bm_d4_h">학교 브랜드↑</h4><p data-i18n="bm_d4_p">"정서·사고력까지 관리하는 학교"로 차별화된 교육 브랜드 구축.</p></div>
+  </div>
+  <div class="eq">
+    <p>"This is not an additional subject. It is a system that upgrades your existing SEL into a measurable, personalized learning experience."</p>
+    <p>"We don't just teach values. We track and develop how students think, feel, and act."</p>
+  </div>
+  <div class="sec-header" style="margin-top:48px;">
+    <div class="sec-tag">MindCompass</div>
+    <h3 class="sec-title" data-i18n="bm_dash_title">교사 대시보드 v3</h3>
+    <p class="sec-sub" data-i18n="bm_dash_sub">학생별 두뇌 유형 · PASS 프로파일 · 맞춤 지도 전략을 한눈에 확인하세요.</p>
+  </div>
+  <div style="border:1.5px solid var(--border,#dde4f0);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:24px;">
+    <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;gap:10px;">
+      <span style="color:#fff;font-weight:600;font-size:1rem;" data-i18n="bm_dash_label">🧠 MindCompass — 교사 대시보드 v3</span>
+      <span style="margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.6);" data-i18n="bm_dash_sample">샘플 데이터로 체험 중</span>
+    </div>
+    <div style="background:#f8f9ff;padding:24px 20px;">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:var(--blue);">12</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_total">전체 학생</div></div>
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#4CAF82;">4</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_rb">우뇌 우세형</div></div>
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#5B7FD4;">5</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_bal">좌우밸런스형</div></div>
+        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#FF8C42;">3</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_lb">좌뇌 우세형</div></div>
+      </div>
+      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
+          <thead><tr style="background:var(--navy);color:#fff;">
+            <th style="padding:10px 14px;text-align:left;" data-i18n="bm_th_name">이름</th>
+            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_type">두뇌 유형</th>
+            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_p">계획(P)</th>
+            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_a">주의(A)</th>
+            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_s">동시(S)</th>
+            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_ss">순차(Ss)</th>
+            <th style="padding:10px 14px;text-align:left;" data-i18n="bm_th_guide">지도 포인트</th>
+          </tr></thead>
+          <tbody>
+            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r1_name">송서우</td><td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r1_type">우뇌 우세</span></td><td style="padding:10px 14px;text-align:center;">62</td><td style="padding:10px 14px;text-align:center;">58</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">118</td><td style="padding:10px 14px;text-align:center;">44</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r1_guide">창의적 과제 강점 / 순차 훈련 필요</td></tr>
+            <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r2_name">이민준</td><td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r2_type">밸런스형</span></td><td style="padding:10px 14px;text-align:center;">78</td><td style="padding:10px 14px;text-align:center;">82</td><td style="padding:10px 14px;text-align:center;">85</td><td style="padding:10px 14px;text-align:center;">80</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r2_guide">균형 발달 / 심화 과제 제공</td></tr>
+            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r3_name">김지아</td><td style="padding:10px 14px;text-align:center;"><span style="background:#FF8C4220;color:#FF8C42;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r3_type">좌뇌 우세</span></td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">95</td><td style="padding:10px 14px;text-align:center;">88</td><td style="padding:10px 14px;text-align:center;">52</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">102</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r3_guide">논리·분석 강점 / 창의적 사고 확장</td></tr>
+            <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r4_name">박지훈</td><td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r4_type">밸런스형</span></td><td style="padding:10px 14px;text-align:center;">71</td><td style="padding:10px 14px;text-align:center;">68</td><td style="padding:10px 14px;text-align:center;">74</td><td style="padding:10px 14px;text-align:center;">72</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r4_guide">고른 발달 / 개인 관심사 연계 심화</td></tr>
+            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r5_name">최서연</td><td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r5_type">우뇌 우세</span></td><td style="padding:10px 14px;text-align:center;">55</td><td style="padding:10px 14px;text-align:center;">61</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">109</td><td style="padding:10px 14px;text-align:center;">48</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r5_guide">예술·공간 강점 / 언어 표현 지원</td></tr>
+          </tbody>
+        </table>
+        <div style="padding:10px 14px;text-align:center;font-size:.78rem;color:#999;" data-i18n="bm_dash_foot">📌 샘플 데이터 (총 12명 중 5명 표시) — 실제 검사 후 자동 업데이트</div>
+      </div>
+    </div>
+  </div>
+  <div style="text-align:center;margin:28px 0 8px;">
+    <a id="bm-dash-try-btn" href="https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:1rem;" data-i18n="bm_dash_try_btn">🎓 MindCompass 교사 대시보드 체험하기</a>
+    <p style="font-size:.8rem;color:var(--textl);margin-top:10px;" data-i18n="bm_dash_try_sub">샘플 데이터로 실제 교사 대시보드 v3를 미리 체험해보세요</p>
+  </div>
+  <div class="cta" style="margin-top:36px;">
+    <h3 data-i18n="bm_cta_h">🧠 BRAINMAP · MindCompass 체험하기</h3>
+    <p data-i18n="bm_cta_p">샘플 데이터로 학생 두뇌 분석 리포트 및 교사 대시보드를 미리 확인할 수 있습니다.</p>
+    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
+      <a href="https://goldensge22-design.github.io/feelgood-app/brainmap_student_v5.html" target="_blank" class="btn-gold" data-i18n="bm_cta_btn1">🚀 BrainMap 학생 체험하기</a>
+      <a id="bm-cta-btn2" href="https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);" data-i18n="bm_cta_btn2">🎓 MindCompass 교사 대시보드 체험하기</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fi">
+    <div class="fbrand">
+      <img id="footer-logo" src="" alt="FeelGood" style="height:30px;width:auto;margin-bottom:14px;display:block;">
+      <p data-i18n="ft_quote">"모든 사람들이 각자의 자리에서 영웅이 되는 그날까지, 필굿은 멈추지 않습니다."</p>
+    </div>
+    <div>
+      <h5 data-i18n="ft_nav_title">바로가기</h5>
+      <ul>
+        <li><a href="#" onclick="show('home');return false;" data-i18n="ft_nav_home">홈</a></li>
+        <li><a href="#" onclick="show('school');return false;" data-i18n="ft_nav_school">학교 제안서</a></li>
+        <li><a href="#" onclick="show('test');return false;" data-i18n="ft_nav_test">검사 소개</a></li>
+        <li><a href="#" onclick="show('brainmap');return false;">BRAINMAP</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5>Contact</h5>
+      <ul>
+        <li><a href="mailto:yhim@feel-good.io">yhim@feel-good.io</a></li>
+        <li><a href="https://kpass-simple.feel-good.io/" target="_blank">kpass-simple.feel-good.io</a></li>
+        <li><a href="https://dcas-simple.feel-good.io/" target="_blank">dcas-simple.feel-good.io</a></li>
+        <li><a href="#" data-i18n="ft_address">서울 브런치 / 부산 본사 / 대구 연구소</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="fbot">
+    <p>© 2026 EduTech FeelGood Co., Ltd. All rights reserved.</p>
+    <p data-i18n="ft_ceo">CEO 임유하 · 설립 2020년 8월 · 벤처기업 승인</p>
+  </div>
+</footer>
+<div class="moverlay" id="bModal">
+  <div class="mbox" style="max-width:780px;width:94vw;">
+    <button class="mclose" onclick="closeB()">✕</button>
+    <div class="minner" style="padding:0;">
+      <div style="background:var(--navy);padding:14px 20px;border-radius:var(--r) var(--r) 0 0;display:flex;align-items:center;gap:12px;">
+        <span style="color:#fff;font-weight:700;font-size:1rem;" data-i18n="modal_title">📄 검사 소개 브로셔 — FeelGood K-PASS / D-CAS</span>
+        <span id="b-page-label" style="margin-left:auto;font-size:.8rem;color:rgba(255,255,255,.7);">1 / 20</span>
+      </div>
+      <div style="background:#222;padding:16px;overflow-y:auto;max-height:72vh;display:flex;align-items:center;justify-content:center;">
+        <img id="b-page-img" src="" alt="brochure" style="max-width:100%;max-height:68vh;border-radius:6px;display:block;margin:0 auto;">
+      </div>
+      <div style="background:var(--navy);padding:12px 20px;border-radius:0 0 var(--r) var(--r);display:flex;align-items:center;justify-content:center;gap:16px;">
+        <button onclick="bPrev()" style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:8px 22px;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;" data-i18n="modal_prev">◀ 이전</button>
+        <span id="b-dots" style="display:flex;gap:6px;align-items:center;"></span>
+        <button onclick="bNext()" style="background:rgba(255,255,255,.15);border:none;color:#fff;padding:8px 22px;border-radius:20px;cursor:pointer;font-size:.9rem;font-weight:600;" data-i18n="modal_next">다음 ▶</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+'use strict';
+
+// ── i18n 데이터 ──────────────────────────────────────────────────
+const LANG = {
+  ko: {
+    title:           'FeelGood — 뇌과학 기반 맞춤 교육',
+    nav_home:        '🏠 홈',
+    nav_school:      '🏫 학교 제안',
+    nav_test:        '🧬 검사 소개',
+    nav_brainmap:    '🧠 BRAINMAP',
+    hero_h1:         '뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템',
+    hero_p:          'K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.',
+    hero_btn_school: '🏫 학교 제안서 보기',
+    hero_btn_test:   '🧬 검사 소개',
+    stat1:           '년간 축적 데이터',
+    stat2:           '두뇌 특성 유형',
+    stat3:           'PASS 인지축',
+    stat4:           '회 연간 커리큘럼',
+    school_title:       '학교 제안 요약',
+    school_sub:         '기존 창체·인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다. 정규수업 없이 의무시수만으로 운영 가능합니다.',
+    school_pb_h2:       '진정한 글로벌 교육의 탁월함은<br>학생 개인의 인지적 특성을 이해하는 것에서 시작됩니다.',
+    school_pb_p:        'K-PASS / D-CAS는 비언어 중심, 정답이 존재하는 문제평가로 정확한 뇌 기능을 평가합니다. 교사의 업무 부담을 줄이는 동시에 진정한 학생 중심 학습 환경을 구현합니다.',
+    school_c1_h: '과학적 진단 기반',    school_c1_p: 'K-PASS/D-CAS 검사로 81가지 두뇌 특성 분류. 게임형 인지과학 검사, 40년 축적 데이터 기반 높은 신뢰도.',
+    school_c2_h: '정규수업 Zero 침범', school_c2_p: '창체·인성교육 의무시수 및 방과후 활용 가능. 교과 교사 업무 추가 없음, 담임 진행 가능.',
+    school_c3_h: 'AI 자동화 리포트',   school_c3_p: '인성교육 실적보고서, 학생 성장 리포트, 생기부 참고 서술 자동 생성. 교사 행정 업무 절감.',
+    school_c4_h: '측정 가능한 성장',   school_c4_p: '연 2회 재진단으로 정서지능·인지성장 변화를 수치로 증명. 학교 평가 자료로 활용 가능.',
+    school_c5_h: '다문화·글로벌 적합', school_c5_p: '비언어 중심 검사로 다문화·다언어 환경 최적화. 국제학교·사립학교 모두 적용 가능.',
+    school_c6_h: '보편 가치 기반',     school_c6_p: '동서양 철학·윤리 원리 기반 공통 가치교육. 특정 종교 편향 없는 균형 잡힌 인성교육.',
+    school_entry_title: '학교 진입 경로',
+    school_s1_num: '1순위', school_s1_h: '인성교육 의무시수',    school_s1_p: '창의적 체험활동 연 204시간',
+    school_s2_num: '2순위', school_s2_h: '방과후학교',            school_s2_p: '선택형 프로그램 운영',
+    school_s3_num: '3순위', school_s3_h: '조례·종례 루틴',        school_s3_p: '매일 10분 MindCompass',
+    school_s4_num: '결과',  school_s4_h: '학생 성장 데이터',      school_s4_p: '학기별 리포트 자동 생성',
+    school_pkg_title: '도입 패키지',
+    school_th1: '패키지', school_th2: '포함 내용', school_th3: '가격',
+    school_p1_name: '검사만',              school_p1_desc: 'K-PASS / D-CAS 검사 진행 (결과 리포트 포함)',                 school_p1_price: '75,000원 / 인',
+    school_p2_name: '검사 + 프로그램 제작', school_p2_desc: '검사 진행 + 학교 맞춤 AI 프로그램 설계 제작 + 플랫폼 이용', school_p2_price: '10,000원 / 인', school_p2_note: '+ 프로그램 사용료',
+    school_p3_name: '검사 + 예시 프로그램', school_p3_desc: '검사 진행 + 기존 예시 프로그램 그대로 운영',                school_p3_price: '10,000원 / 인', school_p3_note: '+ 4,000원 / 명 (전교 인원 기준)',
+    school_guide_title: '💡 안내',
+    school_guide_body:  '· 학교 전체 인원수에 따라 금액 협의 가능합니다.<br>· 프로그램 사용료는 도입 기능·커스터마이징 범위에 따라 별도 안내드립니다.',
+    school_btn_test: '🧬 검사 소개 보기', school_btn_brainmap: '🧠 BRAINMAP 프로그램', school_btn_contact: '✉ 문의하기',
+    test_title: '검사 소개', test_sub: '한국 최고 전문가의 40년간 축적된 분석 데이터 기반, 세계 최초 게임형 두뇌 잠재력 평가 시스템.',
+    test_brochure_btn: '📄 검사 소개 브로셔 보기',
+    test_kp_badge: 'K⁺PASS · 케이-패스', test_kp_title: '아동 학습·적성<br>지능검사', test_kp_age: '5세 ~ 13세',
+    test_kp_p: '한국 최초 게임형 두뇌 잠재력 평가. P·A·S·S 4축 기반 인지처리 경로 직접 분석, 두뇌 발달 패턴 정량화.',
+    test_kp_pill1: '영재·재능 분석', test_kp_pill2: 'ADHD 조기 선별', test_kp_pill3: '학습법 추천',
+    test_dc_badge: 'D⁺CAS · 다-카스', test_dc_title: '청소년·성인<br>진로·직무 검사', test_dc_age: '14세 ~ 성인',
+    test_dc_p: '두뇌유형 분석 / 인지적 능력 / 직무적성 리스트. 기업 HR·군·경·보안 기관까지 활용 가능한 뇌 기반 진로·적성 검사.',
+    test_dc_pill1: '직무 적합도 분석', test_dc_pill2: 'HR 대시보드', test_dc_pill3: '진로 추천',
+    test_pass_title: 'PASS 4축 인지 평가',
+    test_p_name: '계획력', test_p_desc: '전두엽 기반 실행 기능. 자기통제·전략 수립·목표 달성 능력',
+    test_a_name: '주의력', test_a_desc: '선택적 주의·집중 유지. 학습 효율성·ADHD 관련 지표',
+    test_s_name: '동시처리', test_s_desc: '우뇌 패턴·전체 맥락 파악. 창의적·시각적·직관적 사고',
+    test_ss_name: '순차처리', test_ss_desc: '좌뇌 언어·논리·단계 처리. 순서·규칙 기반 학습 강점',
+    test_sample_title: '샘플 검사 체험', test_sample_sub: '버튼을 눌러 샘플 문항을 직접 체험해보세요. 체험판에서는 애니메이션 스토리 없이 샘플 문항만 체험 가능합니다.',
+    test_kp_sample_h: 'K-PASS 샘플 검사', test_kp_sample_p: '아동 학습·적성 지능검사<br>5세 ~ 13세 대상<br><br>게임형 인지 과제로 두뇌 잠재력을 직접 체험해보세요.', test_kp_sample_btn: '🎮 K-PASS 샘플 검사 시작',
+    test_dc_sample_h: 'D-CAS 샘플 검사', test_dc_sample_p: '청소년·성인 진로·직무 검사<br>14세 ~ 성인 대상<br><br>뇌 기반 진로·직무 적성을 직접 체험해보세요.', test_dc_sample_btn: '🎮 D-CAS 샘플 검사 시작',
+    test_video_title: '방송 &amp; 시연 영상',
+    test_vid1_id: 'ylshKknab6o', test_vid1_lbl: '📺 방송 소개', test_vid1_title: 'K-PASS 언론 영상 — SBS Biz 〈트렌드스페셜〉', test_vid1_desc: 'SBS Biz 트렌드스페셜에 소개된 K-PASS 두뇌 잠재력 평가 시스템 방송 편집본입니다.',
+    test_vid2_id: 'oXEDKWu2Bys', test_vid2_lbl: '🎮 검사 시연', test_vid2_title: 'K-PASS 게임 검사 시연', test_vid2_desc: '실제 게임형 검사 진행 화면. 아동이 흥미롭게 참여하는 과정을 확인하세요.',
+    test_vid3_id: 'SuzKbQHOMJc', test_vid3_lbl: '🖥 관리자 페이지', test_vid3_title: '소속 관리자 어드민 소개', test_vid3_desc: '기관 담당자용 관리자 대시보드 및 학생 데이터 관리 시스템을 확인하세요.',
+    test_ytwatch: 'YouTube에서 보기', test_ytbtn: 'YouTube에서 보기 →',
+    test_process_title: '검사 프로세스',
+    test_step1_h: '다운로드', test_step2_h: '검사 진행', test_step2_p: '30~50분 소요<br>게임형 진행', test_step3_h: '결과 확인', test_step3_p: '검사 완료 즉시<br>자동 리포트',
+    bm_title: 'BRAINMAP 프로그램', bm_sub: '선생님들이 하고 계신 인성교육을 데이터로 보이게 만들고, 학생별 맞춤으로 바꿔드리는 학생 성장 관리 시스템입니다.',
+    bm_pb_p: '기존 SEL(사회정서학습)과 인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다.<br>"교육 프로그램"이 아닌 <strong>"학생 성장 관리 시스템"</strong>입니다.',
+    bm_cur_title: '32회 연간 커리큘럼 (예시)', bm_cur_sub: 'PASS 4축 기반 4단계 × 8회, 주 1회 40분 × 32주 + 매일 10분 조례/종례 루틴 병행.<br><strong>초등 창의적 체험활동</strong>과 <strong>중고등 진로 수업</strong>에 최적화된 회차별 콘텐츠로 구성됩니다.',
+    ph1_rnd: '1~8회 · 1학기 전반', ph1_h3: '자기이해<br>&amp; 감정 인식', ph1_core: '🔵 "나는 어떤 뇌를 가진 사람인가"',
+    ph1_s1: '<strong>1회</strong> K-PASS 초기검사 &amp; 두뇌유형 공개<em>초등: 내 뇌 캐릭터 만들기 / 중고: 두뇌유형 자기소개서</em>',
+    ph1_s2: '<strong>2회</strong> PASS 축 강점 이해<em>초등: 강점 빙고게임 / 중고: 강점-직업 매핑</em>',
+    ph1_s3: '<strong>3회</strong> 감정 언어 확장<em>초등: 감정 색깔 그림 / 중고: 감정일기 구조화</em>',
+    ph1_s4: '<strong>4회</strong> 내 감정 패턴 발견<em>초등: 감정 달력 / 중고: 트리거 분석</em>',
+    ph1_s5: '<strong>5회</strong> 학습 선호 방식 탐색<em>초등: 수업 방식 투표 / 중고: 학습전략 매칭</em>',
+    ph1_s6: '<strong>6회</strong> 강점 스토리 만들기<em>초등: 슈퍼파워 발표 / 중고: 포트폴리오 초안</em>',
+    ph1_s7: '<strong>7회</strong> 두뇌유형별 감정 반응 이해', ph1_s8: '<strong>8회</strong> 1단계 점검 &amp; 성장 확인',
+    ph2_rnd: '9~16회 · 1학기 후반', ph2_h3: '자기조절<br>&amp; 실행력', ph2_core: '🟢 "생각을 행동으로 바꾸는 힘"',
+    ph2_s1: '<strong>9회</strong> 계획력(P축) — 마인드맵<em>초등: 오늘 할일 맵 / 중고: 진로 로드맵</em>',
+    ph2_s2: '<strong>10회</strong> 루틴 설계 &amp; 습관<em>초등: 아침루틴 카드 / 중고: 주간 플래너</em>',
+    ph2_s3: '<strong>11회</strong> 충동 조절 전략<em>초등: STOP 신호 게임 / 중고: 의사결정 매트릭스</em>',
+    ph2_s4: '<strong>12회</strong> 집중력 향상 (A축)<em>초등: 뽀모도로 체험 / 중고: 딥워크 설계</em>',
+    ph2_s5: '<strong>13회</strong> 목표 설정 &amp; 실행<em>초등: OX 목표 게임 / 중고: SMART 목표</em>',
+    ph2_s6: '<strong>14회</strong> 자기 대화 패턴 점검', ph2_s7: '<strong>15회</strong> 성취 경험 설계하기', ph2_s8: '<strong>16회</strong> 중간 리포트 &amp; 반환점 점검',
+    ph3_rnd: '17~24회 · 2학기 전반', ph3_h3: '관계<br>&amp; 도덕적 사고', ph3_core: '🟡 "타인과 함께 살아가는 사고"',
+    ph3_s1: '<strong>17회</strong> 두뇌유형별 갈등 패턴<em>초등: 갈등 역할극 / 중고: 갈등 유형 분석</em>',
+    ph3_s2: '<strong>18회</strong> 공감 &amp; 관점 전환<em>초등: 친구 마음 읽기 / 중고: 다양성 토론</em>',
+    ph3_s3: '<strong>19회</strong> 딜레마 카드 토론<em>초등: 동화 속 선택 / 중고: 사회 이슈 딜레마</em>',
+    ph3_s4: '<strong>20회</strong> 협력 과제 (S축)<em>초등: 모둠 프로젝트 / 중고: 팀 리더십</em>',
+    ph3_s5: '<strong>21회</strong> 윤리적 판단 훈련<em>초등: 옳고 그름 스토리 / 중고: 직업윤리</em>',
+    ph3_s6: '<strong>22회</strong> 리더십 유형 탐색<em>초등: 리더 역할 체험 / 중고: 리더십 브랜드</em>',
+    ph3_s7: '<strong>23회</strong> 갈등 해결 전략 실습', ph3_s8: '<strong>24회</strong> 관계 성장 스토리 작성',
+    ph4_rnd: '25~32회 · 2학기 후반', ph4_h3: '가치<br>&amp; 습관화', ph4_core: '🔴 "나는 어떤 사람으로 살 것인가"',
+    ph4_s1: '<strong>25회</strong> 핵심 가치 발견<em>초등: 가치 카드 분류 / 중고: 직업 가치관 매칭</em>',
+    ph4_s2: '<strong>26회</strong> 철학 기반 딜레마<em>초등: 가치 선택 / 중고: 진로·사회 딜레마 심화</em>',
+    ph4_s3: '<strong>27회</strong> 자기 선언문 작성<em>초등: 나는 ○○하는 사람 / 중고: Personal Statement</em>',
+    ph4_s4: '<strong>28회</strong> 장기 목표 &amp; 진로 연결<em>초등: 꿈 직업 타임라인 / 중고: 진로 로드맵 완성</em>',
+    ph4_s5: '<strong>29회</strong> 내가 만들 세상 디자인<em>초등: 미래 도시 그리기 / 중고: 사회문제 해결 기획</em>',
+    ph4_s6: '<strong>30회</strong> 두뇌유형별 성장 포트폴리오', ph4_s7: '<strong>31회</strong> 변화 발표 &amp; 피어 피드백', ph4_s8: '<strong>32회</strong> 최종 평가 &amp; 성장 리포트',
+    bm_ai_h: '🤖 학교 니즈에 따른 AI 맞춤 프로그램 설계',
+    bm_ai_p: '위 32회 커리큘럼은 표준 예시입니다.<br>학교의 학년·교과·목표·일정에 따라 <strong>AI가 맞춤형 프로그램을 자동 설계</strong>합니다.<br>K-PASS/D-CAS 검사 데이터 + 학교 특성 입력 → 최적화된 회차별 맞춤 콘텐츠 생성.',
+    bm_chip1: '📚 초등 창의적 체험활동 연계', bm_chip2: '🎓 중고등 진로 수업 연계', bm_chip3: '🌍 국제학교 IB/SEL 연계',
+    bm_chip4: '🏢 방과후 프로그램 맞춤', bm_chip5: '⏰ 주1회 / 격주 / 집중형 선택', bm_chip6: '🤖 두뇌유형별 개인 맞춤 콘텐츠',
+    bm_ai_dur_lbl: '맞춤 콘텐츠 및 기능에 따른 제작 소요 기간', bm_ai_dur: '1개월 ~ 2개월 소요',
+    bm_ops_title: '학교 연간 운영 구조',
+    bm_op1_h: '운영 구조', bm_op1_p: '<strong>1학기:</strong> 1~16회 (자기이해 + 자기조절)<br><strong>2학기:</strong> 17~32회 (관계 + 가치)<br>학기별 결과 리포트 제공',
+    bm_op2_h: '수업 방식', bm_op2_p: '<strong>주 1회 40분</strong> — 창체·진로 수업<br><strong>매일 10분</strong> — 조례/종례 MindCompass<br>정규수업 침범 없음',
+    bm_op3_h: '평가 구조', bm_op3_p: '<strong>Pre Assessment</strong> — K-PASS 초기검사<br><strong>Mid Report</strong> — 16회 중간 점검<br><strong>Final Report</strong> — 32회 성장 데이터',
+    bm_age_title: '연령별 핵심 포인트',
+    bm_age1_h: '유치 / Kindergarten', bm_age1_range: '5~7세', bm_age1_t1: '감정 인식', bm_age1_t2: '기본 자기조절', bm_age1_t3: '사회성 기초',
+    bm_age1_q: '"아이들이 자신의 감정을 이해하고 표현하는 능력은 모든 학습의 출발점입니다."',
+    bm_age1_app: '<strong>적용:</strong> 감정 선택 UI, 스토리 기반 딜레마, 놀이형 MindCompass',
+    bm_age2_h: '초등 / Primary ⭐', bm_age2_range: '8~12세 · 창체 수업 핵심', bm_age2_t1: '자기조절력', bm_age2_t2: '집중력', bm_age2_t3: '습관 형성', bm_age2_t4: '창체 연계',
+    bm_age2_q: '"이 시기는 \'머리가 좋은 아이\'보다 \'스스로 조절하는 아이\'가 성장을 결정합니다."',
+    bm_age2_app: '<strong>창체 연계:</strong> 계획력 훈련, 루틴 관리, 감정 딜레마<br><strong>효과:</strong> 학습태도·집중력·숙제 수행률 개선',
+    bm_age3_h: '중고등 / Secondary', bm_age3_range: '13~18세 · 진로 수업 연계', bm_age3_t1: '가치관 형성', bm_age3_t2: '자기 정체성', bm_age3_t3: '진로 탐색', bm_age3_t4: '비판적 사고',
+    bm_age3_q: '"\'무엇을 아는가\'보다 \'어떻게 판단하고 선택하는가\'가 중요한 시기입니다."',
+    bm_age3_app: '<strong>진로 연계:</strong> 철학 딜레마, 진로 로드맵, Personal Statement<br><strong>효과:</strong> 대학 진학 준비, 리더십, 윤리적 사고',
+    bm_diff_title: '기존 프로그램과의 차별점', bm_old_h: '❌ 기존 SEL / 인성교육',
+    bm_old_1: '😐 정성적 평가 — 측정 어려움', bm_old_2: '😐 결과 데이터 없음', bm_old_3: '😐 일괄적 교육 (개인 맞춤 없음)', bm_old_4: '😐 교사 주관 개입', bm_old_5: '😐 성장 증명 불가',
+    bm_new_1: '✨ 데이터 기반 정량 평가', bm_new_2: '✨ 학기별 성장 리포트 자동 생성', bm_new_3: '✨ 81가지 두뇌유형별 개인 맞춤', bm_new_4: '✨ AI 자동 분석으로 주관 차단', bm_new_5: '✨ 행동 변화 추적 &amp; 증명 가능',
+    bm_decide_title: '학교 도입 결정 포인트',
+    bm_d1_h: '추가 수업 아님', bm_d1_p: '창체·SEL 시수를 데이터 기반 업그레이드. 정규수업 침범 Zero.',
+    bm_d2_h: '교사 부담 없음', bm_d2_p: '자동 콘텐츠·자동 리포트. 교사는 진행만, 설계는 시스템이.',
+    bm_d3_h: '학부모 만족도↑', bm_d3_p: '개인별 성장 리포트 제공. 학부모가 직접 변화를 확인 가능.',
+    bm_d4_h: '학교 브랜드↑', bm_d4_p: '"정서·사고력까지 관리하는 학교"로 차별화된 교육 브랜드 구축.',
+    bm_dash_title: '교사 대시보드 v3', bm_dash_sub: '학생별 두뇌 유형 · PASS 프로파일 · 맞춤 지도 전략을 한눈에 확인하세요.',
+    bm_dash_label: '🧠 MindCompass — 교사 대시보드 v3', bm_dash_sample: '샘플 데이터로 체험 중',
+    bm_dash_total: '전체 학생', bm_dash_rb: '우뇌 우세형', bm_dash_bal: '좌우밸런스형', bm_dash_lb: '좌뇌 우세형',
+    bm_th_name: '이름', bm_th_type: '두뇌 유형', bm_th_p: '계획(P)', bm_th_a: '주의(A)', bm_th_s: '동시(S)', bm_th_ss: '순차(Ss)', bm_th_guide: '지도 포인트',
+    bm_r1_name: '송서우', bm_r1_type: '우뇌 우세', bm_r1_guide: '창의적 과제 강점 / 순차 훈련 필요',
+    bm_r2_name: '이민준', bm_r2_type: '밸런스형', bm_r2_guide: '균형 발달 / 심화 과제 제공',
+    bm_r3_name: '김지아', bm_r3_type: '좌뇌 우세', bm_r3_guide: '논리·분석 강점 / 창의적 사고 확장',
+    bm_r4_name: '박지훈', bm_r4_type: '밸런스형', bm_r4_guide: '고른 발달 / 개인 관심사 연계 심화',
+    bm_r5_name: '최서연', bm_r5_type: '우뇌 우세', bm_r5_guide: '예술·공간 강점 / 언어 표현 지원',
+    bm_dash_foot: '📌 샘플 데이터 (총 12명 중 5명 표시) — 실제 검사 후 자동 업데이트',
+    bm_dash_try_btn: '🎓 MindCompass 교사 대시보드 체험하기', bm_dash_try_sub: '샘플 데이터로 실제 교사 대시보드 v3를 미리 체험해보세요',
+    bm_dash_try_url: 'https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html',
+    bm_cta_h: '🧠 BRAINMAP · MindCompass 체험하기', bm_cta_p: '샘플 데이터로 학생 두뇌 분석 리포트 및 교사 대시보드를 미리 확인할 수 있습니다.',
+    bm_cta_btn1: '🚀 BrainMap 학생 체험하기', bm_cta_btn2: '🎓 MindCompass 교사 대시보드 체험하기',
+    bm_cta_btn2_url: 'https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html',
+    ft_quote: '"모든 사람들이 각자의 자리에서 영웅이 되는 그날까지, 필굿은 멈추지 않습니다."',
+    ft_nav_title: '바로가기', ft_nav_home: '홈', ft_nav_school: '학교 제안서', ft_nav_test: '검사 소개',
+    ft_address: '서울 브런치 / 부산 본사 / 대구 연구소', ft_ceo: 'CEO 임유하 · 설립 2020년 8월 · 벤처기업 승인',
+    modal_title: '📄 검사 소개 브로셔 — FeelGood K-PASS / D-CAS', modal_prev: '◀ 이전', modal_next: '다음 ▶',
+  },
+  en: {
+    title:           'FeelGood — Brain Science-Based Personalized Education',
+    nav_home:        '🏠 Home',
+    nav_school:      '🏫 School Proposal',
+    nav_test:        '🧬 Assessment Overview',
+    nav_brainmap:    '🧠 BRAINMAP',
+    hero_h1:         'Brain Science-Based · Advanced Personalized Education System',
+    hero_p:          'K-PASS / D-CAS Cognitive — Assessing each student\'s brain type through diagnosis,<br>delivering genuine growth through data-driven personalized education.',
+    hero_btn_school: '🏫 School Proposal',
+    hero_btn_test:   '🧬 Assessment Overview',
+    stat1:           'Years of Accumulated Data',
+    stat2:           'Brain Characteristic Types',
+    stat3:           'PASS Cognitive Axes',
+    stat4:           'Annual Curriculum Sessions',
+    school_title:       'School Proposal Summary',
+    school_sub:         'Upgrade existing creative activities and character education to a data-driven personalized system. Operable with mandatory hours only, without regular classes.',
+    school_pb_h2:       'True excellence in global education<br>begins with understanding each student\'s cognitive characteristics.',
+    school_pb_p:        'K-PASS / D-CAS uses non-verbal, objective assessments to accurately evaluate brain characteristics, reducing teacher workload while creating a truly student-centered learning environment.',
+    school_c1_h: 'Science-Based Diagnosis',       school_c1_p: 'Classifies 81 brain characteristic types via K-PASS/D-CAS. Game-based cognitive science assessments with 40 years of accumulated data for high reliability.',
+    school_c2_h: 'Zero Regular Class Intrusion',  school_c2_p: 'Usable within mandatory creative activities/character education hours and after-school programs. No additional workload for teachers; homeroom teachers can facilitate.',
+    school_c3_h: 'AI Auto Report',                school_c3_p: 'Auto-generates character education performance reports, student growth reports, and school record descriptions. Reduces teacher administrative workload.',
+    school_c4_h: 'Measurable Growth',             school_c4_p: 'Twice-yearly reassessment proves emotional intelligence and cognitive growth changes numerically. Usable as school evaluation data.',
+    school_c5_h: 'Multicultural & Global Fit',    school_c5_p: 'Non-verbal assessments optimized for multicultural and multilingual environments. Applicable to both international and private schools.',
+    school_c6_h: 'Universal Values-Based',        school_c6_p: 'Character education based on Eastern and Western philosophical/ethical principles. Balanced character education without religious bias.',
+    school_entry_title: 'School Entry Pathways',
+    school_s1_num: '1st Priority', school_s1_h: 'Mandatory Character Education Hours', school_s1_p: 'Creative Experiential Activities: 204 hours/year',
+    school_s2_num: '2nd Priority', school_s2_h: 'After-School Program',               school_s2_p: 'Elective program operation',
+    school_s3_num: '3rd Priority', school_s3_h: 'Morning/Closing Assembly Routine',   school_s3_p: 'Daily 10-min MindCompass',
+    school_s4_num: 'Result',       school_s4_h: 'Student Growth Data',                school_s4_p: 'Auto-generated semester reports',
+    school_pkg_title: 'Adoption Package',
+    school_th1: 'Package', school_th2: 'Includes', school_th3: 'Price',
+    school_p1_name: 'Assessment Only',              school_p1_desc: 'K-PASS / D-CAS assessment (results report included)',                          school_p1_price: '75,000 KRW / person',
+    school_p2_name: 'Assessment + Program Design',  school_p2_desc: 'Assessment + school-tailored AI program design & build + platform access',     school_p2_price: '10,000 KRW / person', school_p2_note: '+ program usage fee',
+    school_p3_name: 'Assessment + Sample Program',  school_p3_desc: 'Assessment + run existing sample program as-is',                              school_p3_price: '10,000 KRW / person', school_p3_note: '+ 4,000 KRW / student (whole school)',
+    school_guide_title: '💡 Note',
+    school_guide_body:  '· Pricing is negotiable based on total school enrollment.<br>· Program usage fee varies by features and customization scope — details provided separately.',
+    school_btn_test: '🧬 Assessment Overview', school_btn_brainmap: '🧠 BRAINMAP Program', school_btn_contact: '✉ Contact Us',
+    test_title: 'Assessment Introduction', test_sub: 'Korea\'s leading experts\' 40-year accumulated data — the world\'s first game-based brain potential assessment system.',
+    test_brochure_btn: '📄 Assessment Introduction Brochure',
+    test_kp_badge: 'K⁺PASS · K-PASS', test_kp_title: 'Children\'s Learning · Aptitude<br>Intelligence Assessment', test_kp_age: 'Ages 5–13',
+    test_kp_p: 'Korea\'s first game-based brain potential assessment. Directly analyzes cognitive processing pathways across 4 P·A·S·S axes, quantifying brain development patterns.',
+    test_kp_pill1: 'Gifted & Talented Analysis', test_kp_pill2: 'ADHD Early Screening', test_kp_pill3: 'Learning Method Recommendation',
+    test_dc_badge: 'D⁺CAS · D-CAS', test_dc_title: 'Youth · Adult<br>Career · Job Assessment', test_dc_age: 'Ages 14 – Adult',
+    test_dc_p: 'Brain type analysis / cognitive ability / job aptitude profiling. Applicable across corporate HR, military, police, and security institutions — a brain-based career and aptitude assessment.',
+    test_dc_pill1: 'Job Fit Analysis', test_dc_pill2: 'HR Dashboard', test_dc_pill3: 'Career Recommendation',
+    test_pass_title: 'PASS 4-Axis Cognitive Assessment',
+    test_p_name: 'Planning Ability', test_p_desc: 'Prefrontal cortex-based executive functions: self-control, strategy building, and goal achievement.',
+    test_a_name: 'Attention Ability', test_a_desc: 'Selective attention · focus maintenance · learning efficiency · ADHD-related indicator.',
+    test_s_name: 'Simultaneous Processing', test_s_desc: 'Right brain pattern · holistic context understanding. Creative, visual, and intuitive thinking.',
+    test_ss_name: 'Successive Processing', test_ss_desc: 'Left brain language · logic · sequential processing. Learning strengths in order and rule-based tasks.',
+    test_sample_title: 'Sample Assessment Experience', test_sample_sub: 'Press the button to try sample questions directly. Only sample questions are available in the demo — no animation story.',
+    test_kp_sample_h: 'K-PASS Sample Assessment', test_kp_sample_p: 'Children\'s Learning · Aptitude Intelligence Assessment<br>Ages 5–13<br><br>Experience brain potential directly through game-based cognitive tasks.', test_kp_sample_btn: '🎮 Start K-PASS Sample Assessment',
+    test_dc_sample_h: 'D-CAS Sample Assessment', test_dc_sample_p: 'Youth & Adult Career · Job Assessment<br>Ages 14 – Adult<br><br>Experience brain-based career and job aptitude directly.', test_dc_sample_btn: '🎮 Start D-CAS Sample Assessment',
+    test_video_title: 'Media Coverage &amp; Demo Videos',
+    test_vid1_id: 'MLAF18acdSQ', test_vid1_lbl: '📺 Media Coverage', test_vid1_title: 'FeelGood Media Coverage — SBS Biz — Trend Special', test_vid1_desc: 'K-PASS brain potential assessment system as featured on SBS Biz Trend Special.',
+    test_vid2_id: '0D2frmT02BU', test_vid2_lbl: '🎮 Assessment Demo', test_vid2_title: 'K-PASS Game Assessment Demo', test_vid2_desc: 'Watch the actual game-based assessment in action and see how children engage with the process.',
+    test_vid3_id: 'A6pwJADz3Fs', test_vid3_lbl: '🖥 Admin Page', test_vid3_title: 'Administrator Dashboard Overview', test_vid3_desc: 'Explore the admin dashboard and student data management system designed for school administrators.',
+    test_ytwatch: 'Watch on YouTube', test_ytbtn: 'Watch on YouTube →',
+    test_process_title: 'Assessment Process',
+    test_step1_h: 'Download', test_step2_h: 'Assessment', test_step2_p: '30–50 minutes<br>Game-based', test_step3_h: 'Results', test_step3_p: 'Immediately upon completion<br>Auto Report',
+    bm_title: 'BRAINMAP Program', bm_sub: 'A student growth management system that makes character education visible through data and delivers personalized insights for each student.',
+    bm_pb_p: 'Upgrade existing SEL (Social-Emotional Learning) and character education to a data-driven personalized system.<br>Not just an \"education program\" — a <strong>\"student growth management system.\"</strong>',
+    bm_cur_title: '32-Session Annual Curriculum (Example)', bm_cur_sub: 'PASS 4-axis based 4 phases × 8 sessions, weekly 40 min × 32 weeks + daily 10-min morning/closing assembly routine.<br><strong>Elementary Creative Experiential Activities</strong> and <strong>Middle/High School Career Classes</strong> optimized session content.',
+    ph1_rnd: 'Sessions 1–8 · Semester 1 (First Half)', ph1_h3: 'Self-Awareness<br>&amp; Emotional Intelligence', ph1_core: '🔵 "What kind of brain do I have?"',
+    ph1_s1: '<strong>Session 1</strong> K-PASS initial assessment &amp; brain type reveal<em>Elementary: Create my brain character / Secondary: Brain type self-introduction</em>',
+    ph1_s2: '<strong>Session 2</strong> Understanding PASS axis strengths<em>Elementary: Strengths bingo game / Secondary: Strengths–career mapping</em>',
+    ph1_s3: '<strong>Session 3</strong> Expanding emotional vocabulary<em>Elementary: Emotion color drawing / Secondary: Structured emotion journal</em>',
+    ph1_s4: '<strong>Session 4</strong> Discovering my emotion patterns<em>Elementary: Emotion calendar / Secondary: Trigger analysis</em>',
+    ph1_s5: '<strong>Session 5</strong> Exploring learning preference styles<em>Elementary: Class style voting / Secondary: Learning strategy matching</em>',
+    ph1_s6: '<strong>Session 6</strong> Building a strengths story<em>Elementary: Superpower presentation / Secondary: Portfolio draft</em>',
+    ph1_s7: '<strong>Session 7</strong> Understanding emotional responses by brain type', ph1_s8: '<strong>Session 8</strong> Phase 1 check &amp; growth review',
+    ph2_rnd: 'Sessions 9–16 · Semester 1 (Second Half)', ph2_h3: 'Self-Regulation<br>&amp; Execution Ability', ph2_core: '🟢 "The power to turn thinking into action"',
+    ph2_s1: '<strong>Session 9</strong> Planning (P-axis) — Mind Map<em>Elementary: Today\'s to-do map / Secondary: Career roadmap</em>',
+    ph2_s2: '<strong>Session 10</strong> Routine design &amp; habits<em>Elementary: Morning routine cards / Secondary: Weekly planner</em>',
+    ph2_s3: '<strong>Session 11</strong> Impulse regulation strategies<em>Elementary: STOP signal game / Secondary: Decision-making matrix</em>',
+    ph2_s4: '<strong>Session 12</strong> Focus improvement (A-axis)<em>Elementary: Pomodoro experience / Secondary: Deep work design</em>',
+    ph2_s5: '<strong>Session 13</strong> Goal setting &amp; execution<em>Elementary: OX goal game / Secondary: SMART goals</em>',
+    ph2_s6: '<strong>Session 14</strong> Self-talk pattern check', ph2_s7: '<strong>Session 15</strong> Designing an achievement experience', ph2_s8: '<strong>Session 16</strong> Mid-report &amp; midpoint review',
+    ph3_rnd: 'Sessions 17–24 · Semester 2 (First Half)', ph3_h3: 'Relationships<br>&amp; Moral Reasoning', ph3_core: '🟡 "Thinking about living alongside others"',
+    ph3_s1: '<strong>Session 17</strong> Conflict patterns by brain type<em>Elementary: Conflict role-play / Secondary: Conflict type analysis</em>',
+    ph3_s2: '<strong>Session 18</strong> Empathy &amp; perspective-taking<em>Elementary: Reading a friend\'s mind / Secondary: Diversity discussion</em>',
+    ph3_s3: '<strong>Session 19</strong> Dilemma card discussion<em>Elementary: Fairy tale choices / Secondary: Social issue dilemmas</em>',
+    ph3_s4: '<strong>Session 20</strong> Collaborative task (S-axis)<em>Elementary: Group project / Secondary: Team leadership</em>',
+    ph3_s5: '<strong>Session 21</strong> Ethical judgment training<em>Elementary: Right vs. wrong stories / Secondary: Professional ethics</em>',
+    ph3_s6: '<strong>Session 22</strong> Leadership style exploration<em>Elementary: Leader role experience / Secondary: Leadership brand</em>',
+    ph3_s7: '<strong>Session 23</strong> Conflict resolution strategy practice', ph3_s8: '<strong>Session 24</strong> Writing a relationship growth story',
+    ph4_rnd: 'Sessions 25–32 · Semester 2 (Second Half)', ph4_h3: 'Values<br>&amp; Habit Formation', ph4_core: '🔴 "What kind of person do I want to be?"',
+    ph4_s1: '<strong>Session 25</strong> Core value discovery<em>Elementary: Value card sorting / Secondary: Career value alignment</em>',
+    ph4_s2: '<strong>Session 26</strong> Philosophy-based dilemma<em>Elementary: Value selection / Secondary: Career &amp; social dilemma (advanced)</em>',
+    ph4_s3: '<strong>Session 27</strong> Writing a personal declaration<em>Elementary: "I am someone who ○○" / Secondary: Personal Statement</em>',
+    ph4_s4: '<strong>Session 28</strong> Long-term goals &amp; career connection<em>Elementary: Dream career timeline / Secondary: Career roadmap completion</em>',
+    ph4_s5: '<strong>Session 29</strong> Designing the world I want to create<em>Elementary: Future city drawing / Secondary: Social problem-solving plan</em>',
+    ph4_s6: '<strong>Session 30</strong> Growth portfolio by brain type', ph4_s7: '<strong>Session 31</strong> Change presentation &amp; peer feedback', ph4_s8: '<strong>Session 32</strong> Final assessment &amp; growth report',
+    bm_ai_h: '🤖 AI Personalized Program Design by School Needs',
+    bm_ai_p: 'The 32-session curriculum shown is a standard example.<br>Based on your school\'s grade, subject, goals, and schedule, <strong>AI automatically designs a customized program.</strong><br>K-PASS/D-CAS assessment data + school characteristics → optimized personalized session content.',
+    bm_chip1: '📚 Elementary Creative Experiential Activities', bm_chip2: '🎓 Middle/High School Career Class Integration', bm_chip3: '🌍 International School IB/SEL Integration',
+    bm_chip4: '🏢 After-School Program Customization', bm_chip5: '⏰ Weekly / Biweekly / Intensive options', bm_chip6: '🤖 Brain type-based personalized content',
+    bm_ai_dur_lbl: 'Production time required based on content and features', bm_ai_dur: '1–2 months required',
+    bm_ops_title: 'School Annual Operating Structure',
+    bm_op1_h: 'Operating Structure', bm_op1_p: '<strong>Semester 1:</strong> Sessions 1–16 (Self-awareness + Self-regulation)<br><strong>Semester 2:</strong> Sessions 17–32 (Relationships + Values)<br>Results report provided each semester',
+    bm_op2_h: 'Class Method', bm_op2_p: '<strong>Weekly 40 min</strong> — Creative activities / career class<br><strong>Daily 10 min</strong> — Morning/closing MindCompass<br>Zero intrusion on regular classes',
+    bm_op3_h: 'Assessment Structure', bm_op3_p: '<strong>Pre Assessment</strong> — K-PASS initial assessment<br><strong>Mid Report</strong> — Session 16 midpoint check<br><strong>Final Report</strong> — Session 32 growth data',
+    bm_age_title: 'Key Points by Age Group',
+    bm_age1_h: 'Early Childhood / Kindergarten', bm_age1_range: 'Ages 5–7', bm_age1_t1: 'Emotional Awareness', bm_age1_t2: 'Basic Self-Regulation', bm_age1_t3: 'Social Foundation',
+    bm_age1_q: '"The ability to understand and express one\'s own emotions is the foundation of all learning."',
+    bm_age1_app: '<strong>Application:</strong> Emotion select UI, story-based dilemmas, play-based MindCompass',
+    bm_age2_h: 'Elementary / Primary ⭐', bm_age2_range: 'Ages 8–12 · Core Creative Activities Class', bm_age2_t1: 'Self-Regulation', bm_age2_t2: 'Focus', bm_age2_t3: 'Habit Formation', bm_age2_t4: 'Creative Activities Integration',
+    bm_age2_q: '"At this stage, children who self-regulate independently determine growth more than simply \'smart\' children."',
+    bm_age2_app: '<strong>Creative Activities Integration:</strong> Planning training, routine management, emotion dilemmas<br><strong>Effect:</strong> Improved learning attitude, focus, and homework completion rate',
+    bm_age3_h: 'Middle/High School / Secondary', bm_age3_range: 'Ages 13–18 · Career Class Integration', bm_age3_t1: 'Values Formation', bm_age3_t2: 'Self-Identity', bm_age3_t3: 'Career Exploration', bm_age3_t4: 'Critical Thinking',
+    bm_age3_q: '"Not just \'what you know\' but \'how you judge and choose\' becomes the critical skill."',
+    bm_age3_app: '<strong>Career Integration:</strong> Philosophy dilemma, career roadmap, Personal Statement<br><strong>Effect:</strong> University preparation, leadership, ethical thinking',
+    bm_diff_title: 'What Sets Us Apart', bm_old_h: '❌ Existing SEL / Character Education',
+    bm_old_1: '😐 Qualitative assessment — hard to measure', bm_old_2: '😐 No outcome data', bm_old_3: '😐 Uniform education (no personalization)', bm_old_4: '😐 Teacher subjectivity', bm_old_5: '😐 Growth cannot be proven',
+    bm_new_1: '✨ Data-based quantitative assessment', bm_new_2: '✨ Auto-generated semester growth reports', bm_new_3: '✨ 81 brain type-based personalization', bm_new_4: '✨ AI analysis eliminates subjectivity', bm_new_5: '✨ Behavior change tracking &amp; provable growth',
+    bm_decide_title: 'School Adoption Decision Points',
+    bm_d1_h: 'Not an Additional Class', bm_d1_p: 'Upgrades your existing SEL/creative activity hours with data. Zero intrusion on regular classes.',
+    bm_d2_h: 'No Teacher Burden', bm_d2_p: 'Auto content & auto reports. Teachers only facilitate; the system handles the design.',
+    bm_d3_h: 'Parent Satisfaction↑', bm_d3_p: 'Personalized growth reports for each student. Parents can directly verify changes.',
+    bm_d4_h: 'School Brand↑', bm_d4_p: 'Build a differentiated education brand as "a school that cultivates emotional & cognitive management."',
+    bm_dash_title: 'Teacher Dashboard v3', bm_dash_sub: 'Check each student\'s brain type · PASS profile · personalized guidance strategy at a glance.',
+    bm_dash_label: '🧠 MindCompass — Teacher Dashboard v3', bm_dash_sample: 'Viewing sample data',
+    bm_dash_total: 'All Students', bm_dash_rb: 'Right Brain Dominant', bm_dash_bal: 'Balanced Type', bm_dash_lb: 'Left Brain Dominant',
+    bm_th_name: 'Name', bm_th_type: 'Brain Type', bm_th_p: 'Planning(P)', bm_th_a: 'Attention(A)', bm_th_s: 'Simultaneous(S)', bm_th_ss: 'Successive(Ss)', bm_th_guide: 'Guidance Points',
+    bm_r1_name: 'Song Seo-woo', bm_r1_type: 'Right Brain Dominant', bm_r1_guide: 'Creative task strengths / Sequential training needed',
+    bm_r2_name: 'Lee Min-jun', bm_r2_type: 'Balanced Type', bm_r2_guide: 'Balanced development / Advanced tasks provided',
+    bm_r3_name: 'Kim Ji-a', bm_r3_type: 'Left Brain Dominant', bm_r3_guide: 'Logic & analysis strengths / Creative thinking expansion',
+    bm_r4_name: 'Park Ji-hun', bm_r4_type: 'Balanced Type', bm_r4_guide: 'Balanced development / Individual interests linkage',
+    bm_r5_name: 'Choi Seo-yeon', bm_r5_type: 'Right Brain Dominant', bm_r5_guide: 'Art & spatial strengths / Language expression support',
+    bm_dash_foot: '📌 Sample data (5 of 12 students shown) — auto-updated after actual assessment',
+    bm_dash_try_btn: '🎓 Try MindCompass Teacher Dashboard', bm_dash_try_sub: 'Experience the actual Teacher Dashboard v3 with sample data',
+    bm_dash_try_url: 'https://goldensge22-design.github.io/feelgood-app/feelgood_international%20(1).html',
+    bm_cta_h: '🧠 Try BRAINMAP · MindCompass', bm_cta_p: 'Explore student brain analysis reports and the teacher dashboard in advance with sample data.',
+    bm_cta_btn1: '🚀 Try BrainMap (Student)', bm_cta_btn2: '🎓 Try MindCompass Teacher Dashboard',
+    bm_cta_btn2_url: 'https://goldensge22-design.github.io/feelgood-app/feelgood_international%20(1).html',
+    ft_quote: '"Until the day every person becomes the hero of their own story, FeelGood never stops."',
+    ft_nav_title: 'Quick Links', ft_nav_home: 'Home', ft_nav_school: 'School Proposal', ft_nav_test: 'Assessment Overview',
+    ft_address: 'Seoul Branch / Busan HQ / Daegu Research Lab', ft_ceo: 'CEO Lim Yu-ha · Founded August 2020 · Certified Venture Company',
+    modal_title: '📄 Assessment Introduction Brochure — FeelGood K-PASS / D-CAS', modal_prev: '◀ Previous', modal_next: 'Next ▶',
+  },
+};
+
+// ── 언어 적용 ────────────────────────────────────────────────────
+let currentLang = localStorage.getItem('fg_lang') || 'ko';
+
+function setLang(lang) {
+  currentLang = lang;
+  localStorage.setItem('fg_lang', lang);
+  document.documentElement.lang = lang;
+  document.title = LANG[lang].title;
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    if (LANG[lang][key] !== undefined) {
+      el.innerHTML = LANG[lang][key];
+    }
+  });
+
+  document.getElementById('langToggle').textContent = lang === 'ko' ? 'EN' : 'KO';
+  updateVideos(lang);
+}
+
+function toggleLang() {
+  setLang(currentLang === 'ko' ? 'en' : 'ko');
+}
+
+// ── 섹션 전환 ────────────────────────────────────────────────────
+const SECTIONS = ['home','school','test','brainmap'];
+
+function show(id) {
+  SECTIONS.forEach(s => {
+    const sec = document.getElementById('sec-' + s);
+    if (sec) sec.classList.toggle('active', s === id);
+  });
+  document.querySelectorAll('#ntabs li').forEach(li => {
+    li.classList.toggle('active', li.dataset.s === id);
+  });
+  // 히어로 버튼 active 상태
+  const heroBtns = {
+    school: 'hbtn-school',
+    test:   'hbtn-test',
+    brainmap: 'hbtn-brainmap'
+  };
+  Object.entries(heroBtns).forEach(([sec, btnId]) => {
+    const btn = document.getElementById(btnId);
+    if (btn) btn.classList.toggle('active', sec === id);
+  });
+  window.scrollTo(0, 0);
+}
+
+
+// ── 비디오 URL 동적 업데이트 ─────────────────────────────────────
+function updateVideos(lang) {
+  var vids = ['vid1','vid2','vid3'];
+  vids.forEach(function(v) {
+    var key = 'test_' + v + '_id';
+    var id = LANG[lang][key];
+    if (!id) return;
+    var url = 'https://www.youtube.com/watch?v=' + id;
+    var thumb = 'https://img.youtube.com/vi/' + id + '/hqdefault.jpg';
+    var link = document.getElementById(v + '-link');
+    var thumbEl = document.getElementById(v + '-thumb');
+    var ytBtn = document.getElementById(v + '-ytbtn');
+    if (link) link.href = url;
+    if (thumbEl) thumbEl.src = thumb;
+    if (ytBtn) ytBtn.href = url;
+  });
+  var tryBtn = document.getElementById('bm-dash-try-btn');
+  var ctaBtn2 = document.getElementById('bm-cta-btn2');
+  if (tryBtn && LANG[lang].bm_dash_try_url) tryBtn.href = LANG[lang].bm_dash_try_url;
+  if (ctaBtn2 && LANG[lang].bm_cta_btn2_url) ctaBtn2.href = LANG[lang].bm_cta_btn2_url;
+}
+
+// ── 브로셔 ────────────────────────────────────────────────────────
+var bPages = ["images/img-18.png",
+      "images/img-19.png",
+      "images/img-20.png",
+      "images/img-21.png",
+      "images/img-22.png",
+      "images/img-23.png",
+      "images/img-24.png",
+      "images/img-25.png",
+      "images/img-26.png",
+      "images/img-27.png",
+      "images/img-28.png",
+      "images/img-29.png",
+      "images/img-30.png",
+      "images/img-31.png",
+      "images/img-32.png",
+      "images/img-33.png",
+      "images/img-34.png",
+      "images/img-35.png",
+      "images/img-36.png",
+      "images/img-37.png"];
+var bCur = 0;
+function bRender() {
+  document.getElementById('b-page-img').src = bPages[bCur];
+  document.getElementById('b-page-label').textContent = (bCur+1) + ' / ' + bPages.length;
+  var dots = document.getElementById('b-dots');
+  dots.innerHTML = '';
+  var s = Math.max(0,bCur-4), e = Math.min(bPages.length-1,bCur+4);
+  for(var i=s;i<=e;i++){
+    var d = document.createElement('div');
+    d.style.cssText='width:'+(i===bCur?'20px':'8px')+';height:8px;border-radius:4px;background:'+(i===bCur?'#F5A623':'rgba(255,255,255,.4)')+';transition:.2s;cursor:pointer;';
+    (function(idx){d.onclick=function(){bCur=idx;bRender();};})(i);
+    dots.appendChild(d);
+  }
+}
+function bPrev(){if(bCur>0){bCur--;bRender();}}
+function bNext(){if(bCur<bPages.length-1){bCur++;bRender();}}
+function openB(){bCur=0;bRender();document.getElementById('bModal').classList.add('open');document.body.style.overflow='hidden';}
+function closeB(){document.getElementById('bModal').classList.remove('open');document.body.style.overflow='';}
+document.getElementById('bModal').addEventListener('click',function(e){if(e.target===this)closeB();});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape')closeB();
+  if(!document.getElementById('bModal').classList.contains('open'))return;
+  if(e.key==='ArrowRight')bNext();
+  if(e.key==='ArrowLeft')bPrev();
+});
+// ── 초기화 ───────────────────────────────────────────────────────
+setLang(currentLang);
+// footer 로고 = nav 로고와 동일
+(function(){
+  var navImg = document.querySelector('.nav-logo img');
+  var ftImg  = document.getElementById('footer-logo');
+  if (navImg && ftImg) ftImg.src = navImg.src;
+})();
+
+// nav 스크롤 active 처리
+document.querySelectorAll('#ntabs li').forEach(li => {
+  li.addEventListener('click', () => {
+    document.querySelectorAll('#ntabs li').forEach(l => l.classList.remove('active'));
+    li.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
