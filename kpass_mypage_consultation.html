@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-PASS 마이페이지 — 상담 & 병원 찾기</title>
+<link href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --pu: #534AB7; --pu2: #EEEDFE; --pu3: #3C3489;
+  --teal: #0F6E56; --teal2: #E1F5EE;
+  --amber: #BA7517; --amber2: #FAEEDA;
+  --coral: #993C1D; --coral2: #FAECE7;
+  --gray: #5F5E5A; --gray2: #F1EFE8;
+  --text: #2C2C2A; --text2: #5F5E5A; --text3: #B4B2A9;
+  --border: rgba(44,44,42,0.1); --border2: rgba(44,44,42,0.06);
+  --bg: #FAFAF8; --card: #FFFFFF;
+  --radius: 14px; --radius-sm: 8px;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Pretendard', 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; }
+
+/* ── 탭 헤더 ── */
+.page-header { background: var(--card); border-bottom: 1px solid var(--border2); padding: 0 24px; position: sticky; top: 0; z-index: 100; }
+.page-header h1 { font-size: 17px; font-weight: 600; padding: 16px 0 0; color: var(--text); }
+.page-header .sub { font-size: 12px; color: var(--text3); margin-bottom: 12px; }
+.tabs { display: flex; gap: 0; border-bottom: none; }
+.tab { padding: 10px 16px; font-size: 13px; font-weight: 500; color: var(--text3); cursor: pointer; border-bottom: 2px solid transparent; transition: all .2s; white-space: nowrap; }
+.tab.active { color: var(--pu); border-bottom-color: var(--pu); }
+
+/* ── 레이아웃 ── */
+.container { max-width: 960px; margin: 0 auto; padding: 20px 16px; }
+
+/* ── 섹션 헤더 ── */
+.section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+.section-title { font-size: 15px; font-weight: 600; color: var(--text); }
+.section-badge { font-size: 11px; padding: 3px 8px; border-radius: 20px; background: var(--pu2); color: var(--pu3); font-weight: 500; }
+
+/* ── 검사 정보 카드 ── */
+.exam-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 20px; margin-bottom: 20px; box-shadow: var(--shadow); }
+.exam-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border2); }
+.exam-row:last-child { border-bottom: none; padding-bottom: 0; }
+.exam-type { font-size: 13px; font-weight: 500; color: var(--text); min-width: 80px; }
+.brain-chip { font-size: 11px; padding: 3px 10px; border-radius: 20px; background: var(--pu2); color: var(--pu3); font-weight: 500; }
+.exam-date { font-size: 12px; color: var(--text3); margin-left: auto; }
+.btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; border: none; transition: all .15s; }
+.btn-primary { background: var(--pu); color: #fff; }
+.btn-primary:hover { background: var(--pu3); }
+.btn-outline { background: transparent; color: var(--pu); border: 1px solid var(--pu); margin-left: 4px; }
+.btn-outline:hover { background: var(--pu2); }
+
+/* ── 루트 선택 카드 ── */
+.route-section { margin-bottom: 24px; }
+.route-label { font-size: 12px; color: var(--text3); margin-bottom: 10px; font-weight: 500; letter-spacing: 0.03em; text-transform: uppercase; }
+.route-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+@media (max-width: 600px) { .route-cards { grid-template-columns: 1fr; } }
+.route-card { background: var(--card); border: 1.5px solid var(--border); border-radius: var(--radius); padding: 18px 16px; cursor: pointer; transition: all .2s; position: relative; overflow: hidden; }
+.route-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,0.08); }
+.route-card.active { border-color: var(--pu); box-shadow: 0 0 0 3px var(--pu2); }
+.route-card .icon { width: 36px; height: 36px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; margin-bottom: 10px; }
+.icon-a { background: var(--teal2); }
+.icon-b { background: var(--amber2); }
+.icon-c { background: var(--pu2); }
+.route-card h3 { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; }
+.route-card p { font-size: 11px; color: var(--text2); line-height: 1.5; }
+.route-card .check { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; border-radius: 50%; background: var(--pu); display: none; align-items: center; justify-content: center; }
+.route-card.active .check { display: flex; }
+.check::after { content: '✓'; font-size: 10px; color: #fff; font-weight: 700; }
+
+/* ── 패널 ── */
+.panel { display: none; animation: fadeIn .25s ease; }
+.panel.active { display: block; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(6px); } to { opacity:1; transform: translateY(0); } }
+
+/* ── 상담사 매칭 패널 ── */
+.counselor-list { display: flex; flex-direction: column; gap: 10px; }
+.counselor-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; display: flex; align-items: center; gap: 14px; box-shadow: var(--shadow); }
+.counselor-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--pu2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.counselor-info { flex: 1; }
+.counselor-name { font-size: 14px; font-weight: 600; color: var(--text); }
+.counselor-spec { font-size: 12px; color: var(--text2); margin: 2px 0; }
+.counselor-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 5px; }
+.ctag { font-size: 10px; padding: 2px 7px; border-radius: 10px; background: var(--pu2); color: var(--pu3); }
+.counselor-rating { text-align: right; flex-shrink: 0; }
+.star-score { font-size: 14px; font-weight: 600; color: var(--amber); }
+.star-cnt { font-size: 11px; color: var(--text3); }
+.book-btn { margin-top: 6px; padding: 6px 14px; background: var(--pu); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; display: block; }
+.book-btn:hover { background: var(--pu3); }
+
+/* ── 병원 리스트 패널 ── */
+.filter-row { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
+.fchip { padding: 5px 12px; border: 1px solid var(--border); border-radius: 20px; font-size: 12px; cursor: pointer; background: var(--card); color: var(--text2); transition: all .15s; white-space: nowrap; }
+.fchip.on { background: var(--pu2); border-color: var(--pu); color: var(--pu3); }
+.sort-row { display: flex; gap: 6px; align-items: center; margin-bottom: 12px; }
+.sort-label { font-size: 12px; color: var(--text3); }
+.sort-btn { padding: 4px 10px; border: 1px solid var(--border); border-radius: 6px; font-size: 12px; cursor: pointer; background: var(--card); color: var(--text2); }
+.sort-btn.on { background: var(--pu); color: #fff; border-color: var(--pu); }
+
+.hosp-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); margin-bottom: 10px; overflow: hidden; box-shadow: var(--shadow); }
+.hosp-main { display: flex; gap: 12px; padding: 16px; cursor: pointer; }
+.rank-no { width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 600; flex-shrink: 0; margin-top: 2px; }
+.rn1 { background: var(--pu2); color: var(--pu3); }
+.rn2 { background: var(--teal2); color: var(--teal); }
+.rn3 { background: var(--amber2); color: var(--amber); }
+.rnn { background: var(--gray2); color: var(--gray); }
+.hosp-info { flex: 1; min-width: 0; }
+.hosp-name { font-size: 14px; font-weight: 600; color: var(--text); margin-bottom: 2px; }
+.hosp-type { display: inline-block; font-size: 10px; padding: 2px 7px; border-radius: 4px; margin-bottom: 5px; font-weight: 500; }
+.ht-psy { background: var(--pu2); color: var(--pu3); }
+.ht-child { background: var(--teal2); color: var(--teal); }
+.ht-dev { background: var(--coral2); color: var(--coral); }
+.ht-cog { background: var(--amber2); color: var(--amber); }
+.hosp-addr { font-size: 11px; color: var(--text3); margin-bottom: 5px; }
+.star-row { display: flex; align-items: center; gap: 5px; margin-bottom: 5px; }
+.stars { color: #EF9F27; font-size: 12px; letter-spacing: 0.5px; }
+.s-score { font-size: 13px; font-weight: 600; color: var(--text); }
+.s-cnt { font-size: 11px; color: var(--text3); }
+.src-badge { font-size: 9px; padding: 1px 5px; border-radius: 3px; margin-left: 3px; }
+.src-n { background: #03C75A; color: #fff; }
+.src-k { background: #FEE500; color: #3A1D1D; }
+.src-g { background: #4285F4; color: #fff; }
+.htags { display: flex; gap: 4px; flex-wrap: wrap; }
+.htag { font-size: 10px; padding: 2px 7px; border-radius: 10px; background: var(--gray2); color: var(--gray); }
+.hosp-meta { text-align: right; flex-shrink: 0; }
+.dist { font-size: 11px; color: var(--text3); margin-bottom: 4px; }
+.avail-badge { font-size: 10px; padding: 3px 8px; border-radius: 5px; background: var(--teal2); color: var(--teal); font-weight: 500; }
+
+/* 리뷰 펼침 */
+.review-panel { display: none; border-top: 1px solid var(--border2); padding: 14px 16px; background: var(--bg); }
+.review-panel.open { display: block; animation: fadeIn .2s ease; }
+.review-title { font-size: 12px; font-weight: 600; color: var(--text2); margin-bottom: 10px; }
+.review-item { background: var(--card); border: 1px solid var(--border2); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; }
+.review-header { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+.review-src { font-size: 10px; padding: 1px 6px; border-radius: 4px; }
+.review-stars { color: #EF9F27; font-size: 11px; }
+.review-date { font-size: 10px; color: var(--text3); margin-left: auto; }
+.review-text { font-size: 12px; color: var(--text2); line-height: 1.55; }
+.ai-summary { background: var(--pu2); border-radius: 8px; padding: 10px 12px; margin-bottom: 10px; }
+.ai-label { font-size: 10px; color: var(--pu3); font-weight: 600; margin-bottom: 4px; }
+.ai-text { font-size: 12px; color: var(--pu3); line-height: 1.55; }
+.ai-loading { font-size: 12px; color: var(--pu3); }
+.review-actions { display: flex; gap: 8px; margin-top: 10px; }
+.hosp-book-btn { flex: 1; padding: 8px; background: var(--pu); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; }
+.hosp-book-btn:hover { background: var(--pu3); }
+.hosp-naver-btn { padding: 8px 14px; background: #03C75A; color: #fff; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-weight: 500; }
+.hosp-kakao-btn { padding: 8px 14px; background: #FEE500; color: #3A1D1D; border: none; border-radius: 8px; font-size: 13px; cursor: pointer; font-weight: 500; }
+
+/* ── 예약 모달 ── */
+.modal-bg { position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; display: none; align-items: center; justify-content: center; }
+.modal-bg.open { display: flex; }
+.modal { background: var(--card); border-radius: var(--radius); padding: 24px; width: 90%; max-width: 400px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+.modal-title { font-size: 16px; font-weight: 600; margin-bottom: 16px; }
+.modal-sub { font-size: 13px; color: var(--text2); margin-bottom: 14px; }
+.time-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 14px; }
+.tslot { padding: 8px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; text-align: center; cursor: pointer; color: var(--text2); transition: all .15s; }
+.tslot:hover { border-color: var(--pu); color: var(--pu); }
+.tslot.sel { background: var(--pu2); border-color: var(--pu); color: var(--pu3); font-weight: 600; }
+.tslot.full { background: var(--gray2); color: var(--text3); cursor: default; text-decoration: line-through; }
+.modal-select { width: 100%; padding: 9px 12px; border: 1px solid var(--border); border-radius: 8px; font-size: 13px; margin-bottom: 12px; background: var(--bg); color: var(--text); }
+.modal-actions { display: flex; gap: 8px; }
+.modal-cancel { flex: 1; padding: 10px; background: var(--gray2); color: var(--text2); border: none; border-radius: 8px; font-size: 13px; cursor: pointer; }
+.modal-confirm { flex: 2; padding: 10px; background: var(--pu); color: #fff; border: none; border-radius: 8px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.modal-confirm:hover { background: var(--pu3); }
+
+/* ── 토스트 ── */
+.toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--pu3); color: #fff; padding: 11px 20px; border-radius: 24px; font-size: 13px; font-weight: 500; z-index: 300; opacity: 0; transition: opacity .3s; pointer-events: none; white-space: nowrap; }
+.toast.show { opacity: 1; }
+
+/* ── API 안내 배너 ── */
+.api-banner { background: var(--amber2); border: 1px solid rgba(186,117,23,0.2); border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; color: var(--amber); display: flex; align-items: flex-start; gap: 8px; }
+.api-banner strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+/* ── 상담 신청 내역 ── */
+.history-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.history-table { width: 100%; border-collapse: collapse; }
+.history-table th { font-size: 12px; font-weight: 500; color: var(--text3); padding: 10px 14px; border-bottom: 1px solid var(--border2); text-align: left; background: var(--bg); }
+.history-table td { font-size: 13px; color: var(--text); padding: 12px 14px; border-bottom: 1px solid var(--border2); vertical-align: middle; }
+.history-table tr:last-child td { border-bottom: none; }
+.status-pending { background: var(--amber2); color: var(--amber); font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 500; }
+.status-done { background: var(--teal2); color: var(--teal); font-size: 11px; padding: 3px 8px; border-radius: 5px; font-weight: 500; }
+.apply-btn { padding: 6px 14px; background: var(--pu); color: #fff; border: none; border-radius: 6px; font-size: 12px; font-weight: 500; cursor: pointer; }
+
+/* API Key 입력 */
+.api-key-section { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 16px; margin-bottom: 16px; }
+.api-key-section h4 { font-size: 13px; font-weight: 600; margin-bottom: 10px; color: var(--text); }
+.api-key-row { display: flex; gap: 8px; }
+.api-key-input { flex: 1; padding: 8px 12px; border: 1px solid var(--border); border-radius: 7px; font-size: 12px; background: var(--bg); color: var(--text); }
+.api-key-btn { padding: 8px 14px; background: var(--pu); color: #fff; border: none; border-radius: 7px; font-size: 12px; cursor: pointer; white-space: nowrap; }
+.api-note { font-size: 11px; color: var(--text3); margin-top: 6px; }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <h1>마이페이지 — 송준명</h1>
+  <p class="sub">K-PASS 검사 결과 기반 상담 및 전문 기관 연결 서비스</p>
+  <div class="tabs">
+    <div class="tab active" onclick="switchTab('consult')">상담 / 기관 찾기</div>
+    <div class="tab" onclick="switchTab('history')">신청 내역</div>
+    <div class="tab" onclick="switchTab('settings')">API 설정</div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- 검사 정보 요약 -->
+  <div class="exam-card">
+    <div class="section-header">
+      <span class="section-title">검사정보 (송준명)</span>
+      <button class="btn-sm btn-outline">+ 소속 검사 결과 추가하기</button>
+    </div>
+    <div class="exam-row">
+      <span class="exam-type">K-PASS 1회차</span>
+      <span class="brain-chip">우뇌우세형</span>
+      <span class="brain-chip" style="background:var(--teal2);color:var(--teal)">순차처리 강점</span>
+      <span class="brain-chip" style="background:var(--amber2);color:var(--amber)">계획력 지원필요</span>
+      <span class="exam-date">2023-02-27</span>
+      <button class="btn-sm btn-primary">검사내역</button>
+      <button class="btn-sm btn-outline">가이드</button>
+    </div>
+  </div>
+
+  <!-- 탭 패널들 -->
+  <div id="tab-consult" class="panel active">
+
+    <!-- 루트 선택 -->
+    <div class="route-section">
+      <div class="section-header">
+        <span class="section-title">어떤 도움이 필요하신가요?</span>
+        <span class="section-badge">검사 결과 연동</span>
+      </div>
+      <div class="route-cards">
+        <div class="route-card" id="rc-a" onclick="selectRoute('a')">
+          <div class="check"></div>
+          <div class="icon icon-a">🧑‍💬</div>
+          <h3>상담만 원해요</h3>
+          <p>전문 상담사와 1:1로 결과 해석 및 방향 상담</p>
+        </div>
+        <div class="route-card" id="rc-b" onclick="selectRoute('b')">
+          <div class="check"></div>
+          <div class="icon icon-b">🏥</div>
+          <h3>상담 + 병원 치료</h3>
+          <p>상담 후 전문 기관 연계까지 한 번에</p>
+        </div>
+        <div class="route-card" id="rc-c" onclick="selectRoute('c')">
+          <div class="check"></div>
+          <div class="icon icon-c">🔍</div>
+          <h3>병원 바로 찾기</h3>
+          <p>K-PASS 결과 기반 맞춤 전문 기관 즉시 검색</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 루트 A: 상담사 패널 -->
+    <div id="panel-a" class="panel">
+      <div class="section-header">
+        <span class="section-title">추천 상담사</span>
+        <span class="section-badge">K-PASS 연동</span>
+      </div>
+      <div class="counselor-list">
+        <div class="counselor-card">
+          <div class="counselor-avatar">👩‍⚕️</div>
+          <div class="counselor-info">
+            <div class="counselor-name">김지수 선생님</div>
+            <div class="counselor-spec">아동발달 전문 상담사 · 경력 12년</div>
+            <div class="counselor-tags">
+              <span class="ctag">ADHD</span><span class="ctag">K-PASS 전문</span><span class="ctag">발달평가</span>
+            </div>
+          </div>
+          <div class="counselor-rating">
+            <div class="star-score">★ 4.9</div>
+            <div class="star-cnt">리뷰 218개</div>
+            <button class="book-btn" onclick="openModal('김지수 선생님 상담')">예약하기</button>
+          </div>
+        </div>
+        <div class="counselor-card">
+          <div class="counselor-avatar">👨‍⚕️</div>
+          <div class="counselor-info">
+            <div class="counselor-name">박현우 선생님</div>
+            <div class="counselor-spec">인지심리 전문가 · 경력 8년</div>
+            <div class="counselor-tags">
+              <span class="ctag">학습장애</span><span class="ctag">집중력</span><span class="ctag">PASS이론</span>
+            </div>
+          </div>
+          <div class="counselor-rating">
+            <div class="star-score">★ 4.7</div>
+            <div class="star-cnt">리뷰 142개</div>
+            <button class="book-btn" onclick="openModal('박현우 선생님 상담')">예약하기</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 루트 B: 상담+병원 패널 -->
+    <div id="panel-b" class="panel">
+      <div class="section-header">
+        <span class="section-title">상담 후 전문 기관 연계</span>
+      </div>
+      <div style="background:var(--pu2);border-radius:10px;padding:14px 16px;margin-bottom:14px;font-size:13px;color:var(--pu3);">
+        💡 먼저 상담사와 이야기 나눈 후, 필요 시 아래 전문 기관을 함께 결정할 수 있습니다.
+      </div>
+      <div class="counselor-list" id="counselor-list-b">
+        <div class="counselor-card">
+          <div class="counselor-avatar">👩‍⚕️</div>
+          <div class="counselor-info">
+            <div class="counselor-name">이수민 선생님</div>
+            <div class="counselor-spec">발달장애 · 병원 연계 전문 상담사</div>
+            <div class="counselor-tags">
+              <span class="ctag">기관연계</span><span class="ctag">ADHD</span><span class="ctag">자폐스펙트럼</span>
+            </div>
+          </div>
+          <div class="counselor-rating">
+            <div class="star-score">★ 4.8</div>
+            <div class="star-cnt">리뷰 176개</div>
+            <button class="book-btn" onclick="openModal('이수민 선생님 상담 + 기관 연계')">연계 상담 예약</button>
+          </div>
+        </div>
+      </div>
+      <div class="section-header" style="margin-top:20px">
+        <span class="section-title">연계 추천 기관</span>
+        <span class="section-badge">K-PASS 맞춤</span>
+      </div>
+      <div id="hosp-list-b"></div>
+    </div>
+
+    <!-- 루트 C: 병원 직접 찾기 패널 -->
+    <div id="panel-c" class="panel">
+      <div class="api-banner">
+        <span>⚠️</span>
+        <div>
+          <strong>API 연동 안내</strong>
+          구글 Places API 키를 설정 탭에서 입력하면 실제 병원 정보와 리뷰를 불러옵니다. 현재는 필굿 DB 기반 데이터로 표시됩니다.
+        </div>
+      </div>
+      <div class="filter-row" id="filter-row">
+        <span class="fchip on" data-f="all">전체</span>
+        <span class="fchip" data-f="정신건강의학과">정신건강의학과</span>
+        <span class="fchip" data-f="소아청소년정신과">소아청소년정신과</span>
+        <span class="fchip" data-f="심리발달센터">심리발달센터</span>
+        <span class="fchip" data-f="인지심리발달센터">인지심리발달센터</span>
+        <span class="fchip" data-f="아동발달센터">아동발달센터</span>
+        <span class="fchip" data-f="심리상담센터">심리상담센터</span>
+      </div>
+      <div class="sort-row">
+        <span class="sort-label">정렬</span>
+        <button class="sort-btn on" data-s="rating" onclick="setSort(this,'rating')">별점순</button>
+        <button class="sort-btn" data-s="reviews" onclick="setSort(this,'reviews')">리뷰순</button>
+        <button class="sort-btn" data-s="distance" onclick="setSort(this,'distance')">거리순</button>
+      </div>
+      <div id="hosp-list-c"></div>
+    </div>
+
+  </div><!-- /tab-consult -->
+
+  <!-- 신청 내역 탭 -->
+  <div id="tab-history" class="panel">
+    <div class="section-header">
+      <span class="section-title">상담내역 (송준명)</span>
+    </div>
+    <div class="history-card">
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>검사종류</th><th>상담요청일</th><th>기관/상담사</th><th>상세보기</th><th>상태</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <tr>
+            <td>K-PASS 1회차</td><td>—</td><td>—</td><td>—</td>
+            <td><button class="apply-btn" onclick="switchTab('consult');selectRoute('a')">상담신청</button></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- API 설정 탭 -->
+  <div id="tab-settings" class="panel">
+    <div class="api-key-section">
+      <h4>🗺️ 구글 Places API (병원 정보 + 리뷰)</h4>
+      <div class="api-key-row">
+        <input class="api-key-input" id="google-key" type="password" placeholder="AIza... Google Places API 키 입력">
+        <button class="api-key-btn" onclick="saveKey('google')">저장</button>
+      </div>
+      <p class="api-note">Google Cloud Console → Places API 활성화 → API 키 발급. 무료 할당량: 월 $200 크레딧 (약 5,000~10,000건)</p>
+    </div>
+    <div class="api-key-section">
+      <h4>🟢 카카오맵 API (위치·거리 계산)</h4>
+      <div class="api-key-row">
+        <input class="api-key-input" id="kakao-key" type="password" placeholder="카카오 REST API 키 입력">
+        <button class="api-key-btn" onclick="saveKey('kakao')">저장</button>
+      </div>
+      <p class="api-note">Kakao Developers → 애플리케이션 생성 → REST API 키. 무료 기본 제공.</p>
+    </div>
+    <div class="api-key-section">
+      <h4>🤖 Claude API (리뷰 AI 요약)</h4>
+      <div class="api-key-row">
+        <input class="api-key-input" id="claude-key" type="password" placeholder="sk-ant-... Anthropic API 키 입력">
+        <button class="api-key-btn" onclick="saveKey('claude')">저장</button>
+      </div>
+      <p class="api-note">console.anthropic.com → API Keys. 리뷰 텍스트를 AI가 부모 관점으로 요약합니다.</p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+
+<!-- 예약 모달 -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">예약하기</div>
+    <div class="modal-sub" id="modal-sub">오늘 가능한 시간을 선택해주세요</div>
+    <div class="time-grid" id="time-grid"></div>
+    <select class="modal-select">
+      <option>초진 (처음 방문)</option>
+      <option>재진</option>
+      <option>심리검사 문의</option>
+      <option>전화상담 후 방문</option>
+    </select>
+    <div class="modal-actions">
+      <button class="modal-cancel" onclick="closeModal()">취소</button>
+      <button class="modal-confirm" onclick="confirmBook()">예약 확정</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ─── 데이터 ─── */
+const HOSPITALS = [
+  {id:1, name:"연세 정신건강의학과", type:"정신건강의학과", tc:"ht-psy", rating:4.9, reviews:312, dist:0.8,
+   tags:["ADHD","불안장애","인지치료"], addr:"부산 해운대구",
+   avail:["09:00","10:00","14:00","16:00"], full:["11:00","15:00"],
+   naverUrl:"https://map.naver.com", kakaoUrl:"https://map.kakao.com",
+   googlePlaceId:"ChIJ_sample_1",
+   sampleReviews:[
+     {src:"google", stars:5, text:"아이 ADHD 진단 이후 정기적으로 다니고 있어요. 선생님이 K-PASS 결과도 잘 이해하시고 체계적으로 접근해주십니다.", date:"2024-11"},
+     {src:"naver", stars:5, text:"발달 평가부터 치료까지 연계가 잘 됩니다. 대기가 좀 있지만 그만한 가치가 있어요.", date:"2024-10"},
+     {src:"kakao", stars:4, text:"친절하고 전문적입니다. 예약이 빨리 마감되니 미리 연락하세요.", date:"2024-09"},
+   ]},
+  {id:2, name:"밝음 소아청소년정신과", type:"소아청소년정신과", tc:"ht-child", rating:4.8, reviews:278, dist:1.2,
+   tags:["ADHD","발달장애","K-PASS"], addr:"부산 남구",
+   avail:["09:30","10:30","13:30","16:30"], full:["11:30","14:30"],
+   naverUrl:"https://map.naver.com", kakaoUrl:"https://map.kakao.com",
+   googlePlaceId:"ChIJ_sample_2",
+   sampleReviews:[
+     {src:"google", stars:5, text:"소아 전문이라 아이 눈높이에 맞게 상담해주세요. 부모 상담도 따로 진행해주십니다.", date:"2024-12"},
+     {src:"naver", stars:4, text:"검사와 치료를 같이 진행할 수 있어서 좋았습니다.", date:"2024-11"},
+   ]},
+  {id:3, name:"마음숲 심리발달센터", type:"심리발달센터", tc:"ht-dev", rating:4.8, reviews:201, dist:1.5,
+   tags:["발달평가","놀이치료","언어발달"], addr:"부산 수영구",
+   avail:["10:00","11:00","14:00","17:00"], full:["09:00","15:00"],
+   naverUrl:"https://map.naver.com", kakaoUrl:"https://map.kakao.com",
+   googlePlaceId:"ChIJ_sample_3",
+   sampleReviews:[
+     {src:"google", stars:5, text:"놀이치료 전문이에요. 아이가 거부감 없이 잘 다닙니다. PASS 평가 후 맞춤 프로그램으로 연결해주셨어요.", date:"2024-10"},
+   ]},
+  {id:4, name:"브레인업 인지심리발달센터", type:"인지심리발달센터", tc:"ht-cog", rating:4.7, reviews:189, dist:2.1,
+   tags:["PASS평가","인지훈련","집중력"], addr:"부산 연제구",
+   avail:["09:00","10:00","14:00","16:00"], full:["11:00","15:00"],
+   naverUrl:"https://map.naver.com", kakaoUrl:"https://map.kakao.com",
+   googlePlaceId:"ChIJ_sample_4",
+   sampleReviews:[
+     {src:"google", stars:5, text:"K-PASS 기반 인지훈련 프로그램이 체계적입니다. 3개월 만에 집중력이 눈에 띄게 좋아졌어요.", date:"2024-11"},
+     {src:"kakao", stars:4, text:"전문성 있고 친절합니다. 다만 주차가 불편해요.", date:"2024-09"},
+   ]},
+  {id:5, name:"해솔 아동발달센터", type:"아동발달센터", tc:"ht-dev", rating:4.7, reviews:156, dist:1.8,
+   tags:["감각통합","언어치료","자폐스펙트럼"], addr:"부산 동래구",
+   avail:["09:00","10:30","14:30","16:00"], full:["11:30","15:30"],
+   naverUrl:"https://map.naver.com", kakaoUrl:"https://map.kakao.com",
+   googlePlaceId:"ChIJ_sample_5",
+   sampleReviews:[
+     {src:"google", stars:5, text:"감각통합치료 최고예요. 선생님들이 너무 친절하고 아이와 잘 맞아요.", date:"2024-12"},
+   ]},
+];
+
+var sortKey = 'rating', filterKey = 'all', openHosp = null, selectedSlot = '', currentModal = '';
+var CLAUDE_KEY = localStorage.getItem('claude_api_key') || '';
+var GOOGLE_KEY = localStorage.getItem('google_api_key') || '';
+var KAKAO_KEY  = localStorage.getItem('kakao_api_key') || '';
+var aiSummaryCache = {};
+var bookHistory = [];
+
+/* ─── 탭 전환 ─── */
+function switchTab(id) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const ids = ['consult','history','settings'];
+    t.classList.toggle('active', ids[i] === id);
+  });
+  document.querySelectorAll('[id^="tab-"]').forEach(p => {
+    p.classList.toggle('active', p.id === 'tab-' + id);
+  });
+}
+
+/* ─── 루트 선택 ─── */
+function selectRoute(r) {
+  ['a','b','c'].forEach(x => {
+    document.getElementById('rc-'+x).classList.toggle('active', x === r);
+    document.getElementById('panel-'+x).classList.toggle('active', x === r);
+  });
+  if (r === 'b' || r === 'c') renderHospList(r);
+}
+
+/* ─── 필터/정렬 ─── */
+document.getElementById('filter-row').addEventListener('click', e => {
+  const c = e.target.closest('.fchip'); if (!c) return;
+  document.querySelectorAll('.fchip').forEach(x => x.classList.remove('on'));
+  c.classList.add('on'); filterKey = c.dataset.f;
+  renderHospList('c');
+});
+
+function setSort(btn, key) {
+  document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on'); sortKey = key;
+  renderHospList('c');
+}
+
+/* ─── 병원 리스트 렌더 ─── */
+function renderHospList(panel) {
+  let list = [...HOSPITALS];
+  if (filterKey !== 'all') list = list.filter(h => h.type === filterKey);
+  list.sort((a,b) => sortKey==='rating' ? b.rating-a.rating : sortKey==='reviews' ? b.reviews-a.reviews : a.dist-b.dist);
+  const container = document.getElementById(panel === 'c' ? 'hosp-list-c' : 'hosp-list-b');
+  container.innerHTML = list.map((h, i) => {
+    const rc = i===0?'rn1':i===1?'rn2':i===2?'rn3':'rnn';
+    const isOpen = openHosp === h.id;
+    return `<div class="hosp-card" id="hcard-${h.id}">
+      <div class="hosp-main" onclick="toggleHosp(${h.id},'${panel}')">
+        <div class="rank-no ${rc}">${i+1}</div>
+        <div class="hosp-info">
+          <div class="hosp-name">${h.name}</div>
+          <span class="hosp-type ${h.tc}">${h.type}</span>
+          <div class="hosp-addr">📍 ${h.addr} · ${h.dist}km</div>
+          <div class="star-row">
+            <span class="stars">${'★'.repeat(Math.floor(h.rating))}${'☆'.repeat(5-Math.floor(h.rating))}</span>
+            <span class="s-score">${h.rating.toFixed(1)}</span>
+            <span class="s-cnt">(${h.reviews}개)</span>
+            <span class="src-badge src-g">G</span>
+            <span class="src-badge src-n">N</span>
+            <span class="src-badge src-k">K</span>
+          </div>
+          <div class="htags">${h.tags.map(t=>`<span class="htag">${t}</span>`).join('')}</div>
+        </div>
+        <div class="hosp-meta">
+          <div class="dist">${h.dist}km</div>
+          <div class="avail-badge">오늘 예약가능</div>
+        </div>
+      </div>
+      <div class="review-panel${isOpen?' open':''}" id="rpanel-${h.id}">
+        <div class="ai-summary" id="ai-${h.id}">
+          <div class="ai-label">🤖 AI 후기 요약</div>
+          <div class="ai-text" id="ai-text-${h.id}">불러오는 중...</div>
+        </div>
+        <div class="review-title">실제 후기</div>
+        ${h.sampleReviews.map(r => `
+          <div class="review-item">
+            <div class="review-header">
+              <span class="review-src src-badge src-${r.src[0]}">${r.src==='google'?'Google':r.src==='naver'?'Naver':'Kakao'}</span>
+              <span class="review-stars">${'★'.repeat(r.stars)}</span>
+              <span class="review-date">${r.date}</span>
+            </div>
+            <div class="review-text">${r.text}</div>
+          </div>`).join('')}
+        <div class="review-title" style="margin-top:12px">예약 가능 시간</div>
+        <div class="time-grid" style="margin-bottom:8px">
+          ${h.avail.map(t=>`<div class="tslot${selectedSlot===h.id+t?' sel':''}" onclick="pickSlot(${h.id},'${t}')">${t}</div>`).join('')}
+          ${h.full.map(t=>`<div class="tslot full">${t}</div>`).join('')}
+        </div>
+        <div class="review-actions">
+          <button class="hosp-book-btn" onclick="openModal('${h.name}')">필굿으로 예약</button>
+          <button class="hosp-naver-btn" onclick="window.open('${h.naverUrl}')">N 예약</button>
+          <button class="hosp-kakao-btn" onclick="window.open('${h.kakaoUrl}')">K 예약</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  list.forEach(h => {
+    if (openHosp === h.id) loadAiSummary(h);
+  });
+}
+
+/* ─── 병원 카드 토글 ─── */
+function toggleHosp(id, panel) {
+  openHosp = openHosp === id ? null : id;
+  renderHospList(panel);
+  if (openHosp) {
+    const h = HOSPITALS.find(x=>x.id===id);
+    if (h) loadAiSummary(h);
+  }
+}
+
+function pickSlot(hospId, slot) {
+  selectedSlot = selectedSlot === hospId+slot ? '' : hospId+slot;
+  renderHospList(openHosp ? 'c' : 'b');
+}
+
+/* ─── Claude AI 요약 ─── */
+async function loadAiSummary(h) {
+  const el = document.getElementById('ai-text-'+h.id);
+  if (!el) return;
+  if (aiSummaryCache[h.id]) { el.textContent = aiSummaryCache[h.id]; return; }
+
+  if (!CLAUDE_KEY) {
+    el.textContent = '설정 탭에서 Claude API 키를 입력하면 후기를 AI가 요약해드립니다.';
+    return;
+  }
+  el.textContent = '후기 분석 중...';
+  const reviewTexts = h.sampleReviews.map(r=>`[${r.src} ★${r.stars}] ${r.text}`).join('\n');
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': CLAUDE_KEY,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 200,
+        messages: [{
+          role: 'user',
+          content: `다음은 "${h.name}" (${h.type})에 대한 학부모 후기입니다. 아이의 발달·인지 문제로 기관을 찾는 부모 관점에서 핵심을 2~3문장으로 자연스럽게 요약해주세요. 전문성, 친절도, K-PASS/발달평가 관련 내용을 포함하면 좋습니다.\n\n${reviewTexts}`
+        }]
+      })
+    });
+    if (res.status === 401) { localStorage.removeItem('claude_api_key'); CLAUDE_KEY=''; el.textContent='Claude API 키가 유효하지 않습니다. 다시 입력해주세요.'; return; }
+    const data = await res.json();
+    const summary = data.content?.[0]?.text || '요약 생성 실패';
+    aiSummaryCache[h.id] = summary;
+    el.textContent = summary;
+  } catch(e) {
+    el.textContent = '요약 생성 중 오류가 발생했습니다.';
+  }
+}
+
+/* ─── 예약 모달 ─── */
+function openModal(name) {
+  currentModal = name;
+  document.getElementById('modal-title').textContent = name + ' 예약';
+  document.getElementById('modal-sub').textContent = '오늘 가능한 시간을 선택해주세요';
+  const slots = ['09:00','10:00','11:00','13:00','14:00','15:00','16:00','17:00'];
+  const full = ['11:00','15:00'];
+  document.getElementById('time-grid').innerHTML = slots.map(t =>
+    `<div class="tslot${full.includes(t)?' full':''}" onclick="selectModalSlot(this,'${t}')">${t}${full.includes(t)?'<br><small>마감</small>':''}</div>`
+  ).join('');
+  document.getElementById('modal-bg').classList.add('open');
+}
+
+function selectModalSlot(el, t) {
+  if (el.classList.contains('full')) return;
+  document.querySelectorAll('.time-grid .tslot').forEach(x=>x.classList.remove('sel'));
+  el.classList.add('sel');
+  currentModal = currentModal.split(' —')[0] + ' — ' + t;
+}
+
+function closeModal() { document.getElementById('modal-bg').classList.remove('open'); }
+
+function confirmBook() {
+  closeModal();
+  const now = new Date().toLocaleDateString('ko-KR');
+  bookHistory.push({ type:'K-PASS 1회차', date:now, target:currentModal, status:'대기' });
+  renderHistory();
+  showToast(`✅ ${currentModal} 예약이 완료되었습니다. 카카오톡 알림이 발송됩니다.`);
+}
+
+/* ─── 내역 렌더 ─── */
+function renderHistory() {
+  const tbody = document.getElementById('history-body');
+  if (!bookHistory.length) {
+    tbody.innerHTML = `<tr><td>K-PASS 1회차</td><td>—</td><td>—</td><td>—</td><td><button class="apply-btn" onclick="switchTab('consult');selectRoute('a')">상담신청</button></td></tr>`;
+    return;
+  }
+  tbody.innerHTML = bookHistory.map(b =>
+    `<tr><td>${b.type}</td><td>${b.date}</td><td>${b.target}</td><td><button class="btn-sm btn-outline">상세보기</button></td><td><span class="${b.status==='완료'?'status-done':'status-pending'}">${b.status}</span></td></tr>`
+  ).join('');
+}
+
+/* ─── API 키 저장 ─── */
+function saveKey(type) {
+  const val = document.getElementById(type+'-key').value.trim();
+  if (!val) return;
+  if (type==='claude') { CLAUDE_KEY=val; localStorage.setItem('claude_api_key',val); }
+  if (type==='google') { GOOGLE_KEY=val; localStorage.setItem('google_api_key',val); }
+  if (type==='kakao')  { KAKAO_KEY=val;  localStorage.setItem('kakao_api_key',val);  }
+  showToast(`✅ ${type==='claude'?'Claude':type==='google'?'Google Places':'카카오맵'} API 키가 저장되었습니다.`);
+}
+
+/* ─── 토스트 ─── */
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+/* ─── 초기화 ─── */
+if (localStorage.getItem('claude_api_key')) {
+  document.getElementById('claude-key').value = '••••••••••••••••';
+}
+if (localStorage.getItem('google_api_key')) {
+  document.getElementById('google-key').value = '••••••••••••••••';
+}
+</script>
+</body>
+</html>
