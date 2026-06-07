@@ -62,10 +62,15 @@ function setLang(lang) {
 const KO_ONLY = ['edu', 'biz', 'mil'];
 function applyKoOnly(lang) {
   const isKo = (lang === 'ko');
-  document.querySelectorAll('#ntabs li.ko-only').forEach(li => {
-    li.style.display = isKo ? '' : 'none';
+  // 한국어 전용 요소(히어로의 기관 버튼) → 한국어일 때만 표시
+  document.querySelectorAll('.ko-only').forEach(el => {
+    el.style.display = isKo ? '' : 'none';
   });
-  // 비한국어인데 현재 기관 탭을 보고 있으면 홈으로 이동
+  // 외국어 전용 요소(기관 통합 탭) → 비한국어일 때만 표시
+  document.querySelectorAll('.intl-only').forEach(el => {
+    el.style.display = isKo ? 'none' : '';
+  });
+  // 외국어로 전환했는데 한국어 전용 기관 탭을 보고 있으면 홈으로 이동
   if (!isKo) {
     const active = document.querySelector('#ntabs li.active');
     if (active && KO_ONLY.indexOf(active.dataset.s) >= 0) show('home');

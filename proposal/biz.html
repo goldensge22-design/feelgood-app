@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기업 HR 제안서 | FeelGood EduTech</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --pu:#4A3FC0;--pu2:#7F77DD;--pu3:#EEEDFE;--pu6:#534AB7;--pu8:#3C3489;
+  --tl:#0F6E56;--tl2:#1D9E75;--tl3:#E1F5EE;--tl8:#085041;
+  --am:#854F0B;--am2:#BA7517;--am3:#FAEEDA;--am8:#633806;
+  --co:#993C1D;--co2:#D85A30;--co3:#FAECE7;--co8:#712B13;
+  --bl:#185FA5;--bl2:#378ADD;--bl3:#E6F1FB;--bl8:#0C447C;
+  --pi:#993556;--pi2:#D4537E;--pi3:#FBEAF0;--pi8:#72243E;
+  --rd:#A32D2D;--rd2:#E24B4A;--rd3:#FCEBEB;--rd8:#791F1F;
+  --gr:#5F5E5A;--gr2:#888780;--gr3:#F1EFE8;
+  --bg:#F8F7F4;
+  --card:#ffffff;
+  --border:#E8E6E0;
+  --text:#1A1917;
+  --muted:#6B6965;
+  --subtle:#9B9894;
+}
+html,body{min-height:100vh;background:var(--bg);color:var(--text);font-family:'Noto Sans KR',sans-serif;font-size:14px;line-height:1.6}
+
+/* ── NAV ── */
+.nav-wrap{position:sticky;top:0;z-index:100;background:rgba(248,247,244,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-inner{max-width:960px;margin:0 auto;padding:0 20px;display:flex;align-items:center;gap:4px;overflow-x:auto;height:52px}
+.nav-logo{font-size:13px;font-weight:700;color:var(--pu);white-space:nowrap;margin-right:16px;letter-spacing:-.02em}
+.nb{flex-shrink:0;padding:6px 14px;border-radius:20px;border:1px solid transparent;background:none;cursor:pointer;font-size:12px;font-weight:500;color:var(--muted);font-family:'Noto Sans KR',sans-serif;transition:all .2s;white-space:nowrap}
+.nb:hover{background:white;border-color:var(--border);color:var(--text)}
+.nb.on{background:white;border-color:var(--border);color:var(--text);box-shadow:0 1px 4px rgba(0,0,0,.08)}
+
+/* ── PAGES ── */
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 20px 60px}
+.page.on{display:block}
+
+/* ── HERO ── */
+.hero{border-radius:16px;padding:32px;margin-bottom:28px;position:relative;overflow:hidden}
+.hero::after{content:'';position:absolute;right:-40px;top:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:20px;padding:4px 12px;font-size:11px;font-weight:500;color:#fff;margin-bottom:14px}
+.hero h1{font-size:22px;font-weight:700;color:#fff;line-height:1.45;margin-bottom:10px;font-family:'Noto Serif KR',serif}
+.hero p{font-size:13px;color:rgba(255,255,255,.82);line-height:1.7}
+.hero.pu{background:linear-gradient(135deg,var(--pu6),var(--pu))}
+.hero.tl{background:linear-gradient(135deg,var(--tl8),var(--tl))}
+.hero.am{background:linear-gradient(135deg,var(--am8),var(--am))}
+.hero.co{background:linear-gradient(135deg,var(--co8),var(--co))}
+.hero.bl{background:linear-gradient(135deg,var(--bl8),var(--bl))}
+
+/* ── SECTION ── */
+.sec{margin-bottom:28px}
+.sec-title{font-size:11px;font-weight:700;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';display:block;width:3px;height:16px;border-radius:2px;flex-shrink:0}
+.sec-title.pu::before{background:var(--pu)}
+.sec-title.tl::before{background:var(--tl)}
+.sec-title.am::before{background:var(--am)}
+.sec-title.co::before{background:var(--co)}
+.sec-title.bl::before{background:var(--bl)}
+.sec-title.rd::before{background:var(--rd)}
+.sec-title.pi::before{background:var(--pi)}
+
+/* ── CARDS ── */
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:18px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.metric-card{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.metric-label{font-size:11px;color:var(--muted);margin-bottom:4px}
+.metric-val{font-size:24px;font-weight:700;color:var(--text);line-height:1}
+.metric-sub{font-size:11px;color:var(--subtle);margin-top:4px}
+
+/* ── PROBLEM BOX ── */
+.prob{background:#fff;border-left:3px solid var(--rd2);border-radius:0 8px 8px 0;padding:11px 14px;margin-bottom:8px;font-size:13px;line-height:1.65}
+
+/* ── FLOW ── */
+.flow{display:flex;align-items:center;flex-wrap:wrap;gap:6px;margin-bottom:16px}
+.flow-node{border-radius:8px;padding:7px 12px;font-size:12px;font-weight:500;line-height:1.35;text-align:center}
+.flow-node.pu{background:var(--pu3);color:var(--pu8)}
+.flow-node.tl{background:var(--tl3);color:var(--tl8)}
+.flow-node.am{background:var(--am3);color:var(--am8)}
+.flow-node.co{background:var(--co3);color:var(--co8)}
+.flow-node.rd{background:var(--rd3);color:var(--rd8)}
+.flow-node.pi{background:var(--pi3);color:var(--pi8)}
+.flow-arr{color:var(--subtle);font-size:14px;flex-shrink:0}
+
+/* ── TABLE ── */
+.tbl-wrap{overflow-x:auto;margin-bottom:8px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:var(--gr3);padding:9px 11px;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);white-space:nowrap}
+td{padding:9px 11px;border-bottom:1px solid var(--border);color:var(--text);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--gr3)}
+
+/* ── TAGS ── */
+.tag{display:inline-block;padding:3px 8px;border-radius:5px;font-size:11px;font-weight:500;margin:2px}
+.tag.pu{background:var(--pu3);color:var(--pu6)}
+.tag.tl{background:var(--tl3);color:var(--tl)}
+.tag.am{background:var(--am3);color:var(--am)}
+.tag.co{background:var(--co3);color:var(--co)}
+.tag.bl{background:var(--bl3);color:var(--bl)}
+.tag.rd{background:var(--rd3);color:var(--rd)}
+.tag.pi{background:var(--pi3);color:var(--pi)}
+
+/* ── STRENGTH ROW ── */
+.str-row{display:flex;align-items:flex-start;gap:12px;padding:12px 0;border-bottom:1px solid var(--border)}
+.str-row:last-child{border-bottom:none;padding-bottom:0}
+.str-num{width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;flex-shrink:0;margin-top:1px}
+.str-num.pu{background:var(--pu)}
+.str-num.tl{background:var(--tl)}
+.str-num.am{background:var(--am)}
+.str-num.co{background:var(--co)}
+.str-num.bl{background:var(--bl)}
+.str-body strong{display:block;font-size:13px;font-weight:600;color:var(--text);margin-bottom:2px}
+.str-body span{font-size:12px;color:var(--muted);line-height:1.55}
+
+/* ── PAPER CARD ── */
+.paper{background:#fff;border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;border-left:3px solid}
+.paper.pu{border-left-color:var(--pu)}
+.paper.tl{border-left-color:var(--tl)}
+.paper.am{border-left-color:var(--am)}
+.paper.pi{border-left-color:var(--pi)}
+.paper.rd{border-left-color:var(--rd)}
+.paper.co{border-left-color:var(--co)}
+.paper-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:7px}
+.paper-ttl{font-size:12px;font-weight:700;color:var(--text);line-height:1.45;flex:1}
+.paper-jnl{font-size:10px;padding:2px 7px;border-radius:4px;font-weight:600;flex-shrink:0;white-space:nowrap}
+.paper-jnl.pu{background:var(--pu3);color:var(--pu6)}
+.paper-jnl.tl{background:var(--tl3);color:var(--tl)}
+.paper-jnl.am{background:var(--am3);color:var(--am)}
+.paper-jnl.pi{background:var(--pi3);color:var(--pi)}
+.paper-jnl.rd{background:var(--rd3);color:var(--rd)}
+.paper-jnl.co{background:var(--co3);color:var(--co)}
+.paper-desc{font-size:12px;color:var(--muted);line-height:1.65}
+.paper-desc strong{color:var(--text)}
+.stat-pill{display:inline-block;background:var(--gr3);border:1px solid var(--border);border-radius:5px;padding:3px 8px;font-size:11px;font-weight:600;color:var(--text);margin-top:6px;margin-right:4px}
+
+/* ── CHAIN BOX ── */
+.chain-box{background:#fff;border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:16px}
+.chain-title{font-size:13px;font-weight:600;color:var(--text);margin-bottom:12px}
+.chain-sub{font-size:11px;color:var(--subtle);margin-top:6px}
+
+/* ── IMPLICATION ── */
+.impl{border-radius:10px;padding:16px;margin-top:14px;border:1px solid}
+.impl.pu{background:var(--pu3);border-color:var(--pu2)}
+.impl.rd{background:var(--rd3);border-color:var(--rd2)}
+.impl-title{font-size:12px;font-weight:700;margin-bottom:6px}
+.impl-title.pu{color:var(--pu8)}
+.impl-title.rd{color:var(--rd8)}
+.impl-body{font-size:12px;color:var(--text);line-height:1.7}
+.impl-body strong{color:var(--pu8)}
+.impl-body.rd strong{color:var(--rd8)}
+
+/* ── QUOTE ── */
+.quote{border-radius:10px;padding:14px 16px;margin-bottom:14px;border-left:4px solid}
+.quote.pu{background:var(--pu3);border-color:var(--pu)}
+.quote.tl{background:var(--tl3);border-color:var(--tl)}
+.quote.am{background:var(--am3);border-color:var(--am)}
+.quote.bl{background:var(--bl3);border-color:var(--bl)}
+.quote p{font-size:13px;color:var(--text);line-height:1.7;font-weight:500}
+
+/* ── DIVIDER ── */
+hr.div{border:none;border-top:1px solid var(--border);margin:24px 0}
+
+/* ── CTA ── */
+.cta{border-radius:12px;padding:20px;text-align:center;color:#fff;margin-top:8px}
+.cta.pu{background:var(--pu)}
+.cta.tl{background:var(--tl)}
+.cta.am{background:var(--am)}
+.cta.co{background:var(--co)}
+.cta.bl{background:var(--bl)}
+.cta strong{display:block;font-size:15px;margin-bottom:6px}
+.cta p{font-size:12px;opacity:.85;margin-bottom:8px;line-height:1.6}
+.cta a{color:rgba(255,255,255,.88);font-size:12px;text-decoration:none}
+.cta a:hover{text-decoration:underline}
+
+@media(max-width:600px){
+  .grid2,.grid3{grid-template-columns:1fr}
+  .hero h1{font-size:18px}
+  .flow{flex-direction:column;align-items:flex-start}
+  .flow-arr{transform:rotate(90deg)}
+}
+
+/* ── 단일 페이지 오버라이드 ── */
+.page{display:none;max-width:960px;margin:0 auto;padding:32px 20px 60px}
+.page.on{display:block}
+.nav-single{background:rgba(248,247,244,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+.nav-single-inner{max-width:960px;margin:0 auto;padding:0 20px;display:flex;align-items:center;height:52px;gap:12px}
+.nav-single-logo{font-size:13px;font-weight:700;color:var(--text);letter-spacing:-.02em}
+.nav-single-sep{color:var(--muted);font-size:13px}
+.nav-single-title{font-size:13px;font-weight:600;color:var(--am)}
+.nav-single-home{margin-left:auto;font-size:12px;color:var(--muted);text-decoration:none;border:1px solid var(--border);border-radius:16px;padding:4px 12px;transition:all .2s}
+.nav-single-home:hover{background:white;color:var(--text)}
+.footer{background:var(--text);padding:28px 20px;text-align:center;margin-top:40px}
+.footer p{font-size:12px;color:rgba(255,255,255,.5);line-height:1.8}
+.footer a{color:rgba(255,255,255,.7);text-decoration:none}
+.footer a:hover{color:#fff}
+.footer-brand{font-size:15px;font-weight:700;color:#fff;margin-bottom:8px}
+</style>
+</head>
+<body>
+
+<div class="nav-single">
+  <div class="nav-single-inner">
+    <span class="nav-single-logo">FeelGood EduTech</span>
+    <span class="nav-single-sep">/</span>
+    <span class="nav-single-title">기업 HR 제안서</span>
+    <a class="nav-single-home" href="mailto:yhim@feel-good.io">문의하기 →</a>
+  </div>
+</div>
+
+<div class="page on" id="biz">
+  <div class="hero am">
+    <div class="hero-badge">🏢 기업 HR 제안서</div>
+    <h1>D-CAS 기반 인지능력 HR 애널리틱스<br>채용·배치·리더십을 데이터로 결정하라</h1>
+    <p>PASS 이론(계획력·주의력·동시처리·순차처리) 기반 성인 인지 프로파일링<br>채용 적합도 · 직무 배치 · 리더십 잠재력 · 조직 위험도 분석</p>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title rd">기업이 겪는 HR의 한계</div>
+    <div class="prob">📌 성격검사(MBTI·DISC)는 인지능력을 측정하지 않아 <strong>직무성과 예측력 낮음</strong></div>
+    <div class="prob">📌 면접·학점 기반 채용은 <strong>잠재력 있는 인재를 걸러내지 못함</strong></div>
+    <div class="prob">📌 배치 후 직무 부적합으로 인한 <strong>조기 이직 비용 증가</strong></div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title am">D-CAS 6대 HR 분석 모듈</div>
+    <div class="grid2">
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">🎯 채용 적합도</div><div style="font-size:12px;color:var(--muted);line-height:1.8">직무별 PASS 프로파일 기준 매칭<br>계획력 우세 → 전략기획·PM<br>동시처리 우세 → 크리에이티브·R&D</div></div>
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">🔄 직무 배치 최적화</div><div style="font-size:12px;color:var(--muted);line-height:1.8">현재 직무 vs 인지 프로파일 적합도<br>미스매치 감지 → 재배치 제안<br>팀 구성 시너지 분석</div></div>
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">⚠️ 조직 위험도</div><div style="font-size:12px;color:var(--muted);line-height:1.8">번아웃 위험군 사전 감지<br>주의력·계획력 급격 저하 모니터링<br>이직 위험도 예측 점수</div></div>
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">👑 리더십 잠재력</div><div style="font-size:12px;color:var(--muted);line-height:1.8">계획력(P) + 동시처리(Sim) 고점<br>= 전략적 리더십 프로파일<br>임원 후보군 객관적 발굴</div></div>
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">🤝 협업 시너지</div><div style="font-size:12px;color:var(--muted);line-height:1.8">팀원 PASS 조합 분석<br>상호보완 구성 추천<br>갈등 취약 구성 사전 경고</div></div>
+      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px">📈 고잠재 인재</div><div style="font-size:12px;color:var(--muted);line-height:1.8">성과 대비 인지능력 잠재력 갭<br>숨겨진 고성과자 발굴<br>HiPo 트랙 객관적 선발</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-title am">FeelGood 강점</div>
+    <div class="card">
+      <div class="str-row"><div class="str-num am">1</div><div class="str-body"><strong>성인 규준 표준화 완비</strong><span>D-CAS 14세~성인 전 연령 규준, 한국 표준화 연구 기반 신뢰도 확보</span></div></div>
+      <div class="str-row"><div class="str-num am">2</div><div class="str-body"><strong>디지털 완전 자동화</strong><span>검사 → 분석 → 보고서 생성까지 전 과정 플랫폼 내 처리, 추가 인력 불필요</span></div></div>
+      <div class="str-row"><div class="str-num am">3</div><div class="str-body"><strong>MBTI·DISC와 차별화된 인지능력 측정</strong><span>성격이 아닌 실제 뇌 처리능력 측정 → 직무성과 예측타당도 높음</span></div></div>
+      <div class="str-row"><div class="str-num am">4</div><div class="str-body"><strong>대학·공기업 도입 레퍼런스</strong><span>장애인 복지관 직업재활, 대학 진로·취업 서비스 실적 보유</span></div></div>
+    </div>
+  </div>
+
+  <div class="cta am">
+    <strong>기업 HR 파일럿 제안</strong>
+    <p>100명 이상 조직 대상 D-CAS 파일럿 → 직무 적합도 분석 리포트 제공</p>
+    <a href="mailto:yhim@feel-good.io">yhim@feel-good.io | FeelGood EduTech</a>
+  </div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     4. 군·경찰
+══════════════════════════════════════════ -->
+
+<div class="footer">
+  <div style="max-width:960px;margin:0 auto">
+    <div class="footer-brand">FeelGood EduTech — 필굿 주식회사</div>
+    <p>
+      <a href="mailto:yhim@feel-good.io">yhim@feel-good.io</a> &nbsp;|&nbsp;
+      <a href="https://kpass.feel-good.io" target="_blank">kpass.feel-good.io</a> &nbsp;|&nbsp;
+      070-4235-1234 &nbsp;|&nbsp; 서울 / 부산 / 대구
+    </p>
+    <p style="margin-top:8px">K-PASS · D-CAS · BrainMap — PASS 이론 기반 인지능력 플랫폼 &nbsp;|&nbsp; Since 1988</p>
+  </div>
+</div>
+
+</body>
+</html>

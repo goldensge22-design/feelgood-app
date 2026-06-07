@@ -9,8 +9,8 @@
 fbq('init','819167357455139');fbq('track','PageView');
 </script>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Montserrat:wght@400;600;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/style.css">
-<link rel="stylesheet" href="assets/inst.css">
+<link rel="stylesheet" href="assets/style.css?v=4">
+<link rel="stylesheet" href="assets/inst.css?v=4">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -25,9 +25,9 @@ fbq('init','819167357455139');fbq('track','PageView');
     <li data-s="school"><a href="#" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
     <li data-s="test"><a href="#" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
     <li data-s="brainmap"><a href="#" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</a></li>
-    <li class="ko-only" data-s="edu"><a href="#" onclick="show('edu');return false;">🏫 교육기관</a></li>
-    <li class="ko-only" data-s="biz"><a href="#" onclick="show('biz');return false;">🏢 기업</a></li>
-    <li class="ko-only" data-s="mil"><a href="#" onclick="show('mil');return false;">🎖 군경찰</a></li>
+    <li class="ko-only" data-s="edu"><a href="#" onclick="show('edu');return false;" data-i18n="nav_edu">🏫 교육기관</a></li>
+    <li class="ko-only" data-s="biz"><a href="#" onclick="show('biz');return false;" data-i18n="nav_biz">🏢 기업</a></li>
+    <li class="ko-only" data-s="mil"><a href="#" onclick="show('mil');return false;" data-i18n="nav_mil">🎖 군경찰</a></li>
   </ul>
   <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Language / 언어"></select>
 </nav>
@@ -42,7 +42,9 @@ fbq('init','819167357455139');fbq('track','PageView');
     <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
     <p data-i18n="hero_p">K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.</p>
     <div class="hbtns">
-      <button class="btn-gold" id="hbtn-school" onclick="show('school')" data-i18n="hero_btn_school">🏫 학교 제안서 보기</button>
+      <a class="btn-gold ko-only" href="edu.html">🏫 교육기관 제안</a>
+      <a class="btn-gold ko-only" href="biz.html">🏢 기업 제안</a>
+      <a class="btn-gold ko-only" href="mil.html">🎖 군경찰 제안</a>
       <button class="btn-ghost" id="hbtn-test" onclick="show('test')" data-i18n="hero_btn_test">🧬 검사 소개</button>
       <button class="btn-ghost" id="hbtn-brainmap" onclick="show('brainmap')">🧠 인지훈련 프로그램</button>
     </div>
@@ -593,6 +595,7 @@ fbq('init','819167357455139');fbq('track','PageView');
     <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
       <a href="https://goldensge22-design.github.io/feelgood-app/brainmap_student_v5.html" target="_blank" class="btn-gold" data-i18n="bm_cta_btn1">🚀 인지훈련 학생 체험하기</a>
       <a id="bm-cta-btn2" href="https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);" data-i18n="bm_cta_btn2">🎓 MindCompass 교사 대시보드 체험하기</a>
+      <a href="https://summary.feel-good.io/brainmindmap?url=https%3A%2F%2Fservice.feel-good.io%2Fapi%2Fv1%2Fdcas%2Fadmin%2Ftest-result%2F19881%2FeyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiQURNSU4iLCJhZG1pblR5cGUiOiJHRU5FUkFMIiwidXNlcklkeCI6IjE4IiwiYWRtaW5Sb2xlIjoxLCJleHAiOjE3ODA5MDczNTcsImlhdCI6MTc4MDgyMDk1Nywiand0VHlwZSI6ImFjY2VzcyJ9.mu6RpdTylZC24j7dHUaH7Qrq-NSTqZN8_VXDE7olZ_JAxr-rtFHtzrFRIrSmfz2HPTcp6dHdrP0Cep7QBYheFQ" target="_blank" class="btn-gold" style="background:#1e8e6a;border-color:#1e8e6a;" data-i18n="bm_cta_btn3">🧠 인지+정서 훈련 프로그램 체험하기</a>
     </div>
   </div>
 </section>
@@ -945,14 +948,14 @@ fbq('init','819167357455139');fbq('track','PageView');
   </div>
 </div>
 
-<script src="i18n/ko.js"></script>
-<script src="i18n/en.js"></script>
-<script src="i18n/zh.js"></script>
-<script src="i18n/mn.js"></script>
-<script src="i18n/th.js"></script>
-<script src="i18n/vi.js"></script>
-<script src="i18n/ja.js"></script>
-<script src="i18n/ar.js"></script>
-<script src="assets/app.js"></script>
+<script src="i18n/ko.js?v=4"></script>
+<script src="i18n/en.js?v=4"></script>
+<script src="i18n/zh.js?v=4"></script>
+<script src="i18n/mn.js?v=4"></script>
+<script src="i18n/th.js?v=4"></script>
+<script src="i18n/vi.js?v=4"></script>
+<script src="i18n/ja.js?v=4"></script>
+<script src="i18n/ar.js?v=4"></script>
+<script src="assets/app.js?v=4"></script>
 </body>
 </html>
