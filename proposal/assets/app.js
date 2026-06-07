@@ -90,9 +90,11 @@ function show(id) {
   });
   // 히어로 버튼 active 상태
   const heroBtns = {
-    school: 'hbtn-school',
     test:   'hbtn-test',
-    brainmap: 'hbtn-brainmap'
+    brainmap: 'hbtn-brainmap',
+    edu: 'hbtn-edu',
+    biz: 'hbtn-biz',
+    mil: 'hbtn-mil'
   };
   Object.entries(heroBtns).forEach(([sec, btnId]) => {
     const btn = document.getElementById(btnId);
