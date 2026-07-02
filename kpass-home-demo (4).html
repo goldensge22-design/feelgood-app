@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>K-PASS Home · 데모</title>
+<style>
+/* =============================================================================
+   K-PASS Design System v1.1 토큰 (kpass-home-mvp 프로젝트 app/globals.css 그대로 반영)
+   ============================================================================= */
+:root {
+  --color-primary: #1f4e78;
+  --color-secondary: #0f766e;
+  --color-evidence-blue: #d9eaf7;
+  --color-success-green: #dcfce7;
+  --color-warning-yellow: #fef3c7;
+  --color-risk-red: #fee2e2;
+
+  --color-text: #1f2937;
+  --color-text-muted: #6b7280;
+  --color-surface: #ffffff;
+  --color-bg: #f7f9fb;
+  --color-border: #e5e7eb;
+
+  --font-family-base: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  --font-title: 700 26px/1.3 var(--font-family-base);
+  --font-section-header: 700 18px/1.4 var(--font-family-base);
+  --font-body: 400 15px/1.6 var(--font-family-base);
+  --font-caption: 400 12px/1.5 var(--font-family-base);
+
+  --radius-card: 14px;
+  --shadow-card: 0 2px 10px rgba(31, 78, 120, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  padding: 0; margin: 0;
+  background: #eef1f5;
+  color: var(--color-text);
+  font: var(--font-body);
+  font-family: var(--font-family-base);
+}
+
+a { color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+
+/* 데모 프레임(실기기 목업 느낌) */
+.kp-phone-wrap {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 28px 12px 60px;
+}
+
+.kp-demo-badge {
+  position: fixed;
+  top: 12px; left: 50%;
+  transform: translateX(-50%);
+  background: #111827;
+  color: #fff;
+  font: var(--font-caption);
+  padding: 6px 14px;
+  border-radius: 999px;
+  z-index: 100;
+  opacity: 0.85;
+  letter-spacing: 0.02em;
+}
+
+.kp-container {
+  max-width: 420px;
+  width: 100%;
+  margin: 0 auto;
+  min-height: 720px;
+  background: var(--color-bg);
+  border-radius: 28px;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.18);
+  border: 8px solid #111827;
+  position: relative;
+}
+
+.kp-app-header {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 22px 20px 24px;
+}
+
+.kp-app-header-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.kp-app-header-row .kp-app-header-text { flex: 1; min-width: 0; }
+
+.kp-app-header h1 { font: var(--font-title); margin: 0 0 4px; font-size: 22px; }
+.kp-app-header p { font: var(--font-caption); opacity: 0.88; margin: 0; }
+
+.kp-btn-header {
+  flex-shrink: 0; width: auto; white-space: nowrap;
+  padding: 8px 12px; font-size: 12px; border-radius: 999px;
+  background: #fff; color: var(--color-primary); border: none; font-weight: 700;
+}
+
+.kp-section { padding: 18px 18px 8px; }
+
+.kp-section-title {
+  font: var(--font-section-header);
+  color: var(--color-primary);
+  margin: 0 0 12px;
+}
+
+.kp-card {
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--color-border);
+  padding: 16px;
+  margin-bottom: 14px;
+}
+
+.kp-caption { font: var(--font-caption); color: var(--color-text-muted); }
+
+.kp-badge {
+  display: inline-block; font: var(--font-caption);
+  padding: 2px 8px; border-radius: 999px;
+  background: var(--color-evidence-blue); color: var(--color-primary); font-weight: 600;
+}
+.kp-badge-mock { background: var(--color-warning-yellow); color: #92400e; }
+.kp-badge-low { background: var(--color-risk-red); color: #991b1b; }
+.kp-badge-mid { background: var(--color-warning-yellow); color: #92400e; }
+.kp-badge-high { background: var(--color-success-green); color: #166534; }
+
+.kp-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  border: none; border-radius: 10px; padding: 12px 16px;
+  font: var(--font-body); font-weight: 600; width: 100%;
+  transition: opacity .15s ease, transform .05s ease;
+}
+.kp-btn:active { transform: scale(0.98); }
+.kp-btn:disabled { opacity: 0.55; cursor: default; }
+.kp-btn-primary { background: var(--color-primary); color: #fff; }
+.kp-btn-secondary { background: var(--color-evidence-blue); color: var(--color-primary); }
+.kp-btn-ghost { background: transparent; color: var(--color-secondary); border: 1px solid var(--color-secondary); }
+
+.kp-error-text { color: #b91c1c; font: var(--font-caption); margin: 0 0 12px; }
+
+.kp-modal-backdrop {
+  position: absolute; inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  display: none; align-items: flex-end; justify-content: center;
+  z-index: 50; border-radius: 20px;
+}
+.kp-modal-backdrop.open { display: flex; }
+.kp-modal-sheet {
+  background: var(--color-surface); width: 100%;
+  border-radius: 18px 18px 0 0; padding: 20px;
+  max-height: 78%; overflow-y: auto;
+}
+
+.kp-loading { text-align: center; padding: 60px 20px; color: var(--color-text-muted); }
+
+.kp-tabbar {
+  position: sticky; bottom: 0; left: 0; right: 0;
+  display: flex; background: #fff; border-top: 1px solid var(--color-border);
+}
+.kp-tab {
+  flex: 1; border: none; background: none; padding: 12px 0 10px;
+  font-size: 12px; font-weight: 700; color: var(--color-text-muted);
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+}
+.kp-tab.active { color: var(--color-primary); }
+.kp-tab .kp-tab-icon { font-size: 18px; }
+
+.kp-page { display: none; padding-bottom: 8px; }
+.kp-page.active { display: block; }
+
+/* Radar chart (순수 SVG) */
+.kp-radar-label { font-size: 11px; fill: var(--color-text-muted); font-family: var(--font-family-base); }
+
+/* Bar chart */
+.kp-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+.kp-bar-label { width: 52px; font-size: 12px; color: var(--color-text-muted); flex-shrink: 0; }
+.kp-bar-track { flex: 1; height: 14px; background: var(--color-border); border-radius: 7px; overflow: hidden; }
+.kp-bar-fill { height: 100%; border-radius: 7px; }
+.kp-bar-value { width: 38px; text-align: right; font-size: 12px; font-weight: 700; flex-shrink: 0; }
+
+.kp-toast {
+  position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%);
+  background: #111827; color: #fff; font-size: 13px; padding: 10px 16px;
+  border-radius: 999px; opacity: 0; pointer-events: none; transition: opacity .2s ease;
+  white-space: nowrap; z-index: 60;
+}
+.kp-toast.show { opacity: 0.94; }
+
+.kp-domain-pill-row { display:flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+</style>
+</head>
+<body>
+
+<div class="kp-demo-badge">SAMPLE DEMO · Mock/실제 결과지 혼합 데이터</div>
+
+<div class="kp-phone-wrap">
+  <div class="kp-container">
+
+    <!-- ===================== 홈 화면 ===================== -->
+    <div class="kp-page active" id="page-home">
+      <div class="kp-app-header">
+        <div class="kp-app-header-row">
+          <div class="kp-app-header-text">
+            <h1>송서우님의 홈트레이닝</h1>
+            <p>여 · 만 9세 10개월 · 우뇌우세형 (동시처리우세형)</p>
+          </div>
+          <button class="kp-btn-header" type="button" onclick="showToast('AI 학습코치 데모는 준비 중입니다')">HOME AI 티처</button>
+        </div>
+      </div>
+
+      <div class="kp-section">
+        <!-- PASS Profile Card -->
+        <div class="kp-card">
+          <div style="display:flex; justify-content:space-between; align-items:center;">
+            <strong>PASS 프로파일</strong>
+            <span class="kp-caption">총지표 122</span>
+          </div>
+          <div style="margin-top:12px;" id="pass-rows"></div>
+          <p class="kp-caption" style="margin-top:12px;">
+            우선훈련영역: <strong>순차처리 (Successive)</strong>
+          </p>
+          <p style="margin-top:8px; font-size:14px;">
+            큰 그림을 먼저 보고, 계획으로 완성하는 타고난 설계자예요. 계획력·주의력·동시처리가 모두 강점 구간이라 실행력이 뛰어나지만, 순서대로 단계를 밟아가는 순차처리는 상대적으로 더 채워줄 여지가 있어요.
+          </p>
+        </div>
+
+        <div class="kp-section-title" style="padding:0; margin-top:4px;">오늘의 인지훈련</div>
+        <div id="recommendation-list"></div>
+        <p class="kp-caption" id="recording-status" style="display:none;">기록 저장 중...</p>
+
+        <!-- Parent Coaching -->
+        <div class="kp-card">
+          <strong style="color:var(--color-secondary);">인지훈련 부모 코칭</strong>
+          <div style="margin-top:10px;">
+            <p class="kp-caption">오늘의 인지훈련 부모 질문</p>
+            <p style="margin:4px 0 12px;">아침부터 지금까지 어떤 순서였을까?</p>
+            <p class="kp-caption">칭찬 문장</p>
+            <p style="margin:4px 0 12px;">순서를 잘 기억해서 말했어.</p>
+            <p class="kp-caption">생활 속 PASS</p>
+            <p style="margin:4px 0;">잠자리 대화</p>
+          </div>
+        </div>
+
+        <button class="kp-btn kp-btn-secondary" type="button" style="margin-bottom:12px;" onclick="showToast('데모 버전에서는 실제 PDF 생성이 비활성화되어 있어요')">
+          결과지 PDF 다운로드
+        </button>
+
+        <button class="kp-btn kp-btn-ghost" type="button" onclick="goPage('report')">
+          인지기능 성장 리포트 보기
+        </button>
+      </div>
+    </div>
+
+    <!-- ===================== 성장 리포트 화면 ===================== -->
+    <div class="kp-page" id="page-report">
+      <div class="kp-app-header">
+        <div class="kp-app-header-row">
+          <div class="kp-app-header-text">
+            <h1>인지기능 성장 리포트</h1>
+            <p>송서우님 · 최근 검사 기준 PASS 영역 변화</p>
+          </div>
+          <button class="kp-btn-header" type="button" onclick="goPage('home')">← 홈</button>
+        </div>
+      </div>
+
+      <div class="kp-section">
+        <div class="kp-card">
+          <strong style="color:var(--color-secondary);">PASS 영역 변화</strong>
+          <div style="width:100%; display:flex; justify-content:center; margin-top:8px;">
+            <svg viewBox="0 0 260 240" width="100%" style="max-width:280px;">
+              <g id="radar-grid"></g>
+              <polygon id="radar-shape" fill="var(--color-primary)" fill-opacity="0.35" stroke="var(--color-primary)" stroke-width="2"></polygon>
+              <g id="radar-labels"></g>
+            </svg>
+          </div>
+
+          <p class="kp-caption" style="margin-top:6px;">척도별 정답률 비교</p>
+          <div style="margin-top:8px;">
+            <div class="kp-bar-row">
+              <span class="kp-bar-label">계획력</span>
+              <div class="kp-bar-track"><div class="kp-bar-fill" style="width:99%; background:#7c6cf6;"></div></div>
+              <span class="kp-bar-value">99%</span>
+            </div>
+            <div class="kp-bar-row">
+              <span class="kp-bar-label">주의력</span>
+              <div class="kp-bar-track"><div class="kp-bar-fill" style="width:98%; background:#0f766e;"></div></div>
+              <span class="kp-bar-value">98%</span>
+            </div>
+            <div class="kp-bar-row">
+              <span class="kp-bar-label">동시처리</span>
+              <div class="kp-bar-track"><div class="kp-bar-fill" style="width:87%; background:#1f4e78;"></div></div>
+              <span class="kp-bar-value">87%</span>
+            </div>
+            <div class="kp-bar-row">
+              <span class="kp-bar-label">순차처리</span>
+              <div class="kp-bar-track"><div class="kp-bar-fill" style="width:37%; background:#dc2626;"></div></div>
+              <span class="kp-bar-value">37%</span>
+            </div>
+          </div>
+
+          <div style="margin-top:14px;">
+            <p class="kp-caption">활동 수행률</p>
+            <div style="height:10px; border-radius:6px; background:var(--color-border); overflow:hidden; margin-top:4px;">
+              <div style="height:100%; width:78%; background:var(--color-secondary);"></div>
+            </div>
+            <p style="margin-top:4px; font-size:13px;">78%</p>
+          </div>
+
+          <div class="kp-card" style="background:var(--color-warning-yellow); border:none; margin-top:12px; margin-bottom:0;">
+            <p style="margin:0; font-size:13px;">순차처리 영역은 지속적인 훈련으로 향상 추세를 보이고 있어요. 다음 검사는 1년 후 추천드려요.</p>
+          </div>
+        </div>
+
+        <div class="kp-card">
+          <strong>좌뇌 vs 우뇌 처리 방식</strong>
+          <p style="font-size:14px; margin:10px 0;">
+            동시처리(우뇌)가 순차처리(좌뇌)보다 50%p 높아 우뇌우세가 뚜렷해요. 전체 맥락을 먼저 파악하는 힘에 계획력과 주의력까지 더해져 실행력을 갖춘 우뇌 주도형 학습자예요.
+          </p>
+          <div class="kp-domain-pill-row">
+            <span class="kp-badge">전체 구조 먼저 제시</span>
+            <span class="kp-badge">마인드맵·비주얼 씽킹</span>
+            <span class="kp-badge">프로젝트 기반 학습(PBL)</span>
+            <span class="kp-badge">자기 계획표 직접 설계</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tab bar -->
+    <div class="kp-tabbar">
+      <button class="kp-tab active" data-tab="home" onclick="goPage('home')"><span class="kp-tab-icon">🏠</span>홈트레이닝</button>
+      <button class="kp-tab" data-tab="report" onclick="goPage('report')"><span class="kp-tab-icon">📈</span>성장 리포트</button>
+    </div>
+
+    <!-- Evidence modal -->
+    <div class="kp-modal-backdrop" id="evidence-backdrop" onclick="closeEvidence(event)">
+      <div class="kp-modal-sheet" onclick="event.stopPropagation()">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <h3 style="margin:0; color:var(--color-primary);">왜 추천했나요?</h3>
+          <button style="border:none; background:none; font-size:18px;" onclick="closeEvidence(event)" aria-label="닫기">✕</button>
+        </div>
+        <p id="evidence-reason" style="font-size:15px; margin-top:12px;"></p>
+        <div class="kp-card" style="background:var(--color-evidence-blue); border:none;">
+          <p class="kp-caption" style="margin-bottom:6px;">근거 정보</p>
+          <p style="margin:4px 0;">Evidence Code: <strong id="evidence-code"></strong></p>
+          <p style="margin:4px 0;">근거 수준: <strong id="evidence-level"></strong></p>
+          <p style="margin:4px 0;">Activity Code: <strong id="evidence-activity"></strong></p>
+        </div>
+        <button class="kp-btn kp-btn-primary" style="margin-top:12px;" onclick="closeEvidence(event)">확인</button>
+      </div>
+    </div>
+
+    <div class="kp-toast" id="toast"></div>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// 데모 데이터 : 송서우님 실제 K-PASS 결과지 요약 PDF 수치를 반영
+// (계획력 99.9%/145점, 주의력 98%/131점, 동시처리 87%/117점, 순차처리 37%/95점)
+// 훈련 콘텐츠(추천 활동/근거)는 kpass-home-mvp 프로젝트의 Round4 Mock Data(도메인별 예시)를 사용
+// ---------------------------------------------------------------------------
+const PASS_DATA = [
+  { key: 'planning', label: 'Planning (계획)', score: 145, pct: 99, band: 'HIGH' },
+  { key: 'attention', label: 'Attention (주의)', score: 131, pct: 98, band: 'HIGH' },
+  { key: 'simultaneous', label: 'Simultaneous (동시처리)', score: 117, pct: 87, band: 'HIGH' },
+  { key: 'successive', label: 'Successive (순차처리)', score: 95, pct: 37, band: 'MID' },
+];
+const BAND_LABEL = { LOW: '낮음', MID: '중간', HIGH: '높음' };
+const BAND_CLASS = { LOW: 'kp-badge-low', MID: 'kp-badge-mid', HIGH: 'kp-badge-high' };
+
+const RECOMMENDATIONS = [
+  {
+    id: 'ACT-SU-H-001',
+    title: '하루 일과 순서 말하기',
+    reason: '순서 기억과 언어 흐름 보완에 적합하기 때문(현재 가장 채워줄 여지가 있는 순차처리 우선 훈련)',
+    evidenceCode: 'PASS-E0021',
+    evidenceLevel: 5,
+    isPriority: true,
+    passDomain: '순차처리',
+    difficultyLevel: 3,
+    durationMinutes: 8,
+  },
+  {
+    id: 'ACT-P-H-001',
+    title: '내일 가방 챙기기 순서 정하기',
+    reason: '강점인 계획력을 활용해 순서 기반 실행 습관까지 자연스럽게 넓혀주는 활동이기 때문',
+    evidenceCode: 'PASS-E0012',
+    evidenceLevel: 5,
+    isPriority: false,
+    difficultyLevel: 1,
+    durationMinutes: 10,
+  },
+  {
+    id: 'ACT-SI-H-001',
+    title: '그림 보고 이야기 만들기',
+    reason: '동시처리 강점을 살려 전체 맥락을 이야기로 순서 있게 풀어내는 연습을 함께 하기 때문',
+    evidenceCode: 'PASS-E0032',
+    evidenceLevel: 5,
+    isPriority: false,
+    difficultyLevel: 2,
+    durationMinutes: 10,
+  },
+];
+
+// 난이도 체계: 1~6단계 세부 레벨을 3개 밴드로 그룹핑
+// 쉬움 = 1~2단계 / 보통 = 3~4단계 / 높음 = 5~6단계
+function difficultyBand(level) {
+  if (level <= 2) return { label: '쉬움', cls: 'kp-badge-high' };
+  if (level <= 4) return { label: '보통', cls: 'kp-badge-mid' };
+  return { label: '높음', cls: 'kp-badge-low' };
+}
+
+let completedIds = new Set();
+
+function renderPassRows() {
+  const el = document.getElementById('pass-rows');
+  el.innerHTML = PASS_DATA.map(d => `
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 0; border-bottom:1px solid var(--color-border);">
+      <span class="kp-caption" style="font-size:14px; color:var(--color-text);">${d.label}</span>
+      <span style="display:flex; gap:8px; align-items:center;">
+        <span class="kp-caption">${d.score}점</span>
+        <span class="kp-badge ${BAND_CLASS[d.band]}">${BAND_LABEL[d.band]}</span>
+      </span>
+    </div>
+  `).join('');
+}
+
+function renderRecommendations() {
+  const el = document.getElementById('recommendation-list');
+  el.innerHTML = RECOMMENDATIONS.map((item, idx) => `
+    <div class="kp-card">
+      <div style="display:flex; justify-content:space-between; align-items:flex-start;">
+        <strong style="font-size:16px;">${item.title}</strong>
+        <span class="kp-badge kp-badge-mock">AI 예시(Mock)</span>
+      </div>
+      <p style="font-size:14px; color:var(--color-text-muted); margin:8px 0;">${item.reason}</p>
+      <div style="display:flex; gap:8px; margin-bottom:8px; flex-wrap:wrap;">
+        <span class="kp-badge">${item.passDomain}</span>
+        <span class="kp-badge ${difficultyBand(item.difficultyLevel).cls}">난이도 ${difficultyBand(item.difficultyLevel).label} (${item.difficultyLevel}단계)</span>
+        <span class="kp-badge">⏱ 약 ${item.durationMinutes}분</span>
+      </div>
+      <div style="display:flex; gap:8px; margin-bottom:12px;">
+        <span class="kp-badge">근거 ${'★'.repeat(item.evidenceLevel)}</span>
+        <span class="kp-badge">${item.evidenceCode}</span>
+        ${item.isPriority ? '<span class="kp-badge" style="background:var(--color-risk-red); color:#991b1b;">우선훈련</span>' : ''}
+      </div>
+      <div style="display:flex; gap:8px;">
+        <button class="kp-btn kp-btn-primary" type="button" onclick="startActivity('${item.id}', '${item.title.replace(/'/g, "\\'")}')" ${completedIds.has(item.id) ? 'disabled' : ''}>
+          ${completedIds.has(item.id) ? '완료됨 ✓' : '시작하기'}
+        </button>
+        <button class="kp-btn kp-btn-secondary" type="button" onclick="showEvidence(${idx})">근거 보기</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function startActivity(id, title) {
+  completedIds.add(id);
+  renderRecommendations();
+  showToast(title + ' 완료로 기록했어요');
+}
+
+function showEvidence(idx) {
+  const item = RECOMMENDATIONS[idx];
+  document.getElementById('evidence-reason').textContent = item.reason;
+  document.getElementById('evidence-code').textContent = item.evidenceCode;
+  document.getElementById('evidence-level').textContent = '★'.repeat(item.evidenceLevel);
+  document.getElementById('evidence-activity').textContent = item.id;
+  document.getElementById('evidence-backdrop').classList.add('open');
+}
+function closeEvidence(e) {
+  document.getElementById('evidence-backdrop').classList.remove('open');
+}
+
+function goPage(name) {
+  document.querySelectorAll('.kp-page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.kp-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === name));
+}
+
+let toastTimer = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 1800);
+}
+
+// Radar chart (4축, 순수 SVG)
+function renderRadar() {
+  const cx = 130, cy = 118, r = 82;
+  const axes = ['계획력', '주의력', '동시처리', '순차처리'];
+  const values = [99, 98, 87, 37]; // %
+  const angleFor = i => (Math.PI * 2 * i) / axes.length - Math.PI / 2;
+
+  const gridEl = document.getElementById('radar-grid');
+  let gridHtml = '';
+  [0.25, 0.5, 0.75, 1].forEach(ratio => {
+    const pts = axes.map((_, i) => {
+      const a = angleFor(i);
+      const x = cx + Math.cos(a) * r * ratio;
+      const y = cy + Math.sin(a) * r * ratio;
+      return `${x},${y}`;
+    }).join(' ');
+    gridHtml += `<polygon points="${pts}" fill="none" stroke="var(--color-border)" stroke-width="1"></polygon>`;
+  });
+  axes.forEach((_, i) => {
+    const a = angleFor(i);
+    const x = cx + Math.cos(a) * r;
+    const y = cy + Math.sin(a) * r;
+    gridHtml += `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--color-border)" stroke-width="1"></line>`;
+  });
+  gridEl.innerHTML = gridHtml;
+
+  const shapePts = axes.map((_, i) => {
+    const a = angleFor(i);
+    const ratio = values[i] / 100;
+    const x = cx + Math.cos(a) * r * ratio;
+    const y = cy + Math.sin(a) * r * ratio;
+    return `${x},${y}`;
+  }).join(' ');
+  document.getElementById('radar-shape').setAttribute('points', shapePts);
+
+  const labelsEl = document.getElementById('radar-labels');
+  labelsEl.innerHTML = axes.map((label, i) => {
+    const a = angleFor(i);
+    const x = cx + Math.cos(a) * (r + 22);
+    const y = cy + Math.sin(a) * (r + 22);
+    return `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" class="kp-radar-label">${label}</text>`;
+  }).join('');
+}
+
+renderPassRows();
+renderRecommendations();
+renderRadar();
+</script>
+
+</body>
+</html>
