@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Teacher AI 대시보드 — 기관별 미리보기 데모</title>
+<style>
+  :root {
+    --color-primary: #1f4e78;
+    --color-secondary: #0f766e;
+    --color-evidence-blue: #d9eaf7;
+    --color-success-green: #dcfce7;
+    --color-warning-yellow: #fef3c7;
+    --color-risk-red: #fee2e2;
+    --color-text: #1f2937;
+    --color-text-muted: #6b7280;
+    --color-surface: #ffffff;
+    --color-bg: #f7f9fb;
+    --color-border: #e5e7eb;
+    --font-family-base: 'Pretendard', 'Noto Sans KR', -apple-system, BlinkMacSystemFont, sans-serif;
+    --radius-card: 14px;
+    --shadow-card: 0 2px 10px rgba(31, 78, 120, 0.08);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: #e9edf2; color: var(--color-text); font-family: var(--font-family-base); font-size: 15px; line-height: 1.6; }
+  button { font-family: inherit; cursor: pointer; }
+  a { color: inherit; text-decoration: none; }
+
+  .kp-demo-shell { max-width: 480px; margin: 0 auto; min-height: 100vh; background: var(--color-bg); box-shadow: 0 0 40px rgba(0,0,0,0.08); position: relative; }
+  .kp-demo-badge { position: sticky; top: 0; z-index: 20; background: #111827; color: #fff; text-align: center; font-size: 11px; font-weight: 700; letter-spacing: 0.02em; padding: 6px; }
+
+  .kp-teacher-header { background: linear-gradient(135deg, var(--color-primary) 0%, #163a5c 100%); color: #fff; padding: 20px 20px 0; }
+  .kp-teacher-header-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+  .kp-teacher-header-top h1 { font: 700 24px/1.3 var(--font-family-base); margin: 0 0 4px; }
+  .kp-teacher-header-top p { font: 400 12px/1.5 var(--font-family-base); opacity: 0.85; margin: 0; }
+  .kp-teacher-logout-btn { flex-shrink: 0; width: auto; white-space: nowrap; padding: 7px 12px; font-size: 12px; border-radius: 999px; background: rgba(255,255,255,0.14); color: #fff; border: 1px solid rgba(255,255,255,0.35); }
+  .kp-teacher-nav { display: flex; gap: 4px; margin-top: 16px; overflow-x: auto; scrollbar-width: none; }
+  .kp-teacher-nav::-webkit-scrollbar { display: none; }
+  .kp-teacher-nav-item { flex-shrink: 0; padding: 10px 14px; font: 400 12px/1.5 var(--font-family-base); font-weight: 700; color: rgba(255,255,255,0.72); border: none; background: transparent; border-bottom: 2px solid transparent; white-space: nowrap; }
+  .kp-teacher-nav-item-active { color: #fff; border-bottom-color: #facc15; }
+
+  .kp-section { padding: 20px; }
+  .kp-section-title { font: 700 18px/1.4 var(--font-family-base); color: var(--color-primary); margin: 0 0 12px; }
+
+  .kp-card { background: var(--color-surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card); border: 1px solid var(--color-border); padding: 16px; margin-bottom: 14px; }
+  .kp-caption { font: 400 12px/1.5 var(--font-family-base); color: var(--color-text-muted); }
+  .kp-badge { display: inline-block; font: 400 12px/1.5 var(--font-family-base); padding: 2px 8px; border-radius: 999px; background: var(--color-evidence-blue); color: var(--color-primary); font-weight: 600; }
+  .kp-badge-low { background: var(--color-risk-red); color: #991b1b; }
+  .kp-badge-mid { background: var(--color-warning-yellow); color: #92400e; }
+  .kp-badge-high { background: var(--color-success-green); color: #166534; }
+
+  .kp-btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: none; border-radius: 10px; padding: 12px 16px; font: 400 15px/1.6 var(--font-family-base); font-weight: 600; width: 100%; }
+  .kp-btn-primary { background: var(--color-primary); color: #fff; }
+  .kp-btn-primary:disabled { opacity: 0.45; cursor: not-allowed; }
+  .kp-btn-secondary { background: var(--color-evidence-blue); color: var(--color-primary); }
+  .kp-btn-ghost { background: transparent; color: var(--color-secondary); border: 1px solid var(--color-secondary); }
+  .kp-input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--color-border); font: 400 15px/1.6 var(--font-family-base); margin-bottom: 12px; background: #fff; }
+  .kp-textarea { width: 100%; min-height: 80px; padding: 12px 14px; border-radius: 10px; border: 1px solid var(--color-border); font: 400 15px/1.6 var(--font-family-base); margin-bottom: 12px; resize: vertical; }
+  .kp-empty { text-align: center; color: var(--color-text-muted); padding: 40px 20px; }
+
+  .kp-stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 18px; }
+  .kp-stat-card { background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 14px 10px; text-align: center; }
+  .kp-stat-card-value { font-size: 20px; font-weight: 800; color: var(--color-primary); line-height: 1.2; }
+  .kp-stat-card-label { font: 400 12px/1.5 var(--font-family-base); color: var(--color-text-muted); margin-top: 2px; }
+
+  .kp-teacher-quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 18px; }
+  .kp-quick-link-card { display: flex; flex-direction: column; gap: 4px; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); padding: 14px; text-align: left; box-shadow: var(--shadow-card); }
+  .kp-quick-link-icon { font-size: 22px; line-height: 1; }
+  .kp-quick-link-title { font-weight: 700; font-size: 14px; color: var(--color-primary); }
+  .kp-quick-link-desc { font: 400 12px/1.5 var(--font-family-base); color: var(--color-text-muted); }
+
+  .kp-student-tile { display: flex; align-items: center; justify-content: space-between; padding: 16px; border-radius: var(--radius-card); background: var(--color-surface); border: 1px solid var(--color-border); margin-bottom: 10px; width: 100%; text-align: left; transition: border-color .15s, background .15s; }
+  .kp-student-tile-selected { border-color: var(--color-primary); background: var(--color-evidence-blue); }
+  .kp-student-checkbox { width: 22px; height: 22px; flex-shrink: 0; border-radius: 999px; border: 2px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: 13px; color: #fff; }
+  .kp-student-checkbox-checked { border-color: var(--color-primary); background: var(--color-primary); }
+
+  .kp-domain-picker { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px; }
+  .kp-domain-chip { border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 10px; padding: 10px 8px; font: 400 12px/1.5 var(--font-family-base); font-weight: 700; color: var(--color-text); text-align: center; }
+  .kp-domain-chip-active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+
+  .kp-sticky-action-bar { position: sticky; bottom: 0; background: var(--color-surface); border-top: 1px solid var(--color-border); padding: 12px 20px; margin: 0 -20px; }
+
+  .kp-roster-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 12px; border: 1px solid var(--color-border); border-radius: 10px; margin-bottom: 8px; background: var(--color-surface); }
+  .kp-roster-name { font-weight: 700; font-size: 14px; }
+  .kp-status-group { display: flex; gap: 4px; flex-shrink: 0; }
+  .kp-status-chip { border: 1px solid var(--color-border); background: var(--color-surface); border-radius: 8px; padding: 6px 8px; font-size: 11px; font-weight: 700; color: var(--color-text-muted); }
+  .kp-status-chip-PRESENT.kp-status-chip-active { background: var(--color-success-green); color: #166534; border-color: #166534; }
+  .kp-status-chip-ABSENT.kp-status-chip-active { background: var(--color-risk-red); color: #991b1b; border-color: #991b1b; }
+  .kp-status-chip-LATE.kp-status-chip-active, .kp-status-chip-MAKEUP.kp-status-chip-active { background: var(--color-warning-yellow); color: #92400e; border-color: #92400e; }
+
+  .kp-note-item { border: 1px solid var(--color-border); border-radius: 10px; padding: 12px; margin-bottom: 8px; background: var(--color-surface); }
+  .kp-note-item-date { font: 400 12px/1.5 var(--font-family-base); color: var(--color-text-muted); margin-bottom: 4px; }
+
+  .kp-loading { text-align: center; padding: 60px 20px; color: var(--color-text-muted); }
+  .view { display: none; }
+  .view.active { display: block; }
+
+  /* 기관 선택 화면 */
+  .kp-org-select { padding: 40px 20px; }
+  .kp-org-select h1 { font-size: 20px; color: var(--color-primary); margin-bottom: 6px; }
+  .kp-org-select p { color: var(--color-text-muted); font-size: 13px; margin-bottom: 24px; }
+  .kp-org-card { display: block; width: 100%; text-align: left; background: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-card); box-shadow: var(--shadow-card); padding: 18px; margin-bottom: 12px; }
+  .kp-org-card-icon { font-size: 26px; margin-bottom: 6px; display: block; }
+  .kp-org-card-title { font-weight: 700; font-size: 16px; color: var(--color-primary); }
+  .kp-org-card-desc { font-size: 12px; color: var(--color-text-muted); margin-top: 4px; }
+  .kp-org-switch-link { display: block; text-align: center; font-size: 12px; color: var(--color-secondary); margin-top: 10px; text-decoration: underline; background:none; border:none; width:100%; padding: 6px; }
+</style>
+</head>
+<body>
+
+<div class="kp-demo-shell">
+  <div class="kp-demo-badge">🖥️ 미리보기 데모 — 실제 DB 없이 가짜 데이터로 동작합니다</div>
+
+  <!-- ================= 기관 선택 ================= -->
+  <div id="view-org-select" class="view active">
+    <div class="kp-org-select">
+      <h1>어느 기관으로 둘러보시겠어요?</h1>
+      <p>기관 유형에 따라 메뉴와 화면 구성이 달라집니다.</p>
+
+      <button class="kp-org-card" onclick="selectOrg('SCHOOL_AFTERSCHOOL')">
+        <span class="kp-org-card-icon">🏫</span>
+        <span class="kp-org-card-title">학교 방과후 — 필굿 방과후교실</span>
+        <span class="kp-org-card-desc">반 단위 운영 · 회차/출석 관리 · 그룹 추천</span>
+      </button>
+      <button class="kp-org-card" onclick="selectOrg('COUNSELING_CENTER')">
+        <span class="kp-org-card-icon">🧑‍⚕️</span>
+        <span class="kp-org-card-title">상담센터 — 마음숲 상담센터</span>
+        <span class="kp-org-card-desc">1:1 상담 · 상담 노트 · 소그룹 반/출석 · 개인별 추천</span>
+      </button>
+      <button class="kp-org-card" onclick="selectOrg('TRAINING_CENTER')">
+        <span class="kp-org-card-icon">🧠</span>
+        <span class="kp-org-card-title">훈련센터 — 브레인업 훈련센터</span>
+        <span class="kp-org-card-desc">반/개인 혼합 운영 · 회차/출석 · 상담 노트 · 월간 통합 리포트</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ================= 대시보드 ================= -->
+  <div id="view-dashboard" class="view">
+    <div class="kp-teacher-header">
+      <div class="kp-teacher-header-top">
+        <div>
+          <h1>Teacher AI 대시보드</h1>
+          <p id="dashboard-subtitle"></p>
+        </div>
+        <button class="kp-teacher-logout-btn" type="button" onclick="showView('org-select')">기관 전환</button>
+      </div>
+      <nav class="kp-teacher-nav" id="nav-dashboard"></nav>
+    </div>
+    <div class="kp-section">
+      <div class="kp-stat-row">
+        <div class="kp-stat-card"><div class="kp-stat-card-value" id="stat-student-count">-</div><div class="kp-stat-card-label">담당 학생</div></div>
+        <div class="kp-stat-card"><div class="kp-stat-card-value">400</div><div class="kp-stat-card-label">훈련 프로그램</div></div>
+        <div class="kp-stat-card"><div class="kp-stat-card-value">81</div><div class="kp-stat-card-label">인지 프로파일</div></div>
+      </div>
+
+      <p class="kp-section-title">바로가기</p>
+      <div class="kp-teacher-quick-links" id="dashboard-quick-links"></div>
+
+      <p class="kp-section-title" id="student-list-title">학생별 추천 보기</p>
+      <input class="kp-input" id="dashboard-search" type="text" placeholder="학생 이름으로 검색" oninput="renderDashboardStudents()" />
+      <div id="dashboard-student-list"></div>
+    </div>
+  </div>
+
+  <!-- ================= 학생 상세(추천 + 리포트 + 상담노트) ================= -->
+  <div id="view-student" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top">
+        <div>
+          <h1 id="student-header-title">인지훈련 추천</h1>
+          <p>PASS Cognitive Training Library 기반</p>
+        </div>
+      </div>
+      <nav class="kp-teacher-nav" id="nav-student"></nav>
+    </div>
+    <div class="kp-section">
+      <button class="kp-btn kp-btn-ghost" style="margin-bottom:12px" onclick="showView('dashboard')">← 학생 목록으로</button>
+      <div id="student-recommendation-card"></div>
+
+      <h2 style="font-size:16px;margin:20px 0 8px">학부모 공유용 월간 통합 리포트</h2>
+      <div class="kp-card">
+        <p style="font-size:15px;font-weight:700;margin:0 0 4px">이달의 통합 리포트</p>
+        <p class="kp-caption" style="margin-bottom:10px">검사결과(PASS) + 수업(훈련)결과를 결합한 학부모 공유용 리포트입니다.</p>
+        <div style="display:flex;gap:8px;align-items:center;margin-bottom:12px">
+          <input class="kp-input" style="margin-bottom:0" type="month" id="report-month-input" value="2026-07" onchange="resetReport()" />
+          <button class="kp-btn kp-btn-secondary" style="width:auto;white-space:nowrap" onclick="loadIntegratedReport()">리포트 조회</button>
+        </div>
+        <div id="integrated-report-body"></div>
+      </div>
+
+      <div id="counseling-note-section"></div>
+    </div>
+  </div>
+
+  <!-- ================= 그룹 추천 ================= -->
+  <div id="view-group" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1>그룹 추천</h1><p>동일 약점 영역 학생을 묶어 하나의 처방으로 추천합니다</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-group"></nav>
+    </div>
+    <div class="kp-section">
+      <div class="kp-card">
+        <p style="font-size:15px;font-weight:700;margin:0 0 4px">1. 약점 영역 선택</p>
+        <p class="kp-caption" style="margin-bottom:10px">그룹 학생들의 공통 약점 인지영역을 선택하세요.</p>
+        <div class="kp-domain-picker" id="domain-picker"></div>
+        <p style="font-size:14px;font-weight:700;margin:0 0 8px">연령대</p>
+        <select class="kp-input" id="age-band-select" onchange="resetGroupResult()">
+          <option value="5-7">만 5~7세</option>
+          <option value="8-10" selected>만 8~10세</option>
+          <option value="11-13">만 11~13세</option>
+          <option value="14-16">만 14~16세</option>
+          <option value="17-19">만 17~19세</option>
+        </select>
+      </div>
+      <div class="kp-card">
+        <p style="font-size:15px;font-weight:700;margin:0 0 4px" id="group-select-title">2. 그룹 학생 선택</p>
+        <p class="kp-caption" style="margin-bottom:10px">같은 처방을 받을 학생들을 선택하세요.</p>
+        <div id="group-student-list"></div>
+      </div>
+      <div id="group-result"></div>
+      <div class="kp-sticky-action-bar">
+        <button class="kp-btn kp-btn-primary" id="group-submit-btn" disabled onclick="submitGroupRecommendation()">학생을 먼저 선택하세요</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 반 목록 (학교 방과후 / 훈련센터) ================= -->
+  <div id="view-classes" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1>반 관리</h1><p>반을 만들고 회차별 출석을 관리합니다</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-classes"></nav>
+    </div>
+    <div class="kp-section">
+      <div id="class-list"></div>
+    </div>
+  </div>
+
+  <!-- ================= 반 상세(회차 목록) ================= -->
+  <div id="view-class-detail" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1 id="class-detail-title">회차 목록</h1><p>회차를 개설하고 출석을 체크합니다</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-class-detail"></nav>
+    </div>
+    <div class="kp-section">
+      <button class="kp-btn kp-btn-ghost" style="margin-bottom:12px" onclick="showView('classes')">← 반 목록으로</button>
+      <div id="session-list"></div>
+    </div>
+  </div>
+
+  <!-- ================= 출석 체크 ================= -->
+  <div id="view-attendance" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1>출석 체크</h1><p>학생별 출석 상태를 선택하세요 (자동 저장)</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-attendance"></nav>
+    </div>
+    <div class="kp-section">
+      <button class="kp-btn kp-btn-ghost" style="margin-bottom:12px" id="back-to-class-btn">← 회차 목록으로</button>
+      <div id="attendance-roster"></div>
+    </div>
+  </div>
+
+  <!-- ================= 콘텐츠 제작소 / 보관함 (placeholder) ================= -->
+  <div id="view-studio" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1>AI 콘텐츠 제작소</h1><p>훈련법을 선택하면 교안과 활동지를 만들어드립니다</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-studio"></nav>
+    </div>
+    <div class="kp-section">
+      <div class="kp-empty">
+        <p>이 화면은 실제 앱에서 9단계 위저드로 동작합니다.</p>
+        <p class="kp-caption">이번 데모는 기관별 UX 확인용이라 이 화면은 생략했습니다.</p>
+      </div>
+    </div>
+  </div>
+  <div id="view-library" class="view">
+    <div class="kp-teacher-header" style="padding-bottom:0">
+      <div class="kp-teacher-header-top"><div><h1>콘텐츠 보관함</h1><p>내가 생성한 교안·활동지·수업 패키지를 확인합니다</p></div></div>
+      <nav class="kp-teacher-nav" id="nav-library"></nav>
+    </div>
+    <div class="kp-section">
+      <p class="kp-caption" style="text-align:center;margin-top:24px">(데모 생략 화면)</p>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =====================================================================
+ * 가짜(mock) 데이터
+ * ===================================================================== */
+const DOMAIN_LABEL = { PLANNING: '계획력', ATTENTION: '주의력', SIMULTANEOUS: '동시처리', SUCCESSIVE: '순차처리' };
+const DOMAIN_ICON = { PLANNING: '🧭', ATTENTION: '🔎', SIMULTANEOUS: '🧩', SUCCESSIVE: '🔢' };
+const DOMAINS = ['PLANNING', 'ATTENTION', 'SIMULTANEOUS', 'SUCCESSIVE'];
+const BAND_LABEL = { LOW: '하', MID: '중', HIGH: '상' };
+function bandOf(score) { return score <= 85 ? 'LOW' : score >= 120 ? 'HIGH' : 'MID'; }
+
+const ORG_LABEL = { SCHOOL_AFTERSCHOOL: '학교 방과후 · 필굿 방과후교실', COUNSELING_CENTER: '상담센터 · 마음숲 상담센터', TRAINING_CENTER: '훈련센터 · 브레인업 훈련센터' };
+const ORG_TEACHER_EMAIL = { SCHOOL_AFTERSCHOOL: 'school-teacher@example.com', COUNSELING_CENTER: 'counseling@example.com', TRAINING_CENTER: 'training@example.com' };
+function isCenterType(orgType) { return orgType === 'COUNSELING_CENTER' || orgType === 'TRAINING_CENTER'; }
+function supportsClassGroups(orgType) { return orgType === 'SCHOOL_AFTERSCHOOL' || isCenterType(orgType); }
+function supportsCounselingNotes(orgType) { return isCenterType(orgType); }
+
+const STUDENTS = [
+  { studentId: 1, name: '오하준', grade: 2, weakDomain: 'PLANNING', org: 'SCHOOL_AFTERSCHOOL', classId: 101 },
+  { studentId: 2, name: '윤서아', grade: 2, weakDomain: 'ATTENTION', org: 'SCHOOL_AFTERSCHOOL', classId: 101 },
+  { studentId: 3, name: '박지호', grade: 3, weakDomain: 'PLANNING', org: 'SCHOOL_AFTERSCHOOL', classId: 101 },
+  { studentId: 4, name: '이도현', grade: 4, weakDomain: 'ATTENTION', org: 'COUNSELING_CENTER', classId: null },
+  { studentId: 5, name: '최서윤', grade: 3, weakDomain: 'SIMULTANEOUS', org: 'COUNSELING_CENTER', classId: 201 },
+  { studentId: 6, name: '한지우', grade: 6, weakDomain: 'SUCCESSIVE', org: 'TRAINING_CENTER', classId: 301 },
+  { studentId: 7, name: '정민준', grade: 5, weakDomain: 'SIMULTANEOUS', org: 'TRAINING_CENTER', classId: 301 },
+  { studentId: 8, name: '강나윤', grade: 4, weakDomain: 'SUCCESSIVE', org: 'TRAINING_CENTER', classId: 301 },
+];
+
+const CLASSES = {
+  SCHOOL_AFTERSCHOOL: [{ classId: 101, name: '화목 3~4시반', grade: 2, ageBand: '8-10' }],
+  COUNSELING_CENTER: [{ classId: 201, name: '토요 소그룹 사회성 프로그램', grade: null, ageBand: '8-10' }],
+  TRAINING_CENTER: [{ classId: 301, name: '월수금 개인훈련반', grade: null, ageBand: '11-13' }],
+};
+
+const SESSIONS = {
+  101: [{ sessionId: 1001, title: '3주차 - 순서배열 훈련', sessionDate: '2026-07-21' }],
+  201: [{ sessionId: 2001, title: '2회차 - 역할극 사회성 훈련', sessionDate: '2026-07-18' }],
+  301: [{ sessionId: 3001, title: '2주차 - 순차재생 훈련', sessionDate: '2026-07-22' }],
+};
+
+// 회차별 출석 상태(로컬 상태, 데모용)
+const ATTENDANCE_STATE = {
+  1001: { 1: 'PRESENT', 2: 'ABSENT', 3: 'PRESENT' },
+  2001: { 5: 'PRESENT' },
+  3001: { 6: 'PRESENT', 7: 'LATE', 8: 'PRESENT' },
+};
+
+const ASSESSMENT_BY_STUDENT = {
+  1: { testedAt: '2026-06-02', planning: 78, attention: 105, simultaneous: 112, successive: 98, totalIndex: 98, priorityDomain: 'PLANNING', strengthDomain: 'SIMULTANEOUS' },
+  2: { testedAt: '2026-06-02', planning: 100, attention: 79, simultaneous: 96, successive: 103, totalIndex: 95, priorityDomain: 'ATTENTION', strengthDomain: 'SUCCESSIVE' },
+  3: { testedAt: '2026-06-10', planning: 81, attention: 110, simultaneous: 100, successive: 95, totalIndex: 97, priorityDomain: 'PLANNING', strengthDomain: 'ATTENTION' },
+  4: { testedAt: '2026-06-10', planning: 99, attention: 82, simultaneous: 96, successive: 103, totalIndex: 95, priorityDomain: 'ATTENTION', strengthDomain: 'SUCCESSIVE' },
+  5: { testedAt: '2026-06-15', planning: 108, attention: 101, simultaneous: 77, successive: 99, totalIndex: 96, priorityDomain: 'SIMULTANEOUS', strengthDomain: 'PLANNING' },
+  6: { testedAt: '2026-06-15', planning: 100, attention: 97, simultaneous: 103, successive: 80, totalIndex: 95, priorityDomain: 'SUCCESSIVE', strengthDomain: 'SIMULTANEOUS' },
+  7: { testedAt: '2026-06-20', planning: 95, attention: 99, simultaneous: 101, successive: 83, totalIndex: 94, priorityDomain: 'SUCCESSIVE', strengthDomain: 'SIMULTANEOUS' },
+  8: { testedAt: '2026-06-20', planning: 97, attention: 100, simultaneous: 79, successive: 96, totalIndex: 93, priorityDomain: 'SIMULTANEOUS', strengthDomain: 'ATTENTION' },
+};
+
+const TRAINING_MONTHLY_BY_STUDENT = {
+  '2026-07': {
+    1: { completionRate: 82, domainChange: { PLANNING: { week1Avg: 58, week4Avg: 71, delta: 13 }, ATTENTION: { week1Avg: 80, week4Avg: 82, delta: 2 }, SIMULTANEOUS: { week1Avg: 85, week4Avg: 86, delta: 1 }, SUCCESSIVE: { week1Avg: 75, week4Avg: 78, delta: 3 } }, strengthMaintained: ['SIMULTANEOUS'], weaknessProgress: { domain: 'PLANNING', improvementRate: 13 }, nextMonthRecommendation: '계획력 향상세가 뚜렷합니다. 다음 달은 순서 배열 난이도를 한 단계 높여 진행을 권장합니다.' },
+    6: { completionRate: 75, domainChange: { PLANNING: { week1Avg: 80, week4Avg: 82, delta: 2 }, ATTENTION: { week1Avg: 78, week4Avg: 80, delta: 2 }, SIMULTANEOUS: { week1Avg: 88, week4Avg: 90, delta: 2 }, SUCCESSIVE: { week1Avg: 55, week4Avg: 68, delta: 13 } }, strengthMaintained: ['SIMULTANEOUS'], weaknessProgress: { domain: 'SUCCESSIVE', improvementRate: 13 }, nextMonthRecommendation: '순차처리 향상이 꾸준합니다. 숫자 재생 훈련의 자릿수를 한 단계 늘려보세요.' },
+  },
+};
+
+// 상담 노트(로컬 상태, 데모용 — 새로 추가한 노트는 새로고침 시 초기화됨)
+const COUNSELING_NOTES = {
+  4: [{ noteDate: '2026-07-15', content: '초기 상담: 주의 전환이 잦고 과제 시작을 어려워함. 부모 면담 예정.' }],
+  5: [{ noteDate: '2026-07-10', content: '도형·공간 과제에서 어려움 관찰. 동시처리 영역 집중 관찰 필요.' }],
+  6: [{ noteDate: '2026-07-08', content: '집중 훈련 6주차: 훈련 시작 전 부모 상담 - 최근 학교 적응 관련 스트레스 언급.' }],
+};
+
+let currentOrgType = null;
+let currentStudentId = null;
+let currentClassId = null;
+let currentSessionId = null;
+let selectedGroupIds = [];
+let selectedDomain = 'PLANNING';
+
+/* =====================================================================
+ * 화면 전환 / 네비게이션
+ * ===================================================================== */
+const NAV_ITEMS_BASE = [
+  { key: 'dashboard', label: '대시보드' },
+  { key: 'group', label: '그룹 추천' },
+  { key: 'studio', label: 'AI 콘텐츠 제작소' },
+  { key: 'library', label: '콘텐츠 보관함' },
+];
+
+function navItemsForOrg(orgType) {
+  const items = [...NAV_ITEMS_BASE];
+  if (supportsClassGroups(orgType)) items.splice(1, 0, { key: 'classes', label: '반/출석' });
+  return items;
+}
+
+function renderAllNavs() {
+  const items = navItemsForOrg(currentOrgType);
+  ['dashboard', 'student', 'group', 'classes', 'class-detail', 'attendance', 'studio', 'library'].forEach((v) => {
+    const el = document.getElementById('nav-' + v);
+    if (!el) return;
+    const activeKey = ['student'].includes(v) ? 'dashboard' : ['class-detail', 'attendance'].includes(v) ? 'classes' : v;
+    el.innerHTML = items.map(item =>
+      `<button class="kp-teacher-nav-item ${item.key === activeKey ? 'kp-teacher-nav-item-active' : ''}" onclick="showView('${item.key}')">${item.label}</button>`
+    ).join('');
+  });
+}
+
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function selectOrg(orgType) {
+  currentOrgType = orgType;
+  document.getElementById('dashboard-subtitle').textContent =
+    `${ORG_TEACHER_EMAIL[orgType]} 님 · ${ORG_LABEL[orgType]}`;
+  document.getElementById('student-list-title').textContent =
+    supportsCounselingNotes(orgType) ? '내담자별 추천 보기' : '학생별 추천 보기';
+  renderAllNavs();
+  renderQuickLinks();
+  renderDashboardStudents();
+  renderDomainPicker();
+  renderGroupStudents();
+  renderClassList();
+  showView('dashboard');
+}
+
+function renderQuickLinks() {
+  const el = document.getElementById('dashboard-quick-links');
+  let html = '';
+  if (supportsClassGroups(currentOrgType)) {
+    html += `<button class="kp-quick-link-card" onclick="showView('classes')">
+      <span class="kp-quick-link-icon">🗓️</span>
+      <span class="kp-quick-link-title">반/출석</span>
+      <span class="kp-quick-link-desc">반 만들기 · 회차 개설 · 출석 체크</span>
+    </button>`;
+  }
+  html += `<button class="kp-quick-link-card" onclick="showView('group')">
+      <span class="kp-quick-link-icon">👥</span>
+      <span class="kp-quick-link-title">그룹 추천</span>
+      <span class="kp-quick-link-desc">동일 약점 영역 묶어 한번에 추천</span>
+    </button>
+    <button class="kp-quick-link-card" onclick="showView('studio')">
+      <span class="kp-quick-link-icon">🎨</span>
+      <span class="kp-quick-link-title">AI 콘텐츠 제작소</span>
+      <span class="kp-quick-link-desc">교안 · 활동지 생성</span>
+    </button>
+    <button class="kp-quick-link-card" onclick="showView('library')">
+      <span class="kp-quick-link-icon">📚</span>
+      <span class="kp-quick-link-title">콘텐츠 보관함</span>
+      <span class="kp-quick-link-desc">생성한 교안 · 활동지 확인</span>
+    </button>`;
+  el.innerHTML = html;
+}
+
+function orgStudents() {
+  return STUDENTS.filter(s => s.org === currentOrgType);
+}
+
+/* =====================================================================
+ * 대시보드 - 학생(내담자) 목록
+ * ===================================================================== */
+function renderDashboardStudents() {
+  const q = document.getElementById('dashboard-search').value.trim();
+  const students = orgStudents().filter(s => s.name.includes(q));
+  document.getElementById('stat-student-count').textContent = orgStudents().length;
+  const el = document.getElementById('dashboard-student-list');
+  if (students.length === 0) {
+    el.innerHTML = `<p class="kp-empty">"${q}"와 일치하는 대상이 없습니다.</p>`;
+    return;
+  }
+  el.innerHTML = students.map(s => `
+    <button class="kp-student-tile" onclick="openStudent(${s.studentId})">
+      <div><strong>${s.name}</strong><p class="kp-caption" style="margin:4px 0 0">${s.grade}학년</p></div>
+      <span aria-hidden>›</span>
+    </button>
+  `).join('');
+}
+
+function openStudent(id) {
+  currentStudentId = id;
+  const s = STUDENTS.find(x => x.studentId === id);
+  document.getElementById('student-header-title').textContent = supportsCounselingNotes(currentOrgType) ? `${s.name} 님 상담 기록` : '교사용 인지훈련 추천';
+  const prog = { PLANNING: { programId: 'TRN-0142', programName: '이야기 순서 배열 카드 훈련', reason: '계획 영역 표준점수가 또래 대비 낮아, 순서를 스스로 조직하는 훈련이 우선 필요합니다.' },
+    ATTENTION: { programId: 'TRN-0088', programName: '선택적 주의 카드 매칭', reason: '방해 자극 속에서 목표 자극에 집중하는 훈련으로 주의 지속 시간을 늘리는 데 효과적입니다.' },
+    SIMULTANEOUS: { programId: 'TRN-0231', programName: '도형 관계 추론 퍼즐', reason: '여러 정보를 동시에 통합해 관계를 파악하는 능력을 단계적으로 강화합니다.' },
+    SUCCESSIVE: { programId: 'TRN-0309', programName: '숫자·음운 순차 재생 훈련', reason: '정보를 순서대로 기억하고 재생하는 능력을 반복 훈련으로 향상시킵니다.' } }[s.weakDomain];
+  const confidence = 78;
+  const confClass = confidence >= 80 ? 'kp-badge-high' : confidence >= 50 ? 'kp-badge-mid' : 'kp-badge-low';
+  document.getElementById('student-recommendation-card').innerHTML = `
+    <div class="kp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <strong style="font-size:16px">${s.name}</strong>
+        <span class="kp-badge">${DOMAIN_ICON[s.weakDomain]} ${DOMAIN_LABEL[s.weakDomain]}</span>
+      </div>
+      <p style="font-size:15px;font-weight:600;margin:10px 0 4px">${prog.programName}</p>
+      <p style="font-size:14px;color:var(--color-text-muted)">${prog.reason}</p>
+      <div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+        <span class="kp-badge">근거 ★★★</span>
+        <span class="kp-badge ${confClass}">신뢰도 ${confidence}%</span>
+        <span class="kp-badge">${prog.programId}</span>
+      </div>
+    </div>`;
+
+  const reportBody = document.getElementById('integrated-report-body');
+  if (reportBody) reportBody.innerHTML = '';
+
+  const noteSection = document.getElementById('counseling-note-section');
+  if (supportsCounselingNotes(currentOrgType)) {
+    renderCounselingNotes(id);
+  } else {
+    noteSection.innerHTML = '';
+  }
+
+  renderAllNavs();
+  showView('student');
+}
+
+/* =====================================================================
+ * 상담 노트 (상담센터 전용)
+ * ===================================================================== */
+function renderCounselingNotes(studentId) {
+  const notes = COUNSELING_NOTES[studentId] || [];
+  const notesHtml = notes.length === 0
+    ? '<p class="kp-empty">아직 작성된 상담 노트가 없습니다.</p>'
+    : notes.map(n => `<div class="kp-note-item"><p class="kp-note-item-date">${n.noteDate}</p><p style="font-size:14px;white-space:pre-wrap">${n.content}</p></div>`).join('');
+
+  document.getElementById('counseling-note-section').innerHTML = `
+    <h2 style="font-size:16px;margin:20px 0 8px">상담 기록</h2>
+    <div class="kp-card">
+      <p style="font-size:15px;font-weight:700;margin:0 0 10px">상담 노트</p>
+      <textarea class="kp-textarea" id="new-note-textarea" placeholder="오늘 상담 내용, 정서/행동 관찰 등을 기록하세요."></textarea>
+      <button class="kp-btn kp-btn-primary" onclick="addCounselingNote(${studentId})">노트 추가</button>
+      <div style="margin-top:16px" id="note-list">${notesHtml}</div>
+    </div>
+  `;
+}
+
+function addCounselingNote(studentId) {
+  const textarea = document.getElementById('new-note-textarea');
+  const content = textarea.value.trim();
+  if (!content) return;
+  if (!COUNSELING_NOTES[studentId]) COUNSELING_NOTES[studentId] = [];
+  COUNSELING_NOTES[studentId].unshift({ noteDate: new Date().toISOString().slice(0, 10), content });
+  renderCounselingNotes(studentId);
+}
+
+/* =====================================================================
+ * 월간 통합 리포트 (검사결과 + 훈련결과)
+ * ===================================================================== */
+function resetReport() { const el = document.getElementById('integrated-report-body'); if (el) el.innerHTML = ''; }
+
+function loadIntegratedReport() {
+  const month = document.getElementById('report-month-input').value;
+  const el = document.getElementById('integrated-report-body');
+  const assessment = ASSESSMENT_BY_STUDENT[currentStudentId];
+  const monthData = TRAINING_MONTHLY_BY_STUDENT[month];
+  const training = monthData ? monthData[currentStudentId] : null;
+
+  if (!training) {
+    el.innerHTML = `<p class="kp-empty" style="padding:16px 0">${month}의 월간 훈련 리포트가 아직 생성되지 않았습니다. (데모에서는 일부 학생·2026-07만 예시 데이터가 있습니다.)</p>`;
+    return;
+  }
+
+  const rows = DOMAINS.map(k => `
+    <tr><td>${DOMAIN_LABEL[k]}</td><td align="right">${assessment[k.toLowerCase()]}</td><td align="right">${BAND_LABEL[bandOf(assessment[k.toLowerCase()])]}</td></tr>
+  `).join('');
+  const trainingRows = Object.entries(training.domainChange).map(([domain, c]) => `
+    <tr><td>${DOMAIN_LABEL[domain]}</td><td align="right">${c.week1Avg ?? '-'}</td><td align="right">${c.week4Avg ?? '-'}</td><td align="right">${c.delta ?? '-'}</td></tr>
+  `).join('');
+
+  el.innerHTML = `
+    <p style="font-weight:700;color:var(--color-primary);margin:4px 0">1. 검사결과 <span class="kp-caption">(${assessment.testedAt} 검사 기준)</span></p>
+    <table style="width:100%;font-size:13px;margin-bottom:12px;border-collapse:collapse"><thead><tr><th align="left">영역</th><th align="right">표준점수</th><th align="right">수준</th></tr></thead><tbody>${rows}</tbody></table>
+    <p class="kp-caption" style="margin-bottom:12px">전체지수 ${assessment.totalIndex} · 우선훈련영역 ${DOMAIN_LABEL[assessment.priorityDomain]} · 강점영역 ${DOMAIN_LABEL[assessment.strengthDomain]}</p>
+    <p style="font-weight:700;color:var(--color-primary);margin:4px 0">2. 수업(훈련) 결과</p>
+    <p style="margin-bottom:8px"><strong>이행률: ${training.completionRate}%</strong></p>
+    <table style="width:100%;font-size:13px;margin-bottom:12px;border-collapse:collapse"><thead><tr><th align="left">영역</th><th align="right">1주차</th><th align="right">4주차</th><th align="right">변화</th></tr></thead><tbody>${trainingRows}</tbody></table>
+    <p class="kp-caption" style="margin-bottom:4px">강점 유지 영역: ${training.strengthMaintained.map(d => DOMAIN_LABEL[d]).join(', ') || '없음'}</p>
+    <p class="kp-caption" style="margin-bottom:12px">약점 보완 진행도: ${DOMAIN_LABEL[training.weaknessProgress.domain]} (${training.weaknessProgress.improvementRate}점)</p>
+    <p style="font-weight:700;color:var(--color-primary);margin:4px 0">3. 다음 달 추천</p>
+    <p style="margin-bottom:14px">${training.nextMonthRecommendation}</p>
+    <button class="kp-btn kp-btn-primary" onclick="alert('데모에서는 실제 PDF 파일을 생성하지 않습니다.')">📄 학부모 공유용 PDF 다운로드</button>
+  `;
+}
+
+/* =====================================================================
+ * 그룹 추천
+ * ===================================================================== */
+function renderDomainPicker() {
+  document.getElementById('domain-picker').innerHTML = DOMAINS.map(d => `
+    <button class="kp-domain-chip ${d === selectedDomain ? 'kp-domain-chip-active' : ''}" onclick="selectDomain('${d}')">${DOMAIN_ICON[d]} ${DOMAIN_LABEL[d]}</button>
+  `).join('');
+}
+function selectDomain(d) { selectedDomain = d; renderDomainPicker(); resetGroupResult(); }
+
+function renderGroupStudents() {
+  const el = document.getElementById('group-student-list');
+  el.innerHTML = orgStudents().map(s => {
+    const isSelected = selectedGroupIds.includes(s.studentId);
+    return `<button class="kp-student-tile ${isSelected ? 'kp-student-tile-selected' : ''}" onclick="toggleGroupStudent(${s.studentId})">
+      <div><strong>${s.name}</strong><p class="kp-caption" style="margin:4px 0 0">${s.grade}학년</p></div>
+      <span class="kp-student-checkbox ${isSelected ? 'kp-student-checkbox-checked' : ''}">${isSelected ? '✓' : ''}</span>
+    </button>`;
+  }).join('');
+  document.getElementById('group-select-title').textContent = selectedGroupIds.length > 0 ? `2. 그룹 학생 선택 (${selectedGroupIds.length}명 선택됨)` : '2. 그룹 학생 선택';
+  const btn = document.getElementById('group-submit-btn');
+  btn.disabled = selectedGroupIds.length === 0;
+  btn.textContent = selectedGroupIds.length > 0 ? `${selectedGroupIds.length}명 그룹 추천 받기` : '학생을 먼저 선택하세요';
+}
+function toggleGroupStudent(id) { selectedGroupIds = selectedGroupIds.includes(id) ? selectedGroupIds.filter(x => x !== id) : [...selectedGroupIds, id]; renderGroupStudents(); resetGroupResult(); }
+function resetGroupResult() { document.getElementById('group-result').innerHTML = ''; }
+function submitGroupRecommendation() {
+  if (selectedGroupIds.length === 0) return;
+  const prog = { PLANNING: ['이야기 순서 배열 카드 훈련', '계획 영역 우선 훈련이 필요한 그룹입니다.'], ATTENTION: ['선택적 주의 카드 매칭', '방해 자극 속 목표 자극 집중 훈련이 필요한 그룹입니다.'], SIMULTANEOUS: ['도형 관계 추론 퍼즐', '정보 통합 능력 훈련이 필요한 그룹입니다.'], SUCCESSIVE: ['숫자·음운 순차 재생 훈련', '순서 기억 재생 훈련이 필요한 그룹입니다.'] }[selectedDomain];
+  document.getElementById('group-result').innerHTML = `
+    <div class="kp-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <strong style="font-size:16px">약점: ${DOMAIN_LABEL[selectedDomain]} 그룹 (${selectedGroupIds.length}명)</strong>
+        <span class="kp-badge">${DOMAIN_ICON[selectedDomain]} ${DOMAIN_LABEL[selectedDomain]}</span>
+      </div>
+      <p style="font-size:15px;font-weight:600;margin:10px 0 4px">${prog[0]}</p>
+      <p style="font-size:14px;color:var(--color-text-muted)">${prog[1]}</p>
+    </div>`;
+}
+
+/* =====================================================================
+ * 반 / 회차 / 출석 (학교 방과후 · 훈련센터)
+ * ===================================================================== */
+function renderClassList() {
+  const list = CLASSES[currentOrgType] || [];
+  const el = document.getElementById('class-list');
+  if (list.length === 0) {
+    el.innerHTML = '<p class="kp-empty">이 기관 유형에는 반 관리 기능이 없습니다.</p>';
+    return;
+  }
+  el.innerHTML = list.map(c => `
+    <button class="kp-student-tile" onclick="openClass(${c.classId})">
+      <div><strong>${c.name}</strong><p class="kp-caption" style="margin:4px 0 0">${c.grade ? c.grade + '학년 · ' : ''}연령대 ${c.ageBand}</p></div>
+      <span aria-hidden>›</span>
+    </button>`).join('');
+}
+
+function openClass(classId) {
+  currentClassId = classId;
+  const cls = (CLASSES[currentOrgType] || []).find(c => c.classId === classId);
+  document.getElementById('class-detail-title').textContent = cls.name;
+  const sessions = SESSIONS[classId] || [];
+  document.getElementById('session-list').innerHTML = sessions.length === 0
+    ? '<p class="kp-empty">아직 개설된 회차가 없습니다.</p>'
+    : sessions.map(s => `
+      <button class="kp-student-tile" onclick="openAttendance(${s.sessionId})">
+        <div><strong>${s.title}</strong><p class="kp-caption" style="margin:4px 0 0">${s.sessionDate}</p></div>
+        <span aria-hidden>출석 체크 ›</span>
+      </button>`).join('');
+  renderAllNavs();
+  showView('class-detail');
+}
+
+function openAttendance(sessionId) {
+  currentSessionId = sessionId;
+  document.getElementById('back-to-class-btn').onclick = () => showView('class-detail');
+  renderAttendanceRoster();
+  renderAllNavs();
+  showView('attendance');
+}
+
+const STATUS_OPTIONS = [{ value: 'PRESENT', label: '출석' }, { value: 'ABSENT', label: '결석' }, { value: 'LATE', label: '지각' }, { value: 'MAKEUP', label: '보강' }];
+
+function renderAttendanceRoster() {
+  const classStudents = orgStudents().filter(s => s.classId === currentClassId);
+  if (!ATTENDANCE_STATE[currentSessionId]) ATTENDANCE_STATE[currentSessionId] = {};
+  const state = ATTENDANCE_STATE[currentSessionId];
+  const session = (SESSIONS[currentClassId] || []).find(s => s.sessionId === currentSessionId);
+
+  let html = `<div class="kp-card"><strong>${session.title}</strong><p class="kp-caption" style="margin:4px 0 0">${session.sessionDate}</p></div>`;
+  if (classStudents.length === 0) {
+    html += '<p class="kp-empty">이 반에 배정된 학생이 없습니다.</p>';
+  } else {
+    html += classStudents.map(s => {
+      const current = state[s.studentId] || 'PRESENT';
+      return `<div class="kp-roster-row">
+        <span class="kp-roster-name">${s.name}</span>
+        <div class="kp-status-group">
+          ${STATUS_OPTIONS.map(opt => `<button type="button" class="kp-status-chip kp-status-chip-${opt.value}${current === opt.value ? ' kp-status-chip-active' : ''}" onclick="setAttendance(${s.studentId}, '${opt.value}')">${opt.label}</button>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  document.getElementById('attendance-roster').innerHTML = html;
+}
+
+function setAttendance(studentId, status) {
+  ATTENDANCE_STATE[currentSessionId][studentId] = status;
+  renderAttendanceRoster();
+}
+
+/* 초기 상태: 기관 선택 화면부터 시작 */
+</script>
+</body>
+</html>
