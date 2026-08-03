@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>K-PASS Home · 데모 v2</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+:root{
+  --bg: #F6F8FB;
+  --surface: #FFFFFF;
+  --surface-soft: #EEF2F7;
+  --ink: #26292E;
+  --ink-soft: #6B6B6B;
+  --line: #DFE4EA;
+  --sage: #2E75CC;
+  --sage-deep: #1B4C82;
+  --sage-pale: #E1EBF9;
+  --coral: #F4A418;
+  --coral-pale: #FDF0DC;
+  --gold: #B8650A;
+  --gold-pale: #FDEBD0;
+  --sky: #2E75CC;
+  --sky-pale: #E1EBF9;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 9px;
+  --shadow: 0 2px 14px rgba(38,58,82,0.07);
+}
+*{box-sizing:border-box;}
+body{margin:0;font-family:'Pretendard',-apple-system,BlinkMacSystemFont,'Malgun Gothic',sans-serif;background:var(--bg);color:var(--ink);}
+.app{max-width:460px;margin:0 auto;min-height:100vh;background:var(--bg);position:relative;padding-bottom:90px;}
+
+/* ---- top bar ---- */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:18px 20px 8px;}
+.topbar .brand{font-size:13px;font-weight:600;color:var(--sage-deep);letter-spacing:.02em;}
+.topbar .icons{display:flex;gap:10px;}
+.icon-btn{width:36px;height:36px;border-radius:50%;background:var(--surface);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;box-shadow:var(--shadow);}
+.icon-btn:active{transform:scale(.94);}
+
+.header{padding:6px 20px 18px;}
+.header h1{font-size:21px;margin:2px 0 4px;font-weight:700;}
+.header .meta{font-size:13px;color:var(--ink-soft);}
+
+/* ---- level strip (signature element) ---- */
+.grove{margin:14px 20px 4px;background:var(--surface);border-radius:var(--radius-lg);padding:16px;box-shadow:var(--shadow);}
+.grove-title{font-size:12px;color:var(--ink-soft);font-weight:600;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;}
+.grove-title .total{color:var(--sage-deep);font-weight:700;}
+.saplings{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.sapling{text-align:center;}
+.sapling svg{width:100%;height:52px;}
+.sapling .name{font-size:11px;color:var(--ink-soft);margin-top:2px;}
+.sapling .lv{font-size:12px;font-weight:700;color:var(--sage-deep);}
+
+/* ---- section card ---- */
+.card{margin:14px 20px;background:var(--surface);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);}
+.card-label{font-size:12px;font-weight:700;color:var(--sage);letter-spacing:.02em;margin-bottom:8px;display:flex;align-items:center;gap:6px;}
+.badge-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px;}
+.badge{font-size:11px;padding:4px 10px;border-radius:99px;font-weight:600;}
+.badge-domain{background:var(--sage-pale);color:var(--sage-deep);}
+.badge-diff-low{background:var(--sky-pale);color:var(--sky);}
+.badge-diff-mid{background:var(--gold-pale);color:#B8650A;}
+.badge-diff-high{background:var(--coral-pale);color:var(--coral);}
+.activity-title{font-size:17px;font-weight:700;margin:4px 0 6px;}
+.activity-desc{font-size:13.5px;color:var(--ink-soft);line-height:1.55;margin-bottom:14px;}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:none;border-radius:var(--radius-md);padding:13px 18px;font-size:14.5px;font-weight:700;cursor:pointer;width:100%;}
+.btn:active{transform:scale(.98);}
+.btn-primary{background:var(--sage-deep);color:#fff;}
+.btn-secondary{background:var(--surface-soft);color:var(--ink);}
+.btn-outline{background:transparent;color:var(--sage-deep);border:1.5px solid var(--sage-deep);}
+.btn-ghost{background:transparent;color:var(--ink-soft);font-weight:600;padding:8px;}
+.btn-row{display:flex;gap:8px;}
+.btn-row .btn{flex:1;}
+
+/* ---- why-daily info strip ---- */
+.info-strip{margin:0 20px 14px;display:flex;gap:10px;align-items:flex-start;background:var(--sky-pale);border-radius:var(--radius-md);padding:12px 14px;font-size:12.5px;color:#1B4C82;line-height:1.5;cursor:pointer;}
+.info-strip .x{margin-left:auto;color:#1B4C82;opacity:.55;font-size:11px;}
+
+/* ---- weekly strip ---- */
+.week-strip{display:flex;justify-content:space-between;margin-top:4px;}
+.day-chip{flex:1;text-align:center;padding:10px 2px;border-radius:var(--radius-sm);margin:0 2px;font-size:11px;cursor:pointer;position:relative;}
+.day-chip .dow{font-size:10.5px;color:var(--ink-soft);margin-bottom:5px;}
+.day-chip .dot{width:26px;height:26px;border-radius:50%;margin:0 auto 4px;display:flex;align-items:center;justify-content:center;font-size:12px;}
+.day-chip.done .dot{background:var(--sage);color:#fff;}
+.day-chip.today .dot{background:var(--coral);color:#fff;box-shadow:0 0 0 3px var(--coral-pale);}
+.day-chip.locked .dot{background:var(--surface-soft);color:var(--ink-soft);}
+.day-chip .label{font-size:10px;color:var(--ink-soft);}
+
+/* parent coaching - always visible */
+.coach-card{margin:14px 20px;background:linear-gradient(155deg,var(--gold-pale),#fff 65%);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow);}
+.coach-row{margin-bottom:12px;}
+.coach-row:last-child{margin-bottom:0;}
+.coach-row .k{font-size:11px;color:#B8650A;font-weight:700;margin-bottom:4px;}
+.coach-row .v{font-size:14px;line-height:1.5;}
+
+/* completion state */
+.done-hero{text-align:center;padding:6px 4px 10px;}
+.done-emoji{font-size:38px;}
+.done-title{font-size:19px;font-weight:800;margin:6px 0 2px;}
+.done-sub{font-size:13px;color:var(--ink-soft);}
+.xp-list{background:var(--surface-soft);border-radius:var(--radius-md);padding:12px 14px;margin:14px 0;}
+.xp-row{display:flex;justify-content:space-between;font-size:13px;padding:4px 0;}
+.xp-row.total{border-top:1px dashed var(--line);margin-top:6px;padding-top:8px;font-weight:700;}
+.levelup-banner{background:var(--sage-deep);color:#fff;border-radius:var(--radius-md);padding:12px 14px;font-size:13px;font-weight:700;text-align:center;margin-bottom:14px;display:none;}
+.tomorrow-tease{border:1.5px dashed var(--line);border-radius:var(--radius-md);padding:12px 14px;margin-bottom:14px;}
+.tomorrow-tease .k{font-size:11px;color:var(--ink-soft);font-weight:700;margin-bottom:3px;}
+.tomorrow-tease .v{font-size:13.5px;font-weight:600;}
+
+/* floating help */
+.fab{position:fixed;left:50%;transform:translateX(-50%);bottom:22px;max-width:420px;width:calc(100% - 40px);display:flex;gap:10px;z-index:20;}
+.fab .btn{box-shadow:0 6px 18px rgba(30,42,58,0.18);}
+
+/* modal */
+.overlay{position:fixed;inset:0;background:rgba(30,42,58,0.42);display:none;align-items:flex-end;justify-content:center;z-index:50;}
+.overlay.show{display:flex;}
+.sheet{background:#fff;width:100%;max-width:460px;border-radius:22px 22px 0 0;padding:22px 20px 26px;max-height:82vh;overflow-y:auto;animation:slideup .22s ease-out;}
+@keyframes slideup{from{transform:translateY(24px);opacity:0;}to{transform:translateY(0);opacity:1;}}
+.sheet-title{font-size:17px;font-weight:800;margin-bottom:4px;}
+.sheet-sub{font-size:12.5px;color:var(--ink-soft);margin-bottom:16px;}
+.sheet .close{position:absolute;top:16px;right:18px;font-size:18px;color:var(--ink-soft);cursor:pointer;}
+.opt-row{display:flex;justify-content:space-between;align-items:center;padding:13px 0;border-bottom:1px solid var(--line);}
+.opt-row:last-child{border-bottom:none;}
+.opt-row .t{font-size:14px;font-weight:600;}
+.opt-row .d{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+.toggle{width:44px;height:26px;border-radius:99px;background:var(--surface-soft);position:relative;cursor:pointer;flex-shrink:0;transition:.2s;}
+.toggle.on{background:var(--sage-deep);}
+.toggle .knob{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 3px rgba(0,0,0,.2);}
+.toggle.on .knob{left:21px;}
+.mission-mini{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);}
+.mission-mini:last-child{border-bottom:none;}
+.mission-mini .ic{width:34px;height:34px;border-radius:10px;background:var(--sage-pale);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.mission-mini .t{font-size:13.5px;font-weight:600;}
+.mission-mini .s{font-size:11.5px;color:var(--ink-soft);}
+.chat-bubble{background:var(--surface-soft);border-radius:var(--radius-md);padding:12px 14px;font-size:13.5px;line-height:1.55;margin-bottom:10px;}
+
+.nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);max-width:460px;width:100%;background:#fff;border-top:1px solid var(--line);display:none;}
+.section{display:none;}
+.section.active{display:block;}
+.link-row{margin:8px 20px 0;text-align:center;}
+.link-row a{font-size:12.5px;color:var(--sage-deep);font-weight:600;text-decoration:none;}
+.footer-space{height:20px;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <!-- ============ HOME SCREEN ============ -->
+  <div class="section active" id="screen-home">
+    <div class="topbar">
+      <div class="brand">HOME AI 티처</div>
+      <div class="icons">
+        <div class="icon-btn" onclick="openSheet('sheet-settings')">⚙️</div>
+        <div class="icon-btn" onclick="openSheet('sheet-report-link')">📈</div>
+      </div>
+    </div>
+    <div class="header">
+      <h1>송서우님의 홈트레이닝</h1>
+      <div class="meta">여 · 만 9세 10개월 · 우뇌우세형(동시처리우세형)</div>
+    </div>
+
+    <!-- signature: growth grove -->
+    <div class="grove">
+      <div class="grove-title"><span>영역별 성장 나무</span><span class="total" id="grove-total">총 Lv.10</span></div>
+      <div class="saplings" id="saplings"></div>
+    </div>
+
+    <!-- today's training card (swaps content via JS) -->
+    <div class="card" id="today-card"></div>
+
+    <!-- why daily -->
+    <div class="info-strip" onclick="openSheet('sheet-why')">
+      <span>💡</span>
+      <span>왜 오늘 훈련은 하나만 볼 수 있을까요?</span>
+      <span class="x">자세히</span>
+    </div>
+
+    <!-- weekly preview strip -->
+    <div class="card">
+      <div class="card-label">🗓️ 이번 주 흐름</div>
+      <div class="week-strip" id="week-strip"></div>
+    </div>
+
+    <!-- parent coaching, always visible -->
+    <div class="coach-card">
+      <div class="card-label" style="color:#B8650A;">👨‍👩‍👧 인지훈련 부모 코칭</div>
+      <div class="coach-row">
+        <div class="k">오늘의 질문</div>
+        <div class="v">"아침부터 지금까지 어떤 순서였을까?"</div>
+      </div>
+      <div class="coach-row">
+        <div class="k">칭찬 문장</div>
+        <div class="v">"순서를 잘 기억해서 말했어."</div>
+      </div>
+      <div class="coach-row">
+        <div class="k">생활 속 PASS</div>
+        <div class="v">잠자리에서 오늘 있었던 일을 순서대로 짚어보며 대화해보세요.</div>
+      </div>
+    </div>
+
+    <div class="link-row"><a href="#" onclick="openSheet('sheet-report-link');return false;">인지기능 성장 리포트 보기 →</a></div>
+    <div class="footer-space"></div>
+  </div>
+
+  <!-- floating actions -->
+  <div class="fab">
+    <button class="btn btn-secondary" onclick="openSheet('sheet-help')" style="flex:1;">🙋 잘 모르겠어요</button>
+    <button class="btn btn-outline" onclick="openSheet('sheet-more')" style="flex:1;">➕ 더 하고 싶어요</button>
+  </div>
+
+  <!-- ============ SHEETS / MODALS ============ -->
+
+  <!-- why daily explanation -->
+  <div class="overlay" id="ov-sheet-why" onclick="closeOnBg(event,'sheet-why')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-why')">✕</div>
+      <div class="sheet-title">하루 1세트로 구성한 이유</div>
+      <div class="sheet-sub">K-PASS 인지훈련 설계 원칙</div>
+      <div class="chat-bubble">인지훈련은 짧게, 매일 반복할 때 효과가 가장 크다는 연구 결과에 따라 하루 1세트(10~15분)로 구성돼 있어요.</div>
+      <div class="chat-bubble">다음 날 프로그램을 미리 보여드리지 않는 건 "숨기기" 위해서가 아니라, 하루치 목표에 집중할 수 있도록 돕기 위해서예요.</div>
+      <div class="chat-bubble">더 하고 싶은 날에는 아래 <b>"더 하고 싶어요"</b> 버튼으로 진도와 무관한 보너스·복습 활동을 열어드릴 수 있어요.</div>
+      <button class="btn btn-primary" onclick="closeSheet('sheet-why')">이해했어요</button>
+    </div>
+  </div>
+
+  <!-- more / bonus & review -->
+  <div class="overlay" id="ov-sheet-more" onclick="closeOnBg(event,'sheet-more')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-more')">✕</div>
+      <div class="sheet-title">더 해볼까요?</div>
+      <div class="sheet-sub">공식 진도와는 별도로, 자유롭게 즐기는 활동이에요</div>
+      <div class="mission-mini">
+        <div class="ic">🎯</div>
+        <div><div class="t">보너스 활동 · 동시처리 마인드맵</div><div class="s">오늘 있었던 일 3가지를 그림으로 연결해보기 · 약 8분</div></div>
+      </div>
+      <div class="mission-mini">
+        <div class="ic">🔁</div>
+        <div><div class="t">복습하기 · 이번 주 활동 다시보기</div><div class="s">지난 3일간 했던 순차처리 카드를 다시 풀어봐요</div></div>
+      </div>
+      <div class="mission-mini">
+        <div class="ic">🌙</div>
+        <div><div class="t">생활 속 PASS 미니게임</div><div class="s">진도에 포함되지 않는 짧은 두뇌 게임 · 약 5분</div></div>
+      </div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-primary" onclick="closeSheet('sheet-more')">시작하기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- help / Home AI counselor -->
+  <div class="overlay" id="ov-sheet-help" onclick="closeOnBg(event,'sheet-help')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-help')">✕</div>
+      <div class="sheet-title">무엇을 도와드릴까요?</div>
+      <div class="sheet-sub">선생님이 옆에 없어도 괜찮아요</div>
+      <div class="mission-mini"><div class="ic">🔊</div><div><div class="t">오늘 활동 음성으로 다시 듣기</div><div class="s">설명을 소리 내어 처음부터 들려드려요</div></div></div>
+      <div class="mission-mini"><div class="ic">💬</div><div><div class="t">Home AI 상담사에게 물어보기</div><div class="s">오늘 남은 대화 7/10회</div></div></div>
+      <div class="mission-mini"><div class="ic">📞</div><div><div class="t">담당 선생님께 메시지 남기기</div><div class="s">다음 상담 시간에 확인해드려요</div></div></div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-primary" onclick="closeSheet('sheet-help')">Home AI에게 물어보기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- settings -->
+  <div class="overlay" id="ov-sheet-settings" onclick="closeOnBg(event,'sheet-settings')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-settings')">✕</div>
+      <div class="sheet-title">설정</div>
+      <div class="sheet-sub">우리 가족 속도에 맞춰 조절해보세요</div>
+      <div class="opt-row">
+        <div><div class="t">진행 방식</div><div class="d" id="pace-desc">매일 하나씩 (권장)</div></div>
+        <div class="toggle" id="toggle-pace" onclick="togglePace()"><div class="knob"></div></div>
+      </div>
+      <div class="opt-row">
+        <div><div class="t">다음 훈련 알림</div><div class="d">매일 저녁 7:00 · 앱 알림</div></div>
+        <div class="toggle on" id="toggle-notif" onclick="toggleGeneric('toggle-notif')"><div class="knob"></div></div>
+      </div>
+      <div class="opt-row">
+        <div><div class="t">주간 성장 리포트 메일</div><div class="d">매주 일요일 오전 발송</div></div>
+        <div class="toggle" id="toggle-mail" onclick="toggleGeneric('toggle-mail')"><div class="knob"></div></div>
+      </div>
+      <div style="margin-top:14px;">
+        <button class="btn btn-primary" onclick="closeSheet('sheet-settings')">저장</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- report link (placeholder nav) -->
+  <div class="overlay" id="ov-sheet-report-link" onclick="closeOnBg(event,'sheet-report-link')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-report-link')">✕</div>
+      <div class="sheet-title">인지기능 성장 리포트</div>
+      <div class="sheet-sub">이 데모에서는 영역별 레벨/난이도 UX에 집중했어요</div>
+      <div class="chat-bubble">성장 리포트 화면에는 영역별 정답률 옆에 <b>영역별 레벨(Lv.)</b>이 함께 표시되도록 설계했어요. 계획력 Lv.6 · 주의력 Lv.6 · 동시처리 Lv.4 · 순차처리 Lv.2 처럼요.</div>
+      <button class="btn btn-secondary" onclick="closeSheet('sheet-report-link')">닫기</button>
+    </div>
+  </div>
+
+  <!-- day preview (locked day tap) -->
+  <div class="overlay" id="ov-sheet-day" onclick="closeOnBg(event,'sheet-day')">
+    <div class="sheet">
+      <div class="close" onclick="closeSheet('sheet-day')">✕</div>
+      <div class="sheet-title" id="day-sheet-title">목요일 미리보기</div>
+      <div class="sheet-sub" id="day-sheet-sub">아직 잠겨있어요</div>
+      <div class="chat-bubble" id="day-sheet-body">목요일에는 순차처리 · 사건 순서 배열하기 활동이 준비돼 있어요. 오늘 훈련을 먼저 완료하면 자동으로 열려요.</div>
+      <button class="btn btn-secondary" onclick="closeSheet('sheet-day')">알겠어요</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================= state (in-memory only) ================= */
+const DOMAINS = ['계획력','주의력','동시처리','순차처리'];
+const state = {
+  xp: { 계획력: 512, 주의력: 480, 동시처리: 250, 순차처리: 40 },
+  todayDomain: '순차처리',
+  todayDone: false,
+  pace: 'daily', // 'daily' | 'free'
+  streak: 4,
+  week: [
+    {dow:'월', label:'계획력', status:'done'},
+    {dow:'화', label:'주의력', status:'done'},
+    {dow:'수', label:'동시처리', status:'done'},
+    {dow:'목', label:'순차처리', status:'today'},
+    {dow:'금', label:'순차처리', status:'locked'},
+    {dow:'토', label:'복습', status:'locked'},
+    {dow:'일', label:'쉬는 날', status:'locked'},
+  ]
+};
+
+function levelFromXP(xp){
+  if(xp>=400) return 6;
+  if(xp>=280) return 5;
+  if(xp>=180) return 4;
+  if(xp>=100) return 3;
+  if(xp>=50) return 2;
+  return 1;
+}
+function bandFromLevel(lv){
+  if(lv<=2) return {label:'쉬움', cls:'badge-diff-low'};
+  if(lv<=4) return {label:'보통', cls:'badge-diff-mid'};
+  return {label:'높음', cls:'badge-diff-high'};
+}
+function xpToNext(xp){
+  const thresholds=[0,50,100,180,280,400,9999];
+  const lv = levelFromXP(xp);
+  const floor = thresholds[lv-1], ceil = thresholds[lv]===9999?400:thresholds[lv];
+  if(lv>=6) return {pct:100, floor, ceil, lv};
+  const pct = Math.round(((xp-floor)/(ceil-floor))*100);
+  return {pct, floor, ceil, lv};
+}
+
+/* ---- sapling SVG per domain ---- */
+function saplingSVG(level){
+  // level 1~6 controls how many "leaf" clusters render
+  const leaves = [];
+  const positions = [[26,18],[14,26],[38,26],[26,32],[10,14],[42,14]];
+  for(let i=0;i<level;i++){
+    const [x,y] = positions[i];
+    leaves.push(`<circle cx="${x}" cy="${y}" r="7" fill="var(--sage)" opacity="${0.55+ i*0.07}"/>`);
+  }
+  return `<svg viewBox="0 0 52 52">
+    <line x1="26" y1="48" x2="26" y2="30" stroke="var(--sage-deep)" stroke-width="3" stroke-linecap="round"/>
+    ${leaves.join('')}
+  </svg>`;
+}
+
+function renderSaplings(){
+  const el = document.getElementById('saplings');
+  el.innerHTML = DOMAINS.map(d=>{
+    const lv = levelFromXP(state.xp[d]);
+    return `<div class="sapling">${saplingSVG(lv)}<div class="lv">Lv.${lv}</div><div class="name">${d}</div></div>`;
+  }).join('');
+  const total = DOMAINS.reduce((s,d)=>s+levelFromXP(state.xp[d]),0);
+  document.getElementById('grove-total').textContent = `총 Lv.${total}`;
+}
+
+function renderWeek(){
+  const el = document.getElementById('week-strip');
+  el.innerHTML = state.week.map((d,i)=>{
+    const cls = d.status;
+    const dot = d.status==='done' ? '✓' : (d.status==='today' ? '●' : '🔒');
+    return `<div class="day-chip ${cls}" onclick="dayTap(${i})">
+      <div class="dow">${d.dow}</div>
+      <div class="dot">${dot}</div>
+      <div class="label">${d.status==='locked' ? '준비중' : d.label}</div>
+    </div>`;
+  }).join('');
+}
+
+function dayTap(i){
+  const d = state.week[i];
+  if(d.status==='locked'){
+    document.getElementById('day-sheet-title').textContent = d.dow+'요일 미리보기';
+    document.getElementById('day-sheet-body').textContent =
+      `${d.dow}요일에는 ${d.label} 관련 활동이 준비돼 있어요. 오늘 훈련을 먼저 완료하면 순서대로 열려요.`;
+    openSheet('sheet-day');
+  } else if(d.status==='done'){
+    document.getElementById('day-sheet-title').textContent = d.dow+'요일 완료 기록';
+    document.getElementById('day-sheet-body').textContent = `${d.dow}요일 ${d.label} 훈련을 완료했어요. 복습하려면 "더 하고 싶어요"에서 다시 풀어볼 수 있어요.`;
+    openSheet('sheet-day');
+  }
+}
+
+/* ---- today card render (two states: pending / done) ---- */
+function renderTodayCard(){
+  const card = document.getElementById('today-card');
+  const domain = state.todayDomain;
+  const lv = levelFromXP(state.xp[domain]);
+  const band = bandFromLevel(lv);
+
+  if(!state.todayDone){
+    card.innerHTML = `
+      <div class="card-label">✅ 오늘의 인지훈련</div>
+      <div class="badge-row">
+        <span class="badge badge-domain">${domain}</span>
+        <span class="badge ${band.cls}">난이도 ${band.label} (${lv}단계)</span>
+        <span class="badge" style="background:var(--surface-soft);color:var(--ink-soft);">⏱ 약 12분</span>
+      </div>
+      <div class="activity-title">사건 순서 배열하기</div>
+      <div class="activity-desc">그림 카드 4장을 보고 아침부터 지금까지 있었던 일의 순서를 맞춰보는 순차처리 훈련이에요.</div>
+      <button class="btn btn-primary" onclick="startTraining()">훈련 시작하기</button>
+    `;
+    return;
+  }
+
+  const gained = 10 + (Math.random()>0.4?5:0) + (state.streak>=3?3:0);
+  const bonus5 = gained>=15;
+  const streakBonus = state.streak>=3;
+  const before = state.xp[domain];
+  const after = Math.min(before+gained, 500);
+  const beforeLv = levelFromXP(before);
+  const afterLv = levelFromXP(after);
+  state.xp[domain] = after;
+  const leveledUp = afterLv>beforeLv;
+
+  const prog = xpToNext(after);
+
+  card.innerHTML = `
+    <div class="done-hero">
+      <div class="done-emoji">🌱</div>
+      <div class="done-title">오늘도 잘했어요!</div>
+      <div class="done-sub">${domain} 훈련을 완료했어요</div>
+    </div>
+    <div class="levelup-banner" id="levelup-banner">🎉 ${domain} Lv.${afterLv} 달성!</div>
+    <div class="xp-list">
+      <div class="xp-row"><span>훈련 완료</span><span>+10 XP</span></div>
+      ${bonus5?'<div class="xp-row"><span>정답률 80% 이상</span><span>+5 XP</span></div>':''}
+      ${streakBonus?`<div class="xp-row"><span>연속 ${state.streak}일째</span><span>+3 XP</span></div>`:''}
+      <div class="xp-row total"><span>오늘 획득</span><span>+${gained} XP</span></div>
+    </div>
+    <div style="font-size:12px;color:var(--ink-soft);margin-bottom:6px;">${domain} 성장 진행률 (Lv.${afterLv})</div>
+    <div style="background:var(--surface-soft);border-radius:99px;height:10px;overflow:hidden;margin-bottom:16px;">
+      <div style="width:${prog.pct}%;background:var(--sage-deep);height:100%;"></div>
+    </div>
+    <div class="tomorrow-tease">
+      <div class="k">내일 예고</div>
+      <div class="v">🔁 ${state.week[4] ? state.week[4].label : '순차처리'} · 조금 더 깊게 들어가요</div>
+    </div>
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="openSheet('sheet-more')">➕ 더 하고 싶어요</button>
+      <button class="btn btn-outline" onclick="openSheet('sheet-report-link')">📈 리포트 보기</button>
+    </div>
+  `;
+  if(leveledUp){
+    setTimeout(()=>{ document.getElementById('levelup-banner').style.display='block'; }, 150);
+  }
+  // reflect today's status on week strip
+  state.week[3].status='done';
+  renderWeek();
+  renderSaplings();
+}
+
+function startTraining(){
+  const card = document.getElementById('today-card');
+  card.innerHTML = `
+    <div class="card-label">✅ 오늘의 인지훈련</div>
+    <div style="text-align:center;padding:26px 0;">
+      <div style="font-size:13px;color:var(--ink-soft);">진행 중이에요 · 데모에서는 결과로 바로 이동해요</div>
+    </div>
+  `;
+  setTimeout(()=>{ state.todayDone=true; renderTodayCard(); }, 700);
+}
+
+/* ---- sheets ---- */
+function openSheet(id){ document.getElementById('ov-'+id).classList.add('show'); }
+function closeSheet(id){ document.getElementById('ov-'+id).classList.remove('show'); }
+function closeOnBg(e,id){ if(e.target.id==='ov-'+id) closeSheet(id); }
+
+function togglePace(){
+  const t = document.getElementById('toggle-pace');
+  const on = t.classList.toggle('on');
+  state.pace = on ? 'free' : 'daily';
+  document.getElementById('pace-desc').textContent = on
+    ? '자유롭게 (원하는 만큼 진행)'
+    : '매일 하나씩 (권장)';
+}
+function toggleGeneric(id){ document.getElementById(id).classList.toggle('on'); }
+
+/* ---- init ---- */
+renderSaplings();
+renderWeek();
+renderTodayCard();
+</script>
+</body>
+</html>
