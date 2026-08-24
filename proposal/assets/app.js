@@ -59,23 +59,16 @@ function setLang(lang) {
   updateVideos(lang);
 }
 
-// 한국어 전용 탭(교육기관/기업/군경찰)은 ko 일 때만 헤더에 노출
+// 기관 탭(교육기관/기업/군경찰)도 다국어 처리되어 모든 언어에서 노출한다.
 const KO_ONLY = ['edu', 'biz', 'mil'];
 function applyKoOnly(lang) {
-  const isKo = (lang === 'ko');
-  // 한국어 전용 요소(히어로의 기관 버튼) → 한국어일 때만 표시
+  // 예전엔 한국어 전용으로 숨겼으나, 이제 전 언어 번역 제공 → 항상 표시
   document.querySelectorAll('.ko-only').forEach(el => {
-    el.style.display = isKo ? '' : 'none';
+    el.style.display = '';
   });
-  // 외국어 전용 요소(기관 통합 탭) → 비한국어일 때만 표시
   document.querySelectorAll('.intl-only').forEach(el => {
-    el.style.display = isKo ? 'none' : '';
+    el.style.display = 'none';
   });
-  // 외국어로 전환했는데 한국어 전용 기관 탭을 보고 있으면 홈으로 이동
-  if (!isKo) {
-    const active = document.querySelector('#ntabs li.active');
-    if (active && KO_ONLY.indexOf(active.dataset.s) >= 0) show('home');
-  }
 }
 
 // ── 섹션 전환 ────────────────────────────────────────────────────
