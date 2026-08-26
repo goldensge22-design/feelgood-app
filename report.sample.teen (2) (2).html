@@ -1,0 +1,1866 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이지훈 님의 D-CAS 결과지</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+<style>
+  :root{
+    --blue:#2856D6; --blue-deep:#1B3B8C; --blue-pale:#EAF0FD;
+    --orange:#F5820A; --orange-pale:#FFF1DF;
+    --navy:#101B33; --ink:#1F2937; --muted:#5B6472;
+    --bg:#F6F8FC; --card:#FFFFFF; --line:#E4E9F2;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",-apple-system,BlinkMacSystemFont,sans-serif;
+    line-height:1.6; padding-bottom:80px;}
+  header.top{position:sticky;top:0;z-index:20;background:linear-gradient(135deg,var(--blue-deep),var(--blue));
+    color:#fff;padding:16px 20px 14px;}
+  .top-row{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;}
+  header.top .brand{display:flex;align-items:center;gap:8px;font-weight:800;font-size:13px;letter-spacing:.06em;opacity:.9;}
+  header.top .brand .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);}
+  header.top h1{font-size:19px;margin:8px 0 2px;font-weight:800;}
+  header.top .meta{font-size:13.5px;opacity:.95;}
+  .top-actions{display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex:0 0 auto;}
+  .lang-switch{position:relative;}
+  .lang-btn{background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.35);
+    border-radius:14px;padding:6px 10px;font-size:12.5px;font-weight:700;cursor:pointer;white-space:nowrap;}
+  .lang-menu{display:none;position:absolute;right:0;top:32px;background:#fff;border-radius:12px;
+    box-shadow:0 8px 24px rgba(16,27,51,.18);overflow:hidden;min-width:120px;z-index:30;}
+  .lang-menu.open{display:block;}
+  .lang-menu button{display:block;width:100%;text-align:left;padding:9px 14px;border:none;background:#fff;
+    font-size:13.5px;color:var(--ink);cursor:pointer;font-weight:600;}
+  .lang-menu button:hover{background:var(--blue-pale);}
+  .lang-menu button.on{color:var(--blue);font-weight:800;}
+  .pdf-btn{background:var(--orange);color:#fff;border:none;border-radius:14px;padding:6px 12px;
+    font-size:12.5px;font-weight:800;cursor:pointer;white-space:nowrap;}
+
+  /* App shell: mobile stepper vs desktop sidebar */
+  .app-shell{display:flex;align-items:flex-start;}
+  #sidebarNav{display:none;}
+  #mainColumn{flex:1;min-width:0;}
+
+  /* Mobile stepper bar (replaces old horizontal tab strip) */
+  .stepper-bar{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;
+    border-bottom:1px solid var(--line);position:sticky;top:84px;z-index:19;}
+  .stepper-bar button{border:none;background:none;cursor:pointer;}
+  .stepper-nav-btn{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--blue-pale);
+    color:var(--blue-deep);font-size:19px;font-weight:800;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 1px 3px rgba(16,27,51,.10);transition:background .15s,color .15s;}
+  .stepper-nav-btn:active{background:var(--blue);color:#fff;}
+  .stepper-nav-btn:disabled{opacity:.32;background:var(--bg);color:var(--muted);box-shadow:none;}
+  .stepper-toc-btn{flex:1;min-width:0;display:flex;flex-direction:column;gap:5px;
+    background:var(--blue-pale);color:var(--blue-deep);border-radius:14px;padding:7px 14px 8px;text-align:center;}
+  .stepper-toc-top{display:flex;align-items:center;justify-content:center;gap:6px;min-width:0;}
+  .stepper-toc-btn .step-label{font-size:15px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .stepper-toc-btn .count{color:var(--blue);opacity:.7;font-weight:700;font-size:12px;flex:0 0 auto;}
+  .stepper-toc-btn svg{width:14px;height:14px;flex:0 0 auto;}
+  .stepper-progress{display:block;height:3px;border-radius:2px;background:rgba(40,86,214,.15);overflow:hidden;}
+  .stepper-progress-fill{display:block;height:100%;width:0%;background:var(--blue);border-radius:2px;transition:width .25s ease;}
+
+  /* TOC overlay (mobile bottom sheet) */
+  .toc-overlay{display:none;position:fixed;inset:0;z-index:40;background:rgba(16,27,51,.5);}
+  .toc-overlay.open{display:flex;align-items:flex-end;}
+  .toc-sheet{background:#fff;width:100%;max-height:78vh;border-radius:20px 20px 0 0;
+    display:flex;flex-direction:column;animation:sheetUp .22s ease;}
+  @keyframes sheetUp{from{transform:translateY(24px);opacity:.4;}to{transform:translateY(0);opacity:1;}}
+  .toc-header{display:flex;align-items:center;justify-content:space-between;padding:16px 18px 10px;
+    border-bottom:1px solid var(--line);flex:0 0 auto;}
+  .toc-header b{font-size:15px;color:var(--navy);}
+  .toc-header button{border:none;background:var(--bg);width:38px;height:38px;border-radius:11px;
+    font-size:15px;color:var(--muted);cursor:pointer;}
+  .toc-list{overflow-y:auto;padding:8px 10px 20px;}
+  .toc-group-label{font-size:12px;font-weight:800;color:var(--orange);padding:12px 10px 6px;letter-spacing:.03em;}
+  .toc-item{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:none;
+    background:none;padding:13px 10px;min-height:44px;border-radius:12px;font-size:13.5px;color:var(--ink);cursor:pointer;}
+  .toc-item:active{background:var(--bg);}
+  .toc-item .num{flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:var(--bg);
+    color:var(--muted);font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .toc-item.current{background:var(--blue-pale);}
+  .toc-item.current .num{background:var(--blue);color:#fff;}
+  .toc-item.current span.label{color:var(--blue-deep);font-weight:800;}
+
+  /* Desktop sidebar (>=768px): independent container, same toc-item styles */
+  @media (min-width:768px){
+    .stepper-bar{display:none;}
+    .toc-overlay{display:none !important;}
+    #sidebarNav{display:block;flex:0 0 240px;width:240px;position:sticky;top:0;height:100vh;
+      overflow-y:auto;background:#fff;border-right:1px solid var(--line);padding:18px 12px;}
+    #sidebarNav .side-title{font-size:13px;font-weight:800;color:var(--navy);padding:0 10px 12px;}
+    main{max-width:none;}
+    body{display:flex;justify-content:center;}
+    .app-shell{max-width:920px;width:100%;}
+  }
+
+  main{padding:22px 18px 10px;max-width:640px;margin:0 auto;}
+  section{margin-bottom:34px;display:none;}
+  section.active{display:block;}
+  .pdf-mode section{display:block !important;}
+  .pdf-mode .stepper-bar{display:none !important;}
+  .eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:800;
+    color:var(--blue);background:var(--blue-pale);padding:5px 11px;border-radius:20px;margin-bottom:10px;}
+  h2{font-size:20px;margin:0 0 6px;font-weight:800;color:var(--navy);}
+  .sub{color:var(--muted);font-size:13.5px;margin:0 0 16px;}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px;margin-bottom:12px;box-shadow:0 1px 3px rgba(16,27,51,.04);}
+  .hero-card{background:linear-gradient(150deg,var(--blue-deep) 0%,var(--blue) 55%,#3E6FE8 100%);
+    color:#fff;border-radius:22px;padding:24px 20px;position:relative;overflow:hidden;}
+  .hero-card::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;
+    border-radius:50%;background:radial-gradient(circle,rgba(245,130,10,.35),transparent 70%);}
+  .hero-tag{display:inline-block;background:rgba(255,255,255,.16);padding:4px 10px;border-radius:20px;
+    font-size:12.5px;font-weight:700;margin-bottom:10px;}
+  .hero-card h3{font-size:24px;margin:0 0 6px;font-weight:800;}
+  .hero-card p{font-size:13.5px;opacity:.92;margin:0 0 14px;}
+  .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .chip{font-size:12.5px;background:rgba(255,255,255,.14);padding:5px 10px;border-radius:14px;font-weight:600;}
+  .bar-row{display:flex;align-items:center;gap:10px;margin:10px 0;}
+  .bar-label{width:78px;font-size:13.5px;font-weight:700;color:var(--navy);flex:0 0 auto;}
+  .bar-track{flex:1;height:10px;background:var(--bg);border-radius:6px;overflow:hidden;}
+  .bar-fill{height:100%;border-radius:6px;background:linear-gradient(90deg,var(--blue),#5C86EE);}
+  .bar-fill.acc{background:linear-gradient(90deg,var(--orange),#FFA94D);}
+  .bar-val{width:38px;text-align:right;font-size:13px;font-weight:800;color:var(--navy);}
+  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media (max-width:360px){ .two-col{grid-template-columns:1fr;} }
+  .table-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 -2px;}
+  .table-scroll table{margin:0;}
+  @media (max-width:480px){ .table-scroll table{min-width:480px;} }
+  .mini{background:var(--bg);border-radius:14px;padding:12px;}
+  .mini h4{margin:0 0 6px;font-size:13px;color:var(--blue-deep);}
+  .mini p{margin:0;font-size:13.5px;color:var(--ink);}
+  ol.steps{padding-left:0;list-style:none;counter-reset:step;margin:0;}
+  ol.steps li{counter-increment:step;padding-left:38px;position:relative;margin-bottom:14px;font-size:13.5px;}
+  ol.steps li::before{content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;
+    border-radius:50%;background:var(--blue);color:#fff;font-weight:800;font-size:13.5px;
+    display:flex;align-items:center;justify-content:center;}
+  ol.steps li b{display:block;color:var(--navy);margin-bottom:2px;}
+  table.matrix{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.matrix th{background:var(--blue-pale);color:var(--blue-deep);padding:9px 6px;font-size:12.5px;}
+  table.matrix td{padding:9px 6px;text-align:center;border-bottom:1px solid var(--line);}
+  table.matrix td:first-child, table.matrix th:first-child{text-align:left;font-weight:700;color:var(--navy);}
+  .pct{font-weight:800;}
+  .pct.top{color:var(--orange);}
+  .dept-card{border-left:4px solid var(--blue);padding:12px 14px;background:var(--bg);border-radius:0 12px 12px 0;margin-bottom:10px;}
+  .dept-card .rank{font-size:12px;font-weight:800;color:var(--blue);}
+  .dept-card h4{margin:2px 0 5px;font-size:15px;color:var(--navy);}
+  .dept-card p{margin:0;font-size:13.5px;color:var(--ink);}
+  .subject-table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px;}
+  .subject-table th{text-align:left;color:var(--muted);font-weight:700;font-size:12.5px;padding:6px 4px;border-bottom:2px solid var(--line);}
+  .subject-table td{padding:8px 4px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .job-strip{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px;}
+  .job-pill{background:var(--orange-pale);color:#C25E00;font-size:12.5px;font-weight:700;padding:5px 11px;border-radius:14px;}
+  .check-item{display:flex;gap:10px;align-items:flex-start;padding:13px 0;border-bottom:1px solid var(--line);cursor:pointer;}
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:2px;width:20px;height:20px;accent-color:var(--blue);flex:0 0 auto;cursor:pointer;}
+  .check-item label{font-size:13.5px;color:var(--ink);display:block;padding:4px 0;cursor:pointer;}
+  .check-item .scale{font-size:12px;color:var(--muted);display:block;margin-top:2px;}
+  .footer-cta{background:linear-gradient(135deg,var(--orange),#FFA94D);color:#fff;border-radius:18px;
+    padding:18px 20px;text-align:center;margin-top:10px;}
+  .footer-cta b{display:block;font-size:15px;margin-bottom:4px;}
+  .footer-cta span{font-size:13px;opacity:.92;}
+  .foot-note{font-size:12.5px;color:var(--muted);text-align:center;margin-top:24px;}
+  .temp-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-bottom:12px;}
+  .temp-card h4{margin:0 0 10px;font-size:14px;color:var(--navy);}
+  .temp-block{font-size:13.5px;margin-bottom:8px;padding-left:4px;}
+  .temp-block b{display:block;font-size:13px;margin-bottom:3px;}
+  .temp-block.good b{color:#1E8A5F;}
+  .temp-block.watch b{color:#C25E00;}
+  .temp-block ul{margin:0;padding-left:16px;}
+  .temp-block li{margin-bottom:2px;}
+  .role-card{background:linear-gradient(135deg,var(--orange-pale),#FFF8ED);border-radius:16px;padding:16px 18px;margin-bottom:14px;border:1px solid #FADFB3;}
+  .role-card h4{margin:0 0 6px;font-size:13.5px;color:#C25E00;}
+  .role-card p{margin:0;font-size:13px;}
+  .record-box{background:var(--navy);color:#fff;border-radius:14px;padding:15px 17px;font-size:13.5px;line-height:1.7;position:relative;}
+  .record-box .tag{position:absolute;top:-9px;left:14px;background:var(--orange);color:#fff;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:10px;}
+  .doc-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;}
+  .doc-card .doc-tag{display:inline-block;font-size:11.5px;font-weight:800;color:var(--blue-deep);background:var(--blue-pale);padding:3px 9px;border-radius:10px;margin-bottom:8px;}
+  .doc-card p.body{background:var(--bg);border-radius:10px;padding:11px 13px;font-size:13.5px;line-height:1.65;margin:0 0 8px;color:var(--ink);}
+  .doc-card p.tip{margin:0;font-size:12.5px;color:var(--muted);}
+  .doc-card p.tip b{color:var(--orange);}
+  .tip-box{background:var(--orange-pale);border:1px solid #FADFB3;border-radius:14px;padding:13px 15px;font-size:13px;color:#8A4B00;margin-bottom:14px;}
+  .interview-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;}
+  .interview-card .q2{font-weight:800;font-size:13.5px;color:var(--navy);margin-bottom:6px;}
+  .interview-card .q2::before{content:"Q. ";color:var(--orange);}
+  .interview-card .a2{font-size:13.5px;color:var(--ink);margin:0;}
+  .track-card{display:flex;gap:10px;margin-bottom:10px;}
+  .track-card .pctbox{flex:0 0 62px;height:62px;border-radius:14px;background:var(--blue-pale);color:var(--blue-deep);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
+  .track-card .txt h4{margin:0 0 3px;font-size:13.5px;color:var(--navy);}
+  .track-card .txt p{margin:0;font-size:13px;color:var(--muted);}
+
+  .diag-card{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--blue);
+    border-radius:0 16px 16px 0;padding:16px 17px;margin-bottom:12px;}
+  .diag-card .pair{display:flex;gap:6px;align-items:center;margin-bottom:8px;flex-wrap:wrap;}
+  .diag-card .axis-tag{font-size:12px;font-weight:800;padding:4px 10px;border-radius:12px;}
+  .axis-tag.p{background:var(--blue-pale);color:var(--blue-deep);}
+  .axis-tag.a{background:#F1EAFB;color:#6A3FBF;}
+  .axis-tag.s{background:var(--orange-pale);color:#C25E00;}
+  .axis-tag.q{background:#E8F6EE;color:#1E8A5F;}
+  .diag-card .vs{font-size:12px;color:var(--muted);font-weight:700;}
+  .diag-card h4{margin:0 0 6px;font-size:14.5px;color:var(--navy);}
+  .diag-card .sym{font-size:13.5px;color:var(--ink);margin:0 0 8px;padding:10px 12px;background:var(--bg);border-radius:10px;}
+  .diag-card .sym b{color:#C0392B;}
+  .diag-card .rx{font-size:13.5px;color:var(--ink);margin:0;}
+  .diag-card .rx b{color:#1E8A5F;}
+  .compare-table{width:100%;border-collapse:collapse;font-size:13px;}
+  .compare-table th{background:var(--navy);color:#fff;padding:9px 8px;font-size:12.5px;text-align:left;}
+  .compare-table td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top;}
+  .compare-table td:first-child{font-weight:800;color:var(--navy);width:26%;}
+  .symptom-check .check-item label b{color:var(--blue-deep);}
+  .rx-methods{margin:0;padding:0;list-style:none;}
+  .rx-methods li{display:flex;gap:8px;padding:8px 0;border-top:1px dashed var(--line);font-size:13.5px;color:var(--ink);}
+  .rx-methods li:first-child{border-top:none;}
+  .rx-methods .m-tag{flex:0 0 auto;width:22px;height:22px;border-radius:7px;background:var(--blue);color:#fff;
+    font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .rx-methods b{display:block;color:var(--navy);margin-bottom:2px;}
+  .mission-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:15px 16px;margin-bottom:10px;position:relative;}
+  .mission-card .diff{display:inline-block;font-size:11.5px;font-weight:800;padding:3px 9px;border-radius:10px;margin-bottom:8px;}
+  .diff.low{background:#E8F6EE;color:#1E8A5F;}
+  .diff.mid{background:var(--blue-pale);color:var(--blue-deep);}
+  .diff.high{background:#FDEAEA;color:#C0392B;}
+  .mission-card h4{margin:0 0 5px;font-size:14px;color:var(--navy);}
+  .mission-card p{margin:0 0 8px;font-size:13.5px;color:var(--ink);}
+  .mission-card .xp{font-size:12px;font-weight:800;color:var(--orange);}
+  .mission-card .link-skill{font-size:12px;color:var(--muted);}
+  .interpret-band{display:flex;gap:8px;margin-top:14px;}
+  .interpret-band .band{flex:1;text-align:center;border-radius:12px;padding:10px 6px;font-size:12px;}
+  .band.low{background:#FDEAEA;color:#C0392B;}
+  .band.mid{background:#FFF6E5;color:#B4740E;}
+  .band.high{background:#E8F6EE;color:#1E8A5F;}
+  .band b{display:block;font-size:15px;margin-bottom:2px;}
+  .faq-item{border-bottom:1px solid var(--line);padding:13px 0;}
+  .faq-item:last-child{border-bottom:none;}
+  .faq-item .q{font-weight:800;font-size:13.5px;color:var(--navy);margin-bottom:5px;}
+  .faq-item .q::before{content:"Q. ";color:var(--blue);}
+  .faq-item .a{font-size:13.5px;color:var(--ink);margin:0;}
+  @media print{
+    header.top, nav.tabs, .lang-switch, .pdf-btn, .footer-cta{display:none !important;}
+    body{padding-bottom:0;}
+  }
+
+  .cover{background:#F4F2FB;padding:28px 20px 26px;}
+  .cover-inner{max-width:640px;margin:0 auto;}
+
+  .cover-brand-row{display:flex;align-items:center;gap:9px;margin-bottom:16px;}
+  .cover-badge{width:34px;height:34px;border-radius:9px;background:var(--blue-deep);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:0 0 auto;}
+  .cover-brand-row .word{font-size:15px;font-weight:800;color:var(--navy);}
+
+  .cover h1{font-size:23px;font-weight:800;margin:0 0 18px;color:var(--navy);line-height:1.35;}
+
+  .cover-card{background:#fff;border-radius:16px;padding:18px 18px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(16,27,51,.05);}
+  .cover-card h4{margin:0 0 10px;font-size:13.5px;color:var(--blue-deep);font-weight:800;}
+  .cover-card ol{margin:0;padding-left:18px;font-size:13px;color:var(--ink);line-height:1.8;}
+
+  .process-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px;}
+  .process-grid div{background:#fff;border-radius:12px;padding:12px 13px;font-size:12px;line-height:1.5;
+    border-left:4px solid var(--blue);box-shadow:0 1px 4px rgba(16,27,51,.05);}
+  .process-grid div.pg-sim{border-left-color:#1E8A5F;}
+  .process-grid div.pg-suc{border-left-color:var(--orange);}
+  .process-grid div.pg-att{border-left-color:#6A3FBF;}
+  .process-grid b{display:block;font-size:13.5px;margin-bottom:3px;color:var(--navy);}
+  .process-grid span{color:var(--muted);}
+
+  .profile-card{background:#fff;border-radius:16px;padding:16px 18px;margin-bottom:12px;
+    box-shadow:0 1px 4px rgba(16,27,51,.05);}
+  .profile-card h3{margin:0 0 4px;font-size:18px;color:var(--navy);font-weight:800;}
+  .profile-card p{margin:0;font-size:13.5px;color:var(--muted);}
+
+  .id-dark-card{background:linear-gradient(155deg,var(--navy),var(--blue-deep));color:#fff;border-radius:16px;
+    padding:18px 18px 16px;margin-bottom:16px;}
+  .id-dark-card .id-row{display:flex;justify-content:space-between;align-items:center;
+    font-size:11.5px;letter-spacing:.05em;opacity:.65;margin-bottom:12px;font-weight:700;}
+  .id-dark-card .subtype{font-size:12.5px;opacity:.75;margin-bottom:3px;}
+  .id-dark-card .typename{font-size:19px;font-weight:800;margin-bottom:12px;}
+  .id-dark-card .chips{display:flex;flex-wrap:wrap;gap:6px;}
+  .id-dark-card .chip{font-size:12px;background:rgba(255,255,255,.14);padding:4px 10px;border-radius:12px;font-weight:600;}
+
+  .feature-row{display:flex;gap:14px;padding-top:16px;border-top:1px solid #E4DFF5;}
+  .feature-row div{flex:1;font-size:11.5px;line-height:1.5;}
+  .feature-row .ico{margin-bottom:6px;color:var(--orange);}
+  .feature-row .ico svg{width:18px;height:18px;}
+  .feature-row b{display:block;font-size:12.5px;margin-bottom:2px;color:var(--navy);}
+  .feature-row span{color:var(--muted);}
+
+  .about-card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px 17px;margin-bottom:12px;}
+  .about-card h4{margin:0 0 8px;font-size:14px;color:var(--navy);}
+  .about-card p{margin:0;font-size:13.5px;color:var(--ink);}
+  .expert-quad{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;}
+  .expert-quad div{background:var(--bg);border-radius:12px;padding:11px;font-size:12.5px;}
+  .expert-quad .ico{display:block;margin-bottom:5px;color:var(--blue-deep);}
+  .expert-quad .ico svg{width:17px;height:17px;}
+  .advisor-card{display:flex;gap:12px;align-items:flex-start;background:var(--navy);color:#fff;border-radius:16px;padding:16px 17px;margin-bottom:12px;}
+  .advisor-card .av{flex:0 0 auto;width:44px;height:44px;border-radius:50%;background:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;}
+  .advisor-card .txt b{display:block;font-size:13px;margin-bottom:3px;}
+  .advisor-card .txt p{margin:0;font-size:13px;opacity:.85;line-height:1.6;}
+
+  /* Cover teaser - colored box, kept per request */
+  .cover-teaser{margin-top:16px;background:linear-gradient(135deg,var(--orange),#E06E00);border-radius:16px;
+    padding:18px 20px;text-align:center;box-shadow:0 6px 18px rgba(245,130,10,.25);}
+  .cover-teaser .big{display:flex;align-items:center;justify-content:center;gap:7px;
+    font-size:14.5px;font-weight:800;color:#fff;margin:0 0 8px;letter-spacing:-.01em;}
+  .cover-teaser .finding{margin:0;font-size:13.5px;color:#fff;opacity:.95;line-height:1.6;}
+  .cover-teaser .finding b{font-weight:800;text-decoration:underline;text-underline-offset:2px;}
+  .cover-teaser .chev{margin-top:10px;color:rgba(255,255,255,.7);}
+  .cover-teaser .chev svg{width:16px;height:16px;}
+
+  /* Empathy hook */
+  .hook-card{background:var(--navy);color:#fff;border-radius:18px;padding:18px 18px 16px;margin-bottom:16px;}
+  .hook-card h4{margin:0 0 12px;font-size:14.5px;text-align:center;}
+  .hook-q{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.14);font-size:13px;}
+  .hook-q:last-of-type{border-bottom:none;}
+  .hook-q .mark{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--orange);
+    display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;}
+  .hook-cta{margin-top:12px;text-align:center;font-size:13px;color:#FFD9A0;font-weight:700;}
+
+  /* recommend-for box */
+  .recommend-box{background:var(--blue-pale);border:1px solid #CBDBFA;border-radius:16px;padding:16px 17px;margin-bottom:16px;}
+  .recommend-box h4{margin:0 0 10px;font-size:13.5px;color:var(--blue-deep);}
+  .recommend-box li{font-size:13.5px;color:var(--ink);margin-bottom:7px;padding-left:22px;position:relative;list-style:none;}
+  .recommend-box li::before{content:"✓";position:absolute;left:0;color:var(--blue);font-weight:800;}
+  .recommend-box ul{margin:0;padding:0;}
+
+  /* combo-tag callback used across sections */
+  .combo-tag{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;
+    background:var(--bg);border:1px dashed var(--blue);color:var(--blue-deep);border-radius:10px;
+    padding:5px 10px;margin:8px 0 0;}
+
+  /* radar chart wrap */
+  .radar-wrap{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;text-align:center;}
+  .radar-wrap svg{width:100%;max-width:260px;}
+  .radar-legend{display:flex;justify-content:center;gap:14px;margin-top:8px;flex-wrap:wrap;}
+  .radar-legend span{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:4px;}
+  .radar-legend i{width:9px;height:9px;border-radius:50%;display:inline-block;}
+
+  /* matrix inline bar */
+  .fit-bar-row{display:flex;align-items:center;gap:8px;}
+  .fit-bar-track{flex:1;height:8px;background:var(--bg);border-radius:5px;overflow:hidden;min-width:50px;}
+  .fit-bar-fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--blue),#5C86EE);}
+  .fit-bar-fill.top{background:linear-gradient(90deg,var(--orange),#FFA94D);}
+
+  /* map diagram wrap removed in favor of combo-preview list */
+
+  /* icon badge (SVG line-icon wrapper) */
+  .icon-badge{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;
+    vertical-align:middle;flex:0 0 auto;}
+  .icon-badge svg{width:100%;height:100%;}
+  h4 .icon-badge{margin-right:6px;}
+
+  /* combo preview list (replaces confusing node diagram) */
+  .combo-preview{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 17px;margin-bottom:14px;}
+  .combo-preview h4{display:flex;align-items:center;margin:0 0 12px;font-size:13.5px;color:var(--navy);}
+  .cp-row{display:flex;align-items:center;gap:9px;padding:9px 0;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .cp-row:first-of-type{border-top:none;}
+  .cp-num{flex:0 0 auto;width:20px;height:20px;border-radius:6px;background:var(--navy);color:#fff;
+    font-size:11.5px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+  .cp-x{color:var(--muted);font-size:12px;font-weight:700;}
+  .cp-desc{color:var(--muted);font-size:12.5px;margin-left:auto;text-align:right;}
+
+  /* growth tracking teaser */
+  .track-teaser{background:linear-gradient(135deg,var(--blue-pale),#fff);border:1px solid #CBDBFA;border-radius:16px;
+    padding:16px 17px;margin-top:14px;}
+  .track-teaser h4{margin:0 0 8px;font-size:13.5px;color:var(--blue-deep);}
+  .track-teaser .dots{display:flex;align-items:center;gap:6px;margin:10px 0;}
+  .track-teaser .dot{flex:1;height:6px;background:var(--line);border-radius:4px;position:relative;}
+  .track-teaser .dot.now::after{content:"지금";position:absolute;top:-18px;left:0;font-size:11px;color:var(--muted);}
+  .track-teaser .dot.next{background:repeating-linear-gradient(90deg,var(--blue) 0 6px,transparent 6px 10px);}
+  .track-teaser .dot.next::after{content:"다음 검사";position:absolute;top:-18px;right:0;font-size:11px;color:var(--blue-deep);font-weight:700;}
+  .track-teaser p{margin:0;font-size:13px;color:var(--muted);}
+
+  /* Emotional support: strength anchor + self-designed missions */
+  .anchor-card{background:linear-gradient(150deg,var(--navy) 0%,var(--blue-deep) 100%);color:#fff;
+    border-radius:20px;padding:22px 20px;text-align:center;margin-bottom:16px;}
+  .anchor-card .eyebrow{background:rgba(255,255,255,.14);color:#FFD9A0;}
+  .anchor-card h3{font-size:18px;margin:8px 0 10px;font-weight:800;line-height:1.4;}
+  .anchor-card .stat-row{display:flex;justify-content:center;gap:10px;margin:14px 0;}
+  .anchor-card .stat-chip{background:rgba(255,255,255,.12);border-radius:12px;padding:8px 14px;}
+  .anchor-card .stat-chip b{display:block;font-size:17px;color:var(--orange);}
+  .anchor-card .stat-chip span{font-size:11.5px;opacity:.8;}
+  .anchor-card p{margin:0;font-size:13px;opacity:.9;line-height:1.7;}
+
+  .self-mission{background:var(--card);border:1.5px dashed var(--blue);border-radius:16px;padding:15px 16px;margin-bottom:10px;}
+  .self-mission .sm-tag{display:inline-block;font-size:11.5px;font-weight:800;color:var(--blue-deep);
+    background:var(--blue-pale);padding:3px 9px;border-radius:10px;margin-bottom:8px;}
+  .self-mission h4{margin:0 0 6px;font-size:13.5px;color:var(--navy);}
+  .self-mission p{margin:0;font-size:13.5px;color:var(--ink);}
+  .self-mission .blank{display:inline-block;border-bottom:1.5px solid var(--blue);min-width:80px;}
+
+  /* Expert data: raw score table + DS comparison */
+  .raw-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+  .raw-table th{background:var(--navy);color:#fff;padding:9px 6px;font-size:11.5px;text-align:center;}
+  .raw-table td{padding:9px 6px;text-align:center;border-bottom:1px solid var(--line);}
+  .raw-table td:first-child{text-align:left;font-weight:800;color:var(--navy);}
+  .raw-table .judge{font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;display:inline-block;}
+  .judge.high{background:#E8F6EE;color:#1E8A5F;}
+  .judge.mid{background:var(--blue-pale);color:var(--blue-deep);}
+  .judge.low{background:#FDEAEA;color:#C0392B;}
+  .ds-compare{display:flex;align-items:center;justify-content:center;gap:16px;margin:18px 0 10px;}
+  .ds-circle{width:96px;height:96px;border-radius:50%;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;color:#fff;font-weight:800;}
+  .ds-circle.suc{background:linear-gradient(150deg,var(--orange),#E06E00);}
+  .ds-circle.sim{background:linear-gradient(150deg,#1E8A5F,#146341);}
+  .ds-circle b{font-size:20px;}
+  .ds-circle span{font-size:11px;opacity:.85;margin-top:2px;}
+  .ds-mid{text-align:center;font-size:12px;color:var(--muted);}
+  .ds-mid b{display:block;font-size:15px;color:var(--navy);}
+  .test-info-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px;}
+  .test-info-row div{background:var(--bg);border-radius:12px;padding:11px;text-align:center;}
+  .test-info-row b{display:block;font-size:16px;color:var(--navy);}
+  .test-info-row span{font-size:11.5px;color:var(--muted);}
+</style>
+</head>
+<body>
+
+<div class="app-shell">
+  <aside id="sidebarNav">
+    <div class="side-title">D-CAS</div>
+    <div class="toc-list" id="sidebarList"></div>
+  </aside>
+
+  <div id="mainColumn">
+    <header class="top">
+      <div class="top-row">
+        <div>
+          <div class="brand"><span class="dot"></span><span id="t-brand">D-CAS · 필굿에듀테크</span></div>
+          <h1 id="t-title">이지훈 님의 D-CAS 결과지</h1>
+          <div class="meta" id="t-meta">남 · 만 16세 (고등학교 1학년) · 청소년 진로적성 트랙 · 2026.08.23</div>
+        </div>
+        <div class="top-actions">
+          <div class="lang-switch">
+            <button class="lang-btn" id="langBtn" onclick="document.getElementById('langMenu').classList.toggle('open')">🌐 <span id="langLabel">한국어</span> ▾</button>
+            <div class="lang-menu" id="langMenu">
+              <button onclick="setLang('ko')" id="opt-ko" class="on">한국어</button>
+              <button onclick="setLang('en')" id="opt-en">English</button>
+            </div>
+          </div>
+        <button class="pdf-btn" id="pdfBtn" onclick="downloadPdf()">⬇ <span id="pdfLabel">PDF 다운로드</span></button>
+        </div>
+      </div>
+    </header>
+
+    <div class="stepper-bar" id="stepperBar">
+      <button class="stepper-nav-btn" id="prevBtn" aria-label="이전 섹션">‹</button>
+      <button class="stepper-toc-btn" id="tocOpenBtn">
+        <span class="stepper-toc-top">
+          <span id="stepLabel" class="step-label">기질특성</span>
+          <span class="count" id="stepCount">1/18</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg>
+        </span>
+        <span class="stepper-progress"><span class="stepper-progress-fill" id="stepperProgressFill"></span></span>
+      </button>
+      <button class="stepper-nav-btn" id="nextBtn" aria-label="다음 섹션">›</button>
+    </div>
+
+    <div id="reportRoot">
+    <div class="cover" id="coverArea"></div>
+
+    <main id="pdfArea">
+    <section id="temperament" class="active"></section>
+    <section id="strength"></section>
+    <section id="efficiency"></section>
+    <section id="opinion"></section>
+    <section id="emotional"></section>
+    <section id="matrix"></section>
+    <section id="dept"></section>
+    <section id="credit"></section>
+    <section id="jobs"></section>
+    <section id="maturity"></section>
+    <section id="learning"></section>
+    <section id="mission"></section>
+    <section id="selfcheck"></section>
+    <section id="parent"></section>
+    <section id="admissions"></section>
+    <section id="expert"></section>
+    <section id="faq"></section>
+    <section id="about"></section>
+    <p class="foot-note" id="t-footnote">본 결과지는 D-CAS 검사 표본 샘플이며, 실제 배포용 콘텐츠는 검수 후 확정됩니다. · (주)필굿에듀테크</p>
+    </main>
+    </div>
+  </div>
+</div>
+
+<div class="toc-overlay" id="tocOverlay">
+  <div class="toc-sheet">
+    <div class="toc-header"><b id="tocTitle">목차</b><button id="tocCloseBtn">✕</button></div>
+    <div class="toc-list" id="tocList"></div>
+  </div>
+</div>
+
+
+<script>
+const SECTION_IDS = ["temperament","strength","efficiency","opinion","emotional","matrix","dept","credit","jobs","maturity","learning","mission","selfcheck","parent","admissions","expert","faq","about"];
+const ESSENTIAL_COUNT = 6;
+const NAV = {
+  ko: ["기질특성","강점·약점","학습효율진단","검사자총평","정서적 지지","계열매트릭스","추천학과","선택과목","직업미리보기","진로준비도","학습방안","미션보드","성장체크","부모님 가이드","입시전략","전문가 데이터","FAQ","D-CAS 소개"],
+  en: ["Temperament","Strengths","Efficiency Diagnosis","Examiner's Note","Emotional Support","Field Fit","Top Majors","Elective Guide","Career Preview","Readiness","Study Plan","Mission Board","Growth Check","For Parents","Admissions Strategy","Expert Data","FAQ","About D-CAS"]
+};
+const GROUP_LABEL = { ko: {essential:"필수", advanced:"심화"}, en: {essential:"Essential", advanced:"In-Depth"} };
+const TOC_TITLE = { ko:"목차", en:"Table of Contents" };
+const HEADER = {
+  ko:{brand:"D-CAS · 필굿에듀테크", title:"이지훈 님의 D-CAS 결과지", meta:"남 · 만 16세 (고등학교 1학년) · 청소년 진로적성 트랙 · 2026.08.23", lang:"한국어", pdf:"PDF 다운로드", foot:"본 결과지는 D-CAS 검사 표본 샘플이며, 실제 배포용 콘텐츠는 검수 후 확정됩니다. · (주)필굿에듀테크"},
+  en:{brand:"D-CAS · FeelGood EduTech", title:"Jihoon Lee's D-CAS Report", meta:"Male · Age 16 (10th Grade) · Teen Career-Aptitude Track · Aug 23, 2026", lang:"English", pdf:"Download PDF", foot:"This report is a D-CAS sample. Content for actual distribution will be finalized after review. · FeelGood EduTech"}
+};
+
+const COVER = {
+ko: `
+  <div class="cover-inner">
+    <div class="cover-brand-row">
+      <div class="cover-badge">DC</div>
+      <div class="word">D-CAS</div>
+    </div>
+    <h1>D-CAS · 검사 결과 종합 리포트</h1>
+
+    <div class="cover-card">
+      <h4>D-CAS란?</h4>
+      <ol>
+        <li>PASS 이론에 기반한 청소년·성인용 디지털 인지검사입니다.</li>
+        <li>PASS 이론은 심리학자 Luria의 연구를 토대로 정립된 인지처리 이론입니다.</li>
+        <li>지능을 순차처리·동시처리·계획력·주의력, 4가지 인지처리 과정으로 재개념화하여 유동성 지능을 측정합니다.</li>
+        <li>이를 통해 학업성취, 진로 적성, 학습 정체 원인, 재능·기질적 특성을 파악합니다.</li>
+      </ol>
+    </div>
+
+    <div class="process-grid">
+      <div><b>순차처리</b><span>정보를 순서대로 처리하고 기억하는 능력</span></div>
+      <div class="pg-sim"><b>동시처리</b><span>여러 정보를 한번에 통합해 전체를 파악하는 능력</span></div>
+      <div><b>계획력</b><span>목표를 세우고 전략을 수립해 실행하는 능력</span></div>
+      <div class="pg-att"><b>주의력</b><span>필요한 자극에 집중하고 지속하는 능력</span></div>
+    </div>
+
+    <div class="profile-card">
+      <h3>이지훈 님의 인지 프로파일</h3>
+      <p>남 · 만 16세 · 검사일 2026.08.23</p>
+    </div>
+
+    <div class="id-dark-card">
+      <div class="id-row"><span>D+CAS COGNITIVE ID</span><span>NO. 우뇌우세3-C</span></div>
+      <div class="subtype">몰입형 설계자</div>
+      <div class="typename">몰입형 아이디어 설계자</div>
+      <div class="chips">
+        <span class="chip">#강한계획력</span><span class="chip">#몰입주의력</span><span class="chip">#직관적종합</span>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span><b>과학적 기반</b><span>국제 PASS 이론 기반 표준화 검사</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span><b>정확한 분석</b><span>개인 맞춤 인지 특성 전문적 해석</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></span><b>성장 지향</b><span>잠재력 발견과 미래 역량 개발</span></div>
+    </div>
+
+    <div class="cover-teaser">
+      <p class="big"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.8 1 .8 1.7v.6h6.4v-.6c0-.7.3-1.3.8-1.7A7 7 0 0 0 12 2z"/></svg>왜 노력한 만큼 성적이 안 오를까?</p>
+      <p class="finding">이지훈 님의 4개 인지영역 조합에서 <b>학습 정체 패턴 4가지</b>를 발견했어요</p>
+      <div class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg></div>
+    </div>
+  </div>`,
+en: `
+  <div class="cover-inner">
+    <div class="cover-brand-row">
+      <div class="cover-badge">DC</div>
+      <div class="word">D-CAS</div>
+    </div>
+    <h1>D-CAS · Comprehensive Result Report</h1>
+
+    <div class="cover-card">
+      <h4>What is D-CAS?</h4>
+      <ol>
+        <li>A digital cognitive assessment for teens and adults, based on PASS theory.</li>
+        <li>PASS theory is a cognitive-processing framework built on the work of psychologist A. R. Luria.</li>
+        <li>It reconceptualizes intelligence as 4 cognitive processes — Successive, Simultaneous, Planning, and Attention — to measure fluid intelligence.</li>
+        <li>This reveals academic achievement, career aptitude, root causes of stalled learning efficiency, and temperament traits.</li>
+      </ol>
+    </div>
+
+    <div class="process-grid">
+      <div><b>Successive</b><span>The ability to process and remember information in order</span></div>
+      <div class="pg-sim"><b>Simultaneous</b><span>The ability to integrate multiple pieces of information into a whole</span></div>
+      <div><b>Planning</b><span>The ability to set goals, build strategy, and execute</span></div>
+      <div class="pg-att"><b>Attention</b><span>The ability to focus on and sustain attention to relevant stimuli</span></div>
+    </div>
+
+    <div class="profile-card">
+      <h3>Jihoon Lee's Cognitive Profile</h3>
+      <p>Male · Age 16 · Tested Aug 23, 2026</p>
+    </div>
+
+    <div class="id-dark-card">
+      <div class="id-row"><span>D+CAS COGNITIVE ID</span><span>NO. Right-Brain3-C</span></div>
+      <div class="subtype">The Immersive Architect</div>
+      <div class="typename">The Immersive Idea Architect</div>
+      <div class="chips">
+        <span class="chip">#StrongPlanning</span><span class="chip">#DeepFocus</span><span class="chip">#IntuitiveSynthesis</span>
+      </div>
+    </div>
+
+    <div class="feature-row">
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span><b>Science-based</b><span>Standardized test grounded in PASS theory</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="12"/><line x1="12" y1="20" x2="12" y2="6"/><line x1="18" y1="20" x2="18" y2="15"/></svg></span><b>Precise analysis</b><span>Interpretation based on 4-domain combinations</span></div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></span><b>Growth-oriented</b><span>Diagnoses root causes and designs a fix</span></div>
+    </div>
+
+    <div class="cover-teaser">
+      <p class="big"><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.5.4.8 1 .8 1.7v.6h6.4v-.6c0-.7.3-1.3.8-1.7A7 7 0 0 0 12 2z"/></svg>Why isn't effort translating into grades?</p>
+      <p class="finding">We found <b>4 learning-bottleneck patterns</b> in Jihoon's cognitive-domain combinations</p>
+      <div class="chev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6,9 12,15 18,9"/></svg></div>
+    </div>
+  </div>`
+};
+
+const SECTIONS = {
+ko: {
+temperament: `
+  <div class="hook-card">
+    <h4><span class="icon-badge" style="color:var(--orange)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg></span>이런 경험, 있으신가요?</h4>
+    <div class="hook-q"><span class="mark">1</span><span>계획은 완벽하게 세우는데, 막상 결과물을 보면 마감 직전에 항상 뭔가 빠져있다</span></div>
+    <div class="hook-q"><span class="mark">2</span><span>분명히 아는 내용인데 시험에서는 사소한 조건을 놓쳐서 틀린다</span></div>
+    <div class="hook-q"><span class="mark">3</span><span>다른 진로검사는 받아봤지만, 정작 "왜 성적이 안 오르는지"는 여전히 모르겠다</span></div>
+    <div class="hook-cta">↓ 그 이유, 03번 "학습효율진단"에서 확인하세요</div>
+  </div>
+
+  <div class="recommend-box">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>이런 분들께 특히 추천해요</h4>
+    <ul>
+      <li>Holland·MBTI 계열 진로검사는 받아봤지만 "무슨 성향인지"만 알고 끝났던 분</li>
+      <li>학원을 바꿔봐도 성적 정체의 근본 원인을 찾지 못했던 분</li>
+      <li>노력은 하는데 결과로 이어지지 않아 답답함을 느끼는 학생·학부모</li>
+    </ul>
+  </div>
+
+  <div class="eyebrow">01 · 기질 특성</div>
+  <div class="hero-card">
+    <div class="hero-tag">인지 나침반 · COGNITIVE ID 우뇌우세 3-C</div>
+    <h3>몰입형 아이디어 설계자</h3>
+    <p>동시처리와 계획력이 함께 높아, 전체 그림을 빠르게 그려내고 그걸 실행 계획으로 옮기는 힘이 강해요. 순차처리는 상대적으로 낮아 세부 절차를 지킬 때 조금 더 의식적인 노력이 필요해요.</p>
+    <div class="chips">
+      <span class="chip">#직관적판단</span><span class="chip">#강한계획력</span>
+      <span class="chip">#창의적문제해결</span><span class="chip">#절차보완필요</span>
+    </div>
+  </div>
+
+  <div class="radar-wrap">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);"><span class="icon-badge" style="color:var(--navy)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="15,9 11,11 9,15 13,13" fill="currentColor" stroke="none"/></svg></span>인지 나침반 — 4개 축 프로파일</h4>
+    <svg viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="95" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <circle cx="150" cy="150" r="63" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <circle cx="150" cy="150" r="32" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <line x1="150" y1="55" x2="150" y2="245" stroke="#E4E9F2" stroke-width="1"/>
+      <line x1="55" y1="150" x2="245" y2="150" stroke="#E4E9F2" stroke-width="1"/>
+      <polygon points="150,75 233,150 150,195 99,150" fill="#F5820A" fill-opacity="0.22" stroke="#F5820A" stroke-width="2.5"/>
+      <circle cx="150" cy="75" r="4" fill="#2856D6"/>
+      <circle cx="233" cy="150" r="4" fill="#1E8A5F"/>
+      <circle cx="150" cy="195" r="4" fill="#F5820A"/>
+      <circle cx="99" cy="150" r="4" fill="#6A3FBF"/>
+      <text x="150" y="42" text-anchor="middle" font-size="13" font-weight="800" fill="#1B3B8C">계획력 80%</text>
+      <text x="270" y="146" text-anchor="middle" font-size="13" font-weight="800" fill="#1E8A5F">동시처리 89%</text>
+      <text x="150" y="222" text-anchor="middle" font-size="13" font-weight="800" fill="#C25E00">순차처리 58%</text>
+      <text x="30" y="146" text-anchor="middle" font-size="13" font-weight="800" fill="#6A3FBF">주의력 56%</text>
+    </svg>
+    <div class="radar-legend">
+      <span><i style="background:#F5820A"></i>내 프로파일 (검사 정답률 기준)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">4개 하위척도 상세</h4>
+    <div class="bar-row"><div class="bar-label">계획력</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><div class="bar-val">80%</div></div>
+    <div class="bar-row"><div class="bar-label">주의력</div><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><div class="bar-val">56%</div></div>
+    <div class="bar-row"><div class="bar-label">동시처리</div><div class="bar-track"><div class="bar-fill acc" style="width:89%"></div></div><div class="bar-val">89%</div></div>
+    <div class="bar-row"><div class="bar-label">순차처리</div><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><div class="bar-val">58%</div></div>
+    <p class="sub" style="margin-top:10px;">※ 정답률 기준 · 상 70%↑ / 중 40~69% / 하 39%↓</p>
+  </div>
+  <div class="two-col">
+    <div class="mini"><h4>반응 강도 · 적응성</h4><p>새로운 상황을 즐기고 빠르게 적응하지만, 관심이 옅은 반복 과제에서는 몰입이 흔들릴 수 있어요.</p></div>
+    <div class="mini"><h4>기분의 질</h4><p>성취를 통해 긍정적 에너지를 얻는 편이라, 작은 목표를 자주 완수하는 경험이 도움이 돼요.</p></div>
+  </div>`,
+strength: `
+  <div class="eyebrow">02 · 강점·약점 분석</div>
+  <h2>나의 강점과 보완 포인트</h2>
+  <p class="sub">나 자신의 4개 영역 정답률을 서로 비교해(개인내적), 강점과 보완 포인트를 확인해요.</p>
+  <div class="temp-card"><h4>기질 카드 · 반응 강도</h4>
+    <div class="temp-block good"><b>✓ 강점 · 빠른 상황 대처</b><ul><li>새 환경, 낯선 과제에도 위축되지 않고 바로 시도해봐요</li><li>여러 정보가 한꺼번에 들어와도 핵심을 빠르게 캐치해요</li></ul></div>
+    <div class="temp-block watch"><b>△ 보완 포인트 · 세부 지속력</b><ul><li>흥미가 옅은 반복 과제에서는 집중이 쉽게 흐트러질 수 있어요</li></ul></div></div>
+  <div class="temp-card"><h4>기질 카드 · 적응성</h4>
+    <div class="temp-block good"><b>✓ 강점 · 목표 지향적 적응</b><ul><li>새 환경에서도 스스로 목표를 세우고 빠르게 자리를 잡아요</li></ul></div>
+    <div class="temp-block watch"><b>△ 보완 포인트 · 계획 밖 변수</b><ul><li>세운 계획이 갑자기 틀어지면 잠시 흔들릴 수 있어요 — "계획이 바뀌어도 괜찮다"는 경험이 도움이 돼요</li></ul></div></div>
+  <div class="temp-card"><h4>기질 카드 · 기분의 질</h4>
+    <div class="temp-block good"><b>✓ 강점 · 성취 기반의 안정감</b><ul><li>목표를 달성했을 때 분명한 성취감을 느끼고, 다음 도전으로 잘 이어가요</li></ul></div>
+    <div class="temp-block watch"><b>△ 보완 포인트 · 완벽 기준</b><ul><li>스스로 세운 기준에 못 미치면 기분이 크게 가라앉을 수 있어요 — "70%도 충분하다" 기준을 연습해보세요</li></ul></div></div>
+  <div class="temp-card"><h4>기질 카드 · 사고양식</h4>
+    <div class="temp-block good"><b>✓ 강점 · 직관적 종합 사고</b><ul><li>흩어진 정보를 빠르게 하나의 그림으로 묶어내는 힘이 강해요</li></ul></div>
+    <div class="temp-block watch"><b>△ 보완 포인트 · 절차 검증</b><ul><li>결론까지 가는 과정을 단계별로 점검하는 습관을 붙이면 실수가 줄어요</li></ul></div></div>
+  <div class="role-card"><h4>🌟 이런 인물과 닮은 점이 있어요</h4><p>발명가 토머스 에디슨은 수천 번의 실패 속에서도 계획을 수정해가며 끝까지 몰입해 결과물을 완성했어요. 이지훈 님처럼 "전체 그림을 먼저 그리고, 계획을 세워 실행하는" 힘은 어떤 분야에서든 아이디어를 실제 결과로 만들어내는 핵심 재능이에요.</p></div>
+  <h4 style="margin:22px 0 4px;font-size:15px;color:var(--navy);">📄 지원서류 활용팩 — 강점을 서류에 녹이는 법</h4>
+  <p class="sub" style="margin-bottom:12px;">국내 학생부·자소서와 해외 지원(Common App·UCAS 등)에 공통으로 쓸 수 있게, 강점을 문서 언어로 바꾸는 템플릿이에요.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13px;color:var(--navy);">강점 키워드 매핑표</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>인지영역</th><th>서류 키워드</th><th>서술 예시 단어</th></tr>
+      <tr><td>계획력 80%</td><td>전략적 실행력 · 주도성</td><td>"목표를 설정하고 체계적으로 실행", "프로젝트를 기획하고 완수"</td></tr>
+      <tr><td>동시처리 89%</td><td>통합적 사고 · 시스템 이해</td><td>"복잡한 정보를 종합", "전체 구조를 먼저 파악"</td></tr>
+      <tr><td>순차처리 58% (보완중)</td><td>절차적 정교함으로 성장</td><td>"단계별 점검 습관을 스스로 개발"</td></tr>
+      <tr><td>주의력 56% (보완중)</td><td>몰입 지속력으로 성장</td><td>"짧은 몰입 루틴으로 집중력을 훈련"</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tip-box">⚠️ <b>그대로 복사하지 마세요.</b> 아래 문장들은 뼈대예요. 대괄호 [ ] 자리에 실제 활동명·숫자·에피소드를 넣어야 진짜 내 이야기가 돼요. 채점자·입학사정관은 구체성 없는 문장을 가장 먼저 걸러냅니다.</div>
+
+  <div class="doc-card">
+    <span class="doc-tag">국내 · 학생부 세부능력 및 특기사항(세특)</span>
+    <p class="body">"[활동/과제명]에서 문제 상황을 전체적으로 조망하여 핵심을 빠르게 파악함(S). 이를 바탕으로 [구체적 실행계획]을 스스로 수립하여(T) 팀을 주도적으로 이끌며 각 단계를 순서대로 점검해 완수함(A). 결과물의 완성도를 높이기 위해 [절차 확인 방법]을 스스로 개발하는 성장을 보임(R)."</p>
+    <p class="tip"><b>사용팁</b> S(상황)-T(과제)-A(행동)-R(결과) 순서로 문단을 짜면 교사가 세특에 옮기기 쉬워요. 담당 선생님께 이 구조로 활동 내용을 정리해 전달해보세요.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">국내 · 자기소개서(자율·공동체 역량) 문단</span>
+    <p class="body">"저는 새로운 문제를 마주했을 때 전체 흐름을 먼저 파악한 뒤 구체적인 실행 계획을 세우는 것을 좋아합니다. [활동명]에서 이러한 강점을 발휘해 [구체적 행동]을 했고, 그 과정에서 순서를 지키는 것의 중요성을 깨달아 [보완 노력]을 통해 완성도를 높였습니다. 이 경험은 저에게 [배운 점 한 문장]을 알려주었습니다."</p>
+    <p class="tip"><b>사용팁</b> 마지막 문장은 반드시 "느꼈다"가 아니라 "그래서 이후 이렇게 행동을 바꿨다"는 변화로 마무리하면 훨씬 설득력이 높아져요.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">해외 지원 · Common App / UCAS 스타일 개인 에세이 (영문)</span>
+    <p class="body">"I've always been drawn to seeing the whole picture before diving into details. When I led [activity], I quickly synthesized scattered information into a clear plan, then broke it down into concrete steps I could execute and track. Along the way, I learned to slow down and verify each step — a discipline that has made my ideas not just ambitious, but achievable."</p>
+    <p class="tip"><b>사용팁</b> 대괄호를 실제 활동으로 채우고 200~250단어로 확장하세요. 국가·전형에 상관없이 쓸 수 있는 범용 문단이에요.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">교사 추천서용 관찰 메모 (선생님께 전달)</span>
+    <p class="body">"이지훈 학생은 프로젝트나 과제에서 전체 상황을 빠르게 파악해 구조화하는 능력이 뛰어납니다. 스스로 계획을 세우고 실행하는 주도성이 강점이며, 최근에는 절차를 꼼꼼히 점검하는 습관도 함께 발전시키고 있습니다."</p>
+    <p class="tip"><b>사용팁</b> 추천서를 부탁할 때 이 메모를 함께 드리면, 선생님이 훨씬 구체적이고 설득력 있는 추천서를 써주실 수 있어요.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">활동기록 한 줄 요약 (Activities List 스타일, 150자 이내)</span>
+    <p class="body">KO — "팀 프로젝트를 기획·설계하고 단계별 실행 계획을 수립해 완수, 전체 프로세스를 체계화함"<br>
+    EN — "Planned and structured a team project end-to-end, translating strategy into a step-by-step execution plan."</p>
+    <p class="tip"><b>사용팁</b> 국내·해외 활동기록 모두 "동사(기획/설계/완수) + 결과"로 시작하면 임팩트가 커요.</p>
+  </div>`,
+efficiency: `
+  <div class="eyebrow">03 · D-CAS만의 진단</div>
+  <h2>학습효율 진단 — 왜 노력한 만큼 안 오를까</h2>
+  <p class="sub">일반 진로적성검사는 "성향"을 알려주지만, D-CAS는 "정보처리 방식"을 측정해요. 그래서 단일 점수가 아니라 <b>4개 축의 조합</b>이 만들어내는 실제 학습 패턴까지 짚어드릴 수 있어요.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="table-scroll"><table class="compare-table">
+      <tr><th></th><th>일반 진로적성검사 (Holland·MBTI 계열)</th><th>D-CAS</th></tr>
+      <tr><td>측정 대상</td><td>선호·성향 (무엇을 좋아하는가)</td><td>정보처리 메커니즘 (어떻게 처리하는가)</td></tr>
+      <tr><td>결과물</td><td>직업·전공 추천 리스트</td><td>학습 정체 원인 진단 + 맞춤 학습설계</td></tr>
+      <tr><td>설명 방식</td><td>상관관계 ("이 성향엔 이 직업")</td><td>인과 메커니즘 ("이 조합이라 이 실수가 반복")</td></tr>
+      <tr><td>한계</td><td>왜 성적이 안 오르는지는 설명 못함</td><td>축 조합으로 학습효율 저하 원인을 구조적으로 설명</td></tr>
+    </table></div>
+  </div>
+
+  <p class="sub" style="margin-bottom:12px;">이지훈 님의 4개 축을 두 개씩 짝지어보면, 아래 같은 실제 학습 패턴이 나타나요.</p>
+
+  <div class="combo-preview">
+    <h4><span class="icon-badge" style="color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg></span>4가지 진단 미리보기</h4>
+    <div class="cp-row"><span class="cp-num">1</span><span class="axis-tag p">계획력</span><span class="cp-x">×</span><span class="axis-tag s">순차처리</span><span class="cp-desc">설계-실행 격차</span></div>
+    <div class="cp-row"><span class="cp-num">2</span><span class="axis-tag q">동시처리</span><span class="cp-x">×</span><span class="axis-tag a">주의력</span><span class="cp-desc">"알면서 틀리는" 실수</span></div>
+    <div class="cp-row"><span class="cp-num">3</span><span class="axis-tag q">동시처리</span><span class="cp-x">×</span><span class="axis-tag s">순차처리</span><span class="cp-desc">개념-규칙 적용 격차</span></div>
+    <div class="cp-row"><span class="cp-num">4</span><span class="axis-tag a">주의력</span><span class="cp-x">×</span><span class="axis-tag s">순차처리</span><span class="cp-desc">최우선 훈련 조합</span></div>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag p">계획력 80% (상)</span><span class="vs">×</span><span class="axis-tag s">순차처리 58% (중하)</span></div>
+    <h4>설계는 완벽한데, 마감 직전 디테일이 무너지는 패턴</h4>
+    <p class="sym"><b>이런 경험 있나요?</b> 프로젝트 기획서는 훌륭한데 막상 제출물은 순서가 꼬여있거나, 수학 문제를 풀 전략은 잘 세우는데 계산 마지막 단계에서 실수가 잦다.</p>
+    <p class="rx"><b>왜 그럴까</b> 계획력이 전체 전략을 짜는 반면, 순차처리는 그 전략을 순서대로 실행·검증하는 역할이에요. 설계(P)와 실행 검증(Suc) 사이에 격차가 있으면, 좋은 계획이 완성도 낮은 결과물로 이어져요. → 절차 체크카드(학습방안 섹션)로 "설계"와 "실행"을 분리해 각각 점검하세요.</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag q">동시처리 89% (상)</span><span class="vs">×</span><span class="axis-tag a">주의력 56% (중)</span></div>
+    <h4>"알면서 틀리는" 실수가 반복되는 패턴</h4>
+    <p class="sym"><b>이런 경험 있나요?</b> 지문을 읽고 전체 맥락은 바로 파악하는데, 정작 시험에서는 세부 조건(단위, 부호, 예외 조항)을 놓쳐 틀린다.</p>
+    <p class="rx"><b>왜 그럴까</b> 동시처리는 전체를 빠르게 통합하지만, 그 과정에서 세부 정보 하나하나를 오래 붙잡고 확인하는 주의력이 상대적으로 낮으면 "큰 그림은 맞는데 디테일에서 새는" 현상이 생겨요. → 문제를 다 풀고 "이 문제가 요구하는 조건 3가지"를 손가락으로 짚어 다시 확인하는 습관을 들이세요.</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag q">동시처리 89% (상)</span><span class="vs">×</span><span class="axis-tag s">순차처리 58% (중하)</span></div>
+    <h4>개념은 이해하는데 규칙 적용에서 막히는 패턴</h4>
+    <p class="sym"><b>이런 경험 있나요?</b> 문법의 "전체 원리"는 금방 이해하는데 막상 활용 순서(시제 일치, 어순)에서 틀리거나, 연산 개념은 아는데 순서를 지켜야 하는 복합계산에서 꼬인다.</p>
+    <p class="rx"><b>왜 그럴까</b> 동시처리(개념 통합)와 순차처리(규칙의 순서 적용)는 서로 다른 인지 경로예요. 개념 이해가 곧 규칙 적용 능력을 보장하지 않아요. → "개념 이해 후 바로 문제풀이"가 아니라, 개념 이해 → 순서형 규칙만 따로 뽑아 반복 훈련 → 문제풀이, 3단계로 나누세요.</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag a">주의력 56% (중)</span><span class="vs">×</span><span class="axis-tag s">순차처리 58% (중하)</span></div>
+    <h4>반복 절차 과제에서 가장 크게 흔들리는 조합 — 최우선 훈련 대상</h4>
+    <p class="sym"><b>이런 경험 있나요?</b> 단순 반복 연산이나 암기형 과제를 오래 붙들지 못하고, 중간에 순서를 잊어버리거나 흥미를 잃는다.</p>
+    <p class="rx"><b>왜 그럴까</b> 두 축 모두 중간 이하 구간이라, 순서를 유지하면서 오래 집중하는 과제에서 이중으로 부담이 걸려요. 4개 조합 중 가장 우선적으로 훈련이 필요한 지점이에요. → 미션보드의 순차훈련 미션을 "짧고 자주"(10분 이내) 방식으로 접근하고, 절대 한 번에 길게 몰아서 하지 마세요.</p>
+  </div>
+
+  <div class="tip-box">💡 <b>이 진단의 의미</b> 위 4가지는 "약점"이 아니라 <b>이지훈 님만의 학습 정체 패턴</b>이에요. 같은 계획력 정답률 80%라도 순차처리가 높은 학생과 낮은 학생은 전혀 다른 학습설계가 필요해요 — 그래서 D-CAS는 점수 자체보다 "조합"을 읽는 게 핵심이에요.</div>`,
+opinion: `
+  <div class="eyebrow">04 · 검사자 총평</div>
+  <h2>담당 연구원 소견</h2>
+  <div class="card"><p style="margin:0;font-size:13.5px;">이지훈 님은 동시처리와 계획력의 정답률이 높게 나타나, 상황을 종합적으로 판단하고 이를 실행 전략으로 옮기는 능력이 뛰어난 학습자입니다. 다만 순차처리가 상대적으로 낮아, 반복·절차 중심 과제에서 인내가 필요할 수 있습니다. 이는 훈련을 통해 25세까지도 꾸준히 개선될 수 있는 영역이므로, 단계형 체크리스트와 짧고 반복적인 절차 훈련을 병행할 것을 권장합니다. 전반적으로 창의적 기획력과 실행력이 결합된 인지 프로파일로, 자기주도적 프로젝트형 학습·진로 환경에서 강점이 극대화될 유형입니다.</p></div>`,
+emotional: `
+  <div class="anchor-card">
+    <div class="eyebrow">05 · 정서적 지지</div>
+    <h3>누구에게나 강점은 있어요.<br>이지훈 님에게는 이미 확실한 강점이 있어요.</h3>
+    <div class="stat-row">
+      <div class="stat-chip"><b>80%</b><span>계획력 정답률</span></div>
+      <div class="stat-chip"><b>89%</b><span>동시처리 정답률</span></div>
+    </div>
+    <p>정서적 안정은 약점을 없애는 데서 오지 않아요. 내가 가진 강점을 분명히 알고, 그 강점을 써서 스스로 문제를 풀어본 경험에서 와요. 이번 섹션은 그 경험을 만드는 데 집중해요.</p>
+  </div>
+
+  <div class="hook-card">
+    <h4>🙋 이런 순간, 자연스러운 거예요</h4>
+    <div class="hook-q"><span class="mark">1</span><span>성적이 오르지 않으면 나 자신이 부족하게 느껴진다</span></div>
+    <div class="hook-q"><span class="mark">2</span><span>친구와 비교하다 보면 나만 뒤처지는 것 같다</span></div>
+    <div class="hook-q"><span class="mark">3</span><span>약점만 자꾸 눈에 들어오고, 내가 뭘 잘하는지는 잊게 된다</span></div>
+    <div class="hook-cta">이 세 가지 모두, 이 나이대 대부분의 학생이 겪는 자연스러운 마음이에요</div>
+  </div>
+
+  <h4 style="margin:20px 0 4px;font-size:15px;color:var(--navy);">💪 내 강점으로 약점을 스스로 돕는 미션</h4>
+  <p class="sub" style="margin-bottom:12px;">약점을 "고쳐야 할 결함"이 아니라, 이미 가진 강점으로 풀어낼 수 있는 퍼즐로 바라봐요. 아래 두 미션은 답을 주지 않아요 — 직접 채워보세요.</p>
+
+  <div class="self-mission">
+    <span class="sm-tag">자기설계 미션 · 강점 기록</span>
+    <h4>이번 주 내 강점을 "썼던 순간" 기록하기</h4>
+    <p>계획력·동시처리를 발휘했던 순간 하나를 떠올려 적어보세요. 예: "<span class="blank">&nbsp;</span>에서 전체 상황을 먼저 파악하고 계획을 세워서 <span class="blank">&nbsp;</span>을 해냈다." 작게라도 좋아요. 강점은 기록할수록 선명해져요.</p>
+  </div>
+
+  <div class="self-mission">
+    <span class="sm-tag">자기설계 미션 · 강점-약점 짝짓기</span>
+    <h4>약점이 드러난 순간, 도와줄 강점 1개 짝지어보기</h4>
+    <p>순서를 놓쳤거나 디테일을 놓친 순간을 떠올려보세요. 그 순간 내 강점(계획력·동시처리)을 어떻게 쓰면 도움이 될지 스스로 설계해보세요. 예: "<span class="blank">&nbsp;</span>을 깜빡했을 때, 내 계획력으로 <span class="blank">&nbsp;</span> 체크리스트를 직접 만들어봤다."</p>
+  </div>
+
+  <p class="sub" style="margin:14px 0 10px;">더 구체적인 훈련 미션은 09번 미션보드에서 이어집니다.</p>
+
+  <h4 style="margin:20px 0 4px;font-size:15px;color:var(--navy);">🧭 이럴 때 필요한 대처</h4>
+  <div class="diag-card">
+    <h4>시험 중 머릿속이 하얘질 때</h4>
+    <p class="sym"><b>이런 기분, 자연스러워요</b> 열심히 준비했는데 시험지 앞에서 아무 생각이 안 나는 건 불안 반응일 뿐, 실력이 없어서가 아니에요.</p>
+    <p class="rx"><b>지금 해볼 수 있는 것</b> 펜을 잠깐 내려놓고 3번 깊게 숨쉬기 → 가장 쉬운 문제부터 순서를 바꿔 풀기 → "다 못 풀어도 지금까지 한 건 유효하다"고 되뇌기</p>
+  </div>
+  <div class="diag-card">
+    <h4>성적표를 받고 좌절스러울 때</h4>
+    <p class="sym"><b>이런 기분, 자연스러워요</b> 노력한 만큼 결과가 안 보이면 누구나 무너지는 기분이 들어요.</p>
+    <p class="rx"><b>지금 해볼 수 있는 것</b> 03번 학습효율진단을 다시 펼쳐서 "이번엔 어떤 조합이 걸렸는지" 확인해보세요. 성적은 결함의 증거가 아니라, 다음에 훈련할 조합을 알려주는 단서예요.</p>
+  </div>
+  <div class="diag-card">
+    <h4>친구와 비교돼서 위축될 때</h4>
+    <p class="sym"><b>이런 기분, 자연스러워요</b> 비교는 본능이에요. 다만 비교 대상을 잘못 고르면 자존감만 깎여요.</p>
+    <p class="rx"><b>지금 해볼 수 있는 것</b> 비교 대상을 "친구"에서 "지난달의 나"로 바꿔보세요. 내 강점(계획력 80%·동시처리 89%)은 친구가 아니라 내 것이에요.</p>
+  </div>
+  <div class="diag-card">
+    <h4>노력해도 안 될 것 같아 포기하고 싶을 때</h4>
+    <p class="sym"><b>이런 기분, 자연스러워요</b> 순차처리처럼 더디게 느껴지는 영역은 성장 속도가 눈에 안 보여 지치기 쉬워요.</p>
+    <p class="rx"><b>지금 해볼 수 있는 것</b> 미션보드에서 가장 쉬운 난이도(하) 미션 딱 하나만 완료해보세요. 완주가 아니라 "시작했다"는 감각이 다음 동력이 돼요.</p>
+  </div>
+
+  <div class="tip-box" style="margin-top:14px;">💬 <b>이런 마음이 2주 넘게 계속된다면</b> 혼자 견디지 않아도 돼요. 부모님, 담임 선생님, 학교 상담 선생님 중 편한 분께 지금 마음을 이야기해보세요. 이야기하는 것만으로도 무게가 가벼워지는 경우가 많아요.</div>`,
+matrix: `
+  <div class="eyebrow">06 · 진로적성 · 학습방안</div>
+  <h2>계열 적합도 매트릭스</h2>
+  <p class="sub">PASS 인지 프로파일(계획력·주의력·동시처리·순차처리)을 6개 대계열의 요구 인지특성과 매칭한 결과예요.</p>
+  <div class="combo-tag">🔗 이 결과는 03번 학습효율진단의 [계획력×동시처리] 강점 조합이 그대로 반영됐어요</div>
+  <div class="card" style="margin-top:12px;"><div class="table-scroll"><table class="matrix">
+    <tr><th>계열</th><th>적합도</th><th>핵심 근거</th></tr>
+    <tr><td>공학</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill top" style="width:86%"></div></div><span class="pct top">86%</span></div></td><td>구조 설계·문제해결 계획력</td></tr>
+    <tr><td>예체능</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill top" style="width:81%"></div></div><span class="pct top">81%</span></div></td><td>직관적 종합·창의적 표현</td></tr>
+    <tr><td>자연</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:68%"></div></div><span class="pct">68%</span></div></td><td>가설-검증형 계획력</td></tr>
+    <tr><td>사회</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:64%"></div></div><span class="pct">64%</span></div></td><td>맥락 종합·설득 전략</td></tr>
+    <tr><td>인문</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:52%"></div></div><span class="pct">52%</span></div></td><td>순차 논증 다소 보완필요</td></tr>
+    <tr><td>의약</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:47%"></div></div><span class="pct">47%</span></div></td><td>정밀 절차 반복 훈련필요</td></tr>
+  </table></div></div>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">이렇게 계산돼요</h4><p style="margin:0;font-size:13.5px;color:var(--muted);">각 계열이 실제 학업·직무에서 요구하는 4개 인지영역의 가중치와, 이지훈 님의 정답률을 곱해 정규화한 값이에요. 예를 들어 공학 계열은 계획력·동시처리 비중이 높아 이지훈 님의 강점과 잘 맞물려요.</p></div>`,
+dept: `
+  <h2>추천 학과 TOP 5</h2>
+  <p class="sub">왜 이 학과가 맞는지, 인지 프로파일 근거와 함께 확인해보세요.</p>
+  <div class="dept-card"><div class="rank">RANK 1 · 적합도 86%</div><h4>기계공학과 / 산업디자인공학과</h4><p>동시처리로 전체 구조를 파악하고 계획력으로 세부 단계를 설계하는 힘이, 부품 간 관계를 종합해 하나의 시스템을 완성하는 공학 설계 과정과 정확히 맞물려요.</p><div class="combo-tag" style="margin-top:8px;">🔗 학습효율진단 ① [계획력×순차처리] 패턴 — 설계 검증 습관을 미리 다져두면 이 학과에서 큰 강점이 돼요</div></div>
+  <div class="dept-card"><div class="rank">RANK 2 · 적합도 84%</div><h4>시각디자인학과 / 공간디자인학과</h4><p>직관적으로 전체 이미지를 떠올리고 이를 계획적으로 구현해내는 우세 조합은, 컨셉을 실제 결과물로 완성하는 디자인 전공에서 강점으로 발휘돼요.</p></div>
+  <div class="dept-card"><div class="rank">RANK 3 · 적합도 79%</div><h4>경영학과 (창업·전략 트랙)</h4><p>아이디어를 사업 계획으로 구조화하는 계획력과, 시장 상황을 종합 판단하는 동시처리 강점이 신사업 기획 역량과 연결돼요.</p></div>
+  <div class="dept-card"><div class="rank">RANK 4 · 적합도 74%</div><h4>컴퓨터공학과 (소프트웨어/게임 트랙)</h4><p>전체 시스템 구조를 먼저 그리는 동시처리형 사고는 아키텍처 설계에 유리해요. 다만 순차처리 보완을 위해 디버깅·코드리뷰 습관을 함께 훈련하면 좋아요.</p></div>
+  <div class="dept-card"><div class="rank">RANK 5 · 적합도 70%</div><h4>영상·콘텐츠학과</h4><p>전체 서사를 먼저 구상하고 촬영·편집 계획을 세워 실행하는 흐름이 강점 조합과 잘 맞아요.</p></div>`,
+credit: `
+  <h2>고교학점제 선택과목 가이드</h2>
+  <p class="sub">추천 학과 진학에 유리한 과목을 우선순위로 정리했어요.</p>
+  <div class="card"><div class="table-scroll"><table class="subject-table">
+    <tr><th>영역</th><th>추천 선택과목</th><th>이유</th></tr>
+    <tr><td>수학</td><td>기하, 미적분Ⅱ, 인공지능수학</td><td>공학·디자인 계열 필수 사고력 기반</td></tr>
+    <tr><td>과학</td><td>물리학Ⅰ·Ⅱ, 융합과학탐구</td><td>구조·시스템 이해 및 설계 기초</td></tr>
+    <tr><td>기술·정보</td><td>정보, 데이터과학, 인공지능기초</td><td>동시처리 강점을 실무기술로 연결</td></tr>
+    <tr><td>진로선택</td><td>창의경영, 융합선택(프로젝트형)</td><td>계획력 발휘 + 순차처리 보완 훈련</td></tr>
+  </table></div></div>`,
+jobs: `
+  <h2>학과 관련 직업 미리보기</h2>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">공학·디자인 계열</h4>
+  <div class="job-strip"><span class="job-pill">제품 디자이너</span><span class="job-pill">UX/UI 엔지니어</span><span class="job-pill">3D프린팅운영전문가</span><span class="job-pill">메타버스크리에이터</span></div></div>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">경영·기획 계열</h4>
+  <div class="job-strip"><span class="job-pill">신사업아이디어컨설턴트</span><span class="job-pill">데이터시각화디자이너</span><span class="job-pill">융복합문화기획자</span></div></div>`,
+maturity: `
+  <div class="eyebrow">07 · 자가체크리스트</div>
+  <h2>진로 의사결정 준비도 체크</h2>
+  <p class="sub">진로성숙도 개념을 간단히 확인하는 자가 체크예요. 직접 표시해보세요.</p>
+  <div class="card">
+    <div class="check-item"><input type="checkbox"><label>나는 내가 잘하는 것과 좋아하는 것을 구체적으로 설명할 수 있다<span class="scale">자기이해</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>관심 있는 학과·직업에 대해 최근 스스로 정보를 찾아본 적이 있다<span class="scale">정보탐색</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>진로를 정할 때 여러 대안을 비교해본 경험이 있다<span class="scale">의사결정</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>목표를 위해 지금 할 수 있는 작은 계획을 세워본 적이 있다<span class="scale">계획실행</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>진로 고민이 생겨도 불안보다는 해결하려는 태도를 유지한다<span class="scale">태도</span></label></div>
+  </div>
+  <p class="sub">체크한 항목이 많을수록 진로 결정 준비도가 높다는 뜻이에요.</p>
+  <div class="interpret-band"><div class="band low"><b>0~1개</b>탐색 시작<br>단계</div><div class="band mid"><b>2~3개</b>탐색 진행<br>단계</div><div class="band high"><b>4~5개</b>결정 준비<br>단계</div></div>
+
+  <div class="card" style="margin-top:12px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🌱 "아직 뭘 좋아하는지도 모르겠어요"라면</h4>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--muted);">0~1개 구간이어도 괜찮아요. 지금 당장 진로를 정할 필요는 없어요. 대신 이렇게 시작해보세요.</p>
+    <ol class="steps" style="margin:0;">
+      <li><b>일주일에 하나씩, 낯선 걸 시도</b>추천 학과 목록에서 가장 안 끌리는 것 하나를 골라 관련 영상 10분만 찾아보기</li>
+      <li><b>"싫어하는 것" 목록부터</b>뭘 좋아하는지 모르겠다면, 뭘 싫어하는지부터 적어보면 범위가 좁혀져요</li>
+      <li><b>미션보드부터 시작</b>진로를 몰라도 미션보드의 강점 활용 미션은 지금 바로 시작할 수 있어요</li>
+    </ol>
+  </div>`,
+learning: `
+  <div class="eyebrow">08 · 강점 기반 학습방안</div>
+  <h2>과목별 · 루틴별 학습 전략</h2>
+  <p class="sub">동시처리·계획력 강점을 살리고, 순차처리·주의 지속력은 짧고 구조화된 루틴으로 보완해요.</p>
+
+  <div class="card"><div class="table-scroll"><table class="subject-table">
+    <tr><th>과목</th><th>전략</th></tr>
+    <tr><td>국어</td><td>목차·마인드맵으로 전체 구조를 먼저 그린 뒤 세부 정독. 문단별 소제목을 스스로 붙여 요약노트를 만들면 전체-부분 연결이 강해져요.<br><b>추천 도서</b> 추리·미스터리(구조적 서사), 인물평전(계획·실행형 인물)</td></tr>
+    <tr><td>수학</td><td>문제 유형별 "접근 전략"을 1줄로 먼저 적는 전략노트가 강점을 극대화해요. 오답노트는 "어떤 단계를 건너뛰었는지" 기준으로 분류하면 순차처리 훈련까지 겸해요.<br><b>검산 3단계</b> ①재계산 ②역연산으로 확인 ③추정치와 비교</td></tr>
+    <tr><td>영어</td><td>짧고 자주보다 하루 20분 몰입형이 잘 맞아요. 리스닝은 먼저 통으로 들어 전체 맥락을 파악(동시처리 활용)한 뒤 스크립트로 세부 확인. 단어는 낱개 암기보다 스토리 맥락 안에서 외우면 오래 남아요.</td></tr>
+    <tr><td>탐구·과학</td><td>가설 → 계획 → 실행 → 분석 흐름을 직접 설계하는 프로젝트형 학습에서 강점이 크게 드러나요. 실험보고서는 순서 체크리스트(아래 카드 참고)를 항상 옆에 두고 작성하세요.</td></tr>
+  </table></div></div>
+
+  <div class="card" style="margin-top:10px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📅 주간 루틴표 샘플</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>요일</th><th>몰입 블록 (25~50분)</th><th>순차 훈련 (15분)</th></tr>
+      <tr><td>월</td><td>수학 전략노트 작성</td><td>오늘 할 일 순서표 쓰기</td></tr>
+      <tr><td>화</td><td>영어 리스닝 몰입</td><td>검산 체크카드 연습</td></tr>
+      <tr><td>수</td><td>탐구 실험/프로젝트</td><td>실험보고서 순서카드</td></tr>
+      <tr><td>목</td><td>국어 정독·요약노트</td><td>오답노트 단계분류</td></tr>
+      <tr><td>금</td><td>자율 프로젝트 몰입</td><td>주간 목표 점검</td></tr>
+    </table></div>
+    <p class="sub" style="margin:8px 0 0;">※ 샘플이에요. 실제 시간표는 학교·학원 일정에 맞춰 미션보드와 함께 조정하세요.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="mini"><h4>⏱️ 몰입 루틴 A — 과제형</h4><p>25분 몰입 + 5분 휴식(미니 뽀모도로). 숙제·문제풀이처럼 명확히 끝이 있는 과제에 적합해요.</p></div>
+    <div class="mini"><h4>⏱️ 몰입 루틴 B — 프로젝트형</h4><p>50분 몰입 + 10분 휴식(딥워크). 기획·글쓰기·실험처럼 흐름이 끊기면 손해인 작업에 적합해요.</p></div>
+  </div>
+
+  <div class="card" style="margin-top:10px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">✅ 절차 체크카드 3종</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>카드</th><th>체크 순서</th></tr>
+      <tr><td>수학 검산카드</td><td>①문제 읽기 ②풀이 순서 적기 ③계산 ④검산(재계산·역연산·추정치 비교)</td></tr>
+      <tr><td>실험보고서카드</td><td>①가설 쓰기 ②준비물·절차 나열 ③실행하며 기록 ④결과 분석 ⑤결론+한계점</td></tr>
+      <tr><td>에세이·자소서카드</td><td>①핵심 메시지 한 줄 정하기 ②STAR 구조로 초안 ③구체적 사례로 채우기 ④소리내어 읽고 흐름 점검</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">🧠 왜 이 방법이 나에게 맞을까 (뇌과학 근거)</h4><p style="margin:0;font-size:13.5px;color:var(--muted);">계획력은 전두엽(prefrontal cortex)과 밀접히 연관돼요. 이 영역은 목표 설정·자기조절·시간관리를 담당하며, 실제로 계획을 세우고 실행해보는 경험을 반복할수록 더 단단해져요. 순차처리는 언어·청각 정보를 순서대로 기억하는 작업기억(working memory)과 관련이 깊은데, 이 기능은 학습·훈련을 통해 20대 중반까지도 꾸준히 발달하는 것으로 알려져 있어요. 즉 지금의 낮은 순차처리 점수는 고정된 한계가 아니라, 짧고 반복적인 절차 훈련으로 충분히 개선 가능한 영역이라는 뜻이에요.</p></div>
+
+  <div class="card"><h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">💬 나에게 해주는 말 (자기대화 스크립트)</h4>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>계획이 틀어졌을 때</b> — "이것도 하나의 정보야. 다시 세워보자."</p>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>순서를 건너뛰었을 때</b> — "어떤 순서로 했는지 나 스스로에게 설명해볼까?"</p>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>남과 비교돼 슬럼프일 때</b> — "비교 대상은 다른 사람이 아니라 지난달의 나야."</p>
+    <p style="margin:0;font-size:13.5px;"><b>시험 전날</b> — "지금까지 세운 계획을 믿고, 오늘은 정리와 휴식에 집중하자."</p>
+  </div>`,
+mission: `
+  <div class="eyebrow">09 · 미션 보드</div>
+  <h2>강점으로 약점을 훈련하는 미션</h2>
+  <p class="sub">계획력·동시처리 강점을 지렛대 삼아, 순차처리·지속 주의력을 단계적으로 훈련하는 미션이에요.</p>
+  <div class="mission-card"><span class="diff low">난이도 하</span><h4>레시피 순서대로 요리 완성하기</h4><p>정해진 순서를 지켜야 결과물이 나오는 대표적 순차 활동. 재료 준비 → 조리 → 플레이팅까지 순서를 사진으로 기록해보세요.</p><span class="xp">+30 XP</span> <span class="link-skill">· 순차처리 훈련</span></div>
+  <div class="mission-card"><span class="diff mid">난이도 중</span><h4>타워 오브 하노이 3단계 클리어</h4><p>단계별 규칙을 지켜야 풀리는 순서 퍼즐. 계획력으로 전체 수순을 먼저 그려본 뒤, 한 단계씩 순서대로 실행해보세요.</p><span class="xp">+50 XP</span> <span class="link-skill">· 순차처리+계획력 연결훈련</span></div>
+  <div class="mission-card"><span class="diff mid">난이도 중</span><h4>25분 몰입 타이머 5회 완주</h4><p>높은 동시처리·계획력을 학습 지속력으로 연결하는 미션. 몰입 25분 동안 딴짓 없이 집중, 이후 5분은 자유롭게.</p><span class="xp">+40 XP</span> <span class="link-skill">· 주의 지속력 훈련</span></div>
+  <div class="mission-card"><span class="diff high">난이도 상</span><h4>3단계 프로젝트 직접 설계·완주하기</h4><p>기획 → 실행계획 수립 → 단계별 실행이라는 큰 그림은 강점(계획력·동시처리)으로, 각 단계를 빠짐없이 순서대로 완수하는 과정에서 순차처리를 자연스럽게 훈련해요. 예: 공모전 작품 하나를 기획부터 제출까지 스스로 완주.</p><span class="xp">+100 XP</span> <span class="link-skill">· 강점 발휘 + 약점 통합훈련</span></div>`,
+selfcheck: `
+  <div class="eyebrow">10 · 성장포인트</div>
+  <h2>나를 위한 성장 체크리스트</h2>
+  <p class="sub">이번 주 실천 여부를 체크해보세요. 매주 반복하면 습관으로 자리잡아요.</p>
+  <div class="card">
+    <div class="check-item"><input type="checkbox" checked><label>오늘 할 일을 순서대로 3가지 적어봤다<span class="scale">순차처리 훈련</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>과제를 시작하기 전, 진행 순서를 1줄로 먼저 적어봤다<span class="scale">계획력→순차처리 연결</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>25분 몰입 후 5분 쉬는 방식으로 공부해봤다<span class="scale">주의 지속력</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>세운 계획이 틀어졌을 때 다시 조정해봤다<span class="scale">적응성</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>미션보드 미션을 1개 이상 완료했다<span class="scale">통합훈련</span></label></div>
+  </div>
+  <div class="interpret-band"><div class="band low"><b>0~1개</b>이번 주는<br>가볍게 시작</div><div class="band mid"><b>2~3개</b>루틴이 자리<br>잡는 중</div><div class="band high"><b>4~5개</b>훈련 루틴<br>완전 정착</div></div>
+  <ol class="steps" style="margin-top:16px;">
+    <li><b>1단계 · 강점 확인 (지금~1개월)</b>이미 잘하는 기획·실행 활동을 기록하고 언어화해보기</li>
+    <li><b>2단계 · 강점 확장 (1~3개월)</b>계획력을 발휘할 수 있는 새 프로젝트(공모전, 동아리 기획)에 도전</li>
+    <li><b>3단계 · 보완 훈련 (지속)</b>순서형 체크리스트로 절차 과제를 짧고 반복적으로 훈련</li>
+  </ol>
+
+  <div class="track-teaser">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></span>이 진단은 한 번 보고 끝나는 라벨이 아니에요</h4>
+    <div class="dots"><div class="dot now"></div><div class="dot next"></div></div>
+    <p>12~18개월 후 재검사를 받으면, 오늘 확인한 4가지 학습 정체 패턴이 실제로 어떻게 바뀌었는지 <b>조합 변화</b>로 추적할 수 있어요. 성적표가 아니라 진행형 개선 도구로 활용해보세요.</p>
+  </div>
+
+  <div class="footer-cta"><b>🦊 인지훈련 홈 바로가기</b><span>맞춤 미션과 학습 플래너로 강점은 키우고 보완점은 채워드려요</span></div>`,
+parent: `
+  <div class="eyebrow">11 · 부모님과 함께</div>
+  <h2>부모님과 함께 보는 요약</h2>
+  <p class="sub">이 결과지를 자녀와 함께, 혹은 부모님만 따로 읽으실 때 참고해주세요.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📋 한 페이지 요약</h4>
+    <p style="margin:0;font-size:13px;">이지훈 님은 전체 그림을 빠르게 파악하고 계획을 세워 실행하는 힘이 뚜렷하게 강해요. 다만 계획한 것을 순서대로 끝까지 챙기는 부분에서는 조금 더 의식적인 훈련이 도움이 됩니다. 이는 부족함이 아니라 지금 시점의 특성이며, 훈련을 통해 20대 중반까지도 꾸준히 개선될 수 있는 영역이에요. 아이가 스스로 강점을 발휘한 경험을 자주 언어화해줄수록, 약점 보완도 훨씬 수월해집니다.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">성적이 떨어졌을 때</span>
+    <p class="body">"이번엔 왜 이렇게 밖에 못했어?" 대신 — "이번 결과에서 어떤 부분이 어려웠어? 계획대로 안 된 부분이 있었어?"</p>
+    <p class="tip"><b>사용팁</b> 결과보다 과정을 먼저 물으면, 아이가 스스로 원인을 분석하는 힘이 자라요.</p>
+  </div>
+  <div class="doc-card">
+    <span class="doc-tag">계획이 틀어졌을 때</span>
+    <p class="body">"그러게 계획을 왜 그렇게 세웠어" 대신 — "계획이 바뀐 것도 정보야. 다시 세워볼까?"</p>
+    <p class="tip"><b>사용팁</b> 계획 수정 자체를 실패가 아니라 자연스러운 과정으로 다뤄주세요.</p>
+  </div>
+  <div class="doc-card">
+    <span class="doc-tag">비교하고 싶은 마음이 들 때 (부모님 스스로)</span>
+    <p class="body">"옆집 아이는 벌써 학원 두 개를 더 다닌대" 같은 비교가 떠오를 때 — 비교 대상을 "다른 아이"가 아니라 "6개월 전 우리 아이"로 바꿔보세요.</p>
+    <p class="tip"><b>사용팁</b> 성장 추적(재검사 시 조합 변화)을 함께 확인하면 이 관점이 훨씬 쉬워져요.</p>
+  </div>
+
+  <div class="recommend-box">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></span>선배 학부모들이 자주 하는 실수</h4>
+    <ul>
+      <li>점수만 보고 바로 학습량부터 늘리기 — 강점 영역까지 과도하게 시키면 흥미를 잃기 쉬워요</li>
+      <li>결과를 아이 앞에서 심각한 톤으로 이야기하기 — 아이는 표정과 톤에서 "부족하다"는 느낌을 먼저 받아요</li>
+      <li>한 번의 검사 결과를 고정된 것으로 여기기 — 순차처리처럼 훈련으로 개선되는 영역은 다음 검사에서 충분히 달라질 수 있어요</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🏠 가정에서 도와줄 수 있는 것</h4>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">거창한 계획보다 짧고 반복 가능한 것이 오래가요. "오늘 순서표 확인해봤어?" 한마디, 완료했을 때 "역시 계획 세우는 거 진짜 잘한다" 같은 구체적 인정 한마디면 충분해요. 05번 정서적 지지 섹션의 자기설계 미션을 함께 확인해보시는 것도 추천드려요.</p>
+  </div>`,
+admissions: `
+  <div class="eyebrow">12 · 입시생을 위한 전략</div>
+  <h2>입시 전략</h2>
+  <p class="sub">전형 선택부터 면접 준비, 자소서 자가점검, 활동 로드맵까지 — 인지 프로파일을 입시 준비에 직접 연결해요.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🎯 전형 매칭 가이드</h4>
+    <div class="combo-tag">🔗 학습효율진단 ④ [주의력×순차처리] 조합 — 정시 트랙 선택 시 이 훈련이 특히 중요해요</div>
+    <div class="track-card" style="margin-top:10px;"><div class="pctbox">1위</div><div class="txt"><h4>학생부종합전형 / 해외 Holistic Admissions</h4><p>동시처리·계획력 강점이 활동 서사와 프로젝트 기반 평가에서 잘 드러나요. 세특·자소서·활동기록을 위 "지원서류 활용팩"으로 미리 준비해두면 유리해요.</p></div></div>
+    <div class="track-card"><div class="pctbox">2위</div><div class="txt"><h4>특기자·실기 전형 (디자인·공학 계열)</h4><p>직관적 종합 사고와 실행력이 포트폴리오·실기 과제에서 강점으로 작용해요.</p></div></div>
+    <div class="track-card"><div class="pctbox">참고</div><div class="txt"><h4>정시(수능 위주) / 해외 시험중심 전형</h4><p>순차처리·주의지속력이 상대적 약점이라 장시간 반복 훈련이 더 필요해요. 미션보드의 순차훈련 미션을 꾸준히 병행하는 것이 특히 중요해요.</p></div></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🎤 예상 면접질문 & 강점기반 답변가이드</h4>
+    <div class="interview-card"><div class="q2">본인의 강점을 활동 경험과 함께 설명해주세요.</div><p class="a2">전체를 먼저 조망하고(동시처리) 구체적 실행계획을 세워(계획력) 완수한 경험 1개를 STAR 구조로 30초 분량 답변으로 미리 준비해두세요.</p></div>
+    <div class="interview-card"><div class="q2">힘들었던 순간을 어떻게 극복했나요?</div><p class="a2">순차처리 약점 때문에 절차를 놓쳤던 경험 → 체크리스트를 스스로 만들어 극복한 과정을 "성장 서사"로 답하면 설득력이 높아요.</p></div>
+    <div class="interview-card"><div class="q2">우리 학과/전공을 선택한 이유는?</div><p class="a2">계열매트릭스·추천학과 섹션의 인지프로파일 근거를 자신의 언어로 재구성해 답변하세요. 점수를 그대로 언급하지 말고 "나는 이런 식으로 사고한다"로 풀어내세요.</p></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">📝 자소서 자가점검 체크리스트</h4>
+    <div class="check-item"><input type="checkbox"><label>도입-본론-결론의 논리 흐름이 순서대로 자연스럽게 이어지는가<span class="scale">순차처리 약점 보완 점검</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>추상적 표현("열심히 노력했다") 대신 구체적 숫자·사례가 들어갔는가</label></div>
+    <div class="check-item"><input type="checkbox"><label>각 문단이 STAR(상황-과제-행동-결과) 구조를 갖췄는가</label></div>
+    <div class="check-item"><input type="checkbox"><label>글자수·분량 제한을 지켰는가 (시간 안배 포함)</label></div>
+    <div class="check-item"><input type="checkbox"><label>소리내어 읽어 어색한 문장·오탈자를 확인했는가</label></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🗓️ 활동 준비 로드맵</h4>
+    <ol class="steps">
+      <li><b>지금~2개월</b>추천 학과 관련 소규모 프로젝트·공모전 1개 참여 시작 (미션보드 "3단계 프로젝트" 미션과 연결)</li>
+      <li><b>3~6개월</b>활동 결과를 지원서류 활용팩 템플릿으로 기록해두기 (경험이 신선할 때 바로 STAR 문단 작성)</li>
+      <li><b>7~12개월</b>자소서 초안 작성 → 자가점검 체크리스트로 3회 이상 검토 → 교사·멘토 피드백 반영</li>
+    </ol>
+  </div>`,
+expert: `
+  <div class="eyebrow">13 · 전문가 데이터</div>
+  <h2>전문가용 상세 데이터</h2>
+  <p class="sub">해석 없이, 실제 검사 원본 지표만 보여드려요. 몇 문항 중 몇 문항을 맞췄는지 그대로예요. ※ 본 결과지는 또래 표준화 데이터 없이, 개인의 문항 수행 정확도(정답률)만을 기준으로 안내합니다.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🧠 두뇌유형 요약</h4>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">이지훈 님의 두뇌유형은 <b>우뇌우세형(동시처리 우세)</b>입니다. 순차처리와 동시처리의 정답률 차이가 크게 나타나, 동시처리 우세형 학습자로 판단됩니다.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:13.5px;color:var(--navy);">📊 하위척도별 원점수</h4>
+    <div class="table-scroll"><table class="raw-table">
+      <tr><th>척도</th><th>문항수</th><th>유효정답</th><th>정답률</th><th>판정</th></tr>
+      <tr><td>계획력</td><td>40</td><td>32</td><td>80%</td><td><span class="judge high">상대적 높음</span></td></tr>
+      <tr><td>주의력</td><td>34</td><td>19</td><td>56%</td><td><span class="judge mid">평균적 수준</span></td></tr>
+      <tr><td>동시처리</td><td>38</td><td>34</td><td>89%</td><td><span class="judge high">상대적 높음</span></td></tr>
+      <tr><td>순차처리</td><td>36</td><td>21</td><td>58%</td><td><span class="judge mid">평균적 수준</span></td></tr>
+    </table></div>
+    <p class="sub" style="margin:10px 0 0;">※ "유효정답"은 시간 내 실제로 응답을 완료한 문항 중 정답 수예요. 무응답·시간초과 문항은 분모에서 제외됩니다. "판정"은 이지훈 님 개인의 4개 영역 정답률을 서로 비교한 상대적 위치이며, 다른 응시자와의 비교가 아닙니다.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 4px;font-size:13.5px;color:var(--navy);">⚖️ 학습유형 판단 — 순차처리 vs 동시처리</h4>
+    <p class="sub" style="margin-bottom:4px;">두 능력의 정답률 차이를 비교해 우세한 정보처리 유형을 판단해요.</p>
+    <div class="ds-compare">
+      <div class="ds-circle suc"><b>58%</b><span>순차처리</span></div>
+      <div class="ds-mid"><b>31%p</b>정답률 차이</div>
+      <div class="ds-circle sim"><b>89%</b><span>동시처리</span></div>
+    </div>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">순차처리와 동시처리의 정답률 차이가 31%p로 크게 나타나, <b>동시처리 우세형 학습자</b>로 판단됩니다. 정보를 순서대로 처리하기보다 전체를 통합적으로 파악하는 방식에서 상대적으로 더 높은 정확도를 보였어요.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:13.5px;color:var(--navy);">📋 검사 진행 정보</h4>
+    <div class="test-info-row">
+      <div><b>148</b><span>총 문항수</span></div>
+      <div><b>약 55분</b><span>검사 소요시간</span></div>
+      <div><b>94%</b><span>유효응답률</span></div>
+      <div><b>2026.08.23</b><span>검사일</span></div>
+    </div>
+    <p class="sub" style="margin:10px 0 0;">D-CAS는 또래 표준화 데이터 없이, 개인의 문항 수행 정확도(정답률)를 기준으로 결과를 안내합니다. 4개 하위척도 간 정답률 차이가 클 경우, 전체 평균보다 하위척도별 프로파일 중심으로 해석하는 것을 권장합니다.</p>
+  </div>`,
+faq: `
+  <div class="eyebrow">14 · 자주 묻는 질문</div>
+  <h2>FAQ</h2>
+  <div class="card">
+    <div class="faq-item"><div class="q">순차처리가 낮게 나온 게 걱정돼요. 계속 낮은 채로 남을까요?</div><p class="a">아니에요. 순차처리는 훈련을 통해 20대 초반까지도 꾸준히 개선될 수 있는 영역이에요. 미션보드의 순서형 미션을 조금씩 쌓아가면 충분히 좋아질 수 있어요.</p></div>
+    <div class="faq-item"><div class="q">재검사는 언제 하는 게 좋을까요?</div><p class="a">일반적으로 12~18개월 주기를 권장해요. 성장기에는 인지 프로파일이 계속 발달하므로, 다음 검사에서 순차처리 영역의 변화를 함께 확인해보길 추천해요.</p></div>
+    <div class="faq-item"><div class="q">이 결과를 담임 선생님이나 진로상담 선생님께 공유해도 될까요?</div><p class="a">네, 권장해요. 특히 "학습방안"과 "고교학점제 선택과목 가이드" 챕터는 담임·진로 선생님과 공유하면 과목 선택과 생기부 기재에 참고가 될 수 있어요.</p></div>
+    <div class="faq-item"><div class="q">계열 적합도가 낮게 나온 계열은 아예 선택하면 안 되나요?</div><p class="a">아니에요. 적합도는 "지금의 인지 프로파일과 얼마나 잘 맞는지"를 보여주는 참고 지표일 뿐, 절대적인 제한선이 아니에요. 관심이 크다면 보완 훈련 미션을 함께 병행하며 도전해볼 수 있어요.</p></div>
+  </div>`,
+about: `
+  <div class="eyebrow">15 · 검사 소개</div>
+  <h2>D-CAS 검사 소개</h2>
+  <p class="sub">PASS 이론에 기반한 청소년·성인용 디지털 인지검사입니다.</p>
+
+  <div class="about-card">
+    <h4>PASS 이론적 배경</h4>
+    <p>PASS 이론은 소련의 신경심리학자 Alexander Luria의 연구를 토대로, Das·Naglieri·Kirby(1994)가 정립한 인지처리 이론입니다. 지능을 하나의 단일 수치(IQ)가 아니라, 서로 연결된 4가지 인지처리 과정 — 계획기능, 주의집중, 동시처리, 순차처리 — 로 재개념화합니다. D-CAS는 이 이론에 근거해 유동성 지능(Fluid Intelligence)을 측정합니다.</p>
+  </div>
+
+  <div class="about-card">
+    <h4>4가지 인지과정</h4>
+    <p><b>순차처리</b> — 자극을 특정한 순서로 통합하는 과정으로, 각 요소가 바로 앞 요소에만 연결되는 사슬 형태의 처리입니다. 언어를 순서대로 조직하거나 절차를 따라 실행하는 과제에 관여합니다.<br><br>
+    <b>동시처리</b> — 흩어진 자극을 하나의 전체로 통합하는 과정으로, 공간적·논리문법적 요소가 강합니다. 부분을 하나의 형태로 지각하고, 복잡한 관계를 종합적으로 이해하는 과제에 관여합니다.<br><br>
+    <b>계획기능</b> — 문제 해결을 위해 결정하고 선택하고 적용하고 평가하는 과정입니다. 목표 설정, 전략 수립, 자기점검, 충동 통제가 여기에 포함됩니다.<br><br>
+    <b>주의집중</b> — 특정 자극에 선택적으로 집중하고 방해 자극에 대한 반응을 억제하며, 필요한 시간만큼 그 집중을 유지하는 과정입니다.</p>
+  </div>
+
+  <div class="about-card">
+    <h4>D-CAS의 조직</h4>
+    <p>D-CAS는 전체척도(Full Scale)와 4개 PASS척도(계획력·주의력·동시처리·순차처리)로 구성됩니다. 본 리포트는 또래 표준화 데이터를 사용하지 않고, 개인의 문항 수행 정확도(정답률)를 기준으로 결과를 안내합니다. 4개 하위척도 간 정답률 차이가 클 경우 전체척도보다 하위척도 프로파일 중심으로 해석하는 것을 권장합니다 — 그래서 이 리포트도 단일 점수보다 "학습효율 진단" 섹션처럼 4개 영역의 조합을 중심으로 설명합니다.</p>
+    <div class="expert-quad">
+      <div><span class="ico">🎯</span><b>학업성취 예측</b>전체·하위척도 점수로 학업 성공/실패 가능성을 예측</div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="15,9 11,11 9,15 13,13" fill="currentColor" stroke="none"/></svg></span><b>진로적성 평가</b>인지 프로파일 기반 계열·직무 적합도 진단</div>
+      <div><span class="ico">🧩</span><b>학습효율 진단</b>축 조합 분석으로 성적 정체의 구조적 원인을 특정</div>
+      <div><span class="ico">🌟</span><b>영재성·강점 평가</b>전통적 검사로 포착 어려운 강점 영역 발굴</div>
+    </div>
+  </div>
+
+  <div class="about-card">
+    <h4>기존 지능·적성검사와 비교한 특장점</h4>
+    <p>✓ <b>낮은 지식 의존도</b> — 습득된 지식보다 정보처리 과정 자체를 측정해 선행학습·문화적 배경의 영향을 적게 받아요<br>
+    ✓ <b>디지털 기반 검사</b> — 지필 검사 대비 응시 부담을 줄이고 표준화된 조건에서 수행을 측정해요<br>
+    ✓ <b>단일 점수가 아닌 4개 영역 조합 해석</b> — 전체 IQ 하나로 뭉뚱그리지 않고, 축 조합으로 학습 정체의 원인까지 설명해요<br>
+    ✓ <b>폭넓은 활용 범위</b> — 학업성취 예측은 물론 진로적성·학습설계·영재성 평가까지 하나의 검사로 다뤄요</p>
+  </div>
+
+  <div class="advisor-card">
+    <div class="av">문</div>
+    <div class="txt"><b>문수백 Ph.D · (주)필굿에듀테크 심리검사 표준화 연구소 소장</b>
+    <p>한국판 KABC-Ⅱ, DTVP-Ⅱ·Ⅲ, CAS, KBIT-Ⅱ 등 국내 주요 인지검사 표준화 연구를 총괄해온 학계 권위자가 D-CAS의 과학적 자문을 맡고 있습니다.</p></div>
+  </div>`
+},
+en: {
+temperament: `
+  <div class="hook-card">
+    <h4><span class="icon-badge" style="color:var(--orange)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4z"/></svg></span>Sound Familiar?</h4>
+    <div class="hook-q"><span class="mark">1</span><span>You plan flawlessly, but the final result always seems to be missing something right before the deadline</span></div>
+    <div class="hook-q"><span class="mark">2</span><span>You clearly knew the material, but lost points for missing a small condition on the test</span></div>
+    <div class="hook-q"><span class="mark">3</span><span>You've taken other career tests, but still don't know why your grades won't budge</span></div>
+    <div class="hook-cta">↓ Find out why in section 03, "Efficiency Diagnosis"</div>
+  </div>
+
+  <div class="recommend-box">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg></span>Especially Recommended For</h4>
+    <ul>
+      <li>Anyone who's taken a Holland/MBTI-type career test and only came away knowing their "type"</li>
+      <li>Anyone who's switched tutors or academies without finding the root cause of a grade plateau</li>
+      <li>Students and parents frustrated that effort isn't translating into results</li>
+    </ul>
+  </div>
+
+  <div class="eyebrow">01 · Temperament</div>
+  <div class="hero-card">
+    <div class="hero-tag">Cognitive Compass · COGNITIVE ID Right-Brain 3-C</div>
+    <h3>The Immersive Idea Architect</h3>
+    <p>Simultaneous processing and planning are both strong, giving a fast ability to grasp the whole picture and turn it into an action plan. Successive processing is comparatively lower, so following detailed step-by-step procedures takes a bit more conscious effort.</p>
+    <div class="chips"><span class="chip">#IntuitiveJudgment</span><span class="chip">#StrongPlanning</span><span class="chip">#CreativeProblemSolving</span><span class="chip">#ProcessNeedsWork</span></div>
+  </div>
+
+  <div class="radar-wrap">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);"><span class="icon-badge" style="color:var(--navy)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="15,9 11,11 9,15 13,13" fill="currentColor" stroke="none"/></svg></span>Cognitive Compass — 4-Domain Profile</h4>
+    <svg viewBox="0 0 300 300">
+      <circle cx="150" cy="150" r="95" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <circle cx="150" cy="150" r="63" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <circle cx="150" cy="150" r="32" fill="none" stroke="#E4E9F2" stroke-width="1"/>
+      <line x1="150" y1="55" x2="150" y2="245" stroke="#E4E9F2" stroke-width="1"/>
+      <line x1="55" y1="150" x2="245" y2="150" stroke="#E4E9F2" stroke-width="1"/>
+      <polygon points="150,75 233,150 150,195 99,150" fill="#F5820A" fill-opacity="0.22" stroke="#F5820A" stroke-width="2.5"/>
+      <circle cx="150" cy="75" r="4" fill="#2856D6"/>
+      <circle cx="233" cy="150" r="4" fill="#1E8A5F"/>
+      <circle cx="150" cy="195" r="4" fill="#F5820A"/>
+      <circle cx="99" cy="150" r="4" fill="#6A3FBF"/>
+      <text x="150" y="42" text-anchor="middle" font-size="13" font-weight="800" fill="#1B3B8C">Planning 80%</text>
+      <text x="270" y="146" text-anchor="middle" font-size="13" font-weight="800" fill="#1E8A5F">Simultaneous 89%</text>
+      <text x="150" y="222" text-anchor="middle" font-size="13" font-weight="800" fill="#C25E00">Successive 58%</text>
+      <text x="35" y="146" text-anchor="middle" font-size="13" font-weight="800" fill="#6A3FBF">Attention 56%</text>
+    </svg>
+    <div class="radar-legend">
+      <span><i style="background:#F5820A"></i>My profile (based on test accuracy)</span>
+    </div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">4 Subscale Profile — Detail</h4>
+    <div class="bar-row"><div class="bar-label">Planning</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><div class="bar-val">80%</div></div>
+    <div class="bar-row"><div class="bar-label">Attention</div><div class="bar-track"><div class="bar-fill" style="width:56%"></div></div><div class="bar-val">56%</div></div>
+    <div class="bar-row"><div class="bar-label">Simultaneous</div><div class="bar-track"><div class="bar-fill acc" style="width:89%"></div></div><div class="bar-val">89%</div></div>
+    <div class="bar-row"><div class="bar-label">Successive</div><div class="bar-track"><div class="bar-fill" style="width:58%"></div></div><div class="bar-val">58%</div></div>
+    <p class="sub" style="margin-top:10px;">※ Accuracy basis · High 70%+ / Mid 40–69% / Low ≤39%</p>
+  </div>
+  <div class="two-col">
+    <div class="mini"><h4>Reactivity · Adaptability</h4><p>Enjoys novelty and adapts quickly, but focus can waver on repetitive tasks with low personal interest.</p></div>
+    <div class="mini"><h4>Mood Quality</h4><p>Draws positive energy from achievement, so frequent small wins are especially motivating.</p></div>
+  </div>`,
+strength: `
+  <div class="eyebrow">02 · Strengths & Growth Areas</div>
+  <h2>My Strengths and Growth Points</h2>
+  <p class="sub">Compares accuracy across your own 4 domains (ipsative) to surface strengths and growth points.</p>
+  <div class="temp-card"><h4>Temperament Card · Reactivity</h4>
+    <div class="temp-block good"><b>✓ Strength · Quick to respond</b><ul><li>Jumps into new environments or unfamiliar tasks without hesitation</li><li>Catches the key point fast even when a lot of information arrives at once</li></ul></div>
+    <div class="temp-block watch"><b>△ Growth point · Detail persistence</b><ul><li>Focus can slip on repetitive tasks with low interest</li></ul></div></div>
+  <div class="temp-card"><h4>Temperament Card · Adaptability</h4>
+    <div class="temp-block good"><b>✓ Strength · Goal-driven adaptation</b><ul><li>Sets personal goals and settles into new environments quickly</li></ul></div>
+    <div class="temp-block watch"><b>△ Growth point · Unplanned changes</b><ul><li>Can be briefly thrown off when a plan suddenly changes — practicing "it's okay if the plan changes" helps</li></ul></div></div>
+  <div class="temp-card"><h4>Temperament Card · Mood Quality</h4>
+    <div class="temp-block good"><b>✓ Strength · Achievement-based stability</b><ul><li>Feels clear satisfaction after reaching a goal, which fuels the next challenge</li></ul></div>
+    <div class="temp-block watch"><b>△ Growth point · Perfectionist standards</b><ul><li>Mood can dip sharply when falling short of self-set standards — try practicing a "70% is enough" mindset</li></ul></div></div>
+  <div class="temp-card"><h4>Temperament Card · Thinking Style</h4>
+    <div class="temp-block good"><b>✓ Strength · Intuitive synthesis</b><ul><li>Strong at quickly weaving scattered information into one coherent picture</li></ul></div>
+    <div class="temp-block watch"><b>△ Growth point · Process verification</b><ul><li>Checking each step on the way to a conclusion reduces mistakes</li></ul></div></div>
+  <div class="role-card"><h4>🌟 A Kindred Spirit</h4><p>Inventor Thomas Edison revised his plans through thousands of failures, staying immersed until he finished the job. Like Jihoon, the ability to "picture the whole first, then plan and execute" is a core talent for turning ideas into real results in any field.</p></div>
+  <h4 style="margin:22px 0 4px;font-size:15px;color:var(--navy);">📄 Application Toolkit — Turning Strengths into Application Language</h4>
+  <p class="sub" style="margin-bottom:12px;">Ready-to-adapt templates for global use — personal statements, activity records, and recommendation letters, regardless of which country's admissions system you're applying to.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13px;color:var(--navy);">Strength → Keyword Map</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>Cognitive domain</th><th>Application keyword</th><th>Sample phrasing</th></tr>
+      <tr><td>Planning 80%</td><td>Strategic execution · Initiative</td><td>"set goals and executed them systematically", "planned and completed a project"</td></tr>
+      <tr><td>Simultaneous 89%</td><td>Integrative thinking · Systems view</td><td>"synthesized complex information", "grasped the overall structure first"</td></tr>
+      <tr><td>Successive 58% (growing)</td><td>Growing procedural rigor</td><td>"developed a habit of checking each step"</td></tr>
+      <tr><td>Attention 56% (growing)</td><td>Growing sustained focus</td><td>"trained focus through short immersion routines"</td></tr>
+    </table></div>
+  </div>
+
+  <div class="tip-box">⚠️ <b>Don't copy these verbatim.</b> These are skeletons — fill the [brackets] with your real activity, numbers, and a specific moment. Admissions readers spot generic sentences immediately.</div>
+
+  <div class="doc-card">
+    <span class="doc-tag">School record / teacher observation note (STAR structure)</span>
+    <p class="body">"In [activity/project], quickly grasped the overall problem by viewing it holistically (Situation). Independently developed [a concrete execution plan] (Task), took the lead on the team and checked each stage in order to completion (Action). Grew by developing [a specific verification method] to raise the quality of the final result (Result)."</p>
+    <p class="tip"><b>Tip</b> The Situation–Task–Action–Result order makes it easy for a teacher to translate into a school report or recommendation note — share this structure when asking for one.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">Common App / UCAS-style personal statement paragraph</span>
+    <p class="body">"I've always been drawn to seeing the whole picture before diving into details. When I led [activity], I quickly synthesized scattered information into a clear plan, then broke it down into concrete steps I could execute and track. Along the way, I learned to slow down and verify each step — a discipline that has made my ideas not just ambitious, but achievable."</p>
+    <p class="tip"><b>Tip</b> Fill in the brackets with a real activity and expand to 200–250 words. This paragraph works for any country's application, unmodified in structure.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">Recommendation letter — talking points for your teacher</span>
+    <p class="body">"[Student] shows a strong ability to quickly grasp and structure the overall situation in projects and assignments. Initiative in independently planning and executing is a clear strength, and [Student] has recently also been building the habit of carefully checking each procedural step."</p>
+    <p class="tip"><b>Tip</b> Handing this note to a teacher when requesting a letter helps them write something far more specific and persuasive.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">Activities list one-liner (150 characters or fewer)</span>
+    <p class="body">"Planned and structured a team project end-to-end, translating strategy into a step-by-step execution plan."</p>
+    <p class="tip"><b>Tip</b> Starting with a strong verb (Planned / Designed / Delivered) + result maximizes impact in any country's activity-list format.</p>
+  </div>`,
+efficiency: `
+  <div class="eyebrow">03 · The D-CAS Difference</div>
+  <h2>Learning-Efficiency Diagnosis — Why Effort Isn't Translating to Results</h2>
+  <p class="sub">Typical career-aptitude tests reveal "preferences." D-CAS measures "how information gets processed" — so instead of a single score, it can explain the real learning patterns created by <b>combinations of the 4 cognitive domains</b>.</p>
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="table-scroll"><table class="compare-table">
+      <tr><th></th><th>Typical career tests (Holland, MBTI-type)</th><th>D-CAS</th></tr>
+      <tr><td>What's measured</td><td>Preference / personality (what you like)</td><td>Information-processing mechanism (how you process)</td></tr>
+      <tr><td>Output</td><td>List of recommended careers/majors</td><td>Diagnosis of learning bottlenecks + tailored study design</td></tr>
+      <tr><td>Explanatory logic</td><td>Correlation ("this type fits this job")</td><td>Causal mechanism ("this combination causes this recurring mistake")</td></tr>
+      <tr><td>Limitation</td><td>Can't explain why grades stall</td><td>Structurally explains why learning efficiency stalls, via axis combinations</td></tr>
+    </table></div>
+  </div>
+
+  <p class="sub" style="margin-bottom:12px;">Pairing Jihoon's 4 domains two at a time surfaces real learning patterns like these:</p>
+
+  <div class="combo-preview">
+    <h4><span class="icon-badge" style="color:var(--blue)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="6" y1="20" x2="6" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="18" y1="20" x2="18" y2="14"/></svg></span>Preview of the 4 Diagnoses</h4>
+    <div class="cp-row"><span class="cp-num">1</span><span class="axis-tag p">Planning</span><span class="cp-x">×</span><span class="axis-tag s">Successive</span><span class="cp-desc">Design-execution gap</span></div>
+    <div class="cp-row"><span class="cp-num">2</span><span class="axis-tag q">Simultaneous</span><span class="cp-x">×</span><span class="axis-tag a">Attention</span><span class="cp-desc">"Knew it, got it wrong"</span></div>
+    <div class="cp-row"><span class="cp-num">3</span><span class="axis-tag q">Simultaneous</span><span class="cp-x">×</span><span class="axis-tag s">Successive</span><span class="cp-desc">Concept-to-rule gap</span></div>
+    <div class="cp-row"><span class="cp-num">4</span><span class="axis-tag a">Attention</span><span class="cp-x">×</span><span class="axis-tag s">Successive</span><span class="cp-desc">Top training priority</span></div>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag p">Planning 80% (High)</span><span class="vs">×</span><span class="axis-tag s">Successive 58% (Mid-low)</span></div>
+    <h4>Flawless design, but details collapse right before the deadline</h4>
+    <p class="sym"><b>Sound familiar?</b> The project proposal is excellent, but the final deliverable has steps out of order — or the problem-solving strategy in math is sound, but errors creep in at the last calculation step.</p>
+    <p class="rx"><b>Why it happens</b> Planning builds the overall strategy; successive processing executes and verifies that strategy step by step. A gap between design (Planning) and execution-verification (Successive) turns a good plan into an unpolished result. → Use the procedure-checklist cards (Study Plan section) to separate "designing" from "executing," checking each on its own.</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag q">Simultaneous 89% (High)</span><span class="vs">×</span><span class="axis-tag a">Attention 56% (Mid)</span></div>
+    <h4>The recurring "I knew it, but got it wrong anyway" mistake</h4>
+    <p class="sym"><b>Sound familiar?</b> Grasps the overall context of a passage instantly, but on the actual test, misses a specific condition (a unit, a sign, an exception clause) and loses points.</p>
+    <p class="rx"><b>Why it happens</b> Simultaneous processing integrates the whole picture quickly; if the attention needed to hold and verify each individual detail is comparatively lower, the big picture is right but details leak through. → After solving, physically point to and re-check "the 3 conditions this problem actually requires."</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag q">Simultaneous 89% (High)</span><span class="vs">×</span><span class="axis-tag s">Successive 58% (Mid-low)</span></div>
+    <h4>Understands the concept, but stalls applying the rule</h4>
+    <p class="sym"><b>Sound familiar?</b> Grasps the "big idea" of a grammar rule quickly, but trips on the order of application (tense agreement, word order) — or understands a math concept but tangles multi-step calculations that require following an exact sequence.</p>
+    <p class="rx"><b>Why it happens</b> Simultaneous processing (integrating concepts) and successive processing (applying rules in order) are different cognitive pathways — understanding a concept doesn't guarantee the ability to apply its rules in sequence. → Split practice into 3 stages instead of jumping straight from concept to problem-solving: understand the concept → drill the sequential rule in isolation → then solve problems.</p>
+  </div>
+
+  <div class="diag-card">
+    <div class="pair"><span class="axis-tag a">Attention 56% (Mid)</span><span class="vs">×</span><span class="axis-tag s">Successive 58% (Mid-low)</span></div>
+    <h4>The combination most disrupted by repetitive procedural tasks — top training priority</h4>
+    <p class="sym"><b>Sound familiar?</b> Can't sustain simple repetitive calculation or memorization tasks for long, losing track of the order partway through or losing interest.</p>
+    <p class="rx"><b>Why it happens</b> With both domains in the mid-or-lower range, tasks that require holding a sequence while staying focused for a long stretch create a double burden. Of all four combinations, this is the one that most needs training first. → Approach the mission board's sequencing missions in short, frequent bursts (under 10 minutes) — never in one long stretch.</p>
+  </div>
+
+  <div class="tip-box">💡 <b>What this diagnosis means</b> These four patterns aren't "weaknesses" — they're Jihoon's own specific learning bottlenecks. Two students can both score 80% accuracy on Planning, but if one has high Successive processing and the other low, they need completely different study designs. That's why D-CAS reads the <b>combination</b>, not just the individual score.</div>`,
+opinion: `
+  <div class="eyebrow">04 · Examiner's Note</div>
+  <h2>Lead Researcher's Opinion</h2>
+  <div class="card"><p style="margin:0;font-size:13.5px;">Jihoon shows high accuracy in simultaneous processing and planning, indicating strong ability to judge situations holistically and translate that into execution strategy. Successive processing is comparatively lower, so patience may be needed for repetitive, procedure-heavy tasks. This is an area that can keep improving with training up to around age 25, so step-by-step checklists paired with short, repeated procedural practice are recommended. Overall, this is a cognitive profile combining creative planning with strong execution — well suited to self-directed, project-based learning and career environments.</p></div>`,
+emotional: `
+  <div class="anchor-card">
+    <div class="eyebrow">05 · Emotional Support</div>
+    <h3>Everyone has strengths.<br>Jihoon already has clear, proven ones.</h3>
+    <div class="stat-row">
+      <div class="stat-chip"><b>80%</b><span>Planning accuracy</span></div>
+      <div class="stat-chip"><b>89%</b><span>Simultaneous accuracy</span></div>
+    </div>
+    <p>Emotional stability doesn't come from erasing weaknesses. It comes from clearly knowing your strengths, and from the experience of using them to solve a problem yourself. This section is about building that experience.</p>
+  </div>
+
+  <div class="hook-card">
+    <h4>🙋 These Moments Are Normal</h4>
+    <div class="hook-q"><span class="mark">1</span><span>When grades don't improve, it's easy to feel like you're simply not good enough</span></div>
+    <div class="hook-q"><span class="mark">2</span><span>Comparing yourself to friends can make you feel like you're the only one falling behind</span></div>
+    <div class="hook-q"><span class="mark">3</span><span>Weaknesses keep catching your eye, and you forget what you're actually good at</span></div>
+    <div class="hook-cta">All three are completely normal feelings for most students this age</div>
+  </div>
+
+  <h4 style="margin:20px 0 4px;font-size:15px;color:var(--navy);">💪 Missions Where Your Strengths Help Your Weaknesses</h4>
+  <p class="sub" style="margin-bottom:12px;">See a weakness not as "a flaw to fix," but as a puzzle you can already solve with strengths you have. These two missions don't give you the answer — fill them in yourself.</p>
+
+  <div class="self-mission">
+    <span class="sm-tag">Self-designed mission · Strength log</span>
+    <h4>Log a moment this week you "used" your strength</h4>
+    <p>Recall one moment you drew on planning or simultaneous processing. Example: "In <span class="blank">&nbsp;</span>, I grasped the whole situation first, built a plan, and pulled off <span class="blank">&nbsp;</span>." Small counts. Strengths get sharper the more you name them.</p>
+  </div>
+
+  <div class="self-mission">
+    <span class="sm-tag">Self-designed mission · Strength-weakness pairing</span>
+    <h4>Pair a weak moment with one strength that could help</h4>
+    <p>Recall a moment you missed a step or a detail. Design, yourself, how one of your strengths (planning, simultaneous processing) could have helped. Example: "When I forgot <span class="blank">&nbsp;</span>, I used my planning strength to build my own <span class="blank">&nbsp;</span> checklist."</p>
+  </div>
+
+  <p class="sub" style="margin:14px 0 10px;">More concrete training missions continue in the Mission Board (section 11).</p>
+
+  <h4 style="margin:20px 0 4px;font-size:15px;color:var(--navy);">🧭 Coping in the Moment</h4>
+  <div class="diag-card">
+    <h4>When your mind goes blank during a test</h4>
+    <p class="sym"><b>This feeling is normal</b> Blanking out in front of the test paper after preparing hard is an anxiety response, not a sign you lack ability.</p>
+    <p class="rx"><b>Try this now</b> Put the pen down and take 3 deep breaths → switch order and solve the easiest question first → repeat "even if I don't finish everything, what I've done so far still counts."</p>
+  </div>
+  <div class="diag-card">
+    <h4>When a report card feels crushing</h4>
+    <p class="sym"><b>This feeling is normal</b> When effort doesn't seem to show up in the result, it's natural to feel deflated.</p>
+    <p class="rx"><b>Try this now</b> Reopen the Efficiency Diagnosis (section 03) and check which combination showed up this time. A grade isn't proof of a flaw — it's a clue pointing to the next combination to train.</p>
+  </div>
+  <div class="diag-card">
+    <h4>When comparing yourself to friends feels shrinking</h4>
+    <p class="sym"><b>This feeling is normal</b> Comparison is instinctive. The problem is picking the wrong thing to compare against.</p>
+    <p class="rx"><b>Try this now</b> Swap the comparison from "a friend" to "yourself last month." Your strengths (Planning 80%, Simultaneous 89%) belong to you, not to anyone else.</p>
+  </div>
+  <div class="diag-card">
+    <h4>When effort feels pointless and you want to quit</h4>
+    <p class="sym"><b>This feeling is normal</b> Areas like successive processing that improve slowly can feel exhausting because the progress is invisible.</p>
+    <p class="rx"><b>Try this now</b> Complete just one Easy-difficulty mission from the mission board. Not finishing everything — just starting — is what generates the next bit of momentum.</p>
+  </div>
+
+  <div class="tip-box" style="margin-top:14px;">💬 <b>If this feeling lasts more than 2 weeks</b> You don't have to carry it alone. Talk to whoever feels easiest — a parent, homeroom teacher, or school counselor. Just saying it out loud often makes the weight lighter.</div>`,
+matrix: `
+  <div class="eyebrow">06 · Career Aptitude · Study Plan</div>
+  <h2>Field-Fit Matrix</h2>
+  <p class="sub">Matches the PASS cognitive profile (Planning, Attention, Simultaneous, Successive) against the cognitive demands of 6 broad academic fields.</p>
+  <div class="combo-tag">🔗 This result reflects the [Planning × Simultaneous] strength combination from the Efficiency Diagnosis (section 03)</div>
+  <div class="card" style="margin-top:12px;"><div class="table-scroll"><table class="matrix">
+    <tr><th>Field</th><th>Fit</th><th>Key rationale</th></tr>
+    <tr><td>Engineering</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill top" style="width:86%"></div></div><span class="pct top">86%</span></div></td><td>Structural design & problem-solving planning</td></tr>
+    <tr><td>Arts</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill top" style="width:81%"></div></div><span class="pct top">81%</span></div></td><td>Intuitive synthesis & creative expression</td></tr>
+    <tr><td>Natural Sciences</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:68%"></div></div><span class="pct">68%</span></div></td><td>Hypothesis-testing planning</td></tr>
+    <tr><td>Social Sciences</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:64%"></div></div><span class="pct">64%</span></div></td><td>Contextual synthesis & persuasion strategy</td></tr>
+    <tr><td>Humanities</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:52%"></div></div><span class="pct">52%</span></div></td><td>Sequential argumentation needs some work</td></tr>
+    <tr><td>Medicine/Health</td><td><div class="fit-bar-row"><div class="fit-bar-track"><div class="fit-bar-fill" style="width:47%"></div></div><span class="pct">47%</span></div></td><td>Precise, repeated-procedure training needed</td></tr>
+  </table></div></div>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">How this is calculated</h4><p style="margin:0;font-size:13.5px;color:var(--muted);">Each field's weighting of the 4 cognitive domains (based on real academic/job demands) is multiplied by Jihoon's accuracy rates and normalized. For example, Engineering weights planning and simultaneous processing heavily, aligning well with Jihoon's strengths.</p></div>`,
+dept: `
+  <h2>Top 5 Recommended Majors</h2>
+  <p class="sub">See why each major fits, backed by the cognitive profile.</p>
+  <div class="dept-card"><div class="rank">RANK 1 · Fit 86%</div><h4>Mechanical Engineering / Industrial Design Engineering</h4><p>Grasping the overall structure via simultaneous processing and designing detailed steps via planning maps directly onto engineering design, which synthesizes part-to-part relationships into one working system.</p><div class="combo-tag" style="margin-top:8px;">🔗 Efficiency Diagnosis ① [Planning × Successive] pattern — building a design-verification habit early becomes a real edge in this major</div></div>
+  <div class="dept-card"><div class="rank">RANK 2 · Fit 84%</div><h4>Visual Design / Spatial Design</h4><p>The dominant combination of intuitively picturing the whole and methodically realizing it shows up as strength in design majors that turn concepts into finished work.</p></div>
+  <div class="dept-card"><div class="rank">RANK 3 · Fit 79%</div><h4>Business Administration (Startup/Strategy Track)</h4><p>Planning strength for structuring ideas into business plans, combined with simultaneous-processing strength for reading market situations, connects to new-business planning capability.</p></div>
+  <div class="dept-card"><div class="rank">RANK 4 · Fit 74%</div><h4>Computer Science (Software/Game Track)</h4><p>Simultaneous-processing thinking that draws the whole system first is advantageous for architecture design. Pairing this with debugging/code-review habits helps strengthen successive processing.</p></div>
+  <div class="dept-card"><div class="rank">RANK 5 · Fit 70%</div><h4>Film & Media Content</h4><p>Conceiving the full narrative first, then planning and executing shooting/editing, fits well with this strength combination.</p></div>`,
+credit: `
+  <h2>High-School Credit System Elective Guide</h2>
+  <p class="sub">Priority electives that give an edge toward the recommended majors.</p>
+  <div class="card"><div class="table-scroll"><table class="subject-table">
+    <tr><th>Area</th><th>Recommended electives</th><th>Why</th></tr>
+    <tr><td>Math</td><td>Geometry, Calculus II, AI Mathematics</td><td>Core reasoning foundation for engineering/design</td></tr>
+    <tr><td>Science</td><td>Physics I & II, Integrated Science Inquiry</td><td>Basis for structural/system understanding & design</td></tr>
+    <tr><td>Tech/Info</td><td>Informatics, Data Science, AI Fundamentals</td><td>Turns simultaneous-processing strength into applied skill</td></tr>
+    <tr><td>Career elective</td><td>Creative Management, Project-based elective</td><td>Exercises planning strength + trains successive processing</td></tr>
+  </table></div></div>`,
+jobs: `
+  <h2>Career Preview by Major</h2>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">Engineering & Design</h4>
+  <div class="job-strip"><span class="job-pill">Product Designer</span><span class="job-pill">UX/UI Engineer</span><span class="job-pill">3D Printing Specialist</span><span class="job-pill">Metaverse Creator</span></div></div>
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">Business & Planning</h4>
+  <div class="job-strip"><span class="job-pill">New-Business Idea Consultant</span><span class="job-pill">Data Visualization Designer</span><span class="job-pill">Convergent Culture Planner</span></div></div>`,
+maturity: `
+  <div class="eyebrow">07 · Self-Check</div>
+  <h2>Career Decision Readiness Check</h2>
+  <p class="sub">A quick self-check based on the concept of career maturity. Mark what applies.</p>
+  <div class="card">
+    <div class="check-item"><input type="checkbox"><label>I can describe specifically what I'm good at and what I enjoy<span class="scale">Self-understanding</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>I've recently looked up information on a major/career I'm interested in<span class="scale">Info-seeking</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>I've compared multiple options before when deciding on a path<span class="scale">Decision-making</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>I've set a small, doable plan toward a goal<span class="scale">Planning & action</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Even when career worries come up, I lean toward solving rather than just worrying<span class="scale">Attitude</span></label></div>
+  </div>
+  <p class="sub">More checks mean higher career-decision readiness.</p>
+  <div class="interpret-band"><div class="band low"><b>0–1</b>Starting to<br>explore</div><div class="band mid"><b>2–3</b>Exploration<br>in progress</div><div class="band high"><b>4–5</b>Ready to<br>decide</div></div>
+
+  <div class="card" style="margin-top:12px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🌱 If "I don't even know what I like yet"</h4>
+    <p style="margin:0 0 10px;font-size:13.5px;color:var(--muted);">A 0–1 score is completely fine. You don't need to decide a career path right now. Try starting here instead.</p>
+    <ol class="steps" style="margin:0;">
+      <li><b>Try one unfamiliar thing a week</b>Pick the major from the recommended list that appeals to you least, and watch just a 10-minute video about it</li>
+      <li><b>Start with a "dislikes" list</b>If you don't know what you like, listing what you dislike first narrows the field</li>
+      <li><b>Start with the mission board</b>You don't need a career plan to start the strength-based missions on the board today</li>
+    </ol>
+  </div>`,
+learning: `
+  <div class="eyebrow">08 · Strength-Based Study Plan</div>
+  <h2>Subject & Routine Strategies</h2>
+  <p class="sub">Leverage simultaneous processing and planning strengths, while building successive processing and sustained attention through short, structured routines.</p>
+
+  <div class="card"><div class="table-scroll"><table class="subject-table">
+    <tr><th>Subject</th><th>Strategy</th></tr>
+    <tr><td>Language/Reading</td><td>Map the whole structure first with a table of contents or mind map, then read closely. Writing your own section-by-section summary headings strengthens the whole-to-part connection.<br><b>Recommended reading</b> Mystery/detective fiction (structured narrative), biographies (planner-executor figures)</td></tr>
+    <tr><td>Math</td><td>A strategy notebook — writing a one-line "approach" for each problem type — plays to this strength. Sort your error log by "which step got skipped" to train successive processing at the same time.<br><b>3-step double-check</b> ① recalculate ② verify with the inverse operation ③ compare against an estimate</td></tr>
+    <tr><td>English/Foreign Language</td><td>One focused 20-minute block beats short, frequent sessions. For listening, take in the whole passage first (using simultaneous-processing strength), then check details against the script. Vocabulary sticks better learned in story context than as isolated words.</td></tr>
+    <tr><td>Science/Inquiry</td><td>Strength shows strongly in experiment/project-based learning — design your own hypothesis → plan → execute → analyze cycle. Always keep the procedure checklist (below) beside you when writing lab reports.</td></tr>
+  </table></div></div>
+
+  <div class="card" style="margin-top:10px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📅 Sample Weekly Routine</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>Day</th><th>Focus block (25–50 min)</th><th>Sequencing practice (15 min)</th></tr>
+      <tr><td>Mon</td><td>Math strategy notebook</td><td>Write today's to-do order</td></tr>
+      <tr><td>Tue</td><td>English listening immersion</td><td>Double-check card practice</td></tr>
+      <tr><td>Wed</td><td>Inquiry experiment/project</td><td>Lab-report order card</td></tr>
+      <tr><td>Thu</td><td>Close reading & summary notes</td><td>Sort error log by step skipped</td></tr>
+      <tr><td>Fri</td><td>Self-directed project time</td><td>Weekly goal review</td></tr>
+    </table></div>
+    <p class="sub" style="margin:8px 0 0;">※ Sample only — adjust around actual school/academy schedules alongside the mission board.</p>
+  </div>
+
+  <div class="two-col">
+    <div class="mini"><h4>⏱️ Focus Routine A — Task-based</h4><p>25 min focus + 5 min break (mini pomodoro). Good for clearly bounded work like homework or problem sets.</p></div>
+    <div class="mini"><h4>⏱️ Focus Routine B — Project-based</h4><p>50 min focus + 10 min break (deep work). Good for planning, writing, or experiments where breaking flow costs momentum.</p></div>
+  </div>
+
+  <div class="card" style="margin-top:10px;">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">✅ 3 Procedure Checklist Cards</h4>
+    <div class="table-scroll"><table class="subject-table">
+      <tr><th>Card</th><th>Check order</th></tr>
+      <tr><td>Math double-check card</td><td>① read the problem ② write the solving order ③ calculate ④ double-check (recalculate · inverse operation · compare to estimate)</td></tr>
+      <tr><td>Lab report card</td><td>① write hypothesis ② list materials/procedure ③ execute & record ④ analyze results ⑤ conclusion + limitations</td></tr>
+      <tr><td>Essay/personal-statement card</td><td>① fix the core message in one line ② draft using STAR structure ③ fill in with a specific example ④ read aloud and check flow</td></tr>
+    </table></div>
+  </div>
+
+  <div class="card"><h4 style="margin:0 0 6px;font-size:13.5px;color:var(--navy);">🧠 Why this fits me (the neuroscience)</h4><p style="margin:0;font-size:13.5px;color:var(--muted);">Planning is closely tied to the prefrontal cortex, which handles goal-setting, self-regulation, and time management, and strengthens through repeated real-world practice. Successive processing is closely related to working memory — holding and ordering verbal/auditory information — a function known to keep developing through training into the mid-20s. In other words, today's lower successive-processing score isn't a fixed ceiling; it's an area that can meaningfully improve with short, repeated procedural practice.</p></div>
+
+  <div class="card"><h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">💬 Self-talk scripts</h4>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>When a plan falls apart</b> — "This is just new information. Let's re-plan."</p>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>When a step gets skipped</b> — "Can I explain to myself what order I did this in?"</p>
+    <p style="margin:0 0 8px;font-size:13.5px;"><b>When comparison triggers a slump</b> — "The comparison isn't with someone else — it's with me last month."</p>
+    <p style="margin:0;font-size:13.5px;"><b>The night before an exam</b> — "Trust the plan already made. Tonight is for review and rest."</p>
+  </div>`,
+mission: `
+  <div class="eyebrow">09 · Mission Board</div>
+  <h2>Missions That Train Weaknesses Using Strengths</h2>
+  <p class="sub">Using planning and simultaneous-processing strengths as leverage to progressively train successive processing and sustained attention.</p>
+  <div class="mission-card"><span class="diff low">Easy</span><h4>Cook a recipe in the exact order</h4><p>A classic sequential activity where following the exact order produces the result. Photograph each step from prep to plating.</p><span class="xp">+30 XP</span> <span class="link-skill">· Successive-processing training</span></div>
+  <div class="mission-card"><span class="diff mid">Medium</span><h4>Clear a 3-step Tower of Hanoi</h4><p>A step-based logic puzzle. Use planning to sketch the whole sequence first, then execute it one step at a time in order.</p><span class="xp">+50 XP</span> <span class="link-skill">· Successive + planning bridge</span></div>
+  <div class="mission-card"><span class="diff mid">Medium</span><h4>Complete five 25-minute focus timers</h4><p>Connects strong simultaneous processing and planning to study endurance. Full focus for 25 minutes, no distractions, then a free 5-minute break.</p><span class="xp">+40 XP</span> <span class="link-skill">· Sustained-attention training</span></div>
+  <div class="mission-card"><span class="diff high">Hard</span><h4>Design and complete a 3-stage project solo</h4><p>The big picture — plan → build an execution plan → execute in stages — draws on strengths (planning, simultaneous processing), while completing every stage in exact order naturally trains successive processing. Example: take one contest entry from concept to submission on your own.</p><span class="xp">+100 XP</span> <span class="link-skill">· Combined strength + growth training</span></div>`,
+selfcheck: `
+  <div class="eyebrow">10 · Growth Points</div>
+  <h2>My Weekly Growth Checklist</h2>
+  <p class="sub">Check off what you practiced this week. Repeating weekly turns it into a habit.</p>
+  <div class="card">
+    <div class="check-item"><input type="checkbox" checked><label>Wrote down 3 things to do today, in order<span class="scale">Successive-processing practice</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Wrote the task order in one line before starting<span class="scale">Planning → successive link</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Studied in 25-min focus + 5-min break blocks<span class="scale">Sustained attention</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Adjusted after a plan fell through<span class="scale">Adaptability</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Completed at least 1 mission from the mission board<span class="scale">Integrated training</span></label></div>
+  </div>
+  <div class="interpret-band"><div class="band low"><b>0–1</b>Ease into<br>this week</div><div class="band mid"><b>2–3</b>Routine is<br>forming</div><div class="band high"><b>4–5</b>Routine fully<br>in place</div></div>
+  <ol class="steps" style="margin-top:16px;">
+    <li><b>Step 1 · Confirm strengths (now–1 mo)</b>Record and put into words the planning/execution activities already going well</li>
+    <li><b>Step 2 · Expand strengths (1–3 mo)</b>Take on a new project (contest, club initiative) that lets planning strength shine</li>
+    <li><b>Step 3 · Ongoing training</b>Use sequential checklists to train procedural tasks in short, repeated sessions</li>
+  </ol>
+
+  <div class="track-teaser">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,17 10,11 14,15 20,7"/><polyline points="14,7 20,7 20,13"/></svg></span>This Isn't a One-Time Label</h4>
+    <div class="dots"><div class="dot now"></div><div class="dot next"></div></div>
+    <p>Retesting in 12–18 months lets you track how today's 4 learning-bottleneck combinations actually shift — as a <b>combination change</b>, not just a new score. Use this as an ongoing improvement tool, not a one-time report card.</p>
+  </div>
+
+  <div class="footer-cta"><b>🦊 Go to Cognitive Training Home</b><span>Custom missions and a study planner to grow strengths and fill in gaps</span></div>`,
+parent: `
+  <div class="eyebrow">11 · For Parents</div>
+  <h2>A Summary to Read Together</h2>
+  <p class="sub">Read this with your teen, or on your own — either way, use it as a reference.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">📋 One-Page Summary</h4>
+    <p style="margin:0;font-size:13px;">Jihoon has a notably strong ability to grasp the big picture quickly and turn it into a plan of action. Where a bit more conscious training helps is following a plan through to completion, step by step. This isn't a deficiency — it's simply where things stand right now, and it's an area that can keep improving steadily with training into the mid-20s. The more often you help Jihoon put moments of using a strength into words, the easier it becomes to work on the growth areas too.</p>
+  </div>
+
+  <div class="doc-card">
+    <span class="doc-tag">When a grade drops</span>
+    <p class="body">Instead of "Why did you only get this?" — try "What part was hard this time? Was there a spot where the plan didn't work out?"</p>
+    <p class="tip"><b>Tip</b> Asking about process before result helps a teen build their own ability to analyze causes.</p>
+  </div>
+  <div class="doc-card">
+    <span class="doc-tag">When a plan falls apart</span>
+    <p class="body">Instead of "Well, why did you plan it that way?" — try "A changed plan is just new information. Want to rebuild it together?"</p>
+    <p class="tip"><b>Tip</b> Treat revising a plan as a normal part of the process, not a failure.</p>
+  </div>
+  <div class="doc-card">
+    <span class="doc-tag">When you feel the urge to compare (for yourself)</span>
+    <p class="body">When a thought like "the neighbor's kid is already doing two more academies" comes up — swap the comparison from "another kid" to "your own child 6 months ago."</p>
+    <p class="tip"><b>Tip</b> Tracking growth together (the combination change at retest) makes this shift much easier.</p>
+  </div>
+
+  <div class="recommend-box">
+    <h4><span class="icon-badge" style="color:var(--blue-deep)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4"/><path d="M12 17h.01"/><circle cx="12" cy="12" r="9"/></svg></span>Common Mistakes Other Parents Make</h4>
+    <ul>
+      <li>Increasing study load right after seeing the score — piling on even the strength areas can kill interest fast</li>
+      <li>Discussing results with a heavy, serious tone in front of the teen — kids pick up "I'm not good enough" from tone and expression before words</li>
+      <li>Treating one test result as fixed — areas like successive processing that respond to training can look quite different at the next test</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🏠 What Helps at Home</h4>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">Small and repeatable beats big and occasional. A simple "did you check your order list today?" or a specific "you're really good at planning" after something goes well is often enough. It's also worth reviewing the self-designed missions in the Emotional Support section (05) together.</p>
+  </div>`,
+admissions: `
+  <div class="eyebrow">12 · College-Bound Strategy</div>
+  <h2>Admissions Strategy</h2>
+  <p class="sub">From choosing an admissions track to interview prep, essay self-review, and an activity roadmap — connecting the cognitive profile directly to application prep.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🎯 Admissions Track Fit Guide</h4>
+    <div class="combo-tag">🔗 Efficiency Diagnosis ④ [Attention × Successive] pattern — this training matters most for standardized-test tracks</div>
+    <div class="track-card" style="margin-top:10px;"><div class="pctbox">#1</div><div class="txt"><h4>Holistic Admissions (activity/portfolio-based review)</h4><p>Simultaneous-processing and planning strengths show well in activity narratives and project-based evaluation. Preparing school records, personal statements, and activity lists in advance using the Application Toolkit above is a real advantage.</p></div></div>
+    <div class="track-card"><div class="pctbox">#2</div><div class="txt"><h4>Portfolio/audition tracks (design, engineering)</h4><p>Intuitive synthesis and execution ability work as strengths in portfolio and studio-based application components.</p></div></div>
+    <div class="track-card"><div class="pctbox">Note</div><div class="txt"><h4>Standardized-test-focused tracks</h4><p>Successive processing and sustained attention are relative growth areas, so sustained, repeated practice matters more here. Keeping up with the mission board's sequencing missions is especially important on this track.</p></div></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🎤 Likely Interview Questions & Strength-Based Answer Guide</h4>
+    <div class="interview-card"><div class="q2">Tell us about a strength of yours, with an example.</div><p class="a2">Prepare one story of seeing the whole picture first (simultaneous processing) and building a concrete plan (planning) to completion, structured in STAR format as a ~30-second answer.</p></div>
+    <div class="interview-card"><div class="q2">How did you overcome a difficult moment?</div><p class="a2">A moment where a step was missed due to weaker successive processing, followed by building your own checklist to overcome it, makes a compelling growth narrative.</p></div>
+    <div class="interview-card"><div class="q2">Why did you choose this major?</div><p class="a2">Reframe the cognitive rationale from the Field-Fit and Top Majors sections in your own words. Avoid citing scores directly — instead describe "how I think" as a person.</p></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">📝 Personal Statement Self-Review Checklist</h4>
+    <div class="check-item"><input type="checkbox"><label>Does the intro–body–conclusion flow logically in order?<span class="scale">Checks the successive-processing growth area</span></label></div>
+    <div class="check-item"><input type="checkbox"><label>Are there specific numbers/examples instead of vague phrases ("I worked hard")?</label></div>
+    <div class="check-item"><input type="checkbox"><label>Does each paragraph follow a STAR (Situation-Task-Action-Result) structure?</label></div>
+    <div class="check-item"><input type="checkbox"><label>Is it within the word/character limit (including time management)?</label></div>
+    <div class="check-item"><input type="checkbox"><label>Read aloud to catch awkward sentences and typos?</label></div>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:14px;color:var(--navy);">🗓️ Activity Preparation Roadmap</h4>
+    <ol class="steps">
+      <li><b>Now–2 months</b>Start one small project or contest related to a recommended major (linked to the mission board's "3-stage project" mission)</li>
+      <li><b>3–6 months</b>Log the results using the Application Toolkit templates while the experience is still fresh, drafting STAR paragraphs right away</li>
+      <li><b>7–12 months</b>Draft the personal statement → review 3+ times with the self-review checklist → incorporate teacher/mentor feedback</li>
+    </ol>
+  </div>`,
+expert: `
+  <div class="eyebrow">13 · Expert Data</div>
+  <h2>Detailed Data for Professionals</h2>
+  <p class="sub">No interpretation here — just the raw test indicators. Exactly how many items out of how many were answered correctly. ※ This report is based solely on individual item-accuracy rates, without peer-normed standardization data.</p>
+
+  <div class="card">
+    <h4 style="margin:0 0 8px;font-size:13.5px;color:var(--navy);">🧠 Brain-Type Summary</h4>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">Jihoon's brain type is <b>right-brain dominant (simultaneous-processing dominant)</b>. The accuracy gap between successive and simultaneous processing is large, indicating a simultaneous-processing-dominant learner.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:13.5px;color:var(--navy);">📊 Raw Scores by Subscale</h4>
+    <div class="table-scroll"><table class="raw-table">
+      <tr><th>Scale</th><th>Items</th><th>Valid correct</th><th>Accuracy</th><th>Rating</th></tr>
+      <tr><td>Planning</td><td>40</td><td>32</td><td>80%</td><td><span class="judge high">Relatively high</span></td></tr>
+      <tr><td>Attention</td><td>34</td><td>19</td><td>56%</td><td><span class="judge mid">Average range</span></td></tr>
+      <tr><td>Simultaneous</td><td>38</td><td>34</td><td>89%</td><td><span class="judge high">Relatively high</span></td></tr>
+      <tr><td>Successive</td><td>36</td><td>21</td><td>58%</td><td><span class="judge mid">Average range</span></td></tr>
+    </table></div>
+    <p class="sub" style="margin:10px 0 0;">※ "Valid correct" counts correct answers only among items actually completed in time — unanswered or timed-out items are excluded from the denominator. "Rating" reflects Jihoon's own accuracy across the 4 domains relative to each other, not a comparison against other test-takers.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 4px;font-size:13.5px;color:var(--navy);">⚖️ Learning-Type Judgment — Successive vs. Simultaneous</h4>
+    <p class="sub" style="margin-bottom:4px;">Comparing the accuracy gap between the two abilities determines the dominant processing type.</p>
+    <div class="ds-compare">
+      <div class="ds-circle suc"><b>58%</b><span>Successive</span></div>
+      <div class="ds-mid"><b>31pp</b>Accuracy gap</div>
+      <div class="ds-circle sim"><b>89%</b><span>Simultaneous</span></div>
+    </div>
+    <p style="margin:0;font-size:13.5px;color:var(--ink);">The accuracy gap between successive and simultaneous processing is 31 percentage points, indicating a <b>simultaneous-processing-dominant learner</b>. Integrating information as a whole shows relatively higher accuracy than processing it step by step.</p>
+  </div>
+
+  <div class="card">
+    <h4 style="margin:0 0 10px;font-size:13.5px;color:var(--navy);">📋 Test Administration Info</h4>
+    <div class="test-info-row">
+      <div><b>148</b><span>Total items</span></div>
+      <div><b>~55 min</b><span>Test duration</span></div>
+      <div><b>94%</b><span>Valid response rate</span></div>
+      <div><b>Aug 23, 2026</b><span>Test date</span></div>
+    </div>
+    <p class="sub" style="margin:10px 0 0;">D-CAS reports results based on the individual's item-accuracy rate, without peer-normed standardization data. When the gap between the 4 subscales is large, interpreting the subscale profile is recommended over an overall average.</p>
+  </div>`,
+faq: `
+  <div class="eyebrow">14 · FAQ</div>
+  <h2>Frequently Asked Questions</h2>
+  <div class="card">
+    <div class="faq-item"><div class="q">I'm worried successive processing came out low. Will it stay that way?</div><p class="a">No. Successive processing can keep improving with training well into the early 20s. Working through the mission board's sequencing missions little by little can meaningfully improve it.</p></div>
+    <div class="faq-item"><div class="q">When should I retest?</div><p class="a">Generally every 12–18 months is recommended. Cognitive profiles keep developing during this growth stage, so it's worth tracking how successive processing changes at the next test.</p></div>
+    <div class="faq-item"><div class="q">Can I share this with my homeroom or career-counseling teacher?</div><p class="a">Yes, that's recommended. The "Study Plan" and "Elective Guide" chapters in particular can help with subject selection and school-record notes.</p></div>
+    <div class="faq-item"><div class="q">Should I rule out fields with a low fit score?</div><p class="a">No. Fit is a reference indicator of how well a field matches the current cognitive profile — not a hard limit. If your interest is strong, you can pursue it while pairing it with the growth-training missions.</p></div>
+  </div>`,
+about: `
+  <div class="eyebrow">15 · About the Test</div>
+  <h2>About D-CAS</h2>
+  <p class="sub">A digital cognitive assessment for teens and adults, based on PASS theory.</p>
+
+  <div class="about-card">
+    <h4>Theoretical Background</h4>
+    <p>PASS theory is a cognitive-processing framework built on the work of Soviet neuropsychologist Alexander Luria and formalized by Das, Naglieri, and Kirby (1994). Rather than reducing intelligence to a single number (IQ), it reconceptualizes it as 4 interconnected cognitive processes — Planning, Attention, Simultaneous, and Successive processing. D-CAS measures fluid intelligence based on this theory.</p>
+  </div>
+
+  <div class="about-card">
+    <h4>The 4 Cognitive Processes</h4>
+    <p><b>Successive</b> — Integrating stimuli in a specific order, in a chain-like structure where each element links only to the one before it. Involved in organizing language sequentially and executing procedures step by step.<br><br>
+    <b>Simultaneous</b> — Integrating scattered stimuli into one coherent whole, with strong spatial and logico-grammatical components. Involved in perceiving parts as a unified form and synthesizing complex relationships.<br><br>
+    <b>Planning</b> — Deciding, selecting, applying, and evaluating in order to solve a problem. Includes goal-setting, strategy formation, self-monitoring, and impulse control.<br><br>
+    <b>Attention</b> — Selectively focusing on specific stimuli, inhibiting responses to distracting ones, and sustaining that focus for as long as needed.</p>
+  </div>
+
+  <div class="about-card">
+    <h4>Test Structure</h4>
+    <p>D-CAS consists of a Full Scale score and 4 PASS subscales (Planning, Attention, Simultaneous, Successive). This report does not use peer-normed standardization data — results are based on the individual's item-accuracy rate. When the gap between subscales is large, interpreting the subscale profile is recommended over the Full Scale score — which is exactly why this report centers on the combination of the 4 domains, as in the "Efficiency Diagnosis" section, rather than a single number.</p>
+    <div class="expert-quad">
+      <div><span class="ico">🎯</span><b>Achievement prediction</b>Predicts likelihood of academic success/struggle from scale scores</div>
+      <div><span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polygon points="15,9 11,11 9,15 13,13" fill="currentColor" stroke="none"/></svg></span><b>Career aptitude</b>Diagnoses field/job fit based on the cognitive profile</div>
+      <div><span class="ico">🧩</span><b>Efficiency diagnosis</b>Pinpoints the structural cause of stalled grades via axis combinations</div>
+      <div><span class="ico">🌟</span><b>Giftedness & strengths</b>Surfaces strengths that traditional tests often miss</div>
+    </div>
+  </div>
+
+  <div class="about-card">
+    <h4>How This Differs from Traditional Intelligence/Aptitude Tests</h4>
+    <p>✓ <b>Low reliance on acquired knowledge</b> — measures the processing mechanism itself rather than learned content, reducing the influence of prior schooling or cultural background<br>
+    ✓ <b>Digital-native assessment</b> — reduces test-taking burden versus paper-and-pencil formats while measuring performance under standardized conditions<br>
+    ✓ <b>Interprets domain combinations, not a single score</b> — instead of one IQ number, explains the structural cause of learning bottlenecks through axis combinations<br>
+    ✓ <b>Broad range of use</b> — covers achievement prediction, career aptitude, study design, and giftedness assessment in a single test</p>
+  </div>
+
+  <div class="advisor-card">
+    <div class="av">M</div>
+    <div class="txt"><b>Prof. Moon Soo-back, Ph.D. · Director, FeelGood EduTech Psychological Assessment Standardization Institute</b>
+    <p>An academic authority who has led standardization research for major cognitive assessments used in Korea — including the Korean KABC-II, DTVP-II/III, CAS, and KBIT-II — provides the scientific oversight behind D-CAS.</p></div>
+  </div>`
+}
+};
+
+let currentLang = 'ko';
+
+let currentIndex = 0;
+
+function buildTocHTML(){
+  const labels = NAV[currentLang];
+  const g = GROUP_LABEL[currentLang];
+  let html = '';
+  SECTION_IDS.forEach((id,i)=>{
+    if(i===0) html += `<div class="toc-group-label">${g.essential}</div>`;
+    if(i===ESSENTIAL_COUNT) html += `<div class="toc-group-label">${g.advanced}</div>`;
+    const cur = i===currentIndex ? ' current' : '';
+    html += `<button class="toc-item${cur}" data-idx="${i}"><span class="num">${i+1}</span><span class="label">${labels[i]}</span></button>`;
+  });
+  return html;
+}
+
+function renderToc(){
+  const html = buildTocHTML();
+  document.getElementById('tocList').innerHTML = html;
+  document.getElementById('sidebarList').innerHTML = html;
+  document.getElementById('tocTitle').textContent = TOC_TITLE[currentLang];
+}
+
+function render(){
+  document.getElementById('t-brand').textContent = HEADER[currentLang].brand;
+  document.getElementById('t-title').textContent = HEADER[currentLang].title;
+  document.getElementById('t-meta').textContent = HEADER[currentLang].meta;
+  document.getElementById('langLabel').textContent = HEADER[currentLang].lang;
+  document.getElementById('pdfLabel').textContent = HEADER[currentLang].pdf;
+  document.getElementById('t-footnote').textContent = HEADER[currentLang].foot;
+  document.getElementById('coverArea').innerHTML = COVER[currentLang];
+  document.documentElement.lang = currentLang;
+
+  Object.keys(SECTIONS[currentLang]).forEach(key=>{
+    document.getElementById(key).innerHTML = SECTIONS[currentLang][key];
+  });
+
+  renderToc();
+  updateStepper();
+
+  document.getElementById('opt-ko').classList.toggle('on', currentLang==='ko');
+  document.getElementById('opt-en').classList.toggle('on', currentLang==='en');
+}
+
+function setLang(lang){
+  currentLang = lang;
+  render();
+  document.getElementById('langMenu').classList.remove('open');
+}
+
+function updateStepper(){
+  document.getElementById('stepCount').textContent = (currentIndex+1)+'/'+SECTION_IDS.length;
+  document.getElementById('stepLabel').textContent = NAV[currentLang][currentIndex];
+  document.getElementById('prevBtn').disabled = currentIndex===0;
+  document.getElementById('nextBtn').disabled = currentIndex===SECTION_IDS.length-1;
+  document.getElementById('stepperProgressFill').style.width = (((currentIndex+1)/SECTION_IDS.length)*100)+'%';
+}
+
+/* Swipe left/right on the report body to move between sections (mobile) */
+(function(){
+  let touchStartX=0, touchStartY=0, touchActive=false;
+  const swipeArea = document.getElementById('pdfArea');
+  if(!swipeArea) return;
+  swipeArea.addEventListener('touchstart', function(e){
+    if(e.touches.length!==1) return;
+    touchStartX = e.touches[0].clientX;
+    touchStartY = e.touches[0].clientY;
+    touchActive = true;
+  }, {passive:true});
+  swipeArea.addEventListener('touchend', function(e){
+    if(!touchActive) return;
+    touchActive = false;
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    if(Math.abs(dx) > 56 && Math.abs(dx) > Math.abs(dy)*1.4){
+      if(dx < 0) showSection(currentIndex+1); else showSection(currentIndex-1);
+    }
+  }, {passive:true});
+})();
+
+function showSection(idx){
+  if(idx<0 || idx>=SECTION_IDS.length) return;
+  currentIndex = idx;
+  document.querySelectorAll('#pdfArea > section').forEach(s=>s.classList.remove('active'));
+  const target = document.getElementById(SECTION_IDS[idx]);
+  if(target) target.classList.add('active');
+  updateStepper();
+  renderToc();
+  closeToc();
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function openToc(){ document.getElementById('tocOverlay').classList.add('open'); }
+function closeToc(){ document.getElementById('tocOverlay').classList.remove('open'); }
+
+document.getElementById('tocOpenBtn').addEventListener('click', openToc);
+document.getElementById('tocCloseBtn').addEventListener('click', closeToc);
+document.getElementById('tocOverlay').addEventListener('click', function(e){
+  if(e.target.id==='tocOverlay') closeToc();
+});
+document.getElementById('prevBtn').addEventListener('click', ()=>showSection(currentIndex-1));
+document.getElementById('nextBtn').addEventListener('click', ()=>showSection(currentIndex+1));
+
+document.getElementById('tocList').addEventListener('click', function(e){
+  const item = e.target.closest('.toc-item');
+  if(!item) return;
+  showSection(parseInt(item.dataset.idx,10));
+});
+document.getElementById('sidebarList').addEventListener('click', function(e){
+  const item = e.target.closest('.toc-item');
+  if(!item) return;
+  showSection(parseInt(item.dataset.idx,10));
+});
+
+function downloadPdf(){
+  const wrap = document.getElementById('reportRoot');
+  const fname = (currentLang==='ko' ? '이지훈_D-CAS_결과지' : 'Jihoon-Lee_D-CAS_Report') + '.pdf';
+  wrap.classList.add('pdf-mode');
+  html2pdf().set({
+    margin:10,
+    filename:fname,
+    image:{type:'jpeg', quality:0.98},
+    html2canvas:{scale:2, useCORS:true},
+    jsPDF:{unit:'mm', format:'a4', orientation:'portrait'},
+    pagebreak:{mode:['css','legacy']}
+  }).from(wrap).save().then(()=>{
+    wrap.classList.remove('pdf-mode');
+  }).catch(()=>{
+    wrap.classList.remove('pdf-mode');
+  });
+}
+
+document.addEventListener('click', function(e){
+  if(!e.target.closest('.lang-switch')) document.getElementById('langMenu').classList.remove('open');
+});
+
+render();
+</script>
+</body>
+</html>
