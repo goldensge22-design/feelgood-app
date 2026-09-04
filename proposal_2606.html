@@ -497,9 +497,9 @@ table.cmp tr:nth-child(even) td{ background:#F8FAFC; }
     </div>
     <div class="grid g4" style="margin-top:18px;">
       <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);" data-i18n="sf_p1_b">81유형</b> <span data-i18n="sf_p1_t">PASS 4요소 조합 분류</span></div>
-      <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);">SS·백분위</b> <span data-i18n="sf_p2_t">규준집단 기반 표준점수</span></div>
+      <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);" data-i18n="sf_p2_b">SS·백분위</b> <span data-i18n="sf_p2_t">규준집단 기반 표준점수</span></div>
       <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);" data-i18n="sf_p3_b">비언어</b> <span data-i18n="sf_p3_t">다문화·언어장벽 영향 최소화</span></div>
-      <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);">15~25분</b> <span data-i18n="sf_p4_t">학급 단위 동시 시행</span></div>
+      <div class="pill" style="background:var(--navy);padding:12px;text-align:center;"><b style="color:var(--gold);" data-i18n="sf_p4_b">15~25분</b> <span data-i18n="sf_p4_t">학급 단위 동시 시행</span></div>
     </div>
     <p class="footnote" data-i18n="sf_foot">Source: Das &amp; Naglieri (1997) CAS Interpretive Handbook; Qin et al. (2018) BMC Psychiatry — DN:CAS ADHD 진단 타당도 연구 (n=275)</p>
   </div>
@@ -813,21 +813,21 @@ table.cmp tr:nth-child(even) td{ background:#F8FAFC; }
     <div class="grid g3">
       <div class="team-card">
         <div class="team-head" style="background:var(--mint);color:var(--navy);">CEO</div>
-        <div class="team-avatar" style="background:var(--mint);">임</div>
+        <div class="team-avatar" style="background:var(--mint);" data-i18n="tm_1_av">임</div>
         <div class="team-name" data-i18n="tm_1_name">임유하 / Lim Yu-ha</div>
         <div class="team-role" data-i18n="tm_1_role">경영 총괄 및 비즈니스 전략</div>
         <div class="team-detail" data-i18n="tm_1_detail">교육 사업 운영 20년<br>대학 교육 캠프 기획 및 운영<br>동아대학교 무역학과 졸</div>
       </div>
       <div class="team-card">
         <div class="team-head" style="background:var(--teal2);">CTO</div>
-        <div class="team-avatar" style="background:var(--teal2);">박</div>
+        <div class="team-avatar" style="background:var(--teal2);" data-i18n="tm_2_av">박</div>
         <div class="team-name" data-i18n="tm_2_name">박종건 / Park Jong-gun</div>
         <div class="team-role" data-i18n="tm_2_role">플랫폼 개발 및 AI 연구 총괄</div>
         <div class="team-detail" data-i18n="tm_2_detail">VR 소프트웨어 및 시스템 개발<br>반도체 공정 프로그램 개발<br>지엔넷·소프트디바이스 팀장</div>
       </div>
       <div class="team-card">
         <div class="team-head" style="background:var(--purple);">Advisor</div>
-        <div class="team-avatar" style="background:var(--purple);">문</div>
+        <div class="team-avatar" style="background:var(--purple);" data-i18n="tm_3_av">문</div>
         <div class="team-name" data-i18n="tm_3_name">문수백 Ph.D.</div>
         <div class="team-role" data-i18n="tm_3_role">심리표준화 연구소장</div>
         <div class="team-detail" data-i18n="tm_3_detail">美 Univ. of Alabama 심리측정학 박사<br>카우프만 검사 국내 도입 권위자<br>과학 자문 및 표준화 연구 주도</div>
@@ -980,6 +980,9 @@ const translations = {
     sf_c2_h: "🧠 한국의 유일한 게임형 표준화 지능검사",
     sf_c2_p: "개인 임상검사(웩슬러·CAS)는 1:1 대면·전문가 필수라 <b style=\"color:var(--teal);\">전수검사가 원천적으로 불가능</b>합니다. K-PASS는 40년 표준화 데이터(SS·백분위)를 갖춘 검사 중 유일하게 <b style=\"color:var(--teal);\">비언어 게임형·학급단위 동시시행</b>이 가능한 한국 표준화 검사입니다.",
     sf_p1_b: "81유형", sf_p1_t: "PASS 4요소 조합 분류",
+    sf_p2_b: "SS·백분위",
+    sf_p4_b: "15~25분",
+    tm_1_av: "임", tm_2_av: "박", tm_3_av: "문",
     sf_p2_t: "규준집단 기반 표준점수",
     sf_p3_b: "비언어", sf_p3_t: "다문화·언어장벽 영향 최소화",
     sf_p4_t: "학급 단위 동시 시행",
@@ -1226,6 +1229,9 @@ const translations = {
     sf_c2_h: "🧠 Korea's Only Game-Based Standardized Intelligence Test",
     sf_c2_p: "Individual clinical tests (Wechsler, CAS) require 1:1 in-person administration and experts, so <b style=\"color:var(--teal);\">full-population testing is fundamentally impossible</b>. Among tests with 40 years of standardization data (SS & percentile), K-PASS is the only Korean standardized test that enables <b style=\"color:var(--teal);\">non-verbal, game-based, class-wide simultaneous administration</b>.",
     sf_p1_b: "81 Types", sf_p1_t: "Classification by combinations of the 4 PASS factors",
+    sf_p2_b: "SS · Percentile",
+    sf_p4_b: "15–25 min",
+    tm_1_av: "L", tm_2_av: "P", tm_3_av: "M",
     sf_p2_t: "Standard scores based on norm groups",
     sf_p3_b: "Non-Verbal", sf_p3_t: "Minimizes impact of culture & language barriers",
     sf_p4_t: "Class-wide simultaneous administration",
