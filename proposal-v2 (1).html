@@ -4878,6 +4878,16 @@ const LANG_NAMES = {
 // RTL(오른쪽→왼쪽) 표기 언어
 const RTL_LANGS = ['ar', 'he', 'fa', 'ur'];
 
+// 결과지(백엔드)가 지원하는 언어. 제안서 언어에 맞춰 체험 결과지도 해당 언어로 열리게 한다.
+const REPORT_LANGS = ['ko','en','th','vi','ru','ar','es','zh','ja','it','mn','az'];
+function updateReportLinks(lang) {
+  const rl = REPORT_LANGS.indexOf(lang) >= 0 ? lang : 'en';
+  document.querySelectorAll('a.rscan').forEach(a => {
+    if (!a.dataset.reportBase) a.dataset.reportBase = a.href.split('?')[0];
+    a.href = a.dataset.reportBase + '?lang=' + rl;
+  });
+}
+
 let currentLang = localStorage.getItem('fg_lang') || 'ko';
 if (!LANG[currentLang]) currentLang = availableLangs()[0] || 'ko';
 
@@ -4913,6 +4923,7 @@ function setLang(lang) {
   if (sel) sel.value = lang;
   applyKoOnly(lang);
   updateVideos(lang);
+  updateReportLinks(lang);
 }
 
 // 기관 탭(교육기관/기업/군경찰)도 다국어 처리되어 모든 언어에서 노출한다.
