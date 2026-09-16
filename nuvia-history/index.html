@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+<title>Nuvia History — 2.5D 역사 학습 게임</title>
+<style>
+  :root{
+    --navy:#152241;
+    --charcoal:#2b2f3a;
+    --blue:#2E6BFF;
+    --blue-dark:#1E4FD6;
+    --blue-pale:#E7EEFF;
+    --orange:#FF7A29;
+    --orange-dark:#E05F0F;
+    --orange-pale:#FFE7D6;
+    --purple:#7C5CFF;
+    --purple-pale:#EFE9FF;
+    --green:#22A366;
+    --green-pale:#E1F6EC;
+    --bg:#EEF2FB;
+    --bg-cool:#E6EAF5;
+    --card:#FFFFFF;
+    --ink:#152241;
+    --ink-soft:#4B5470;
+    --line:#D8DEEF;
+    --radius-lg:20px;
+    --radius-md:16px;
+    --radius-sm:12px;
+    --shadow-up:0 1px 0 rgba(255,255,255,.7) inset;
+    --shadow-card: 0 1px 2px rgba(21,34,65,.06), 0 8px 20px rgba(21,34,65,.08);
+    --shadow-card-hover: 0 2px 4px rgba(21,34,65,.08), 0 14px 28px rgba(21,34,65,.14);
+    --focus: 0 0 0 3px rgba(46,107,255,.45);
+    --dur:240ms;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(1200px 600px at 10% -10%, #F3F6FF 0%, transparent 60%),
+      radial-gradient(1000px 500px at 110% 10%, #EDE7FF 0%, transparent 55%),
+      var(--bg);
+    color:var(--ink);
+    font-family: "Pretendard","Noto Sans KR",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    font-size:16px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  [dir="rtl"] body{direction:rtl;}
+  button{font-family:inherit;}
+  .app{
+    max-width:1240px;
+    margin:0 auto;
+    padding:14px 16px 96px;
+    position:relative;
+  }
+  /* puzzle motif background, decorative only */
+  .puzzle-motif{
+    position:fixed; inset:0; pointer-events:none; z-index:0;
+    opacity:.06;
+  }
+  .puzzle-motif svg{width:100%;height:100%;}
+
+  /* ============ HUD ============ */
+  .hud{
+    position:relative; z-index:2;
+    display:flex; align-items:center; gap:14px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:var(--radius-md);
+    padding:10px 14px;
+    box-shadow:var(--shadow-card);
+  }
+  .brand{display:flex; align-items:baseline; gap:2px; font-weight:800; font-size:19px; letter-spacing:-.02em; white-space:nowrap;}
+  .brand .n{color:var(--orange);}
+  .brand .h{color:var(--blue);}
+  .brand .rest{color:var(--navy);}
+  .hud-mid{flex:1 1 auto; min-width:0; display:flex; flex-direction:column; gap:4px;}
+  .hud-mission{
+    font-size:13px; font-weight:700; color:var(--ink-soft);
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .hud-progress-track{height:6px; border-radius:6px; background:var(--bg-cool); overflow:hidden;}
+  .hud-progress-fill{height:100%; background:linear-gradient(90deg,var(--blue),var(--orange)); border-radius:6px; transition:width var(--dur) ease;}
+  .badges{display:flex; gap:6px; flex-wrap:wrap;}
+  .badge{
+    font-size:12px; font-weight:700; padding:5px 10px; border-radius:999px;
+    background:var(--purple-pale); color:var(--purple); white-space:nowrap;
+    border:1px solid rgba(124,92,255,.25);
+  }
+  .hud-actions{display:flex; align-items:center; gap:8px; flex-shrink:0;}
+  .icon-btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:6px;
+    height:40px; padding:0 12px; border-radius:12px;
+    background:var(--blue-pale); color:var(--blue-dark); border:1px solid rgba(46,107,255,.18);
+    font-weight:700; font-size:13px; cursor:pointer;
+    transition:transform var(--dur), box-shadow var(--dur);
+  }
+  .icon-btn:hover{box-shadow:var(--shadow-card-hover); transform:translateY(-1px);}
+  .icon-btn:focus-visible{outline:none; box-shadow:var(--focus);}
+  .lang-select{
+    height:40px; border-radius:12px; border:1px solid var(--line); background:var(--card);
+    padding:0 10px; font-weight:700; font-size:13px; color:var(--ink); cursor:pointer;
+    min-width:44px;
+  }
+  .lang-select:focus-visible{outline:none; box-shadow:var(--focus);}
+  .fg-mark{display:flex; align-items:center; gap:6px; font-size:11px; color:var(--ink-soft); font-weight:700; flex-shrink:0;}
+  .fg-mark svg{width:16px;height:16px;}
+  .fg-mark-top{display:none;}
+
+  /* ============ Progress path ============ */
+  .path-wrap{position:relative; z-index:2; margin-top:14px;}
+  .path{
+    display:flex; align-items:flex-start; justify-content:space-between;
+    background:var(--card); border:1px solid var(--line); border-radius:var(--radius-md);
+    padding:16px 10px 10px; box-shadow:var(--shadow-card);
+  }
+  .path-node{display:flex; flex-direction:column; align-items:center; gap:6px; flex:1; min-width:0; position:relative;}
+  .path-node .connector{
+    position:absolute; top:19px; left:calc(-50% + 19px); width:calc(100% - 38px); height:3px;
+    background:var(--line); z-index:0;
+  }
+  .path-node:first-child .connector{display:none;}
+  .path-node.done .connector{background:var(--blue);}
+  .node-circle{
+    width:38px; height:38px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:14px; position:relative; z-index:1;
+    background:var(--bg-cool); color:var(--ink-soft); border:2px solid var(--line);
+    box-shadow: 0 2px 0 rgba(21,34,65,.08);
+    transition: all var(--dur) ease;
+  }
+  .path-node.done .node-circle{background:var(--blue); color:#fff; border-color:var(--blue-dark); box-shadow:0 2px 0 var(--blue-dark);}
+  .path-node.current .node-circle{
+    background:var(--orange); color:#fff; border-color:var(--orange-dark);
+    box-shadow:0 3px 0 var(--orange-dark), 0 6px 14px rgba(255,122,41,.35);
+    transform:translateY(-2px) scale(1.06);
+  }
+  .path-node.upcoming .node-circle{background:var(--purple-pale); color:var(--purple); border-color:#E1D9FF;}
+  .node-label{font-size:11px; font-weight:700; color:var(--ink-soft); text-align:center; max-width:80px; line-height:1.25;}
+  .path-node.current .node-label{color:var(--navy); font-weight:800;}
+  @media (max-width:600px){
+    .node-label{font-size:10px; max-width:56px;}
+    .node-circle{width:32px;height:32px;font-size:12px;}
+  }
+
+  /* ============ layout grid ============ */
+  .grid{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns: 1.5fr 1fr; gap:14px; margin-top:14px;
+  }
+  @media (max-width:960px){ .grid{grid-template-columns:1fr;} }
+
+  /* ============ Mission Stage ============ */
+  .stage{
+    background:linear-gradient(180deg,#1B2A4E,#101A32);
+    border-radius:var(--radius-lg);
+    padding:10px;
+    box-shadow: 0 1px 0 rgba(255,255,255,.06) inset, 0 18px 34px rgba(16,26,50,.35);
+    position:relative;
+  }
+  .stage-frame{
+    position:relative; border-radius:14px; overflow:hidden;
+    border:1px solid rgba(255,255,255,.12);
+    box-shadow: inset 0 2px 6px rgba(255,255,255,.08), inset 0 -10px 24px rgba(0,0,0,.4);
+  }
+  .stage-scene{ position:relative; width:100%; aspect-ratio:16/10; display:block; }
+  .stage-scene svg{width:100%;height:100%;display:block;}
+  .stage-top-row{
+    position:absolute; top:10px; left:10px; right:10px;
+    display:flex; justify-content:space-between; align-items:flex-start; gap:8px; pointer-events:none;
+  }
+  .mission-chip{
+    pointer-events:auto;
+    background:rgba(16,26,50,.72); backdrop-filter:blur(2px);
+    color:#fff; font-weight:800; font-size:11px; letter-spacing:.04em;
+    padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.18);
+  }
+  .condition-chip{
+    pointer-events:auto;
+    display:flex; align-items:center; gap:6px;
+    background:rgba(16,26,50,.72); color:#fff; font-weight:700; font-size:12px;
+    padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.18);
+    max-width:60%; text-align:right;
+  }
+  .condition-dot{width:8px;height:8px;border-radius:50%; flex-shrink:0;}
+  .condition-chip.on .condition-dot{background:var(--green); box-shadow:0 0 0 3px rgba(34,163,102,.35);}
+  .condition-chip.off .condition-dot{background:var(--orange); box-shadow:0 0 0 3px rgba(255,122,41,.35);}
+
+  .hotspot{
+    position:absolute; transform:translate(-50%,-100%);
+    display:flex; flex-direction:column; align-items:center; cursor:pointer;
+    background:none; border:none; padding:0;
+  }
+  .hotspot .pin{
+    width:34px; height:34px; border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+    background:var(--orange); border:2px solid #fff;
+    box-shadow:0 4px 10px rgba(0,0,0,.35);
+    display:flex; align-items:center; justify-content:center;
+    animation: breathe 2.4s ease-in-out infinite;
+  }
+  .hotspot .pin svg{transform:rotate(45deg); width:16px; height:16px; color:#fff;}
+  .hotspot .pin-label{
+    margin-top:4px; font-size:10px; font-weight:800; color:#fff;
+    background:rgba(16,26,50,.75); padding:2px 7px; border-radius:999px; white-space:nowrap;
+  }
+  .hotspot.pressed .pin{ transform:translateY(3px) rotate(-45deg) scale(.94); animation:none; }
+  .hotspot:focus-visible .pin{outline:none; box-shadow:0 0 0 3px #fff, 0 0 0 6px var(--blue);}
+  @keyframes breathe{
+    0%,100%{ box-shadow:0 4px 10px rgba(0,0,0,.35), 0 0 0 0 rgba(255,122,41,.45); }
+    50%{ box-shadow:0 4px 10px rgba(0,0,0,.35), 0 0 0 8px rgba(255,122,41,0); }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .hotspot .pin{animation:none;}
+  }
+  .scene-caption{
+    background:rgba(255,255,255,.06); border-top:1px solid rgba(255,255,255,.1);
+    color:#EAF0FF; font-size:13px; padding:10px 14px; min-height:20px;
+  }
+
+  /* ============ quest card ============ */
+  .quest-card{
+    margin-top:10px; border-radius:var(--radius-md); overflow:hidden;
+    background:var(--card); box-shadow:var(--shadow-card); border:1px solid var(--line);
+  }
+  .quest-head{
+    display:flex; align-items:center; gap:8px;
+    background:linear-gradient(90deg, var(--orange-pale), var(--purple-pale));
+    padding:9px 14px; font-weight:800; font-size:13px; color:var(--navy);
+  }
+  .quest-body{padding:12px 14px;}
+  .quest-action{font-size:15px; font-weight:700; color:var(--navy); margin:0 0 4px;}
+  .quest-sub{font-size:13px; color:var(--ink-soft); margin:0;}
+  .help-toggle{
+    margin-top:8px; font-size:12px; font-weight:700; color:var(--blue-dark);
+    background:none; border:none; cursor:pointer; padding:0; display:inline-flex; align-items:center; gap:4px;
+  }
+  .help-body{
+    margin-top:6px; font-size:12.5px; color:var(--ink-soft); background:var(--bg-cool);
+    border-radius:10px; padding:8px 10px; display:none;
+  }
+  .help-body.open{display:block;}
+
+  /* ============ side column ============ */
+  .side{display:flex; flex-direction:column; gap:14px;}
+
+  .compare-wrap{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  @media (max-width:520px){ .compare-wrap{grid-template-columns:1fr;} }
+  .compare-card{
+    border-radius:var(--radius-md); background:var(--card); border:1px solid var(--line);
+    box-shadow:var(--shadow-card); display:flex; flex-direction:column; min-height:190px;
+    box-shadow: var(--shadow-card), 0 6px 0 -3px rgba(21,34,65,.04);
+  }
+  .compare-head{
+    display:flex; align-items:center; gap:6px; padding:9px 12px; font-weight:800; font-size:12.5px; color:#fff;
+    border-radius:var(--radius-md) var(--radius-md) 0 0;
+  }
+  .compare-card.real .compare-head{background:linear-gradient(90deg,var(--navy),var(--blue-dark));}
+  .compare-card.mine .compare-head{background:linear-gradient(90deg,var(--orange-dark),var(--purple));}
+  .compare-body{padding:10px 12px; font-size:13px; color:var(--ink-soft); flex:1;}
+  .compare-body dl{margin:0;}
+  .compare-body dt{font-size:11px; font-weight:800; color:var(--ink); margin-top:8px;}
+  .compare-body dt:first-child{margin-top:0;}
+  .compare-body dd{margin:2px 0 0; word-break:keep-all;}
+
+  /* ============ choice cards ============ */
+  .choice-list{display:flex; flex-direction:column; gap:10px;}
+  .choice-card{
+    min-height:64px; display:flex; align-items:center; gap:12px;
+    background:#F3F6FE; border:2px solid transparent; border-radius:var(--radius-md);
+    padding:12px 14px; cursor:pointer; text-align:left;
+    box-shadow:var(--shadow-card);
+    transition: transform var(--dur), box-shadow var(--dur), border-color var(--dur), background var(--dur);
+    width:100%;
+  }
+  .choice-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-card-hover); }
+  .choice-card:focus-visible{ outline:none; box-shadow:var(--focus); }
+  .choice-order{
+    width:28px; height:28px; border-radius:50%; flex-shrink:0;
+    background:var(--line); color:var(--ink-soft); font-weight:800; font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .choice-card.selected{ border-color:var(--blue); background:#EAF1FF; }
+  .choice-card.selected .choice-order{ background:var(--orange); color:#fff; }
+  .choice-card.correct{ border-color:var(--green); background:var(--green-pale); animation:pop .4s ease; }
+  .choice-card.retry{ border-color:var(--orange); background:var(--orange-pale); }
+  .choice-card.disabled{ cursor:not-allowed; opacity:1; background:#F1F2F6; }
+  .choice-card.disabled .choice-text{ color:#9AA1B4; }
+  @keyframes pop{ 0%{transform:scale(1);} 45%{transform:scale(1.02);} 100%{transform:scale(1);} }
+  @media (prefers-reduced-motion: reduce){ .choice-card.correct{animation:none;} }
+  .choice-main{flex:1; min-width:0;}
+  .choice-text{font-weight:700; font-size:14px; color:var(--navy); word-break:keep-all;}
+  .choice-hint{font-size:12px; color:var(--ink-soft); margin-top:2px; word-break:keep-all;}
+  .choice-check{
+    width:22px; height:22px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center;
+    color:#fff; background:var(--blue); opacity:0; transform:scale(.6); transition: all var(--dur);
+  }
+  .choice-card.selected .choice-check, .choice-card.correct .choice-check{ opacity:1; transform:scale(1); }
+  .choice-card.correct .choice-check{background:var(--green);}
+  .choice-lock{font-size:11px; color:var(--ink-soft); display:flex; align-items:center; gap:4px; flex-shrink:0;}
+
+  .section-title{
+    display:flex; align-items:center; gap:6px; font-weight:800; font-size:13px; color:var(--navy);
+    margin:2px 0 2px;
+  }
+
+  /* ============ bottom control bar ============ */
+  .control-bar{
+    position:fixed; left:0; right:0; bottom:0; z-index:20;
+    background:var(--card); border-top:1px solid var(--line);
+    box-shadow:0 -8px 24px rgba(21,34,65,.10);
+    padding:10px max(16px, calc((100vw - 1240px)/2));
+    display:flex; align-items:center; gap:10px;
+  }
+  .cb-prev{
+    height:48px; padding:0 16px; border-radius:14px; border:1px solid var(--line);
+    background:var(--card); color:var(--navy); font-weight:700; font-size:14px; cursor:pointer;
+    display:flex; align-items:center; gap:6px; flex-shrink:0;
+  }
+  .cb-prev:disabled{opacity:.4; cursor:not-allowed;}
+  .cb-status{flex:1; text-align:center; font-size:12.5px; font-weight:700; color:var(--ink-soft); min-width:0;}
+  .cb-next{
+    height:52px; padding:0 20px; border-radius:14px; flex-shrink:0;
+    background:var(--orange); color:#fff; font-weight:800; font-size:15px; border:none; cursor:pointer;
+    box-shadow: 0 5px 0 var(--orange-dark);
+    transform:translateY(0); transition: transform .08s ease, box-shadow .08s ease, background var(--dur);
+    display:flex; align-items:center; gap:8px;
+  }
+  .cb-next:active{ transform:translateY(3px); box-shadow:0 2px 0 var(--orange-dark); }
+  .cb-next:focus-visible{ outline:none; box-shadow:var(--focus), 0 5px 0 var(--orange-dark); }
+  .cb-next.locked{ background:#C7CCDC; box-shadow:0 5px 0 #A8AEC4; cursor:not-allowed; }
+  .cb-next.locked:active{ transform:none; box-shadow:0 5px 0 #A8AEC4; }
+
+  /* ============ settings modal ============ */
+  .modal-backdrop{
+    position:fixed; inset:0; background:rgba(16,22,40,.5); z-index:50;
+    display:none; align-items:flex-end; justify-content:center;
+  }
+  .modal-backdrop.open{display:flex;}
+  .modal{
+    background:var(--card); width:100%; max-width:520px; border-radius:20px 20px 0 0;
+    padding:18px 18px 22px; max-height:86vh; overflow:auto;
+    box-shadow:0 -10px 40px rgba(0,0,0,.25);
+  }
+  @media (min-width:640px){
+    .modal-backdrop{align-items:center;}
+    .modal{border-radius:20px;}
+  }
+  .modal h2{font-size:17px; margin:0 0 12px; color:var(--navy);}
+  .opt-group{margin-bottom:16px;}
+  .opt-group h3{font-size:12.5px; color:var(--ink-soft); margin:0 0 8px; font-weight:800;}
+  .opt-grid{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .opt-btn{
+    text-align:left; padding:10px 12px; border-radius:12px; border:2px solid var(--line);
+    background:#F7F9FE; cursor:pointer; font-size:13px; font-weight:700; color:var(--navy);
+    min-height:44px; display:flex; align-items:center;
+  }
+  .opt-btn.active{border-color:var(--blue); background:var(--blue-pale); color:var(--blue-dark);}
+  .opt-btn:focus-visible{outline:none; box-shadow:var(--focus);}
+  .modal-actions{display:flex; gap:8px; margin-top:6px;}
+  .btn-secondary{flex:1; height:46px; border-radius:12px; border:1px solid var(--line); background:#fff; font-weight:700; cursor:pointer;}
+  .btn-primary{flex:1; height:46px; border-radius:12px; border:none; background:var(--blue); color:#fff; font-weight:800; cursor:pointer; box-shadow:0 4px 0 var(--blue-dark);}
+
+  .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;}
+
+  a, button, select, [tabindex]{ }
+  :focus-visible{ outline: none; }
+
+  @media (max-width:640px){
+    .hud{flex-wrap:wrap;}
+    .fg-mark{display:none;}
+    .fg-mark-top{display:flex;}
+  }
+</style>
+</head>
+<body>
+
+<div class="puzzle-motif" aria-hidden="true">
+  <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice">
+    <defs>
+      <pattern id="puz" width="80" height="80" patternUnits="userSpaceOnUse">
+        <path d="M10 10 h20 a8 8 0 0 1 0 16 h-8 a8 8 0 0 0 0 16 h8 v18 h-20 a8 8 0 0 1 -16 0 v-8 a8 8 0 0 0 -16 0 v8 h-18 v-20 a8 8 0 0 1 16 0 h8 a8 8 0 0 0 0-16 h-8 v-18 z" fill="none" stroke="#152241" stroke-width="2"/>
+      </pattern>
+    </defs>
+    <rect width="400" height="400" fill="url(#puz)"/>
+  </svg>
+</div>
+
+<main class="app" id="app">
+
+  <!-- HUD -->
+  <header class="hud" role="banner">
+    <div class="brand" aria-label="Nuvia History">
+      <span class="n">N</span><span class="rest">uvia&nbsp;</span><span class="h">H</span><span class="rest">istory</span>
+    </div>
+    <div class="hud-mid">
+      <div class="hud-mission" id="hudMission">—</div>
+      <div class="hud-progress-track"><div class="hud-progress-fill" id="hudProgressFill" style="width:0%"></div></div>
+      <div class="badges">
+        <span class="badge" id="ageBadge">—</span>
+        <span class="badge" id="passBadge">—</span>
+      </div>
+    </div>
+    <div class="fg-mark-top" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#7C5CFF" stroke-width="2"/><path d="M8 12l2.5 2.5L16 9" stroke="#7C5CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      FeelGood
+    </div>
+    <div class="hud-actions">
+      <select class="lang-select" id="langSelect" aria-label="Language / 언어"></select>
+      <button class="icon-btn" id="settingsBtn" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 15a3 3 0 100-6 3 3 0 000 6z" stroke="currentColor" stroke-width="2"/><path d="M19 12a7 7 0 00-.1-1.2l2-1.6-2-3.4-2.3.9a7 7 0 00-2-1.2L14 3h-4l-.6 2.5a7 7 0 00-2 1.2l-2.3-.9-2 3.4 2 1.6A7 7 0 005 12c0 .4 0 .8.1 1.2l-2 1.6 2 3.4 2.3-.9c.6.5 1.3.9 2 1.2L10 21h4l.6-2.5c.7-.3 1.4-.7 2-1.2l2.3.9 2-3.4-2-1.6c.1-.4.1-.8.1-1.2z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+        <span id="settingsLabel">학습 설정</span>
+      </button>
+    </div>
+  </header>
+
+  <div class="fg-mark" aria-hidden="true" style="justify-content:flex-end; margin-top:4px;">
+    <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#7C5CFF" stroke-width="2"/><path d="M8 12l2.5 2.5L16 9" stroke="#7C5CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    FeelGood
+  </div>
+
+  <!-- 5-step progress -->
+  <div class="path-wrap">
+    <nav class="path" id="pathNav" aria-label="진행 단계"></nav>
+  </div>
+
+  <div class="grid">
+    <!-- LEFT: stage + quest -->
+    <div class="left">
+      <section class="stage" aria-label="역사 장면">
+        <div class="stage-frame">
+          <div class="stage-scene" id="stageScene">
+            <!-- SVG scene injected by JS -->
+            <div class="stage-top-row">
+              <span class="mission-chip" id="missionChip">MISSION 01</span>
+              <span class="condition-chip off" id="conditionChip"><span class="condition-dot"></span><span id="conditionText">다리 통행 불가</span></span>
+            </div>
+          </div>
+          <div class="scene-caption" id="sceneCaption">장면 속 지점을 눌러 탐색해 보세요.</div>
+        </div>
+      </section>
+
+      <section class="quest-card" aria-label="현재 미션">
+        <div class="quest-head">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 3v18M4 4h11l-2 3 2 3H4" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          <span id="questLabel">현재 미션</span>
+        </div>
+        <div class="quest-body">
+          <p class="quest-action" id="questAction">장면을 살펴보고 다리를 눌러 조건을 바꿔 보세요.</p>
+          <p class="quest-sub" id="questSub">인쇄된 책이 다리를 건너 여러 지역으로 팔려나갔어요.</p>
+          <button class="help-toggle" id="helpToggle" type="button" aria-expanded="false">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="2"/><path d="M12 16v-4M12 8h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            <span id="helpToggleLabel">도움말</span>
+          </button>
+          <div class="help-body" id="helpBody"></div>
+        </div>
+      </section>
+    </div>
+
+    <!-- RIGHT: side content, swapped per step -->
+    <div class="side" id="sideContent"></div>
+  </div>
+</main>
+
+<!-- bottom control bar -->
+<footer class="control-bar" role="contentinfo">
+  <button class="cb-prev" id="prevBtn" type="button">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    <span id="prevLabel">이전</span>
+  </button>
+  <div class="cb-status" id="cbStatus">1/5 · 역사 만나기</div>
+  <button class="cb-next" id="nextBtn" type="button">
+    <span id="nextLabel">다음</span>
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</footer>
+
+<!-- settings modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">학습 설정</h2>
+    <div class="opt-group">
+      <h3 id="ageGroupLabel">연령</h3>
+      <div class="opt-grid" id="ageOptions"></div>
+    </div>
+    <div class="opt-group">
+      <h3 id="passGroupLabel">PASS 영역</h3>
+      <div class="opt-grid" id="passOptions"></div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-secondary" id="modalClose" type="button">닫기</button>
+      <button class="btn-primary" id="modalApply" type="button">적용</button>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================================================
+   i18n
+   ============================================================ */
+var LANGS = ["ko","en","zh","ja","vi","th","mn","ru","ar","es","fr"];
+var LANG_NAMES = {ko:"한국어",en:"English",zh:"中文",ja:"日本語",vi:"Tiếng Việt",th:"ไทย",mn:"Монгол",ru:"Русский",ar:"العربية",es:"Español",fr:"Français"};
+var RTL = {ar:true};
+
+// Core UI strings: full translations across all 11 languages.
+var UI = {
+  settings:{ko:"학습 설정",en:"Settings",zh:"学习设置",ja:"学習設定",vi:"Cài đặt học tập",th:"ตั้งค่าการเรียน",mn:"Тохиргоо",ru:"Настройки",ar:"إعدادات التعلم",es:"Ajustes",fr:"Paramètres"},
+  age:{ko:"연령",en:"Age",zh:"年龄",ja:"年齢",vi:"Độ tuổi",th:"ช่วงอายุ",mn:"Нас",ru:"Возраст",ar:"العمر",es:"Edad",fr:"Âge"},
+  passArea:{ko:"PASS 영역",en:"PASS Area",zh:"PASS 领域",ja:"PASS 領域",vi:"Lĩnh vực PASS",th:"ด้าน PASS",mn:"PASS хэсэг",ru:"Область PASS",ar:"مجال PASS",es:"Área PASS",fr:"Domaine PASS"},
+  close:{ko:"닫기",en:"Close",zh:"关闭",ja:"閉じる",vi:"Đóng",th:"ปิด",mn:"Хаах",ru:"Закрыть",ar:"إغلاق",es:"Cerrar",fr:"Fermer"},
+  apply:{ko:"적용",en:"Apply",zh:"应用",ja:"適用",vi:"Áp dụng",th:"นำไปใช้",mn:"Хэрэглэх",ru:"Применить",ar:"تطبيق",es:"Aplicar",fr:"Appliquer"},
+  prev:{ko:"이전",en:"Back",zh:"上一步",ja:"戻る",vi:"Quay lại",th:"ย้อนกลับ",mn:"Буцах",ru:"Назад",ar:"السابق",es:"Atrás",fr:"Précédent"},
+  next:{ko:"다음",en:"Next",zh:"下一步",ja:"次へ",vi:"Tiếp theo",th:"ถัดไป",mn:"Дараах",ru:"Далее",ar:"التالي",es:"Siguiente",fr:"Suivant"},
+  help:{ko:"도움말",en:"Help",zh:"提示",ja:"ヘルプ",vi:"Trợ giúp",th:"ช่วยเหลือ",mn:"Тусламж",ru:"Подсказка",ar:"مساعدة",es:"Ayuda",fr:"Aide"},
+  currentMission:{ko:"현재 미션",en:"Current Mission",zh:"当前任务",ja:"現在のミッション",vi:"Nhiệm vụ hiện tại",th:"ภารกิจปัจจุบัน",mn:"Одоогийн даалгавар",ru:"Текущая миссия",ar:"المهمة الحالية",es:"Misión actual",fr:"Mission actuelle"},
+  realHistory:{ko:"실제 역사",en:"Real History",zh:"真实历史",ja:"実際の歴史",vi:"Lịch sử thật",th:"ประวัติศาสตร์จริง",mn:"Жинхэнэ түүх",ru:"Реальная история",ar:"التاريخ الحقيقي",es:"Historia real",fr:"Histoire réelle"},
+  myStory:{ko:"나의 이야기",en:"My Story",zh:"我的故事",ja:"私の物語",vi:"Câu chuyện của tôi",th:"เรื่องราวของฉัน",mn:"Миний түүх",ru:"Моя история",ar:"قصتي",es:"Mi historia",fr:"Mon histoire"},
+  conditionOn:{ko:"다리 통행 가능",en:"Bridge open",zh:"桥梁可通行",ja:"橋は通行可能",vi:"Cầu thông hành",th:"สะพานเปิด",mn:"Гүүр нээлттэй",ru:"Мост открыт",ar:"الجسر مفتوح",es:"Puente abierto",fr:"Pont ouvert"},
+  conditionOff:{ko:"다리 통행 불가",en:"Bridge blocked",zh:"桥梁不可通行",ja:"橋は通行不可",vi:"Cầu bị chặn",th:"สะพานปิด",mn:"Гүүр хаалттай",ru:"Мост закрыт",ar:"الجسر مغلق",es:"Puente cerrado",fr:"Pont fermé"},
+  selectionCounter:{ko:"{n}/{t} 선택",en:"{n}/{t} selected",zh:"已选 {n}/{t}",ja:"{n}/{t} 選択",vi:"Đã chọn {n}/{t}",th:"เลือกแล้ว {n}/{t}",mn:"{n}/{t} сонгосон",ru:"Выбрано {n}/{t}",ar:"تم اختيار {n}/{t}",es:"{n}/{t} seleccionado",fr:"{n}/{t} sélectionné"},
+  lockedHint:{ko:"조건을 먼저 바꿔 보세요",en:"Change the condition first",zh:"请先改变条件",ja:"先に条件を変えてみましょう",vi:"Hãy thay đổi điều kiện trước",th:"เปลี่ยนเงื่อนไขก่อน",mn:"Эхлээд нөхцөлийг өөрчил",ru:"Сначала измените условие",ar:"غيّر الشرط أولاً",es:"Cambia la condición primero",fr:"Change d'abord la condition"},
+  stepDoneToast:{ko:"단계 완료!",en:"Step complete!",zh:"步骤完成！",ja:"ステップ完了！",vi:"Hoàn thành bước!",th:"ทำขั้นตอนสำเร็จ!",mn:"Алхам дууслаа!",ru:"Шаг завершён!",ar:"اكتملت الخطوة!",es:"¡Paso completado!",fr:"Étape terminée !"},
+  changeLang:{ko:"언어",en:"Language",zh:"语言",ja:"言語",vi:"Ngôn ngữ",th:"ภาษา",mn:"Хэл",ru:"Язык",ar:"اللغة",es:"Idioma",fr:"Langue"},
+  feelgood:{ko:"FeelGood",en:"FeelGood",zh:"FeelGood",ja:"FeelGood",vi:"FeelGood",th:"FeelGood",mn:"FeelGood",ru:"FeelGood",ar:"FeelGood",es:"FeelGood",fr:"FeelGood"}
+};
+
+var STEP_NAMES = [
+  {ko:"역사 만나기",en:"Meet History",zh:"了解历史",ja:"歴史と出会う",vi:"Khám phá lịch sử",th:"พบประวัติศาสตร์",mn:"Түүхтэй танилцах",ru:"Знакомство",ar:"التعرف على التاريخ",es:"Conocer la historia",fr:"Découvrir l'histoire"},
+  {ko:"조건 바꾸기",en:"Change Condition",zh:"改变条件",ja:"条件を変える",vi:"Thay đổi điều kiện",th:"เปลี่ยนเงื่อนไข",mn:"Нөхцөл өөрчлөх",ru:"Изменить условие",ar:"تغيير الشرط",es:"Cambiar condición",fr:"Changer la condition"},
+  {ko:"활동",en:"Activity",zh:"活动",ja:"アクティビティ",vi:"Hoạt động",th:"กิจกรรม",mn:"Үйл ажиллагаа",ru:"Задание",ar:"النشاط",es:"Actividad",fr:"Activité"},
+  {ko:"실제 역사와 비교",en:"Compare History",zh:"对比历史",ja:"史実と比較",vi:"So sánh lịch sử",th:"เทียบประวัติศาสตร์",mn:"Түүхтэй харьцуулах",ru:"Сравнение",ar:"مقارنة التاريخ",es:"Comparar historia",fr:"Comparer l'histoire"},
+  {ko:"이야기 완성",en:"Finish Story",zh:"完成故事",ja:"物語を完成",vi:"Hoàn thành câu chuyện",th:"เรื่องราวสมบูรณ์",mn:"Түүхийг дуусгах",ru:"Завершение",ar:"إكمال القصة",es:"Completar historia",fr:"Terminer l'histoire"}
+];
+
+var AGE_TIERS = [
+  {id:"toddler", ko:"유아·초등 저학년", en:"Early Learners", density:1},
+  {id:"g34",     ko:"초등 3–4학년",     en:"Grades 3–4",     density:2},
+  {id:"upper",   ko:"초등 고학년",      en:"Upper Elementary", density:3},
+  {id:"middle",  ko:"중학생",           en:"Middle School",  density:4},
+  {id:"high",    ko:"고등학생",         en:"High School",    density:5}
+];
+var PASS_AREAS = [
+  {id:"sim", ko:"동시처리", en:"Simultaneous"},
+  {id:"seq", ko:"순차처리", en:"Successive"},
+  {id:"plan",ko:"계획",     en:"Planning"},
+  {id:"att", ko:"주의",     en:"Attention"}
+];
+
+/* content by age density, keyed on step index */
+var CONTENT = {
+  1: { // 역사 만나기
+    1:{action:{ko:"그림을 보고 무슨 일이 있었는지 살펴보세요.",en:"Look at the picture. What happened here?"}, sub:{ko:"책이 다리를 건너 마을로 갔어요.",en:"The book crossed the bridge to the village."}},
+    2:{action:{ko:"장면을 보고 인쇄된 책이 어떻게 이동했는지 확인해요.",en:"See how the printed book traveled from the shop."}, sub:{ko:"인쇄소에서 만든 책이 다리를 건너 팔렸어요.",en:"Books made at the print shop crossed the bridge to be sold."}},
+    3:{action:{ko:"장면 속 인쇄소·다리·독자를 눌러 사실을 확인하세요.",en:"Tap the print shop, bridge and reader to check the facts."}, sub:{ko:"금속활자로 인쇄된 책이 다리를 건너 여러 지역에 팔렸습니다.",en:"Books printed with movable metal type crossed the bridge and were sold across regions."}},
+    4:{action:{ko:"제작 → 유통 → 독자 도달 과정을 확인하세요.",en:"Trace production → distribution → readership."}, sub:{ko:"완성 전에 구매자가 있었고, 다리를 통해 여러 지역으로 유통되었습니다.",en:"Buyers existed before completion, and books were distributed across regions via the bridge."}},
+    5:{action:{ko:"출처가 있는 사실만 고정 사실로 확인하세요.",en:"Identify which facts are confirmed by sources."}, sub:{ko:"금속활자 인쇄, 완성 전 구매자, 다리를 통한 다지역 판매는 유지 사실입니다.",en:"Movable-type printing, pre-completion buyers, and multi-region sale via the bridge are the fixed facts."}}
+  },
+  2: {
+    1:{action:{ko:"다리를 눌러보세요.",en:"Tap the bridge."}, sub:{ko:"다리가 막히면 어떻게 될까요?",en:"What happens if the bridge is blocked?"}},
+    2:{action:{ko:"다리를 눌러 통행 여부를 바꿔 보세요.",en:"Tap the bridge to toggle if it's passable."}, sub:{ko:"다리가 막히면 책이 다른 길로 가야 해요.",en:"If blocked, the book must find another way."}},
+    3:{action:{ko:"다리를 눌러 '통행 불가' 조건으로 바꿔 보세요.",en:"Tap the bridge to set it to 'blocked'."}, sub:{ko:"조건이 바뀌면 이동 방법이 달라집니다.",en:"Changing the condition changes how the book travels."}},
+    4:{action:{ko:"가상 변수를 적용해 조건을 바꾸고 영향을 예상하세요.",en:"Apply the hypothetical variable and predict its impact."}, sub:{ko:"다리 통행 불가는 사실이 아닌 가상 조건입니다.",en:"'Bridge blocked' is a hypothetical, not a historical fact."}},
+    5:{action:{ko:"단일 가상 변수를 적용하고 그 파급 범위를 가늠해 보세요.",en:"Apply a single hypothetical variable and assess its scope of impact."}, sub:{ko:"실제 사실과 분리된 한 가지 조건만 바꿉니다.",en:"Only one condition changes, kept separate from confirmed fact."}}
+  },
+  3: {
+    1:{action:{ko:"책이 갈 수 있는 길을 하나 골라요.",en:"Pick one path for the book."}, sub:{ko:"그림 중 하나를 눌러요.",en:"Tap one picture."}},
+    2:{action:{ko:"두 가지 길 중 하나를 고르고 결과를 봐요.",en:"Choose one of two paths and see the result."}, sub:{ko:"우회로 또는 나룻배 중 골라 보세요.",en:"Choose the detour or the ferry."}},
+    3:{action:{ko:"대응 방법 3가지를 순서대로 배치하세요.",en:"Arrange the three responses in order."}, sub:{ko:"우회로 → 나룻배 → 분산 운송 순으로 배열해요.",en:"Order: detour → ferry → split shipment."}},
+    4:{action:{ko:"대응 방법을 순서대로 연결하고 근거를 확인하세요.",en:"Sequence the responses and check the reasoning for each."}, sub:{ko:"각 대응은 근거와 양보해야 하는 점이 함께 있습니다.",en:"Each response carries both a reason and a trade-off."}},
+    5:{action:{ko:"경쟁 대응안을 순서화하고 근거·한계를 비교하세요.",en:"Sequence competing responses and compare their evidence and limits."}, sub:{ko:"근거 범위 안에서 가능성으로 서술해야 합니다.",en:"Describe outcomes as plausibilities within the bounds of evidence."}}
+  },
+  4: {
+    1:{action:{ko:"실제 이야기와 내 이야기를 나란히 봐요.",en:"Look at both stories side by side."}, sub:{ko:"무엇이 같고 무엇이 다른가요?",en:"What's the same, what's different?"}},
+    2:{action:{ko:"같은 점과 달라진 점을 하나씩 찾아봐요.",en:"Find one thing that stayed the same and one that changed."}, sub:{ko:"책은 그대로, 가는 길만 달라졌어요.",en:"The book is the same — only the route changed."}},
+    3:{action:{ko:"실제 역사와 내 이야기를 비교표로 확인하세요.",en:"Compare real history and your story using the table."}, sub:{ko:"과정은 달라졌지만 바뀐 것과 바뀌지 않은 것을 구분해요.",en:"The process changed — separate what changed from what stayed fixed."}},
+    4:{action:{ko:"비교축(과정·사실·변수·결과)에 따라 차이를 설명하세요.",en:"Explain the differences along the comparison axis."}, sub:{ko:"실제 과정 → 유지 사실 → 가상 변수 → 바뀐 과정 → 달라진 결과.",en:"Real process → fixed facts → hypothetical → changed process → different outcome."}},
+    5:{action:{ko:"근거를 들어 비교 주장을 짧게 작성하세요.",en:"Write a short evidence-based comparative argument."}, sub:{ko:"자료의 한계까지 포함해 주장하세요.",en:"Include the limits of the evidence in your argument."}}
+  },
+  5: {
+    1:{action:{ko:"완성된 이야기를 봐요. 참 잘했어요!",en:"See your finished story. Great job!"}, sub:{ko:"",en:""}},
+    2:{action:{ko:"내 이야기가 완성됐어요. 무엇이 달라졌는지 한 문장으로 말해봐요.",en:"Your story is complete. Say in one sentence what changed."}, sub:{ko:"",en:""}},
+    3:{action:{ko:"이야기를 완성하고 전략을 짧게 돌아보세요.",en:"Finish the story and briefly reflect on your strategy."}, sub:{ko:"",en:""}},
+    4:{action:{ko:"이야기를 완성하고 사용한 전략을 돌아보세요.",en:"Complete the story and reflect on the strategy you used."}, sub:{ko:"진단이나 능력 향상을 보장하지 않습니다.",en:"This does not diagnose or guarantee cognitive improvement."}},
+    5:{action:{ko:"주장을 마무리하고 사용한 추론 전략을 짧게 평가하세요.",en:"Finalize your argument and briefly evaluate your reasoning strategy."}, sub:{ko:"진단이나 능력 향상을 보장하지 않습니다.",en:"This does not diagnose or guarantee cognitive improvement."}}
+  }
+};
+
+var HELP_TEXT = {
+  1:{ko:"인쇄된 책이 어떻게 여러 지역까지 갔는지 지도를 눌러 확인해 보세요.",en:"Tap the map to see how the printed book reached many regions."},
+  2:{ko:"'다리 통행 불가'는 실제 역사가 아니라 우리가 만든 가상 조건이에요.",en:"'Bridge blocked' is not a historical fact — it's the hypothetical condition we're testing."},
+  3:{ko:"각 카드에는 근거와 양보해야 하는 점이 함께 있어요. 순서를 신중히 정해보세요.",en:"Each card has both a reason and a trade-off. Choose the order carefully."},
+  4:{ko:"실제 역사는 바꾸지 않아요. 달라진 과정과 결과만 비교합니다.",en:"Real history stays fixed — only the changed process and outcome are compared."},
+  5:{ko:"결과는 확정된 사실이 아니라 근거 범위 안의 가능성입니다.",en:"The outcome is a plausibility within the evidence, not a confirmed fact."}
+};
+
+var CHOICES = [
+  {id:"detour", ko:"우회로로 이동한다", en:"Take the detour road",
+   hintKo:"시간은 더 걸리지만 안전해요.", hintEn:"Takes longer, but safer."},
+  {id:"ferry", ko:"나룻배로 강을 건넌다", en:"Cross by ferry boat",
+   hintKo:"빠르지만 짐을 나눠 실어야 해요.", hintEn:"Faster, but loads must be split."},
+  {id:"split", ko:"운송을 나누어 보낸다", en:"Split the shipment",
+   hintKo:"도달 범위는 넓어지지만 관리가 어려워요.", hintEn:"Wider reach, but harder to manage."}
+];
+
+/* ============================================================
+   state
+   ============================================================ */
+var state = {
+  lang: "ko",
+  ageIdx: 2,           // default 초등 고학년
+  passIdx: 1,          // default 순차처리
+  step: 1,             // 1..5
+  conditionOn: true,   // 다리 통행 가능? starts true (matches real history) until changed in step 2
+  hotspotPressed: {},
+  choiceOrder: [],      // ordered ids selected in step3
+  stepDone: {1:false,2:false,3:false,4:false,5:false},
+  helpOpen:false
+};
+
+function t(dict){
+  var l = state.lang;
+  return dict[l] || dict.en || dict.ko || "";
+}
+function ageDensity(){ return AGE_TIERS[state.ageIdx].density; }
+
+/* ============================================================
+   render: HUD
+   ============================================================ */
+var el = {};
+["hudMission","hudProgressFill","ageBadge","passBadge","langSelect","settingsBtn","settingsLabel",
+ "pathNav","stageScene","missionChip","conditionChip","conditionText","sceneCaption",
+ "questLabel","questAction","questSub","helpToggle","helpToggleLabel","helpBody",
+ "sideContent","prevBtn","prevLabel","nextBtn","nextLabel","cbStatus",
+ "modalBackdrop","modalTitle","ageGroupLabel","ageOptions","passGroupLabel","passOptions",
+ "modalClose","modalApply","app"
+].forEach(function(id){ el[id]=document.getElementById(id); });
+
+function buildLangSelect(){
+  el.langSelect.innerHTML = "";
+  LANGS.forEach(function(l){
+    var o=document.createElement("option");
+    o.value=l; o.textContent=LANG_NAMES[l];
+    el.langSelect.appendChild(o);
+  });
+  el.langSelect.value = state.lang;
+}
+function applyDir(){
+  document.documentElement.setAttribute("dir", RTL[state.lang] ? "rtl":"ltr");
+  document.documentElement.setAttribute("lang", state.lang);
+}
+
+function renderHud(){
+  var age = AGE_TIERS[state.ageIdx], pass = PASS_AREAS[state.passIdx];
+  el.hudMission.textContent = t(STEP_NAMES[state.step-1]);
+  el.hudProgressFill.style.width = Math.round((state.step-1)/4*100) + "%";
+  el.ageBadge.textContent = t({ko:age.ko,en:age.en});
+  el.passBadge.textContent = t({ko:pass.ko,en:pass.en});
+  el.settingsLabel.textContent = t(UI.settings);
+}
+
+/* ============================================================
+   render: progress path
+   ============================================================ */
+function renderPath(){
+  el.pathNav.innerHTML = "";
+  STEP_NAMES.forEach(function(name, i){
+    var stepNo = i+1;
+    var cls = "path-node ";
+    if(stepNo < state.step) cls += "done";
+    else if(stepNo === state.step) cls += "current";
+    else cls += "upcoming";
+    var node = document.createElement("div");
+    node.className = cls;
+    var connector = document.createElement("div");
+    connector.className = "connector";
+    var circle = document.createElement("div");
+    circle.className = "node-circle";
+    circle.innerHTML = stepNo < state.step
+      ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+      : String(stepNo);
+    var label = document.createElement("div");
+    label.className = "node-label";
+    label.textContent = t(name);
+    node.appendChild(connector);
+    node.appendChild(circle);
+    node.appendChild(label);
+    el.pathNav.appendChild(node);
+  });
+}
+
+/* ============================================================
+   render: stage scene (SVG, 2.5D bridge illustration)
+   ============================================================ */
+function renderScene(){
+  var passable = state.conditionOn;
+  el.stageScene.innerHTML = SCENE_SVG(passable, state.hotspotPressed);
+  // rebuild top row (was wiped by innerHTML overwrite)
+  var topRow = document.createElement("div");
+  topRow.className="stage-top-row";
+  topRow.innerHTML =
+    '<span class="mission-chip" id="missionChip">MISSION 0'+state.step+'</span>'+
+    '<span class="condition-chip '+(passable?"on":"off")+'" id="conditionChip"><span class="condition-dot"></span><span id="conditionText">'+
+    t(passable?UI.conditionOn:UI.conditionOff)+'</span></span>';
+  el.stageScene.appendChild(topRow);
+
+  // wire hotspot clicks
+  Array.prototype.forEach.call(el.stageScene.querySelectorAll(".hotspot"), function(h){
+    h.addEventListener("click", function(){ onHotspot(h.dataset.id); });
+    h.addEventListener("keydown", function(ev){ if(ev.key==="Enter"||ev.key===" "){ev.preventDefault(); onHotspot(h.dataset.id);} });
+  });
+
+  el.sceneCaption.textContent = sceneCaptionFor(state.hotspotPressed._active);
+}
+
+function sceneCaptionFor(id){
+  var map = {
+    bridge:{ko:"다리: 누르면 통행 조건이 바뀝니다.", en:"Bridge: tap to change the passage condition."},
+    press:{ko:"인쇄소: 금속활자로 책을 인쇄합니다.", en:"Print shop: books are printed with movable metal type."},
+    reader:{ko:"독자: 다리를 건너온 책을 읽습니다.", en:"Reader: reads the book that crossed the bridge."}
+  };
+  if(id && map[id]) return t(map[id]);
+  return t({ko:"장면 속 지점을 눌러 탐색해 보세요.", en:"Tap a point in the scene to explore it."});
+}
+
+function SCENE_SVG(passable, pressed){
+  var bridgeColor = passable ? "#3E7BFF" : "#5B6480";
+  var bridgeDash = passable ? "" : ' stroke-dasharray="6 6"';
+  var pressedBridge = pressed.bridge ? " pressed":"";
+  var pressedPress = pressed.press ? " pressed":"";
+  var pressedReader = pressed.reader ? " pressed":"";
+  return ''+
+  '<svg viewBox="0 0 640 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="scene">'+
+    '<defs>'+
+      '<linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#28406E"/><stop offset="1" stop-color="#0F1B36"/>'+
+      '</linearGradient>'+
+      '<linearGradient id="riverG" x1="0" y1="0" x2="0" y2="1">'+
+        '<stop offset="0" stop-color="#3E5FA6"/><stop offset="1" stop-color="#233E70"/>'+
+      '</linearGradient>'+
+    '</defs>'+
+    '<rect width="640" height="400" fill="url(#sky)"/>'+
+    '<g opacity="0.5">'+
+      '<circle cx="560" cy="60" r="34" fill="#F4E7C9"/>'+
+    '</g>'+
+    '<polygon points="0,230 130,150 230,230" fill="#3A4C78"/>'+
+    '<polygon points="120,240 260,140 420,240" fill="#33456F"/>'+
+    '<rect x="0" y="230" width="640" height="170" fill="url(#riverG)"/>'+
+    '<path d="M0 235 Q160 220 320 236 T640 232 L640 400 L0 400 Z" fill="#1B2E56" opacity="0.55"/>'+
+    // print shop building (left)
+    '<g transform="translate(60,150)">'+
+      '<rect x="0" y="40" width="120" height="90" rx="6" fill="#8C5A34"/>'+
+      '<polygon points="-10,40 60,0 130,40" fill="#6B4224"/>'+
+      '<rect x="18" y="66" width="26" height="34" fill="#F4E7C9"/>'+
+      '<rect x="52" y="66" width="26" height="34" fill="#F4E7C9"/>'+
+      '<rect x="86" y="66" width="26" height="34" fill="#F4E7C9"/>'+
+    '</g>'+
+    // reader house (right)
+    '<g transform="translate(470,150)">'+
+      '<rect x="0" y="40" width="110" height="90" rx="6" fill="#3F5A86"/>'+
+      '<polygon points="-10,40 55,0 120,40" fill="#2E4468"/>'+
+      '<rect x="16" y="66" width="24" height="32" fill="#F4E7C9"/>'+
+      '<rect x="48" y="66" width="24" height="32" fill="#F4E7C9"/>'+
+      '<rect x="80" y="66" width="24" height="34" fill="#F4E7C9"/>'+
+    '</g>'+
+    // bridge
+    '<g>'+
+      '<path d="M200 258 Q320 190 440 258" fill="none" stroke="'+bridgeColor+'" stroke-width="14" stroke-linecap="round"'+bridgeDash+'/>'+
+      '<path d="M200 258 Q320 190 440 258" fill="none" stroke="#0F1B36" stroke-width="14" stroke-linecap="round" opacity="0.25" transform="translate(0,6)"'+bridgeDash+'/>'+
+    (passable ? '' : '<g transform="translate(300,205)"><rect x="-22" y="-6" width="44" height="12" rx="3" fill="#FF7A29"/><rect x="-22" y="-6" width="44" height="12" rx="3" fill="none" stroke="#fff" stroke-width="1.5"/></g>') +
+    '</g>'+
+    // hotspots
+    '<foreignObject x="60" y="150" width="140" height="1" overflow="visible"></foreignObject>'+
+  '</svg>'+
+  hotspotHTML("press", 120, 150, pressedPress) +
+  hotspotHTML("bridge", 320, 190, pressedBridge) +
+  hotspotHTML("reader", 525, 150, pressedReader);
+}
+function hotspotHTML(id, xPct, yPx, pressedCls){
+  // position using absolute percentages relative to 640x400 viewbox scaled to container
+  var left = (xPct/640*100).toFixed(2)+"%";
+  var top = (yPx/400*100).toFixed(2)+"%";
+  var icons = {
+    press:'<svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="12" rx="2" stroke="currentColor" stroke-width="2"/><path d="M8 20h8M12 16v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    bridge:'<svg viewBox="0 0 24 24" fill="none"><path d="M3 15c3-4 15-4 18 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M6 15v3M12 15v4M18 15v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    reader:'<svg viewBox="0 0 24 24" fill="none"><path d="M4 5h7a3 3 0 013 3v11a3 3 0 00-3-3H4V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M20 5h-7a3 3 0 00-3 3v11a3 3 0 013-3h7V5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>'
+  };
+  var labels = {press:{ko:"인쇄소",en:"Print shop"}, bridge:{ko:"다리",en:"Bridge"}, reader:{ko:"독자",en:"Reader"}};
+  return '<button type="button" class="hotspot'+pressedCls+'" data-id="'+id+'" style="left:'+left+';top:'+top+';" aria-label="'+t(labels[id])+'">'+
+    '<span class="pin">'+icons[id]+'</span>'+
+    '<span class="pin-label">'+t(labels[id])+'</span>'+
+  '</button>';
+}
+
+function onHotspot(id){
+  state.hotspotPressed[id] = true;
+  state.hotspotPressed._active = id;
+  if(id === "bridge" && state.step === 2){
+    state.conditionOn = false; // clicking always sets/keeps the hypothetical 'blocked' condition for this mission
+    state.hotspotPressed.bridge = true;
+    if(!state.stepDone[2]) markStepDone(2);
+  }
+  renderScene();
+  renderSide();
+  renderControlBar();
+}
+
+/* ============================================================
+   render: quest card
+   ============================================================ */
+function renderQuest(){
+  var d = ageDensity();
+  var content = CONTENT[state.step][d];
+  el.questLabel.textContent = t(UI.currentMission);
+  el.questAction.textContent = t(content.action);
+  el.questSub.textContent = t(content.sub) || "";
+  el.questSub.style.display = t(content.sub) ? "block":"none";
+  el.helpToggleLabel.textContent = t(UI.help);
+  el.helpBody.textContent = t(HELP_TEXT[state.step]);
+  el.helpBody.classList.toggle("open", state.helpOpen);
+  el.helpToggle.setAttribute("aria-expanded", state.helpOpen ? "true":"false");
+}
+
+/* ============================================================
+   render: side content (varies per step)
+   ============================================================ */
+function renderSide(){
+  el.sideContent.innerHTML = "";
+  if(state.step === 1){
+    el.sideContent.appendChild(buildCompareBlock(false));
+  } else if(state.step === 2){
+    el.sideContent.appendChild(buildConditionSummary());
+  } else if(state.step === 3){
+    el.sideContent.appendChild(buildChoiceList());
+  } else if(state.step === 4){
+    el.sideContent.appendChild(buildCompareBlock(true));
+  } else if(state.step === 5){
+    el.sideContent.appendChild(buildStoryFinal());
+  }
+}
+
+function buildCompareBlock(withChanges){
+  var wrap = document.createElement("div");
+  wrap.className = "compare-wrap";
+
+  var real = document.createElement("div");
+  real.className = "compare-card real";
+  real.innerHTML =
+    '<div class="compare-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M4 5h16v14H4z" stroke="#fff" stroke-width="1.8"/><path d="M4 9h16" stroke="#fff" stroke-width="1.8"/></svg>'+t(UI.realHistory)+'</div>'+
+    '<div class="compare-body"><dl>'+
+      dlRow(t({ko:"제작",en:"Production"}), t({ko:"금속활자로 책을 인쇄",en:"Printed with movable metal type"})) +
+      dlRow(t({ko:"유통",en:"Distribution"}), t({ko:"완성 전 구매자, 다리를 통해 이동",en:"Pre-sold to buyers, moved across the bridge"})) +
+      dlRow(t({ko:"도달",en:"Reach"}), t({ko:"여러 지역에 판매",en:"Sold across many regions"})) +
+    '</dl></div>';
+
+  var mine = document.createElement("div");
+  mine.className = "compare-card mine";
+  var changedRows = "";
+  if(withChanges){
+    var chosen = state.choiceOrder.map(function(id){return CHOICES.filter(function(c){return c.id===id;})[0];});
+    if(chosen.length){
+      changedRows = dlRow(t({ko:"바뀐 과정",en:"Changed process"}), chosen.map(function(c){return t({ko:c.ko,en:c.en});}).join(" → ")) +
+        dlRow(t({ko:"달라진 결과",en:"Different outcome"}), t({ko:"도달 시간과 범위가 달라졌어요.",en:"Time and reach to readers changed."}));
+    } else {
+      changedRows = dlRow(t({ko:"바뀐 과정",en:"Changed process"}), t({ko:"아직 활동을 완료하지 않았어요.",en:"Activity not completed yet."}));
+    }
+  }
+  mine.innerHTML =
+    '<div class="compare-head"><svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 3a3 3 0 016 0c0 1.5-1 2-1 3.5V9h3a2 2 0 012 2v2a2 2 0 01-2 2h-.5A1.5 1.5 0 0015 16.5V19a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2.5A1.5 1.5 0 009.5 15H9a2 2 0 01-2-2v-2a2 2 0 012-2h3V6.5C12 5 11 4.5 11 3z" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>'+t(UI.myStory)+'</div>'+
+    '<div class="compare-body"><dl>'+
+      dlRow(t({ko:"가상 변수",en:"Hypothetical"}), t(state.conditionOn ? UI.conditionOn : UI.conditionOff)) +
+      changedRows +
+    '</dl></div>';
+
+  wrap.appendChild(real);
+  wrap.appendChild(mine);
+
+  var titleWrap = document.createElement("div");
+  titleWrap.appendChild(sectionTitle(t({ko:"실제 역사와 나의 이야기",en:"Real History & My Story"})));
+  titleWrap.appendChild(wrap);
+  return titleWrap;
+}
+function dlRow(dt, dd){ return '<dt>'+dt+'</dt><dd>'+dd+'</dd>'; }
+function sectionTitle(text){
+  var h = document.createElement("div");
+  h.className = "section-title";
+  h.textContent = text;
+  return h;
+}
+
+function buildConditionSummary(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(sectionTitle(t({ko:"조건 상태",en:"Condition status"})));
+  var card = document.createElement("div");
+  card.className = "quest-card";
+  card.style.marginTop = "0";
+  card.innerHTML =
+    '<div class="quest-body">'+
+      '<p class="quest-action">'+t(state.hotspotPressed.bridge ? UI.conditionOff : {ko:"아직 조건을 바꾸지 않았어요.",en:"Condition not changed yet."})+'</p>'+
+      '<p class="quest-sub">'+t({ko:"장면 속 다리 핀을 눌러 조건을 바꿔 보세요.",en:"Tap the bridge pin in the scene to change the condition."})+'</p>'+
+    '</div>';
+  wrap.appendChild(card);
+  return wrap;
+}
+
+function buildChoiceList(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(sectionTitle(t({ko:"대응 방법을 순서대로 골라보세요",en:"Pick the responses in order"})));
+  var list = document.createElement("div");
+  list.className = "choice-list";
+
+  var d = ageDensity();
+  var visibleChoices = d <= 2 ? CHOICES.slice(0,2) : CHOICES;
+
+  visibleChoices.forEach(function(choice, idx){
+    var selectedIdx = state.choiceOrder.indexOf(choice.id);
+    var selected = selectedIdx > -1;
+    var card = document.createElement("button");
+    card.type = "button";
+    card.className = "choice-card" + (selected ? " selected":"");
+    card.innerHTML =
+      '<span class="choice-order">'+(selected ? (selectedIdx+1) : (idx+1))+'</span>'+
+      '<span class="choice-main">'+
+        '<span class="choice-text">'+t({ko:choice.ko,en:choice.en})+'</span>'+
+        '<span class="choice-hint">'+t({ko:choice.hintKo,en:choice.hintEn})+'</span>'+
+      '</span>'+
+      '<span class="choice-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
+    card.addEventListener("click", function(){ toggleChoice(choice.id, visibleChoices.length); });
+    list.appendChild(card);
+  });
+  wrap.appendChild(list);
+  return wrap;
+}
+function toggleChoice(id, total){
+  var idx = state.choiceOrder.indexOf(id);
+  if(idx > -1){ state.choiceOrder.splice(idx,1); }
+  else { state.choiceOrder.push(id); }
+  if(state.choiceOrder.length === total){ markStepDone(3); }
+  else { state.stepDone[3] = false; }
+  renderSide();
+  renderControlBar();
+}
+
+function buildStoryFinal(){
+  var wrap = document.createElement("div");
+  wrap.appendChild(sectionTitle(t({ko:"완성된 이야기",en:"Finished Story"})));
+  var card = document.createElement("div");
+  card.className = "quest-card";
+  card.style.marginTop = "0";
+  var chosen = state.choiceOrder.map(function(id){return CHOICES.filter(function(c){return c.id===id;})[0];});
+  var storyText = chosen.length
+    ? t({ko:"다리가 막히자 사람들은 "+chosen.map(function(c){return t({ko:c.ko,en:c.en});}).join(", ")+"의 방법으로 대응했고, 책은 조금 늦게 그러나 여러 지역에 닿았습니다.",
+          en:"When the bridge was blocked, people responded with "+chosen.map(function(c){return t({ko:c.ko,en:c.en});}).join(", ")+" — the book arrived a little later, but still reached many regions."})
+    : t({ko:"활동을 완료하면 이야기가 완성됩니다.", en:"Complete the activity to finish your story."});
+  card.innerHTML = '<div class="quest-body"><p class="quest-sub" style="font-size:14px; color:var(--ink);">'+storyText+'</p></div>';
+  wrap.appendChild(card);
+  return wrap;
+}
+
+/* ============================================================
+   control bar / navigation
+   ============================================================ */
+function stepReady(step){
+  if(step===1) return true;
+  if(step===2) return !!state.hotspotPressed.bridge;
+  if(step===3){
+    var d = ageDensity();
+    var total = d<=2 ? 2 : CHOICES.length;
+    return state.choiceOrder.length === total;
+  }
+  if(step===4) return true;
+  if(step===5) return true;
+  return false;
+}
+function markStepDone(step){ state.stepDone[step] = true; }
+
+function renderControlBar(){
+  el.prevLabel.textContent = t(UI.prev);
+  el.nextLabel.textContent = state.step===5 ? t({ko:"완료",en:"Finish"}) : t(UI.next);
+  el.prevBtn.disabled = state.step===1;
+
+  var ready = stepReady(state.step);
+  el.nextBtn.classList.toggle("locked", !ready);
+
+  var statusText;
+  if(state.step===3){
+    var d=ageDensity(); var total = d<=2?2:CHOICES.length;
+    statusText = t(UI.selectionCounter).replace("{n}", state.choiceOrder.length).replace("{t}", total);
+  } else if(!ready && state.step===2){
+    statusText = t(UI.lockedHint);
+  } else {
+    statusText = (state.step)+"/5 · "+t(STEP_NAMES[state.step-1]);
+  }
+  el.cbStatus.textContent = statusText;
+}
+
+el.prevBtn.addEventListener("click", function(){
+  if(state.step>1){ state.step--; fullRender(); }
+});
+el.nextBtn.addEventListener("click", function(){
+  if(!stepReady(state.step)) return;
+  markStepDone(state.step);
+  if(state.step<5){ state.step++; state.helpOpen=false; fullRender(); }
+  else {
+    el.cbStatus.textContent = t(UI.stepDoneToast);
+  }
+});
+
+el.helpToggle.addEventListener("click", function(){
+  state.helpOpen = !state.helpOpen;
+  renderQuest();
+});
+
+/* ============================================================
+   settings modal
+   ============================================================ */
+var pendingAge = state.ageIdx, pendingPass = state.passIdx;
+function openModal(){
+  pendingAge = state.ageIdx; pendingPass = state.passIdx;
+  el.modalTitle.textContent = t(UI.settings);
+  el.ageGroupLabel.textContent = t(UI.age);
+  el.passGroupLabel.textContent = t(UI.passArea);
+  el.modalClose.textContent = t(UI.close);
+  el.modalApply.textContent = t(UI.apply);
+  buildAgeOptions();
+  buildPassOptions();
+  el.modalBackdrop.classList.add("open");
+}
+function buildAgeOptions(){
+  el.ageOptions.innerHTML="";
+  AGE_TIERS.forEach(function(tier, i){
+    var b=document.createElement("button");
+    b.type="button";
+    b.className="opt-btn"+(i===pendingAge?" active":"");
+    b.textContent=t({ko:tier.ko,en:tier.en});
+    b.addEventListener("click", function(){ pendingAge=i; buildAgeOptions(); });
+    el.ageOptions.appendChild(b);
+  });
+}
+function buildPassOptions(){
+  el.passOptions.innerHTML="";
+  PASS_AREAS.forEach(function(p, i){
+    var b=document.createElement("button");
+    b.type="button";
+    b.className="opt-btn"+(i===pendingPass?" active":"");
+    b.textContent=t({ko:p.ko,en:p.en});
+    b.addEventListener("click", function(){ pendingPass=i; buildPassOptions(); });
+    el.passOptions.appendChild(b);
+  });
+}
+el.settingsBtn.addEventListener("click", openModal);
+el.modalClose.addEventListener("click", function(){ el.modalBackdrop.classList.remove("open"); });
+el.modalBackdrop.addEventListener("click", function(e){ if(e.target===el.modalBackdrop) el.modalBackdrop.classList.remove("open"); });
+el.modalApply.addEventListener("click", function(){
+  state.ageIdx = pendingAge; state.passIdx = pendingPass;
+  el.modalBackdrop.classList.remove("open");
+  fullRender();
+});
+
+/* ============================================================
+   language switch
+   ============================================================ */
+el.langSelect.addEventListener("change", function(){
+  state.lang = el.langSelect.value;
+  applyDir();
+  fullRender();
+});
+
+/* ============================================================
+   full render
+   ============================================================ */
+function fullRender(){
+  renderHud();
+  renderPath();
+  renderScene();
+  renderQuest();
+  renderSide();
+  renderControlBar();
+}
+
+buildLangSelect();
+applyDir();
+fullRender();
+
+})();
+</script>
+</body>
+</html>
