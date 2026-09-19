@@ -32,3 +32,13 @@
 @media print{[data-reason-report] .user-expression{font-size:10pt;white-space:pre-wrap;overflow-wrap:anywhere}[data-reason-report] audio{display:none}.reason-art{max-height:100px}}
 
 @media print{[data-reason-report] h4{margin:8px 0}[data-reason-report] p{margin:6px 0}[data-reason-report] .reason-art{max-height:85px}}
+
+/* W24 review: writing surfaces are plain, and guidance stays readable on mobile. */
+textarea{background:#fbf6e8;background-image:none;line-height:1.6}
+.activity-context{padding:14px 16px;margin-bottom:16px;border-left:5px solid #6c8178;border-radius:8px;background:#f6ecd3}
+.activity-context h3{margin:0 0 6px;font-size:18px}.activity-context p{margin:3px 0}
+.activity-guidance{display:grid;grid-template-columns:minmax(145px,.34fr) minmax(0,1fr);gap:7px 12px;margin:0 0 18px;padding:14px;border:1px solid #b7a78c;border-radius:9px;background:#fffaf0}
+.activity-guidance dt{font-weight:700;color:#4a5f65}.activity-guidance dd{margin:0;overflow-wrap:anywhere}
+.activity-actions{border-top:1px solid #c4b599;padding-top:16px}.expression-other-methods,.reason-other-methods{margin:10px 0}.expression-other-methods button{margin:5px 0 10px}
+.reason-completion-note{padding:10px 12px;border-left:4px solid #6c8178;background:#f7edd8;font-size:.92rem}
+@media(max-width:600px){.activity-guidance{grid-template-columns:1fr;gap:2px;padding:11px}.activity-guidance dd{margin:0 0 8px}.activity-workbench fieldset>button{flex-basis:100%;width:100%}.activity-actions>button{flex:1 1 125px}.expression nav>button{flex:1 1 130px}.expression textarea,.reason-editor textarea{max-width:100%}}

@@ -12,7 +12,7 @@ import strings from '../src/content/locales/w24-semantic.ko.json';
 const bundle=await loadContent(),mission=bundle.missions.find(m=>m.week===24)!;
 test('new comparison release versions only runtime W24 copy; original and other five missions stay intact',()=>{
  const before=JSON.stringify(bundle),b=releaseContent(bundle,entry,semantics,strings),m=b.missions.find(m=>m.week===24)!;
- assert.equal(JSON.stringify(bundle),before);assert.equal(m.missionVersion,'5.0.0');assert.equal(m.contentVersion,'3.1.0');
+ assert.equal(JSON.stringify(bundle),before);assert.equal(m.missionVersion,'5.1.0');assert.equal(m.contentVersion,'3.2.0');
  assert.deepEqual(b.missions.filter(m=>m.week!==24),bundle.missions.filter(m=>m.week!==24));
  const strip=(x:unknown)=>JSON.parse(JSON.stringify(x),(k,v)=>['missionVersion','contentVersion','learnerStoryOnly','historySummaryKey','historyKeyPointKey','semantic','executionOrderRuleId','reasonExpressionRuleId'].includes(k)?undefined:v);
  const original=structuredClone(mission);for(const c of original.conditions)c.activity.materials=c.activity.materials.filter(x=>x.role!=='reason');assert.deepEqual(strip(m),strip(original));const {r}=ready();assert.equal(matchesRelease(r,entry),false);

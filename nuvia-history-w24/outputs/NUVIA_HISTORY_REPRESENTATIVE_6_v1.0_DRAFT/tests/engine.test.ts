@@ -9,8 +9,8 @@ import {presentation,resolveProfile} from '../src/core/profile';
 import {validateAction} from '../src/core/contracts';
 import {actionInput,deterministic,profile,toPrediction} from './helpers';
 const bundle=await loadContent();
-test('six approved missions, twelve conditions, seven actions, original PASS distribution',()=>{
- assert.deepEqual(bundle.missions.map(m=>m.week),[24,1,15,29,39,44]);const c=bundle.missions.flatMap(m=>m.conditions);assert.equal(c.length,12);assert.deepEqual([...new Set(c.map(c=>c.activity.actionKind))].sort(),[...ACTIONS].sort());
+test('six approved missions, twelve conditions, active action set, original PASS distribution',()=>{
+ assert.deepEqual(bundle.missions.map(m=>m.week),[24,1,15,29,39,44]);const c=bundle.missions.flatMap(m=>m.conditions);assert.equal(c.length,12);assert.deepEqual([...new Set(c.map(c=>c.activity.actionKind))].sort(),ACTIONS.filter(a=>a!=='prioritizeActions').sort());
  const count=(domain:string)=>c.filter(c=>c.passDomain===domain).length;assert.deepEqual(['동시처리','순차처리','계획','주의'].map(count),[5,2,4,1]);
 });
 for(const mission of bundle.missions)for(const c of mission.conditions)for(const age of AGE_BANDS)test(`${c.shortId}/${age}: state flow, book, report and storage`,async()=>{

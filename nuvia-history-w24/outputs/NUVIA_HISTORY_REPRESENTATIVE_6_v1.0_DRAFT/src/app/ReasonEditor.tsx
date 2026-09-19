@@ -33,13 +33,13 @@ export function ReasonEditor({run,value,repository,busy,onCommit,onBack}:{run:Ru
  return <section className="reason-editor" data-reason-source={draft.mode}>
   <section className="reason-context" aria-label={ui('predictionSaved')}><h2>{ui('predictionSaved')}</h2>{run.prediction.status==='recorded'&&<ExpressionView expression={run.prediction.value.expression} run={run} repository={repository}/>}</section>
   <section className="reason-context" aria-label={ui('reasonSelected')}><h2>{ui('reasonSelected')}</h2><ol>{selected.map((id,i)=><li key={i}>{run.localeSnapshot[c.activity.materials.find(m=>m.id===id)!.labelKey]}</li>)}</ol></section>
-  <h2>{ui(low?'reasonQuestionLow':'reasonQuestionHigh')}</h2><p>{ui(low?'reasonInstructionLow':'reasonInstructionHigh')}</p>
+  <h2>{ui(low?'reasonQuestionLow':'reasonQuestionHigh')}</h2><p>{ui(preschool?'reasonInstructionPreschool':low?'reasonInstructionLow':'reasonInstructionHigh')}</p>
   <nav aria-label={ui('mode')}>{(preschool?['voice','draw']:low?['voice','draw','text']:drawAllowed?['text','voice','draw']:['text','voice']).map(mode=><button type="button" key={mode} disabled={busy||saving||recording} aria-pressed={draft.mode===mode} onClick={()=>set('mode',mode)}>{ui(mode==='voice'?'reasonVoice':mode==='draw'?'reasonDrawing':'reasonWriting')}</button>)}</nav>
   {preschool&&<details className="reason-other-methods" open={draft.mode==='text'||undefined}><summary>{ui('reasonOtherMethods')}</summary><button type="button" disabled={busy||saving||recording} aria-pressed={draft.mode==='text'} onClick={()=>set('mode','text')}>{ui('reasonWriting')}</button></details>}
   {draft.mode==='text'&&<label>{ui('reasonRecorded')}<textarea data-reason-text value={draft.text} disabled={busy||saving} onChange={e=>set('text',e.target.value)}/></label>}
   {draft.mode==='voice'&&<VoiceRecorder value={draft.audio} onChange={v=>set('audio',v)} onBusy={setRecording} allowImport={false} helpKey="canvas.voiceHelp"/>}
   {draft.mode==='draw'&&drawAllowed&&<DrawingInput strict initialValue={draft.drawing} onChange={v=>set('drawing',v)}/>}
-  {error&&<p role="alert">{error}</p>}{saved&&<p className="reason-draft-status" role="status">{ui('reasonDraftSaved')}</p>}
+  {error&&<p role="alert">{error}</p>}{saved&&<p className="reason-draft-status" role="status">{ui('reasonDraftSaved')}</p>}<p className="reason-completion-note">{ui('reasonCompletionNote')}</p>
   <div className="actions"><button disabled={busy||saving||recording||!valid||!saved||!assetsReady} className="primary" onClick={()=>void commit()}>{ui(draft.mode==='voice'?'reasonSaveVoice':draft.mode==='draw'?'reasonSaveDrawing':low?'reasonSaveThought':'reasonSave')}</button><button disabled={busy||saving||recording} onClick={onBack}>{ui('previous')}</button></div>
   <button className="reason-skip" disabled={busy||saving||recording||!assetsReady} onClick={()=>void commit(true)}>{ui('reasonSkip')}</button>
  </section>;
