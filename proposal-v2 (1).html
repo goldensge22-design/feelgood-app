@@ -49,10 +49,15 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── HOME ── */
-#sec-home{padding:0;min-height:100vh;display:none;align-items:center;justify-content:center;
+#sec-home{padding:0;min-height:0;display:none;background:var(--bg);}
+#sec-home.active{display:block;}
+.proposal-cover{min-height:100vh;padding:86px 24px 28px;display:flex;align-items:center;justify-content:center;
+  background:#fff;overflow:hidden;}
+.proposal-cover img{display:block;width:auto;height:auto;max-width:min(820px,92vw);
+  max-height:calc(100vh - 114px);object-fit:contain;box-shadow:0 18px 54px rgba(44,62,107,.18);}
+.home-hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(145deg,#1C2D55 0%,#2C3E6B 40%,#3D4F7C 70%,#4A5A8B 100%);
   color:#fff;position:relative;overflow:hidden;}
-#sec-home.active{display:flex;}
 .hb1{position:absolute;top:-140px;right:-120px;width:520px;height:520px;border-radius:50%;
   background:radial-gradient(circle,rgba(245,166,35,.16),transparent 70%);pointer-events:none;}
 .hb2{position:absolute;bottom:-100px;left:-100px;width:420px;height:420px;border-radius:50%;
@@ -433,6 +438,8 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .ntabs li{scroll-snap-align:start;flex:0 0 auto;}
   .ntabs li a{padding:8px 14px;min-height:36px;display:flex;align-items:center;}
   .ps{padding-top:124px;scroll-margin-top:112px;}
+  .proposal-cover{min-height:100svh;padding:128px 16px 24px;}
+  .proposal-cover img{max-width:94vw;max-height:calc(100svh - 152px);}
   #sec-home .hi{padding-top:150px;}
 }
 
@@ -1029,7 +1036,9 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </a>
   <ul class="ntabs" id="ntabs">
     <li class="active" data-s="home"><a href="#home" onclick="show('home');return false;" aria-current="page" data-i18n="nav_home">🏠 홈</a></li>
-    <li data-s="school"><a href="#school" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
+    <li data-s="edu"><a href="#education" onclick="show('edu');return false;" data-i18n="nav_edu">🏫 교육기관</a></li>
+    <li data-s="biz"><a href="#company" onclick="show('biz');return false;" data-i18n="nav_biz">🏢 기업</a></li>
+    <li data-s="mil"><a href="#military" onclick="show('mil');return false;" data-i18n="nav_mil">🎖 군경찰</a></li>
     <li data-s="test"><a href="#assessment" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
     <li data-s="brainmap"><a href="#training" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</a></li>
   </ul>
@@ -1038,25 +1047,30 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
 <!-- ═══ HOME ═══ -->
 <section id="sec-home" class="ps active">
-  <div class="hb1"></div>
-  <div class="hb2"></div>
-  <div class="hi">
-    <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
-    <img class="hero-logo" src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" alt="FeelGood">
-    <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
-    <p data-i18n="hero_p">K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.</p>
-    <div class="hbtns">
-      <a class="btn-gold ko-only" id="hbtn-edu" href="#" onclick="show('edu');return false;" data-i18n="hero_btn_edu">🏫 교육기관 제안</a>
-      <a class="btn-gold ko-only" id="hbtn-biz" href="#" onclick="show('biz');return false;" data-i18n="hero_btn_biz">🏢 기업 제안</a>
-      <a class="btn-gold ko-only" id="hbtn-mil" href="#" onclick="show('mil');return false;" data-i18n="hero_btn_mil">🎖 군경찰 제안</a>
-      <button class="btn-ghost" id="hbtn-test" onclick="show('test')" data-i18n="hero_btn_test">🧬 검사 소개</button>
-      <button class="btn-ghost" id="hbtn-brainmap" onclick="show('brainmap')" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</button>
-    </div>
-    <div class="hstats">
-      <div><div class="snum">40</div><div class="slbl" data-i18n="stat1">년간 축적 데이터</div></div>
-      <div><div class="snum">81</div><div class="slbl" data-i18n="stat2">두뇌 특성 유형</div></div>
-      <div><div class="snum">12,561</div><div class="slbl" data-i18n="stat3">회원수</div></div>
-      <div><div class="snum">5,014</div><div class="slbl" data-i18n="stat4">총 검사자수</div></div>
+  <div class="proposal-cover" aria-label="FeelGood proposal cover">
+    <img src="proposal/images/img-18.png" alt="FeelGood K-PASS D-CAS 제안서 표지" loading="eager" fetchpriority="high">
+  </div>
+  <div class="home-hero">
+    <div class="hb1"></div>
+    <div class="hb2"></div>
+    <div class="hi">
+      <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
+      <img class="hero-logo" src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" alt="FeelGood">
+      <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
+      <p data-i18n="hero_p">K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.</p>
+      <div class="hbtns" aria-label="FeelGood proposal chapters">
+        <a class="btn-gold ko-only" id="hbtn-edu" href="#education" onclick="show('edu');return false;" data-i18n="hero_btn_edu">🏫 교육기관 제안</a>
+        <a class="btn-gold ko-only" id="hbtn-biz" href="#company" onclick="show('biz');return false;" data-i18n="hero_btn_biz">🏢 기업 제안</a>
+        <a class="btn-gold ko-only" id="hbtn-mil" href="#military" onclick="show('mil');return false;" data-i18n="hero_btn_mil">🎖 군경찰 제안</a>
+        <a class="btn-ghost" id="hbtn-test" href="#assessment" onclick="show('test');return false;" data-i18n="hero_btn_test">🧬 검사 소개</a>
+        <a class="btn-ghost" id="hbtn-brainmap" href="#training" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</a>
+      </div>
+      <div class="hstats">
+        <div><div class="snum">40</div><div class="slbl" data-i18n="stat1">년간 축적 데이터</div></div>
+        <div><div class="snum">81</div><div class="slbl" data-i18n="stat2">두뇌 특성 유형</div></div>
+        <div><div class="snum">12,561</div><div class="slbl" data-i18n="stat3">회원수</div></div>
+        <div><div class="snum">5,014</div><div class="slbl" data-i18n="stat4">총 검사자수</div></div>
+      </div>
     </div>
   </div>
 </section>
@@ -7242,7 +7256,7 @@ const SECTION_HASHES = {
   test: 'assessment',
   brainmap: 'training',
   edu: 'education',
-  biz: 'business',
+  biz: 'company',
   mil: 'military'
 };
 const HASH_SECTIONS = Object.keys(SECTION_HASHES).reduce((map, section) => {
@@ -7253,6 +7267,7 @@ const HASH_SECTIONS = Object.keys(SECTION_HASHES).reduce((map, section) => {
   test: 'test',
   brainmap: 'brainmap',
   edu: 'edu',
+  business: 'biz',
   biz: 'biz',
   mil: 'mil'
 });
@@ -7260,13 +7275,12 @@ const HASH_SECTIONS = Object.keys(SECTION_HASHES).reduce((map, section) => {
 function show(id, options) {
   options = options || {};
   if (SECTIONS.indexOf(id) < 0) id = 'home';
-  const navId = ['edu','biz','mil'].indexOf(id) >= 0 ? 'school' : id;
   SECTIONS.forEach(s => {
     const sec = document.getElementById('sec-' + s);
-    if (sec) sec.classList.toggle('active', s === id);
+    if (sec) sec.classList.toggle('active', s === 'home' || s === id);
   });
   document.querySelectorAll('#ntabs li').forEach(li => {
-    const selected = li.dataset.s === navId;
+    const selected = li.dataset.s === id;
     li.classList.toggle('active', selected);
     const link = li.querySelector('a');
     if (link) {
@@ -7292,7 +7306,11 @@ function show(id, options) {
   }
   if (options.scroll !== false) {
     window.requestAnimationFrame(function () {
-      window.scrollTo({top: 0, left: 0, behavior: options.instant ? 'auto' : 'smooth'});
+      const target = id === 'home' ? null : document.getElementById('sec-' + id);
+      const nav = document.querySelector('nav');
+      const navOffset = nav ? nav.getBoundingClientRect().height + 12 : 0;
+      const top = target ? target.getBoundingClientRect().top + window.scrollY - navOffset : 0;
+      window.scrollTo({top: Math.max(0, top), left: 0, behavior: options.instant ? 'auto' : 'smooth'});
     });
   }
 }
