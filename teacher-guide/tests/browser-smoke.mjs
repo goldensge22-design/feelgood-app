@@ -109,7 +109,7 @@ async function layoutSnapshot() {
   return evaluate("(() => { const visible=document.querySelector('.chapter:not([hidden])'); const reader=document.querySelector('#reader'); const controls=[...visible.querySelectorAll('button,a,select,input')].filter(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0}); const clipped=[...visible.querySelectorAll('h1,h2,h3,p,span,strong,button,a')].filter(el=>el.scrollWidth>el.clientWidth+2).length; return {visible:visible.id,visibleCount:document.querySelectorAll('.chapter:not([hidden])').length,active:document.querySelector('[data-chapter-link][aria-current=page]')?.dataset.chapterLink||'',documentOverflow:document.documentElement.scrollWidth>innerWidth,readerOverflow:reader.scrollWidth>reader.clientWidth+1,clipped,smallTargets:controls.filter(el=>{const r=el.getBoundingClientRect();return r.width<40||r.height<40}).length}; })()");
 }
 
-const report = {static:{},routes:{},history:{},pagination:{},external:{},viewports:{},zoom:{},print:{},console:{},status:'PASS'};
+const report = {static:{},routes:{},history:{},pagination:{},interactions:{},external:{},viewports:{},zoom:{},print:{},console:{},status:'PASS'};
 const failures = [];
 
 try {
@@ -181,6 +181,21 @@ try {
   }
   report.pagination = {forward,backward};
   if (forward.join() !== routes.join() || backward.join() !== [...routes].reverse().join()) failures.push('pagination');
+
+  await openRoute('opening');
+  await evaluate("document.querySelector('#opening [data-go=pathways]').click()");
+  await waitFor("location.hash==='#pathways'", 'opening pathways CTA');
+  report.interactions.openingPathways = await evaluate('location.hash');
+  await openRoute('opening');
+  await evaluate("document.querySelector('#opening [data-go=teacher]').click()");
+  await waitFor("location.hash==='#teacher'", 'opening teacher CTA');
+  report.interactions.openingTeacher = await evaluate('location.hash');
+  await openRoute('profiles');
+  report.interactions.profiles = await evaluate("(() => { const filter=document.querySelector('[data-filter=계획]'); filter.value='상'; filter.dispatchEvent(new Event('input',{bubbles:true})); const filtered=document.querySelectorAll('[data-profile-id]').length; document.querySelector('[data-profile-id]').click(); const opened=document.querySelector('#profileDialog').open; document.querySelector('#closeProfileDialog').click(); document.querySelector('#resetFilters').click(); return {filtered,opened,closed:!document.querySelector('#profileDialog').open,reset:document.querySelectorAll('[data-profile-id]').length===5}; })()");
+  await openRoute('dashboard');
+  report.interactions.dashboard = await evaluate("(() => { const before=document.querySelector('#dashboardDetail').textContent; const button=document.querySelector('[data-dashboard=priority]'); button.click(); return {changed:document.querySelector('#dashboardDetail').textContent!==before,pressed:button.getAttribute('aria-pressed')==='true'}; })()");
+  report.interactions.language = await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='km'; select.dispatchEvent(new Event('change',{bubbles:true})); const pending=!document.querySelector('#translationNotice').hidden; const synced=[...document.querySelectorAll('[data-language-select]')].every(item=>item.value==='km'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); return {pending,synced,restored:document.querySelector('#translationNotice').hidden}; })()");
+  if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !report.interactions.profiles.opened || !report.interactions.profiles.closed || !report.interactions.profiles.reset || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !report.interactions.language.pending || !report.interactions.language.synced || !report.interactions.language.restored) failures.push('interactions');
 
   await openRoute('pathways');
   const currentHash = await evaluate('location.hash');
