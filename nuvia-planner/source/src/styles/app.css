@@ -1,0 +1,213 @@
+:root {
+  color-scheme: light;
+}
+* { box-sizing: border-box; }
+html, body, #root { min-height: 100%; }
+body {
+  margin: 0;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(47,111,91,.08), transparent 30%),
+    linear-gradient(180deg, #f7f9f7 0%, #fbfbfa 42%, #f5f7f8 100%);
+  color: #1d2320;
+}
+button, input { font: inherit; }
+button { transition: transform .16s ease, box-shadow .16s ease, background .16s ease, border-color .16s ease; }
+button:not(:disabled):hover { transform: translateY(-1px); }
+button:not(:disabled):active { transform: translateY(0); }
+button:focus-visible, input:focus-visible {
+  outline: 3px solid rgba(47,111,91,.18);
+  outline-offset: 2px;
+}
+.nuvia-shell {
+  width: min(100%, 820px);
+  margin: 0 auto;
+  padding: 28px 18px 96px;
+}
+.nuvia-topbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.nuvia-brand-kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .14em;
+  color: #2f6f5b;
+  text-transform: uppercase;
+}
+.nuvia-brand-title {
+  margin: 4px 0 0;
+  font-size: clamp(26px, 4vw, 34px);
+  line-height: 1.08;
+  letter-spacing: -.035em;
+}
+.nuvia-brand-subtitle {
+  margin: 7px 0 0;
+  max-width: 540px;
+  color: #69716b;
+  font-size: 13px;
+  line-height: 1.55;
+}
+.nuvia-demo-badge {
+  white-space: nowrap;
+  border: 1px solid #dbe4df;
+  background: rgba(255,255,255,.8);
+  border-radius: 999px;
+  padding: 8px 10px;
+  color: #58615b;
+  font-size: 11px;
+  font-weight: 700;
+}
+.nuvia-band-panel,
+.nuvia-nav-panel {
+  background: rgba(255,255,255,.82);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(214,220,216,.88);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(35,56,46,.045);
+  padding: 12px;
+}
+.nuvia-band-panel { margin-bottom: 10px; }
+.nuvia-nav-panel { position: sticky; top: 10px; z-index: 10; margin-bottom: 18px; }
+.nuvia-content { animation: nuviaEnter .22s ease-out; }
+@keyframes nuviaEnter { from { opacity: .55; transform: translateY(4px);} to {opacity: 1; transform: translateY(0);} }
+.nuvia-footer-note { text-align: center; padding-top: 12px; }
+.nuvia-surface {
+  background: rgba(255,255,255,.96);
+  border: 1px solid #e1e6e2;
+  border-radius: 16px;
+  box-shadow: 0 8px 22px rgba(32,50,42,.045);
+}
+.nuvia-surface--muted {
+  background: linear-gradient(180deg, #f2f6f3 0%, #f7f8f7 100%);
+  border-color: #dde6e1;
+}
+.nuvia-button {
+  min-height: 42px;
+  border-radius: 12px !important;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.nuvia-button--primary { box-shadow: 0 8px 18px rgba(47,111,91,.17); }
+.nuvia-button--secondary { background: rgba(255,255,255,.96) !important; }
+.nuvia-button--quiet { min-height: 36px; }
+.nuvia-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  font-weight: 700;
+  letter-spacing: -.01em;
+}
+.nuvia-section-title { letter-spacing: -.025em; }
+.nuvia-card-accent {
+  position: relative;
+  overflow: hidden;
+}
+.nuvia-card-accent::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 4px;
+  background: linear-gradient(180deg, #2f6f5b, #83ab9e);
+}
+.nuvia-pattern-hero {
+  background: linear-gradient(135deg, #e7f1ec 0%, #f3f6f4 68%, #fff 100%);
+}
+.nuvia-mini-label {
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  font-weight: 800;
+}
+.nuvia-tab-button {
+  flex: 1 1 0;
+  min-width: 0;
+}
+@media (max-width: 600px) {
+  .nuvia-shell { padding: 18px 12px 90px; }
+  .nuvia-topbar { align-items: flex-start; }
+  .nuvia-demo-badge { display: none; }
+  .nuvia-nav-panel { top: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; }
+}
+
+/* ── v1.5.2 GPT PRODUCT LAYER ───────────────────────────────────────── */
+.nuvia-page-heading { display:flex; flex-direction:column; gap:5px; margin:2px 0 2px; }
+.nuvia-page-heading > :first-child { text-transform:uppercase; letter-spacing:.12em; font-weight:800; color:#2f6f5b !important; }
+.nuvia-section-intro { display:flex; flex-direction:column; gap:3px; margin-top:4px; }
+.nuvia-pattern-hero .nuvia-surface { border-color:#cfe0d7; box-shadow:0 10px 28px rgba(47,111,91,.08); }
+.nuvia-week-bars { min-height:126px; display:flex; align-items:flex-end; gap:12px; padding:8px 4px 0; }
+.nuvia-week-bar-wrap { flex:1; min-width:54px; display:flex; flex-direction:column; align-items:center; gap:7px; }
+.nuvia-week-bar-track { width:100%; max-width:54px; height:92px; background:#eef2ef; border-radius:12px; display:flex; align-items:flex-end; overflow:hidden; border:1px solid #e1e7e3; }
+.nuvia-week-bar-fill { width:100%; min-height:8px; background:linear-gradient(180deg,#6d9b8b 0%,#2f6f5b 100%); border-radius:10px 10px 4px 4px; transition:height .25s ease; }
+.nuvia-ownership-journey { display:grid; grid-template-columns:repeat(5,1fr); gap:8px; }
+.nuvia-ownership-step { position:relative; display:flex; flex-direction:column; gap:4px; min-height:72px; padding:10px 8px; border-radius:13px; background:#f5f6f5; border:1px solid #e3e7e4; color:#8a918c; }
+.nuvia-ownership-step span { width:22px; height:22px; border-radius:50%; display:grid; place-items:center; background:#e6e9e7; font-size:11px; font-weight:800; }
+.nuvia-ownership-step strong { font-size:11px; letter-spacing:.045em; }
+.nuvia-ownership-step.is-reached { color:#244f42; border-color:#bcd2c8; background:linear-gradient(180deg,#e8f2ed,#f4f8f6); }
+.nuvia-ownership-step.is-reached span { background:#2f6f5b; color:#fff; }
+.nuvia-stage-legend { display:flex; gap:6px; flex-wrap:wrap; }
+.nuvia-stage-legend span { font-size:10px; font-weight:800; letter-spacing:.07em; color:#50625a; background:#edf3ef; border:1px solid #d9e5df; border-radius:999px; padding:5px 9px; }
+.nuvia-pattern-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
+.nuvia-pattern-cell { min-height:66px; border:1px solid #e1e6e2; background:#fff; border-radius:13px; padding:10px; display:flex; flex-direction:column; justify-content:space-between; gap:4px; }
+.nuvia-pattern-cell strong { font-size:13px; }
+.nuvia-pattern-cell span { font-size:10px; color:#89908b; }
+.nuvia-pattern-cell.is-primary { border-color:#79a291; background:#e9f2ee; box-shadow:inset 0 0 0 1px rgba(47,111,91,.07); }
+.nuvia-pattern-cell.is-primary span { color:#2f6f5b; font-weight:800; }
+.nuvia-pattern-cell.is-secondary { border-color:#c8d7d0; background:#f3f7f5; }
+.nuvia-pattern-cell.is-secondary span { color:#65766e; font-weight:700; }
+@media (max-width: 600px) {
+  .nuvia-ownership-journey { grid-template-columns:1fr 1fr; }
+  .nuvia-ownership-step:last-child { grid-column:1 / -1; }
+  .nuvia-pattern-grid { grid-template-columns:1fr 1fr; }
+  .nuvia-week-bars { gap:8px; }
+}
+.nuvia-challenge-card .nuvia-surface { transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease; }
+.nuvia-challenge-card .nuvia-surface:hover { transform:translateY(-2px); box-shadow:0 14px 34px rgba(32,50,42,.075); border-color:#ccd9d2; }
+.nuvia-card-title-row { display:flex; gap:10px; align-items:flex-start; }
+.nuvia-card-number { flex:0 0 30px; width:30px; height:30px; display:grid; place-items:center; border-radius:10px; background:#e9f2ee; color:#2f6f5b; font-weight:900; }
+.nuvia-boss-card .nuvia-surface { background:linear-gradient(140deg,#183f35 0%,#2f6f5b 54%,#4f8370 100%) !important; border:none !important; box-shadow:0 18px 45px rgba(26,69,57,.19); }
+.nuvia-boss-card .nuvia-surface p, .nuvia-boss-card .nuvia-surface h2, .nuvia-boss-card .nuvia-surface h3 { color:#fff !important; }
+.nuvia-boss-card .nuvia-surface p[style*="rgb"] { color:rgba(255,255,255,.76) !important; }
+.nuvia-boss-card--observation .nuvia-surface { background:linear-gradient(140deg,#edf3f0,#f8faf9) !important; border:1px solid #dbe7e1 !important; box-shadow:none; }
+.nuvia-boss-card--observation .nuvia-surface p { color:#1d2320 !important; }
+.nuvia-strategy-card-head { display:flex; gap:10px; align-items:center; }
+.nuvia-strategy-mark { width:34px; height:34px; border-radius:11px; display:grid; place-items:center; background:#183f35; color:#fff; font-size:12px; font-weight:900; }
+.nuvia-growth-map { display:flex; flex-direction:column; gap:8px; }
+.nuvia-growth-area { min-width:130px; flex:1 1 130px; display:grid; grid-template-columns:auto 1fr; gap:2px 8px; align-items:center; border:1px solid #e0e5e2; background:#fff; border-radius:14px; padding:10px 12px; }
+.nuvia-growth-area.is-lit { border-color:#b9d0c5; background:linear-gradient(180deg,#e8f2ed,#f7faf8); }
+.nuvia-growth-dot { width:9px; height:9px; border-radius:50%; background:#d9dfdc; grid-row:1/3; }
+.nuvia-growth-area.is-lit .nuvia-growth-dot { background:#2f6f5b; box-shadow:0 0 0 5px rgba(47,111,91,.09); }
+.nuvia-level-journey { display:flex; flex-direction:column; gap:8px; }
+.nuvia-level-track { display:flex; flex-direction:column; gap:6px; position:relative; }
+.nuvia-level-step { display:grid; grid-template-columns:32px 1fr; gap:9px; align-items:start; opacity:.45; padding:6px 8px; border-radius:12px; }
+.nuvia-level-step.is-reached { opacity:1; }
+.nuvia-level-step.is-current { background:#eaf3ef; }
+.nuvia-level-node { width:27px; height:27px; border-radius:50%; display:grid; place-items:center; background:#e8ece9; color:#6c756f; font-size:11px; font-weight:900; }
+.nuvia-level-step.is-reached .nuvia-level-node { background:#7fa695; color:#fff; }
+.nuvia-level-step.is-current .nuvia-level-node { background:#2f6f5b; box-shadow:0 0 0 5px rgba(47,111,91,.10); }
+.nuvia-level-journey.is-compact .nuvia-level-track { display:grid; grid-template-columns:repeat(6,1fr); gap:5px; }
+.nuvia-level-journey.is-compact .nuvia-level-step { grid-template-columns:1fr; text-align:center; justify-items:center; padding:5px 2px; }
+@media(max-width:600px){ .nuvia-level-journey.is-compact .nuvia-level-track{grid-template-columns:repeat(3,1fr);} }
+
+/* ── v1.5.4 GPT GAME LOOP ───────────────────────────────────────────── */
+.nuvia-discovery-unlock .nuvia-surface{border-color:#d5c58e;background:linear-gradient(145deg,#fffdf5,#f7f2df);box-shadow:0 16px 38px rgba(107,89,31,.10)}
+.nuvia-unlock-icon,.nuvia-tomorrow-icon{width:38px;height:38px;border-radius:13px;display:grid;place-items:center;flex:0 0 38px;background:#183f35;color:#fff;font-size:18px;font-weight:900}
+.nuvia-week-board{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+.nuvia-week-slot{min-height:72px;border:1px dashed #ccd5d0;border-radius:14px;background:#f7f8f7;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;color:#8b938e}
+.nuvia-week-slot>span{width:29px;height:29px;border-radius:50%;display:grid;place-items:center;background:#e8ece9;font-size:12px;font-weight:900}
+.nuvia-week-slot small{font-size:10px}
+.nuvia-week-slot.is-recorded{border-style:solid;border-color:#a9c5b8;background:#eaf3ef;color:#244f42}
+.nuvia-week-slot.is-recorded>span{background:#2f6f5b;color:#fff}
+.nuvia-board-count,.nuvia-collection-count{margin-left:auto;font-size:11px;font-weight:800;color:#2f6f5b;background:#e8f2ed;border-radius:999px;padding:5px 9px}
+.nuvia-collection-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.nuvia-collection-item{min-height:76px;border:1px solid #e0e5e2;border-radius:14px;padding:11px;display:flex;flex-direction:column;justify-content:space-between;background:#fff}
+.nuvia-collection-item strong{font-size:13px}.nuvia-collection-item span{font-size:10px;color:#6e7772}
+.nuvia-collection-item.stage-apply{border-color:#cadbd3;background:#f4f8f6}.nuvia-collection-item.stage-transfer{border-color:#a9c8ba;background:#edf6f1}.nuvia-collection-item.stage-own{border-color:#d5c58e;background:linear-gradient(145deg,#fffdf5,#f7f2df)}
+.nuvia-own-celebration [data-testid="reward"]{border-color:#d5c58e!important;background:linear-gradient(145deg,#fffdf5,#f7f2df)!important;box-shadow:0 12px 30px rgba(107,89,31,.10)}
+.nuvia-tomorrow-preview .nuvia-surface{border-color:#c6d8cf;background:linear-gradient(145deg,#edf5f1,#fbfdfc);box-shadow:0 14px 34px rgba(47,111,91,.08)}
+.nuvia-preview-chips{display:flex;flex-wrap:wrap;gap:6px}.nuvia-preview-chips span{font-size:11px;font-weight:700;color:#385e50;background:#fff;border:1px solid #d5e1db;border-radius:999px;padding:6px 9px}
+@media(max-width:600px){.nuvia-week-board{gap:5px}.nuvia-week-slot{min-height:62px}.nuvia-collection-grid{grid-template-columns:1fr}}

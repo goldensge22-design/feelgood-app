@@ -1,0 +1,12 @@
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+const html=readFileSync('dist/index.html','utf8');
+const jsPath=html.match(/<script[^>]*src="([^"]+)"[^>]*><\/script>/)?.[1];
+const cssPath=html.match(/<link[^>]*href="([^"]+\.css)"[^>]*>/)?.[1];
+if(!jsPath||!cssPath)throw new Error('Expected one Vite JS and CSS bundle');
+const readAsset=p=>readFileSync('dist/'+p.replace(/^\.?\//,''),'utf8');
+const standalone=html.replace(/<script[^>]*src="[^"]+"[^>]*><\/script>/,()=>'<script type="module">'+readAsset(jsPath).replace(/<\/script/gi,'<\\/script')+'</script>').replace(/<link[^>]*href="[^"]+\.css"[^>]*>/,()=>'<style>'+readAsset(cssPath).replace(/<\/style/gi,'<\\/style')+'</style>');
+mkdirSync('deliverables',{recursive:true});
+writeFileSync('deliverables/NUVIA_PLANNER_2_5D.html',standalone);
+writeFileSync('deliverables/NUVIA_PLANNER_PRODUCTION.html',standalone.replace('<head>','<head><script>window.NUVIA_PLANNER_MODE="production";</script>'));
+writeFileSync('dist/production.html',html.replace('<head>','<head><script>window.NUVIA_PLANNER_MODE="production";</script>'));
+console.log('Demo and production standalone HTML generated.');
