@@ -22,10 +22,16 @@ export function canDependOn(tasks:PlannerTask[],taskId:string,dependencyId:strin
 export function storageKey(scope:string){return 'nuvia-planner:2.0:'+scope;}
 /** Uses the exact same JSON and validation route as a downloaded backup. */
 export function verifyBackupRoundTrip(workspace:Workspace,scope:string){
- const restored=validateWorkspace(JSON.parse(JSON.stringify(workspace)),scope);
+ const restored=restoreWorkspaceJson(exportWorkspaceJson(workspace),scope);
  const stable=JSON.stringify(restored)===JSON.stringify(workspace);
  if(!stable)throw new Error('백업 왕복 뒤 자료가 달라졌어요.');
  return restored;
+}
+export function exportWorkspaceJson(workspace:Workspace,pretty=false){return JSON.stringify(workspace,null,pretty?2:undefined);}
+export function restoreWorkspaceJson(json:string,scope:string):Workspace {
+ let raw:unknown;
+ try{raw=JSON.parse(json);}catch{throw new Error('백업 JSON이 손상되었거나 잘못된 형식이에요.');}
+ return validateWorkspace(raw,scope);
 }
 const text=(v:unknown,max:number)=>typeof v==='string'&&v.length<=max;
 const date=(v:unknown)=>v===''||(typeof v==='string'&&/^\d{4}-\d{2}-\d{2}$/.test(v)&&Number.isFinite(Date.parse(v))&&new Date(v).toISOString().slice(0,10)===v);

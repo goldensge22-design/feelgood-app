@@ -1,6 +1,6 @@
 import {describe,expect,it} from 'vitest';
 import {DEMOS,profileKey,resolveTraining,type TrainingRecord} from '../adaptive/engine';
-import {blankWorkspace,createTask,scopeFor,uid,validateWorkspace,verifyBackupRoundTrip} from '../adaptive/workspace';
+import {blankWorkspace,createTask,exportWorkspaceJson,restoreWorkspaceJson,scopeFor,uid,validateWorkspace,verifyBackupRoundTrip} from '../adaptive/workspace';
 
 function fixture(){
  const assessment=DEMOS[1],band='A' as const,scope=scopeFor('demo',assessment,band),assignment=resolveTraining(assessment),now='2026-09-20T10:00:00.000Z';
@@ -10,6 +10,6 @@ function fixture(){
  return {scope,workspace:{...blankWorkspace(scope),demoExampleLoaded:true,tasks:[task],records:[real,follow]}};
 }
 describe('backup restore validation',()=>{
- it('round-trips tasks, steps, materials, completion, repeat, and growth records through JSON validation',()=>{const {scope,workspace}=fixture();expect(verifyBackupRoundTrip(workspace,scope)).toEqual(workspace);});
- it('rejects another profile, corrupt JSON, and broken previous-record links',()=>{const {scope,workspace}=fixture();expect(()=>validateWorkspace({...workspace,scope:'other'},scope)).toThrow();expect(()=>JSON.parse('{')).toThrow();const broken=structuredClone(workspace);broken.records[1].measures.previousRecordId='missing';expect(()=>validateWorkspace(broken,scope)).toThrow('이전 적용 기록 연결 오류');});
+ it('round-trips tasks, steps, materials, completion, repeat, and growth records through the export/restore JSON path',()=>{const {scope,workspace}=fixture();const json=exportWorkspaceJson(workspace,true);expect(restoreWorkspaceJson(json,scope)).toEqual(workspace);expect(verifyBackupRoundTrip(workspace,scope)).toEqual(workspace);});
+ it('rejects another profile, corrupt JSON, and broken previous-record links',()=>{const {scope,workspace}=fixture();expect(()=>restoreWorkspaceJson(exportWorkspaceJson({...workspace,scope:'other'}),scope)).toThrow();expect(()=>restoreWorkspaceJson('{',scope)).toThrow('백업 JSON이 손상');const broken=structuredClone(workspace);broken.records[1].measures.previousRecordId='missing';expect(()=>validateWorkspace(broken,scope)).toThrow('이전 적용 기록 연결 오류');});
 });
