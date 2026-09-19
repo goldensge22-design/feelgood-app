@@ -195,7 +195,12 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   background: var(--navy);
   color: #fff;
 }
-.opening-copy { position: relative; z-index: 2; min-width: 0; }
+.opening-copy { position: relative; z-index: 2; min-width: 0; container-type: inline-size; }
+.chapter-opening .opening-title {
+  font-size: clamp(24px, 9cqi, 46px);
+  line-height: 1.16;
+}
+.opening-title span { display: block; white-space: nowrap; }
 .opening-copy > p:not(.eyebrow, .lead) {
   max-width: 650px;
   color: #e3edf9;
