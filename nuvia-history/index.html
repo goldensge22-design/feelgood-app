@@ -330,6 +330,12 @@
   .cb-next:focus-visible{ outline:none; box-shadow:var(--focus), 0 5px 0 var(--orange-dark); }
   .cb-next.locked{ background:#C7CCDC; box-shadow:0 5px 0 #A8AEC4; cursor:not-allowed; }
   .cb-next.locked:active{ transform:none; box-shadow:0 5px 0 #A8AEC4; }
+  .cb-next:disabled{color:#fff; opacity:1;}
+
+  .completion-banner{
+    margin-top:14px; padding:12px 14px; border:1px solid #9EDCC4; border-radius:12px;
+    background:var(--green-pale); color:#176B4A; font-weight:800; text-align:center;
+  }
 
   /* ============ settings modal ============ */
   .modal-backdrop{
@@ -363,8 +369,7 @@
 
   .sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap;}
 
-  a, button, select, [tabindex]{ }
-  :focus-visible{ outline: none; }
+  :focus-visible{ outline:3px solid #9AB9FF; outline-offset:3px; }
 
   @media (max-width:640px){
     .hud{flex-wrap:wrap;}
@@ -468,7 +473,7 @@
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     <span id="prevLabel">이전</span>
   </button>
-  <div class="cb-status" id="cbStatus">1/5 · 역사 만나기</div>
+  <div class="cb-status" id="cbStatus" role="status" aria-live="polite">1/5 · 역사 만나기</div>
   <button class="cb-next" id="nextBtn" type="button">
     <span id="nextLabel">다음</span>
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -476,7 +481,7 @@
 </footer>
 
 <!-- settings modal -->
-<div class="modal-backdrop" id="modalBackdrop">
+<div class="modal-backdrop" id="modalBackdrop" aria-hidden="true">
   <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
     <h2 id="modalTitle">학습 설정</h2>
     <div class="opt-group">
@@ -522,7 +527,9 @@ var UI = {
   conditionOff:{ko:"다리 통행 불가",en:"Bridge blocked",zh:"桥梁不可通行",ja:"橋は通行不可",vi:"Cầu bị chặn",th:"สะพานปิด",mn:"Гүүр хаалттай",ru:"Мост закрыт",ar:"الجسر مغلق",es:"Puente cerrado",fr:"Pont fermé"},
   selectionCounter:{ko:"{n}/{t} 선택",en:"{n}/{t} selected",zh:"已选 {n}/{t}",ja:"{n}/{t} 選択",vi:"Đã chọn {n}/{t}",th:"เลือกแล้ว {n}/{t}",mn:"{n}/{t} сонгосон",ru:"Выбрано {n}/{t}",ar:"تم اختيار {n}/{t}",es:"{n}/{t} seleccionado",fr:"{n}/{t} sélectionné"},
   lockedHint:{ko:"조건을 먼저 바꿔 보세요",en:"Change the condition first",zh:"请先改变条件",ja:"先に条件を変えてみましょう",vi:"Hãy thay đổi điều kiện trước",th:"เปลี่ยนเงื่อนไขก่อน",mn:"Эхлээд нөхцөлийг өөрчил",ru:"Сначала измените условие",ar:"غيّر الشرط أولاً",es:"Cambia la condición primero",fr:"Change d'abord la condition"},
+  exploreCounter:{ko:"{n}/{t} 지점 탐색",en:"{n}/{t} points explored",zh:"已探索 {n}/{t} 个地点",ja:"{n}/{t} 地点を探索",vi:"Đã khám phá {n}/{t} điểm",th:"สำรวจแล้ว {n}/{t} จุด",mn:"{n}/{t} цэг судалсан",ru:"Исследовано {n}/{t}",ar:"تم استكشاف {n}/{t}",es:"{n}/{t} puntos explorados",fr:"{n}/{t} points explorés"},
   stepDoneToast:{ko:"단계 완료!",en:"Step complete!",zh:"步骤完成！",ja:"ステップ完了！",vi:"Hoàn thành bước!",th:"ทำขั้นตอนสำเร็จ!",mn:"Алхам дууслаа!",ru:"Шаг завершён!",ar:"اكتملت الخطوة!",es:"¡Paso completado!",fr:"Étape terminée !"},
+  completed:{ko:"학습 완료",en:"Completed",zh:"学习完成",ja:"学習完了",vi:"Đã hoàn thành",th:"เรียนจบแล้ว",mn:"Дууссан",ru:"Завершено",ar:"اكتمل التعلم",es:"Completado",fr:"Terminé"},
   changeLang:{ko:"언어",en:"Language",zh:"语言",ja:"言語",vi:"Ngôn ngữ",th:"ภาษา",mn:"Хэл",ru:"Язык",ar:"اللغة",es:"Idioma",fr:"Langue"},
   feelgood:{ko:"FeelGood",en:"FeelGood",zh:"FeelGood",ja:"FeelGood",vi:"FeelGood",th:"FeelGood",mn:"FeelGood",ru:"FeelGood",ar:"FeelGood",es:"FeelGood",fr:"FeelGood"}
 };
@@ -614,11 +621,42 @@ var state = {
   passIdx: 1,          // default 순차처리
   step: 1,             // 1..5
   conditionOn: true,   // 다리 통행 가능? starts true (matches real history) until changed in step 2
+  conditionChanged:false,
   hotspotPressed: {},
   choiceOrder: [],      // ordered ids selected in step3
   stepDone: {1:false,2:false,3:false,4:false,5:false},
-  helpOpen:false
+  helpOpen:false,
+  finished:false
 };
+
+var STORAGE_KEY = "nuvia-history-progress-v1";
+function loadProgress(){
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(!saved || saved.version !== 1) return;
+    if(LANGS.indexOf(saved.lang) > -1) state.lang = saved.lang;
+    if(Number.isInteger(saved.ageIdx) && saved.ageIdx >= 0 && saved.ageIdx < AGE_TIERS.length) state.ageIdx = saved.ageIdx;
+    if(Number.isInteger(saved.passIdx) && saved.passIdx >= 0 && saved.passIdx < PASS_AREAS.length) state.passIdx = saved.passIdx;
+    if(Number.isInteger(saved.step) && saved.step >= 1 && saved.step <= 5) state.step = saved.step;
+    state.conditionOn = saved.conditionOn !== false;
+    state.conditionChanged = !!saved.conditionChanged;
+    state.hotspotPressed = saved.hotspotPressed && typeof saved.hotspotPressed === "object" ? saved.hotspotPressed : {};
+    state.choiceOrder = Array.isArray(saved.choiceOrder) ? saved.choiceOrder.filter(function(id){ return CHOICES.some(function(c){ return c.id === id; }); }) : [];
+    state.stepDone = saved.stepDone && typeof saved.stepDone === "object" ? saved.stepDone : state.stepDone;
+    state.finished = !!saved.finished;
+  }catch(e){ /* Ignore unavailable or malformed local storage. */ }
+}
+function saveProgress(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      version:1, lang:state.lang, ageIdx:state.ageIdx, passIdx:state.passIdx, step:state.step,
+      conditionOn:state.conditionOn, conditionChanged:state.conditionChanged,
+      hotspotPressed:state.hotspotPressed, choiceOrder:state.choiceOrder,
+      stepDone:state.stepDone, finished:state.finished
+    }));
+  }catch(e){ /* The prototype remains usable when storage is blocked. */ }
+}
+loadProgress();
 
 function t(dict){
   var l = state.lang;
@@ -674,6 +712,7 @@ function renderPath(){
     else cls += "upcoming";
     var node = document.createElement("div");
     node.className = cls;
+    if(stepNo === state.step) node.setAttribute("aria-current", "step");
     var connector = document.createElement("div");
     connector.className = "connector";
     var circle = document.createElement("div");
@@ -709,7 +748,6 @@ function renderScene(){
   // wire hotspot clicks
   Array.prototype.forEach.call(el.stageScene.querySelectorAll(".hotspot"), function(h){
     h.addEventListener("click", function(){ onHotspot(h.dataset.id); });
-    h.addEventListener("keydown", function(ev){ if(ev.key==="Enter"||ev.key===" "){ev.preventDefault(); onHotspot(h.dataset.id);} });
   });
 
   el.sceneCaption.textContent = sceneCaptionFor(state.hotspotPressed._active);
@@ -798,10 +836,11 @@ function onHotspot(id){
   state.hotspotPressed[id] = true;
   state.hotspotPressed._active = id;
   if(id === "bridge" && state.step === 2){
-    state.conditionOn = false; // clicking always sets/keeps the hypothetical 'blocked' condition for this mission
-    state.hotspotPressed.bridge = true;
-    if(!state.stepDone[2]) markStepDone(2);
+    state.conditionOn = !state.conditionOn;
+    state.conditionChanged = true;
+    state.stepDone[2] = !state.conditionOn;
   }
+  saveProgress();
   renderScene();
   renderSide();
   renderControlBar();
@@ -898,7 +937,7 @@ function buildConditionSummary(){
   card.style.marginTop = "0";
   card.innerHTML =
     '<div class="quest-body">'+
-      '<p class="quest-action">'+t(state.hotspotPressed.bridge ? UI.conditionOff : {ko:"아직 조건을 바꾸지 않았어요.",en:"Condition not changed yet."})+'</p>'+
+      '<p class="quest-action">'+t(state.conditionChanged ? (state.conditionOn ? UI.conditionOn : UI.conditionOff) : {ko:"아직 조건을 바꾸지 않았어요.",en:"Condition not changed yet."})+'</p>'+
       '<p class="quest-sub">'+t({ko:"장면 속 다리 핀을 눌러 조건을 바꿔 보세요.",en:"Tap the bridge pin in the scene to change the condition."})+'</p>'+
     '</div>';
   wrap.appendChild(card);
@@ -913,6 +952,7 @@ function buildChoiceList(){
 
   var d = ageDensity();
   var visibleChoices = d <= 2 ? CHOICES.slice(0,2) : CHOICES;
+  var required = choiceRequirement();
 
   visibleChoices.forEach(function(choice, idx){
     var selectedIdx = state.choiceOrder.indexOf(choice.id);
@@ -927,7 +967,8 @@ function buildChoiceList(){
         '<span class="choice-hint">'+t({ko:choice.hintKo,en:choice.hintEn})+'</span>'+
       '</span>'+
       '<span class="choice-check"><svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>';
-    card.addEventListener("click", function(){ toggleChoice(choice.id, visibleChoices.length); });
+    card.setAttribute("aria-pressed", selected ? "true" : "false");
+    card.addEventListener("click", function(){ toggleChoice(choice.id, required); });
     list.appendChild(card);
   });
   wrap.appendChild(list);
@@ -936,9 +977,11 @@ function buildChoiceList(){
 function toggleChoice(id, total){
   var idx = state.choiceOrder.indexOf(id);
   if(idx > -1){ state.choiceOrder.splice(idx,1); }
+  else if(total === 1){ state.choiceOrder = [id]; }
   else { state.choiceOrder.push(id); }
   if(state.choiceOrder.length === total){ markStepDone(3); }
   else { state.stepDone[3] = false; }
+  saveProgress();
   renderSide();
   renderControlBar();
 }
@@ -956,6 +999,12 @@ function buildStoryFinal(){
     : t({ko:"활동을 완료하면 이야기가 완성됩니다.", en:"Complete the activity to finish your story."});
   card.innerHTML = '<div class="quest-body"><p class="quest-sub" style="font-size:14px; color:var(--ink);">'+storyText+'</p></div>';
   wrap.appendChild(card);
+  if(state.finished){
+    var done = document.createElement("div");
+    done.className = "completion-banner";
+    done.textContent = t(UI.completed);
+    wrap.appendChild(done);
+  }
   return wrap;
 }
 
@@ -963,30 +1012,40 @@ function buildStoryFinal(){
    control bar / navigation
    ============================================================ */
 function stepReady(step){
-  if(step===1) return true;
-  if(step===2) return !!state.hotspotPressed.bridge;
+  if(step===1){
+    var explored = ["press","bridge","reader"].filter(function(id){ return !!state.hotspotPressed[id]; }).length;
+    return explored >= (ageDensity() <= 2 ? 1 : 3);
+  }
+  if(step===2) return state.conditionChanged && !state.conditionOn;
   if(step===3){
-    var d = ageDensity();
-    var total = d<=2 ? 2 : CHOICES.length;
-    return state.choiceOrder.length === total;
+    return state.choiceOrder.length === choiceRequirement();
   }
   if(step===4) return true;
   if(step===5) return true;
   return false;
 }
 function markStepDone(step){ state.stepDone[step] = true; }
+function choiceRequirement(){ return ageDensity() <= 2 ? 1 : CHOICES.length; }
 
 function renderControlBar(){
   el.prevLabel.textContent = t(UI.prev);
-  el.nextLabel.textContent = state.step===5 ? t({ko:"완료",en:"Finish"}) : t(UI.next);
+  el.nextLabel.textContent = state.finished ? t(UI.completed) : (state.step===5 ? t({ko:"완료",en:"Finish"}) : t(UI.next));
   el.prevBtn.disabled = state.step===1;
 
   var ready = stepReady(state.step);
-  el.nextBtn.classList.toggle("locked", !ready);
+  el.nextBtn.classList.toggle("locked", !ready || state.finished);
+  el.nextBtn.disabled = !ready || state.finished;
+  el.nextBtn.setAttribute("aria-disabled", (!ready || state.finished) ? "true" : "false");
 
   var statusText;
-  if(state.step===3){
-    var d=ageDensity(); var total = d<=2?2:CHOICES.length;
+  if(state.finished){
+    statusText = t(UI.completed);
+  } else if(state.step===1 && !ready){
+    var explored = ["press","bridge","reader"].filter(function(id){ return !!state.hotspotPressed[id]; }).length;
+    var needed = ageDensity() <= 2 ? 1 : 3;
+    statusText = t(UI.exploreCounter).replace("{n}", Math.min(explored, needed)).replace("{t}", needed);
+  } else if(state.step===3){
+    var total = choiceRequirement();
     statusText = t(UI.selectionCounter).replace("{n}", state.choiceOrder.length).replace("{t}", total);
   } else if(!ready && state.step===2){
     statusText = t(UI.lockedHint);
@@ -997,19 +1056,23 @@ function renderControlBar(){
 }
 
 el.prevBtn.addEventListener("click", function(){
-  if(state.step>1){ state.step--; fullRender(); }
+  if(state.step>1){ state.step--; state.finished=false; saveProgress(); fullRender(); }
 });
 el.nextBtn.addEventListener("click", function(){
   if(!stepReady(state.step)) return;
   markStepDone(state.step);
-  if(state.step<5){ state.step++; state.helpOpen=false; fullRender(); }
+  if(state.step<5){ state.step++; state.helpOpen=false; saveProgress(); fullRender(); }
   else {
-    el.cbStatus.textContent = t(UI.stepDoneToast);
+    state.finished = true;
+    saveProgress();
+    renderSide();
+    renderControlBar();
   }
 });
 
 el.helpToggle.addEventListener("click", function(){
   state.helpOpen = !state.helpOpen;
+  saveProgress();
   renderQuest();
 });
 
@@ -1027,6 +1090,14 @@ function openModal(){
   buildAgeOptions();
   buildPassOptions();
   el.modalBackdrop.classList.add("open");
+  el.modalBackdrop.setAttribute("aria-hidden", "false");
+  var firstOption = el.ageOptions.querySelector("button");
+  if(firstOption) firstOption.focus();
+}
+function closeModal(){
+  el.modalBackdrop.classList.remove("open");
+  el.modalBackdrop.setAttribute("aria-hidden", "true");
+  el.settingsBtn.focus();
 }
 function buildAgeOptions(){
   el.ageOptions.innerHTML="";
@@ -1051,11 +1122,22 @@ function buildPassOptions(){
   });
 }
 el.settingsBtn.addEventListener("click", openModal);
-el.modalClose.addEventListener("click", function(){ el.modalBackdrop.classList.remove("open"); });
-el.modalBackdrop.addEventListener("click", function(e){ if(e.target===el.modalBackdrop) el.modalBackdrop.classList.remove("open"); });
+el.settingsBtn.setAttribute("aria-haspopup", "dialog");
+el.modalClose.addEventListener("click", closeModal);
+el.modalBackdrop.addEventListener("click", function(e){ if(e.target===el.modalBackdrop) closeModal(); });
+document.addEventListener("keydown", function(e){
+  if(e.key === "Escape" && el.modalBackdrop.classList.contains("open")) closeModal();
+});
 el.modalApply.addEventListener("click", function(){
+  var ageChanged = state.ageIdx !== pendingAge;
   state.ageIdx = pendingAge; state.passIdx = pendingPass;
-  el.modalBackdrop.classList.remove("open");
+  if(ageChanged){
+    state.choiceOrder = [];
+    state.stepDone[3] = false;
+    state.finished = false;
+  }
+  saveProgress();
+  closeModal();
   fullRender();
 });
 
@@ -1065,6 +1147,7 @@ el.modalApply.addEventListener("click", function(){
 el.langSelect.addEventListener("change", function(){
   state.lang = el.langSelect.value;
   applyDir();
+  saveProgress();
   fullRender();
 });
 
