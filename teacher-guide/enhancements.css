@@ -1,0 +1,69 @@
+html{scroll-padding-top:88px}
+a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{outline:3px solid var(--orange);outline-offset:3px}
+.site-header{background:#fffffff2}
+.brand{display:flex;align-items:center;flex:0 0 auto}
+.brand img,footer img{height:auto;aspect-ratio:2475/458;background:transparent;border-radius:0}
+.language{flex:0 0 auto}
+.language select{max-width:126px;background:#fff;border:1px solid var(--line);border-radius:8px;padding:7px 28px 7px 9px}
+.hero-copy>p:not(.kicker,.lead){word-break:keep-all}
+.path-link{background:var(--navy);color:#fff}
+.profile-card{display:flex;flex-direction:column}
+.profile-card p{margin-top:8px}
+.profile-card .button{align-self:flex-start;margin-top:auto;border:0;background:var(--navy);color:#fff}
+.result-count{margin:14px 0 0;color:var(--muted);font-size:14px;font-weight:700}
+.profile-dialog{width:min(760px,calc(100% - 32px));max-height:88vh;border:1px solid var(--line);border-radius:20px;padding:30px;color:var(--ink);box-shadow:0 24px 80px #07192f55}
+.profile-dialog::backdrop{background:#0e2342b8}
+.profile-dialog h2{margin:8px 44px 8px 0;line-height:1.2}
+.profile-dialog h3{margin:22px 0 4px;font-size:17px}
+.profile-dialog p{margin:4px 0}
+.dialog-close{position:absolute;right:18px;top:16px;width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:#fff;color:var(--navy);font-size:26px;line-height:1}
+.parent-script{margin-top:18px;background:var(--navy);color:#fff;padding:24px;border-radius:18px}
+.parent-script h3{margin-top:0}
+.parent-script p{margin-bottom:0;color:#dce9f7}
+.bars i{background:#dce6f0;overflow:hidden}
+.bars i:after{background:var(--blue)}
+.bars .bar-plan:after{background:var(--purple)}
+.bars .bar-attention:after{background:var(--blue)}
+.bars .bar-simultaneous:after{background:var(--sky)}
+.bars .bar-successive:after{background:var(--orange)}
+.dashboard-actions button[aria-pressed="true"]{background:var(--navy);border-color:var(--navy);color:#fff}
+.program-tag{display:inline-block;border-radius:999px;background:#edf4fc;color:var(--navy);font-size:12px;font-weight:800;padding:4px 9px}
+.assignment{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;counter-reset:assignment}
+.assignment li{display:block;padding:18px;border-radius:14px;position:relative;font-weight:400}
+.assignment li:before{counter-increment:assignment;content:"0" counter(assignment);display:block;color:var(--orange);font-weight:900;margin-bottom:8px}
+.assignment li:not(:last-child):after{content:"→";position:absolute;right:-11px;top:50%;z-index:2;color:var(--blue);font-size:20px;font-weight:900}
+.assignment b,.assignment span{display:block}
+.assignment span{color:var(--muted);margin-top:5px}
+.nuvia-check{background:#e9f2fb;border:1px solid var(--line);border-radius:16px;padding:20px 24px}
+.nuvia-check h3{margin-top:0}
+.help-section{padding-top:80px}
+.help-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.help-grid article{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px}
+.help-grid span{color:var(--orange);font-weight:900}
+.help-grid h3{margin:8px 0}
+.care-line{margin-top:18px;background:#fff8e9;border-left:5px solid var(--orange);padding:18px}
+@media(max-width:620px){
+  .site-header{padding:8px 12px;gap:8px}
+  .brand img{width:116px;height:auto}
+  .language select{max-width:82px;padding-left:6px}
+  .hero h1{font-size:32px}
+  .hero-copy>p:not(.kicker,.lead){width:100%;max-width:none;word-break:keep-all;overflow-wrap:break-word}
+  .help-grid{grid-template-columns:1fr}
+  .assignment{grid-template-columns:1fr}
+  .assignment li:not(:last-child):after{content:"↓";right:50%;top:auto;bottom:-20px}
+  .dashboard-actions{display:grid;grid-template-columns:1fr}
+  .filterbar label{flex:1 1 42%;min-width:0}
+  .filterbar label:first-child{flex-basis:100%}
+  .filterbar input,.filterbar select{width:100%;min-width:0}
+  .profile-dialog{padding:24px 18px}
+  .profile-dialog h2{font-size:25px}
+  .closing{padding-left:20px;padding-right:20px}
+}
+@media print{
+  .dialog-close{display:none!important}
+  body{font-size:11pt}
+  .hero{min-height:auto}
+  .help-grid article,.nuvia-grid article{break-inside:avoid}
+  .profile-dialog{position:static;width:auto;max-height:none;border:0;box-shadow:none}
+  .profile-dialog:not([open]){display:none}
+}
