@@ -1,13 +1,17 @@
 import React,{useEffect,useRef,useState} from 'react';
-import {createTask,localDate,uid,type PlannerTask} from './workspace';
+import {createTask,localDate,uid,weekDates,type PlannerTask} from './workspace';
 export function nextRepeat(t:PlannerTask,today=localDate()):PlannerTask|null{
  if(!t.repeat||t.repeat==='none')return null;
  const d=new Date((t.date>today?t.date:today)+'T12:00:00');do{d.setDate(d.getDate()+1);}while(t.repeat==='weekdays'&&(d.getDay()===0||d.getDay()===6));
- return {...createTask(t.title,t.steps[0].title),subject:t.subject,date:localDate(d),minutes:t.minutes,owner:t.owner,repeat:t.repeat,repeatOf:t.id,steps:t.steps.map(s=>({id:uid(),title:s.title,done:false,date:''})),materials:t.materials.map(m=>({id:uid(),title:m.title,done:false}))};
+ return {...createTask(t.title,t.steps[0].title),subject:t.subject,date:localDate(d),minutes:t.minutes,owner:t.owner,repeat:t.repeat,repeatOf:t.id,domain:t.domain,planningReference:t.timeAdjustment,steps:t.steps.map(s=>({id:uid(),title:s.title,done:false,date:''})),materials:t.materials.map(m=>({id:uid(),title:m.title,done:false}))};
 }
 export function recentStreak(tasks:PlannerTask[],today=localDate()){
  const dates=new Set(tasks.filter(t=>t.status==='done'&&t.completedAt).map(t=>localDate(new Date(t.completedAt))));
  const d=new Date(today+'T12:00:00');if(!dates.has(localDate(d)))d.setDate(d.getDate()-1);let n=0;while(dates.has(localDate(d))){n++;d.setDate(d.getDate()-1);}return n;
+}
+export function weeklyRecordDays(tasks:PlannerTask[],dates=weekDates()){
+ const allowed=new Set(dates),recorded=new Set(tasks.filter(t=>t.status==='done'&&t.completedAt).map(t=>localDate(new Date(t.completedAt))).filter(d=>allowed.has(d)));
+ return {count:recorded.size,days:dates.map(d=>recorded.has(d))};
 }
 export function FocusTimer({active,minutes}:{active:boolean;minutes:number}){
  const [remaining,setRemaining]=useState(minutes*60),[hidden,setHidden]=useState(false);const time=useRef(Date.now());

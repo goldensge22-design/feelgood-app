@@ -6,7 +6,9 @@ export interface Material {id:string;title:string;done:boolean;}
 export interface PlannerTask {repeat?:'daily'|'weekdays'|'none';repeatOf?:string;transferUsed?:boolean;domain?:'학습'|'생활'|'업무';deadline?:string;practice?:CognitivePractice;id:string;title:string;subject:string;date:string;minutes:number;owner:string;dependsOn:string;waiting:boolean;steps:Step[];materials:Material[];status:'planned'|'active'|'paused'|'done';resumeNote:string;startedAt:string;completedAt:string;actualMinutes:number|null;help:'none'|'some';adjustment:string;}
 export type FocusRoute='picture_routine'|'step_card'|'subject_scope'|'deadline_triage'|'handoff';
 export type DeadlineDecision='continue'|'split'|'defer';
-export interface PlannerTask {focusRoute?:FocusRoute;routeConfirmed?:boolean;learningScope?:string;remainingScope?:string;nextTenAction?:string;deadlineDecision?:DeadlineDecision;handoffState?:'now'|'waiting'|'check';}
+export type TimeAdjustment='reduce'|'split'|'same';
+export type RescheduleChoice='today'|'tomorrow'|'week';
+export interface PlannerTask {focusRoute?:FocusRoute;routeConfirmed?:boolean;learningScope?:string;remainingScope?:string;nextTenAction?:string;deadlineDecision?:DeadlineDecision;handoffState?:'now'|'waiting'|'check';timeAdjustment?:TimeAdjustment;planningReference?:TimeAdjustment;rescheduleChoice?:RescheduleChoice;rescheduledAt?:string;}
 export interface Workspace {lastWeeklyReviewWeek?:string;elementaryLevel?:'lower'|'upper';demoExampleLoaded?:boolean;schemaVersion:'2.0';scope:string;tasks:PlannerTask[];records:TrainingRecord[];dailyCapacity:number;weeklyNote:string;}
 export const uid=()=>globalThis.crypto?.randomUUID?.()??`${Date.now()}-${Math.random().toString(36).slice(2)}`;
 export function localDate(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
@@ -58,6 +60,10 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
   if(t.nextTenAction!==undefined&&!text(t.nextTenAction,160))throw new Error('다음 행동 오류');
   if(t.deadlineDecision!==undefined&&!['continue','split','defer'].includes(t.deadlineDecision))throw new Error('마감 판단 오류');
   if(t.handoffState!==undefined&&!['now','waiting','check'].includes(t.handoffState))throw new Error('업무 상태 오류');
+  if(t.timeAdjustment!==undefined&&!['reduce','split','same'].includes(t.timeAdjustment))throw new Error('시간 조정 선택 오류');
+  if(t.planningReference!==undefined&&!['reduce','split','same'].includes(t.planningReference))throw new Error('다음 계획 참고 오류');
+  if(t.rescheduleChoice!==undefined&&!['today','tomorrow','week'].includes(t.rescheduleChoice))throw new Error('재배치 선택 오류');
+  if(t.rescheduledAt!==undefined&&(!text(t.rescheduledAt,50)||!Number.isFinite(Date.parse(t.rescheduledAt))))throw new Error('재배치 시각 오류');
   if(t.practice){const p=t.practice;if(!text(p.firstId,160)||!['','dependency','deadline','startable'].includes(p.reason)||!['','notifications','materials','park'].includes(p.focusAction)||!text(p.parked,500)||!number(p.returns,0,100000))throw new Error('인지 활동 기록이 올바르지 않아요.');}
   ids.add(t.id);const children=new Set<string>();
   for(const s of [...t.steps,...t.materials]){if(!s||!text(s.id,160)||!s.id||children.has(s.id)||!text(s.title,160)||!s.title.trim()||typeof s.done!=='boolean'||('date' in s&&!date(s.date)))throw new Error('단계·준비물 자료가 올바르지 않아요.');children.add(s.id);}
