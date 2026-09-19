@@ -13,6 +13,7 @@ const routes = ['opening','guide','assessment','evidence','pass','pathways','res
 const viewports = [
   {name:'PC 1440×900',width:1440,height:900,mobile:false},
   {name:'노트북 1280×720',width:1280,height:720,mobile:false},
+  {name:'소형 데스크톱 1024×768',width:1024,height:768,mobile:false},
   {name:'태블릿 768×1024',width:768,height:1024,mobile:true},
   {name:'모바일 390×844',width:390,height:844,mobile:true},
   {name:'소형 모바일 360×800',width:360,height:800,mobile:true}
@@ -241,7 +242,7 @@ try {
       multiple:Object.values(chapterResults).some(item=>item.visibleCount!==1),
       activeMismatch:Object.values(chapterResults).some((item,index)=>item.active!==routes[index])
     };
-    if (viewport.width <= 768) {
+    if (viewport.width <= 1100) {
       await evaluate("document.querySelector('#tocToggle').click()");
       summary.drawerOpen = await evaluate("document.querySelector('#tocPanel').classList.contains('open') && !document.querySelector('#tocOverlay').hidden");
       await evaluate("document.querySelector('[data-chapter-link=assessment]').click()");
@@ -249,7 +250,7 @@ try {
       summary.drawerClose = await evaluate("document.querySelector('#tocOverlay').hidden && getComputedStyle(document.querySelector('#tocOverlay')).display==='none'");
     }
     report.viewports[viewport.name] = summary;
-    if (summary.overflow || summary.multiple || summary.activeMismatch || (viewport.width<=768 && (!summary.drawerOpen||!summary.drawerClose))) failures.push('viewport-' + viewport.name);
+    if (summary.overflow || summary.clipped || summary.multiple || summary.activeMismatch || (viewport.width<=1100 && (!summary.drawerOpen||!summary.drawerClose))) failures.push('viewport-' + viewport.name);
   }
 
   for (const zoom of zoomWidths) {
