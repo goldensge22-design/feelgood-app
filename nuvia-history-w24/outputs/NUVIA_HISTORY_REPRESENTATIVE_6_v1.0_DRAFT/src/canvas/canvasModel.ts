@@ -1,3 +1,5 @@
+import {randomId} from '../core/id';
+
 export type Condition='paper'|'access';
 export type CanvasAge='early'|'primary12'|'older';
 export type StickerId='person'|'book'|'paper'|'table'|'box'|'tree'|'arrow'|'bubble'|'type'|'press';
@@ -5,7 +7,7 @@ export interface PlacedSticker{id:StickerId;x:number;y:number;scale:number;flip:
 export interface Stroke{color:string;width:number;erase:boolean;points:[number,number][];}
 export interface CanvasScene{id:string;background:'workshop'|'door';stickers:PlacedSticker[];strokes:Stroke[];text:string;audio:string;transcript:string;preview:string;}
 export interface CanvasStory{version:1;id:string;resultId?:string;eventId:string;condition:Condition;age:CanvasAge;plan:StickerId[];scenes:CanvasScene[];completed:boolean;updatedAt:string;events:{type:string;at:string;data:Record<string,unknown>}[];}
-export const freshScene=():CanvasScene=>({id:crypto.randomUUID(),background:'workshop',stickers:[],strokes:[],text:'',audio:'',transcript:'',preview:''});
+export const freshScene=():CanvasScene=>({id:randomId(),background:'workshop',stickers:[],strokes:[],text:'',audio:'',transcript:'',preview:''});
 export const freshCanvas=(id:string,condition:Condition,age:CanvasAge,resultId?:string):CanvasStory=>({version:1,id,...(resultId?{resultId}:{}),eventId:'gutenberg',condition,age,plan:[],scenes:[{...freshScene(),background:condition==='access'?'door':'workshop'},...(age==='primary12'?[freshScene()]:[])],completed:false,updatedAt:new Date().toISOString(),events:[]});
 const stickerSlots:[[number,number],[number,number],[number,number],[number,number],[number,number],[number,number]]=[[400,260],[280,315],[520,315],[205,225],[595,225],[400,390]];
 export function addSticker(scene:CanvasScene,id:StickerId):CanvasScene{if(scene.stickers.some(s=>s.id===id))return scene;const [x,y]=stickerSlots[scene.stickers.length%stickerSlots.length];return {...scene,stickers:[...scene.stickers,{id,x,y,scale:1,flip:false}]};}

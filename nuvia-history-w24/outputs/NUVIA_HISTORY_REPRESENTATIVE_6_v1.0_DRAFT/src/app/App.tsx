@@ -18,12 +18,13 @@ import {ResultViews,FieldView,StoryView} from './ResultViews';
 import {ui} from './text';
 import {artifactStore} from './localArtifacts';
 import {asset} from './assets';
+import {randomId} from '../core/id';
 import './app.css';
 import '../ui/activity.css';
 const repository=new BrowserRepository();
 export function readProfile():Profile{
  const raw=sessionStorage.getItem('nuvia.linkedProfile.v1');if(raw)return resolveProfile(JSON.parse(raw));
- const q=new URLSearchParams(location.search);if(q.get('qa')==='1'){const owner=q.get('learner')??localStorage.getItem('nuvia.w24.localLearner')??crypto.randomUUID();localStorage.setItem('nuvia.w24.localLearner',owner);return resolveProfile({learnerId:owner,alias:'어린이 탐험가',ageBand:q.get('age'),attentionSupport:Number(q.get('support')??0),source:'explicit-test'});}throw Error('PROFILE_REQUIRED');
+ const q=new URLSearchParams(location.search);if(q.get('qa')==='1'){const owner=q.get('learner')??localStorage.getItem('nuvia.w24.localLearner')??randomId();localStorage.setItem('nuvia.w24.localLearner',owner);return resolveProfile({learnerId:owner,alias:'어린이 탐험가',ageBand:q.get('age'),attentionSupport:Number(q.get('support')??0),source:'explicit-test'});}throw Error('PROFILE_REQUIRED');
 }
 const settings=(id:string)=>{const value=(entry.conditionPresentation as Record<string,{canvasCondition:'paper'|'access';tone:string;backgroundId:string;focusSticker:string}>)[id];if(!value)throw Error('APP_CONTENT_REQUIRED');return value;};
 function HistoryScene({definition,changed=false,possibility='A'}:{definition:ConditionDefinition;changed?:boolean;possibility?:'A'|'B'}){const s=settings(definition.id);return <figure className={`history-scene ${changed?s.tone:'actual'} ${changed&&possibility==='B'?'possibility-b':''}`}><img src={asset(s.backgroundId)} alt={ui('illustration')}/><div className="scene-objects" aria-hidden="true"><span className="scene-book"/><span className="scene-paper"/>{s.tone==='access'&&<span className="scene-person"/>}{changed&&<span className="scene-question">?</span>}</div><figcaption>{ui(changed?'fiction':'history')}</figcaption></figure>;}

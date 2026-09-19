@@ -1,3 +1,5 @@
+import {randomId} from './id';
+
 export const AGE_BANDS = ['preschool','elementary-low','elementary-high','middle-school','high-school','adult'] as const;
 export type AgeBand=typeof AGE_BANDS[number];
 export type Domain='동시처리'|'순차처리'|'계획'|'주의';
@@ -44,4 +46,4 @@ export interface ReasonExpressionRecord {reasonRef:string;resultId:string;missio
 export type ReasonInput={source:'typed';reasonText:string}|{source:'recorded';voiceRef:string}|{source:'drawn';drawingRef:string}|{source:'deferred'};
 export interface Run {reasonExpressions?:ReasonExpressionRecord[];schemaVersion:1;revision:number;resultId:string;missionId:string;missionVersion:string;contentVersion:string;appVersion:string;profile:Profile;ageBandRuleId:string;createdAt:string;completedAt:string|null;stage:Stage;conditionId:string|null;prediction:Field<{expression:Expression;recordedAt:string}>;alternate:Field<'A'|'B'>;action:Field<ActionInput>;story:Field<Expression>;historyComparison:Field<ComparisonValue>;predictionComparison:Field<ComparisonValue>;canvas:Field<CanvasArtifact>;cover:'antique'|'linen'|'adventure';events:PerformanceEvent[];contentSnapshot:MissionDefinition;localeSnapshot:Record<string,string>;}
 export interface Dependencies {id:()=>string;now:()=>string;}
-export const productionDependencies:Dependencies={id:()=>crypto.randomUUID(),now:()=>new Date().toISOString()};
+export const productionDependencies:Dependencies={id:randomId,now:()=>new Date().toISOString()};
