@@ -190,18 +190,23 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   position: relative;
   display: grid;
   min-height: auto;
-  grid-template-columns: minmax(0, 1.12fr) minmax(360px, .88fr);
+  grid-template-columns: minmax(0, 42fr) minmax(0, 58fr);
+  grid-template-areas: "art copy";
   align-items: center;
-  gap: clamp(56px, 5vw, 76px);
+  gap: clamp(48px, 4.5vw, 64px);
   overflow: hidden;
   padding: clamp(46px, 5vw, 68px);
   border-radius: 24px;
   background: var(--navy);
   color: #fff;
 }
-.opening-copy { position: relative; z-index: 2; min-width: 0; container-type: inline-size; }
+.opening-copy { position: relative; z-index: 2; min-width: 0; grid-area: copy; container-type: inline-size; }
 .chapter-opening .eyebrow { margin-bottom: 10px; }
-.chapter-opening .lead { margin: 0 0 18px; }
+.chapter-opening .lead {
+  margin: 0 0 18px;
+  font-size: clamp(12px, 1.15vw, 16px);
+  white-space: nowrap;
+}
 .chapter-opening .opening-title {
   color: var(--orange);
   margin-bottom: 30px;
@@ -212,7 +217,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 }
 .opening-title span { display: block; white-space: nowrap; }
 .opening-copy > p:not(.eyebrow, .lead) {
-  max-width: 680px;
+  max-width: 720px;
   margin: 0 0 22px;
   color: #e3edf9;
   font-size: 18px;
@@ -240,13 +245,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   position: relative;
   z-index: 1;
   display: grid;
-  width: min(100%, 470px);
-  min-height: 440px;
+  width: min(100%, 420px);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   gap: 24px 22px;
+  grid-area: art;
   justify-self: center;
   isolation: isolate;
+  overflow: hidden;
   padding: 22px 8px;
 }
 .cognitive-art::after {
@@ -284,7 +290,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   min-height: 156px;
   flex-direction: column;
   justify-content: center;
-  padding: 22px 20px;
+  padding: 22px 14px;
   border: 1px solid rgb(255 255 255 / 30%);
   border-radius: 30px;
   box-shadow: 0 14px 28px rgb(6 24 43 / 28%);
@@ -294,10 +300,14 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   line-height: 1.2;
 }
 .pass-node span { margin-bottom: 8px; font-size: clamp(14px, 1.1vw, 16px); font-weight: 700; line-height: 1.2; opacity: .92; white-space: nowrap; }
-.pass-node.plan { justify-self: start; transform: translate(-6px, -18px); background: var(--purple); }
-.pass-node.attention { justify-self: end; transform: translate(8px, 2px); background: var(--blue); }
-.pass-node.simultaneous { justify-self: start; transform: translate(-2px, -2px); background: var(--sky); }
-.pass-node.successive { justify-self: end; transform: translate(10px, 18px); background: var(--orange); color: #24344c; }
+.pass-node.plan { justify-self: start; transform: translate(0, -18px); background: var(--purple); }
+.pass-node.attention { justify-self: end; transform: translate(0, 2px); background: var(--blue); }
+.pass-node.simultaneous { justify-self: start; transform: translate(0, -2px); background: var(--sky); }
+.pass-node.successive { justify-self: end; transform: translate(0, 18px); background: var(--orange); color: #24344c; }
+
+@media (min-width: 1101px) and (max-width: 1300px) {
+  .chapter-opening .opening-title { font-size: clamp(30px, 10cqi, 48px); }
+}
 
 /* Shared cards and chapter components */
 .info-grid, .report-grid, .pass-grid, .profile-list, .teacher-cards, .dashboard-grid, .nuvia-grid, .help-grid {
@@ -516,21 +526,38 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .toc-toggle { display: inline-flex; min-height: 44px; align-items: center; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--navy); padding: 7px 11px; font-weight: 800; }
   .reader-language { margin-right: 14px; margin-left: auto; }
   .chapter-opening {
-    grid-template-columns: minmax(0, 1fr) minmax(300px, .8fr);
     gap: 48px;
     padding: clamp(42px, 5vw, 56px);
   }
-  .cognitive-art { min-height: 400px; gap: 18px; }
+  .cognitive-art { gap: 18px; }
   .pass-node { width: min(100%, 160px); min-height: 148px; transform: none !important; }
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+  .chapter-opening {
+    grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+    gap: clamp(32px, 5vw, 48px);
+    padding: clamp(34px, 4.5vw, 46px);
+  }
+  .cognitive-art { width: min(100%, 390px); padding: 18px 6px; }
+  .pass-node { min-height: 138px; padding: 18px 14px; font-size: clamp(23px, 3vw, 27px); }
+  .pass-node span { font-size: clamp(13px, 1.7vw, 15px); }
+}
+
 @media (max-width: 820px) {
-  .chapter-opening { grid-template-columns: 1fr; gap: 38px; }
-  .cognitive-art { width: min(100%, 430px); min-height: 390px; }
   .info-grid.three, .report-grid, .teacher-cards, .dashboard-grid, .nuvia-grid, .help-grid { grid-template-columns: 1fr 1fr; }
   .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .flow li:last-child { grid-column: 1 / -1; }
   .assignment { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 767px) {
+  .chapter-opening {
+    grid-template-columns: 1fr;
+    grid-template-areas: "copy" "art";
+    gap: 34px;
+  }
+  .cognitive-art { width: min(100%, 420px); }
 }
 
 @media (max-width: 620px) {
@@ -554,7 +581,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   .chapter-opening { gap: 34px; }
   .actions { display: grid; grid-template-columns: 1fr; }
   .actions .button { width: 100%; }
-  .cognitive-art { width: min(100%, 330px); min-height: 330px; gap: 12px; padding: 4px 0; }
+  .cognitive-art { width: min(100%, 330px); gap: 12px; padding: 4px 0; }
   .cognitive-art::after { width: 60px; font-size: 10px; }
   .pass-node { width: min(100%, 142px); min-height: 132px; border-radius: 22px; padding: 16px 14px; font-size: 25px; }
   .pass-node span { margin-bottom: 6px; font-size: 13px; }
