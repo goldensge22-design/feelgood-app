@@ -7135,6 +7135,11 @@ Object.assign(window.LANG.ar, {
     nv_age_foot: 'يُطبَّق K-PASS حتى سن 13، وD-CAS من سن 14 فما فوق. يستخدم البالغون HISTORY·PLANNER بما يناسب أغراضهم.',
 });
 
+// 첨부 패키지에 러시아어 NUVIA 번역이 없어 영어를 안전한 대체 언어로 사용합니다.
+Object.keys(window.LANG.en).forEach(function(key) {
+  if (key.indexOf('nv_') === 0) window.LANG.ru[key] = window.LANG.en[key];
+});
+
 // 번역 데이터는 i18n/*.js 가 window.LANG 에 채워줍니다.
 
 // ── 언어 적용 ────────────────────────────────────────────────────
