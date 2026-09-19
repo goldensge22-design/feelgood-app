@@ -31,7 +31,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   display:flex;align-items:center;padding:0 4vw;gap:0;}
 .nav-logo{display:flex;align-items:center;text-decoration:none;margin-right:22px;flex-shrink:0;}
 .nav-logo img{height:34px;width:auto;}
-.ntabs{display:flex;gap:4px;list-style:none;flex:1;overflow-x:auto;scrollbar-width:none;}
+.ntabs{display:flex;gap:4px;list-style:none;flex:1;min-width:0;overflow-x:auto;scrollbar-width:none;}
 .ntabs::-webkit-scrollbar{display:none;}
 .ntabs li a{
   text-decoration:none;font-size:.8rem;font-weight:700;color:var(--textm);
@@ -49,7 +49,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 @keyframes fu{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 
 /* ── HOME ── */
-#sec-home{padding:0;min-height:100vh;display:flex;align-items:center;justify-content:center;
+#sec-home{padding:0;min-height:100vh;display:none;align-items:center;justify-content:center;
   background:linear-gradient(145deg,#1C2D55 0%,#2C3E6B 40%,#3D4F7C 70%,#4A5A8B 100%);
   color:#fff;position:relative;overflow:hidden;}
 #sec-home.active{display:flex;}
@@ -408,7 +408,7 @@ footer ul li a:hover{color:var(--gold);}
 
 /* ── 언어 선택 드롭다운 ── */
 .lang-select{
-  margin-left:auto;flex-shrink:0;
+  margin-left:22px;flex-shrink:0;
   background:transparent;border:1.5px solid var(--navy2);
   color:var(--navy);font-size:.78rem;font-weight:700;
   padding:5px 30px 5px 14px;border-radius:20px;cursor:pointer;
@@ -421,6 +421,20 @@ footer ul li a:hover{color:var(--gold);}
 .lang-select option{color:#1e293b;background:#fff;font-weight:600;}
 /* RTL (아랍어) 화살표/정렬 보정 */
 html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 12px center;}
+
+/* 모바일에서는 목차와 설정 컨트롤을 서로 다른 행에 배치한다. */
+@media(max-width:700px){
+  nav{height:auto;min-height:104px;padding:9px 14px 0;flex-wrap:wrap;align-content:flex-start;}
+  .nav-logo{margin-right:0;min-height:38px;}
+  .nav-logo img{height:30px;}
+  .lang-select{margin-left:auto;padding:4px 28px 4px 12px;font-size:.72rem;}
+  .ntabs{order:3;flex:0 0 100%;gap:6px;margin-top:6px;padding:8px 0 10px;
+    border-top:1px solid rgba(74,126,200,.14);scroll-snap-type:x proximity;}
+  .ntabs li{scroll-snap-align:start;flex:0 0 auto;}
+  .ntabs li a{padding:8px 14px;min-height:36px;display:flex;align-items:center;}
+  .ps{padding-top:124px;scroll-margin-top:112px;}
+  #sec-home .hi{padding-top:150px;}
+}
 
 
 /* ── 활동 갤러리 ── */
@@ -1009,18 +1023,15 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 <body>
 
 <!-- ═══ NAV ═══ -->
-<nav>
-  <a class="nav-logo" href="#" onclick="show('home');return false;">
+<nav aria-label="FeelGood proposal sections">
+  <a class="nav-logo" href="#home" onclick="show('home');return false;" aria-label="FeelGood home">
     <img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" height="34" alt="FeelGood">
   </a>
   <ul class="ntabs" id="ntabs">
-    <li class="active" data-s="home"><a href="#" onclick="show('home');return false;" data-i18n="nav_home">🏠 홈</a></li>
-    <li data-s="school"><a href="#" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
-    <li data-s="test"><a href="#" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
-    <li data-s="brainmap"><a href="#" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</a></li>
-    <li class="ko-only" data-s="edu"><a href="#" onclick="show('edu');return false;" data-i18n="nav_edu">🏫 교육기관</a></li>
-    <li class="ko-only" data-s="biz"><a href="#" onclick="show('biz');return false;" data-i18n="nav_biz">🏢 기업</a></li>
-    <li class="ko-only" data-s="mil"><a href="#" onclick="show('mil');return false;" data-i18n="nav_mil">🎖 군경찰</a></li>
+    <li class="active" data-s="home"><a href="#home" onclick="show('home');return false;" aria-current="page" data-i18n="nav_home">🏠 홈</a></li>
+    <li data-s="school"><a href="#school" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
+    <li data-s="test"><a href="#assessment" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
+    <li data-s="brainmap"><a href="#training" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">🧠 인지훈련 프로그램</a></li>
   </ul>
   <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Language / 언어"></select>
 </nav>
@@ -2037,10 +2048,10 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <div>
       <h5 data-i18n="ft_nav_title">바로가기</h5>
       <ul>
-        <li><a href="#" onclick="show('home');return false;" data-i18n="ft_nav_home">홈</a></li>
-        <li><a href="#" onclick="show('school');return false;" data-i18n="ft_nav_school">학교 제안서</a></li>
-        <li><a href="#" onclick="show('test');return false;" data-i18n="ft_nav_test">검사 소개</a></li>
-        <li><a href="#" onclick="show('brainmap');return false;">인지훈련 프로그램</a></li>
+        <li><a href="#home" onclick="show('home');return false;" data-i18n="ft_nav_home">홈</a></li>
+        <li><a href="#school" onclick="show('school');return false;" data-i18n="ft_nav_school">학교 제안서</a></li>
+        <li><a href="#assessment" onclick="show('test');return false;" data-i18n="ft_nav_test">검사 소개</a></li>
+        <li><a href="#training" onclick="show('brainmap');return false;" data-i18n="nav_brainmap">인지훈련 프로그램</a></li>
       </ul>
     </div>
     <div>
@@ -7225,14 +7236,43 @@ function applyKoOnly(lang) {
 
 // ── 섹션 전환 ────────────────────────────────────────────────────
 const SECTIONS = ['home','school','test','brainmap','edu','biz','mil'];
+const SECTION_HASHES = {
+  home: 'home',
+  school: 'school',
+  test: 'assessment',
+  brainmap: 'training',
+  edu: 'education',
+  biz: 'business',
+  mil: 'military'
+};
+const HASH_SECTIONS = Object.keys(SECTION_HASHES).reduce((map, section) => {
+  map[SECTION_HASHES[section]] = section;
+  return map;
+}, {
+  // 이전 주소도 계속 열리도록 호환한다.
+  test: 'test',
+  brainmap: 'brainmap',
+  edu: 'edu',
+  biz: 'biz',
+  mil: 'mil'
+});
 
-function show(id) {
+function show(id, options) {
+  options = options || {};
+  if (SECTIONS.indexOf(id) < 0) id = 'home';
+  const navId = ['edu','biz','mil'].indexOf(id) >= 0 ? 'school' : id;
   SECTIONS.forEach(s => {
     const sec = document.getElementById('sec-' + s);
     if (sec) sec.classList.toggle('active', s === id);
   });
   document.querySelectorAll('#ntabs li').forEach(li => {
-    li.classList.toggle('active', li.dataset.s === id);
+    const selected = li.dataset.s === navId;
+    li.classList.toggle('active', selected);
+    const link = li.querySelector('a');
+    if (link) {
+      if (selected) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    }
   });
   // 히어로 버튼 active 상태
   const heroBtns = {
@@ -7246,7 +7286,25 @@ function show(id) {
     const btn = document.getElementById(btnId);
     if (btn) btn.classList.toggle('active', sec === id);
   });
-  window.scrollTo(0, 0);
+  const nextHash = '#' + SECTION_HASHES[id];
+  if (options.updateHistory !== false && window.location.hash !== nextHash) {
+    window.history.pushState({section: id}, '', nextHash);
+  }
+  if (options.scroll !== false) {
+    window.requestAnimationFrame(function () {
+      window.scrollTo({top: 0, left: 0, behavior: options.instant ? 'auto' : 'smooth'});
+    });
+  }
+}
+
+function syncSectionFromLocation(options) {
+  options = options || {};
+  const hash = window.location.hash.replace(/^#/, '').toLowerCase();
+  const id = HASH_SECTIONS[hash] || 'home';
+  if (!hash && options.replaceDefault) {
+    window.history.replaceState({section: 'home'}, '', '#home');
+  }
+  show(id, {updateHistory: false, scroll: true, instant: options.instant !== false});
 }
 
 
@@ -7366,20 +7424,19 @@ document.querySelectorAll('.vthumb-wrap').forEach(function (w) {
 // ── 초기화 ───────────────────────────────────────────────────────
 buildLangSelect();
 setLang(currentLang);
+syncSectionFromLocation({replaceDefault: true, instant: true});
+window.addEventListener('popstate', function () {
+  syncSectionFromLocation({instant: true});
+});
+window.addEventListener('hashchange', function () {
+  syncSectionFromLocation({instant: true});
+});
 // footer 로고 = nav 로고와 동일
 (function(){
   var navImg = document.querySelector('.nav-logo img');
   var ftImg  = document.getElementById('footer-logo');
   if (navImg && ftImg) ftImg.src = navImg.src;
 })();
-
-// nav 스크롤 active 처리
-document.querySelectorAll('#ntabs li').forEach(li => {
-  li.addEventListener('click', () => {
-    document.querySelectorAll('#ntabs li').forEach(l => l.classList.remove('active'));
-    li.classList.add('active');
-  });
-});
 
 </script>
 </body>
