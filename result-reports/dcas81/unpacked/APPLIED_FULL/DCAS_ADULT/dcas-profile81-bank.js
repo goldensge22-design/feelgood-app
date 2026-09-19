@@ -151,15 +151,39 @@
     return labels.join(', ');
   }
 
+  function validateScores(scores) {
+    const invalid = ORDER.filter(function (k) {
+      const n = Number(scores && scores[k]);
+      return !Number.isFinite(n) || n < 0 || n > 100;
+    });
+    if (invalid.length) {
+      throw new RangeError('D-CAS scores must include finite 0-100 values for P, A, S, Q (invalid: ' + invalid.join(', ') + ')');
+    }
+    const normalized = {};
+    ORDER.forEach(function (k) { normalized[k] = Number(scores[k]); });
+    return normalized;
+  }
+
+  function classifyProcessing(scores) {
+    const normalized = validateScores(scores);
+    const diff = Math.abs(normalized.S - normalized.Q);
+    const isBalanced = diff <= 10;
+    const dominant = isBalanced ? null : (normalized.S > normalized.Q ? 'S' : 'Q');
+    return {
+      diff:diff,
+      isBalanced:isBalanced,
+      dominant:dominant,
+      kind:isBalanced ? 'BALANCED' : (dominant === 'S' ? 'S_DOMINANT' : 'Q_DOMINANT')
+    };
+  }
+
   function classify(scores, lang, thresholds) {
     const locale = normalizeLang(lang || activeLang);
     const d = I18N[locale] || I18N.ko;
     const t = Object.assign({}, DEFAULT_THRESHOLDS, thresholds || {});
-    const safeScores = {};
+    const safeScores = validateScores(scores);
     const levels = {};
     ORDER.forEach(function (k) {
-      const n = Number(scores && scores[k]);
-      safeScores[k] = Number.isFinite(n) ? n : 0;
       levels[k] = getLevel(safeScores[k], t);
     });
     const compactCode = ORDER.map(function (k) { return levels[k]; }).join('');
@@ -193,7 +217,8 @@
       lang:locale, dir:locale === 'ar' ? 'rtl' : 'ltr', scores:safeScores, levels:levels,
       compactCode:compactCode, code:code, kind:kind, title:d.titles[kind], summary:d.summaries[kind],
       fragments:fragments, recommendations:recommendations, labels:d.labels,
-      spread:spread, exactTie:exactTie, isBalanced:isBalanced, thresholds:t
+      spread:spread, exactTie:exactTie, isBalanced:isBalanced, thresholds:t,
+      processing:classifyProcessing(safeScores)
     };
   }
 
@@ -204,6 +229,7 @@
   global.DCasProfile81 = {
     LANGS:Object.keys(I18N), I18N:I18N, ORDER:ORDER, DEFAULT_THRESHOLDS:DEFAULT_THRESHOLDS,
     normalizeLang:normalizeLang, setLang:setLang, getLang:getLang, getLevel:getLevel,
+    validateScores:validateScores, classifyProcessing:classifyProcessing,
     classify:classify, toPlainText:toPlainText
   };
 })(typeof window !== 'undefined' ? window : globalThis);

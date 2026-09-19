@@ -82,6 +82,16 @@
     note.textContent = label + ' · ' + text;
   }
 
+  function processingSummary(processing) {
+    if (processing.isBalanced) {
+      return '균형형(동시처리·순차처리 균형) · 두 점수 차이 ' + processing.diff + '%p로, 균형 기준인 10점 이하입니다.';
+    }
+    if (processing.dominant === 'S') {
+      return '우뇌우세형(동시처리 우세) · 동시처리가 순차처리보다 ' + processing.diff + '%p 높아, 우세형 기준인 11점 이상입니다.';
+    }
+    return '좌뇌우세형(순차처리 우세) · 순차처리가 동시처리보다 ' + processing.diff + '%p 높아, 우세형 기준인 11점 이상입니다.';
+  }
+
   function applyProfile81() {
     if (typeof DCasProfile81 === 'undefined') return null;
     const lang = resolveProfile81Lang();
@@ -119,6 +129,7 @@
     ensureProfile81Note('efficiency', 'pf-profile81-learning-note', p81.labels.learning, p81.recommendations.learning, p81.dir);
     ensureProfile81Note('major', 'pf-profile81-career-note', p81.labels.career, p81.recommendations.career, p81.dir);
     ensureProfile81Note('jobs', 'pf-profile81-job-note', p81.labels.job, p81.recommendations.job, p81.dir);
+    ensureProfile81Note('expert', 'pf-expert-processing-note', '두뇌유형', processingSummary(p81.processing), 'ltr');
     setText('pf-opinion-summary', p81.title + ' — ' + p81.summary);
 
     // 전영역 저·중·고 및 동점 균형형은 기존 BAL의 과도한 강점 문구를 상속하지 않는다.
