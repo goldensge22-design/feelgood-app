@@ -775,6 +775,236 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  section.ct-section{
+    --blue:#2E75CC;
+    --blue-dark:#2856D6;
+    --orange:#F4A418;
+    --orange-dark:#F5820A;
+    --teal:#1B9C85;
+    --teal-dark:#12785F;
+    --purple:#6B4FCC;
+    --ink:#1A2233;
+    --sub:#5B6472;
+    --line:#E5E9F0;
+    --bg-soft:#F6F8FC;
+    --card:#FFFFFF;
+  }
+.patch-note{
+    background:#111827;color:#D1D5DB;font-size:13px;padding:14px 24px;
+    font-family:monospace;
+  }
+  .patch-note b{color:#F4A418;}
+  .patch-note .files{color:#8FE3C7;}
+
+  section.ct-section{
+    max-width:1080px;
+    margin:0 auto;
+    padding:72px 24px 96px;
+  }
+  .eyebrow{
+    font-size:13px;
+    font-weight:700;
+    color:var(--blue);
+    letter-spacing:.02em;
+    margin-bottom:10px;
+  }
+  h2.ct-title{
+    font-size:34px;
+    font-weight:800;
+    margin:0 0 14px;
+    line-height:1.3;
+  }
+  .ct-lede{
+    font-size:16px;
+    color:var(--sub);
+    max-width:680px;
+    margin-bottom:48px;
+  }
+
+  /* 3-step overview */
+  .steps3{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:16px;
+    margin-bottom:64px;
+  }
+  .steps3 .step{
+    background:var(--bg-soft);
+    border-radius:16px;
+    padding:24px 20px;
+    position:relative;
+  }
+  .steps3 .step .num{
+    font-size:13px;font-weight:700;color:var(--blue);margin-bottom:8px;
+  }
+  .steps3 .step h3{margin:0 0 8px;font-size:19px;}
+  .steps3 .step p{margin:0;font-size:14px;color:var(--sub);}
+  @media(min-width:760px){
+    .steps3 .step:not(:last-child):after{
+      content:"›";
+      position:absolute;
+      right:-20px;top:50%;transform:translateY(-50%);
+      font-size:22px;color:var(--line);font-weight:700;
+    }
+  }
+
+  /* generic section header */
+  .block-head{margin-bottom:24px;}
+  .block-head h3{font-size:22px;margin:0 0 6px;}
+  .block-head p{color:var(--sub);font-size:14px;margin:0;max-width:680px;}
+
+  /* why-now 3 cards */
+  .why-block{margin-bottom:64px;}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  .why-card{border:1px solid var(--line);border-radius:16px;padding:22px 20px;}
+  .why-card .why-num{
+    display:inline-flex;align-items:center;justify-content:center;
+    width:26px;height:26px;border-radius:50%;
+    background:var(--orange);color:#fff;font-size:13px;font-weight:700;
+    margin-bottom:12px;
+  }
+  .why-card h4{font-size:16px;margin:0 0 8px;}
+  .why-card p{font-size:13.5px;color:var(--sub);margin:0 0 10px;}
+  .why-card .cite{font-size:12px;color:#9AA3B2;}
+
+  /* bridge design */
+  .bridge{background:var(--bg-soft);border-radius:20px;padding:36px 32px;margin-bottom:64px;}
+  .bridge .block-head{margin-bottom:24px;}
+  .bridge-rows{display:flex;flex-direction:column;gap:14px;}
+  .bridge-row{
+    display:grid;grid-template-columns:1fr 40px 1.5fr;align-items:center;gap:12px;
+    background:var(--card);border-radius:12px;padding:16px 18px;
+  }
+  .bridge-row .problem{font-size:13.5px;color:var(--sub);}
+  .bridge-row .to{text-align:center;color:var(--line);font-weight:700;}
+  .bridge-row .solution b{color:var(--blue);}
+  .bridge-row .solution{font-size:13.5px;}
+  .bridge-note{font-size:12.5px;color:#9AA3B2;margin-top:18px;}
+
+  /* tables */
+  .prod-overview{margin-bottom:64px;}
+  table.ct-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+  table.ct-table th{
+    text-align:left;background:var(--bg-soft);padding:12px 14px;
+    font-weight:700;color:var(--ink);border-bottom:2px solid var(--line);
+  }
+  table.ct-table td{padding:12px 14px;border-bottom:1px solid var(--line);color:var(--sub);vertical-align:top;}
+  table.ct-table td b, table.ct-table td.name{color:var(--ink);font-weight:700;}
+  table.ct-table.accent-teal th{background:#E6F5F1;}
+
+  /* product deep dive */
+  .product-block{border:1px solid var(--line);border-radius:20px;padding:32px;margin-bottom:28px;}
+  .product-block .step-tag{display:inline-block;font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-bottom:14px;}
+  .product-block.step1 .step-tag{background:#E8F0FD;color:var(--blue);}
+  .product-block.step2 .step-tag{background:#FDEFDA;color:var(--orange-dark);}
+  .product-block.step3 .step-tag{background:#EFE8FD;color:var(--purple);}
+  .product-block.step4 .step-tag{background:#E6F5F1;color:var(--teal-dark);}
+  .product-block h3{font-size:24px;margin:0 0 8px;}
+  .product-block .p-sub{color:var(--sub);font-size:14.5px;margin-bottom:20px;max-width:640px;}
+
+  .shot-frame{
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+    margin-bottom:22px;
+    background:var(--bg-soft);
+  }
+  .shot-frame .bar{
+    display:flex;gap:6px;align-items:center;
+    padding:10px 12px;background:#EDEFF3;border-bottom:1px solid var(--line);
+  }
+  .shot-frame .bar span{width:9px;height:9px;border-radius:50%;background:#D6DAE2;}
+  .shot-frame img{display:block;width:100%;height:auto;}
+  .shot-cap{font-size:12px;color:#9AA3B2;padding:8px 4px 0;}
+
+  .p-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
+  .p-facts.two{grid-template-columns:repeat(2,1fr);}
+  .p-facts .fact{background:var(--bg-soft);border-radius:12px;padding:16px;}
+  .p-facts .fact .label{font-size:12.5px;font-weight:700;color:var(--blue);margin-bottom:6px;}
+  .p-facts .fact .val{font-size:13px;color:var(--sub);}
+  .p-footnote{font-size:12.5px;color:#9AA3B2;margin-bottom:18px;}
+  .link-chain{background:var(--bg-soft);border-radius:12px;padding:16px 18px;font-size:13px;color:var(--sub);}
+  .link-chain b{color:var(--ink);}
+
+  /* transfer rows (reused for HISTORY->PLANNER and department steps) */
+  .transfer-block{margin-bottom:64px;}
+  .transfer-rows{display:flex;flex-direction:column;gap:10px;}
+  .transfer-row{
+    display:grid;grid-template-columns:1fr 40px 1fr;align-items:center;gap:10px;
+    border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:13.5px;
+  }
+  .transfer-row .h-label{color:var(--sub);}
+  .transfer-row .arrow-mid{text-align:center;color:var(--orange-dark);font-weight:700;}
+  .transfer-row .p-label{color:var(--ink);font-weight:600;}
+  .transfer-note{font-size:12.5px;color:#9AA3B2;margin-top:14px;}
+
+  /* CAREER LAB section */
+  .cl-section{
+    border:1px solid var(--line);
+    border-radius:24px;
+    padding:40px 32px;
+    margin-bottom:64px;
+    background:linear-gradient(180deg,#F5FBF9 0%,#FFFFFF 140px);
+  }
+  .cl-badge{
+    display:inline-block;font-size:12px;font-weight:700;
+    padding:5px 12px;border-radius:999px;background:var(--teal);color:#fff;
+    margin-bottom:14px;
+  }
+  .cl-section h3.cl-title{font-size:26px;margin:0 0 10px;}
+  .cl-section .cl-lede{color:var(--sub);font-size:14.5px;max-width:640px;margin-bottom:28px;}
+
+  .cl-intro-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:32px;}
+  .cl-intro-card{border:1px solid var(--line);background:#fff;border-radius:16px;padding:22px 20px;}
+  .cl-intro-card .tag{font-size:12px;font-weight:700;color:var(--teal-dark);margin-bottom:8px;}
+  .cl-intro-card h4{font-size:17px;margin:0 0 8px;}
+  .cl-intro-card p{font-size:13.5px;color:var(--sub);margin:0 0 10px;}
+  .cl-intro-card .out{font-size:12.5px;color:var(--teal-dark);font-weight:600;}
+
+  .cl-sub-block{margin-bottom:32px;}
+  .cl-sub-block h4.sub-title{font-size:17px;margin:0 0 6px;}
+  .cl-sub-block .sub-desc{font-size:13.5px;color:var(--sub);margin:0 0 16px;max-width:640px;}
+
+  .cl-timeline{display:flex;flex-direction:column;gap:8px;}
+  .cl-timeline .row{
+    display:grid;grid-template-columns:110px 1fr 1.2fr;gap:12px;
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;background:#fff;
+  }
+  .cl-timeline .row .time{font-weight:700;color:var(--teal-dark);}
+  .cl-timeline .row .act{color:var(--ink);}
+  .cl-timeline .row .rule{color:var(--sub);}
+
+  .cl-steps{display:flex;flex-direction:column;gap:8px;}
+  .cl-steps .row{
+    display:grid;grid-template-columns:36px 1fr 1.1fr;gap:12px;align-items:center;
+    border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;background:#fff;
+  }
+  .cl-steps .row .n{
+    width:26px;height:26px;border-radius:50%;background:var(--teal);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px;
+  }
+  .cl-steps .row .task{color:var(--ink);}
+  .cl-steps .row .out{color:var(--sub);}
+
+  /* CTA */
+  .ct-cta{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);border-radius:20px;padding:40px 32px;color:#fff;}
+  .ct-cta h3{font-size:22px;margin:0 0 8px;}
+  .ct-cta p{font-size:14px;color:#DCE6FB;margin:0 0 24px;max-width:560px;}
+  .cta-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+  .cta-card{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);border-radius:12px;padding:16px 18px;}
+  .cta-card .cta-name{font-weight:700;font-size:14px;margin-bottom:6px;}
+  .cta-card .cta-status{font-size:12.5px;color:#DCE6FB;}
+  .cta-card a{color:#fff;text-decoration:underline;font-size:12.5px;}
+
+  @media(max-width:760px){
+    .steps3, .why-grid, .p-facts, .cta-grid, .cl-intro-grid{grid-template-columns:1fr;}
+    .bridge-row, .transfer-row{grid-template-columns:1fr;text-align:left;}
+    .bridge-row .to, .transfer-row .arrow-mid{transform:rotate(90deg);padding:4px 0;}
+    .cl-timeline .row, .cl-steps .row{grid-template-columns:1fr;}
+    h2.ct-title{font-size:26px;}
+  }
+</style>
 </head>
 <body>
 
@@ -1159,217 +1389,345 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 </section>
 
 <!-- ═══ 인지훈련 프로그램 ═══ -->
-<section id="sec-brainmap" class="ps">
-  <div class="sh">
-    <div class="sec-tag">Cognitive Training Program</div>
-    <h2 class="sec-title" data-i18n="bm_title">인지훈련 프로그램</h2>
-    <p class="sec-sub" data-i18n="bm_sub">선생님들이 하고 계신 인성교육을 데이터로 보이게 만들고, 학생별 맞춤으로 바꿔드리는 학생 성장 관리 시스템입니다.</p>
-  </div>
-  <div class="bmh mb40">
-    <div class="bmtag">Cognitive Training · MindCompass</div>
-    <h2>Assessment → Personalization<br>→ Daily Training → Measurable Growth</h2>
-    <p data-i18n="bm_pb_p">기존 SEL(사회정서학습)과 인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다.<br>"교육 프로그램"이 아닌 <strong>"학생 성장 관리 시스템"</strong>입니다.</p>
-    <div class="pos">Assessment → Insight → Practice → Behavior Change → Report</div>
-  </div>
-  <div class="sh">
-    <div class="sec-tag">Curriculum</div>
-    <h3 class="sec-title" data-i18n="bm_cur_title">32회 연간 커리큘럼 (예시)</h3>
-    <p class="sec-sub" data-i18n="bm_cur_sub">PASS 4축 기반 4단계 × 8회, 주 1회 40분 × 32주 + 매일 10분 조례/종례 루틴 병행.<br><strong>초등 창의적 체험활동</strong>과 <strong>중고등 진로 수업</strong>에 최적화된 회차별 콘텐츠로 구성됩니다.</p>
-  </div>
-  <div class="phases mb40">
-    <div class="phc ph1">
-      <div class="phh"><div class="phnum">PHASE 01</div><div class="phrnd" data-i18n="ph1_rnd">1~8회 · 1학기 전반</div><h3 data-i18n="ph1_h3">자기이해<br>&amp; 감정 인식</h3><div class="phen">Self Awareness</div></div>
-      <div class="phb">
-        <div class="phcore" data-i18n="ph1_core">🔵 "나는 어떤 뇌를 가진 사람인가"</div>
-        <ul class="phul">
-          <li><span class="dot"></span><div data-i18n="ph1_s1"><strong>1회</strong> K-PASS 초기검사 &amp; 두뇌유형 공개<em>초등: 내 뇌 캐릭터 만들기 / 중고: 두뇌유형 자기소개서</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s2"><strong>2회</strong> PASS 축 강점 이해<em>초등: 강점 빙고게임 / 중고: 강점-직업 매핑</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s3"><strong>3회</strong> 감정 언어 확장<em>초등: 감정 색깔 그림 / 중고: 감정일기 구조화</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s4"><strong>4회</strong> 내 감정 패턴 발견<em>초등: 감정 달력 / 중고: 트리거 분석</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s5"><strong>5회</strong> 학습 선호 방식 탐색<em>초등: 수업 방식 투표 / 중고: 학습전략 매칭</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s6"><strong>6회</strong> 강점 스토리 만들기<em>초등: 슈퍼파워 발표 / 중고: 포트폴리오 초안</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s7"><strong>7회</strong> 두뇌유형별 감정 반응 이해</div></li>
-          <li><span class="dot"></span><div data-i18n="ph1_s8"><strong>8회</strong> 1단계 점검 &amp; 성장 확인</div></li>
-        </ul>
-      </div>
+<section id="sec-brainmap" class="ps ct-section">
+
+  <div class="eyebrow">Cognitive Training · NUVIA</div>
+  <h2 class="ct-title" data-i18n="nv_title">검사에서 시작해<br>매일의 성장으로 이어지는 NUVIA</h2>
+  <p class="ct-lede" data-i18n="nv_lede">K-PASS·D-CAS로 발견한 인지특성을 KIDS의 반복 훈련, HISTORY의 사고 적용, CAREER LAB의 진로·직무 체험, PLANNER의 생활 실행으로 연결합니다. MY NUVIA는 그 변화가 실제로 일어났는지를 기록으로 확인합니다.</p>
+
+  <div class="steps3">
+    <div class="step">
+      <div class="num" data-i18n="nv_step1_num">01 검사 · 발견</div>
+      <h3>K-PASS · D-CAS</h3>
+      <p data-i18n="nv_step1_p">현재 인지특성과 강점·지원영역을 확인합니다.</p>
     </div>
-    <div class="phc ph2">
-      <div class="phh"><div class="phnum">PHASE 02</div><div class="phrnd" data-i18n="ph2_rnd">9~16회 · 1학기 후반</div><h3 data-i18n="ph2_h3">자기조절<br>&amp; 실행력</h3><div class="phen">Self Regulation</div></div>
-      <div class="phb">
-        <div class="phcore" data-i18n="ph2_core">🟢 "생각을 행동으로 바꾸는 힘"</div>
-        <ul class="phul">
-          <li><span class="dot"></span><div data-i18n="ph2_s1"><strong>9회</strong> 계획력(P축) — 마인드맵<em>초등: 오늘 할일 맵 / 중고: 진로 로드맵</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s2"><strong>10회</strong> 루틴 설계 &amp; 습관<em>초등: 아침루틴 카드 / 중고: 주간 플래너</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s3"><strong>11회</strong> 충동 조절 전략<em>초등: STOP 신호 게임 / 중고: 의사결정 매트릭스</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s4"><strong>12회</strong> 집중력 향상 (A축)<em>초등: 뽀모도로 체험 / 중고: 딥워크 설계</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s5"><strong>13회</strong> 목표 설정 &amp; 실행<em>초등: OX 목표 게임 / 중고: SMART 목표</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s6"><strong>14회</strong> 자기 대화 패턴 점검</div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s7"><strong>15회</strong> 성취 경험 설계하기</div></li>
-          <li><span class="dot"></span><div data-i18n="ph2_s8"><strong>16회</strong> 중간 리포트 &amp; 반환점 점검</div></li>
-        </ul>
-      </div>
+    <div class="step">
+      <div class="num" data-i18n="nv_step2_num">02 NUVIA · 경험</div>
+      <h3 data-i18n="nv_step2_h">인지훈련 · 사고력 · 진로직무</h3>
+      <p data-i18n="nv_step2_p">인지훈련과 사고력 활동, 진로·직무 체험을 PLANNER 실천으로 연결합니다.</p>
     </div>
-    <div class="phc ph3">
-      <div class="phh"><div class="phnum">PHASE 03</div><div class="phrnd" data-i18n="ph3_rnd">17~24회 · 2학기 전반</div><h3 data-i18n="ph3_h3">관계<br>&amp; 도덕적 사고</h3><div class="phen">Social Thinking</div></div>
-      <div class="phb">
-        <div class="phcore" data-i18n="ph3_core">🟡 "타인과 함께 살아가는 사고"</div>
-        <ul class="phul">
-          <li><span class="dot"></span><div data-i18n="ph3_s1"><strong>17회</strong> 두뇌유형별 갈등 패턴<em>초등: 갈등 역할극 / 중고: 갈등 유형 분석</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s2"><strong>18회</strong> 공감 &amp; 관점 전환<em>초등: 친구 마음 읽기 / 중고: 다양성 토론</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s3"><strong>19회</strong> 딜레마 카드 토론<em>초등: 동화 속 선택 / 중고: 사회 이슈 딜레마</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s4"><strong>20회</strong> 협력 과제 (S축)<em>초등: 모둠 프로젝트 / 중고: 팀 리더십</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s5"><strong>21회</strong> 윤리적 판단 훈련<em>초등: 옳고 그름 스토리 / 중고: 직업윤리</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s6"><strong>22회</strong> 리더십 유형 탐색<em>초등: 리더 역할 체험 / 중고: 리더십 브랜드</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s7"><strong>23회</strong> 갈등 해결 전략 실습</div></li>
-          <li><span class="dot"></span><div data-i18n="ph3_s8"><strong>24회</strong> 관계 성장 스토리 작성</div></li>
-        </ul>
-      </div>
+    <div class="step">
+      <div class="num" data-i18n="nv_step3_num">03 MY NUVIA · 성장 확인</div>
+      <h3 data-i18n="nv_step3_h">변화의 기록</h3>
+      <p data-i18n="nv_step3_p">수행 변화와 전략 사용, 독립적 적용을 확인합니다.</p>
     </div>
-    <div class="phc ph4">
-      <div class="phh"><div class="phnum">PHASE 04</div><div class="phrnd" data-i18n="ph4_rnd">25~32회 · 2학기 후반</div><h3 data-i18n="ph4_h3">가치<br>&amp; 습관화</h3><div class="phen">Meaning &amp; Identity</div></div>
-      <div class="phb">
-        <div class="phcore" data-i18n="ph4_core">🔴 "나는 어떤 사람으로 살 것인가"</div>
-        <ul class="phul">
-          <li><span class="dot"></span><div data-i18n="ph4_s1"><strong>25회</strong> 핵심 가치 발견<em>초등: 가치 카드 분류 / 중고: 직업 가치관 매칭</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s2"><strong>26회</strong> 철학 기반 딜레마<em>초등: 가치 선택 / 중고: 진로·사회 딜레마 심화</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s3"><strong>27회</strong> 자기 선언문 작성<em>초등: 나는 ○○하는 사람 / 중고: Personal Statement</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s4"><strong>28회</strong> 장기 목표 &amp; 진로 연결<em>초등: 꿈 직업 타임라인 / 중고: 진로 로드맵 완성</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s5"><strong>29회</strong> 내가 만들 세상 디자인<em>초등: 미래 도시 그리기 / 중고: 사회문제 해결 기획</em></div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s6"><strong>30회</strong> 두뇌유형별 성장 포트폴리오</div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s7"><strong>31회</strong> 변화 발표 &amp; 피어 피드백</div></li>
-          <li><span class="dot"></span><div data-i18n="ph4_s8"><strong>32회</strong> 최종 평가 &amp; 성장 리포트</div></li>
-        </ul>
+  </div>
+
+  <div class="why-block">
+    <div class="block-head">
+      <h3 data-i18n="nv_why_h">인지훈련의 성과를 다른 과제에서도 확인해야 합니다</h3>
+      <p data-i18n="nv_why_sub">연습한 과제의 향상과 다른 과제·일상에서의 활용은 구분해 확인해야 합니다. NUVIA는 전략을 적용할 맥락과 수행 기록을 함께 설계합니다.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">1</div>
+        <h4 data-i18n="nv_why1_h">연습한 과제의 수행 향상</h4>
+        <p data-i18n="nv_why1_p">인지훈련 리뷰에서는 연습한 과제의 수행이 향상된다는 근거가 풍부했습니다. 훈련 안의 변화는 확인해야 할 첫 단계입니다.</p>
+        <div class="cite">Simons et al., 2016</div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">2</div>
+        <h4 data-i18n="nv_why2_h">다른 과제 · 일상 적용 확인</h4>
+        <p data-i18n="nv_why2_p">같은 리뷰에서 가까운 과제로의 전이는 근거가 더 적었고, 먼 과제나 일상 인지수행 개선의 근거는 제한적이었습니다.</p>
+        <div class="cite">Simons et al., 2016</div>
+      </div>
+      <div class="why-card">
+        <div class="why-num">3</div>
+        <h4 data-i18n="nv_why3_h">NUVIA의 후속 경험 설계</h4>
+        <p data-i18n="nv_why3_p">HISTORY·CAREER LAB에서 전략을 다시 사용하고, PLANNER에서 실제 행동으로 실행하도록 설계합니다. 이 연결의 효과는 별도로 검증합니다.</p>
+        <div class="cite">NUVIA 통합 제안 및 CAREER LAB 기획안</div>
       </div>
     </div>
   </div>
-  <div class="aisec mb40">
-    <h3 data-i18n="bm_ai_h">🤖 학교 니즈에 따른 AI 맞춤 프로그램 설계</h3>
-    <p data-i18n="bm_ai_p">위 32회 커리큘럼은 표준 예시입니다.<br>학교의 학년·교과·목표·일정에 따라 <strong>AI가 맞춤형 프로그램을 자동 설계</strong>합니다.<br>K-PASS/D-CAS 검사 데이터 + 학교 특성 입력 → 최적화된 회차별 맞춤 콘텐츠 생성.</p>
-    <div class="achips">
-      <span class="achip2" data-i18n="bm_chip1">📚 초등 창의적 체험활동 연계</span>
-      <span class="achip2" data-i18n="bm_chip2">🎓 중고등 진로 수업 연계</span>
-      <span class="achip2" data-i18n="bm_chip3">🌍 국제학교 IB/SEL 연계</span>
-      <span class="achip2" data-i18n="bm_chip4">🏢 방과후 프로그램 맞춤</span>
-      <span class="achip2" data-i18n="bm_chip5">⏰ 주1회 / 격주 / 집중형 선택</span>
-      <span class="achip2" data-i18n="bm_chip6">🤖 두뇌유형별 개인 맞춤 콘텐츠</span>
+
+  <div class="bridge">
+    <div class="block-head">
+      <h3 data-i18n="nv_bridge_h">필굿이 설계한 전이의 다리</h3>
+      <p data-i18n="nv_bridge_sub">HISTORY와 CAREER LAB에서 사고전략을 적용하고, PLANNER에서 실제 행동으로 실행하며, MY NUVIA에서 전략 사용과 독립적 수행의 변화를 확인합니다.</p>
     </div>
-    <div class="duration-box">
-      <span class="dicon">⏳</span>
-      <div>
-        <div style="font-size:.75rem;opacity:.85;margin-bottom:2px;" data-i18n="bm_ai_dur_lbl">맞춤 콘텐츠 및 기능에 따른 제작 소요 기간</div>
-        <div style="font-size:1.05rem;" data-i18n="bm_ai_dur">1개월 ~ 2개월 소요</div>
+    <div class="bridge-rows">
+      <div class="bridge-row">
+        <div class="problem" data-i18n="nv_bridge1_problem">기초 전략을 익히는 활동</div>
+        <div class="to">→</div>
+        <div class="solution" data-i18n="nv_bridge1_solution"><b>KIDS</b> — 계획·주의·동시처리·순차처리를 짧고 반복 가능한 활동으로 연습합니다. 강점을 활용하고 필요한 영역을 지원합니다.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="problem" data-i18n="nv_bridge2_problem">다른 상황에 적용하는 활동</div>
+        <div class="to">→</div>
+        <div class="solution" data-i18n="nv_bridge2_solution"><b>HISTORY · CAREER LAB</b> — 역사적 판단과 진로·직무 프로젝트에 전략을 적용합니다. 공통 목표 아래 자료·활동 순서·도움을 조정합니다.</div>
+      </div>
+      <div class="bridge-row">
+        <div class="problem" data-i18n="nv_bridge3_problem">실제 행동을 확인하는 기록</div>
+        <div class="to">→</div>
+        <div class="solution" data-i18n="nv_bridge3_solution"><b>PLANNER · MY NUVIA</b> — 전략을 프로젝트와 실제 생활 과제에 적용하고, 사용한 도움과 계획 수정·독립적 수행을 기록합니다.</div>
+      </div>
+    </div>
+    <p class="bridge-note" data-i18n="nv_bridge_note">전이 가능성을 확인하기 위한 설계입니다. 효과는 시범 운영과 후속 과제에서 별도로 검증합니다.</p>
+  </div>
+
+  <div class="prod-overview">
+    <div class="block-head">
+      <h3 data-i18n="nv_prod_h">NUVIA 시리즈의 역할과 연결</h3>
+      <p data-i18n="nv_prod_sub">연령과 목적에 필요한 프로그램을 선택하고, 캠프는 PLANNER와 우선 연결합니다.</p>
+    </div>
+    <table class="ct-table">
+      <thead><tr><th data-i18n="nv_prod_th1">프로그램</th><th data-i18n="nv_prod_th2">핵심 경험</th><th data-i18n="nv_prod_th3">주요 대상 · 목적</th></tr></thead>
+      <tbody>
+        <tr><td class="name">KIDS</td><td data-i18n="nv_prod_r1_c2">게임으로 기초 인지과정 연습</td><td data-i18n="nv_prod_r1_c3">유아 · 초등 중심</td></tr>
+        <tr><td class="name">HISTORY</td><td data-i18n="nv_prod_r2_c2">역사 자료로 근거를 비교하고 판단</td><td data-i18n="nv_prod_r2_c3">연령별 사고력 활동</td></tr>
+        <tr><td class="name">PLANNER</td><td data-i18n="nv_prod_r3_c2">계획을 세우고 실행 · 회고</td><td data-i18n="nv_prod_r3_c3">초4부터 대학생 · 성인</td></tr>
+        <tr><td class="name">CAREER LAB</td><td data-i18n="nv_prod_r4_c2">인지특성을 반영한 진로 · 직무 프로젝트</td><td data-i18n="nv_prod_r4_c3">중고생 진로 / 대학생 학과별 직무</td></tr>
+        <tr><td class="name">MY NUVIA</td><td data-i18n="nv_prod_r5_c2">수행 기록과 다음 지원 확인</td><td data-i18n="nv_prod_r5_c3">본인과 권한을 가진 지원자</td></tr>
+      </tbody>
+    </table>
+    <p class="p-footnote" style="margin-top:14px;" data-i18n="nv_prod_foot">대학 캠프의 기본 구성은 D-CAS + CAREER LAB + PLANNER입니다. HISTORY는 선택 연계합니다.</p>
+  </div>
+
+  <div class="product-block step1">
+    <span class="step-tag">NUVIA KIDS</span>
+    <h3 data-i18n="nv_kids_h">개인맞춤 인지훈련</h3>
+    <p class="p-sub" data-i18n="nv_kids_sub">하루 약 10분의 게임형 활동으로 계획·주의·동시처리·순차처리를 연습합니다.</p>
+    <div class="shot-frame">
+      <div class="bar"><span></span><span></span><span></span></div>
+      <img src="proposal/images/nuvia-kids.png" alt="NUVIA KIDS">
+    </div>
+    <div class="shot-cap" data-i18n="nv_kids_cap">NUVIA KIDS 실제 화면 · 별빛 터널 / 운석지대 스테이지 맵</div>
+    <div class="p-facts">
+      <div class="fact"><div class="label" data-i18n="nv_kids_f1_label">무엇을 연습하나</div><div class="val" data-i18n="nv_kids_f1_val">강점을 활용하고 지원이 필요한 인지영역을 반복 연습합니다.</div></div>
+      <div class="fact"><div class="label" data-i18n="nv_kids_f2_label">어떻게 참여하나</div><div class="val" data-i18n="nv_kids_f2_val">연령에 맞는 조작과 안내로 짧게 활동하고 이어서 참여합니다.</div></div>
+      <div class="fact"><div class="label" data-i18n="nv_kids_f3_label">무엇을 확인하나</div><div class="val" data-i18n="nv_kids_f3_val">정확도·반응시간·오류와 도움 사용·전략 변화를 살펴봅니다.</div></div>
+    </div>
+    <p class="p-footnote" data-i18n="nv_kids_foot">400개 훈련 라이브러리 기반 설계. 실제 콘텐츠와 연령별 운영 범위는 도입 시 확인합니다.</p>
+    <div class="link-chain" data-i18n="nv_kids_link"><b>STEP 1 → STEP 2</b> — 익힌 전략을 HISTORY의 사고 활동과 일상 과제에서 다시 활용하도록 설계합니다.</div>
+  </div>
+
+  <div class="product-block step2">
+    <span class="step-tag">NUVIA HISTORY</span>
+    <h3 data-i18n="nv_history_h">역사기반 사고력 훈련</h3>
+    <p class="p-sub" data-i18n="nv_history_sub">세계사의 이야기와 자료 속에서 선택하고, 근거를 살펴보고, 판단을 다듬습니다.</p>
+    <div class="shot-frame">
+      <div class="bar"><span></span><span></span><span></span></div>
+      <img src="proposal/images/nuvia-history.png" alt="NUVIA HISTORY">
+    </div>
+    <div class="shot-cap" data-i18n="nv_history_cap">NUVIA HISTORY 실제 화면 · 세계사 3주차 「나일강 개척 보드」 · 고등학생 플레이 수준</div>
+    <table class="ct-table" style="margin-bottom:22px;">
+      <thead><tr><th data-i18n="nv_history_th1">대상</th><th data-i18n="nv_history_th2">자료</th><th data-i18n="nv_history_th3">사고 활동</th></tr></thead>
+      <tbody>
+        <tr><td data-i18n="nv_history_r1_c1">미취학 5~7세</td><td data-i18n="nv_history_r1_c2">짧은 장면 · 그림 · 음성</td><td data-i18n="nv_history_r1_c3">탐험 · 조립 · 선택 결과 비교</td></tr>
+        <tr><td data-i18n="nv_history_r2_c1">초1~5 / 초6~중3</td><td data-i18n="nv_history_r2_c2">문장 · 단서 / 여러 자료 · 관점</td><td data-i18n="nv_history_r2_c3">역할 · 순서 · 계획 / 대안 · 근거 연결</td></tr>
+        <tr><td data-i18n="nv_history_r3_c1">고1~3 / 대학 · 성인</td><td data-i18n="nv_history_r3_c2">상충 자료 / 인문학 · 조직 사례</td><td data-i18n="nv_history_r3_c3">대안 가설 · 논증 / 판단 기준 적용</td></tr>
+      </tbody>
+    </table>
+    <p class="p-footnote" data-i18n="nv_history_foot">세계사 우선 구축, 한국사 2차 확장. 화면에 표시된 프로파일은 체험용 가상 점수입니다.</p>
+    <div class="link-chain" data-i18n="nv_history_link"><b>STEP 2 → STEP 3</b> — 자료 비교와 판단 근거를 진로·직무 체험(CAREER LAB)에 활용하고 PLANNER의 다음 행동으로 연결합니다.</div>
+  </div>
+
+  <div class="product-block step3">
+    <span class="step-tag">NUVIA PLANNER</span>
+    <h3 data-i18n="nv_planner_h">메타인지 기반 자기관리</h3>
+    <p class="p-sub" data-i18n="nv_planner_sub">초4부터 성인까지, 나의 실행 패턴을 발견하고 전략을 실제 생활에 적용합니다.</p>
+    <div class="shot-frame">
+      <div class="bar"><span></span><span></span><span></span></div>
+      <img src="proposal/images/nuvia-planner.png" alt="NUVIA PLANNER">
+    </div>
+    <div class="shot-cap" data-i18n="nv_planner_cap">NUVIA PLANNER 실제 화면 · 초4~6 프로필 A · 오늘 · 계획 조립</div>
+    <table class="ct-table">
+      <thead><tr><th data-i18n="nv_planner_th1">영역</th><th data-i18n="nv_planner_th2">일상의 실행 전략</th></tr></thead>
+      <tbody>
+        <tr><td class="name">PLAN · 계획</td><td data-i18n="nv_planner_r1_c2">우선순위 선택 · 과제 분해</td></tr>
+        <tr><td class="name">START · 착수</td><td data-i18n="nv_planner_r2_c2">아주 작은 첫 행동</td></tr>
+        <tr><td class="name">FOCUS · 집중</td><td data-i18n="nv_planner_r3_c2">집중 구간 · 방해요인 조절</td></tr>
+        <tr><td class="name">TIME · 시간</td><td data-i18n="nv_planner_r4_c2">예상 · 실제 비교 · 여유시간</td></tr>
+        <tr><td class="name">RECOVER · 회복</td><td data-i18n="nv_planner_r5_c2">Reset · 다음 가능한 행동</td></tr>
+        <tr><td class="name">CHECK · 점검</td><td data-i18n="nv_planner_r6_c2">패턴 발견 · 전략 조정</td></tr>
+      </tbody>
+    </table>
+    <p class="p-footnote" style="margin-top:16px;" data-i18n="nv_planner_foot">캠프 과제도 개인 할 일로 연결합니다. 스스로 계획하고 실행하는 힘을 기르도록 설계합니다. 화면의 A·B 프로필은 체험용 예시입니다.</p>
+  </div>
+
+  <div class="transfer-block">
+    <div class="block-head">
+      <h3 data-i18n="nv_transfer_h">HISTORY와 PLANNER는 전략으로 연결됩니다</h3>
+      <p data-i18n="nv_transfer_sub">사고 활동에서 사용한 방법을 실제 생활에 연결하는 설계 예시입니다. 두 제품의 점수 · 레벨은 합치지 않습니다 — 연결 대상은 전략과 도움 방식, 실제 적용 맥락입니다.</p>
+    </div>
+    <div class="transfer-rows">
+      <div class="transfer-row">
+        <div class="h-label" data-i18n="nv_transfer_r1_h">HISTORY — 사건을 단계로 나누어 이해</div>
+        <div class="arrow-mid">→</div>
+        <div class="p-label" data-i18n="nv_transfer_r1_p">PLANNER — 발표 준비를 조사 · 구성 · 연습으로 나누기</div>
+      </div>
+      <div class="transfer-row">
+        <div class="h-label" data-i18n="nv_transfer_r2_h">HISTORY — 여러 자료의 관계를 한눈에 비교</div>
+        <div class="arrow-mid">→</div>
+        <div class="p-label" data-i18n="nv_transfer_r2_p">PLANNER — 해야 할 과제의 전체 구조와 우선순위 보기</div>
+      </div>
+      <div class="transfer-row">
+        <div class="h-label" data-i18n="nv_transfer_r3_h">HISTORY — 새 근거를 보고 계획을 수정</div>
+        <div class="arrow-mid">→</div>
+        <div class="p-label" data-i18n="nv_transfer_r3_p">PLANNER — 일정이 밀렸을 때 다음 행동 다시 정하기</div>
+      </div>
+      <div class="transfer-row">
+        <div class="h-label" data-i18n="nv_transfer_r4_h">HISTORY — 자기 판단의 이유를 되짚기</div>
+        <div class="arrow-mid">→</div>
+        <div class="p-label" data-i18n="nv_transfer_r4_p">PLANNER — 예상과 실제를 비교해 내 전략 조정</div>
       </div>
     </div>
   </div>
-  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_ops_title">학교 연간 운영 구조</h3></div>
-  <div class="ogrid mb40">
-    <div class="oc"><div class="oi">📅</div><h4 data-i18n="bm_op1_h">운영 구조</h4><p data-i18n="bm_op1_p"><strong>1학기:</strong> 1~16회 (자기이해 + 자기조절)<br><strong>2학기:</strong> 17~32회 (관계 + 가치)<br>학기별 결과 리포트 제공</p></div>
-    <div class="oc"><div class="oi">⏱</div><h4 data-i18n="bm_op2_h">수업 방식</h4><p data-i18n="bm_op2_p"><strong>주 1회 40분</strong> — 창체·진로 수업<br><strong>매일 10분</strong> — 조례/종례 MindCompass<br>정규수업 침범 없음</p></div>
-    <div class="oc"><div class="oi">📊</div><h4 data-i18n="bm_op3_h">평가 구조</h4><p data-i18n="bm_op3_p"><strong>Pre Assessment</strong> — K-PASS 초기검사<br><strong>Mid Report</strong> — 16회 중간 점검<br><strong>Final Report</strong> — 32회 성장 데이터</p></div>
-  </div>
-  <div class="sh"><div class="sec-tag">Age Group</div><h3 class="sec-title" data-i18n="bm_age_title">연령별 핵심 포인트</h3></div>
-  <div class="agegrid mb40">
-    <div class="agec ag1">
-      <div class="agehd"><div class="ageemoji">👶</div><h4 data-i18n="bm_age1_h">유치 / Kindergarten</h4><div class="range" data-i18n="bm_age1_range">5~7세</div></div>
-      <div class="agebd">
-        <div class="agetags"><span class="agechip" data-i18n="bm_age1_t1">감정 인식</span><span class="agechip" data-i18n="bm_age1_t2">기본 자기조절</span><span class="agechip" data-i18n="bm_age1_t3">사회성 기초</span></div>
-        <div class="qbox" data-i18n="bm_age1_q">"아이들이 자신의 감정을 이해하고 표현하는 능력은 모든 학습의 출발점입니다."</div>
-        <p style="margin-top:12px;" data-i18n="bm_age1_app"><strong>적용:</strong> 감정 선택 UI, 스토리 기반 딜레마, 놀이형 MindCompass</p>
+
+  <!-- ============ NUVIA CAREER LAB ============ -->
+  <div class="cl-section">
+    <span class="cl-badge">NEW · NUVIA CAREER LAB</span>
+    <h3 class="cl-title" data-i18n="nv_cl_title">인지특성에 맞춘 진로 · 직무 캠프</h3>
+    <p class="cl-lede" data-i18n="nv_cl_lede">학생이 정보를 이해하고, 판단하고, 행동하는 방식까지 수업에 반영합니다. 검사 결과가 활동 방식으로, 체험 기록이 다음 실천으로 이어집니다.</p>
+
+    <div class="cl-intro-grid">
+      <div class="cl-intro-card">
+        <div class="tag" data-i18n="nv_cl_i1_tag">중고등학생 진로 캠프</div>
+        <h4 data-i18n="nv_cl_i1_h">관심 분야를 직접 경험하며 나에게 맞는 탐색 방법을 찾습니다</h4>
+        <p data-i18n="nv_cl_i1_p">관심 지도 · 분야 비교 · 다음 탐색 계획</p>
+        <div class="out" data-i18n="nv_cl_i1_out">→ PLANNER의 후속 탐색 과제로 연결</div>
+      </div>
+      <div class="cl-intro-card">
+        <div class="tag" data-i18n="nv_cl_i2_tag">대학생 학과별 직무 캠프</div>
+        <h4 data-i18n="nv_cl_i2_h">학과와 연결된 업무 과제를 수행하며 나의 강점과 필요한 지원을 확인합니다</h4>
+        <p data-i18n="nv_cl_i2_p">직무 산출물 · 수행 근거 · 포트폴리오</p>
+        <div class="out" data-i18n="nv_cl_i2_out">→ PLANNER의 포트폴리오 정리로 연결</div>
       </div>
     </div>
-    <div class="agec ag2">
-      <div class="agehd"><div class="ageemoji">🧒</div><h4 data-i18n="bm_age2_h">초등 / Primary ⭐</h4><div class="range" data-i18n="bm_age2_range">8~12세 · 창체 수업 핵심</div></div>
-      <div class="agebd">
-        <div class="agetags"><span class="agechip" data-i18n="bm_age2_t1">자기조절력</span><span class="agechip" data-i18n="bm_age2_t2">집중력</span><span class="agechip" data-i18n="bm_age2_t3">습관 형성</span><span class="agechip" data-i18n="bm_age2_t4">창체 연계</span></div>
-        <div class="qbox" data-i18n="bm_age2_q">"이 시기는 '머리가 좋은 아이'보다 '스스로 조절하는 아이'가 성장을 결정합니다."</div>
-        <p style="margin-top:12px;" data-i18n="bm_age2_app"><strong>창체 연계:</strong> 계획력 훈련, 루틴 관리, 감정 딜레마<br><strong>효과:</strong> 학습태도·집중력·숙제 수행률 개선</p>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_demo_h">DEMO · 학과별 직무 체험과 개인 PLANNER 화면</h4>
+      <p class="sub-desc" data-i18n="nv_cl_demo_desc">직무 선택부터 자료 분석, 역할 교대와 개인 할 일을 한 화면에서 안내하는 체험판입니다. (항공보안학과 · 보안직무 프로젝트 예시)</p>
+      <div class="shot-frame">
+        <div class="bar"><span></span><span></span><span></span></div>
+        <img src="proposal/images/nuvia-career-lab.png" alt="NUVIA CAREER LAB">
+      </div>
+      <div class="shot-cap" data-i18n="nv_cl_demo_cap">NUVIA CAREER LAB 실제 화면 · Security Career Studio · 대학생 체험판</div>
+    </div>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_diff_h">기존 진로 · 직무 수업에 더하는 가치</h4>
+      <p class="sub-desc" data-i18n="nv_cl_diff_desc">직업 정보와 체험 경험에 인지맞춤 지원과 후속 실행을 결합합니다. 좌측은 비교를 위한 운영 유형이며, 경쟁사 전수조사 결과는 아닙니다.</p>
+      <table class="ct-table accent-teal">
+        <thead><tr><th data-i18n="nv_cl_diff_th1">비교 항목</th><th data-i18n="nv_cl_diff_th2">설명 · 공통 체험 중심 운영</th><th data-i18n="nv_cl_diff_th3">NUVIA CAREER LAB 설계</th></tr></thead>
+        <tbody>
+          <tr><td class="name" data-i18n="nv_cl_diff_r1_c1">개인 이해</td><td data-i18n="nv_cl_diff_r1_c2">흥미 · 희망과 결과 상담 중심</td><td data-i18n="nv_cl_diff_r1_c3">인지특성 + 흥미 · 경험 + 활동 중 수행</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_diff_r2_c1">체험 방식</td><td data-i18n="nv_cl_diff_r2_c2">같은 자료와 순서를 함께 수행</td><td data-i18n="nv_cl_diff_r2_c3">공통 목표 아래 자료 · 순서 · 도움 조정</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_diff_r3_c1">강사 역할</td><td data-i18n="nv_cl_diff_r3_c2">개별 지원을 현장에서 판단</td><td data-i18n="nv_cl_diff_r3_c3">표준 교안 · 개별 안내 · 개입 기준 제공</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_diff_r4_c1">남는 결과</td><td data-i18n="nv_cl_diff_r4_c2">활동 소감과 체험 이력</td><td data-i18n="nv_cl_diff_r4_c3">개인 수행 근거와 직무 · 탐색 산출물</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_diff_r5_c1">캠프 이후</td><td data-i18n="nv_cl_diff_r5_c2">별도 후속 활동 여부에 따라 결정</td><td data-i18n="nv_cl_diff_r5_c3">PLANNER에서 다음 행동과 회고 연결</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_age_h">중학생 · 고등학생 · 대학생의 실제 활동 차이</h4>
+      <p class="sub-desc" data-i18n="nv_cl_age_desc">학교급에 따라 탐색 질문, 활동 책임과 결과물을 다르게 구성합니다. 공통 주제도 문제의 개방성, 자료의 복잡성, 역할과 산출물을 다르게 설계합니다.</p>
+      <table class="ct-table accent-teal">
+        <thead><tr><th data-i18n="nv_cl_age_th1">구분</th><th data-i18n="nv_cl_age_th2">출발 질문</th><th data-i18n="nv_cl_age_th3">체험 예시</th><th data-i18n="nv_cl_age_th4">개인 결과</th></tr></thead>
+        <tbody>
+          <tr><td class="name" data-i18n="nv_cl_age_r1_c1">중학생 · 진로발견</td><td data-i18n="nv_cl_age_r1_c2">어떤 일이 흥미로울까?</td><td data-i18n="nv_cl_age_r1_c3">학교 행사 길 안내 제작</td><td data-i18n="nv_cl_age_r1_c4">관심 카드와 탐색 질문</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_age_r2_c1">고등학생 · 진로설계</td><td data-i18n="nv_cl_age_r2_c2">어떤 분야를 더 알아볼까?</td><td data-i18n="nv_cl_age_r2_c3">행사 접근성 개선 비교</td><td data-i18n="nv_cl_age_r2_c4">분야 비교 근거와 준비 계획</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_age_r3_c1">대학생 · 직무실행</td><td data-i18n="nv_cl_age_r3_c2">업무 과제를 어떻게 해결할까?</td><td data-i18n="nv_cl_age_r3_c3">가상 출국장 운영안 설계</td><td data-i18n="nv_cl_age_r3_c4">수행 근거와 포트폴리오</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_dept_h">학과 직무 체험 예시 — 항공보안학과</h4>
+      <p class="sub-desc" data-i18n="nv_cl_dept_desc">출국장 혼잡 상황에서 승객 안내와 운영 지원을 설계하는 교육용 가상 프로젝트입니다. (3구역 배치도 + 상황 자료 3장 + 지원 인력 4개 + 안내 표지 2개)</p>
+      <div class="cl-steps">
+        <div class="row"><div class="n">1</div><div class="task" data-i18n="nv_cl_dept_s1_task">상황 파악 — 자료를 보고 우선 대응할 두 구역 선택</div><div class="out" data-i18n="nv_cl_dept_s1_out">선택한 문제와 근거</div></div>
+        <div class="row"><div class="n">2</div><div class="task" data-i18n="nv_cl_dept_s2_task">초안 작성 — 지원 인력 · 표지를 배치하고 실행 순서 결정</div><div class="out" data-i18n="nv_cl_dept_s2_out">배치도와 실행 3단계</div></div>
+        <div class="row"><div class="n">3</div><div class="task" data-i18n="nv_cl_dept_s3_task">역할 교대 — 지원 인력 1개 감소 조건에서 운영안 수정</div><div class="out" data-i18n="nv_cl_dept_s3_out">인수인계와 변경 이유</div></div>
+        <div class="row"><div class="n">4</div><div class="task" data-i18n="nv_cl_dept_s4_task">검토 · 발표 — 제약조건 확인 후 대안과 판단 근거 설명</div><div class="out" data-i18n="nv_cl_dept_s4_out">팀 최종안 + 개인 기여 기록</div></div>
+      </div>
+      <p class="p-footnote" style="margin-top:14px;" data-i18n="nv_cl_dept_foot">토큰 총량 준수 · 이동 통로 확보 · 보안검색 절차 유지. 실제 보안검색 훈련이나 공항 운영 규정이 아닙니다.</p>
+    </div>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_deptx_h">학과가 달라지면 업무와 산출물도 달라집니다</h4>
+      <p class="sub-desc" data-i18n="nv_cl_deptx_desc">공통 운영 구조를 활용하되, 학과별 직무 자료와 평가 기준은 별도로 검토합니다. 아래는 개발 후보 예시이며, 학과 전문가 검토 후 제공 범위를 확정합니다.</p>
+      <table class="ct-table accent-teal">
+        <thead><tr><th data-i18n="nv_cl_deptx_th1">학과 예시</th><th data-i18n="nv_cl_deptx_th2">직무 프로젝트 후보</th><th data-i18n="nv_cl_deptx_th3">주요 산출물</th></tr></thead>
+        <tbody>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r1_c1">경영 · 마케팅</td><td data-i18n="nv_cl_deptx_r1_c2">가상 소상공인 고객 경험 개선</td><td data-i18n="nv_cl_deptx_r1_c3">고객 문제 · 대안 비교 · 실행안</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r2_c1">관광 · 호텔</td><td data-i18n="nv_cl_deptx_r2_c2">단체 고객 동선과 문의 대응</td><td data-i18n="nv_cl_deptx_r2_c3">안내안 · 서비스 순서</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r3_c1">컴퓨터 · 소프트웨어</td><td data-i18n="nv_cl_deptx_r3_c2">캠퍼스 서비스 개선 시제품</td><td data-i18n="nv_cl_deptx_r3_c3">기능 우선순위 · 시제품 · 검증 기록</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r4_c1">디자인</td><td data-i18n="nv_cl_deptx_r4_c2">캠퍼스 길 찾기 안내 개선</td><td data-i18n="nv_cl_deptx_r4_c3">시안 · 사용성 확인 · 수정 근거</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r5_c1">사회복지</td><td data-i18n="nv_cl_deptx_r5_c2">가상 이용자 지원 서비스 연결</td><td data-i18n="nv_cl_deptx_r5_c3">자원 비교 · 연계 순서</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_deptx_r6_c1">간호 · 보건 / 유아교육</td><td data-i18n="nv_cl_deptx_r6_c2">퇴원 안내자료 / 교육 활동 운영안</td><td data-i18n="nv_cl_deptx_r6_c3">쉬운 설명자료 / 활동 · 참여 지원안</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="cl-sub-block">
+      <h4 class="sub-title" data-i18n="nv_cl_camp_h">캠프 운영 — 혼합 분단과 역할 교대</h4>
+      <p class="sub-desc" data-i18n="nv_cl_camp_desc">대학 시범 예시: 30명 · 6개 분단 · 팀당 5명 · 180분, 사전 검사와 사후 2주는 별도 운영. 서로 다른 인지특성과 경험을 섞어 편성하며, 역할은 점수로 고정하지 않습니다.</p>
+      <div class="cl-timeline">
+        <div class="row"><div class="time">0~40분</div><div class="act" data-i18n="nv_cl_camp_r1_act">상황 이해 · 개인 목표 · 첫 역할 선택</div><div class="rule" data-i18n="nv_cl_camp_r1_rule">관심 · 경험 · 희망 역할 반영</div></div>
+        <div class="row"><div class="time">40~80분</div><div class="act" data-i18n="nv_cl_camp_r2_act">자료 분석 · 초안 · 중간 점검</div><div class="rule" data-i18n="nv_cl_camp_r2_rule">각자 개인 수행 근거 남기기</div></div>
+        <div class="row"><div class="time">90~145분</div><div class="act" data-i18n="nv_cl_camp_r3_act">역할 교대 · 새 조건 대응 · 최종안</div><div class="rule" data-i18n="nv_cl_camp_r3_rule">최소 한 번 교대와 인수인계</div></div>
+        <div class="row"><div class="time">145~180분</div><div class="act" data-i18n="nv_cl_camp_r4_act">팀 발표 · 피드백 · 개인 후속 계획</div><div class="rule" data-i18n="nv_cl_camp_r4_rule">팀 결과와 개인 기여 구분</div></div>
       </div>
     </div>
-    <div class="agec ag3">
-      <div class="agehd"><div class="ageemoji">🧑</div><h4 data-i18n="bm_age3_h">중고등 / Secondary</h4><div class="range" data-i18n="bm_age3_range">13~18세 · 진로 수업 연계</div></div>
-      <div class="agebd">
-        <div class="agetags"><span class="agechip" data-i18n="bm_age3_t1">가치관 형성</span><span class="agechip" data-i18n="bm_age3_t2">자기 정체성</span><span class="agechip" data-i18n="bm_age3_t3">진로 탐색</span><span class="agechip" data-i18n="bm_age3_t4">비판적 사고</span></div>
-        <div class="qbox" data-i18n="bm_age3_q">"'무엇을 아는가'보다 '어떻게 판단하고 선택하는가'가 중요한 시기입니다."</div>
-        <p style="margin-top:12px;" data-i18n="bm_age3_app"><strong>진로 연계:</strong> 철학 딜레마, 진로 로드맵, Personal Statement<br><strong>효과:</strong> 대학 진학 준비, 리더십, 윤리적 사고</p>
-      </div>
+
+    <div class="cl-sub-block" style="margin-bottom:0;">
+      <h4 class="sub-title" data-i18n="nv_cl_pc_h">캠프 경험이 다음 실천으로 이어지는 PLANNER</h4>
+      <p class="sub-desc" data-i18n="nv_cl_pc_desc">팀 과제를 개인 할 일로 연결하고, 학생이 직접 계획을 작성 · 수정합니다. 개인 점수와 비공개 메모는 팀에 공개하지 않습니다.</p>
+      <table class="ct-table accent-teal">
+        <thead><tr><th data-i18n="nv_cl_pc_th1">시점</th><th data-i18n="nv_cl_pc_th2">학생의 행동</th><th data-i18n="nv_cl_pc_th3">인지특성에 맞춘 실행 도움</th></tr></thead>
+        <tbody>
+          <tr><td class="name" data-i18n="nv_cl_pc_r1_c1">활동 시작</td><td data-i18n="nv_cl_pc_r1_c2">내 역할의 목표 · 첫 행동 · 기한 작성</td><td data-i18n="nv_cl_pc_r1_c3">과제 분해 또는 빈 계획판 선택</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_pc_r2_c1">수행 · 교대</td><td data-i18n="nv_cl_pc_r2_c2">지금 할 일 수행 후 근거 공유 · 인수인계</td><td data-i18n="nv_cl_pc_r2_c3">현재 단계 안내 · 순서 · 관계 도구</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_pc_r3_c1">캠프 마무리</td><td data-i18n="nv_cl_pc_r3_c2">도움이 된 방법과 다음 행동 선택</td><td data-i18n="nv_cl_pc_r3_c3">회고 질문 · 구체적 행동 예시</td></tr>
+          <tr><td class="name" data-i18n="nv_cl_pc_r4_c1">사후 2주</td><td data-i18n="nv_cl_pc_r4_c2">선택한 탐색 · 학습 과제 실행 · 주간 회고</td><td data-i18n="nv_cl_pc_r4_c3">다시 시작할 행동과 점검 도움</td></tr>
+        </tbody>
+      </table>
+      <p class="p-footnote" style="margin-top:14px;" data-i18n="nv_cl_pc_foot">중학생은 관찰 경험, 고등학생은 분야 비교, 대학생은 직무 보완과 포트폴리오로 후속 실천이 이어집니다.</p>
     </div>
+
   </div>
-  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_diff_title">기존 프로그램과의 차별점</h3></div>
-  <div class="diffrow mb40">
-    <div class="diffc old"><h4 data-i18n="bm_old_h">❌ 기존 SEL / 인성교육</h4><ul class="dlist">
-      <li data-i18n="bm_old_1">😐 정성적 평가 — 측정 어려움</li><li data-i18n="bm_old_2">😐 결과 데이터 없음</li>
-      <li data-i18n="bm_old_3">😐 일괄적 교육 (개인 맞춤 없음)</li><li data-i18n="bm_old_4">😐 교사 주관 개입</li><li data-i18n="bm_old_5">😐 성장 증명 불가</li>
-    </ul></div>
-    <div class="diffc nw"><h4>✅ Cognitive Training · MindCompass</h4><ul class="dlist">
-      <li data-i18n="bm_new_1">✨ 데이터 기반 정량 평가</li><li data-i18n="bm_new_2">✨ 학기별 성장 리포트 자동 생성</li>
-      <li data-i18n="bm_new_3">✨ 81가지 두뇌유형별 개인 맞춤</li><li data-i18n="bm_new_4">✨ AI 자동 분석으로 주관 차단</li><li data-i18n="bm_new_5">✨ 행동 변화 추적 &amp; 증명 가능</li>
-    </ul></div>
-  </div>
-  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="bm_decide_title">학교 도입 결정 포인트</h3></div>
-  <div class="pgrid mb32">
-    <div class="pc"><div class="pn">01</div><h4 data-i18n="bm_d1_h">추가 수업 아님</h4><p data-i18n="bm_d1_p">창체·SEL 시수를 데이터 기반 업그레이드. 정규수업 침범 Zero.</p></div>
-    <div class="pc"><div class="pn">02</div><h4 data-i18n="bm_d2_h">교사 부담 없음</h4><p data-i18n="bm_d2_p">자동 콘텐츠·자동 리포트. 교사는 진행만, 설계는 시스템이.</p></div>
-    <div class="pc"><div class="pn">03</div><h4 data-i18n="bm_d3_h">학부모 만족도↑</h4><p data-i18n="bm_d3_p">개인별 성장 리포트 제공. 학부모가 직접 변화를 확인 가능.</p></div>
-    <div class="pc"><div class="pn">04</div><h4 data-i18n="bm_d4_h">학교 브랜드↑</h4><p data-i18n="bm_d4_p">"정서·사고력까지 관리하는 학교"로 차별화된 교육 브랜드 구축.</p></div>
-  </div>
-  <div class="eq">
-    <p>"This is not an additional subject. It is a system that upgrades your existing SEL into a measurable, personalized learning experience."</p>
-    <p>"We don't just teach values. We track and develop how students think, feel, and act."</p>
-  </div>
-  <div class="sec-header" style="margin-top:48px;">
-    <div class="sec-tag">MindCompass</div>
-    <h3 class="sec-title" data-i18n="bm_dash_title">교사 대시보드 v3</h3>
-    <p class="sec-sub" data-i18n="bm_dash_sub">학생별 두뇌 유형 · PASS 프로파일 · 맞춤 지도 전략을 한눈에 확인하세요.</p>
-  </div>
-  <div style="border:1.5px solid var(--border,#dde4f0);border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.08);margin-bottom:24px;">
-    <div style="background:var(--navy);padding:12px 20px;display:flex;align-items:center;gap:10px;">
-      <span style="color:#fff;font-weight:600;font-size:1rem;" data-i18n="bm_dash_label">🧠 MindCompass — 교사 대시보드 v3</span>
-      <span style="margin-left:auto;font-size:.75rem;color:rgba(255,255,255,.6);" data-i18n="bm_dash_sample">샘플 데이터로 체험 중</span>
+  <!-- ============ /CAREER LAB ============ -->
+
+  <div class="prod-overview">
+    <div class="block-head">
+      <h3 data-i18n="nv_verify_h">전이가 실제 일어났는지, 기록으로 확인합니다</h3>
+      <p data-i18n="nv_verify_sub">검사 프로파일은 기준 정보로, 프로그램 기록은 변화의 근거로 확인합니다. 기록만으로 전이의 인과 효과를 입증하지 않으며, 검사 · 학업성취 · 만족도는 하나의 총점으로 합산하지 않습니다.</p>
     </div>
-    <div style="background:#f8f9ff;padding:24px 20px;">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;">
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:var(--blue);">12</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_total">전체 학생</div></div>
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#4CAF82;">4</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_rb">우뇌 우세형</div></div>
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#5B7FD4;">5</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_bal">좌우밸런스형</div></div>
-        <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);"><div style="font-size:1.6rem;font-weight:700;color:#FF8C42;">3</div><div style="font-size:.8rem;color:#666;margin-top:4px;" data-i18n="bm_dash_lb">좌뇌 우세형</div></div>
-      </div>
-      <div style="background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,.06);">
-        <table style="width:100%;border-collapse:collapse;font-size:.85rem;">
-          <thead><tr style="background:var(--navy);color:#fff;">
-            <th style="padding:10px 14px;text-align:left;" data-i18n="bm_th_name">이름</th>
-            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_type">두뇌 유형</th>
-            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_p">계획(P)</th>
-            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_a">주의(A)</th>
-            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_s">동시(S)</th>
-            <th style="padding:10px 14px;text-align:center;" data-i18n="bm_th_ss">순차(Ss)</th>
-            <th style="padding:10px 14px;text-align:left;" data-i18n="bm_th_guide">지도 포인트</th>
-          </tr></thead>
-          <tbody>
-            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r1_name">송서우</td><td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r1_type">우뇌 우세</span></td><td style="padding:10px 14px;text-align:center;">62</td><td style="padding:10px 14px;text-align:center;">58</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">118</td><td style="padding:10px 14px;text-align:center;">44</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r1_guide">창의적 과제 강점 / 순차 훈련 필요</td></tr>
-            <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r2_name">이민준</td><td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r2_type">밸런스형</span></td><td style="padding:10px 14px;text-align:center;">78</td><td style="padding:10px 14px;text-align:center;">82</td><td style="padding:10px 14px;text-align:center;">85</td><td style="padding:10px 14px;text-align:center;">80</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r2_guide">균형 발달 / 심화 과제 제공</td></tr>
-            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r3_name">김지아</td><td style="padding:10px 14px;text-align:center;"><span style="background:#FF8C4220;color:#FF8C42;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r3_type">좌뇌 우세</span></td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">95</td><td style="padding:10px 14px;text-align:center;">88</td><td style="padding:10px 14px;text-align:center;">52</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#5B7FD4;">102</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r3_guide">논리·분석 강점 / 창의적 사고 확장</td></tr>
-            <tr style="border-bottom:1px solid #f0f0f0;background:#fafafa;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r4_name">박지훈</td><td style="padding:10px 14px;text-align:center;"><span style="background:#5B7FD420;color:#5B7FD4;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r4_type">밸런스형</span></td><td style="padding:10px 14px;text-align:center;">71</td><td style="padding:10px 14px;text-align:center;">68</td><td style="padding:10px 14px;text-align:center;">74</td><td style="padding:10px 14px;text-align:center;">72</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r4_guide">고른 발달 / 개인 관심사 연계 심화</td></tr>
-            <tr style="border-bottom:1px solid #f0f0f0;"><td style="padding:10px 14px;font-weight:600;" data-i18n="bm_r5_name">최서연</td><td style="padding:10px 14px;text-align:center;"><span style="background:#4CAF8220;color:#4CAF82;padding:3px 8px;border-radius:20px;font-size:.78rem;" data-i18n="bm_r5_type">우뇌 우세</span></td><td style="padding:10px 14px;text-align:center;">55</td><td style="padding:10px 14px;text-align:center;">61</td><td style="padding:10px 14px;text-align:center;font-weight:700;color:#4CAF82;">109</td><td style="padding:10px 14px;text-align:center;">48</td><td style="padding:10px 14px;font-size:.8rem;color:#555;" data-i18n="bm_r5_guide">예술·공간 강점 / 언어 표현 지원</td></tr>
-          </tbody>
-        </table>
-        <div style="padding:10px 14px;text-align:center;font-size:.78rem;color:#999;" data-i18n="bm_dash_foot">📌 샘플 데이터 (총 12명 중 5명 표시) — 실제 검사 후 자동 업데이트</div>
-      </div>
+    <table class="ct-table">
+      <thead><tr><th data-i18n="nv_verify_th1">구분</th><th data-i18n="nv_verify_th2">확인하는 내용</th><th data-i18n="nv_verify_th3">해석 범위</th></tr></thead>
+      <tbody>
+        <tr><td class="name">검사</td><td data-i18n="nv_verify_r1_c2">최근 검사일 · PASS 4요인 · 결과지</td><td data-i18n="nv_verify_r1_c3">표준화 검사 결과</td></tr>
+        <tr><td class="name">KIDS</td><td data-i18n="nv_verify_r2_c2">정확도 · 시간 · 오류 · 도움 사용</td><td data-i18n="nv_verify_r2_c3">훈련 안의 수행 변화</td></tr>
+        <tr><td class="name">HISTORY</td><td data-i18n="nv_verify_r3_c2">근거 사용 · 재검토 · 새 사례 적용</td><td data-i18n="nv_verify_r3_c3">역사 이해와 사고전략 수행</td></tr>
+        <tr><td class="name">CAREER LAB</td><td data-i18n="nv_verify_r4_c2">역할 수행 · 수정 근거 · 개인 · 팀 산출물</td><td data-i18n="nv_verify_r4_c3">진로탐색과 직무 체험의 수행</td></tr>
+        <tr><td class="name">PLANNER</td><td data-i18n="nv_verify_r5_c2">계획 수정 · 실행 · 회고 · 독립 사용</td><td data-i18n="nv_verify_r5_c3">자기관리와 후속 실천 경험</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="age-block prod-overview">
+    <div class="block-head">
+      <h3 data-i18n="nv_age_h">연령과 목적에 맞춘 프로그램 구성</h3>
+      <p data-i18n="nv_age_sub">검사는 만 나이로, 프로그램은 학년 · 발달 단계와 목적에 맞춰 선택합니다. HISTORY는 선택 연계합니다.</p>
     </div>
+    <table class="ct-table">
+      <thead><tr><th data-i18n="nv_age_th1">대상</th><th data-i18n="nv_age_th2">중심 프로그램</th><th data-i18n="nv_age_th3">지원의 초점</th></tr></thead>
+      <tbody>
+        <tr><td class="name" data-i18n="nv_age_r1_c1">미취학~초3</td><td class="name">KIDS + HISTORY</td><td data-i18n="nv_age_r1_c3">놀이 · 기초 인지 · 이야기 이해</td></tr>
+        <tr><td class="name" data-i18n="nv_age_r2_c1">초4~6</td><td data-i18n="nv_age_r2_c2">HISTORY + PLANNER, 필요 시 KIDS</td><td data-i18n="nv_age_r2_c3">사고전략 · 자기관리 입문</td></tr>
+        <tr><td class="name" data-i18n="nv_age_r3_c1">중 · 고등학생</td><td data-i18n="nv_age_r3_c2">CAREER LAB 진로 + PLANNER</td><td data-i18n="nv_age_r3_c3">관심 발견 · 분야 비교 · 탐색 실천</td></tr>
+        <tr><td class="name" data-i18n="nv_age_r4_c1">대학생</td><td data-i18n="nv_age_r4_c2">CAREER LAB 직무 + PLANNER</td><td data-i18n="nv_age_r4_c3">학과 직무 · 프로젝트 · 자기관리</td></tr>
+      </tbody>
+    </table>
+    <p class="p-footnote" style="margin-top:14px;" data-i18n="nv_age_foot">만 13세까지 K-PASS, 만 14세부터 D-CAS. 성인은 HISTORY · PLANNER를 목적에 맞게 활용합니다.</p>
   </div>
-  <div style="text-align:center;margin:28px 0 8px;">
-    <a id="bm-dash-try-btn" href="https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);display:inline-flex;align-items:center;gap:8px;padding:14px 32px;font-size:1rem;" data-i18n="bm_dash_try_btn">🎓 MindCompass 교사 대시보드 체험하기</a>
-    <p style="font-size:.8rem;color:var(--textl);margin-top:10px;" data-i18n="bm_dash_try_sub">샘플 데이터로 실제 교사 대시보드 v3를 미리 체험해보세요</p>
-  </div>
-  <div class="cta" style="margin-top:36px;">
-    <h3 data-i18n="bm_cta_h">🧠 인지훈련 · MindCompass 체험하기</h3>
-    <p data-i18n="bm_cta_p">샘플 데이터로 학생 두뇌 분석 리포트 및 교사 대시보드를 미리 확인할 수 있습니다.</p>
-    <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-top:4px;">
-      <a id="bm-cta-btn-homeai" href="https://home-ai.feel-good.io/demo" target="_blank" rel="noopener" class="btn-gold" style="background:#1e8e6a;border-color:#1e8e6a;">🏠 HomeAI(학부모용) 체험하기</a>
-      <a href="https://goldensge22-design.github.io/feelgood-app/brainmap_student_v5.html" target="_blank" class="btn-gold" data-i18n="bm_cta_btn1">🚀 인지훈련 학생 체험하기</a>
-      <a id="bm-cta-btn2" href="https://goldensge22-design.github.io/feelgood-app/mindcompass_teacher%20(2).html" target="_blank" class="btn-gold" style="background:var(--navy);border-color:var(--navy);" data-i18n="bm_cta_btn2">🎓 MindCompass 교사 대시보드 체험하기</a>
-      <a href="https://summary.feel-good.io/brainmindmap?url=https%3A%2F%2Fservice.feel-good.io%2Fapi%2Fv1%2Fdcas%2Fadmin%2Ftest-result%2F19881%2FeyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiQURNSU4iLCJhZG1pblR5cGUiOiJHRU5FUkFMIiwidXNlcklkeCI6IjE4IiwiYWRtaW5Sb2xlIjoxLCJleHAiOjE3ODA5MDczNTcsImlhdCI6MTc4MDgyMDk1Nywiand0VHlwZSI6ImFjY2VzcyJ9.mu6RpdTylZC24j7dHUaH7Qrq-NSTqZN8_VXDE7olZ_JAxr-rtFHtzrFRIrSmfz2HPTcp6dHdrP0Cep7QBYheFQ" target="_blank" class="btn-gold" style="background:#1e8e6a;border-color:#1e8e6a;" data-i18n="bm_cta_btn3">🧠 인지+정서 훈련 프로그램 체험하기</a>
-    </div>
-  </div>
+
+  <!-- CTA / TRY IT — 2026.09 기준 임시 비공개. 아래 HIDDEN 주석을 해제하면 다시 노출됩니다.
+  <div class="ct-cta"> ... </div>
+  HIDDEN -->
+
 </section>
 
 <!-- ═══ 교육기관 제안 (한국어 전용) ═══ -->
@@ -4855,6 +5213,1928 @@ window.LANG.ru = {
 
 
 'use strict';
+// NUVIA 통합 업데이트 — 첨부 번역 패키지에서 병합
+Object.assign(window.LANG.ko, {
+    nv_title: '검사에서 시작해<br>매일의 성장으로 이어지는 NUVIA',
+    nv_lede: 'K-PASS·D-CAS로 발견한 인지특성을 KIDS의 반복 훈련, HISTORY의 사고 적용, CAREER LAB의 진로·직무 체험, PLANNER의 생활 실행으로 연결합니다. MY NUVIA는 그 변화가 실제로 일어났는지를 기록으로 확인합니다.',
+    nv_step1_num: '01 검사 · 발견',
+    nv_step1_p: '현재 인지특성과 강점·지원영역을 확인합니다.',
+    nv_step2_num: '02 NUVIA · 경험',
+    nv_step2_h: '인지훈련 · 사고력 · 진로직무',
+    nv_step2_p: '인지훈련과 사고력 활동, 진로·직무 체험을 PLANNER 실천으로 연결합니다.',
+    nv_step3_num: '03 MY NUVIA · 성장 확인',
+    nv_step3_h: '변화의 기록',
+    nv_step3_p: '수행 변화와 전략 사용, 독립적 적용을 확인합니다.',
+    nv_why_h: '인지훈련의 성과를 다른 과제에서도 확인해야 합니다',
+    nv_why_sub: '연습한 과제의 향상과 다른 과제·일상에서의 활용은 구분해 확인해야 합니다. NUVIA는 전략을 적용할 맥락과 수행 기록을 함께 설계합니다.',
+    nv_why1_h: '연습한 과제의 수행 향상',
+    nv_why1_p: '인지훈련 리뷰에서는 연습한 과제의 수행이 향상된다는 근거가 풍부했습니다. 훈련 안의 변화는 확인해야 할 첫 단계입니다.',
+    nv_why2_h: '다른 과제 · 일상 적용 확인',
+    nv_why2_p: '같은 리뷰에서 가까운 과제로의 전이는 근거가 더 적었고, 먼 과제나 일상 인지수행 개선의 근거는 제한적이었습니다.',
+    nv_why3_h: 'NUVIA의 후속 경험 설계',
+    nv_why3_p: 'HISTORY·CAREER LAB에서 전략을 다시 사용하고, PLANNER에서 실제 행동으로 실행하도록 설계합니다. 이 연결의 효과는 별도로 검증합니다.',
+    nv_bridge_h: '필굿이 설계한 전이의 다리',
+    nv_bridge_sub: 'HISTORY와 CAREER LAB에서 사고전략을 적용하고, PLANNER에서 실제 행동으로 실행하며, MY NUVIA에서 전략 사용과 독립적 수행의 변화를 확인합니다.',
+    nv_bridge1_problem: '기초 전략을 익히는 활동',
+    nv_bridge1_solution: '<b>KIDS</b> — 계획·주의·동시처리·순차처리를 짧고 반복 가능한 활동으로 연습합니다. 강점을 활용하고 필요한 영역을 지원합니다.',
+    nv_bridge2_problem: '다른 상황에 적용하는 활동',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — 역사적 판단과 진로·직무 프로젝트에 전략을 적용합니다. 공통 목표 아래 자료·활동 순서·도움을 조정합니다.',
+    nv_bridge3_problem: '실제 행동을 확인하는 기록',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — 전략을 프로젝트와 실제 생활 과제에 적용하고, 사용한 도움과 계획 수정·독립적 수행을 기록합니다.',
+    nv_bridge_note: '전이 가능성을 확인하기 위한 설계입니다. 효과는 시범 운영과 후속 과제에서 별도로 검증합니다.',
+    nv_prod_h: 'NUVIA 시리즈의 역할과 연결',
+    nv_prod_sub: '연령과 목적에 필요한 프로그램을 선택하고, 캠프는 PLANNER와 우선 연결합니다.',
+    nv_prod_th1: '프로그램',
+    nv_prod_th2: '핵심 경험',
+    nv_prod_th3: '주요 대상 · 목적',
+    nv_prod_r1_c2: '게임으로 기초 인지과정 연습',
+    nv_prod_r1_c3: '유아 · 초등 중심',
+    nv_prod_r2_c2: '역사 자료로 근거를 비교하고 판단',
+    nv_prod_r2_c3: '연령별 사고력 활동',
+    nv_prod_r3_c2: '계획을 세우고 실행 · 회고',
+    nv_prod_r3_c3: '초4부터 대학생 · 성인',
+    nv_prod_r4_c2: '인지특성을 반영한 진로 · 직무 프로젝트',
+    nv_prod_r4_c3: '중고생 진로 / 대학생 학과별 직무',
+    nv_prod_r5_c2: '수행 기록과 다음 지원 확인',
+    nv_prod_r5_c3: '본인과 권한을 가진 지원자',
+    nv_prod_foot: '대학 캠프의 기본 구성은 D-CAS + CAREER LAB + PLANNER입니다. HISTORY는 선택 연계합니다.',
+    nv_kids_h: '개인맞춤 인지훈련',
+    nv_kids_sub: '하루 약 10분의 게임형 활동으로 계획·주의·동시처리·순차처리를 연습합니다.',
+    nv_kids_cap: 'NUVIA KIDS 실제 화면 · 별빛 터널 / 운석지대 스테이지 맵',
+    nv_kids_f1_label: '무엇을 연습하나',
+    nv_kids_f1_val: '강점을 활용하고 지원이 필요한 인지영역을 반복 연습합니다.',
+    nv_kids_f2_label: '어떻게 참여하나',
+    nv_kids_f2_val: '연령에 맞는 조작과 안내로 짧게 활동하고 이어서 참여합니다.',
+    nv_kids_f3_label: '무엇을 확인하나',
+    nv_kids_f3_val: '정확도·반응시간·오류와 도움 사용·전략 변화를 살펴봅니다.',
+    nv_kids_foot: '400개 훈련 라이브러리 기반 설계. 실제 콘텐츠와 연령별 운영 범위는 도입 시 확인합니다.',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — 익힌 전략을 HISTORY의 사고 활동과 일상 과제에서 다시 활용하도록 설계합니다.',
+    nv_history_h: '역사기반 사고력 훈련',
+    nv_history_sub: '세계사의 이야기와 자료 속에서 선택하고, 근거를 살펴보고, 판단을 다듬습니다.',
+    nv_history_cap: 'NUVIA HISTORY 실제 화면 · 세계사 3주차 「나일강 개척 보드」 · 고등학생 플레이 수준',
+    nv_history_th1: '대상',
+    nv_history_th2: '자료',
+    nv_history_th3: '사고 활동',
+    nv_history_r1_c1: '미취학 5~7세',
+    nv_history_r1_c2: '짧은 장면 · 그림 · 음성',
+    nv_history_r1_c3: '탐험 · 조립 · 선택 결과 비교',
+    nv_history_r2_c1: '초1~5 / 초6~중3',
+    nv_history_r2_c2: '문장 · 단서 / 여러 자료 · 관점',
+    nv_history_r2_c3: '역할 · 순서 · 계획 / 대안 · 근거 연결',
+    nv_history_r3_c1: '고1~3 / 대학 · 성인',
+    nv_history_r3_c2: '상충 자료 / 인문학 · 조직 사례',
+    nv_history_r3_c3: '대안 가설 · 논증 / 판단 기준 적용',
+    nv_history_foot: '세계사 우선 구축, 한국사 2차 확장. 화면에 표시된 프로파일은 체험용 가상 점수입니다.',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — 자료 비교와 판단 근거를 진로·직무 체험(CAREER LAB)에 활용하고 PLANNER의 다음 행동으로 연결합니다.',
+    nv_planner_h: '메타인지 기반 자기관리',
+    nv_planner_sub: '초4부터 성인까지, 나의 실행 패턴을 발견하고 전략을 실제 생활에 적용합니다.',
+    nv_planner_cap: 'NUVIA PLANNER 실제 화면 · 초4~6 프로필 A · 오늘 · 계획 조립',
+    nv_planner_th1: '영역',
+    nv_planner_th2: '일상의 실행 전략',
+    nv_planner_r1_c2: '우선순위 선택 · 과제 분해',
+    nv_planner_r2_c2: '아주 작은 첫 행동',
+    nv_planner_r3_c2: '집중 구간 · 방해요인 조절',
+    nv_planner_r4_c2: '예상 · 실제 비교 · 여유시간',
+    nv_planner_r5_c2: 'Reset · 다음 가능한 행동',
+    nv_planner_r6_c2: '패턴 발견 · 전략 조정',
+    nv_planner_foot: '캠프 과제도 개인 할 일로 연결합니다. 스스로 계획하고 실행하는 힘을 기르도록 설계합니다. 화면의 A·B 프로필은 체험용 예시입니다.',
+    nv_transfer_h: 'HISTORY와 PLANNER는 전략으로 연결됩니다',
+    nv_transfer_sub: '사고 활동에서 사용한 방법을 실제 생활에 연결하는 설계 예시입니다. 두 제품의 점수 · 레벨은 합치지 않습니다 — 연결 대상은 전략과 도움 방식, 실제 적용 맥락입니다.',
+    nv_transfer_r1_h: 'HISTORY — 사건을 단계로 나누어 이해',
+    nv_transfer_r1_p: 'PLANNER — 발표 준비를 조사 · 구성 · 연습으로 나누기',
+    nv_transfer_r2_h: 'HISTORY — 여러 자료의 관계를 한눈에 비교',
+    nv_transfer_r2_p: 'PLANNER — 해야 할 과제의 전체 구조와 우선순위 보기',
+    nv_transfer_r3_h: 'HISTORY — 새 근거를 보고 계획을 수정',
+    nv_transfer_r3_p: 'PLANNER — 일정이 밀렸을 때 다음 행동 다시 정하기',
+    nv_transfer_r4_h: 'HISTORY — 자기 판단의 이유를 되짚기',
+    nv_transfer_r4_p: 'PLANNER — 예상과 실제를 비교해 내 전략 조정',
+    nv_cl_title: '인지특성에 맞춘 진로 · 직무 캠프',
+    nv_cl_lede: '학생이 정보를 이해하고, 판단하고, 행동하는 방식까지 수업에 반영합니다. 검사 결과가 활동 방식으로, 체험 기록이 다음 실천으로 이어집니다.',
+    nv_cl_i1_tag: '중고등학생 진로 캠프',
+    nv_cl_i1_h: '관심 분야를 직접 경험하며 나에게 맞는 탐색 방법을 찾습니다',
+    nv_cl_i1_p: '관심 지도 · 분야 비교 · 다음 탐색 계획',
+    nv_cl_i1_out: '→ PLANNER의 후속 탐색 과제로 연결',
+    nv_cl_i2_tag: '대학생 학과별 직무 캠프',
+    nv_cl_i2_h: '학과와 연결된 업무 과제를 수행하며 나의 강점과 필요한 지원을 확인합니다',
+    nv_cl_i2_p: '직무 산출물 · 수행 근거 · 포트폴리오',
+    nv_cl_i2_out: '→ PLANNER의 포트폴리오 정리로 연결',
+    nv_cl_demo_h: 'DEMO · 학과별 직무 체험과 개인 PLANNER 화면',
+    nv_cl_demo_desc: '직무 선택부터 자료 분석, 역할 교대와 개인 할 일을 한 화면에서 안내하는 체험판입니다. (항공보안학과 · 보안직무 프로젝트 예시)',
+    nv_cl_demo_cap: 'NUVIA CAREER LAB 실제 화면 · Security Career Studio · 대학생 체험판',
+    nv_cl_diff_h: '기존 진로 · 직무 수업에 더하는 가치',
+    nv_cl_diff_desc: '직업 정보와 체험 경험에 인지맞춤 지원과 후속 실행을 결합합니다. 좌측은 비교를 위한 운영 유형이며, 경쟁사 전수조사 결과는 아닙니다.',
+    nv_cl_diff_th1: '비교 항목',
+    nv_cl_diff_th2: '설명 · 공통 체험 중심 운영',
+    nv_cl_diff_th3: 'NUVIA CAREER LAB 설계',
+    nv_cl_diff_r1_c1: '개인 이해',
+    nv_cl_diff_r1_c2: '흥미 · 희망과 결과 상담 중심',
+    nv_cl_diff_r1_c3: '인지특성 + 흥미 · 경험 + 활동 중 수행',
+    nv_cl_diff_r2_c1: '체험 방식',
+    nv_cl_diff_r2_c2: '같은 자료와 순서를 함께 수행',
+    nv_cl_diff_r2_c3: '공통 목표 아래 자료 · 순서 · 도움 조정',
+    nv_cl_diff_r3_c1: '강사 역할',
+    nv_cl_diff_r3_c2: '개별 지원을 현장에서 판단',
+    nv_cl_diff_r3_c3: '표준 교안 · 개별 안내 · 개입 기준 제공',
+    nv_cl_diff_r4_c1: '남는 결과',
+    nv_cl_diff_r4_c2: '활동 소감과 체험 이력',
+    nv_cl_diff_r4_c3: '개인 수행 근거와 직무 · 탐색 산출물',
+    nv_cl_diff_r5_c1: '캠프 이후',
+    nv_cl_diff_r5_c2: '별도 후속 활동 여부에 따라 결정',
+    nv_cl_diff_r5_c3: 'PLANNER에서 다음 행동과 회고 연결',
+    nv_cl_age_h: '중학생 · 고등학생 · 대학생의 실제 활동 차이',
+    nv_cl_age_desc: '학교급에 따라 탐색 질문, 활동 책임과 결과물을 다르게 구성합니다. 공통 주제도 문제의 개방성, 자료의 복잡성, 역할과 산출물을 다르게 설계합니다.',
+    nv_cl_age_th1: '구분',
+    nv_cl_age_th2: '출발 질문',
+    nv_cl_age_th3: '체험 예시',
+    nv_cl_age_th4: '개인 결과',
+    nv_cl_age_r1_c1: '중학생 · 진로발견',
+    nv_cl_age_r1_c2: '어떤 일이 흥미로울까?',
+    nv_cl_age_r1_c3: '학교 행사 길 안내 제작',
+    nv_cl_age_r1_c4: '관심 카드와 탐색 질문',
+    nv_cl_age_r2_c1: '고등학생 · 진로설계',
+    nv_cl_age_r2_c2: '어떤 분야를 더 알아볼까?',
+    nv_cl_age_r2_c3: '행사 접근성 개선 비교',
+    nv_cl_age_r2_c4: '분야 비교 근거와 준비 계획',
+    nv_cl_age_r3_c1: '대학생 · 직무실행',
+    nv_cl_age_r3_c2: '업무 과제를 어떻게 해결할까?',
+    nv_cl_age_r3_c3: '가상 출국장 운영안 설계',
+    nv_cl_age_r3_c4: '수행 근거와 포트폴리오',
+    nv_cl_dept_h: '학과 직무 체험 예시 — 항공보안학과',
+    nv_cl_dept_desc: '출국장 혼잡 상황에서 승객 안내와 운영 지원을 설계하는 교육용 가상 프로젝트입니다. (3구역 배치도 + 상황 자료 3장 + 지원 인력 4개 + 안내 표지 2개)',
+    nv_cl_dept_s1_task: '상황 파악 — 자료를 보고 우선 대응할 두 구역 선택',
+    nv_cl_dept_s1_out: '선택한 문제와 근거',
+    nv_cl_dept_s2_task: '초안 작성 — 지원 인력 · 표지를 배치하고 실행 순서 결정',
+    nv_cl_dept_s2_out: '배치도와 실행 3단계',
+    nv_cl_dept_s3_task: '역할 교대 — 지원 인력 1개 감소 조건에서 운영안 수정',
+    nv_cl_dept_s3_out: '인수인계와 변경 이유',
+    nv_cl_dept_s4_task: '검토 · 발표 — 제약조건 확인 후 대안과 판단 근거 설명',
+    nv_cl_dept_s4_out: '팀 최종안 + 개인 기여 기록',
+    nv_cl_dept_foot: '토큰 총량 준수 · 이동 통로 확보 · 보안검색 절차 유지. 실제 보안검색 훈련이나 공항 운영 규정이 아닙니다.',
+    nv_cl_deptx_h: '학과가 달라지면 업무와 산출물도 달라집니다',
+    nv_cl_deptx_desc: '공통 운영 구조를 활용하되, 학과별 직무 자료와 평가 기준은 별도로 검토합니다. 아래는 개발 후보 예시이며, 학과 전문가 검토 후 제공 범위를 확정합니다.',
+    nv_cl_deptx_th1: '학과 예시',
+    nv_cl_deptx_th2: '직무 프로젝트 후보',
+    nv_cl_deptx_th3: '주요 산출물',
+    nv_cl_deptx_r1_c1: '경영 · 마케팅',
+    nv_cl_deptx_r1_c2: '가상 소상공인 고객 경험 개선',
+    nv_cl_deptx_r1_c3: '고객 문제 · 대안 비교 · 실행안',
+    nv_cl_deptx_r2_c1: '관광 · 호텔',
+    nv_cl_deptx_r2_c2: '단체 고객 동선과 문의 대응',
+    nv_cl_deptx_r2_c3: '안내안 · 서비스 순서',
+    nv_cl_deptx_r3_c1: '컴퓨터 · 소프트웨어',
+    nv_cl_deptx_r3_c2: '캠퍼스 서비스 개선 시제품',
+    nv_cl_deptx_r3_c3: '기능 우선순위 · 시제품 · 검증 기록',
+    nv_cl_deptx_r4_c1: '디자인',
+    nv_cl_deptx_r4_c2: '캠퍼스 길 찾기 안내 개선',
+    nv_cl_deptx_r4_c3: '시안 · 사용성 확인 · 수정 근거',
+    nv_cl_deptx_r5_c1: '사회복지',
+    nv_cl_deptx_r5_c2: '가상 이용자 지원 서비스 연결',
+    nv_cl_deptx_r5_c3: '자원 비교 · 연계 순서',
+    nv_cl_deptx_r6_c1: '간호 · 보건 / 유아교육',
+    nv_cl_deptx_r6_c2: '퇴원 안내자료 / 교육 활동 운영안',
+    nv_cl_deptx_r6_c3: '쉬운 설명자료 / 활동 · 참여 지원안',
+    nv_cl_camp_h: '캠프 운영 — 혼합 분단과 역할 교대',
+    nv_cl_camp_desc: '대학 시범 예시: 30명 · 6개 분단 · 팀당 5명 · 180분, 사전 검사와 사후 2주는 별도 운영. 서로 다른 인지특성과 경험을 섞어 편성하며, 역할은 점수로 고정하지 않습니다.',
+    nv_cl_camp_r1_act: '상황 이해 · 개인 목표 · 첫 역할 선택',
+    nv_cl_camp_r1_rule: '관심 · 경험 · 희망 역할 반영',
+    nv_cl_camp_r2_act: '자료 분석 · 초안 · 중간 점검',
+    nv_cl_camp_r2_rule: '각자 개인 수행 근거 남기기',
+    nv_cl_camp_r3_act: '역할 교대 · 새 조건 대응 · 최종안',
+    nv_cl_camp_r3_rule: '최소 한 번 교대와 인수인계',
+    nv_cl_camp_r4_act: '팀 발표 · 피드백 · 개인 후속 계획',
+    nv_cl_camp_r4_rule: '팀 결과와 개인 기여 구분',
+    nv_cl_pc_h: '캠프 경험이 다음 실천으로 이어지는 PLANNER',
+    nv_cl_pc_desc: '팀 과제를 개인 할 일로 연결하고, 학생이 직접 계획을 작성 · 수정합니다. 개인 점수와 비공개 메모는 팀에 공개하지 않습니다.',
+    nv_cl_pc_th1: '시점',
+    nv_cl_pc_th2: '학생의 행동',
+    nv_cl_pc_th3: '인지특성에 맞춘 실행 도움',
+    nv_cl_pc_r1_c1: '활동 시작',
+    nv_cl_pc_r1_c2: '내 역할의 목표 · 첫 행동 · 기한 작성',
+    nv_cl_pc_r1_c3: '과제 분해 또는 빈 계획판 선택',
+    nv_cl_pc_r2_c1: '수행 · 교대',
+    nv_cl_pc_r2_c2: '지금 할 일 수행 후 근거 공유 · 인수인계',
+    nv_cl_pc_r2_c3: '현재 단계 안내 · 순서 · 관계 도구',
+    nv_cl_pc_r3_c1: '캠프 마무리',
+    nv_cl_pc_r3_c2: '도움이 된 방법과 다음 행동 선택',
+    nv_cl_pc_r3_c3: '회고 질문 · 구체적 행동 예시',
+    nv_cl_pc_r4_c1: '사후 2주',
+    nv_cl_pc_r4_c2: '선택한 탐색 · 학습 과제 실행 · 주간 회고',
+    nv_cl_pc_r4_c3: '다시 시작할 행동과 점검 도움',
+    nv_cl_pc_foot: '중학생은 관찰 경험, 고등학생은 분야 비교, 대학생은 직무 보완과 포트폴리오로 후속 실천이 이어집니다.',
+    nv_verify_h: '전이가 실제 일어났는지, 기록으로 확인합니다',
+    nv_verify_sub: '검사 프로파일은 기준 정보로, 프로그램 기록은 변화의 근거로 확인합니다. 기록만으로 전이의 인과 효과를 입증하지 않으며, 검사 · 학업성취 · 만족도는 하나의 총점으로 합산하지 않습니다.',
+    nv_verify_th1: '구분',
+    nv_verify_th2: '확인하는 내용',
+    nv_verify_th3: '해석 범위',
+    nv_verify_r1_c2: '최근 검사일 · PASS 4요인 · 결과지',
+    nv_verify_r1_c3: '표준화 검사 결과',
+    nv_verify_r2_c2: '정확도 · 시간 · 오류 · 도움 사용',
+    nv_verify_r2_c3: '훈련 안의 수행 변화',
+    nv_verify_r3_c2: '근거 사용 · 재검토 · 새 사례 적용',
+    nv_verify_r3_c3: '역사 이해와 사고전략 수행',
+    nv_verify_r4_c2: '역할 수행 · 수정 근거 · 개인 · 팀 산출물',
+    nv_verify_r4_c3: '진로탐색과 직무 체험의 수행',
+    nv_verify_r5_c2: '계획 수정 · 실행 · 회고 · 독립 사용',
+    nv_verify_r5_c3: '자기관리와 후속 실천 경험',
+    nv_age_h: '연령과 목적에 맞춘 프로그램 구성',
+    nv_age_sub: '검사는 만 나이로, 프로그램은 학년 · 발달 단계와 목적에 맞춰 선택합니다. HISTORY는 선택 연계합니다.',
+    nv_age_th1: '대상',
+    nv_age_th2: '중심 프로그램',
+    nv_age_th3: '지원의 초점',
+    nv_age_r1_c1: '미취학~초3',
+    nv_age_r1_c3: '놀이 · 기초 인지 · 이야기 이해',
+    nv_age_r2_c1: '초4~6',
+    nv_age_r2_c2: 'HISTORY + PLANNER, 필요 시 KIDS',
+    nv_age_r2_c3: '사고전략 · 자기관리 입문',
+    nv_age_r3_c1: '중 · 고등학생',
+    nv_age_r3_c2: 'CAREER LAB 진로 + PLANNER',
+    nv_age_r3_c3: '관심 발견 · 분야 비교 · 탐색 실천',
+    nv_age_r4_c1: '대학생',
+    nv_age_r4_c2: 'CAREER LAB 직무 + PLANNER',
+    nv_age_r4_c3: '학과 직무 · 프로젝트 · 자기관리',
+    nv_age_foot: '만 13세까지 K-PASS, 만 14세부터 D-CAS. 성인은 HISTORY · PLANNER를 목적에 맞게 활용합니다.',
+});
+Object.assign(window.LANG.en, {
+    nv_title: 'From Assessment to<br>Everyday Growth: NUVIA',
+    nv_lede: 'We connect the cognitive traits discovered through K-PASS·D-CAS to repeated practice in KIDS, applied thinking in HISTORY, career and job experience in CAREER LAB, and real-life execution in PLANNER. MY NUVIA records whether that change actually happened.',
+    nv_step1_num: '01 Assessment · Discovery',
+    nv_step1_p: 'Identify current cognitive traits and areas of strength and support.',
+    nv_step2_num: '02 NUVIA · Experience',
+    nv_step2_h: 'Cognitive Training · Thinking · Career & Work',
+    nv_step2_p: 'Connects cognitive training, thinking activities, and career/job experience to real practice in PLANNER.',
+    nv_step3_num: '03 MY NUVIA · Confirming Growth',
+    nv_step3_h: 'A Record of Change',
+    nv_step3_p: 'Tracks changes in performance, strategy use, and independent application.',
+    nv_why_h: 'The Results of Cognitive Training Must Be Confirmed on Other Tasks, Too',
+    nv_why_sub: 'Improvement on the practiced task and actual use in other tasks or daily life must be verified separately. NUVIA is designed to provide both a context to apply strategies and a record of performance.',
+    nv_why1_h: 'Improved Performance on the Practiced Task',
+    nv_why1_p: 'Reviews of cognitive training consistently show improved performance on the practiced task itself. Change within the training is the first thing to confirm.',
+    nv_why2_h: 'Confirming Transfer to Other Tasks and Daily Life',
+    nv_why2_p: 'The same reviews found weaker evidence for transfer to closely related tasks, and limited evidence for improvement in far-transfer tasks or everyday cognitive performance.',
+    nv_why3_h: 'Designing NUVIA\'s Follow-On Experience',
+    nv_why3_p: 'We design for strategies to be reused in HISTORY and CAREER LAB, then carried out as real action in PLANNER. The effect of this connection is verified separately.',
+    nv_bridge_h: 'The Transfer Bridge FeelGood Designed',
+    nv_bridge_sub: 'Thinking strategies are applied in HISTORY and CAREER LAB, carried out as real action in PLANNER, and MY NUVIA tracks changes in strategy use and independent performance.',
+    nv_bridge1_problem: 'Activities for Learning Basic Strategies',
+    nv_bridge1_solution: '<b>KIDS</b> — Practices planning, attention, simultaneous, and successive processing through short, repeatable activities, leveraging strengths and supporting areas that need it.',
+    nv_bridge2_problem: 'Activities for Applying Strategies to Other Situations',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — Applies strategies to historical judgment and career/job projects, adjusting materials, activity order, and support under a shared goal.',
+    nv_bridge3_problem: 'A Record That Confirms Real Action',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — Applies strategies to projects and real-life tasks, recording the support used, plan revisions, and independent performance.',
+    nv_bridge_note: 'This design is meant to test the possibility of transfer. Its effectiveness is verified separately through pilot runs and follow-up studies.',
+    nv_prod_h: 'The Role of Each NUVIA Program and How They Connect',
+    nv_prod_sub: 'Choose the program that fits the age and purpose; camps are connected to PLANNER first.',
+    nv_prod_th1: 'Program',
+    nv_prod_th2: 'Core Experience',
+    nv_prod_th3: 'Main Audience · Purpose',
+    nv_prod_r1_c2: 'Practicing basic cognitive processes through games',
+    nv_prod_r1_c3: 'Preschool · elementary-focused',
+    nv_prod_r2_c2: 'Comparing evidence and making judgments using historical materials',
+    nv_prod_r2_c3: 'Age-appropriate thinking activities',
+    nv_prod_r3_c2: 'Planning, executing, and reflecting',
+    nv_prod_r3_c3: 'From 4th grade through college students and adults',
+    nv_prod_r4_c2: 'Career/job projects that reflect cognitive traits',
+    nv_prod_r4_c3: 'Middle/high school career exploration / college department-specific job practice',
+    nv_prod_r5_c2: 'Recording performance and identifying the next support needed',
+    nv_prod_r5_c3: 'The user and authorized supporters',
+    nv_prod_foot: 'The default configuration for a college camp is D-CAS + CAREER LAB + PLANNER; HISTORY is an optional add-on.',
+    nv_kids_h: 'Personalized Cognitive Training',
+    nv_kids_sub: 'About 10 minutes of game-based activity a day to practice planning, attention, simultaneous, and successive processing.',
+    nv_kids_cap: 'NUVIA KIDS actual screen · Starlight Tunnel / Meteor Field stage map',
+    nv_kids_f1_label: 'What They Practice',
+    nv_kids_f1_val: 'Repeated practice that leverages strengths and supports cognitive areas that need it.',
+    nv_kids_f2_label: 'How They Participate',
+    nv_kids_f2_val: 'Short activities with age-appropriate controls and guidance, resumable at any time.',
+    nv_kids_f3_label: 'What Is Measured',
+    nv_kids_f3_val: 'Accuracy, reaction time, errors, help usage, and changes in strategy.',
+    nv_kids_foot: 'Designed on a library of 400 training activities. The actual content and age-specific scope are confirmed at implementation.',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — Designed so strategies learned here are reused in HISTORY thinking activities and everyday tasks.',
+    nv_history_h: 'History-Based Thinking Training',
+    nv_history_sub: 'Students choose, examine evidence, and refine judgment within stories and materials from world history.',
+    nv_history_cap: 'NUVIA HISTORY actual screen · World History Week 3 "Nile Settlement Board" · high-school play level',
+    nv_history_th1: 'Age Group',
+    nv_history_th2: 'Materials',
+    nv_history_th3: 'Thinking Activity',
+    nv_history_r1_c1: 'Preschool, ages 5–7',
+    nv_history_r1_c2: 'Short scenes · illustrations · audio',
+    nv_history_r1_c3: 'Explore · assemble · compare outcomes of choices',
+    nv_history_r2_c1: 'Grades 1–5 / Grades 6–9',
+    nv_history_r2_c2: 'Sentences · clues / multiple sources · viewpoints',
+    nv_history_r2_c3: 'Roles · sequence · planning / connecting alternatives and evidence',
+    nv_history_r3_c1: 'Grades 10–12 / college · adult',
+    nv_history_r3_c2: 'Conflicting sources / humanities and organizational cases',
+    nv_history_r3_c3: 'Alternative hypotheses · argumentation / applying judgment criteria',
+    nv_history_foot: 'World history is built first, with Korean history planned as a second-phase expansion. The profile shown on screen is a sample score for demonstration only.',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — The skills of comparing sources and grounding judgment carry over into career/job experience (CAREER LAB) and connect to the next action in PLANNER.',
+    nv_planner_h: 'Metacognition-Based Self-Management',
+    nv_planner_sub: 'From 4th grade through adulthood, users discover their own execution patterns and apply strategies to real life.',
+    nv_planner_cap: 'NUVIA PLANNER actual screen · Grades 4–6 Profile A · Today · Plan Builder',
+    nv_planner_th1: 'Area',
+    nv_planner_th2: 'Everyday Execution Strategy',
+    nv_planner_r1_c2: 'Choosing priorities · breaking tasks down',
+    nv_planner_r2_c2: 'One very small first action',
+    nv_planner_r3_c2: 'Focus blocks · managing distractions',
+    nv_planner_r4_c2: 'Comparing expected vs. actual time · building in slack',
+    nv_planner_r5_c2: 'Reset · the next possible action',
+    nv_planner_r6_c2: 'Spotting patterns · adjusting strategy',
+    nv_planner_foot: 'Camp tasks are also carried over as personal to-dos. Designed to build the ability to plan and execute independently. The A/B profiles on screen are demonstration examples.',
+    nv_transfer_h: 'HISTORY and PLANNER Are Connected Through Strategy',
+    nv_transfer_sub: 'These are design examples connecting methods used in thinking activities to real life. Scores and levels from the two products are never merged — what connects them is strategy, the kind of support given, and the real context of application.',
+    nv_transfer_r1_h: 'HISTORY — Breaking an event into stages to understand it',
+    nv_transfer_r1_p: 'PLANNER — Breaking presentation prep into research, structuring, and practice',
+    nv_transfer_r2_h: 'HISTORY — Comparing the relationships among multiple sources at a glance',
+    nv_transfer_r2_p: 'PLANNER — Seeing the overall structure and priority of tasks to be done',
+    nv_transfer_r3_h: 'HISTORY — Revising a conclusion after seeing new evidence',
+    nv_transfer_r3_p: 'PLANNER — Re-deciding the next action when a schedule slips',
+    nv_transfer_r4_h: 'HISTORY — Revisiting the reasons behind one\'s own judgment',
+    nv_transfer_r4_p: 'PLANNER — Comparing expectation with reality to adjust one\'s own strategy',
+    nv_cl_title: 'Career and Job Camps Tailored to Cognitive Traits',
+    nv_cl_lede: 'The class design reflects how each student understands information, makes judgments, and acts. Assessment results shape how the activity runs, and the experience record carries into the student\'s next step.',
+    nv_cl_i1_tag: 'Career Camp for Middle/High School Students',
+    nv_cl_i1_h: 'Students explore areas of interest firsthand and find an exploration method that fits them',
+    nv_cl_i1_p: 'Interest map · field comparison · next exploration plan',
+    nv_cl_i1_out: '→ Continues as a follow-up exploration task in PLANNER',
+    nv_cl_i2_tag: 'Department-Specific Job Camp for College Students',
+    nv_cl_i2_h: 'Students carry out work tasks tied to their major and identify their strengths and support needs',
+    nv_cl_i2_p: 'Work deliverables · performance evidence · portfolio',
+    nv_cl_i2_out: '→ Continues as portfolio organization in PLANNER',
+    nv_cl_demo_h: 'DEMO · Department-Specific Job Simulation and Personal PLANNER Screen',
+    nv_cl_demo_desc: 'A demo that guides users through job selection, data analysis, role rotation, and personal to-dos on a single screen. (Example: Aviation Security major, security job project)',
+    nv_cl_demo_cap: 'NUVIA CAREER LAB actual screen · Security Career Studio · college demo',
+    nv_cl_diff_h: 'What This Adds to Existing Career/Job Classes',
+    nv_cl_diff_desc: 'Combines career information and hands-on experience with cognitively tailored support and follow-through. The left column describes a general operating style for comparison, not a survey of competitors.',
+    nv_cl_diff_th1: 'Comparison',
+    nv_cl_diff_th2: 'Lecture / shared-experience style',
+    nv_cl_diff_th3: 'NUVIA CAREER LAB Design',
+    nv_cl_diff_r1_c1: 'Understanding the Individual',
+    nv_cl_diff_r1_c2: 'Centered on interests, aspirations, and results counseling',
+    nv_cl_diff_r1_c3: 'Cognitive traits + interests/experience + in-activity performance',
+    nv_cl_diff_r2_c1: 'Experience Format',
+    nv_cl_diff_r2_c2: 'Everyone works through the same materials and order together',
+    nv_cl_diff_r2_c3: 'Materials, sequence, and support adjusted under a shared goal',
+    nv_cl_diff_r3_c1: 'Instructor\'s Role',
+    nv_cl_diff_r3_c2: 'Individual support decided on the spot',
+    nv_cl_diff_r3_c3: 'Provides a standard lesson plan, individual guidance, and intervention criteria',
+    nv_cl_diff_r4_c1: 'What Remains Afterward',
+    nv_cl_diff_r4_c2: 'Activity impressions and a record of attendance',
+    nv_cl_diff_r4_c3: 'Individual performance evidence and job/exploration deliverables',
+    nv_cl_diff_r5_c1: 'After the Camp',
+    nv_cl_diff_r5_c2: 'Depends on whether a separate follow-up activity exists',
+    nv_cl_diff_r5_c3: 'Connects to the next action and reflection in PLANNER',
+    nv_cl_age_h: 'How the Activity Differs for Middle, High, and College Students',
+    nv_cl_age_desc: 'The exploration question, level of responsibility, and deliverable are structured differently by school level. Even a shared theme is designed with different degrees of open-endedness, material complexity, roles, and output.',
+    nv_cl_age_th1: 'Level',
+    nv_cl_age_th2: 'Starting Question',
+    nv_cl_age_th3: 'Sample Activity',
+    nv_cl_age_th4: 'Individual Output',
+    nv_cl_age_r1_c1: 'Middle School · Career Discovery',
+    nv_cl_age_r1_c2: 'What kind of work would be interesting?',
+    nv_cl_age_r1_c3: 'Making wayfinding signage for a school event',
+    nv_cl_age_r1_c4: 'An interest card and exploration questions',
+    nv_cl_age_r2_c1: 'High School · Career Planning',
+    nv_cl_age_r2_c2: 'Which field should I look into further?',
+    nv_cl_age_r2_c3: 'Comparing ways to improve event accessibility',
+    nv_cl_age_r2_c4: 'Grounds for comparing fields and a preparation plan',
+    nv_cl_age_r3_c1: 'College · Job Execution',
+    nv_cl_age_r3_c2: 'How should I solve this work task?',
+    nv_cl_age_r3_c3: 'Designing an operating plan for a simulated departure hall',
+    nv_cl_age_r3_c4: 'Performance evidence and a portfolio',
+    nv_cl_dept_h: 'Sample Job Project — Aviation Security',
+    nv_cl_dept_desc: 'An educational simulation project designing passenger guidance and operational support during departure-hall congestion. (A 3-zone layout + 3 situation briefs + 4 support staff + 2 signage items)',
+    nv_cl_dept_s1_task: 'Assess the Situation — Review the materials and choose two zones to prioritize',
+    nv_cl_dept_s1_out: 'The chosen problem and its rationale',
+    nv_cl_dept_s2_task: 'Draft a Plan — Deploy staff and signage, and decide the execution order',
+    nv_cl_dept_s2_out: 'A layout diagram and a 3-step execution plan',
+    nv_cl_dept_s3_task: 'Rotate Roles — Revise the plan under a condition of one fewer staff member',
+    nv_cl_dept_s3_out: 'A handover note and the reason for the change',
+    nv_cl_dept_s4_task: 'Review & Present — Confirm constraints, then explain the alternative and its rationale',
+    nv_cl_dept_s4_out: 'The team\'s final plan plus a record of individual contribution',
+    nv_cl_dept_foot: 'Stays within the total resource budget, keeps walkways clear, and preserves security-screening procedure. This is not actual security-screening training or real airport operating regulation.',
+    nv_cl_deptx_h: 'Different Majors, Different Tasks and Deliverables',
+    nv_cl_deptx_desc: 'Uses a shared operating structure, but department-specific job materials and evaluation criteria are reviewed separately. The items below are development candidates; scope is finalized after review by subject-matter experts.',
+    nv_cl_deptx_th1: 'Sample Major',
+    nv_cl_deptx_th2: 'Candidate Job Project',
+    nv_cl_deptx_th3: 'Key Deliverable',
+    nv_cl_deptx_r1_c1: 'Business · Marketing',
+    nv_cl_deptx_r1_c2: 'Improving a simulated small business\'s customer experience',
+    nv_cl_deptx_r1_c3: 'Customer problem · alternatives comparison · action plan',
+    nv_cl_deptx_r2_c1: 'Tourism · Hospitality',
+    nv_cl_deptx_r2_c2: 'Group guest flow and inquiry handling',
+    nv_cl_deptx_r2_c3: 'A guidance plan and service sequence',
+    nv_cl_deptx_r3_c1: 'Computer Science · Software',
+    nv_cl_deptx_r3_c2: 'A prototype improving a campus service',
+    nv_cl_deptx_r3_c3: 'Feature prioritization · prototype · validation notes',
+    nv_cl_deptx_r4_c1: 'Design',
+    nv_cl_deptx_r4_c2: 'Improving campus wayfinding signage',
+    nv_cl_deptx_r4_c3: 'Draft designs · usability check · rationale for revisions',
+    nv_cl_deptx_r5_c1: 'Social Welfare',
+    nv_cl_deptx_r5_c2: 'Connecting a simulated client to support services',
+    nv_cl_deptx_r5_c3: 'Resource comparison · referral sequence',
+    nv_cl_deptx_r6_c1: 'Nursing & Health / Early Childhood Education',
+    nv_cl_deptx_r6_c2: 'Discharge guidance material / an educational activity plan',
+    nv_cl_deptx_r6_c3: 'Plain-language materials / an activity and engagement support plan',
+    nv_cl_camp_h: 'Camp Operations — Mixed Groups and Role Rotation',
+    nv_cl_camp_desc: 'Sample college pilot: 30 students · 6 groups · 5 per team · 180 minutes, with pre-assessment and a 2-week follow-up run separately. Groups mix different cognitive traits and backgrounds; roles are never fixed by score.',
+    nv_cl_camp_r1_act: 'Understanding the situation · personal goals · choosing a first role',
+    nv_cl_camp_r1_rule: 'Reflects interest, experience, and preferred role',
+    nv_cl_camp_r2_act: 'Data analysis · draft · mid-point check',
+    nv_cl_camp_r2_rule: 'Each student leaves their own performance record',
+    nv_cl_camp_r3_act: 'Role rotation · responding to new conditions · final plan',
+    nv_cl_camp_r3_rule: 'At least one rotation and handover',
+    nv_cl_camp_r4_act: 'Team presentation · feedback · individual follow-up plan',
+    nv_cl_camp_r4_rule: 'Team results and individual contribution recorded separately',
+    nv_cl_pc_h: 'PLANNER: Where Camp Experience Becomes the Next Step',
+    nv_cl_pc_desc: 'Team tasks carry over as personal to-dos, and students write and revise their own plans. Individual scores and private notes are never shared with the team.',
+    nv_cl_pc_th1: 'Timing',
+    nv_cl_pc_th2: 'Student Action',
+    nv_cl_pc_th3: 'Support Tailored to Cognitive Traits',
+    nv_cl_pc_r1_c1: 'Start of Activity',
+    nv_cl_pc_r1_c2: 'Writing down one\'s role goal, first action, and deadline',
+    nv_cl_pc_r1_c3: 'Choosing task breakdown or a blank planning board',
+    nv_cl_pc_r2_c1: 'Execution · Handover',
+    nv_cl_pc_r2_c2: 'Doing the current task, then sharing evidence and handing it off',
+    nv_cl_pc_r2_c3: 'Current-step guidance, sequencing, and relationship tools',
+    nv_cl_pc_r3_c1: 'End of Camp',
+    nv_cl_pc_r3_c2: 'Choosing the method that helped and the next action',
+    nv_cl_pc_r3_c3: 'Reflection questions and concrete action examples',
+    nv_cl_pc_r4_c1: '2 Weeks After',
+    nv_cl_pc_r4_c2: 'Carrying out the chosen exploration/learning task with weekly reflection',
+    nv_cl_pc_r4_c3: 'Support for restarting an action and checking progress',
+    nv_cl_pc_foot: 'Follow-through continues as observation experience for middle schoolers, field comparison for high schoolers, and job skill-building and portfolio work for college students.',
+    nv_verify_h: 'Records Confirm Whether Transfer Actually Happened',
+    nv_verify_sub: 'The assessment profile serves as baseline information, and program records serve as evidence of change. Records alone do not prove a causal transfer effect, and assessment scores, academic achievement, and satisfaction are never combined into a single total score.',
+    nv_verify_th1: 'Category',
+    nv_verify_th2: 'What Is Checked',
+    nv_verify_th3: 'Scope of Interpretation',
+    nv_verify_r1_c2: 'Most recent test date · the 4 PASS factors · report',
+    nv_verify_r1_c3: 'Standardized assessment result',
+    nv_verify_r2_c2: 'Accuracy · time · errors · help usage',
+    nv_verify_r2_c3: 'Change in performance within training',
+    nv_verify_r3_c2: 'Evidence use · revisiting judgments · applying to new cases',
+    nv_verify_r3_c3: 'Historical understanding and thinking-strategy performance',
+    nv_verify_r4_c2: 'Role performance · rationale for revisions · individual/team deliverables',
+    nv_verify_r4_c3: 'Performance in career exploration and job simulation',
+    nv_verify_r5_c2: 'Plan revisions · execution · reflection · independent use',
+    nv_verify_r5_c3: 'Self-management and follow-through experience',
+    nv_age_h: 'Programs Matched to Age and Purpose',
+    nv_age_sub: 'The assessment is chosen by actual age, while the program is chosen by grade, developmental stage, and purpose. HISTORY is an optional add-on.',
+    nv_age_th1: 'Audience',
+    nv_age_th2: 'Core Program',
+    nv_age_th3: 'Focus of Support',
+    nv_age_r1_c1: 'Preschool–Grade 3',
+    nv_age_r1_c3: 'Play · basic cognition · story comprehension',
+    nv_age_r2_c1: 'Grades 4–6',
+    nv_age_r2_c2: 'HISTORY + PLANNER, with KIDS as needed',
+    nv_age_r2_c3: 'Introduction to thinking strategy and self-management',
+    nv_age_r3_c1: 'Middle & High School',
+    nv_age_r3_c2: 'CAREER LAB (career track) + PLANNER',
+    nv_age_r3_c3: 'Discovering interests · comparing fields · exploration in practice',
+    nv_age_r4_c1: 'College Students',
+    nv_age_r4_c2: 'CAREER LAB (job track) + PLANNER',
+    nv_age_r4_c3: 'Department-specific job practice · projects · self-management',
+    nv_age_foot: 'K-PASS applies up to age 13, D-CAS from age 14. Adults use HISTORY and PLANNER as fits their purpose.',
+});
+Object.assign(window.LANG.zh, {
+    nv_title: '从检测开始<br>延伸至每日成长的NUVIA',
+    nv_lede: '我们将通过K-PASS·D-CAS发现的认知特质，与KIDS的反复训练、HISTORY的思维应用、CAREER LAB的升学就业体验，以及PLANNER的生活实践连接起来。MY NUVIA通过记录确认这种变化是否真正发生。',
+    nv_step1_num: '01 检测 · 发现',
+    nv_step1_p: '确认当前的认知特质及优势·需要支持的领域。',
+    nv_step2_num: '02 NUVIA · 体验',
+    nv_step2_h: '认知训练 · 思维能力 · 升学就业',
+    nv_step2_p: '将认知训练与思维活动、升学就业体验连接到PLANNER的实践中。',
+    nv_step3_num: '03 MY NUVIA · 确认成长',
+    nv_step3_h: '变化的记录',
+    nv_step3_p: '确认表现的变化、策略的使用及独立应用情况。',
+    nv_why_h: '认知训练的成效需要在其他任务中同样得到确认',
+    nv_why_sub: '练习任务本身的提升，与在其他任务、日常生活中的运用，需要分开确认。NUVIA的设计同时提供应用策略的情境和表现记录。',
+    nv_why1_h: '练习任务本身表现的提升',
+    nv_why1_p: '认知训练相关综述中，关于练习任务本身表现提升的证据十分充分。训练内部的变化是首先需要确认的第一步。',
+    nv_why2_h: '确认在其他任务·日常中的应用',
+    nv_why2_p: '同一综述中，向相近任务迁移的证据较少，向远迁移任务或日常认知表现改善的证据也十分有限。',
+    nv_why3_h: 'NUVIA的后续体验设计',
+    nv_why3_p: '设计目标是让策略在HISTORY·CAREER LAB中被再次使用，并在PLANNER中转化为实际行动。这种连接的效果将另行验证。',
+    nv_bridge_h: 'FeelGood设计的迁移之桥',
+    nv_bridge_sub: '在HISTORY和CAREER LAB中应用思维策略，在PLANNER中转化为实际行动，并在MY NUVIA中确认策略使用与独立表现的变化。',
+    nv_bridge1_problem: '打好基础策略的活动',
+    nv_bridge1_solution: '<b>KIDS</b> — 通过简短且可反复进行的活动，练习计划、注意、同时性和继时性加工。发挥优势的同时，支持需要提升的领域。',
+    nv_bridge2_problem: '应用于不同情境的活动',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — 将策略应用于历史判断以及升学就业项目中，在共同目标下调整资料、活动顺序与支持方式。',
+    nv_bridge3_problem: '确认实际行动的记录',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — 将策略应用于项目及现实生活任务，记录所使用的支持、计划修改与独立执行情况。',
+    nv_bridge_note: '这是为验证迁移可能性而设计的结构，效果将在试点运营与后续研究中另行验证。',
+    nv_prod_h: 'NUVIA系列各产品的角色与连接',
+    nv_prod_sub: '根据年龄与目的选择所需的项目，营地优先与PLANNER连接。',
+    nv_prod_th1: '项目',
+    nv_prod_th2: '核心体验',
+    nv_prod_th3: '主要对象 · 目的',
+    nv_prod_r1_c2: '通过游戏练习基础认知过程',
+    nv_prod_r1_c3: '以幼儿·小学生为主',
+    nv_prod_r2_c2: '通过历史资料比较依据并作出判断',
+    nv_prod_r2_c3: '按年龄划分的思维活动',
+    nv_prod_r3_c2: '制定计划并执行·复盘',
+    nv_prod_r3_c3: '从小学4年级至大学生·成人',
+    nv_prod_r4_c2: '反映认知特质的升学就业项目',
+    nv_prod_r4_c3: '初高中生职业探索 / 大学生按院系的职业实践',
+    nv_prod_r5_c2: '确认表现记录与下一步支持',
+    nv_prod_r5_c3: '本人及被授权的支持者',
+    nv_prod_foot: '大学营地的基本构成为D-CAS + CAREER LAB + PLANNER，HISTORY为可选联动项目。',
+    nv_kids_h: '个性化认知训练',
+    nv_kids_sub: '每天约10分钟的游戏型活动，练习计划、注意、同时性和继时性加工。',
+    nv_kids_cap: 'NUVIA KIDS 实际画面 · 星光隧道 / 陨石地带 关卡地图',
+    nv_kids_f1_label: '练习什么',
+    nv_kids_f1_val: '发挥优势，反复练习需要支持的认知领域。',
+    nv_kids_f2_label: '如何参与',
+    nv_kids_f2_val: '以符合年龄的操作与引导进行短时活动，可随时接续参与。',
+    nv_kids_f3_label: '确认什么',
+    nv_kids_f3_val: '查看正确率、反应时间、错误情况，以及支持使用和策略变化。',
+    nv_kids_foot: '基于400个训练素材库设计，实际内容及各年龄段运营范围将在引入时确认。',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — 设计目标是让所学策略能在HISTORY的思维活动及日常任务中再次运用。',
+    nv_history_h: '基于历史的思维能力训练',
+    nv_history_sub: '在世界史的故事与资料中做出选择、审视依据、打磨判断。',
+    nv_history_cap: 'NUVIA HISTORY 实际画面 · 世界史第3周《尼罗河开拓棋盘》· 高中生游玩水平',
+    nv_history_th1: '对象',
+    nv_history_th2: '资料',
+    nv_history_th3: '思维活动',
+    nv_history_r1_c1: '学龄前 5～7岁',
+    nv_history_r1_c2: '简短场景 · 图画 · 语音',
+    nv_history_r1_c3: '探索 · 拼搭 · 比较选择结果',
+    nv_history_r2_c1: '小1～5 / 小6～初3',
+    nv_history_r2_c2: '文字 · 线索 / 多种资料 · 视角',
+    nv_history_r2_c3: '角色 · 顺序 · 计划 / 备选方案 · 依据连接',
+    nv_history_r3_c1: '高1～3 / 大学 · 成人',
+    nv_history_r3_c2: '相互矛盾的资料 / 人文·组织案例',
+    nv_history_r3_c3: '备选假设 · 论证 / 判断标准的应用',
+    nv_history_foot: '优先构建世界史内容，韩国史作为第二阶段扩展。画面中显示的档案为体验用的虚拟分数。',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — 将比较资料与建立判断依据的能力运用到升学就业体验(CAREER LAB)中，并连接到PLANNER的下一步行动。',
+    nv_planner_h: '基于元认知的自我管理',
+    nv_planner_sub: '从小学4年级到成人，发现自己的执行模式，并将策略应用于现实生活。',
+    nv_planner_cap: 'NUVIA PLANNER 实际画面 · 小4～6 档案A · 今天 · 计划搭建',
+    nv_planner_th1: '领域',
+    nv_planner_th2: '日常执行策略',
+    nv_planner_r1_c2: '选择优先顺序 · 分解任务',
+    nv_planner_r2_c2: '非常小的第一步行动',
+    nv_planner_r3_c2: '集中区间 · 调整干扰因素',
+    nv_planner_r4_c2: '比较预期与实际 · 预留余裕时间',
+    nv_planner_r5_c2: '重置 · 下一个可行的行动',
+    nv_planner_r6_c2: '发现模式 · 调整策略',
+    nv_planner_foot: '营地任务也会连接为个人待办事项，旨在培养自主计划与执行的能力。画面中的A·B档案为体验用示例。',
+    nv_transfer_h: 'HISTORY与PLANNER通过策略相连',
+    nv_transfer_sub: '这是将思维活动中使用的方法连接到现实生活的设计示例。两款产品的分数·等级不进行合并——连接的是策略、支持方式与实际应用情境。',
+    nv_transfer_r1_h: 'HISTORY — 将事件按阶段拆分理解',
+    nv_transfer_r1_p: 'PLANNER — 将演讲准备拆分为调查·构思·练习',
+    nv_transfer_r2_h: 'HISTORY — 一眼比较多份资料之间的关系',
+    nv_transfer_r2_p: 'PLANNER — 查看待完成任务的整体结构与优先顺序',
+    nv_transfer_r3_h: 'HISTORY — 依据新证据修正计划',
+    nv_transfer_r3_p: 'PLANNER — 在进度延误时重新决定下一步行动',
+    nv_transfer_r4_h: 'HISTORY — 回顾自己判断的理由',
+    nv_transfer_r4_p: 'PLANNER — 比较预期与实际以调整自己的策略',
+    nv_cl_title: '契合认知特质的升学就业营地',
+    nv_cl_lede: '课程设计充分反映学生理解信息、作出判断、采取行动的方式。检测结果转化为活动方式，体验记录延伸为下一步实践。',
+    nv_cl_i1_tag: '初高中生升学营地',
+    nv_cl_i1_h: '亲身体验感兴趣的领域，找到适合自己的探索方法。',
+    nv_cl_i1_p: '兴趣地图 · 领域比较 · 下一步探索计划',
+    nv_cl_i1_out: '→ 连接到PLANNER的后续探索任务',
+    nv_cl_i2_tag: '大学生按院系职业营地',
+    nv_cl_i2_h: '完成与所学院系相关的工作任务，确认自己的优势与所需支持。',
+    nv_cl_i2_p: '职业成果 · 表现依据 · 作品集',
+    nv_cl_i2_out: '→ 连接到PLANNER的作品集整理',
+    nv_cl_demo_h: 'DEMO · 按院系的职业体验与个人PLANNER画面',
+    nv_cl_demo_desc: '这是一款演示版，可在单一画面内引导用户完成职业选择、资料分析、角色轮换及个人待办事项。（示例：航空安保专业·安保职务项目）',
+    nv_cl_demo_cap: 'NUVIA CAREER LAB 实际画面 · Security Career Studio · 大学生体验版',
+    nv_cl_diff_h: '为现有升学就业课程带来的附加价值',
+    nv_cl_diff_desc: '将职业信息与体验活动，同契合认知特质的支持与后续执行相结合。左侧为用于比较的运营类型示例，并非对竞争对手的全面调查结果。',
+    nv_cl_diff_th1: '比较项目',
+    nv_cl_diff_th2: '说明 · 以共同体验为中心的运营',
+    nv_cl_diff_th3: 'NUVIA CAREER LAB的设计',
+    nv_cl_diff_r1_c1: '个人理解',
+    nv_cl_diff_r1_c2: '以兴趣·愿望及结果咨询为中心',
+    nv_cl_diff_r1_c3: '认知特质 + 兴趣·经验 + 活动中的表现',
+    nv_cl_diff_r2_c1: '体验方式',
+    nv_cl_diff_r2_c2: '共同完成相同的资料与顺序',
+    nv_cl_diff_r2_c3: '在共同目标下调整资料·顺序·支持',
+    nv_cl_diff_r3_c1: '讲师角色',
+    nv_cl_diff_r3_c2: '在现场自行判断个别支持',
+    nv_cl_diff_r3_c3: '提供标准教案·个别引导·介入标准',
+    nv_cl_diff_r4_c1: '留存的结果',
+    nv_cl_diff_r4_c2: '活动感想与体验记录',
+    nv_cl_diff_r4_c3: '个人表现依据与职业·探索成果',
+    nv_cl_diff_r5_c1: '营地结束后',
+    nv_cl_diff_r5_c2: '取决于是否安排额外后续活动',
+    nv_cl_diff_r5_c3: '在PLANNER中连接下一步行动与复盘',
+    nv_cl_age_h: '初中生 · 高中生 · 大学生的实际活动差异',
+    nv_cl_age_desc: '根据学段设置不同的探索问题、活动责任与成果。即使主题相同，也会在问题的开放程度、资料的复杂度、角色与成果上做出不同设计。',
+    nv_cl_age_th1: '区分',
+    nv_cl_age_th2: '出发问题',
+    nv_cl_age_th3: '体验示例',
+    nv_cl_age_th4: '个人成果',
+    nv_cl_age_r1_c1: '初中生 · 职业发现',
+    nv_cl_age_r1_c2: '什么样的工作会让我感兴趣？',
+    nv_cl_age_r1_c3: '制作学校活动的指路地图',
+    nv_cl_age_r1_c4: '兴趣卡与探索问题',
+    nv_cl_age_r2_c1: '高中生 · 职业规划',
+    nv_cl_age_r2_c2: '还应进一步了解哪个领域？',
+    nv_cl_age_r2_c3: '比较活动无障碍改善方案',
+    nv_cl_age_r2_c4: '领域比较依据与准备计划',
+    nv_cl_age_r3_c1: '大学生 · 职务执行',
+    nv_cl_age_r3_c2: '该如何解决这项工作任务？',
+    nv_cl_age_r3_c3: '设计虚拟出境大厅运营方案',
+    nv_cl_age_r3_c4: '表现依据与作品集',
+    nv_cl_dept_h: '院系职业体验示例 — 航空安保专业',
+    nv_cl_dept_desc: '这是一个教育用虚拟项目，在出境大厅拥堵情境下设计乘客引导与运营支援方案。（3个区域布局图 + 3份情境资料 + 4名支援人员 + 2个指示牌）',
+    nv_cl_dept_s1_task: '掌握情况 — 查看资料，选出优先应对的两个区域',
+    nv_cl_dept_s1_out: '所选问题及其依据',
+    nv_cl_dept_s2_task: '拟定草案 — 部署支援人员·指示牌，确定执行顺序',
+    nv_cl_dept_s2_out: '布局图与3步执行方案',
+    nv_cl_dept_s3_task: '角色轮换 — 在支援人员减少1人的条件下修改运营方案',
+    nv_cl_dept_s3_out: '交接说明与变更理由',
+    nv_cl_dept_s4_task: '检讨 · 发表 — 确认限制条件后说明备选方案及判断依据',
+    nv_cl_dept_s4_out: '团队最终方案 + 个人贡献记录',
+    nv_cl_dept_foot: '遵守资源总量·确保通行通道·维持安检程序。这并非实际的安检训练或机场运营规范。',
+    nv_cl_deptx_h: '院系不同，业务与成果也不同',
+    nv_cl_deptx_desc: '在利用共同运营结构的同时，各院系的职务资料与评价标准将另行审议。以下为开发候选示例，具体提供范围将在院系专家审议后确定。',
+    nv_cl_deptx_th1: '院系示例',
+    nv_cl_deptx_th2: '职务项目候选',
+    nv_cl_deptx_th3: '主要成果',
+    nv_cl_deptx_r1_c1: '经营 · 营销',
+    nv_cl_deptx_r1_c2: '改善虚拟个体经营者的顾客体验',
+    nv_cl_deptx_r1_c3: '顾客问题 · 方案比较 · 执行方案',
+    nv_cl_deptx_r2_c1: '旅游 · 酒店',
+    nv_cl_deptx_r2_c2: '团体客人动线与咨询应对',
+    nv_cl_deptx_r2_c3: '引导方案 · 服务顺序',
+    nv_cl_deptx_r3_c1: '计算机 · 软件',
+    nv_cl_deptx_r3_c2: '校园服务改善原型',
+    nv_cl_deptx_r3_c3: '功能优先顺序 · 原型 · 验证记录',
+    nv_cl_deptx_r4_c1: '设计',
+    nv_cl_deptx_r4_c2: '改善校园指路引导',
+    nv_cl_deptx_r4_c3: '设计草案 · 可用性确认 · 修改依据',
+    nv_cl_deptx_r5_c1: '社会福利',
+    nv_cl_deptx_r5_c2: '连接虚拟使用者的支援服务',
+    nv_cl_deptx_r5_c3: '资源比较 · 连接顺序',
+    nv_cl_deptx_r6_c1: '护理 · 保健 / 幼儿教育',
+    nv_cl_deptx_r6_c2: '出院指导资料 / 教育活动运营方案',
+    nv_cl_deptx_r6_c3: '易懂说明资料 / 活动·参与支援方案',
+    nv_cl_camp_h: '营地运营 — 混合分组与角色轮换',
+    nv_cl_camp_desc: '大学试点示例：30人 · 分6组 · 每组5人 · 180分钟，事前检测与事后2周另行运营。不同认知特质与经验的成员混合编组，角色不以分数固定。',
+    nv_cl_camp_r1_act: '理解情况 · 个人目标 · 选择首个角色',
+    nv_cl_camp_r1_rule: '反映兴趣 · 经验 · 期望角色',
+    nv_cl_camp_r2_act: '资料分析 · 草案 · 中期检查',
+    nv_cl_camp_r2_rule: '各自留下个人表现依据',
+    nv_cl_camp_r3_act: '角色轮换 · 应对新条件 · 最终方案',
+    nv_cl_camp_r3_rule: '至少进行一次轮换与交接',
+    nv_cl_camp_r4_act: '团队发表 · 反馈 · 个人后续计划',
+    nv_cl_camp_r4_rule: '区分团队成果与个人贡献',
+    nv_cl_pc_h: '让营地体验延续为下一步实践的PLANNER',
+    nv_cl_pc_desc: '将团队任务连接为个人待办事项，由学生亲自撰写·修改计划。个人分数与非公开笔记不会向团队公开。',
+    nv_cl_pc_th1: '时间点',
+    nv_cl_pc_th2: '学生的行动',
+    nv_cl_pc_th3: '契合认知特质的执行支持',
+    nv_cl_pc_r1_c1: '活动开始',
+    nv_cl_pc_r1_c2: '写下自己角色的目标 · 首个行动 · 期限',
+    nv_cl_pc_r1_c3: '选择任务分解或空白计划板',
+    nv_cl_pc_r2_c1: '执行 · 轮换',
+    nv_cl_pc_r2_c2: '完成当前任务后分享依据 · 交接',
+    nv_cl_pc_r2_c3: '当前阶段引导 · 顺序 · 关系工具',
+    nv_cl_pc_r3_c1: '营地收尾',
+    nv_cl_pc_r3_c2: '选择有帮助的方法与下一步行动',
+    nv_cl_pc_r3_c3: '复盘问题 · 具体行动示例',
+    nv_cl_pc_r4_c1: '事后2周',
+    nv_cl_pc_r4_c2: '执行所选探索·学习任务 · 每周复盘',
+    nv_cl_pc_r4_c3: '重新开始行动与检查支持',
+    nv_cl_pc_foot: '初中生延续为观察体验，高中生延续为领域比较，大学生延续为职务补充与作品集，实现后续实践。',
+    nv_verify_h: '通过记录确认迁移是否真正发生',
+    nv_verify_sub: '检测档案作为基准信息，项目记录作为变化的依据加以确认。仅凭记录并不能证明迁移的因果效应，检测·学业成绩·满意度也不会合并为单一总分。',
+    nv_verify_th1: '区分',
+    nv_verify_th2: '确认内容',
+    nv_verify_th3: '解读范围',
+    nv_verify_r1_c2: '最近检测日期 · PASS四要素 · 结果报告',
+    nv_verify_r1_c3: '标准化检测结果',
+    nv_verify_r2_c2: '正确率 · 时间 · 错误 · 支持使用',
+    nv_verify_r2_c3: '训练内部的表现变化',
+    nv_verify_r3_c2: '依据使用 · 重新审视 · 应用于新案例',
+    nv_verify_r3_c3: '历史理解与思维策略的表现',
+    nv_verify_r4_c2: '角色表现 · 修改依据 · 个人 / 团队成果',
+    nv_verify_r4_c3: '升学探索与职业体验的表现',
+    nv_verify_r5_c2: '计划修改 · 执行 · 复盘 · 独立使用',
+    nv_verify_r5_c3: '自我管理与后续实践的经验',
+    nv_age_h: '契合年龄与目的的项目构成',
+    nv_age_sub: '检测以实际年龄为准，项目则根据年级 · 发展阶段与目的进行选择。HISTORY为可选联动项目。',
+    nv_age_th1: '对象',
+    nv_age_th2: '核心项目',
+    nv_age_th3: '支持重点',
+    nv_age_r1_c1: '学龄前～小3',
+    nv_age_r1_c3: '游戏 · 基础认知 · 故事理解',
+    nv_age_r2_c1: '小4～6',
+    nv_age_r2_c2: 'HISTORY + PLANNER，必要时加入KIDS',
+    nv_age_r2_c3: '思维策略 · 自我管理入门',
+    nv_age_r3_c1: '初 · 高中生',
+    nv_age_r3_c2: 'CAREER LAB升学 + PLANNER',
+    nv_age_r3_c3: '发现兴趣 · 领域比较 · 探索实践',
+    nv_age_r4_c1: '大学生',
+    nv_age_r4_c2: 'CAREER LAB职务 + PLANNER',
+    nv_age_r4_c3: '院系职务 · 项目 · 自我管理',
+    nv_age_foot: '未满14岁使用K-PASS，14岁起使用D-CAS。成人可根据目的灵活使用HISTORY · PLANNER。',
+});
+Object.assign(window.LANG.mn, {
+    nv_title: 'Шалгалтаас эхэлж<br>өдөр тутмын хөгжил рүү хөтлөх NUVIA',
+    nv_lede: 'K-PASS·D-CAS-аар илрүүлсэн танин мэдэхүйн онцлогийг KIDS-ийн давтан дасгал, HISTORY-ийн сэтгэлгээний хэрэглээ, CAREER LAB-ийн мэргэжлийн туршлага, PLANNER-ийн бодит амьдралын хэрэгжилттэй холбож өгнө. MY NUVIA энэ өөрчлөлт бодитоор гарсан эсэхийг бүртгэлээр баталгаажуулна.',
+    nv_step1_num: '01 Шалгалт · Илрүүлэлт',
+    nv_step1_p: 'Одоогийн танин мэдэхүйн онцлог болон давуу тал, дэмжлэг шаардлагатай хэсгийг тодорхойлно.',
+    nv_step2_num: '02 NUVIA · Туршлага',
+    nv_step2_h: 'Танин мэдэхүйн дасгал · Сэтгэлгээ · Мэргэжил',
+    nv_step2_p: 'Танин мэдэхүйн дасгал, сэтгэлгээний үйл ажиллагаа, мэргэжлийн туршлагыг PLANNER-ийн бодит хэрэгжилттэй холбоно.',
+    nv_step3_num: '03 MY NUVIA · Хөгжлийг баталгаажуулах',
+    nv_step3_h: 'Өөрчлөлтийн бүртгэл',
+    nv_step3_p: 'Гүйцэтгэлийн өөрчлөлт, стратегийн хэрэглээ, бие даасан хэрэгжилтийг хянана.',
+    nv_why_h: 'Танин мэдэхүйн дасгалын үр дүнг өөр даалгаварт ч баталгаажуулах шаардлагатай',
+    nv_why_sub: 'Дасгалжуулсан даалгаврын ахиц дэвшил ба өөр даалгавар, өдөр тутмын амьдралд ашиглах явдлыг тусад нь баталгаажуулах шаардлагатай. NUVIA нь стратеги хэрэглэх орчин ба гүйцэтгэлийн бүртгэлийг хамтад нь тусгаж загварчилдаг.',
+    nv_why1_h: 'Дасгалжуулсан даалгаврын гүйцэтгэлийн ахиц',
+    nv_why1_p: 'Танин мэдэхүйн дасгалын судалгаануудад дасгалжуулсан даалгаврын гүйцэтгэл сайжирдаг гэсэн нотолгоо элбэг байсан. Дасгалын дотоод өөрчлөлт нь эхлээд баталгаажуулах ёстой алхам юм.',
+    nv_why2_h: 'Өөр даалгавар · өдөр тутмын хэрэглээг баталгаажуулах',
+    nv_why2_p: 'Мөн судалгаанд ойролцоо даалгавар руу шилжих нотолгоо цөөн, алс холын даалгавар буюу өдөр тутмын танин мэдэхүйн гүйцэтгэл сайжрах нотолгоо хязгаарлагдмал байсан.',
+    nv_why3_h: 'NUVIA-гийн дараагийн туршлагын загвар',
+    nv_why3_p: 'HISTORY·CAREER LAB-д стратегийг дахин ашиглаж, PLANNER-д бодит үйлдэл болгон хэрэгжүүлэхээр загварчилсан. Энэ холболтын үр нөлөөг тусад нь баталгаажуулна.',
+    nv_bridge_h: 'FeelGood-ийн загварчилсан шилжилтийн гүүр',
+    nv_bridge_sub: 'HISTORY, CAREER LAB-д сэтгэлгээний стратегийг хэрэгжүүлж, PLANNER-д бодит үйлдэл болгон гүйцэтгэж, MY NUVIA-д стратегийн хэрэглээ болон бие даасан гүйцэтгэлийн өөрчлөлтийг баталгаажуулна.',
+    nv_bridge1_problem: 'Үндсэн стратеги эзэмших үйл ажиллагаа',
+    nv_bridge1_solution: '<b>KIDS</b> — Төлөвлөлт, анхаарал, зэрэгцээ болон дараалсан боловсруулалтыг богино, давтагдах боломжтой үйл ажиллагаагаар дасгалжуулна. Давуу талыг ашиглаж, шаардлагатай хэсгийг дэмжинэ.',
+    nv_bridge2_problem: 'Өөр нөхцөл байдалд хэрэглэх үйл ажиллагаа',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — Түүхэн шийдвэр гаргалт болон мэргэжлийн төслүүдэд стратегийг хэрэгжүүлнэ. Нийтлэг зорилгын дор материал, үйл ажиллагааны дараалал, дэмжлэгийг тохируулна.',
+    nv_bridge3_problem: 'Бодит үйлдлийг баталгаажуулах бүртгэл',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — Стратегийг төсөл болон бодит амьдралын даалгаварт хэрэгжүүлж, ашигласан дэмжлэг, төлөвлөгөөний өөрчлөлт, бие даасан гүйцэтгэлийг бүртгэнэ.',
+    nv_bridge_note: 'Энэ нь шилжих боломжийг баталгаажуулах зорилготой загвар юм. Үр нөлөөг туршилтын хэрэгжилт болон дараагийн судалгаагаар тусад нь баталгаажуулна.',
+    nv_prod_h: 'NUVIA цувралын үүрэг ба холболт',
+    nv_prod_sub: 'Нас, зорилгод тохирсон хөтөлбөрийг сонгоно, кэмп нь PLANNER-тэй тэргүүн ээлжинд холбогдоно.',
+    nv_prod_th1: 'Хөтөлбөр',
+    nv_prod_th2: 'Гол туршлага',
+    nv_prod_th3: 'Гол зорилтот бүлэг · зорилго',
+    nv_prod_r1_c2: 'Тоглоомоор үндсэн танин мэдэхүйн процессыг дасгалжуулах',
+    nv_prod_r1_c3: 'Бага насны хүүхэд, бага ангийнхныг голчилно',
+    nv_prod_r2_c2: 'Түүхэн материалаар нотолгоо харьцуулж, шийдвэр гаргах',
+    nv_prod_r2_c3: 'Насны бүлгээр тохирсон сэтгэлгээний үйл ажиллагаа',
+    nv_prod_r3_c2: 'Төлөвлөгөө гарган хэрэгжүүлж · эргэн харах',
+    nv_prod_r3_c3: '4-р ангиас оюутан, насанд хүрэгчид хүртэл',
+    nv_prod_r4_c2: 'Танин мэдэхүйн онцлогийг тусгасан мэргэжлийн төсөл',
+    nv_prod_r4_c3: 'Дунд, ахлах сургуулийн мэргэжил сонголт / Оюутны мэргэжлээр нь хийх ажил',
+    nv_prod_r5_c2: 'Гүйцэтгэлийн бүртгэл, дараагийн дэмжлэгийг баталгаажуулах',
+    nv_prod_r5_c3: 'Хэрэглэгч болон эрх бүхий дэмжигч',
+    nv_prod_foot: 'Их сургуулийн кэмпийн үндсэн бүтэц нь D-CAS + CAREER LAB + PLANNER бөгөөд HISTORY нь сонголтоор холбогддог.',
+    nv_kids_h: 'Хувь хүнд тохирсон танин мэдэхүйн дасгал',
+    nv_kids_sub: 'Өдөрт ойролцоогоор 10 минутын тоглоом хэлбэрийн үйл ажиллагаагаар төлөвлөлт, анхаарал, зэрэгцээ болон дараалсан боловсруулалтыг дасгалжуулна.',
+    nv_kids_cap: 'NUVIA KIDS-ийн бодит дэлгэц · Од гэрлийн хонгил / Солир мандлын шатны газрын зураг',
+    nv_kids_f1_label: 'Юу дасгалжуулах вэ',
+    nv_kids_f1_val: 'Давуу талыг ашиглаж, дэмжлэг шаардлагатай танин мэдэхүйн хэсгийг давтан дасгалжуулна.',
+    nv_kids_f2_label: 'Хэрхэн оролцох вэ',
+    nv_kids_f2_val: 'Насанд тохирсон удирдлага, зааврын хамт богино хугацаагаар оролцож, үргэлжлүүлэн тоглоно.',
+    nv_kids_f3_label: 'Юу баталгаажуулах вэ',
+    nv_kids_f3_val: 'Нарийвчлал, хариу үйлдлийн хугацаа, алдаа, дэмжлэгийн хэрэглээ, стратегийн өөрчлөлтийг харна.',
+    nv_kids_foot: '400 дасгалын сангийн дагуу загварчилсан. Бодит агуулга, насны бүлэг тус бүрийн үйл ажиллагааны хамрах хүрээг нэвтрүүлэх үед баталгаажуулна.',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — Эзэмшсэн стратегийг HISTORY-ийн сэтгэлгээний үйл ажиллагаа болон өдөр тутмын даалгаварт дахин ашиглахаар загварчилсан.',
+    nv_history_h: 'Түүхэд суурилсан сэтгэлгээний дасгал',
+    nv_history_sub: 'Дэлхийн түүхийн түүх, материалын дотор сонголт хийж, нотолгоог судалж, шийдвэрээ тодотгоно.',
+    nv_history_cap: 'NUVIA HISTORY-ийн бодит дэлгэц · Дэлхийн түүх 3 дахь долоо хоног "Нил мөрний нээлтийн самбар" · ахлах сургуулийн тоглох түвшин',
+    nv_history_th1: 'Зорилтот бүлэг',
+    nv_history_th2: 'Материал',
+    nv_history_th3: 'Сэтгэлгээний үйл ажиллагаа',
+    nv_history_r1_c1: 'Сургуулийн өмнөх 5–7 нас',
+    nv_history_r1_c2: 'Богино дүр зураг · зураг · дуу авиа',
+    nv_history_r1_c3: 'Хайгуул · угсрах · сонголтын үр дүнг харьцуулах',
+    nv_history_r2_c1: '1–5-р анги / 6–9-р анги',
+    nv_history_r2_c2: 'Өгүүлбэр · санамж / олон материал · үзэл бодол',
+    nv_history_r2_c3: 'Үүрэг · дараалал · төлөвлөгөө / өөр хувилбар ба нотолгоог холбох',
+    nv_history_r3_c1: '10–12-р анги / их сургууль · насанд хүрэгчид',
+    nv_history_r3_c2: 'Зөрчилтэй материал / хүмүүнлэгийн, байгууллагын жишээ',
+    nv_history_r3_c3: 'Өөр таамаглал · нотолгоо / шийдвэрийн шалгуурыг хэрэглэх',
+    nv_history_foot: 'Дэлхийн түүхийг эхэлж бүрдүүлж, Солонгосын түүхийг 2-р шатанд өргөжүүлнэ. Дэлгэц дээрх профайл нь туршилтын хийсвэр оноо юм.',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — Материал харьцуулах, шийдвэрийн үндэслэл гаргах чадварыг мэргэжлийн туршлага (CAREER LAB)-д ашиглаж, PLANNER-ийн дараагийн үйлдэлтэй холбоно.',
+    nv_planner_h: 'Мета-танин мэдэхүйд суурилсан өөрийгөө удирдах чадвар',
+    nv_planner_sub: '4-р ангиас насанд хүрэгчид хүртэл өөрийн гүйцэтгэлийн загварыг олж мэдэн, стратегийг бодит амьдралд хэрэгжүүлнэ.',
+    nv_planner_cap: 'NUVIA PLANNER-ийн бодит дэлгэц · 4–6-р ангийн профайл A · Өнөөдөр · Төлөвлөгөө зохиох',
+    nv_planner_th1: 'Хэсэг',
+    nv_planner_th2: 'Өдөр тутмын хэрэгжилтийн стратеги',
+    nv_planner_r1_c2: 'Тэргүүлэх дараалал сонгох · даалгаврыг задлах',
+    nv_planner_r2_c2: 'Маш жижиг эхний алхам',
+    nv_planner_r3_c2: 'Анхаарлаа төвлөрүүлэх хугацаа · саад учруулагч хүчин зүйлийг тохируулах',
+    nv_planner_r4_c2: 'Урьдчилсан ба бодит байдлыг харьцуулах · нөөц цаг',
+    nv_planner_r5_c2: 'Дахин эхлүүлэх · дараагийн боломжит үйлдэл',
+    nv_planner_r6_c2: 'Загварыг олж мэдэх · стратегийг тохируулах',
+    nv_planner_foot: 'Кэмпийн даалгаврыг ч хувийн хийх ажил болгон холбоно. Өөрөө төлөвлөж, хэрэгжүүлэх чадварыг хөгжүүлэхээр загварчилсан. Дэлгэц дээрх A·B профайл нь туршилтын жишээ юм.',
+    nv_transfer_h: 'HISTORY, PLANNER нь стратегиар холбогддог',
+    nv_transfer_sub: 'Энэ нь сэтгэлгээний үйл ажиллагаанд ашигласан аргыг бодит амьдралтай холбох загварын жишээ юм. Хоёр бүтээгдэхүүний оноо, түвшинг нэгтгэдэггүй — холбогдож буй зүйл нь стратеги, дэмжлэгийн арга, бодит хэрэглээний орчин юм.',
+    nv_transfer_r1_h: 'HISTORY — Үйл явдлыг шат болгон хуваан ойлгох',
+    nv_transfer_r1_p: 'PLANNER — Илтгэлийн бэлтгэлийг судалгаа · бүтэц · дадлагад хуваах',
+    nv_transfer_r2_h: 'HISTORY — Олон материалын харилцан хамаарлыг нэг харцаар харьцуулах',
+    nv_transfer_r2_p: 'PLANNER — Хийх ёстой даалгаврын нийт бүтэц, тэргүүлэх дарааллыг харах',
+    nv_transfer_r3_h: 'HISTORY — Шинэ нотолгоог үзээд төлөвлөгөөг засах',
+    nv_transfer_r3_p: 'PLANNER — Хуваарь хоцорсон үед дараагийн үйлдлийг дахин шийдэх',
+    nv_transfer_r4_h: 'HISTORY — Өөрийн шийдвэрийн шалтгааныг эргэн харах',
+    nv_transfer_r4_p: 'PLANNER — Урьдчилсан ба бодит байдлыг харьцуулж өөрийн стратегийг тохируулах',
+    nv_cl_title: 'Танин мэдэхүйн онцлогт тохирсон мэргэжлийн кэмп',
+    nv_cl_lede: 'Сурагч мэдээллийг хэрхэн ойлгож, шийдвэр гаргаж, үйлдэл хийх аргыг ч хичээлд тусгасан. Шалгалтын үр дүн үйл ажиллагааны хэлбэр болж, туршлагын бүртгэл дараагийн хэрэгжилт рүү холбогдоно.',
+    nv_cl_i1_tag: 'Дунд, ахлах сургуулийн мэргэжлийн кэмп',
+    nv_cl_i1_h: 'Сонирхсон салбарыг өөрөө шууд туршиж, өөртөө тохирсон судалгааны аргыг олно.',
+    nv_cl_i1_p: 'Сонирхлын зураглал · салбарын харьцуулалт · дараагийн судалгааны төлөвлөгөө',
+    nv_cl_i1_out: '→ PLANNER-ийн дараагийн судалгааны даалгавартай холбогдоно',
+    nv_cl_i2_tag: 'Оюутны мэргэжлээр нь хийх ажлын кэмп',
+    nv_cl_i2_h: 'Өөрийн мэргэжилтэй холбоотой ажлын даалгаврыг гүйцэтгэн, өөрийн давуу тал болон шаардлагатай дэмжлэгийг тодорхойлно.',
+    nv_cl_i2_p: 'Ажлын үр дүн · гүйцэтгэлийн үндэслэл · портфолио',
+    nv_cl_i2_out: '→ PLANNER-ийн портфолио цэгцлэлттэй холбогдоно',
+    nv_cl_demo_h: 'DEMO · Мэргэжлээр нь хийх ажлын туршлага ба хувийн PLANNER дэлгэц',
+    nv_cl_demo_desc: 'Ажил сонгохоос эхлээд материал шинжлэх, үүрэг солилцох, хувийн хийх ажлыг нэг дэлгэцэд удирдан харуулах туршилтын хувилбар юм. (Жишээ: Агаарын аюулгүй байдлын мэргэжил · аюулгүй байдлын ажлын төсөл)',
+    nv_cl_demo_cap: 'NUVIA CAREER LAB-ийн бодит дэлгэц · Security Career Studio · оюутны туршилтын хувилбар',
+    nv_cl_diff_h: 'Одоо байгаа мэргэжлийн хичээлд нэмж өгөх үнэ цэн',
+    nv_cl_diff_desc: 'Мэргэжлийн мэдээлэл, бодит туршлагыг танин мэдэхүйн онцлогт тохирсон дэмжлэг, дараагийн хэрэгжилттэй хослуулна. Зүүн талын багана нь харьцуулах зорилготой ерөнхий ажиллах хэлбэр бөгөөд өрсөлдөгчдийг бүрэн судалсан үр дүн биш юм.',
+    nv_cl_diff_th1: 'Харьцуулах зүйл',
+    nv_cl_diff_th2: 'Тайлбар · нийтлэг туршлага голлосон ажиллагаа',
+    nv_cl_diff_th3: 'NUVIA CAREER LAB-ийн загвар',
+    nv_cl_diff_r1_c1: 'Хувь хүнийг ойлгох',
+    nv_cl_diff_r1_c2: 'Сонирхол · хүсэл, үр дүнгийн зөвлөгөөг голчилно',
+    nv_cl_diff_r1_c3: 'Танин мэдэхүйн онцлог + сонирхол·туршлага + үйл ажиллагааны үеийн гүйцэтгэл',
+    nv_cl_diff_r2_c1: 'Туршлагын хэлбэр',
+    nv_cl_diff_r2_c2: 'Ижил материал, дарааллаар хамтдаа гүйцэтгэнэ',
+    nv_cl_diff_r2_c3: 'Нийтлэг зорилгын дор материал·дараалал·дэмжлэгийг тохируулна',
+    nv_cl_diff_r3_c1: 'Багшийн үүрэг',
+    nv_cl_diff_r3_c2: 'Тухайн газар дээр нь хувийн дэмжлэгийг өөрөө шийднэ',
+    nv_cl_diff_r3_c3: 'Стандарт хичээлийн төлөвлөгөө, хувийн заавар, хөндлөнгөөс оролцох шалгуурыг өгнө',
+    nv_cl_diff_r4_c1: 'Үлдэх үр дүн',
+    nv_cl_diff_r4_c2: 'Үйл ажиллагааны сэтгэгдэл, туршлагын түүх',
+    nv_cl_diff_r4_c3: 'Хувийн гүйцэтгэлийн үндэслэл, мэргэжил·судалгааны үр дүн',
+    nv_cl_diff_r5_c1: 'Кэмпийн дараа',
+    nv_cl_diff_r5_c2: 'Тусдаа дараагийн үйл ажиллагаа байгаа эсэхээс шалтгаална',
+    nv_cl_diff_r5_c3: 'PLANNER-д дараагийн үйлдэл, эргэн харалттай холбогдоно',
+    nv_cl_age_h: 'Дунд, ахлах сургууль, оюутны бодит үйл ажиллагааны ялгаа',
+    nv_cl_age_desc: 'Сургуулийн шатнаас хамааран судалгааны асуулт, үйл ажиллагааны хариуцлага, үр дүнг өөр өөрөөр бүрдүүлнэ. Ижил сэдэв ч асуудлын нээлттэй байдал, материалын нарийн төвөгтэй байдал, үүрэг, үр дүнг өөрөөр загварчилна.',
+    nv_cl_age_th1: 'Ангилал',
+    nv_cl_age_th2: 'Эхлэл асуулт',
+    nv_cl_age_th3: 'Туршлагын жишээ',
+    nv_cl_age_th4: 'Хувийн үр дүн',
+    nv_cl_age_r1_c1: 'Дунд сургууль · мэргэжил илрүүлэх',
+    nv_cl_age_r1_c2: 'Ямар ажил сонирхолтой вэ?',
+    nv_cl_age_r1_c3: 'Сургуулийн арга хэмжээний чиглүүлэх зураг зохиох',
+    nv_cl_age_r1_c4: 'Сонирхлын карт ба судалгааны асуулт',
+    nv_cl_age_r2_c1: 'Ахлах сургууль · мэргэжлийн төлөвлөгөө',
+    nv_cl_age_r2_c2: 'Ямар салбарыг илүү судлах вэ?',
+    nv_cl_age_r2_c3: 'Арга хэмжээний хүртээмжийг сайжруулах сонголтуудыг харьцуулах',
+    nv_cl_age_r2_c4: 'Салбар харьцуулах үндэслэл ба бэлтгэл төлөвлөгөө',
+    nv_cl_age_r3_c1: 'Оюутан · ажлын хэрэгжилт',
+    nv_cl_age_r3_c2: 'Ажлын даалгаврыг хэрхэн шийдэх вэ?',
+    nv_cl_age_r3_c3: 'Хийсвэр гарах танхимын ажиллагааны төлөвлөгөө зохиох',
+    nv_cl_age_r3_c4: 'Гүйцэтгэлийн үндэслэл ба портфолио',
+    nv_cl_dept_h: 'Мэргэжлийн ажлын туршлагын жишээ — Агаарын аюулгүй байдлын мэргэжил',
+    nv_cl_dept_desc: 'Гарах танхимын хөвчрөлийн нөхцөлд зорчигч чиглүүлэлт, ажиллагааны дэмжлэгийг загварчлах боловсролын зориулалттай хийсвэр төсөл. (3 бүсийн байршлын зураг + 3 нөхцөл байдлын материал + 4 дэмжигч ажилтан + 2 чиглүүлэх тэмдэг)',
+    nv_cl_dept_s1_task: 'Нөхцөл байдлыг ойлгох — Материалыг үзэн эхэлж шийдвэрлэх 2 бүсийг сонгох',
+    nv_cl_dept_s1_out: 'Сонгосон асуудал ба үндэслэл',
+    nv_cl_dept_s2_task: 'Төсөл боловсруулах — Дэмжигч ажилтан·тэмдгийг байрлуулж, хэрэгжүүлэх дарааллыг шийдэх',
+    nv_cl_dept_s2_out: 'Байршлын зураг ба 3 шатны хэрэгжилт',
+    nv_cl_dept_s3_task: 'Үүрэг солилцох — Дэмжигч ажилтан 1-ээр цөөрсөн нөхцөлд ажиллагааны төлөвлөгөөг засах',
+    nv_cl_dept_s3_out: 'Гардуулга, өөрчлөлтийн шалтгаан',
+    nv_cl_dept_s4_task: 'Дүгнэх · танилцуулах — Хязгаарлалтыг шалгаад өөр хувилбар, шийдвэрийн үндэслэлийг тайлбарлах',
+    nv_cl_dept_s4_out: 'Багийн эцсийн төлөвлөгөө + хувийн оролцооны бүртгэл',
+    nv_cl_dept_foot: 'Нөөцийн нийт хэмжээг сахих · зорчих замыг чөлөөтэй байлгах · аюулгүй байдлын шалгалтын журмыг хадгалах. Энэ нь бодит аюулгүй байдлын шалгалтын сургалт эсвэл нисэх онгоцны буудлын ажиллагааны журам биш юм.',
+    nv_cl_deptx_h: 'Мэргэжил өөр бол ажил, үр дүн ч өөр байдаг',
+    nv_cl_deptx_desc: 'Нийтлэг ажиллагааны бүтцийг ашиглах боловч, мэргэжил тус бүрийн ажлын материал, үнэлгээний шалгуурыг тусад нь авч үзнэ. Доорх нь боловсруулж буй сонголтын жишээ бөгөөд өгөх хамрах хүрээг мэргэжлийн шинжээчийн шалгалтын дараа тодорхойлно.',
+    nv_cl_deptx_th1: 'Мэргэжлийн жишээ',
+    nv_cl_deptx_th2: 'Ажлын төслийн сонголт',
+    nv_cl_deptx_th3: 'Гол үр дүн',
+    nv_cl_deptx_r1_c1: 'Бизнес удирдлага · Маркетинг',
+    nv_cl_deptx_r1_c2: 'Хийсвэр жижиг бизнес эрхлэгчийн үйлчлүүлэгчийн туршлагыг сайжруулах',
+    nv_cl_deptx_r1_c3: 'Үйлчлүүлэгчийн асуудал · сонголтын харьцуулалт · хэрэгжилтийн төлөвлөгөө',
+    nv_cl_deptx_r2_c1: 'Аялал жуулчлал · Зочид буудал',
+    nv_cl_deptx_r2_c2: 'Бүлэг үйлчлүүлэгчийн хөдөлгөөн ба лавлагаанд хариулах',
+    nv_cl_deptx_r2_c3: 'Чиглүүлэх төлөвлөгөө · үйлчилгээний дараалал',
+    nv_cl_deptx_r3_c1: 'Компьютер · Программ хангамж',
+    nv_cl_deptx_r3_c2: 'Кампусын үйлчилгээг сайжруулах загвар бүтээгдэхүүн',
+    nv_cl_deptx_r3_c3: 'Функцийн тэргүүлэх дараалал · загвар · баталгаажуулах бүртгэл',
+    nv_cl_deptx_r4_c1: 'Дизайн',
+    nv_cl_deptx_r4_c2: 'Кампусын чиглүүлэх зааврыг сайжруулах',
+    nv_cl_deptx_r4_c3: 'Загвар · хэрэглэх боломжийг шалгах · засварын үндэслэл',
+    nv_cl_deptx_r5_c1: 'Нийгмийн халамж',
+    nv_cl_deptx_r5_c2: 'Хийсвэр хэрэглэгчид дэмжлэгийн үйлчилгээг холбох',
+    nv_cl_deptx_r5_c3: 'Нөөц харьцуулалт · холболтын дараалал',
+    nv_cl_deptx_r6_c1: 'Сувилахуй · Эрүүл мэнд / Бага насны боловсрол',
+    nv_cl_deptx_r6_c2: 'Эмнэлгээс гарах заавар материал / Боловсролын үйл ажиллагааны төлөвлөгөө',
+    nv_cl_deptx_r6_c3: 'Ойлгомжтой тайлбар материал / үйл ажиллагаа·оролцооны дэмжлэгийн төлөвлөгөө',
+    nv_cl_camp_h: 'Кэмпийн ажиллагаа — Холимог бүлэг, үүрэг солилцоо',
+    nv_cl_camp_desc: 'Их сургуулийн туршилтын жишээ: 30 хүн · 6 бүлэг · багт 5 хүн · 180 минут, урьдчилсан шалгалт ба 2 долоо хоногийн дараах хяналтыг тусад нь явуулна. Өөр өөр танин мэдэхүйн онцлог, туршлагатай хүмүүсийг холилдуулан бүлэглэнэ, үүргийг оноогоор тогтоодоггүй.',
+    nv_cl_camp_r1_act: 'Нөхцөл байдлыг ойлгох · хувийн зорилго · эхний үүргээ сонгох',
+    nv_cl_camp_r1_rule: 'Сонирхол · туршлага · хүссэн үүргийг тусгах',
+    nv_cl_camp_r2_act: 'Материал шинжлэх · төсөл · дунд шатны шалгалт',
+    nv_cl_camp_r2_rule: 'Хүн бүр өөрийн гүйцэтгэлийн үндэслэлийг үлдээх',
+    nv_cl_camp_r3_act: 'Үүрэг солилцох · шинэ нөхцөлд дасан зохицох · эцсийн төлөвлөгөө',
+    nv_cl_camp_r3_rule: 'Дор хаяж нэг удаа солилцож, гардуулах',
+    nv_cl_camp_r4_act: 'Багийн танилцуулга · санал хүсэлт · хувийн дараагийн төлөвлөгөө',
+    nv_cl_camp_r4_rule: 'Багийн үр дүн ба хувийн оролцоог ялгах',
+    nv_cl_pc_h: 'Кэмпийн туршлагыг дараагийн хэрэгжилт рүү холбох PLANNER',
+    nv_cl_pc_desc: 'Багийн даалгаврыг хувийн хийх ажил болгон холбож, сурагч өөрөө төлөвлөгөөгөө бичиж·засна. Хувийн оноо, нууц тэмдэглэлийг багтай хуваалцахгүй.',
+    nv_cl_pc_th1: 'Цаг үе',
+    nv_cl_pc_th2: 'Сурагчийн үйлдэл',
+    nv_cl_pc_th3: 'Танин мэдэхүйн онцлогт тохирсон хэрэгжилтийн дэмжлэг',
+    nv_cl_pc_r1_c1: 'Үйл ажиллагаа эхлэх',
+    nv_cl_pc_r1_c2: 'Өөрийн үүргийн зорилго · эхний үйлдэл · хугацааг бичих',
+    nv_cl_pc_r1_c3: 'Даалгаврыг задлах эсвэл хоосон төлөвлөгөөний самбар сонгох',
+    nv_cl_pc_r2_c1: 'Гүйцэтгэл · солилцоо',
+    nv_cl_pc_r2_c2: 'Одоогийн ажлаа гүйцэтгээд үндэслэлээ хуваалцах · гардуулах',
+    nv_cl_pc_r2_c3: 'Одоогийн шатны заавар · дараалал · харилцааны хэрэгсэл',
+    nv_cl_pc_r3_c1: 'Кэмп дуусах',
+    nv_cl_pc_r3_c2: 'Тустай байсан арга, дараагийн үйлдлээ сонгох',
+    nv_cl_pc_r3_c3: 'Эргэн харах асуулт · тодорхой үйлдлийн жишээ',
+    nv_cl_pc_r4_c1: '2 долоо хоногийн дараа',
+    nv_cl_pc_r4_c2: 'Сонгосон судалгаа·сургалтын даалгаврыг хэрэгжүүлж · долоо хоног бүр эргэн харах',
+    nv_cl_pc_r4_c3: 'Дахин эхлүүлэх үйлдэл ба явцыг шалгах дэмжлэг',
+    nv_cl_pc_foot: 'Дунд сургуулийнхан ажиглалтын туршлага, ахлах сургуулийнхан салбар харьцуулалт, оюутнууд ажлын нөхөрлөл ба портфолио байдлаар дараагийн хэрэгжилтэд холбогдоно.',
+    nv_verify_h: 'Шилжилт бодитоор гарсан эсэхийг бүртгэлээр баталгаажуулна',
+    nv_verify_sub: 'Шалгалтын профайлыг үндсэн мэдээлэл, хөтөлбөрийн бүртгэлийг өөрчлөлтийн үндэслэл гэж баталгаажуулна. Бүртгэл дангаараа шилжилтийн шалтгаант үр нөлөөг батлахгүй бөгөөд шалгалт·сургалтын амжилт·сэтгэл ханамжийг нэг нийт оноо болгож нэгтгэдэггүй.',
+    nv_verify_th1: 'Ангилал',
+    nv_verify_th2: 'Баталгаажуулах агуулга',
+    nv_verify_th3: 'Тайлбарлах хамрах хүрээ',
+    nv_verify_r1_c2: 'Хамгийн сүүлийн шалгалтын огноо · PASS 4 хүчин зүйл · үр дүнгийн тайлан',
+    nv_verify_r1_c3: 'Стандартчилсан шалгалтын үр дүн',
+    nv_verify_r2_c2: 'Нарийвчлал · хугацаа · алдаа · дэмжлэгийн хэрэглээ',
+    nv_verify_r2_c3: 'Дасгалын доторх гүйцэтгэлийн өөрчлөлт',
+    nv_verify_r3_c2: 'Нотолгооны хэрэглээ · дахин судлах · шинэ тохиолдолд хэрэглэх',
+    nv_verify_r3_c3: 'Түүхийн ойлголт ба сэтгэлгээний стратегийн гүйцэтгэл',
+    nv_verify_r4_c2: 'Үүргийн гүйцэтгэл · засварын үндэслэл · хувийн/багийн үр дүн',
+    nv_verify_r4_c3: 'Мэргэжил судалгаа, ажлын туршлагын гүйцэтгэл',
+    nv_verify_r5_c2: 'Төлөвлөгөөний засвар · хэрэгжилт · эргэн харалт · бие даасан хэрэглээ',
+    nv_verify_r5_c3: 'Өөрийгөө удирдах болон дараагийн хэрэгжилтийн туршлага',
+    nv_age_h: 'Нас, зорилгод тохирсон хөтөлбөрийн бүтэц',
+    nv_age_sub: 'Шалгалтыг бодит насаар, хөтөлбөрийг анги·хөгжлийн үе шат, зорилгод тохируулан сонгоно. HISTORY нь сонголтоор холбогддог.',
+    nv_age_th1: 'Зорилтот бүлэг',
+    nv_age_th2: 'Гол хөтөлбөр',
+    nv_age_th3: 'Дэмжлэгийн голлох чиглэл',
+    nv_age_r1_c1: 'Сургуулийн өмнөх~3-р анги',
+    nv_age_r1_c3: 'Тоглоом · үндсэн танин мэдэхүй · түүх ойлгох',
+    nv_age_r2_c1: '4~6-р анги',
+    nv_age_r2_c2: 'HISTORY + PLANNER, шаардлагатай бол KIDS',
+    nv_age_r2_c3: 'Сэтгэлгээний стратеги · өөрийгөө удирдах анхан шат',
+    nv_age_r3_c1: 'Дунд · ахлах сургууль',
+    nv_age_r3_c2: 'CAREER LAB (мэргэжил) + PLANNER',
+    nv_age_r3_c3: 'Сонирхлыг олж мэдэх · салбар харьцуулах · судалгааны хэрэгжилт',
+    nv_age_r4_c1: 'Оюутан',
+    nv_age_r4_c2: 'CAREER LAB (ажил) + PLANNER',
+    nv_age_r4_c3: 'Мэргэжлийн ажил · төсөл · өөрийгөө удирдах',
+    nv_age_foot: 'K-PASS-ийг 13 нас хүртэл, D-CAS-ийг 14 наснаас ашиглана. Насанд хүрэгчид HISTORY·PLANNER-ийг зорилгодоо тохируулан ашиглана.',
+});
+Object.assign(window.LANG.th, {
+    nv_title: 'เริ่มต้นจากการประเมิน<br>สู่การเติบโตทุกวันกับ NUVIA',
+    nv_lede: 'เราเชื่อมโยงลักษณะทางปัญญาที่ค้นพบผ่าน K-PASS·D-CAS เข้ากับการฝึกซ้ำใน KIDS การประยุกต์ใช้ความคิดใน HISTORY ประสบการณ์อาชีพและสายงานใน CAREER LAB และการลงมือปฏิบัติจริงใน PLANNER MY NUVIA จะบันทึกเพื่อยืนยันว่าการเปลี่ยนแปลงนั้นเกิดขึ้นจริงหรือไม่',
+    nv_step1_num: '01 การประเมิน · การค้นพบ',
+    nv_step1_p: 'ตรวจสอบลักษณะทางปัญญาปัจจุบันและจุดแข็ง·พื้นที่ที่ต้องการการสนับสนุน',
+    nv_step2_num: '02 NUVIA · ประสบการณ์',
+    nv_step2_h: 'การฝึกทักษะการคิด · อาชีพและสายงาน',
+    nv_step2_p: 'เชื่อมโยงการฝึกทักษะการคิดและประสบการณ์ด้านอาชีพ·สายงานเข้ากับการปฏิบัติจริงใน PLANNER',
+    nv_step3_num: '03 MY NUVIA · ยืนยันการเติบโต',
+    nv_step3_h: 'บันทึกความเปลี่ยนแปลง',
+    nv_step3_p: 'ตรวจสอบการเปลี่ยนแปลงของผลการปฏิบัติ การใช้กลยุทธ์ และการนำไปใช้ด้วยตนเอง',
+    nv_why_h: 'ผลลัพธ์ของการฝึกทักษะการคิดต้องได้รับการยืนยันในงานอื่นด้วย',
+    nv_why_sub: 'การพัฒนาในงานที่ฝึกฝนกับการนำไปใช้ในงานอื่นหรือชีวิตประจำวันต้องแยกตรวจสอบ NUVIA ออกแบบให้มีทั้งบริบทสำหรับนำกลยุทธ์ไปใช้และบันทึกผลการปฏิบัติควบคู่กัน',
+    nv_why1_h: 'ผลการปฏิบัติในงานที่ฝึกฝนดีขึ้น',
+    nv_why1_p: 'งานวิจัยทบทวนด้านการฝึกทักษะการคิดพบหลักฐานจำนวนมากว่าผลการปฏิบัติในงานที่ฝึกฝนดีขึ้น การเปลี่ยนแปลงภายในการฝึกคือขั้นแรกที่ต้องยืนยัน',
+    nv_why2_h: 'ยืนยันการนำไปใช้ในงานอื่น·ชีวิตประจำวัน',
+    nv_why2_p: 'งานทบทวนเดียวกันพบหลักฐานการถ่ายโอนไปยังงานใกล้เคียงน้อยกว่า และหลักฐานการพัฒนาในงานที่ห่างไกลหรือการปฏิบัติทางปัญญาในชีวิตประจำวันมีจำกัด',
+    nv_why3_h: 'การออกแบบประสบการณ์ต่อเนื่องของ NUVIA',
+    nv_why3_p: 'ออกแบบให้กลยุทธ์ถูกนำกลับมาใช้ใน HISTORY·CAREER LAB และลงมือปฏิบัติเป็นพฤติกรรมจริงใน PLANNER ผลของการเชื่อมโยงนี้จะได้รับการตรวจสอบแยกต่างหาก',
+    nv_bridge_h: 'สะพานแห่งการถ่ายโอนที่ FeelGood ออกแบบ',
+    nv_bridge_sub: 'กลยุทธ์ทางความคิดถูกนำไปใช้ใน HISTORY และ CAREER LAB ลงมือปฏิบัติเป็นพฤติกรรมจริงใน PLANNER และ MY NUVIA ยืนยันการเปลี่ยนแปลงของการใช้กลยุทธ์และผลการปฏิบัติอย่างอิสระ',
+    nv_bridge1_problem: 'กิจกรรมสร้างพื้นฐานกลยุทธ์',
+    nv_bridge1_solution: '<b>KIDS</b> — ฝึกการวางแผน ความใส่ใจ การประมวลผลพร้อมกัน และการประมวลผลตามลำดับ ผ่านกิจกรรมสั้นๆ ที่ทำซ้ำได้ ใช้จุดแข็งและสนับสนุนพื้นที่ที่จำเป็น',
+    nv_bridge2_problem: 'กิจกรรมนำไปใช้ในสถานการณ์อื่น',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — นำกลยุทธ์ไปใช้กับการตัดสินใจทางประวัติศาสตร์และโครงการด้านอาชีพ·สายงาน ปรับเนื้อหา ลำดับกิจกรรม และการสนับสนุนภายใต้เป้าหมายร่วมกัน',
+    nv_bridge3_problem: 'บันทึกยืนยันพฤติกรรมจริง',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — นำกลยุทธ์ไปใช้กับโครงการและงานในชีวิตจริง บันทึกการสนับสนุนที่ใช้ การปรับแผน และผลการปฏิบัติอย่างอิสระ',
+    nv_bridge_note: 'นี่คือการออกแบบเพื่อตรวจสอบความเป็นไปได้ในการถ่ายโอน ประสิทธิผลจะได้รับการตรวจสอบแยกต่างหากในการดำเนินการนำร่องและงานวิจัยต่อเนื่อง',
+    nv_prod_h: 'บทบาทและการเชื่อมโยงของซีรีส์ NUVIA',
+    nv_prod_sub: 'เลือกโปรแกรมที่จำเป็นตามอายุและวัตถุประสงค์ ค่ายจะเชื่อมโยงกับ PLANNER เป็นอันดับแรก',
+    nv_prod_th1: 'โปรแกรม',
+    nv_prod_th2: 'ประสบการณ์หลัก',
+    nv_prod_th3: 'กลุ่มเป้าหมาย · วัตถุประสงค์หลัก',
+    nv_prod_r1_c2: 'ฝึกกระบวนการทางปัญญาพื้นฐานผ่านเกม',
+    nv_prod_r1_c3: 'เน้นเด็กเล็กและประถมศึกษา',
+    nv_prod_r2_c2: 'เปรียบเทียบหลักฐานและตัดสินใจผ่านเอกสารประวัติศาสตร์',
+    nv_prod_r2_c3: 'กิจกรรมการคิดตามช่วงวัย',
+    nv_prod_r3_c2: 'วางแผนและลงมือทำ · ทบทวน',
+    nv_prod_r3_c3: 'ตั้งแต่ประถม 4 ถึงนักศึกษาและผู้ใหญ่',
+    nv_prod_r4_c2: 'โครงการด้านอาชีพ·สายงานที่สะท้อนลักษณะทางปัญญา',
+    nv_prod_r4_c3: 'การค้นหาเส้นทางอาชีพสำหรับนักเรียนมัธยม / การฝึกปฏิบัติตามสาขาสำหรับนักศึกษา',
+    nv_prod_r5_c2: 'ยืนยันบันทึกผลการปฏิบัติและการสนับสนุนขั้นต่อไป',
+    nv_prod_r5_c3: 'ผู้ใช้เองและผู้สนับสนุนที่ได้รับอนุญาต',
+    nv_prod_foot: 'โครงสร้างพื้นฐานของค่ายมหาวิทยาลัยคือ D-CAS + CAREER LAB + PLANNER โดย HISTORY เป็นตัวเลือกเสริม',
+    nv_kids_h: 'การฝึกทักษะการคิดเฉพาะบุคคล',
+    nv_kids_sub: 'กิจกรรมรูปแบบเกมประมาณวันละ 10 นาที เพื่อฝึกการวางแผน ความใส่ใจ การประมวลผลพร้อมกัน และการประมวลผลตามลำดับ',
+    nv_kids_cap: 'หน้าจอจริงของ NUVIA KIDS · แผนที่ด่าน อุโมงค์แสงดาว / เขตอุกกาบาต',
+    nv_kids_f1_label: 'ฝึกอะไร',
+    nv_kids_f1_val: 'ใช้จุดแข็งและฝึกซ้ำในพื้นที่ทางปัญญาที่ต้องการการสนับสนุน',
+    nv_kids_f2_label: 'เข้าร่วมอย่างไร',
+    nv_kids_f2_val: 'ทำกิจกรรมสั้นๆ ด้วยการควบคุมและคำแนะนำที่เหมาะสมกับวัย และเล่นต่อได้',
+    nv_kids_f3_label: 'ตรวจสอบอะไร',
+    nv_kids_f3_val: 'ดูความแม่นยำ เวลาตอบสนอง ข้อผิดพลาด การใช้ความช่วยเหลือ และการเปลี่ยนแปลงกลยุทธ์',
+    nv_kids_foot: 'ออกแบบบนคลังกิจกรรมฝึก 400 รายการ เนื้อหาจริงและขอบเขตการดำเนินงานตามวัยจะได้รับการยืนยันเมื่อนำไปใช้',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — ออกแบบให้กลยุทธ์ที่เรียนรู้สามารถนำกลับมาใช้ในกิจกรรมการคิดของ HISTORY และงานประจำวัน',
+    nv_history_h: 'การฝึกทักษะการคิดโดยใช้ประวัติศาสตร์เป็นฐาน',
+    nv_history_sub: 'เลือก ตรวจสอบหลักฐาน และขัดเกลาการตัดสินใจภายในเรื่องราวและเอกสารประวัติศาสตร์โลก',
+    nv_history_cap: 'หน้าจอจริงของ NUVIA HISTORY · ประวัติศาสตร์โลก สัปดาห์ที่ 3 "กระดานบุกเบิกแม่น้ำไนล์" · ระดับการเล่นมัธยมปลาย',
+    nv_history_th1: 'กลุ่มเป้าหมาย',
+    nv_history_th2: 'เอกสาร',
+    nv_history_th3: 'กิจกรรมการคิด',
+    nv_history_r1_c1: 'ก่อนวัยเรียน 5–7 ปี',
+    nv_history_r1_c2: 'ฉากสั้น · ภาพ · เสียง',
+    nv_history_r1_c3: 'สำรวจ · ประกอบ · เปรียบเทียบผลของการเลือก',
+    nv_history_r2_c1: 'ป.1–5 / ม.ต้น',
+    nv_history_r2_c2: 'ประโยค · เบาะแส / เอกสารและมุมมองหลากหลาย',
+    nv_history_r2_c3: 'บทบาท · ลำดับ · แผนงาน / เชื่อมโยงทางเลือกกับหลักฐาน',
+    nv_history_r3_c1: 'ม.ปลาย / มหาวิทยาลัย·ผู้ใหญ่',
+    nv_history_r3_c2: 'เอกสารที่ขัดแย้งกัน / กรณีศึกษามนุษยศาสตร์·องค์กร',
+    nv_history_r3_c3: 'สมมติฐานทางเลือก · การให้เหตุผล / การใช้เกณฑ์ตัดสิน',
+    nv_history_foot: 'สร้างเนื้อหาประวัติศาสตร์โลกก่อน ขยายประวัติศาสตร์เกาหลีในระยะที่สอง โปรไฟล์ที่แสดงบนหน้าจอเป็นคะแนนตัวอย่างสำหรับการสาธิตเท่านั้น',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — นำการเปรียบเทียบเอกสารและการสร้างเหตุผลในการตัดสินใจไปใช้ในประสบการณ์ด้านอาชีพ (CAREER LAB) และเชื่อมโยงกับขั้นตอนต่อไปใน PLANNER',
+    nv_planner_h: 'การจัดการตนเองบนพื้นฐานอภิปัญญา',
+    nv_planner_sub: 'ตั้งแต่ประถม 4 จนถึงผู้ใหญ่ ค้นพบรูปแบบการลงมือทำของตนเองและนำกลยุทธ์ไปใช้ในชีวิตจริง',
+    nv_planner_cap: 'หน้าจอจริงของ NUVIA PLANNER · โปรไฟล์ A ป.4–6 · วันนี้ · จัดทำแผน',
+    nv_planner_th1: 'ด้าน',
+    nv_planner_th2: 'กลยุทธ์การลงมือทำในชีวิตประจำวัน',
+    nv_planner_r1_c2: 'เลือกลำดับความสำคัญ · แบ่งย่อยงาน',
+    nv_planner_r2_c2: 'การลงมือทำก้าวแรกที่เล็กมาก',
+    nv_planner_r3_c2: 'ช่วงเวลาโฟกัส · ปรับปัจจัยรบกวน',
+    nv_planner_r4_c2: 'เปรียบเทียบที่คาดไว้กับความจริง · เวลาสำรอง',
+    nv_planner_r5_c2: 'รีเซ็ต · การกระทำถัดไปที่เป็นไปได้',
+    nv_planner_r6_c2: 'ค้นพบรูปแบบ · ปรับกลยุทธ์',
+    nv_planner_foot: 'งานในค่ายก็เชื่อมโยงเป็นสิ่งที่ต้องทำส่วนตัวด้วย ออกแบบเพื่อสร้างพลังในการวางแผนและลงมือทำด้วยตนเอง โปรไฟล์ A·B บนหน้าจอเป็นตัวอย่างสำหรับสาธิต',
+    nv_transfer_h: 'HISTORY และ PLANNER เชื่อมโยงกันด้วยกลยุทธ์',
+    nv_transfer_sub: 'นี่คือตัวอย่างการออกแบบที่เชื่อมโยงวิธีการที่ใช้ในกิจกรรมการคิดเข้ากับชีวิตจริง คะแนน·ระดับของทั้งสองผลิตภัณฑ์จะไม่ถูกรวมกัน — สิ่งที่เชื่อมโยงกันคือกลยุทธ์ วิธีการสนับสนุน และบริบทการนำไปใช้จริง',
+    nv_transfer_r1_h: 'HISTORY — แบ่งเหตุการณ์เป็นขั้นตอนเพื่อทำความเข้าใจ',
+    nv_transfer_r1_p: 'PLANNER — แบ่งการเตรียมนำเสนอเป็นการค้นคว้า · จัดโครงสร้าง · ฝึกซ้อม',
+    nv_transfer_r2_h: 'HISTORY — เปรียบเทียบความสัมพันธ์ของเอกสารหลายฉบับในคราวเดียว',
+    nv_transfer_r2_p: 'PLANNER — มองโครงสร้างโดยรวมและลำดับความสำคัญของงานที่ต้องทำ',
+    nv_transfer_r3_h: 'HISTORY — ปรับแผนหลังเห็นหลักฐานใหม่',
+    nv_transfer_r3_p: 'PLANNER — ตัดสินใจการกระทำถัดไปใหม่เมื่อกำหนดการล่าช้า',
+    nv_transfer_r4_h: 'HISTORY — ทบทวนเหตุผลของการตัดสินใจของตนเอง',
+    nv_transfer_r4_p: 'PLANNER — เปรียบเทียบสิ่งที่คาดไว้กับความจริงเพื่อปรับกลยุทธ์ของตนเอง',
+    nv_cl_title: 'ค่ายด้านอาชีพและสายงานที่ปรับให้เข้ากับลักษณะทางปัญญา',
+    nv_cl_lede: 'สะท้อนวิธีที่นักเรียนเข้าใจข้อมูล ตัดสินใจ และลงมือทำ ไว้ในบทเรียน ผลการประเมินจะกลายเป็นรูปแบบกิจกรรม และบันทึกประสบการณ์จะนำไปสู่การปฏิบัติขั้นต่อไป',
+    nv_cl_i1_tag: 'ค่ายอาชีพสำหรับนักเรียนมัธยม',
+    nv_cl_i1_h: 'สัมผัสประสบการณ์ในสาขาที่สนใจด้วยตนเอง และค้นหาวิธีสำรวจที่เหมาะกับตนเอง',
+    nv_cl_i1_p: 'แผนที่ความสนใจ · เปรียบเทียบสาขา · แผนสำรวจขั้นต่อไป',
+    nv_cl_i1_out: '→ เชื่อมโยงเป็นงานสำรวจต่อเนื่องใน PLANNER',
+    nv_cl_i2_tag: 'ค่ายฝึกปฏิบัติตามสาขาสำหรับนักศึกษา',
+    nv_cl_i2_h: 'ลงมือทำงานที่เกี่ยวข้องกับสาขาวิชาของตน และยืนยันจุดแข็งและการสนับสนุนที่จำเป็น',
+    nv_cl_i2_p: 'ผลงานด้านสายงาน · หลักฐานการปฏิบัติ · แฟ้มสะสมผลงาน',
+    nv_cl_i2_out: '→ เชื่อมโยงเป็นการจัดระเบียบแฟ้มสะสมผลงานใน PLANNER',
+    nv_cl_demo_h: 'DEMO · การจำลองงานตามสาขาและหน้าจอ PLANNER ส่วนตัว',
+    nv_cl_demo_desc: 'เดโมที่แนะนำตั้งแต่การเลือกงาน การวิเคราะห์เอกสาร การผลัดเปลี่ยนบทบาท และสิ่งที่ต้องทำส่วนตัว ในหน้าจอเดียว (ตัวอย่าง: สาขาความปลอดภัยการบิน · โครงการงานด้านความปลอดภัย)',
+    nv_cl_demo_cap: 'หน้าจอจริงของ NUVIA CAREER LAB · Security Career Studio · เดโมสำหรับนักศึกษา',
+    nv_cl_diff_h: 'คุณค่าที่เพิ่มเติมจากบทเรียนอาชีพ·สายงานที่มีอยู่เดิม',
+    nv_cl_diff_desc: 'ผสานข้อมูลอาชีพและประสบการณ์จริงเข้ากับการสนับสนุนที่ปรับตามปัญญาและการลงมือทำต่อเนื่อง คอลัมน์ด้านซ้ายเป็นรูปแบบการดำเนินงานทั่วไปสำหรับเปรียบเทียบ ไม่ใช่ผลสำรวจคู่แข่งทั้งหมด',
+    nv_cl_diff_th1: 'หัวข้อเปรียบเทียบ',
+    nv_cl_diff_th2: 'การดำเนินงานแบบบรรยาย·ประสบการณ์ร่วม',
+    nv_cl_diff_th3: 'การออกแบบของ NUVIA CAREER LAB',
+    nv_cl_diff_r1_c1: 'ความเข้าใจรายบุคคล',
+    nv_cl_diff_r1_c2: 'เน้นความสนใจ·ความปรารถนาและการให้คำปรึกษาผลลัพธ์',
+    nv_cl_diff_r1_c3: 'ลักษณะทางปัญญา + ความสนใจ·ประสบการณ์ + ผลการปฏิบัติระหว่างกิจกรรม',
+    nv_cl_diff_r2_c1: 'รูปแบบประสบการณ์',
+    nv_cl_diff_r2_c2: 'ทำเอกสารและลำดับเดียวกันร่วมกัน',
+    nv_cl_diff_r2_c3: 'ปรับเอกสาร·ลำดับ·การสนับสนุนภายใต้เป้าหมายร่วมกัน',
+    nv_cl_diff_r3_c1: 'บทบาทผู้สอน',
+    nv_cl_diff_r3_c2: 'ตัดสินใจสนับสนุนรายบุคคลหน้างานเอง',
+    nv_cl_diff_r3_c3: 'มีแผนการสอนมาตรฐาน · คำแนะนำรายบุคคล · เกณฑ์การแทรกแซง',
+    nv_cl_diff_r4_c1: 'ผลลัพธ์ที่เหลืออยู่',
+    nv_cl_diff_r4_c2: 'ความประทับใจในกิจกรรมและประวัติการเข้าร่วม',
+    nv_cl_diff_r4_c3: 'หลักฐานการปฏิบัติรายบุคคลและผลงานด้านอาชีพ·การสำรวจ',
+    nv_cl_diff_r5_c1: 'หลังค่าย',
+    nv_cl_diff_r5_c2: 'ขึ้นอยู่กับว่ามีกิจกรรมต่อเนื่องแยกต่างหากหรือไม่',
+    nv_cl_diff_r5_c3: 'เชื่อมโยงการกระทำถัดไปและการทบทวนใน PLANNER',
+    nv_cl_age_h: 'ความแตกต่างของกิจกรรมจริงระหว่างมัธยมต้น·มัธยมปลาย·นักศึกษา',
+    nv_cl_age_desc: 'จัดคำถามในการสำรวจ ความรับผิดชอบในกิจกรรม และผลงาน แตกต่างกันตามระดับชั้น แม้หัวข้อร่วมกันก็ออกแบบความเปิดกว้างของปัญหา ความซับซ้อนของเอกสาร บทบาท และผลงานแตกต่างกัน',
+    nv_cl_age_th1: 'ประเภท',
+    nv_cl_age_th2: 'คำถามเริ่มต้น',
+    nv_cl_age_th3: 'ตัวอย่างประสบการณ์',
+    nv_cl_age_th4: 'ผลลัพธ์รายบุคคล',
+    nv_cl_age_r1_c1: 'มัธยมต้น · การค้นพบอาชีพ',
+    nv_cl_age_r1_c2: 'งานแบบไหนที่น่าสนใจนะ?',
+    nv_cl_age_r1_c3: 'สร้างป้ายบอกทางสำหรับกิจกรรมโรงเรียน',
+    nv_cl_age_r1_c4: 'การ์ดความสนใจและคำถามสำรวจ',
+    nv_cl_age_r2_c1: 'มัธยมปลาย · การวางแผนอาชีพ',
+    nv_cl_age_r2_c2: 'ควรศึกษาสาขาไหนเพิ่มเติม?',
+    nv_cl_age_r2_c3: 'เปรียบเทียบแนวทางปรับปรุงการเข้าถึงกิจกรรม',
+    nv_cl_age_r2_c4: 'เหตุผลเปรียบเทียบสาขาและแผนเตรียมตัว',
+    nv_cl_age_r3_c1: 'นักศึกษา · การปฏิบัติงานจริง',
+    nv_cl_age_r3_c2: 'จะแก้ปัญหางานนี้อย่างไร?',
+    nv_cl_age_r3_c3: 'ออกแบบแผนการดำเนินงานห้องโถงขาออกจำลอง',
+    nv_cl_age_r3_c4: 'หลักฐานการปฏิบัติและแฟ้มสะสมผลงาน',
+    nv_cl_dept_h: 'ตัวอย่างงานตามสาขา — สาขาความปลอดภัยการบิน',
+    nv_cl_dept_desc: 'โครงการจำลองเพื่อการศึกษา ออกแบบการดูแลผู้โดยสารและสนับสนุนการดำเนินงานในสถานการณ์ความแออัดของห้องโถงขาออก (ผังพื้นที่ 3 โซน + เอกสารสถานการณ์ 3 ฉบับ + เจ้าหน้าที่สนับสนุน 4 คน + ป้าย 2 ป้าย)',
+    nv_cl_dept_s1_task: 'ทำความเข้าใจสถานการณ์ — ดูเอกสารแล้วเลือก 2 โซนที่ต้องจัดการก่อน',
+    nv_cl_dept_s1_out: 'ปัญหาที่เลือกและเหตุผล',
+    nv_cl_dept_s2_task: 'จัดทำร่าง — จัดวางเจ้าหน้าที่สนับสนุน·ป้าย และตัดสินลำดับการดำเนินงาน',
+    nv_cl_dept_s2_out: 'ผังพื้นที่และ 3 ขั้นตอนการดำเนินงาน',
+    nv_cl_dept_s3_task: 'ผลัดเปลี่ยนบทบาท — ปรับแผนการดำเนินงานภายใต้เงื่อนไขเจ้าหน้าที่ลดลง 1 คน',
+    nv_cl_dept_s3_out: 'บันทึกการส่งมอบงานและเหตุผลการเปลี่ยนแปลง',
+    nv_cl_dept_s4_task: 'ทบทวน · นำเสนอ — ตรวจสอบเงื่อนไขแล้วอธิบายทางเลือกและเหตุผลในการตัดสินใจ',
+    nv_cl_dept_s4_out: 'แผนสุดท้ายของทีม + บันทึกการมีส่วนร่วมรายบุคคล',
+    nv_cl_dept_foot: 'ปฏิบัติตามปริมาณทรัพยากรทั้งหมด · รักษาทางเดิน · คงขั้นตอนการตรวจสอบความปลอดภัย ไม่ใช่การฝึกตรวจสอบความปลอดภัยจริงหรือข้อบังคับการดำเนินงานสนามบินจริง',
+    nv_cl_deptx_h: 'สาขาต่างกัน งานและผลงานก็ต่างกัน',
+    nv_cl_deptx_desc: 'ใช้โครงสร้างการดำเนินงานร่วมกัน แต่เอกสารงานและเกณฑ์การประเมินตามแต่ละสาขาจะพิจารณาแยกต่างหาก รายการด้านล่างเป็นตัวอย่างที่อยู่ระหว่างการพัฒนา ขอบเขตการให้บริการจะยืนยันหลังผู้เชี่ยวชาญในสาขาตรวจสอบ',
+    nv_cl_deptx_th1: 'ตัวอย่างสาขา',
+    nv_cl_deptx_th2: 'โครงการงานที่เป็นตัวเลือก',
+    nv_cl_deptx_th3: 'ผลงานหลัก',
+    nv_cl_deptx_r1_c1: 'บริหารธุรกิจ · การตลาด',
+    nv_cl_deptx_r1_c2: 'ปรับปรุงประสบการณ์ลูกค้าของธุรกิจขนาดเล็กจำลอง',
+    nv_cl_deptx_r1_c3: 'ปัญหาลูกค้า · เปรียบเทียบทางเลือก · แผนดำเนินการ',
+    nv_cl_deptx_r2_c1: 'การท่องเที่ยว · โรงแรม',
+    nv_cl_deptx_r2_c2: 'เส้นทางเคลื่อนไหวของกลุ่มลูกค้าและการตอบข้อซักถาม',
+    nv_cl_deptx_r2_c3: 'แผนการให้ข้อมูล · ลำดับการบริการ',
+    nv_cl_deptx_r3_c1: 'คอมพิวเตอร์ · ซอฟต์แวร์',
+    nv_cl_deptx_r3_c2: 'ต้นแบบการปรับปรุงบริการในมหาวิทยาลัย',
+    nv_cl_deptx_r3_c3: 'ลำดับความสำคัญของฟีเจอร์ · ต้นแบบ · บันทึกการตรวจสอบ',
+    nv_cl_deptx_r4_c1: 'การออกแบบ',
+    nv_cl_deptx_r4_c2: 'ปรับปรุงป้ายบอกทางในมหาวิทยาลัย',
+    nv_cl_deptx_r4_c3: 'ร่างแบบ · ตรวจสอบการใช้งาน · เหตุผลการแก้ไข',
+    nv_cl_deptx_r5_c1: 'สังคมสงเคราะห์',
+    nv_cl_deptx_r5_c2: 'เชื่อมโยงบริการสนับสนุนผู้ใช้จำลอง',
+    nv_cl_deptx_r5_c3: 'เปรียบเทียบทรัพยากร · ลำดับการเชื่อมโยง',
+    nv_cl_deptx_r6_c1: 'พยาบาล · สาธารณสุข / การศึกษาปฐมวัย',
+    nv_cl_deptx_r6_c2: 'เอกสารแนะนำการออกจากโรงพยาบาล / แผนการดำเนินกิจกรรมการศึกษา',
+    nv_cl_deptx_r6_c3: 'เอกสารอธิบายที่เข้าใจง่าย / แผนสนับสนุนกิจกรรม·การมีส่วนร่วม',
+    nv_cl_camp_h: 'การดำเนินค่าย — กลุ่มผสมและการผลัดเปลี่ยนบทบาท',
+    nv_cl_camp_desc: 'ตัวอย่างนำร่องมหาวิทยาลัย: 30 คน · 6 กลุ่ม · ทีมละ 5 คน · 180 นาที การประเมินล่วงหน้าและติดตามผล 2 สัปดาห์หลังจากนั้นดำเนินการแยกต่างหาก จัดกลุ่มโดยผสมลักษณะทางปัญญาและประสบการณ์ที่แตกต่างกัน บทบาทไม่ถูกกำหนดตายตัวด้วยคะแนน',
+    nv_cl_camp_r1_act: 'ทำความเข้าใจสถานการณ์ · เป้าหมายส่วนตัว · เลือกบทบาทแรก',
+    nv_cl_camp_r1_rule: 'สะท้อนความสนใจ · ประสบการณ์ · บทบาทที่ต้องการ',
+    nv_cl_camp_r2_act: 'วิเคราะห์เอกสาร · ร่าง · ตรวจสอบระหว่างกลาง',
+    nv_cl_camp_r2_rule: 'แต่ละคนเก็บหลักฐานการปฏิบัติส่วนตัวไว้',
+    nv_cl_camp_r3_act: 'ผลัดเปลี่ยนบทบาท · รับมือเงื่อนไขใหม่ · แผนสุดท้าย',
+    nv_cl_camp_r3_rule: 'ผลัดเปลี่ยนและส่งมอบงานอย่างน้อยหนึ่งครั้ง',
+    nv_cl_camp_r4_act: 'นำเสนอทีม · รับฟีดแบ็ก · แผนต่อเนื่องส่วนบุคคล',
+    nv_cl_camp_r4_rule: 'แยกผลลัพธ์ของทีมและการมีส่วนร่วมส่วนบุคคล',
+    nv_cl_pc_h: 'PLANNER ที่ทำให้ประสบการณ์ค่ายต่อยอดสู่การปฏิบัติขั้นต่อไป',
+    nv_cl_pc_desc: 'เชื่อมโยงงานของทีมเป็นสิ่งที่ต้องทำส่วนตัว นักเรียนเขียน·แก้ไขแผนด้วยตนเอง คะแนนส่วนตัวและบันทึกที่ไม่เปิดเผยจะไม่ถูกแชร์กับทีม',
+    nv_cl_pc_th1: 'ช่วงเวลา',
+    nv_cl_pc_th2: 'พฤติกรรมของนักเรียน',
+    nv_cl_pc_th3: 'การสนับสนุนที่ปรับตามลักษณะทางปัญญา',
+    nv_cl_pc_r1_c1: 'เริ่มกิจกรรม',
+    nv_cl_pc_r1_c2: 'เขียนเป้าหมายของบทบาท · การกระทำแรก · กำหนดเวลาของตนเอง',
+    nv_cl_pc_r1_c3: 'เลือกการแบ่งย่อยงานหรือกระดานแผนเปล่า',
+    nv_cl_pc_r2_c1: 'ปฏิบัติ · ผลัดเปลี่ยน',
+    nv_cl_pc_r2_c2: 'ทำสิ่งที่ต้องทำตอนนี้แล้วแชร์หลักฐาน · ส่งมอบงาน',
+    nv_cl_pc_r2_c3: 'คำแนะนำขั้นตอนปัจจุบัน · ลำดับ · เครื่องมือด้านความสัมพันธ์',
+    nv_cl_pc_r3_c1: 'ปิดค่าย',
+    nv_cl_pc_r3_c2: 'เลือกวิธีที่เป็นประโยชน์และการกระทำถัดไป',
+    nv_cl_pc_r3_c3: 'คำถามทบทวน · ตัวอย่างการกระทำที่เป็นรูปธรรม',
+    nv_cl_pc_r4_c1: '2 สัปดาห์หลังจากนั้น',
+    nv_cl_pc_r4_c2: 'ลงมือทำงานสำรวจ·เรียนรู้ที่เลือกไว้ · ทบทวนรายสัปดาห์',
+    nv_cl_pc_r4_c3: 'สนับสนุนการเริ่มการกระทำใหม่และตรวจสอบความคืบหน้า',
+    nv_cl_pc_foot: 'มัธยมต้นต่อยอดเป็นประสบการณ์การสังเกต มัธยมปลายต่อยอดเป็นการเปรียบเทียบสาขา นักศึกษาต่อยอดเป็นการเสริมทักษะงานและแฟ้มสะสมผลงาน การปฏิบัติต่อเนื่องดำเนินไปในแบบของแต่ละระดับ',
+    nv_verify_h: 'ยืนยันด้วยบันทึกว่าการถ่ายโอนเกิดขึ้นจริงหรือไม่',
+    nv_verify_sub: 'โปรไฟล์การประเมินใช้เป็นข้อมูลพื้นฐาน บันทึกโปรแกรมใช้เป็นหลักฐานของการเปลี่ยนแปลง บันทึกเพียงอย่างเดียวไม่ได้พิสูจน์ผลเชิงสาเหตุของการถ่ายโอน และการประเมิน·ผลการเรียน·ความพึงพอใจจะไม่ถูกรวมเป็นคะแนนรวมเดียว',
+    nv_verify_th1: 'ประเภท',
+    nv_verify_th2: 'สิ่งที่ตรวจสอบ',
+    nv_verify_th3: 'ขอบเขตการตีความ',
+    nv_verify_r1_c2: 'วันที่ประเมินล่าสุด · องค์ประกอบ PASS 4 ด้าน · รายงานผล',
+    nv_verify_r1_c3: 'ผลการประเมินที่เป็นมาตรฐาน',
+    nv_verify_r2_c2: 'ความแม่นยำ · เวลา · ข้อผิดพลาด · การใช้ความช่วยเหลือ',
+    nv_verify_r2_c3: 'การเปลี่ยนแปลงผลการปฏิบัติภายในการฝึก',
+    nv_verify_r3_c2: 'การใช้หลักฐาน · การทบทวนใหม่ · การนำไปใช้กับกรณีใหม่',
+    nv_verify_r3_c3: 'ความเข้าใจประวัติศาสตร์และการปฏิบัติกลยุทธ์การคิด',
+    nv_verify_r4_c2: 'การปฏิบัติตามบทบาท · เหตุผลการแก้ไข · ผลงานส่วนบุคคล/ทีม',
+    nv_verify_r4_c3: 'การปฏิบัติในการสำรวจอาชีพและประสบการณ์งาน',
+    nv_verify_r5_c2: 'การแก้ไขแผน · การปฏิบัติ · การทบทวน · การใช้อย่างอิสระ',
+    nv_verify_r5_c3: 'ประสบการณ์การจัดการตนเองและการปฏิบัติต่อเนื่อง',
+    nv_age_h: 'โครงสร้างโปรแกรมที่เหมาะกับอายุและวัตถุประสงค์',
+    nv_age_sub: 'การประเมินยึดตามอายุจริง ส่วนโปรแกรมเลือกตามระดับชั้น·พัฒนาการและวัตถุประสงค์ HISTORY เป็นตัวเลือกเสริม',
+    nv_age_th1: 'กลุ่มเป้าหมาย',
+    nv_age_th2: 'โปรแกรมหลัก',
+    nv_age_th3: 'จุดเน้นการสนับสนุน',
+    nv_age_r1_c1: 'ก่อนวัยเรียน~ป.3',
+    nv_age_r1_c3: 'การเล่น · ปัญญาพื้นฐาน · ความเข้าใจเรื่องราว',
+    nv_age_r2_c1: 'ป.4~6',
+    nv_age_r2_c2: 'HISTORY + PLANNER เพิ่ม KIDS ตามความจำเป็น',
+    nv_age_r2_c3: 'พื้นฐานกลยุทธ์การคิด · การจัดการตนเอง',
+    nv_age_r3_c1: 'มัธยมต้น · มัธยมปลาย',
+    nv_age_r3_c2: 'CAREER LAB (สายอาชีพ) + PLANNER',
+    nv_age_r3_c3: 'ค้นพบความสนใจ · เปรียบเทียบสาขา · ปฏิบัติการสำรวจ',
+    nv_age_r4_c1: 'นักศึกษา',
+    nv_age_r4_c2: 'CAREER LAB (สายงาน) + PLANNER',
+    nv_age_r4_c3: 'งานตามสาขา · โครงการ · การจัดการตนเอง',
+    nv_age_foot: 'K-PASS ใช้ถึงอายุ 13 ปี D-CAS ตั้งแต่อายุ 14 ปีขึ้นไป ผู้ใหญ่ใช้ HISTORY·PLANNER ตามวัตถุประสงค์',
+});
+Object.assign(window.LANG.vi, {
+    nv_title: 'Bắt đầu từ bài kiểm tra<br>NUVIA đồng hành cùng sự trưởng thành mỗi ngày',
+    nv_lede: 'Chúng tôi kết nối các đặc điểm nhận thức được phát hiện qua K-PASS·D-CAS với luyện tập lặp lại trong KIDS, ứng dụng tư duy trong HISTORY, trải nghiệm hướng nghiệp trong CAREER LAB, và thực hành đời sống trong PLANNER. MY NUVIA ghi lại để xác nhận sự thay đổi đó có thực sự xảy ra hay không.',
+    nv_step1_num: '01 Kiểm tra · Khám phá',
+    nv_step1_p: 'Xác định đặc điểm nhận thức hiện tại cùng điểm mạnh và lĩnh vực cần hỗ trợ.',
+    nv_step2_num: '02 NUVIA · Trải nghiệm',
+    nv_step2_h: 'Luyện tập nhận thức · Tư duy · Hướng nghiệp',
+    nv_step2_p: 'Kết nối luyện tập nhận thức, hoạt động tư duy và trải nghiệm hướng nghiệp với thực hành trong PLANNER.',
+    nv_step3_num: '03 MY NUVIA · Xác nhận trưởng thành',
+    nv_step3_h: 'Bản ghi sự thay đổi',
+    nv_step3_p: 'Theo dõi thay đổi trong hiệu suất, việc sử dụng chiến lược và khả năng áp dụng độc lập.',
+    nv_why_h: 'Cần xác nhận hiệu quả luyện tập nhận thức trên cả những nhiệm vụ khác',
+    nv_why_sub: 'Cần xác nhận riêng biệt giữa sự cải thiện ở nhiệm vụ đã luyện tập và việc vận dụng vào nhiệm vụ khác hay đời sống hằng ngày. NUVIA được thiết kế để cung cấp cả bối cảnh áp dụng chiến lược lẫn bản ghi hiệu suất.',
+    nv_why1_h: 'Cải thiện hiệu suất ở nhiệm vụ đã luyện tập',
+    nv_why1_p: 'Các tổng quan về luyện tập nhận thức cho thấy bằng chứng phong phú về việc hiệu suất ở nhiệm vụ đã luyện tập được cải thiện. Sự thay đổi bên trong quá trình luyện tập là bước đầu tiên cần xác nhận.',
+    nv_why2_h: 'Xác nhận việc áp dụng vào nhiệm vụ khác · đời sống hằng ngày',
+    nv_why2_p: 'Cũng trong tổng quan đó, bằng chứng về việc chuyển giao sang nhiệm vụ gần lại ít hơn, và bằng chứng về cải thiện hiệu suất nhận thức hằng ngày hoặc nhiệm vụ xa hơn còn hạn chế.',
+    nv_why3_h: 'Thiết kế trải nghiệm tiếp nối của NUVIA',
+    nv_why3_p: 'Được thiết kế để chiến lược được tái sử dụng trong HISTORY·CAREER LAB, và được thực hiện thành hành động thực tế trong PLANNER. Hiệu quả của sự kết nối này sẽ được xác minh riêng.',
+    nv_bridge_h: 'Cây cầu chuyển giao mà FeelGood thiết kế',
+    nv_bridge_sub: 'Chiến lược tư duy được áp dụng trong HISTORY và CAREER LAB, được thực hiện thành hành động thực tế trong PLANNER, và MY NUVIA xác nhận sự thay đổi trong việc sử dụng chiến lược và hiệu suất độc lập.',
+    nv_bridge1_problem: 'Hoạt động rèn luyện chiến lược cơ bản',
+    nv_bridge1_solution: '<b>KIDS</b> — Luyện tập lập kế hoạch, chú ý, xử lý đồng thời và xử lý tuần tự qua các hoạt động ngắn, có thể lặp lại. Phát huy điểm mạnh và hỗ trợ lĩnh vực cần thiết.',
+    nv_bridge2_problem: 'Hoạt động áp dụng vào tình huống khác',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — Áp dụng chiến lược vào phán đoán lịch sử và các dự án hướng nghiệp, điều chỉnh tài liệu, trình tự hoạt động và hỗ trợ dưới một mục tiêu chung.',
+    nv_bridge3_problem: 'Bản ghi xác nhận hành động thực tế',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — Áp dụng chiến lược vào dự án và nhiệm vụ đời sống thực tế, ghi lại sự hỗ trợ đã dùng, việc điều chỉnh kế hoạch và hiệu suất thực hiện độc lập.',
+    nv_bridge_note: 'Đây là thiết kế nhằm xác nhận khả năng chuyển giao. Hiệu quả sẽ được xác minh riêng qua vận hành thí điểm và các nghiên cứu tiếp theo.',
+    nv_prod_h: 'Vai trò và sự kết nối của các sản phẩm trong chuỗi NUVIA',
+    nv_prod_sub: 'Chọn chương trình phù hợp với độ tuổi và mục đích; các trại hè được kết nối ưu tiên với PLANNER.',
+    nv_prod_th1: 'Chương trình',
+    nv_prod_th2: 'Trải nghiệm cốt lõi',
+    nv_prod_th3: 'Đối tượng · Mục đích chính',
+    nv_prod_r1_c2: 'Luyện tập quá trình nhận thức cơ bản qua trò chơi',
+    nv_prod_r1_c3: 'Tập trung vào mầm non · tiểu học',
+    nv_prod_r2_c2: 'So sánh bằng chứng và đưa ra phán đoán qua tư liệu lịch sử',
+    nv_prod_r2_c3: 'Hoạt động tư duy theo độ tuổi',
+    nv_prod_r3_c2: 'Lập kế hoạch, thực hiện · nhìn lại',
+    nv_prod_r3_c3: 'Từ lớp 4 đến sinh viên đại học · người trưởng thành',
+    nv_prod_r4_c2: 'Dự án hướng nghiệp phản ánh đặc điểm nhận thức',
+    nv_prod_r4_c3: 'Khám phá hướng nghiệp cho THCS/THPT / Thực hành nghề theo chuyên ngành cho sinh viên',
+    nv_prod_r5_c2: 'Xác nhận bản ghi hiệu suất và hỗ trợ tiếp theo',
+    nv_prod_r5_c3: 'Người dùng và người hỗ trợ được ủy quyền',
+    nv_prod_foot: 'Cấu trúc cơ bản của trại đại học là D-CAS + CAREER LAB + PLANNER. HISTORY là liên kết tùy chọn.',
+    nv_kids_h: 'Luyện tập nhận thức cá nhân hóa',
+    nv_kids_sub: 'Khoảng 10 phút mỗi ngày với hoạt động dạng trò chơi để luyện tập lập kế hoạch, chú ý, xử lý đồng thời và xử lý tuần tự.',
+    nv_kids_cap: 'Màn hình thực tế NUVIA KIDS · Bản đồ chặng Đường hầm Ánh sao / Vùng Thiên thạch',
+    nv_kids_f1_label: 'Luyện tập gì',
+    nv_kids_f1_val: 'Phát huy điểm mạnh và luyện tập lặp lại lĩnh vực nhận thức cần hỗ trợ.',
+    nv_kids_f2_label: 'Tham gia như thế nào',
+    nv_kids_f2_val: 'Hoạt động ngắn với thao tác và hướng dẫn phù hợp độ tuổi, có thể tiếp tục từ nơi dừng lại.',
+    nv_kids_f3_label: 'Xác nhận điều gì',
+    nv_kids_f3_val: 'Xem xét độ chính xác, thời gian phản ứng, lỗi sai, việc sử dụng hỗ trợ và thay đổi chiến lược.',
+    nv_kids_foot: 'Được thiết kế dựa trên thư viện 400 hoạt động luyện tập. Nội dung thực tế và phạm vi vận hành theo độ tuổi sẽ được xác nhận khi triển khai.',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — Được thiết kế để chiến lược đã học được tái sử dụng trong hoạt động tư duy của HISTORY và các nhiệm vụ hằng ngày.',
+    nv_history_h: 'Luyện tập tư duy dựa trên lịch sử',
+    nv_history_sub: 'Lựa chọn, xem xét bằng chứng và trau chuốt phán đoán trong những câu chuyện và tư liệu lịch sử thế giới.',
+    nv_history_cap: 'Màn hình thực tế NUVIA HISTORY · Lịch sử thế giới tuần 3 "Bảng khai phá sông Nile" · mức độ chơi cấp THPT',
+    nv_history_th1: 'Đối tượng',
+    nv_history_th2: 'Tư liệu',
+    nv_history_th3: 'Hoạt động tư duy',
+    nv_history_r1_c1: 'Mầm non 5–7 tuổi',
+    nv_history_r1_c2: 'Cảnh ngắn · hình vẽ · âm thanh',
+    nv_history_r1_c3: 'Khám phá · lắp ráp · so sánh kết quả lựa chọn',
+    nv_history_r2_c1: 'Lớp 1–5 / Lớp 6–9',
+    nv_history_r2_c2: 'Câu văn · manh mối / nhiều tư liệu · góc nhìn',
+    nv_history_r2_c3: 'Vai trò · trình tự · kế hoạch / kết nối phương án thay thế và bằng chứng',
+    nv_history_r3_c1: 'Lớp 10–12 / đại học · người trưởng thành',
+    nv_history_r3_c2: 'Tư liệu mâu thuẫn / trường hợp nhân văn · tổ chức',
+    nv_history_r3_c3: 'Giả thuyết thay thế · lập luận / áp dụng tiêu chí phán đoán',
+    nv_history_foot: 'Ưu tiên xây dựng lịch sử thế giới, lịch sử Hàn Quốc mở rộng ở giai đoạn hai. Hồ sơ hiển thị trên màn hình là điểm số mẫu cho mục đích trải nghiệm.',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — Việc so sánh tư liệu và xây dựng căn cứ phán đoán được vận dụng vào trải nghiệm hướng nghiệp (CAREER LAB) và kết nối với hành động tiếp theo trong PLANNER.',
+    nv_planner_h: 'Tự quản lý dựa trên siêu nhận thức',
+    nv_planner_sub: 'Từ lớp 4 đến người trưởng thành, khám phá mẫu hình thực hiện của bản thân và áp dụng chiến lược vào đời sống thực tế.',
+    nv_planner_cap: 'Màn hình thực tế NUVIA PLANNER · Hồ sơ A lớp 4–6 · Hôm nay · Xây dựng kế hoạch',
+    nv_planner_th1: 'Lĩnh vực',
+    nv_planner_th2: 'Chiến lược thực hiện hằng ngày',
+    nv_planner_r1_c2: 'Chọn thứ tự ưu tiên · chia nhỏ nhiệm vụ',
+    nv_planner_r2_c2: 'Một hành động đầu tiên rất nhỏ',
+    nv_planner_r3_c2: 'Khoảng thời gian tập trung · điều chỉnh yếu tố gây xao nhãng',
+    nv_planner_r4_c2: 'So sánh dự kiến với thực tế · thời gian dự phòng',
+    nv_planner_r5_c2: 'Đặt lại · hành động tiếp theo có thể thực hiện',
+    nv_planner_r6_c2: 'Phát hiện mẫu hình · điều chỉnh chiến lược',
+    nv_planner_foot: 'Nhiệm vụ trại hè cũng được kết nối thành việc cần làm cá nhân. Được thiết kế để rèn luyện khả năng tự lập kế hoạch và thực hiện. Hồ sơ A·B trên màn hình là ví dụ trải nghiệm.',
+    nv_transfer_h: 'HISTORY và PLANNER được kết nối bằng chiến lược',
+    nv_transfer_sub: 'Đây là ví dụ thiết kế kết nối phương pháp đã dùng trong hoạt động tư duy với đời sống thực tế. Điểm số · cấp độ của hai sản phẩm không được gộp lại — điều được kết nối là chiến lược, cách hỗ trợ và bối cảnh áp dụng thực tế.',
+    nv_transfer_r1_h: 'HISTORY — Chia sự kiện thành từng giai đoạn để hiểu',
+    nv_transfer_r1_p: 'PLANNER — Chia việc chuẩn bị thuyết trình thành nghiên cứu · xây dựng · luyện tập',
+    nv_transfer_r2_h: 'HISTORY — So sánh mối quan hệ giữa nhiều tư liệu cùng lúc',
+    nv_transfer_r2_p: 'PLANNER — Nhìn tổng thể cấu trúc và thứ tự ưu tiên của các nhiệm vụ cần làm',
+    nv_transfer_r3_h: 'HISTORY — Điều chỉnh kế hoạch sau khi thấy bằng chứng mới',
+    nv_transfer_r3_p: 'PLANNER — Quyết định lại hành động tiếp theo khi lịch trình bị trễ',
+    nv_transfer_r4_h: 'HISTORY — Nhìn lại lý do của phán đoán bản thân',
+    nv_transfer_r4_p: 'PLANNER — So sánh dự kiến với thực tế để điều chỉnh chiến lược của mình',
+    nv_cl_title: 'Trại hướng nghiệp phù hợp với đặc điểm nhận thức',
+    nv_cl_lede: 'Cách học sinh hiểu thông tin, phán đoán và hành động cũng được phản ánh vào bài học. Kết quả kiểm tra chuyển thành cách hoạt động, và bản ghi trải nghiệm nối tiếp thành thực hành tiếp theo.',
+    nv_cl_i1_tag: 'Trại hướng nghiệp cho học sinh THCS/THPT',
+    nv_cl_i1_h: 'Trực tiếp trải nghiệm lĩnh vực quan tâm và tìm phương pháp khám phá phù hợp với bản thân.',
+    nv_cl_i1_p: 'Bản đồ quan tâm · so sánh lĩnh vực · kế hoạch khám phá tiếp theo',
+    nv_cl_i1_out: '→ Kết nối thành nhiệm vụ khám phá tiếp theo trong PLANNER',
+    nv_cl_i2_tag: 'Trại thực hành nghề theo chuyên ngành cho sinh viên',
+    nv_cl_i2_h: 'Thực hiện nhiệm vụ công việc gắn với chuyên ngành, xác nhận điểm mạnh của bản thân và hỗ trợ cần thiết.',
+    nv_cl_i2_p: 'Sản phẩm công việc · căn cứ thực hiện · hồ sơ năng lực',
+    nv_cl_i2_out: '→ Kết nối thành việc chỉnh sửa hồ sơ năng lực trong PLANNER',
+    nv_cl_demo_h: 'DEMO · Trải nghiệm nghề theo chuyên ngành và màn hình PLANNER cá nhân',
+    nv_cl_demo_desc: 'Đây là bản demo hướng dẫn từ lựa chọn công việc, phân tích tư liệu, luân phiên vai trò đến việc cần làm cá nhân trên cùng một màn hình. (Ví dụ: ngành An ninh Hàng không · dự án nghiệp vụ an ninh)',
+    nv_cl_demo_cap: 'Màn hình thực tế NUVIA CAREER LAB · Security Career Studio · bản demo dành cho sinh viên',
+    nv_cl_diff_h: 'Giá trị bổ sung cho các lớp hướng nghiệp hiện có',
+    nv_cl_diff_desc: 'Kết hợp thông tin nghề nghiệp và trải nghiệm thực tế với sự hỗ trợ phù hợp nhận thức và việc thực hành tiếp theo. Cột bên trái là kiểu vận hành dùng để so sánh, không phải kết quả khảo sát toàn diện đối thủ.',
+    nv_cl_diff_th1: 'Mục so sánh',
+    nv_cl_diff_th2: 'Vận hành trọng tâm trải nghiệm chung',
+    nv_cl_diff_th3: 'Thiết kế của NUVIA CAREER LAB',
+    nv_cl_diff_r1_c1: 'Hiểu cá nhân',
+    nv_cl_diff_r1_c2: 'Tập trung vào sở thích · nguyện vọng và tư vấn kết quả',
+    nv_cl_diff_r1_c3: 'Đặc điểm nhận thức + sở thích · kinh nghiệm + hiệu suất trong hoạt động',
+    nv_cl_diff_r2_c1: 'Hình thức trải nghiệm',
+    nv_cl_diff_r2_c2: 'Cùng thực hiện tư liệu và trình tự giống nhau',
+    nv_cl_diff_r2_c3: 'Điều chỉnh tư liệu · trình tự · hỗ trợ dưới mục tiêu chung',
+    nv_cl_diff_r3_c1: 'Vai trò giảng viên',
+    nv_cl_diff_r3_c2: 'Tự phán đoán hỗ trợ riêng lẻ tại hiện trường',
+    nv_cl_diff_r3_c3: 'Cung cấp giáo án chuẩn · hướng dẫn riêng · tiêu chí can thiệp',
+    nv_cl_diff_r4_c1: 'Kết quả còn lại',
+    nv_cl_diff_r4_c2: 'Cảm nhận hoạt động và lịch sử trải nghiệm',
+    nv_cl_diff_r4_c3: 'Căn cứ thực hiện cá nhân và sản phẩm nghề nghiệp · khám phá',
+    nv_cl_diff_r5_c1: 'Sau trại',
+    nv_cl_diff_r5_c2: 'Tùy thuộc có hoạt động tiếp theo riêng hay không',
+    nv_cl_diff_r5_c3: 'Kết nối hành động tiếp theo và nhìn lại trong PLANNER',
+    nv_cl_age_h: 'Sự khác biệt hoạt động thực tế giữa THCS · THPT · sinh viên',
+    nv_cl_age_desc: 'Câu hỏi khám phá, trách nhiệm hoạt động và sản phẩm được cấu trúc khác nhau tùy theo cấp học. Ngay cả chủ đề chung cũng được thiết kế khác nhau về độ mở của vấn đề, độ phức tạp của tư liệu, vai trò và sản phẩm.',
+    nv_cl_age_th1: 'Phân loại',
+    nv_cl_age_th2: 'Câu hỏi khởi đầu',
+    nv_cl_age_th3: 'Ví dụ trải nghiệm',
+    nv_cl_age_th4: 'Kết quả cá nhân',
+    nv_cl_age_r1_c1: 'THCS · Khám phá hướng nghiệp',
+    nv_cl_age_r1_c2: 'Công việc nào sẽ thú vị nhỉ?',
+    nv_cl_age_r1_c3: 'Tạo bảng chỉ dẫn cho sự kiện trường học',
+    nv_cl_age_r1_c4: 'Thẻ quan tâm và câu hỏi khám phá',
+    nv_cl_age_r2_c1: 'THPT · Thiết kế hướng nghiệp',
+    nv_cl_age_r2_c2: 'Nên tìm hiểu thêm lĩnh vực nào?',
+    nv_cl_age_r2_c3: 'So sánh phương án cải thiện khả năng tiếp cận sự kiện',
+    nv_cl_age_r2_c4: 'Căn cứ so sánh lĩnh vực và kế hoạch chuẩn bị',
+    nv_cl_age_r3_c1: 'Sinh viên · Thực hành nghiệp vụ',
+    nv_cl_age_r3_c2: 'Nên giải quyết nhiệm vụ công việc này thế nào?',
+    nv_cl_age_r3_c3: 'Thiết kế phương án vận hành sảnh xuất cảnh giả định',
+    nv_cl_age_r3_c4: 'Căn cứ thực hiện và hồ sơ năng lực',
+    nv_cl_dept_h: 'Ví dụ trải nghiệm nghề theo ngành — An ninh Hàng không',
+    nv_cl_dept_desc: 'Đây là dự án giả định mang tính giáo dục, thiết kế hướng dẫn hành khách và hỗ trợ vận hành trong tình huống đông đúc tại sảnh xuất cảnh. (Sơ đồ bố trí 3 khu vực + 3 tư liệu tình huống + 4 nhân viên hỗ trợ + 2 bảng chỉ dẫn)',
+    nv_cl_dept_s1_task: 'Nắm bắt tình huống — Xem tư liệu, chọn 2 khu vực cần ưu tiên xử lý',
+    nv_cl_dept_s1_out: 'Vấn đề đã chọn và căn cứ',
+    nv_cl_dept_s2_task: 'Soạn thảo — Bố trí nhân viên hỗ trợ · bảng chỉ dẫn, quyết định trình tự thực hiện',
+    nv_cl_dept_s2_out: 'Sơ đồ bố trí và 3 bước thực hiện',
+    nv_cl_dept_s3_task: 'Luân phiên vai trò — Chỉnh sửa phương án vận hành trong điều kiện giảm 1 nhân viên hỗ trợ',
+    nv_cl_dept_s3_out: 'Ghi chú bàn giao và lý do thay đổi',
+    nv_cl_dept_s4_task: 'Xem xét · Trình bày — Xác nhận điều kiện ràng buộc rồi giải thích phương án thay thế và căn cứ phán đoán',
+    nv_cl_dept_s4_out: 'Phương án cuối cùng của nhóm + bản ghi đóng góp cá nhân',
+    nv_cl_dept_foot: 'Tuân thủ tổng nguồn lực · đảm bảo lối đi · duy trì quy trình kiểm tra an ninh. Đây không phải huấn luyện kiểm tra an ninh thực tế hay quy định vận hành sân bay thật.',
+    nv_cl_deptx_h: 'Chuyên ngành khác nhau, công việc và sản phẩm cũng khác nhau',
+    nv_cl_deptx_desc: 'Sử dụng cấu trúc vận hành chung, nhưng tư liệu nghiệp vụ và tiêu chí đánh giá theo từng ngành sẽ được xem xét riêng. Dưới đây là các ví dụ ứng viên phát triển; phạm vi cung cấp sẽ được xác định sau khi chuyên gia ngành xem xét.',
+    nv_cl_deptx_th1: 'Ví dụ ngành',
+    nv_cl_deptx_th2: 'Dự án nghiệp vụ ứng viên',
+    nv_cl_deptx_th3: 'Sản phẩm chính',
+    nv_cl_deptx_r1_c1: 'Kinh doanh · Marketing',
+    nv_cl_deptx_r1_c2: 'Cải thiện trải nghiệm khách hàng của hộ kinh doanh nhỏ giả định',
+    nv_cl_deptx_r1_c3: 'Vấn đề khách hàng · so sánh phương án · phương án thực hiện',
+    nv_cl_deptx_r2_c1: 'Du lịch · Khách sạn',
+    nv_cl_deptx_r2_c2: 'Luồng di chuyển của đoàn khách và xử lý thắc mắc',
+    nv_cl_deptx_r2_c3: 'Phương án hướng dẫn · trình tự dịch vụ',
+    nv_cl_deptx_r3_c1: 'Máy tính · Phần mềm',
+    nv_cl_deptx_r3_c2: 'Bản mẫu cải thiện dịch vụ trong khuôn viên trường',
+    nv_cl_deptx_r3_c3: 'Thứ tự ưu tiên tính năng · bản mẫu · ghi chú kiểm chứng',
+    nv_cl_deptx_r4_c1: 'Thiết kế',
+    nv_cl_deptx_r4_c2: 'Cải thiện hướng dẫn tìm đường trong khuôn viên trường',
+    nv_cl_deptx_r4_c3: 'Bản phác thảo · kiểm tra tính khả dụng · căn cứ chỉnh sửa',
+    nv_cl_deptx_r5_c1: 'Công tác xã hội',
+    nv_cl_deptx_r5_c2: 'Kết nối dịch vụ hỗ trợ cho người dùng giả định',
+    nv_cl_deptx_r5_c3: 'So sánh nguồn lực · trình tự kết nối',
+    nv_cl_deptx_r6_c1: 'Điều dưỡng · Y tế / Giáo dục mầm non',
+    nv_cl_deptx_r6_c2: 'Tài liệu hướng dẫn xuất viện / phương án vận hành hoạt động giáo dục',
+    nv_cl_deptx_r6_c3: 'Tài liệu giải thích dễ hiểu / phương án hỗ trợ hoạt động · tham gia',
+    nv_cl_camp_h: 'Vận hành trại — Nhóm hỗn hợp và luân phiên vai trò',
+    nv_cl_camp_desc: 'Ví dụ thí điểm đại học: 30 người · 6 nhóm · 5 người/nhóm · 180 phút, kiểm tra trước và theo dõi 2 tuần sau vận hành riêng. Các đặc điểm nhận thức và kinh nghiệm khác nhau được trộn lẫn khi phân nhóm, vai trò không cố định theo điểm số.',
+    nv_cl_camp_r1_act: 'Hiểu tình huống · mục tiêu cá nhân · chọn vai trò đầu tiên',
+    nv_cl_camp_r1_rule: 'Phản ánh sở thích · kinh nghiệm · vai trò mong muốn',
+    nv_cl_camp_r2_act: 'Phân tích tư liệu · bản nháp · kiểm tra giữa chừng',
+    nv_cl_camp_r2_rule: 'Mỗi người để lại căn cứ thực hiện cá nhân',
+    nv_cl_camp_r3_act: 'Luân phiên vai trò · ứng phó điều kiện mới · phương án cuối',
+    nv_cl_camp_r3_rule: 'Luân phiên và bàn giao ít nhất một lần',
+    nv_cl_camp_r4_act: 'Trình bày nhóm · phản hồi · kế hoạch tiếp theo cá nhân',
+    nv_cl_camp_r4_rule: 'Phân biệt kết quả nhóm và đóng góp cá nhân',
+    nv_cl_pc_h: 'PLANNER — nơi trải nghiệm trại nối tiếp thành thực hành tiếp theo',
+    nv_cl_pc_desc: 'Kết nối nhiệm vụ nhóm thành việc cần làm cá nhân, học sinh trực tiếp viết · chỉnh sửa kế hoạch. Điểm số cá nhân và ghi chú riêng tư không được công khai cho nhóm.',
+    nv_cl_pc_th1: 'Thời điểm',
+    nv_cl_pc_th2: 'Hành động của học sinh',
+    nv_cl_pc_th3: 'Hỗ trợ thực hiện phù hợp đặc điểm nhận thức',
+    nv_cl_pc_r1_c1: 'Bắt đầu hoạt động',
+    nv_cl_pc_r1_c2: 'Viết mục tiêu vai trò · hành động đầu tiên · thời hạn của bản thân',
+    nv_cl_pc_r1_c3: 'Chọn chia nhỏ nhiệm vụ hoặc bảng kế hoạch trống',
+    nv_cl_pc_r2_c1: 'Thực hiện · luân phiên',
+    nv_cl_pc_r2_c2: 'Thực hiện việc hiện tại rồi chia sẻ căn cứ · bàn giao',
+    nv_cl_pc_r2_c3: 'Hướng dẫn giai đoạn hiện tại · trình tự · công cụ quan hệ',
+    nv_cl_pc_r3_c1: 'Kết thúc trại',
+    nv_cl_pc_r3_c2: 'Chọn phương pháp hữu ích và hành động tiếp theo',
+    nv_cl_pc_r3_c3: 'Câu hỏi nhìn lại · ví dụ hành động cụ thể',
+    nv_cl_pc_r4_c1: '2 tuần sau',
+    nv_cl_pc_r4_c2: 'Thực hiện nhiệm vụ khám phá · học tập đã chọn · nhìn lại hằng tuần',
+    nv_cl_pc_r4_c3: 'Hỗ trợ khởi động lại hành động và kiểm tra tiến độ',
+    nv_cl_pc_foot: 'Đối với THCS là trải nghiệm quan sát, THPT là so sánh lĩnh vực, sinh viên là bổ sung nghiệp vụ và hồ sơ năng lực — mỗi cấp tiếp nối thực hành theo cách riêng.',
+    nv_verify_h: 'Xác nhận bằng bản ghi liệu sự chuyển giao có thực sự xảy ra',
+    nv_verify_sub: 'Hồ sơ kiểm tra được xác nhận như thông tin cơ sở, bản ghi chương trình được xác nhận như căn cứ của sự thay đổi. Chỉ riêng bản ghi không chứng minh hiệu ứng nhân quả của sự chuyển giao, và kiểm tra · thành tích học tập · mức độ hài lòng không được gộp thành một điểm tổng.',
+    nv_verify_th1: 'Phân loại',
+    nv_verify_th2: 'Nội dung xác nhận',
+    nv_verify_th3: 'Phạm vi diễn giải',
+    nv_verify_r1_c2: 'Ngày kiểm tra gần nhất · 4 yếu tố PASS · phiếu kết quả',
+    nv_verify_r1_c3: 'Kết quả kiểm tra chuẩn hóa',
+    nv_verify_r2_c2: 'Độ chính xác · thời gian · lỗi · sử dụng hỗ trợ',
+    nv_verify_r2_c3: 'Thay đổi hiệu suất trong quá trình luyện tập',
+    nv_verify_r3_c2: 'Sử dụng căn cứ · xem xét lại · áp dụng vào trường hợp mới',
+    nv_verify_r3_c3: 'Hiểu biết lịch sử và thực hiện chiến lược tư duy',
+    nv_verify_r4_c2: 'Thực hiện vai trò · căn cứ chỉnh sửa · sản phẩm cá nhân / nhóm',
+    nv_verify_r4_c3: 'Thực hiện khám phá hướng nghiệp và trải nghiệm nghề nghiệp',
+    nv_verify_r5_c2: 'Chỉnh sửa kế hoạch · thực hiện · nhìn lại · sử dụng độc lập',
+    nv_verify_r5_c3: 'Kinh nghiệm tự quản lý và thực hành tiếp theo',
+    nv_age_h: 'Cấu trúc chương trình phù hợp độ tuổi và mục đích',
+    nv_age_sub: 'Kiểm tra dựa theo tuổi thật, chương trình được chọn theo khối lớp · giai đoạn phát triển và mục đích. HISTORY là liên kết tùy chọn.',
+    nv_age_th1: 'Đối tượng',
+    nv_age_th2: 'Chương trình trọng tâm',
+    nv_age_th3: 'Trọng tâm hỗ trợ',
+    nv_age_r1_c1: 'Mầm non~lớp 3',
+    nv_age_r1_c3: 'Vui chơi · nhận thức cơ bản · hiểu câu chuyện',
+    nv_age_r2_c1: 'Lớp 4~6',
+    nv_age_r2_c2: 'HISTORY + PLANNER, thêm KIDS nếu cần',
+    nv_age_r2_c3: 'Nhập môn chiến lược tư duy · tự quản lý',
+    nv_age_r3_c1: 'THCS · THPT',
+    nv_age_r3_c2: 'CAREER LAB (hướng nghiệp) + PLANNER',
+    nv_age_r3_c3: 'Khám phá sở thích · so sánh lĩnh vực · thực hành khám phá',
+    nv_age_r4_c1: 'Sinh viên',
+    nv_age_r4_c2: 'CAREER LAB (nghiệp vụ) + PLANNER',
+    nv_age_r4_c3: 'Nghiệp vụ theo ngành · dự án · tự quản lý',
+    nv_age_foot: 'K-PASS áp dụng đến 13 tuổi, D-CAS từ 14 tuổi trở lên. Người trưởng thành sử dụng HISTORY · PLANNER phù hợp với mục đích.',
+});
+Object.assign(window.LANG.ja, {
+    nv_title: '検査から始まり<br>毎日の成長へつながるNUVIA',
+    nv_lede: 'K-PASS・D-CASで発見した認知特性を、KIDSの反復トレーニング、HISTORYの思考の応用、CAREER LABのキャリア・職務体験、PLANNERの生活実践へとつなげます。MY NUVIAはその変化が実際に起きたかを記録で確認します。',
+    nv_step1_num: '01 検査・発見',
+    nv_step1_p: '現在の認知特性と強み・支援が必要な領域を確認します。',
+    nv_step2_num: '02 NUVIA・体験',
+    nv_step2_h: '認知トレーニング・思考力・キャリア職務',
+    nv_step2_p: '認知トレーニングと思考力活動、キャリア・職務体験をPLANNERの実践へつなげます。',
+    nv_step3_num: '03 MY NUVIA・成長確認',
+    nv_step3_h: '変化の記録',
+    nv_step3_p: '遂行の変化と戦略の使用、自立的な適用を確認します。',
+    nv_why_h: '認知トレーニングの成果は、他の課題でも確認する必要があります',
+    nv_why_sub: '練習した課題の向上と、他の課題・日常での活用は分けて確認する必要があります。NUVIAは戦略を適用する文脈と遂行記録を合わせて設計します。',
+    nv_why1_h: '練習した課題の遂行向上',
+    nv_why1_p: '認知トレーニングのレビューでは、練習した課題の遂行が向上するという根拠が豊富でした。トレーニング内での変化は、まず確認すべき第一段階です。',
+    nv_why2_h: '他の課題・日常への適用確認',
+    nv_why2_p: '同じレビューでは、近い課題への転移の根拠はより少なく、遠い課題や日常の認知遂行の改善の根拠は限られていました。',
+    nv_why3_h: 'NUVIAの後続体験設計',
+    nv_why3_p: 'HISTORY・CAREER LABで戦略を再び使用し、PLANNERで実際の行動として実行するよう設計します。この連結の効果は別途検証します。',
+    nv_bridge_h: 'フィールグッドが設計した転移の橋',
+    nv_bridge_sub: 'HISTORYとCAREER LABで思考戦略を適用し、PLANNERで実際の行動として実行し、MY NUVIAで戦略の使用と自立的遂行の変化を確認します。',
+    nv_bridge1_problem: '基礎戦略を身につける活動',
+    nv_bridge1_solution: '<b>KIDS</b> — 計画・注意・同時処理・継次処理を短く反復可能な活動で練習します。強みを活かし、必要な領域を支援します。',
+    nv_bridge2_problem: '他の状況に適用する活動',
+    nv_bridge2_solution: '<b>HISTORY・CAREER LAB</b> — 歴史的判断とキャリア・職務プロジェクトに戦略を適用します。共通の目標のもと、資料・活動順序・支援を調整します。',
+    nv_bridge3_problem: '実際の行動を確認する記録',
+    nv_bridge3_solution: '<b>PLANNER・MY NUVIA</b> — 戦略をプロジェクトと実生活の課題に適用し、使用した支援や計画の修正・自立的遂行を記録します。',
+    nv_bridge_note: '転移の可能性を確認するための設計です。効果は試験運用と後続研究で別途検証します。',
+    nv_prod_h: 'NUVIAシリーズの役割と連結',
+    nv_prod_sub: '年齢と目的に必要なプログラムを選び、キャンプはPLANNERと優先的に連結します。',
+    nv_prod_th1: 'プログラム',
+    nv_prod_th2: '主な体験',
+    nv_prod_th3: '主な対象・目的',
+    nv_prod_r1_c2: 'ゲームで基礎的な認知プロセスを練習',
+    nv_prod_r1_c3: '幼児・小学生中心',
+    nv_prod_r2_c2: '歴史資料で根拠を比較し判断',
+    nv_prod_r2_c3: '年齢別の思考力活動',
+    nv_prod_r3_c2: '計画を立て実行・振り返り',
+    nv_prod_r3_c3: '小学4年生から大学生・社会人まで',
+    nv_prod_r4_c2: '認知特性を反映したキャリア・職務プロジェクト',
+    nv_prod_r4_c3: '中高生のキャリア探索／大学生の学科別職務',
+    nv_prod_r5_c2: '遂行記録と次の支援の確認',
+    nv_prod_r5_c3: '本人と権限を持つ支援者',
+    nv_prod_foot: '大学キャンプの基本構成はD-CAS + CAREER LAB + PLANNERです。HISTORYは選択連携です。',
+    nv_kids_h: '個人に合わせた認知トレーニング',
+    nv_kids_sub: '1日約10分のゲーム型活動で、計画・注意・同時処理・継次処理を練習します。',
+    nv_kids_cap: 'NUVIA KIDS 実際の画面 · 星の光トンネル／隕石地帯 ステージマップ',
+    nv_kids_f1_label: '何を練習するか',
+    nv_kids_f1_val: '強みを活かし、支援が必要な認知領域を反復練習します。',
+    nv_kids_f2_label: 'どのように参加するか',
+    nv_kids_f2_val: '年齢に合った操作と案内で短く活動し、続きから参加します。',
+    nv_kids_f3_label: '何を確認するか',
+    nv_kids_f3_val: '正確度・反応時間・エラーと、支援の使用・戦略の変化を見ます。',
+    nv_kids_foot: '400種類のトレーニングライブラリを基盤に設計。実際のコンテンツと年齢別の運用範囲は導入時に確認します。',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — 身につけた戦略をHISTORYの思考活動や日常の課題で再び活用できるよう設計します。',
+    nv_history_h: '歴史に基づく思考力トレーニング',
+    nv_history_sub: '世界史の物語と資料の中で選択し、根拠を調べ、判断を磨きます。',
+    nv_history_cap: 'NUVIA HISTORY 実際の画面 · 世界史3週目「ナイル川開拓ボード」· 高校生プレイレベル',
+    nv_history_th1: '対象',
+    nv_history_th2: '資料',
+    nv_history_th3: '思考活動',
+    nv_history_r1_c1: '未就学 5〜7歳',
+    nv_history_r1_c2: '短い場面・絵・音声',
+    nv_history_r1_c3: '探検・組み立て・選択結果の比較',
+    nv_history_r2_c1: '小1〜5／小6〜中3',
+    nv_history_r2_c2: '文章・手がかり／複数資料・視点',
+    nv_history_r2_c3: '役割・順序・計画／代案・根拠の連結',
+    nv_history_r3_c1: '高1〜3／大学・社会人',
+    nv_history_r3_c2: '相反する資料／人文学・組織事例',
+    nv_history_r3_c3: '代替仮説・論証／判断基準の適用',
+    nv_history_foot: '世界史を優先的に構築し、韓国史は第2段階で拡張。画面に表示されるプロファイルは体験用の仮のスコアです。',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — 資料の比較と判断の根拠をキャリア・職務体験(CAREER LAB)に活用し、PLANNERの次の行動へつなげます。',
+    nv_planner_h: 'メタ認知に基づく自己管理',
+    nv_planner_sub: '小学4年生から社会人まで、自分の実行パターンを発見し、戦略を実生活に適用します。',
+    nv_planner_cap: 'NUVIA PLANNER 実際の画面 · 小4〜6 プロファイルA · 今日 · 計画の組み立て',
+    nv_planner_th1: '領域',
+    nv_planner_th2: '日常の実行戦略',
+    nv_planner_r1_c2: '優先順位の選択・課題の分解',
+    nv_planner_r2_c2: 'とても小さな最初の一歩',
+    nv_planner_r3_c2: '集中の区間・妨害要因の調整',
+    nv_planner_r4_c2: '予想と実際の比較・余裕時間',
+    nv_planner_r5_c2: 'リセット・次にできる行動',
+    nv_planner_r6_c2: 'パターンの発見・戦略の調整',
+    nv_planner_foot: 'キャンプの課題も個人のやることリストへつなげます。自ら計画し実行する力を育てるよう設計。画面のA・Bプロファイルは体験用の例です。',
+    nv_transfer_h: 'HISTORYとPLANNERは戦略でつながります',
+    nv_transfer_sub: '思考活動で使った方法を実生活へつなげる設計例です。2つの製品のスコア・レベルは統合しません — つながるのは戦略と支援方法、実際の適用文脈です。',
+    nv_transfer_r1_h: 'HISTORY — 出来事を段階に分けて理解する',
+    nv_transfer_r1_p: 'PLANNER — 発表準備を調査・構成・練習に分ける',
+    nv_transfer_r2_h: 'HISTORY — 複数資料の関係を一目で比較する',
+    nv_transfer_r2_p: 'PLANNER — やるべき課題全体の構造と優先順位を見る',
+    nv_transfer_r3_h: 'HISTORY — 新しい根拠を見て計画を修正する',
+    nv_transfer_r3_p: 'PLANNER — 予定が遅れたとき次の行動を決め直す',
+    nv_transfer_r4_h: 'HISTORY — 自分の判断の理由を振り返る',
+    nv_transfer_r4_p: 'PLANNER — 予想と実際を比較して自分の戦略を調整する',
+    nv_cl_title: '認知特性に合わせたキャリア・職務キャンプ',
+    nv_cl_lede: '学生が情報を理解し、判断し、行動する方式まで授業に反映します。検査結果が活動方式へ、体験記録が次の実践へとつながります。',
+    nv_cl_i1_tag: '中高生キャリアキャンプ',
+    nv_cl_i1_h: '興味分野を直接体験しながら、自分に合った探索方法を見つけます。',
+    nv_cl_i1_p: '興味マップ・分野比較・次の探索計画',
+    nv_cl_i1_out: '→ PLANNERの後続探索課題へつながる',
+    nv_cl_i2_tag: '大学生学科別職務キャンプ',
+    nv_cl_i2_h: '学科と関連した業務課題を遂行しながら、自分の強みと必要な支援を確認します。',
+    nv_cl_i2_p: '職務成果物・遂行の根拠・ポートフォリオ',
+    nv_cl_i2_out: '→ PLANNERのポートフォリオ整理へつながる',
+    nv_cl_demo_h: 'DEMO · 学科別職務体験と個人PLANNER画面',
+    nv_cl_demo_desc: '職務選択から資料分析、役割交代と個人のやることを1画面で案内する体験版です。（航空保安学科・保安職務プロジェクト例）',
+    nv_cl_demo_cap: 'NUVIA CAREER LAB 実際の画面 · Security Career Studio · 大学生体験版',
+    nv_cl_diff_h: '既存のキャリア・職務授業に加える価値',
+    nv_cl_diff_desc: '職業情報と体験活動に、認知特性に合わせた支援と後続の実行を組み合わせます。左側は比較のための運営タイプであり、競合の全数調査結果ではありません。',
+    nv_cl_diff_th1: '比較項目',
+    nv_cl_diff_th2: '説明・共通体験中心の運営',
+    nv_cl_diff_th3: 'NUVIA CAREER LABの設計',
+    nv_cl_diff_r1_c1: '個人理解',
+    nv_cl_diff_r1_c2: '興味・希望と結果相談が中心',
+    nv_cl_diff_r1_c3: '認知特性 + 興味・経験 + 活動中の遂行',
+    nv_cl_diff_r2_c1: '体験方式',
+    nv_cl_diff_r2_c2: '同じ資料と順序を一緒に遂行',
+    nv_cl_diff_r2_c3: '共通目標のもと資料・順序・支援を調整',
+    nv_cl_diff_r3_c1: '講師の役割',
+    nv_cl_diff_r3_c2: '個別支援を現場で判断',
+    nv_cl_diff_r3_c3: '標準教案・個別案内・介入基準を提供',
+    nv_cl_diff_r4_c1: '残る結果',
+    nv_cl_diff_r4_c2: '活動の感想と体験履歴',
+    nv_cl_diff_r4_c3: '個人の遂行根拠と職務・探索の成果物',
+    nv_cl_diff_r5_c1: 'キャンプ後',
+    nv_cl_diff_r5_c2: '別途の後続活動の有無によって決定',
+    nv_cl_diff_r5_c3: 'PLANNERで次の行動と振り返りへつながる',
+    nv_cl_age_h: '中学生・高校生・大学生の実際の活動の違い',
+    nv_cl_age_desc: '学校段階により探索の問い、活動の責任と成果物を異なる構成にします。共通テーマでも問題の開放性、資料の複雑さ、役割と成果物を異なる設計にします。',
+    nv_cl_age_th1: '区分',
+    nv_cl_age_th2: '出発の問い',
+    nv_cl_age_th3: '体験例',
+    nv_cl_age_th4: '個人の結果',
+    nv_cl_age_r1_c1: '中学生・キャリア発見',
+    nv_cl_age_r1_c2: 'どんな仕事が面白そうか？',
+    nv_cl_age_r1_c3: '学校行事の案内マップ制作',
+    nv_cl_age_r1_c4: '興味カードと探索の問い',
+    nv_cl_age_r2_c1: '高校生・キャリア設計',
+    nv_cl_age_r2_c2: 'どの分野をさらに調べるか？',
+    nv_cl_age_r2_c3: '行事のアクセス改善案の比較',
+    nv_cl_age_r2_c4: '分野比較の根拠と準備計画',
+    nv_cl_age_r3_c1: '大学生・職務実行',
+    nv_cl_age_r3_c2: '業務課題をどう解決するか？',
+    nv_cl_age_r3_c3: '仮想出国ロビーの運営案設計',
+    nv_cl_age_r3_c4: '遂行の根拠とポートフォリオ',
+    nv_cl_dept_h: '学科職務体験例 — 航空保安学科',
+    nv_cl_dept_desc: '出国ロビーの混雑状況で乗客案内と運営支援を設計する教育用の仮想プロジェクトです。（3区域配置図＋状況資料3枚＋支援人員4名＋案内表示2つ）',
+    nv_cl_dept_s1_task: '状況把握 — 資料を見て優先対応する2区域を選ぶ',
+    nv_cl_dept_s1_out: '選んだ問題とその根拠',
+    nv_cl_dept_s2_task: '草案作成 — 支援人員・表示を配置し実行順序を決める',
+    nv_cl_dept_s2_out: '配置図と実行3段階',
+    nv_cl_dept_s3_task: '役割交代 — 支援人員1名減少の条件で運営案を修正',
+    nv_cl_dept_s3_out: '引き継ぎと変更理由',
+    nv_cl_dept_s4_task: '検討・発表 — 制約条件を確認し代案と判断根拠を説明',
+    nv_cl_dept_s4_out: 'チーム最終案＋個人の貢献記録',
+    nv_cl_dept_foot: 'トークン総量の遵守・移動通路の確保・保安検査手続きの維持。実際の保安検査訓練や空港運営規定ではありません。',
+    nv_cl_deptx_h: '学科が変われば業務と成果物も変わります',
+    nv_cl_deptx_desc: '共通の運営構造を活用しつつ、学科別の職務資料と評価基準は別途検討します。以下は開発候補の例で、学科専門家の検討後に提供範囲を確定します。',
+    nv_cl_deptx_th1: '学科例',
+    nv_cl_deptx_th2: '職務プロジェクト候補',
+    nv_cl_deptx_th3: '主な成果物',
+    nv_cl_deptx_r1_c1: '経営・マーケティング',
+    nv_cl_deptx_r1_c2: '仮想の個人事業主の顧客体験改善',
+    nv_cl_deptx_r1_c3: '顧客の問題・代案比較・実行案',
+    nv_cl_deptx_r2_c1: '観光・ホテル',
+    nv_cl_deptx_r2_c2: '団体客の動線と問い合わせ対応',
+    nv_cl_deptx_r2_c3: '案内案・サービス順序',
+    nv_cl_deptx_r3_c1: 'コンピュータ・ソフトウェア',
+    nv_cl_deptx_r3_c2: 'キャンパスサービス改善の試作品',
+    nv_cl_deptx_r3_c3: '機能優先順位・試作品・検証記録',
+    nv_cl_deptx_r4_c1: 'デザイン',
+    nv_cl_deptx_r4_c2: 'キャンパス道案内の改善',
+    nv_cl_deptx_r4_c3: '試案・使用性確認・修正の根拠',
+    nv_cl_deptx_r5_c1: '社会福祉',
+    nv_cl_deptx_r5_c2: '仮想利用者への支援サービス連携',
+    nv_cl_deptx_r5_c3: '資源比較・連携順序',
+    nv_cl_deptx_r6_c1: '看護・保健／幼児教育',
+    nv_cl_deptx_r6_c2: '退院案内資料／教育活動運営案',
+    nv_cl_deptx_r6_c3: 'わかりやすい説明資料／活動・参加支援案',
+    nv_cl_camp_h: 'キャンプ運営 — 混合班と役割交代',
+    nv_cl_camp_desc: '大学試験例：30名・6班・チームあたり5名・180分、事前検査と事後2週間は別途運営。異なる認知特性と経験を混ぜて編成し、役割はスコアで固定しません。',
+    nv_cl_camp_r1_act: '状況理解・個人目標・最初の役割選択',
+    nv_cl_camp_r1_rule: '興味・経験・希望の役割を反映',
+    nv_cl_camp_r2_act: '資料分析・草案・中間点検',
+    nv_cl_camp_r2_rule: '各自の遂行根拠を残す',
+    nv_cl_camp_r3_act: '役割交代・新条件への対応・最終案',
+    nv_cl_camp_r3_rule: '最低1回の交代と引き継ぎ',
+    nv_cl_camp_r4_act: 'チーム発表・フィードバック・個人の後続計画',
+    nv_cl_camp_r4_rule: 'チームの結果と個人の貢献を区別',
+    nv_cl_pc_h: 'キャンプの体験が次の実践へつながるPLANNER',
+    nv_cl_pc_desc: 'チームの課題を個人のやることへつなげ、学生自ら計画を作成・修正します。個人のスコアと非公開メモはチームに公開しません。',
+    nv_cl_pc_th1: '時点',
+    nv_cl_pc_th2: '学生の行動',
+    nv_cl_pc_th3: '認知特性に合わせた実行支援',
+    nv_cl_pc_r1_c1: '活動開始',
+    nv_cl_pc_r1_c2: '自分の役割の目標・最初の行動・期限を書く',
+    nv_cl_pc_r1_c3: '課題の分解または空の計画板の選択',
+    nv_cl_pc_r2_c1: '遂行・交代',
+    nv_cl_pc_r2_c2: '今の課題を遂行後、根拠を共有・引き継ぎ',
+    nv_cl_pc_r2_c3: '現在の段階の案内・順序・関係ツール',
+    nv_cl_pc_r3_c1: 'キャンプ終了',
+    nv_cl_pc_r3_c2: '役立った方法と次の行動を選ぶ',
+    nv_cl_pc_r3_c3: '振り返りの問い・具体的な行動例',
+    nv_cl_pc_r4_c1: '事後2週間',
+    nv_cl_pc_r4_c2: '選んだ探索・学習課題の実行・週間の振り返り',
+    nv_cl_pc_r4_c3: '再開する行動と点検支援',
+    nv_cl_pc_foot: '中学生は観察体験、高校生は分野比較、大学生は職務補完とポートフォリオとして後続の実践がつながります。',
+    nv_verify_h: '転移が実際に起きたか、記録で確認します',
+    nv_verify_sub: '検査プロファイルは基準情報として、プログラム記録は変化の根拠として確認します。記録だけで転移の因果効果を立証するものではなく、検査・学業成績・満足度は1つの総合点数に合算しません。',
+    nv_verify_th1: '区分',
+    nv_verify_th2: '確認する内容',
+    nv_verify_th3: '解釈の範囲',
+    nv_verify_r1_c2: '最近の検査日・PASS4要因・結果レポート',
+    nv_verify_r1_c3: '標準化検査の結果',
+    nv_verify_r2_c2: '正確度・時間・エラー・支援の使用',
+    nv_verify_r2_c3: 'トレーニング内での遂行の変化',
+    nv_verify_r3_c2: '根拠の使用・再検討・新事例への適用',
+    nv_verify_r3_c3: '歴史理解と思考戦略の遂行',
+    nv_verify_r4_c2: '役割遂行・修正の根拠・個人／チームの成果物',
+    nv_verify_r4_c3: 'キャリア探索と職務体験の遂行',
+    nv_verify_r5_c2: '計画の修正・実行・振り返り・自立的使用',
+    nv_verify_r5_c3: '自己管理と後続実践の経験',
+    nv_age_h: '年齢と目的に合わせたプログラム構成',
+    nv_age_sub: '検査は満年齢で、プログラムは学年・発達段階と目的に合わせて選びます。HISTORYは選択連携です。',
+    nv_age_th1: '対象',
+    nv_age_th2: '中心プログラム',
+    nv_age_th3: '支援の焦点',
+    nv_age_r1_c1: '未就学〜小3',
+    nv_age_r1_c3: '遊び・基礎認知・物語理解',
+    nv_age_r2_c1: '小4〜6',
+    nv_age_r2_c2: 'HISTORY + PLANNER、必要時KIDS',
+    nv_age_r2_c3: '思考戦略・自己管理入門',
+    nv_age_r3_c1: '中・高校生',
+    nv_age_r3_c2: 'CAREER LABキャリア + PLANNER',
+    nv_age_r3_c3: '興味の発見・分野比較・探索の実践',
+    nv_age_r4_c1: '大学生',
+    nv_age_r4_c2: 'CAREER LAB職務 + PLANNER',
+    nv_age_r4_c3: '学科職務・プロジェクト・自己管理',
+    nv_age_foot: '満13歳までK-PASS、満14歳からD-CAS。社会人はHISTORY・PLANNERを目的に合わせて活用します。',
+});
+Object.assign(window.LANG.ar, {
+    nv_title: 'من التقييم<br>إلى النمو اليومي مع NUVIA',
+    nv_lede: 'نربط السمات المعرفية التي يكشفها K-PASS·D-CAS بالتدريب المتكرر في KIDS، وتطبيق التفكير في HISTORY، وتجربة المسار المهني في CAREER LAB، والتنفيذ الفعلي في الحياة اليومية عبر PLANNER. ويسجّل MY NUVIA ما إذا كان هذا التغيير قد حدث فعلاً أم لا.',
+    nv_step1_num: '01 التقييم · الاكتشاف',
+    nv_step1_p: 'تحديد السمات المعرفية الحالية ونقاط القوة والمجالات التي تحتاج إلى دعم.',
+    nv_step2_num: '02 NUVIA · التجربة',
+    nv_step2_h: 'التدريب المعرفي · التفكير · المسار المهني',
+    nv_step2_p: 'ربط التدريب المعرفي وأنشطة التفكير وتجربة المسار المهني بالتطبيق الفعلي في PLANNER.',
+    nv_step3_num: '03 MY NUVIA · تأكيد النمو',
+    nv_step3_h: 'سجل التغيير',
+    nv_step3_p: 'تتبّع التغير في الأداء واستخدام الاستراتيجيات والتطبيق المستقل.',
+    nv_why_h: 'يجب التحقق من نتائج التدريب المعرفي في مهام أخرى أيضاً',
+    nv_why_sub: 'يجب التحقق بشكل منفصل من التحسن في المهمة التي تم التدرّب عليها ومن استخدامها في مهام أخرى أو في الحياة اليومية. صُمم NUVIA ليوفر في آن واحد سياقاً لتطبيق الاستراتيجيات وسجلاً للأداء.',
+    nv_why1_h: 'تحسّن الأداء في المهمة المتدرَّب عليها',
+    nv_why1_p: 'أظهرت مراجعات التدريب المعرفي أدلة وفيرة على تحسّن الأداء في المهمة المتدرَّب عليها نفسها. التغيّر داخل التدريب هو أول ما يجب التحقق منه.',
+    nv_why2_h: 'التحقق من التطبيق في مهام أخرى · الحياة اليومية',
+    nv_why2_p: 'وفي المراجعة نفسها، كانت الأدلة على الانتقال إلى مهام قريبة أقل، وكانت الأدلة على تحسّن المهام البعيدة أو الأداء المعرفي اليومي محدودة.',
+    nv_why3_h: 'تصميم NUVIA للتجربة اللاحقة',
+    nv_why3_p: 'صُمم بحيث يُعاد استخدام الاستراتيجيات في HISTORY·CAREER LAB، وتُنفَّذ كسلوك فعلي في PLANNER. سيتم التحقق من فعالية هذا الترابط بشكل منفصل.',
+    nv_bridge_h: 'جسر الانتقال الذي صممته FeelGood',
+    nv_bridge_sub: 'تُطبَّق استراتيجيات التفكير في HISTORY وCAREER LAB، وتُنفَّذ كسلوك فعلي في PLANNER، ويؤكد MY NUVIA التغيّر في استخدام الاستراتيجيات والأداء المستقل.',
+    nv_bridge1_problem: 'أنشطة لبناء الاستراتيجيات الأساسية',
+    nv_bridge1_solution: '<b>KIDS</b> — يتدرّب الطالب على التخطيط والانتباه والمعالجة المتزامنة والمتتابعة من خلال أنشطة قصيرة وقابلة للتكرار، مستفيداً من نقاط قوته وبدعم للمجالات التي يحتاجها.',
+    nv_bridge2_problem: 'أنشطة للتطبيق في مواقف مختلفة',
+    nv_bridge2_solution: '<b>HISTORY · CAREER LAB</b> — تُطبَّق الاستراتيجيات على الأحكام التاريخية ومشاريع المسار المهني، مع تعديل المواد وترتيب الأنشطة والدعم تحت هدف مشترك.',
+    nv_bridge3_problem: 'سجل يؤكد السلوك الفعلي',
+    nv_bridge3_solution: '<b>PLANNER · MY NUVIA</b> — تُطبَّق الاستراتيجيات على المشاريع ومهام الحياة الواقعية، ويُسجَّل الدعم المستخدم وتعديلات الخطة والأداء المستقل.',
+    nv_bridge_note: 'هذا تصميم للتحقق من إمكانية الانتقال. سيتم التحقق من الفعالية بشكل منفصل من خلال التشغيل التجريبي والدراسات اللاحقة.',
+    nv_prod_h: 'دور كل برنامج في سلسلة NUVIA وكيفية ترابطها',
+    nv_prod_sub: 'اختر البرنامج المناسب للعمر والغرض، وتُربط المخيمات بـ PLANNER أولاً.',
+    nv_prod_th1: 'البرنامج',
+    nv_prod_th2: 'التجربة الأساسية',
+    nv_prod_th3: 'الفئة المستهدفة الرئيسية · الغرض',
+    nv_prod_r1_c2: 'التدرّب على العمليات المعرفية الأساسية من خلال الألعاب',
+    nv_prod_r1_c3: 'موجّه بشكل أساسي لمرحلة الروضة والابتدائية',
+    nv_prod_r2_c2: 'مقارنة الأدلة واتخاذ القرار من خلال المواد التاريخية',
+    nv_prod_r2_c3: 'أنشطة تفكير حسب الفئة العمرية',
+    nv_prod_r3_c2: 'وضع خطة وتنفيذها · المراجعة',
+    nv_prod_r3_c3: 'من الصف الرابع الابتدائي إلى طلاب الجامعة والبالغين',
+    nv_prod_r4_c2: 'مشاريع مسار مهني تعكس السمات المعرفية',
+    nv_prod_r4_c3: 'استكشاف المسار المهني لطلاب المتوسطة والثانوية / ممارسة مهنية حسب التخصص لطلاب الجامعة',
+    nv_prod_r5_c2: 'تأكيد سجل الأداء وتحديد الدعم التالي',
+    nv_prod_r5_c3: 'المستخدم نفسه والداعمون المخوَّلون',
+    nv_prod_foot: 'التكوين الأساسي لمخيم الجامعة هو D-CAS + CAREER LAB + PLANNER، وHISTORY خيار إضافي.',
+    nv_kids_h: 'تدريب معرفي مخصّص لكل فرد',
+    nv_kids_sub: 'نشاط على شكل لعبة لمدة 10 دقائق تقريباً يومياً للتدرّب على التخطيط والانتباه والمعالجة المتزامنة والمتتابعة.',
+    nv_kids_cap: 'شاشة NUVIA KIDS الفعلية · خريطة مرحلة نفق ضوء النجوم / حقل النيازك',
+    nv_kids_f1_label: 'ماذا يتدرّب الطفل',
+    nv_kids_f1_val: 'يتدرّب بشكل متكرر مستفيداً من نقاط قوته وداعماً للمجالات المعرفية التي يحتاجها.',
+    nv_kids_f2_label: 'كيف يشارك',
+    nv_kids_f2_val: 'أنشطة قصيرة بتحكم وإرشاد مناسبين للعمر، ويمكنه المتابعة من حيث توقف.',
+    nv_kids_f3_label: 'ماذا يُقاس',
+    nv_kids_f3_val: 'الدقة ووقت الاستجابة والأخطاء، واستخدام الدعم، وتغيّر الاستراتيجية.',
+    nv_kids_foot: 'مصمَّم استناداً إلى مكتبة تضم 400 نشاط تدريبي. سيتم تأكيد المحتوى الفعلي ونطاق التشغيل لكل فئة عمرية عند التطبيق.',
+    nv_kids_link: '<b>STEP 1 → STEP 2</b> — صُمم بحيث يُعاد استخدام الاستراتيجيات المكتسبة في أنشطة التفكير في HISTORY والمهام اليومية.',
+    nv_history_h: 'تدريب على التفكير قائم على التاريخ',
+    nv_history_sub: 'يختار الطالب ويفحص الأدلة ويُهذّب حكمه ضمن قصص ومواد من تاريخ العالم.',
+    nv_history_cap: 'شاشة NUVIA HISTORY الفعلية · تاريخ العالم الأسبوع الثالث "لوحة استيطان نهر النيل" · مستوى لعب المرحلة الثانوية',
+    nv_history_th1: 'الفئة المستهدفة',
+    nv_history_th2: 'المواد',
+    nv_history_th3: 'نشاط التفكير',
+    nv_history_r1_c1: 'ما قبل المدرسة 5–7 سنوات',
+    nv_history_r1_c2: 'مشاهد قصيرة · رسوم · صوت',
+    nv_history_r1_c3: 'الاستكشاف · التجميع · مقارنة نتائج الاختيار',
+    nv_history_r2_c1: 'الصفوف 1–5 / الصفوف 6–9',
+    nv_history_r2_c2: 'جمل · أدلة / مواد ووجهات نظر متعددة',
+    nv_history_r2_c3: 'الأدوار · الترتيب · الخطة / ربط البدائل بالأدلة',
+    nv_history_r3_c1: 'الصفوف 10–12 / الجامعة والبالغون',
+    nv_history_r3_c2: 'مواد متضاربة / حالات إنسانية وتنظيمية',
+    nv_history_r3_c3: 'الفرضيات البديلة · الحجاج / تطبيق معايير الحكم',
+    nv_history_foot: 'يُبنى تاريخ العالم أولاً، ويُوسَّع تاريخ كوريا في مرحلة ثانية. الملف الظاهر على الشاشة هو درجة تجريبية لأغراض العرض فقط.',
+    nv_history_link: '<b>STEP 2 → STEP 3</b> — تُستخدم مهارة مقارنة المواد وبناء أساس الحكم في تجربة المسار المهني (CAREER LAB)، وتُربط بالخطوة التالية في PLANNER.',
+    nv_planner_h: 'إدارة ذاتية قائمة على ما وراء المعرفة',
+    nv_planner_sub: 'من الصف الرابع الابتدائي إلى البالغين، يكتشف الطالب نمط تنفيذه الخاص ويطبّق الاستراتيجيات في حياته الواقعية.',
+    nv_planner_cap: 'شاشة NUVIA PLANNER الفعلية · الملف A للصفوف 4–6 · اليوم · بناء الخطة',
+    nv_planner_th1: 'المجال',
+    nv_planner_th2: 'استراتيجية التنفيذ اليومية',
+    nv_planner_r1_c2: 'اختيار الأولويات · تقسيم المهام',
+    nv_planner_r2_c2: 'أول خطوة صغيرة جداً',
+    nv_planner_r3_c2: 'فترات التركيز · ضبط عوامل التشتيت',
+    nv_planner_r4_c2: 'مقارنة المتوقع بالفعلي · وقت احتياطي',
+    nv_planner_r5_c2: 'إعادة الضبط · الخطوة التالية الممكنة',
+    nv_planner_r6_c2: 'اكتشاف الأنماط · تعديل الاستراتيجية',
+    nv_planner_foot: 'تُربط مهام المخيم أيضاً كمهام شخصية يجب إنجازها. صُمم لبناء القدرة على التخطيط والتنفيذ الذاتي. الملفان A وB على الشاشة أمثلة توضيحية.',
+    nv_transfer_h: 'يرتبط HISTORY وPLANNER من خلال الاستراتيجية',
+    nv_transfer_sub: 'هذه أمثلة تصميمية تربط الأساليب المستخدمة في أنشطة التفكير بالحياة الواقعية. لا تُدمج درجات ومستويات المنتجين أبداً — ما يرتبط هو الاستراتيجية وطريقة الدعم وسياق التطبيق الفعلي.',
+    nv_transfer_r1_h: 'HISTORY — تقسيم الحدث إلى مراحل لفهمه',
+    nv_transfer_r1_p: 'PLANNER — تقسيم التحضير للعرض إلى بحث وتنظيم وتدريب',
+    nv_transfer_r2_h: 'HISTORY — مقارنة العلاقة بين مواد متعددة دفعة واحدة',
+    nv_transfer_r2_p: 'PLANNER — رؤية البنية الكلية وترتيب الأولويات للمهام المطلوبة',
+    nv_transfer_r3_h: 'HISTORY — تعديل الخطة بعد رؤية دليل جديد',
+    nv_transfer_r3_p: 'PLANNER — إعادة تحديد الخطوة التالية عند تأخر الجدول الزمني',
+    nv_transfer_r4_h: 'HISTORY — مراجعة أسباب حكمه الخاص',
+    nv_transfer_r4_p: 'PLANNER — مقارنة المتوقع بالفعلي لتعديل استراتيجيته الخاصة',
+    nv_cl_title: 'مخيمات مسار مهني مصممة وفق السمات المعرفية',
+    nv_cl_lede: 'تنعكس في الدرس طريقة فهم الطالب للمعلومات واتخاذه القرار وتصرفه. تتحول نتيجة التقييم إلى شكل النشاط، ويمتد سجل التجربة إلى الممارسة التالية.',
+    nv_cl_i1_tag: 'مخيم مسار مهني لطلاب المتوسطة والثانوية',
+    nv_cl_i1_h: 'يختبر الطالب مجالات اهتمامه مباشرة، ويجد طريقة الاستكشاف المناسبة له.',
+    nv_cl_i1_p: 'خريطة الاهتمامات · مقارنة المجالات · خطة الاستكشاف التالية',
+    nv_cl_i1_out: '→ يُربط بمهمة استكشاف لاحقة في PLANNER',
+    nv_cl_i2_tag: 'مخيم ممارسة مهنية حسب التخصص لطلاب الجامعة',
+    nv_cl_i2_h: 'يُنجز الطالب مهام عمل مرتبطة بتخصصه، ويحدد نقاط قوته والدعم الذي يحتاجه.',
+    nv_cl_i2_p: 'مخرجات مهنية · أدلة على الأداء · ملف الأعمال',
+    nv_cl_i2_out: '→ يُربط بتنظيم ملف الأعمال في PLANNER',
+    nv_cl_demo_h: 'DEMO · تجربة مهنية حسب التخصص وشاشة PLANNER الشخصية',
+    nv_cl_demo_desc: 'نسخة تجريبية ترشد المستخدم من اختيار المهمة إلى تحليل المواد وتبادل الأدوار والمهام الشخصية في شاشة واحدة. (مثال: تخصص أمن الطيران · مشروع مهام أمنية)',
+    nv_cl_demo_cap: 'شاشة NUVIA CAREER LAB الفعلية · Security Career Studio · نسخة تجريبية لطلاب الجامعة',
+    nv_cl_diff_h: 'القيمة المضافة على دروس المسار المهني الحالية',
+    nv_cl_diff_desc: 'تجمع بين المعلومات المهنية والتجربة العملية مع دعم يتناسب مع السمات المعرفية ومتابعة للتنفيذ. العمود الأيسر يمثل نمط تشغيل عام لأغراض المقارنة، وليس نتيجة مسح شامل للمنافسين.',
+    nv_cl_diff_th1: 'عنصر المقارنة',
+    nv_cl_diff_th2: 'تشغيل يركّز على تجربة مشتركة وسردية',
+    nv_cl_diff_th3: 'تصميم NUVIA CAREER LAB',
+    nv_cl_diff_r1_c1: 'فهم الفرد',
+    nv_cl_diff_r1_c2: 'يركّز على الاهتمامات والتطلعات واستشارة النتائج',
+    nv_cl_diff_r1_c3: 'السمات المعرفية + الاهتمامات والخبرة + الأداء أثناء النشاط',
+    nv_cl_diff_r2_c1: 'أسلوب التجربة',
+    nv_cl_diff_r2_c2: 'ينفّذ الجميع المواد والترتيب نفسه معاً',
+    nv_cl_diff_r2_c3: 'تُعدَّل المواد والترتيب والدعم تحت هدف مشترك',
+    nv_cl_diff_r3_c1: 'دور المدرّب',
+    nv_cl_diff_r3_c2: 'يقرّر الدعم الفردي ميدانياً بنفسه',
+    nv_cl_diff_r3_c3: 'يوفَّر خطة درس موحّدة وإرشاداً فردياً ومعايير للتدخّل',
+    nv_cl_diff_r4_c1: 'ما يتبقّى من نتائج',
+    nv_cl_diff_r4_c2: 'انطباعات عن النشاط وسجل حضور',
+    nv_cl_diff_r4_c3: 'أدلة أداء فردية ومخرجات مهنية واستكشافية',
+    nv_cl_diff_r5_c1: 'بعد المخيم',
+    nv_cl_diff_r5_c2: 'يعتمد على وجود نشاط لاحق منفصل من عدمه',
+    nv_cl_diff_r5_c3: 'يُربط بالخطوة التالية والمراجعة في PLANNER',
+    nv_cl_age_h: 'الفروق الفعلية في النشاط بين طلاب المتوسطة والثانوية والجامعة',
+    nv_cl_age_desc: 'يُشكَّل سؤال الاستكشاف ومستوى المسؤولية والمخرجات بشكل مختلف حسب المرحلة الدراسية. حتى الموضوع المشترك يُصمَّم بدرجة انفتاح مختلفة للمشكلة وتعقيد مختلف للمواد وأدوار ومخرجات مختلفة.',
+    nv_cl_age_th1: 'الفئة',
+    nv_cl_age_th2: 'سؤال البداية',
+    nv_cl_age_th3: 'مثال على التجربة',
+    nv_cl_age_th4: 'النتيجة الفردية',
+    nv_cl_age_r1_c1: 'المتوسطة · اكتشاف المسار المهني',
+    nv_cl_age_r1_c2: 'أي عمل قد يكون مثيراً للاهتمام؟',
+    nv_cl_age_r1_c3: 'إعداد لافتات إرشادية لفعالية مدرسية',
+    nv_cl_age_r1_c4: 'بطاقة اهتمام وأسئلة استكشاف',
+    nv_cl_age_r2_c1: 'الثانوية · تخطيط المسار المهني',
+    nv_cl_age_r2_c2: 'أي مجال يستحق مزيداً من الاستكشاف؟',
+    nv_cl_age_r2_c3: 'مقارنة خيارات تحسين إمكانية الوصول لفعالية',
+    nv_cl_age_r2_c4: 'أساس مقارنة المجالات وخطة الإعداد',
+    nv_cl_age_r3_c1: 'الجامعة · تنفيذ المهام المهنية',
+    nv_cl_age_r3_c2: 'كيف يمكن حل هذه المهمة الوظيفية؟',
+    nv_cl_age_r3_c3: 'تصميم خطة تشغيل لصالة مغادرة افتراضية',
+    nv_cl_age_r3_c4: 'أدلة الأداء وملف الأعمال',
+    nv_cl_dept_h: 'مثال على تجربة مهنية حسب التخصص — أمن الطيران',
+    nv_cl_dept_desc: 'مشروع افتراضي تعليمي يصمّم إرشاد الركاب ودعم التشغيل في حالة ازدحام صالة المغادرة. (مخطط توزيع لثلاث مناطق + 3 ملفات موقف + 4 موظفي دعم + لافتتان إرشاديتان)',
+    nv_cl_dept_s1_task: 'فهم الموقف — مراجعة المواد واختيار منطقتين للتعامل معهما أولاً',
+    nv_cl_dept_s1_out: 'المشكلة المختارة وأساسها',
+    nv_cl_dept_s2_task: 'إعداد مسودة — توزيع موظفي الدعم واللافتات وتحديد ترتيب التنفيذ',
+    nv_cl_dept_s2_out: 'مخطط التوزيع وخطوات التنفيذ الثلاث',
+    nv_cl_dept_s3_task: 'تبادل الأدوار — تعديل خطة التشغيل في ظل نقص موظف دعم واحد',
+    nv_cl_dept_s3_out: 'مذكرة تسليم وسبب التغيير',
+    nv_cl_dept_s4_task: 'المراجعة والعرض — التحقق من القيود ثم شرح البديل وأساس الحكم',
+    nv_cl_dept_s4_out: 'الخطة النهائية للفريق + سجل المساهمة الفردية',
+    nv_cl_dept_foot: 'الالتزام بإجمالي الموارد، والحفاظ على ممرات المرور، والإبقاء على إجراءات التفتيش الأمني. هذا ليس تدريباً أمنياً فعلياً ولا لائحة تشغيل مطار حقيقية.',
+    nv_cl_deptx_h: 'اختلاف التخصص يعني اختلاف المهام والمخرجات',
+    nv_cl_deptx_desc: 'يُستخدم هيكل تشغيل مشترك، لكن مواد المهام ومعايير التقييم الخاصة بكل تخصص تُراجَع بشكل منفصل. ما يلي أمثلة مرشحة للتطوير، وسيُحدَّد نطاق التقديم بعد مراجعة خبراء التخصص.',
+    nv_cl_deptx_th1: 'مثال على التخصص',
+    nv_cl_deptx_th2: 'مشروع مهني مرشّح',
+    nv_cl_deptx_th3: 'المخرج الرئيسي',
+    nv_cl_deptx_r1_c1: 'الإدارة · التسويق',
+    nv_cl_deptx_r1_c2: 'تحسين تجربة عميل لصاحب عمل صغير افتراضي',
+    nv_cl_deptx_r1_c3: 'مشكلة العميل · مقارنة البدائل · خطة التنفيذ',
+    nv_cl_deptx_r2_c1: 'السياحة · الفندقة',
+    nv_cl_deptx_r2_c2: 'حركة مجموعة نزلاء والرد على استفساراتهم',
+    nv_cl_deptx_r2_c3: 'خطة إرشادية · ترتيب الخدمة',
+    nv_cl_deptx_r3_c1: 'الحاسوب · البرمجيات',
+    nv_cl_deptx_r3_c2: 'نموذج أولي لتحسين خدمة داخل الحرم الجامعي',
+    nv_cl_deptx_r3_c3: 'أولويات الميزات · النموذج الأولي · سجل التحقق',
+    nv_cl_deptx_r4_c1: 'التصميم',
+    nv_cl_deptx_r4_c2: 'تحسين لافتات إرشاد الطريق في الحرم الجامعي',
+    nv_cl_deptx_r4_c3: 'تصاميم أولية · التحقق من سهولة الاستخدام · أساس التعديل',
+    nv_cl_deptx_r5_c1: 'العمل الاجتماعي',
+    nv_cl_deptx_r5_c2: 'ربط مستخدم افتراضي بخدمات الدعم',
+    nv_cl_deptx_r5_c3: 'مقارنة الموارد · ترتيب الإحالة',
+    nv_cl_deptx_r6_c1: 'التمريض · الصحة / تعليم الطفولة المبكرة',
+    nv_cl_deptx_r6_c2: 'مواد إرشادية عند الخروج من المستشفى / خطة تشغيل نشاط تعليمي',
+    nv_cl_deptx_r6_c3: 'مواد شرح مبسّطة / خطة دعم النشاط والمشاركة',
+    nv_cl_camp_h: 'تشغيل المخيم — مجموعات مختلطة وتبادل الأدوار',
+    nv_cl_camp_desc: 'مثال تجريبي جامعي: 30 طالباً · 6 مجموعات · 5 أفراد لكل فريق · 180 دقيقة، ويُدار التقييم المسبق والمتابعة بعد أسبوعين بشكل منفصل. تُشكَّل المجموعات بمزيج من سمات معرفية وخبرات مختلفة، ولا تُحدَّد الأدوار بالدرجة أبداً.',
+    nv_cl_camp_r1_act: 'فهم الموقف · الهدف الشخصي · اختيار الدور الأول',
+    nv_cl_camp_r1_rule: 'يعكس الاهتمام والخبرة والدور المرغوب',
+    nv_cl_camp_r2_act: 'تحليل المواد · المسودة · مراجعة منتصف المدة',
+    nv_cl_camp_r2_rule: 'يترك كل فرد أدلة أدائه الخاصة',
+    nv_cl_camp_r3_act: 'تبادل الأدوار · التعامل مع شروط جديدة · الخطة النهائية',
+    nv_cl_camp_r3_rule: 'تبادل وتسليم مرة واحدة على الأقل',
+    nv_cl_camp_r4_act: 'عرض الفريق · التغذية الراجعة · خطة المتابعة الفردية',
+    nv_cl_camp_r4_rule: 'تمييز نتائج الفريق عن المساهمة الفردية',
+    nv_cl_pc_h: 'PLANNER الذي يجعل تجربة المخيم تمتد إلى الممارسة التالية',
+    nv_cl_pc_desc: 'تُربط مهام الفريق كمهام شخصية، ويكتب الطالب خطته ويعدّلها بنفسه. لا تُشارَك الدرجات الفردية والملاحظات الخاصة مع الفريق.',
+    nv_cl_pc_th1: 'التوقيت',
+    nv_cl_pc_th2: 'تصرف الطالب',
+    nv_cl_pc_th3: 'دعم التنفيذ المتناسب مع السمات المعرفية',
+    nv_cl_pc_r1_c1: 'بداية النشاط',
+    nv_cl_pc_r1_c2: 'كتابة هدف دوره وأول خطوة والموعد النهائي',
+    nv_cl_pc_r1_c3: 'اختيار تقسيم المهمة أو لوحة خطة فارغة',
+    nv_cl_pc_r2_c1: 'التنفيذ · التبادل',
+    nv_cl_pc_r2_c2: 'إنجاز المهمة الحالية ثم مشاركة الأدلة · التسليم',
+    nv_cl_pc_r2_c3: 'إرشاد المرحلة الحالية · الترتيب · أدوات العلاقات',
+    nv_cl_pc_r3_c1: 'ختام المخيم',
+    nv_cl_pc_r3_c2: 'اختيار الطريقة المفيدة والخطوة التالية',
+    nv_cl_pc_r3_c3: 'أسئلة المراجعة · أمثلة إجراءات محدّدة',
+    nv_cl_pc_r4_c1: 'بعد أسبوعين',
+    nv_cl_pc_r4_c2: 'تنفيذ مهمة الاستكشاف أو التعلّم المختارة · مراجعة أسبوعية',
+    nv_cl_pc_r4_c3: 'دعم إعادة بدء الإجراء ومتابعة التقدّم',
+    nv_cl_pc_foot: 'تمتد الممارسة اللاحقة بالنسبة لطلاب المتوسطة كخبرة ملاحظة، ولطلاب الثانوية كمقارنة مجالات، ولطلاب الجامعة كتكميل مهني وملف أعمال.',
+    nv_verify_h: 'يُؤكَّد بالسجلات ما إذا كان الانتقال قد حدث فعلاً',
+    nv_verify_sub: 'يُعتمَد ملف التقييم كمعلومات مرجعية، وسجل البرنامج كدليل على التغيير. السجلات وحدها لا تثبت أثراً سببياً للانتقال، ولا تُدمَج نتائج التقييم والتحصيل الدراسي ومستوى الرضا في درجة إجمالية واحدة.',
+    nv_verify_th1: 'الفئة',
+    nv_verify_th2: 'ما يتم التحقق منه',
+    nv_verify_th3: 'نطاق التفسير',
+    nv_verify_r1_c2: 'أحدث تاريخ تقييم · عوامل PASS الأربعة · تقرير النتائج',
+    nv_verify_r1_c3: 'نتيجة تقييم موحّدة معيارياً',
+    nv_verify_r2_c2: 'الدقة · الوقت · الأخطاء · استخدام الدعم',
+    nv_verify_r2_c3: 'التغيّر في الأداء داخل التدريب',
+    nv_verify_r3_c2: 'استخدام الأدلة · إعادة النظر · التطبيق على حالات جديدة',
+    nv_verify_r3_c3: 'الفهم التاريخي وأداء استراتيجية التفكير',
+    nv_verify_r4_c2: 'أداء الدور · أساس التعديل · المخرجات الفردية / الجماعية',
+    nv_verify_r4_c3: 'أداء استكشاف المسار المهني والتجربة الوظيفية',
+    nv_verify_r5_c2: 'تعديل الخطة · التنفيذ · المراجعة · الاستخدام المستقل',
+    nv_verify_r5_c3: 'خبرة الإدارة الذاتية والممارسة اللاحقة',
+    nv_age_h: 'بنية برامج تتناسب مع العمر والغرض',
+    nv_age_sub: 'يُحدَّد التقييم بالعمر الفعلي، ويُختار البرنامج وفق الصف الدراسي والمرحلة النمائية والغرض. HISTORY خيار إضافي.',
+    nv_age_th1: 'الفئة المستهدفة',
+    nv_age_th2: 'البرنامج الأساسي',
+    nv_age_th3: 'محور الدعم',
+    nv_age_r1_c1: 'ما قبل المدرسة – الصف الثالث',
+    nv_age_r1_c3: 'اللعب · المعرفة الأساسية · فهم القصص',
+    nv_age_r2_c1: 'الصفوف 4–6',
+    nv_age_r2_c2: 'HISTORY + PLANNER، مع KIDS عند الحاجة',
+    nv_age_r2_c3: 'مدخل إلى استراتيجية التفكير والإدارة الذاتية',
+    nv_age_r3_c1: 'المتوسطة · الثانوية',
+    nv_age_r3_c2: 'CAREER LAB (المسار المهني) + PLANNER',
+    nv_age_r3_c3: 'اكتشاف الاهتمامات · مقارنة المجالات · ممارسة الاستكشاف',
+    nv_age_r4_c1: 'طلاب الجامعة',
+    nv_age_r4_c2: 'CAREER LAB (المهني) + PLANNER',
+    nv_age_r4_c3: 'المهام المهنية حسب التخصص · المشاريع · الإدارة الذاتية',
+    nv_age_foot: 'يُطبَّق K-PASS حتى سن 13، وD-CAS من سن 14 فما فوق. يستخدم البالغون HISTORY·PLANNER بما يناسب أغراضهم.',
+});
+
 // 번역 데이터는 i18n/*.js 가 window.LANG 에 채워줍니다.
 
 // ── 언어 적용 ────────────────────────────────────────────────────
