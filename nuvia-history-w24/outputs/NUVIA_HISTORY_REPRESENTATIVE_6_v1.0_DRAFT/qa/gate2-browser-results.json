@@ -1,0 +1,529 @@
+{
+  "results": [
+    {
+      "device": "pc",
+      "condition": "W24-C1",
+      "action": "revisePlan",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "revisePlan",
+          "goalId": "gutenberg.c1.goal.1",
+          "beforeResponseId": "gutenberg.c1.response.1",
+          "afterResponseId": "gutenberg.c1.response.2",
+          "decision": "change",
+          "reasonRef": "gutenberg.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W24-C2",
+      "action": "prioritizeActions",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "prioritizeActions",
+          "goalId": "gutenberg.c2.goal.1",
+          "orderedResponseIds": [
+            "gutenberg.c2.response.1",
+            "gutenberg.c2.response.2",
+            "gutenberg.c2.response.3"
+          ],
+          "constraintId": "gutenberg.c2.constraint.1",
+          "reasonRef": "gutenberg.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W01-C1",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.agriculture-settlement.c1.node.1",
+            "nuvia.history.agriculture-settlement.c1.node.2"
+          ],
+          "relationId": "nuvia.history.agriculture-settlement.c1.r3_2.activity.relation",
+          "meaningKey": "nuvia.history.agriculture-settlement.c1.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W01-C2",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.agriculture-settlement.c2.node.1",
+            "nuvia.history.agriculture-settlement.c2.node.2"
+          ],
+          "relationId": "nuvia.history.agriculture-settlement.c2.r3_2.activity.relation",
+          "meaningKey": "nuvia.history.agriculture-settlement.c2.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W15-C1",
+      "action": "arrangeSequence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "arrangeSequence",
+          "orderedStepIds": [
+            "nuvia.history.baghdad-translation.c1.step.1",
+            "nuvia.history.baghdad-translation.c1.step.2",
+            "nuvia.history.baghdad-translation.c1.step.3"
+          ],
+          "precedenceRefs": [
+            [
+              "nuvia.history.baghdad-translation.c1.step.1",
+              "nuvia.history.baghdad-translation.c1.step.2"
+            ],
+            [
+              "nuvia.history.baghdad-translation.c1.step.2",
+              "nuvia.history.baghdad-translation.c1.step.3"
+            ]
+          ],
+          "completionState": "planned"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W15-C2",
+      "action": "classifyEvidence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "classifyEvidence",
+          "evidenceItemIds": [
+            "nuvia.history.baghdad-translation.c2.evidence.1",
+            "nuvia.history.baghdad-translation.c2.evidence.2",
+            "nuvia.history.baghdad-translation.c2.evidence.3"
+          ],
+          "categoryByItem": {
+            "nuvia.history.baghdad-translation.c2.evidence.1": "unknown",
+            "nuvia.history.baghdad-translation.c2.evidence.2": "unknown",
+            "nuvia.history.baghdad-translation.c2.evidence.3": "unknown"
+          },
+          "hiddenExplanationId": "nuvia.history.baghdad-translation.c2.hiddenExplanation",
+          "uncertainItemIds": [
+            "nuvia.history.baghdad-translation.c2.evidence.1",
+            "nuvia.history.baghdad-translation.c2.evidence.2",
+            "nuvia.history.baghdad-translation.c2.evidence.3"
+          ],
+          "reasonRef": "nuvia.history.baghdad-translation.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W29-C1",
+      "action": "compareStructures",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "compareStructures",
+          "leftRelationIds": [
+            "nuvia.history.american-conquest.c1.left.1"
+          ],
+          "rightRelationIds": [
+            "nuvia.history.american-conquest.c1.right.1"
+          ],
+          "differenceRef": "nuvia.history.american-conquest.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W29-C2",
+      "action": "chooseGoalAndSteps",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "chooseGoalAndSteps",
+          "goalId": "nuvia.history.american-conquest.c2.goal.1",
+          "responseId": "nuvia.history.american-conquest.c2.response.1",
+          "constraintId": "nuvia.history.american-conquest.c2.constraint.1",
+          "reasonRef": "nuvia.history.american-conquest.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W39-C1",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.africa-partition.c1.node.1",
+            "nuvia.history.africa-partition.c1.node.2"
+          ],
+          "relationId": "nuvia.history.africa-partition.c1.core.relation",
+          "meaningKey": "nuvia.history.africa-partition.c1.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W39-C2",
+      "action": "arrangeSequence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "arrangeSequence",
+          "orderedStepIds": [
+            "nuvia.history.africa-partition.c2.step.1",
+            "nuvia.history.africa-partition.c2.step.2"
+          ],
+          "precedenceRefs": [
+            [
+              "nuvia.history.africa-partition.c2.step.1",
+              "nuvia.history.africa-partition.c2.step.2"
+            ]
+          ],
+          "completionState": "planned"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W44-C1",
+      "action": "compareStructures",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "compareStructures",
+          "leftRelationIds": [
+            "nuvia.history.un-human-rights.c1.left.1"
+          ],
+          "rightRelationIds": [
+            "nuvia.history.un-human-rights.c1.right.1"
+          ],
+          "differenceRef": "nuvia.history.un-human-rights.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "pc",
+      "condition": "W44-C2",
+      "action": "chooseGoalAndSteps",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "chooseGoalAndSteps",
+          "goalId": "nuvia.history.un-human-rights.c2.goal.1",
+          "responseId": "nuvia.history.un-human-rights.c2.response.1",
+          "constraintId": "nuvia.history.un-human-rights.c2.constraint.1",
+          "reasonRef": "nuvia.history.un-human-rights.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W24-C1",
+      "action": "revisePlan",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "revisePlan",
+          "goalId": "gutenberg.c1.goal.1",
+          "beforeResponseId": "gutenberg.c1.response.1",
+          "afterResponseId": "gutenberg.c1.response.2",
+          "decision": "change",
+          "reasonRef": "gutenberg.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W24-C2",
+      "action": "prioritizeActions",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "prioritizeActions",
+          "goalId": "gutenberg.c2.goal.1",
+          "orderedResponseIds": [
+            "gutenberg.c2.response.1",
+            "gutenberg.c2.response.2",
+            "gutenberg.c2.response.3"
+          ],
+          "constraintId": "gutenberg.c2.constraint.1",
+          "reasonRef": "gutenberg.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W01-C1",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.agriculture-settlement.c1.node.1",
+            "nuvia.history.agriculture-settlement.c1.node.2"
+          ],
+          "relationId": "nuvia.history.agriculture-settlement.c1.r3_2.activity.relation",
+          "meaningKey": "nuvia.history.agriculture-settlement.c1.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W01-C2",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.agriculture-settlement.c2.node.1",
+            "nuvia.history.agriculture-settlement.c2.node.2"
+          ],
+          "relationId": "nuvia.history.agriculture-settlement.c2.r3_2.activity.relation",
+          "meaningKey": "nuvia.history.agriculture-settlement.c2.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W15-C1",
+      "action": "arrangeSequence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "arrangeSequence",
+          "orderedStepIds": [
+            "nuvia.history.baghdad-translation.c1.step.1",
+            "nuvia.history.baghdad-translation.c1.step.2",
+            "nuvia.history.baghdad-translation.c1.step.3"
+          ],
+          "precedenceRefs": [
+            [
+              "nuvia.history.baghdad-translation.c1.step.1",
+              "nuvia.history.baghdad-translation.c1.step.2"
+            ],
+            [
+              "nuvia.history.baghdad-translation.c1.step.2",
+              "nuvia.history.baghdad-translation.c1.step.3"
+            ]
+          ],
+          "completionState": "planned"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W15-C2",
+      "action": "classifyEvidence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "classifyEvidence",
+          "evidenceItemIds": [
+            "nuvia.history.baghdad-translation.c2.evidence.1",
+            "nuvia.history.baghdad-translation.c2.evidence.2",
+            "nuvia.history.baghdad-translation.c2.evidence.3"
+          ],
+          "categoryByItem": {
+            "nuvia.history.baghdad-translation.c2.evidence.1": "unknown",
+            "nuvia.history.baghdad-translation.c2.evidence.2": "unknown",
+            "nuvia.history.baghdad-translation.c2.evidence.3": "unknown"
+          },
+          "hiddenExplanationId": "nuvia.history.baghdad-translation.c2.hiddenExplanation",
+          "uncertainItemIds": [
+            "nuvia.history.baghdad-translation.c2.evidence.1",
+            "nuvia.history.baghdad-translation.c2.evidence.2",
+            "nuvia.history.baghdad-translation.c2.evidence.3"
+          ],
+          "reasonRef": "nuvia.history.baghdad-translation.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W29-C1",
+      "action": "compareStructures",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "compareStructures",
+          "leftRelationIds": [
+            "nuvia.history.american-conquest.c1.left.1"
+          ],
+          "rightRelationIds": [
+            "nuvia.history.american-conquest.c1.right.1"
+          ],
+          "differenceRef": "nuvia.history.american-conquest.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W29-C2",
+      "action": "chooseGoalAndSteps",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "chooseGoalAndSteps",
+          "goalId": "nuvia.history.american-conquest.c2.goal.1",
+          "responseId": "nuvia.history.american-conquest.c2.response.1",
+          "constraintId": "nuvia.history.american-conquest.c2.constraint.1",
+          "reasonRef": "nuvia.history.american-conquest.c2.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W39-C1",
+      "action": "mapRelation",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "mapRelation",
+          "nodeIds": [
+            "nuvia.history.africa-partition.c1.node.1",
+            "nuvia.history.africa-partition.c1.node.2"
+          ],
+          "relationId": "nuvia.history.africa-partition.c1.core.relation",
+          "meaningKey": "nuvia.history.africa-partition.c1.meaning.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W39-C2",
+      "action": "arrangeSequence",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "arrangeSequence",
+          "orderedStepIds": [
+            "nuvia.history.africa-partition.c2.step.1",
+            "nuvia.history.africa-partition.c2.step.2"
+          ],
+          "precedenceRefs": [
+            [
+              "nuvia.history.africa-partition.c2.step.1",
+              "nuvia.history.africa-partition.c2.step.2"
+            ]
+          ],
+          "completionState": "planned"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W44-C1",
+      "action": "compareStructures",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "compareStructures",
+          "leftRelationIds": [
+            "nuvia.history.un-human-rights.c1.left.1"
+          ],
+          "rightRelationIds": [
+            "nuvia.history.un-human-rights.c1.right.1"
+          ],
+          "differenceRef": "nuvia.history.un-human-rights.c1.reason.1"
+        }
+      ]
+    },
+    {
+      "device": "mobile",
+      "condition": "W44-C2",
+      "action": "chooseGoalAndSteps",
+      "overflow": false,
+      "badLabels": false,
+      "small": false,
+      "recorded": [
+        {
+          "actionKind": "chooseGoalAndSteps",
+          "goalId": "nuvia.history.un-human-rights.c2.goal.1",
+          "responseId": "nuvia.history.un-human-rights.c2.response.1",
+          "constraintId": "nuvia.history.un-human-rights.c2.constraint.1",
+          "reasonRef": "nuvia.history.un-human-rights.c2.reason.1"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "network": {
+    "requests": 519,
+    "external": [],
+    "origins": [
+      "http://127.0.0.1:5186"
+    ]
+  },
+  "storage": {
+    "conflict": true,
+    "owner": true,
+    "revision": 1,
+    "id": "4dd307fd-0fe4-4f50-8aed-bbd31188a67b",
+    "restored": {
+      "id": "4dd307fd-0fe4-4f50-8aed-bbd31188a67b",
+      "revision": 1
+    },
+    "keyboardFocus": "BUTTON"
+  }
+}

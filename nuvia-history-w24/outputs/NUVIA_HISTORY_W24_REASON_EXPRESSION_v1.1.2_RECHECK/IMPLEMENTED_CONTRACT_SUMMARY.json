@@ -1,0 +1,46 @@
+{
+  "ruleId": "NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2",
+  "runtimeScope": [
+    "W24-C1",
+    "W24-C2"
+  ],
+  "versions": {
+    "missionVersion": "5.0.0",
+    "contentVersion": "3.1.0",
+    "appVersion": "0.5.0"
+  },
+  "recordStorage": "IndexedDB nuviaRepresentative6.v1 / runs[resultId].reasonExpressions",
+  "actualReason": {
+    "eventType": "reasonExpressionRecorded",
+    "sources": [
+      "typed",
+      "recorded",
+      "drawn"
+    ],
+    "ref": "reasonRef -> actual ReasonExpressionRecord"
+  },
+  "reasonSkip": {
+    "eventType": "activityDeferred",
+    "scope": "reason",
+    "source": "deferred",
+    "reasonRef": "omitted",
+    "reasonRecord": "not created",
+    "cognitiveActionRecorded": "preserved"
+  },
+  "wholeActivitySkip": {
+    "eventType": "activityDeferred",
+    "scope": "activity",
+    "reasonRef": "omitted",
+    "reasonRecord": "not created",
+    "cognitiveActionRecorded": "not created"
+  },
+  "legacySkip": "missing scope retains original full-activity interpretation",
+  "report": "actual reason or neutral absence only; fixed activity description that presumes a reason is omitted",
+  "storyBook": "no automatic reason input copying",
+  "manualUnverified": [
+    "physical phone/tablet",
+    "stylus",
+    "physical microphone",
+    "Windows print dialog"
+  ]
+}

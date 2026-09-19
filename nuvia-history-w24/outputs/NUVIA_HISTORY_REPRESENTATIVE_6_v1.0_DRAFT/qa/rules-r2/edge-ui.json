@@ -1,0 +1,326 @@
+{
+  "results": [
+    {
+      "mode": "writing",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "story": {
+        "status": "recorded",
+        "value": {
+          "method": "text",
+          "text": "  내가 직접 쓴 이야기\n원문을 그대로 두어요.  "
+        }
+      },
+      "events": [
+        {
+          "eventId": "1d6628c0-eb44-4968-9ac9-b0f4bdab51fd",
+          "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.adult.v1",
+          "ageBand": "adult",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:50.914Z",
+          "payload": {
+            "comparisonKind": "history",
+            "recordRef": "652165b9-ebff-4af0-b6f3-e0f5acef79a8/historyComparison",
+            "inputStage": "historyComparison",
+            "expressionMode": "writing",
+            "provided": true,
+            "hasDiscovery": true,
+            "hasEvidence": true
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        },
+        {
+          "eventId": "ce81d81a-6473-4a89-a2e4-324b84b181ba",
+          "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.adult.v1",
+          "ageBand": "adult",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:50.996Z",
+          "payload": {
+            "comparisonKind": "prediction",
+            "recordRef": "652165b9-ebff-4af0-b6f3-e0f5acef79a8/predictionComparison",
+            "inputStage": "predictionComparison",
+            "expressionMode": "writing",
+            "provided": true,
+            "hasDiscovery": true,
+            "hasEvidence": true
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "mode": "missing",
+      "resultId": "678536a6-32ee-4d4a-8196-5b3a460b2c7c",
+      "story": {
+        "status": "recorded",
+        "value": {
+          "method": "unknown",
+          "text": ""
+        }
+      },
+      "events": [
+        {
+          "eventId": "6d6f9c3e-d7da-4901-843d-9c523ae1003d",
+          "resultId": "678536a6-32ee-4d4a-8196-5b3a460b2c7c",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:52.347Z",
+          "payload": {
+            "comparisonKind": "history",
+            "recordRef": "678536a6-32ee-4d4a-8196-5b3a460b2c7c/historyComparison",
+            "inputStage": "historyComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        },
+        {
+          "eventId": "07da4fbc-682e-4dc7-8e5f-6df4460f7ddb",
+          "resultId": "678536a6-32ee-4d4a-8196-5b3a460b2c7c",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:52.466Z",
+          "payload": {
+            "comparisonKind": "prediction",
+            "recordRef": "678536a6-32ee-4d4a-8196-5b3a460b2c7c/predictionComparison",
+            "inputStage": "predictionComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "mode": "drawing",
+      "resultId": "6996369d-b5e0-402b-8fe6-73c76cb9047b",
+      "story": {
+        "status": "recorded",
+        "value": {
+          "method": "drawing",
+          "text": "",
+          "canvasRef": "drawing:11ae5a5d-9b04-45ab-a8db-c3f31a39c0b3"
+        }
+      },
+      "events": [
+        {
+          "eventId": "4808151a-8ee4-4000-87e5-5c4c7473ea48",
+          "resultId": "6996369d-b5e0-402b-8fe6-73c76cb9047b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:54.083Z",
+          "payload": {
+            "comparisonKind": "history",
+            "recordRef": "6996369d-b5e0-402b-8fe6-73c76cb9047b/historyComparison",
+            "inputStage": "historyComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        },
+        {
+          "eventId": "5c1f2cbc-e988-4900-b8ed-2a7a0d66bd43",
+          "resultId": "6996369d-b5e0-402b-8fe6-73c76cb9047b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:54.132Z",
+          "payload": {
+            "comparisonKind": "prediction",
+            "recordRef": "6996369d-b5e0-402b-8fe6-73c76cb9047b/predictionComparison",
+            "inputStage": "predictionComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        }
+      ],
+      "status": "passed"
+    },
+    {
+      "mode": "voice",
+      "resultId": "fe9f8f0f-d030-4636-9904-9c785e585c14",
+      "story": {
+        "status": "recorded",
+        "value": {
+          "method": "audio",
+          "text": "",
+          "audioRef": "local-audio:11958e48-0487-4656-beb8-612e882b5b9f"
+        }
+      },
+      "events": [
+        {
+          "eventId": "09685b28-4020-4904-86c0-3c45903f25df",
+          "resultId": "fe9f8f0f-d030-4636-9904-9c785e585c14",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:56.815Z",
+          "payload": {
+            "comparisonKind": "history",
+            "recordRef": "fe9f8f0f-d030-4636-9904-9c785e585c14/historyComparison",
+            "inputStage": "historyComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        },
+        {
+          "eventId": "55ff57e4-bbdc-4ffc-813d-e1316242e83b",
+          "resultId": "fe9f8f0f-d030-4636-9904-9c785e585c14",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "3.0.0",
+          "contentVersion": "2.0.0",
+          "ageBandRuleId": "nuvia.age.preschool.v1",
+          "ageBand": "preschool",
+          "eventType": "comparisonCompleted",
+          "timestamp": "2026-09-19T07:33:56.899Z",
+          "payload": {
+            "comparisonKind": "prediction",
+            "recordRef": "fe9f8f0f-d030-4636-9904-9c785e585c14/predictionComparison",
+            "inputStage": "predictionComparison",
+            "expressionMode": "deferred",
+            "provided": false,
+            "hasDiscovery": false,
+            "hasEvidence": false
+          },
+          "supportLevel": 0,
+          "appVersion": "0.3.2"
+        }
+      ],
+      "status": "passed"
+    }
+  ],
+  "errors": [],
+  "requests": [
+    "http://127.0.0.1:5188/?qa=1&age=adult&learner=edge-r2-writing-1789803229159",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/art/cast.webp",
+    "http://127.0.0.1:5188/?qa=1&age=adult&learner=edge-r2-writing-1789803229159",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-missing-1789803231434",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/art/cast.webp",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-missing-1789803231434",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-drawing-1789803232866",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/art/cast.webp",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-drawing-1789803232866",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-voice-1789803234535",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/art/cast.webp",
+    "blob:http://127.0.0.1:5188/d0174a99-d0c8-440b-88ac-d23561a296cd",
+    "blob:http://127.0.0.1:5188/cce9fbf4-fe30-4ef8-97d0-7b4b998b59fc",
+    "http://127.0.0.1:5188/?qa=1&age=preschool&learner=edge-r2-voice-1789803234535",
+    "http://127.0.0.1:5188/assets/index-SNW6PFfw.js",
+    "http://127.0.0.1:5188/assets/index-Z4cvHnTL.css",
+    "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+    "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+    "http://127.0.0.1:5188/assets/missions-DXMsUyx4.js",
+    "http://127.0.0.1:5188/assets/ko-sO_UBLj3.js",
+    "http://127.0.0.1:5188/art/workshop.webp",
+    "blob:http://127.0.0.1:5188/651d60cf-aa58-4c04-b98f-8406ca4b786f",
+    "blob:http://127.0.0.1:5188/3929cd5e-6e8a-4a92-9970-6113f1aa1265",
+    "blob:http://127.0.0.1:5188/3b2a2300-0c69-4425-a92f-25a1fd53e504"
+  ]
+}

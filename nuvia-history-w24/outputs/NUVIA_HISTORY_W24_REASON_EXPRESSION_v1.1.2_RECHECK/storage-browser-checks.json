@@ -1,0 +1,74 @@
+[
+  {
+    "label": "blank drawing",
+    "pass": true,
+    "error": "Error: EMPTY_REASON_DRAWING"
+  },
+  {
+    "label": "PNG exact roundtrip",
+    "pass": true
+  },
+  {
+    "label": "drawing different result",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "drawing different owner",
+    "pass": true,
+    "error": "Error: OWNER_MISMATCH"
+  },
+  {
+    "label": "drawing different condition",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "drawing different version",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "zero duration audio",
+    "pass": true,
+    "error": "Error: EMPTY_REASON_AUDIO"
+  },
+  {
+    "label": "empty audio",
+    "pass": true,
+    "error": "Error: INVALID_AUDIO"
+  },
+  {
+    "label": "audio different result",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "audio wrong kind",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "audio missing record",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "revision conflict atomic save",
+    "pass": true,
+    "error": "Error: REVISION_CONFLICT"
+  },
+  {
+    "label": "same transaction action and reason",
+    "pass": true
+  },
+  {
+    "label": "nonexistent media blocks action save",
+    "pass": true,
+    "error": "Error: MEDIA_LINK_ERROR"
+  },
+  {
+    "label": "reason skip preserves actual action and reveals",
+    "pass": true
+  }
+]

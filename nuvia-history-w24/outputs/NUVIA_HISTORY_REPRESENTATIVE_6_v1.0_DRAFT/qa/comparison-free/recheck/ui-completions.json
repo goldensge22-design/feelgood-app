@@ -1,0 +1,1802 @@
+{
+  "results": [
+    {
+      "condition": "W24-C2",
+      "age": "preschool",
+      "device": "390x844",
+      "resultId": "7a8e1a8f-9578-491f-86e3-df7c7c78677b",
+      "status": "passed",
+      "predictionMethod": "choice",
+      "events": 22,
+      "bookPages": 8,
+      "comparisons": [
+        {
+          "comparisonKind": "history",
+          "expressionMode": "voice",
+          "discoveryText": "",
+          "evidenceText": "",
+          "resultId": "7a8e1a8f-9578-491f-86e3-df7c7c78677b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c2",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0",
+          "voiceRef": "local-audio:dabb9751-f78f-4ceb-a128-0cc4487746ea"
+        },
+        {
+          "comparisonKind": "prediction",
+          "expressionMode": "deferred",
+          "discoveryText": "",
+          "evidenceText": "",
+          "resultId": "7a8e1a8f-9578-491f-86e3-df7c7c78677b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c2",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0"
+        }
+      ]
+    },
+    {
+      "condition": "W24-C1",
+      "age": "elementary-low",
+      "device": "390x844",
+      "resultId": "97ab2e05-16c7-44bf-a6ba-d207fa5182a9",
+      "status": "passed",
+      "predictionMethod": "drawing",
+      "events": 29,
+      "bookPages": 8,
+      "comparisons": [
+        {
+          "comparisonKind": "history",
+          "expressionMode": "writing",
+          "discoveryText": "  실제와 내 이야기에서 발견한 점  \n내 말 그대로 1!  ",
+          "evidenceText": "",
+          "resultId": "97ab2e05-16c7-44bf-a6ba-d207fa5182a9",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0"
+        },
+        {
+          "comparisonKind": "prediction",
+          "expressionMode": "drawing",
+          "discoveryText": "",
+          "evidenceText": "",
+          "resultId": "97ab2e05-16c7-44bf-a6ba-d207fa5182a9",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0",
+          "drawingRef": "drawing:7cddfe9f-2477-4372-a932-cc3f6b9abe51"
+        }
+      ]
+    },
+    {
+      "condition": "W24-C1",
+      "age": "elementary-high",
+      "device": "1440x900",
+      "resultId": "a08e4738-de5a-4429-9298-dd49cfe3c19f",
+      "status": "passed",
+      "predictionMethod": "audio",
+      "events": 22,
+      "bookPages": 8,
+      "comparisons": [
+        {
+          "comparisonKind": "history",
+          "expressionMode": "mixed",
+          "discoveryText": "  실제와 내 이야기에서 발견한 점  \n내 말 그대로 1!  ",
+          "evidenceText": "",
+          "resultId": "a08e4738-de5a-4429-9298-dd49cfe3c19f",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0",
+          "drawingRef": "drawing:a101187d-7a00-4cd9-88c9-b80bb622dfe2"
+        },
+        {
+          "comparisonKind": "prediction",
+          "expressionMode": "writing",
+          "discoveryText": "  처음 생각과 실제에서 발견한 점  \n내 말 그대로 1!  ",
+          "evidenceText": "",
+          "resultId": "a08e4738-de5a-4429-9298-dd49cfe3c19f",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0"
+        }
+      ]
+    },
+    {
+      "condition": "W24-C1",
+      "age": "adult",
+      "device": "390x844",
+      "resultId": "f1f024e3-5cb4-42e1-abfe-092681247b8b",
+      "status": "passed",
+      "predictionMethod": "choice",
+      "events": 22,
+      "bookPages": 8,
+      "comparisons": [
+        {
+          "comparisonKind": "history",
+          "expressionMode": "writing",
+          "discoveryText": "  실제와 내 이야기에서 발견한 점  \n내 말 그대로 1!  ",
+          "evidenceText": "  내가 본 책과 종이  \n그래서 이렇게 생각해요.  ",
+          "resultId": "f1f024e3-5cb4-42e1-abfe-092681247b8b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0"
+        },
+        {
+          "comparisonKind": "prediction",
+          "expressionMode": "writing",
+          "discoveryText": "  처음 생각과 실제에서 발견한 점  \n내 말 그대로 1!  ",
+          "evidenceText": "  내가 본 책과 종이  \n그래서 이렇게 생각해요.  ",
+          "resultId": "f1f024e3-5cb4-42e1-abfe-092681247b8b",
+          "missionId": "gutenberg",
+          "conditionId": "gutenberg.c1",
+          "missionVersion": "2.0.0",
+          "contentVersion": "1.1.0"
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "requests": [
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-box.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=preschool&support=3&learner=free-comparison-preschool-c2-1789799974898",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-tree.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-arrow.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-bubble.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-type.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-press.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-low&support=3&learner=free-comparison-elementary-low-c1-1789799998129",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-tree.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-arrow.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-bubble.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-type.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-press.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=elementary-high&support=3&learner=free-comparison-elementary-high-c1-1789800016044",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/cast.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-tree.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-arrow.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-bubble.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-type.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/canvas-press.svg",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/condition-objects-v1.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/?qa=1&age=adult&support=3&learner=free-comparison-adult-c1-1789800032848",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-ClIMNAJo.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/index-df7Z1AyR.css",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/PretendardVariable.woff2",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/missions-Dl3xSZDY.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/assets/ko-OVU4at3h.js",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/art/workshop.webp",
+      "purpose": "local application/content/assets"
+    },
+    {
+      "domain": "127.0.0.1",
+      "url": "http://127.0.0.1:5188/fonts/MaruBuri-SemiBold.woff2",
+      "purpose": "local application/content/assets"
+    }
+  ],
+  "checks": [
+    {
+      "label": "preschool2history",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2prediction",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2alternate",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2canvas",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2-history-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2-prediction-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2report",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "preschool2-book-page1",
+      "printOverflow": false,
+      "height": 996,
+      "content": 996
+    },
+    {
+      "label": "preschool2-book-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page5",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page6",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page7",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-book-page8",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-report-page1",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-report-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-report-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "preschool2-report-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1history",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1prediction",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1alternate",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1canvas",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1-history-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1-prediction-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1report",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-low1-book-page1",
+      "printOverflow": false,
+      "height": 996,
+      "content": 996
+    },
+    {
+      "label": "elementary-low1-book-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page5",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page6",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page7",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-book-page8",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-report-page1",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-report-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-report-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-low1-report-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1history",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1prediction",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1alternate",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1canvas",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1-history-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1-prediction-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1report",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "elementary-high1-book-page1",
+      "printOverflow": false,
+      "height": 996,
+      "content": 996
+    },
+    {
+      "label": "elementary-high1-book-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page5",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page6",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page7",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-book-page8",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-report-page1",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-report-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-report-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "elementary-high1-report-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1history",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1prediction",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1alternate",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1canvas",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1-history-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1-prediction-comparison",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1report",
+      "overflow": false,
+      "badLabels": false,
+      "small": [],
+      "brokenImages": []
+    },
+    {
+      "label": "adult1-book-page1",
+      "printOverflow": false,
+      "height": 996,
+      "content": 996
+    },
+    {
+      "label": "adult1-book-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page5",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page6",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page7",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-book-page8",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-report-page1",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-report-page2",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-report-page3",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    },
+    {
+      "label": "adult1-report-page4",
+      "printOverflow": false,
+      "height": 1018,
+      "content": 1018
+    }
+  ]
+}

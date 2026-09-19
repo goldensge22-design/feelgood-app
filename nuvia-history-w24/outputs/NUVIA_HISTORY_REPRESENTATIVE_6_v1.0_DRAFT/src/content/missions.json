@@ -1,0 +1,1804 @@
+[
+  {
+    "id": "gutenberg",
+    "week": 24,
+    "titleKey": "gutenberg.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "gutenberg.c1",
+        "shortId": "W24-C1",
+        "missionId": "gutenberg",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "gutenberg.c1.condition",
+        "actualHistoryKey": "gutenberg.c1.actual",
+        "actualSceneKey": "gutenberg.c1.scene",
+        "mechanismKey": "gutenberg.c1.mechanism",
+        "mechanismLevel": 1,
+        "causalMechanismId": "gutenberg.c1.causal",
+        "sourceIds": [
+          "S1324-21"
+        ],
+        "sourceLocatorKeys": [
+          "gutenberg.c1.sources"
+        ],
+        "directKey": "gutenberg.c1.direct",
+        "shortTermKey": "gutenberg.c1.short",
+        "longTermKey": "gutenberg.c1.long",
+        "additionalKey": "gutenberg.c1.additional",
+        "alternateKeys": [
+          "gutenberg.c1.alternate.A",
+          "gutenberg.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "gutenberg.c1.age.preschool.prompt",
+            "instructionKey": "gutenberg.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "gutenberg.c1.age.elementary-low.prompt",
+            "instructionKey": "gutenberg.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "gutenberg.c1.age.elementary-high.prompt",
+            "instructionKey": "gutenberg.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "gutenberg.c1.age.middle-school.prompt",
+            "instructionKey": "gutenberg.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "gutenberg.c1.age.high-school.prompt",
+            "instructionKey": "gutenberg.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "gutenberg.c1.age.adult.prompt",
+            "instructionKey": "gutenberg.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "gutenberg.c1.activity",
+          "actionKind": "revisePlan",
+          "contractId": "action.revisePlan.r2",
+          "materialSetId": "gutenberg.c1.materials",
+          "materials": [
+            {
+              "id": "gutenberg.c1.goal.1",
+              "labelKey": "gutenberg.c1.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "gutenberg.c1.response.1",
+              "labelKey": "gutenberg.c1.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c1.response.2",
+              "labelKey": "gutenberg.c1.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c1.response.3",
+              "labelKey": "gutenberg.c1.material.response.3",
+              "role": "response"
+            },
+            {
+              "id": "gutenberg.c1.reason.1",
+              "labelKey": "gutenberg.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c1.reason.2",
+              "labelKey": "gutenberg.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c1.reason.3",
+              "labelKey": "gutenberg.c1.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "gutenberg.c1.activity.prompt",
+          "observationKey": "gutenberg.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "gutenberg.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "gutenberg.c1.activity (제안·원본 미명시)",
+          "rawContractId": "action.revisePlan.r2 (제안)",
+          "rawCausalId": "gutenberg.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "gutenberg.c2",
+        "shortId": "W24-C2",
+        "missionId": "gutenberg",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "gutenberg.c2.condition",
+        "actualHistoryKey": "gutenberg.c2.actual",
+        "actualSceneKey": "gutenberg.c2.scene",
+        "mechanismKey": "gutenberg.c2.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "gutenberg.c2.causal",
+        "sourceIds": [
+          "S1324-21"
+        ],
+        "sourceLocatorKeys": [
+          "gutenberg.c2.sources"
+        ],
+        "directKey": "gutenberg.c2.direct",
+        "shortTermKey": "gutenberg.c2.short",
+        "longTermKey": "gutenberg.c2.long",
+        "additionalKey": "gutenberg.c2.additional",
+        "alternateKeys": [
+          "gutenberg.c2.alternate.A",
+          "gutenberg.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "gutenberg.c2.age.preschool.prompt",
+            "instructionKey": "gutenberg.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "gutenberg.c2.age.elementary-low.prompt",
+            "instructionKey": "gutenberg.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "gutenberg.c2.age.elementary-high.prompt",
+            "instructionKey": "gutenberg.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "gutenberg.c2.age.middle-school.prompt",
+            "instructionKey": "gutenberg.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "gutenberg.c2.age.high-school.prompt",
+            "instructionKey": "gutenberg.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "gutenberg.c2.age.adult.prompt",
+            "instructionKey": "gutenberg.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "gutenberg.c2.activity",
+          "actionKind": "prioritizeActions",
+          "contractId": "action.prioritizeActions.r2",
+          "materialSetId": "gutenberg.c2.materials",
+          "materials": [
+            {
+              "id": "gutenberg.c2.goal.1",
+              "labelKey": "gutenberg.c2.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "gutenberg.c2.response.1",
+              "labelKey": "gutenberg.c2.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.response.2",
+              "labelKey": "gutenberg.c2.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.response.3",
+              "labelKey": "gutenberg.c2.material.response.3",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.constraint.1",
+              "labelKey": "gutenberg.c2.material.constraint.1",
+              "role": "constraint",
+              "visual": "boundary"
+            },
+            {
+              "id": "gutenberg.c2.reason.1",
+              "labelKey": "gutenberg.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c2.reason.2",
+              "labelKey": "gutenberg.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "gutenberg.c2.activity.prompt",
+          "observationKey": "gutenberg.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "gutenberg.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "gutenberg.c2.activity (제안·원본 미명시)",
+          "rawContractId": "action.prioritizeActions.r2 (제안)",
+          "rawCausalId": "gutenberg.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "nuvia.history.agriculture-settlement",
+    "week": 1,
+    "titleKey": "nuvia.history.agriculture-settlement.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "nuvia.history.agriculture-settlement.c1",
+        "shortId": "W01-C1",
+        "missionId": "nuvia.history.agriculture-settlement",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.agriculture-settlement.c1.condition",
+        "actualHistoryKey": "nuvia.history.agriculture-settlement.c1.actual",
+        "actualSceneKey": "nuvia.history.agriculture-settlement.c1.scene",
+        "mechanismKey": "nuvia.history.agriculture-settlement.c1.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.agriculture-settlement.c1.causal",
+        "sourceIds": [
+          "S01"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.agriculture-settlement.c1.sources"
+        ],
+        "directKey": "nuvia.history.agriculture-settlement.c1.direct",
+        "shortTermKey": "nuvia.history.agriculture-settlement.c1.short",
+        "longTermKey": "nuvia.history.agriculture-settlement.c1.long",
+        "additionalKey": "nuvia.history.agriculture-settlement.c1.additional",
+        "alternateKeys": [
+          "nuvia.history.agriculture-settlement.c1.alternate.A",
+          "nuvia.history.agriculture-settlement.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.preschool.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.high-school.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c1.age.adult.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          }
+        },
+        "passDomain": "동시처리",
+        "activity": {
+          "id": "nuvia.history.agriculture-settlement.c1.r3_2.activity",
+          "actionKind": "mapRelation",
+          "contractId": "action.mapRelation.r2",
+          "materialSetId": "nuvia.history.agriculture-settlement.c1.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.node.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.node.1",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.node.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.node.2",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.node.3",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.node.3",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.meaning.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.meaning.1",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.meaning.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.meaning.2",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.reason.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c1.reason.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.agriculture-settlement.c1.activity.prompt",
+          "observationKey": "nuvia.history.agriculture-settlement.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.agriculture-settlement.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "asset.w01.c1.background",
+          "asset.w01.c1.prop.base",
+          "asset.w01.c1.prop.changed"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.agriculture-settlement.c1.r3_2.activity",
+          "rawContractId": "action.mapRelation.r2",
+          "rawCausalId": "nuvia.history.agriculture-settlement.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "nuvia.history.agriculture-settlement.c2",
+        "shortId": "W01-C2",
+        "missionId": "nuvia.history.agriculture-settlement",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.agriculture-settlement.c2.condition",
+        "actualHistoryKey": "nuvia.history.agriculture-settlement.c2.actual",
+        "actualSceneKey": "nuvia.history.agriculture-settlement.c2.scene",
+        "mechanismKey": "nuvia.history.agriculture-settlement.c2.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.agriculture-settlement.c2.causal",
+        "sourceIds": [
+          "N01"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.agriculture-settlement.c2.sources"
+        ],
+        "directKey": "nuvia.history.agriculture-settlement.c2.direct",
+        "shortTermKey": "nuvia.history.agriculture-settlement.c2.short",
+        "longTermKey": "nuvia.history.agriculture-settlement.c2.long",
+        "additionalKey": "nuvia.history.agriculture-settlement.c2.additional",
+        "alternateKeys": [
+          "nuvia.history.agriculture-settlement.c2.alternate.A",
+          "nuvia.history.agriculture-settlement.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.preschool.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.high-school.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.agriculture-settlement.c2.age.adult.prompt",
+            "instructionKey": "nuvia.history.agriculture-settlement.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          }
+        },
+        "passDomain": "동시처리",
+        "activity": {
+          "id": "nuvia.history.agriculture-settlement.c2.r3_2.activity",
+          "actionKind": "mapRelation",
+          "contractId": "action.mapRelation.r2",
+          "materialSetId": "nuvia.history.agriculture-settlement.c2.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.node.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.node.1",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.node.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.node.2",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.node.3",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.node.3",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.meaning.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.meaning.1",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.meaning.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.meaning.2",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.reason.1",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.agriculture-settlement.c2.reason.2",
+              "labelKey": "nuvia.history.agriculture-settlement.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.agriculture-settlement.c2.activity.prompt",
+          "observationKey": "nuvia.history.agriculture-settlement.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.agriculture-settlement.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "asset.w01.c2.background",
+          "asset.w01.c2.prop.base",
+          "asset.w01.c2.prop.changed"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.agriculture-settlement.c2.r3_2.activity",
+          "rawContractId": "action.mapRelation.r2",
+          "rawCausalId": "nuvia.history.agriculture-settlement.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "nuvia.history.baghdad-translation",
+    "week": 15,
+    "titleKey": "nuvia.history.baghdad-translation.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "nuvia.history.baghdad-translation.c1",
+        "shortId": "W15-C1",
+        "missionId": "nuvia.history.baghdad-translation",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.baghdad-translation.c1.condition",
+        "actualHistoryKey": "nuvia.history.baghdad-translation.c1.actual",
+        "actualSceneKey": "nuvia.history.baghdad-translation.c1.scene",
+        "mechanismKey": "nuvia.history.baghdad-translation.c1.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.baghdad-translation.c1.causal",
+        "sourceIds": [
+          "S1324-04",
+          "S1324-05"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.baghdad-translation.c1.sources"
+        ],
+        "directKey": "nuvia.history.baghdad-translation.c1.direct",
+        "shortTermKey": "nuvia.history.baghdad-translation.c1.short",
+        "longTermKey": "nuvia.history.baghdad-translation.c1.long",
+        "additionalKey": "nuvia.history.baghdad-translation.c1.additional",
+        "alternateKeys": [
+          "nuvia.history.baghdad-translation.c1.alternate.A",
+          "nuvia.history.baghdad-translation.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.preschool.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.high-school.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c1.age.adult.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          }
+        },
+        "passDomain": "순차처리",
+        "activity": {
+          "id": "nuvia.history.baghdad-translation.c1.activity",
+          "actionKind": "arrangeSequence",
+          "contractId": "action.arrangeSequence.r2",
+          "materialSetId": "nuvia.history.baghdad-translation.c1.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.baghdad-translation.c1.step.1",
+              "labelKey": "nuvia.history.baghdad-translation.c1.material.step.1",
+              "role": "step",
+              "visual": "sequence"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c1.step.2",
+              "labelKey": "nuvia.history.baghdad-translation.c1.material.step.2",
+              "role": "step",
+              "visual": "sequence"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c1.step.3",
+              "labelKey": "nuvia.history.baghdad-translation.c1.material.step.3",
+              "role": "step",
+              "visual": "sequence"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c1.reason.1",
+              "labelKey": "nuvia.history.baghdad-translation.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c1.reason.2",
+              "labelKey": "nuvia.history.baghdad-translation.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.baghdad-translation.c1.activity.prompt",
+          "observationKey": "nuvia.history.baghdad-translation.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.baghdad-translation.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.baghdad-translation.c1.activity (제안·원본 미명시)",
+          "rawContractId": "action.arrangeSequence.r2 (제안)",
+          "rawCausalId": "nuvia.history.baghdad-translation.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "nuvia.history.baghdad-translation.c2",
+        "shortId": "W15-C2",
+        "missionId": "nuvia.history.baghdad-translation",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.baghdad-translation.c2.condition",
+        "actualHistoryKey": "nuvia.history.baghdad-translation.c2.actual",
+        "actualSceneKey": "nuvia.history.baghdad-translation.c2.scene",
+        "mechanismKey": "nuvia.history.baghdad-translation.c2.mechanism",
+        "mechanismLevel": 1,
+        "causalMechanismId": "nuvia.history.baghdad-translation.c2.causal",
+        "sourceIds": [
+          "S1324-04"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.baghdad-translation.c2.sources"
+        ],
+        "directKey": "nuvia.history.baghdad-translation.c2.direct",
+        "shortTermKey": "nuvia.history.baghdad-translation.c2.short",
+        "longTermKey": "nuvia.history.baghdad-translation.c2.long",
+        "additionalKey": "nuvia.history.baghdad-translation.c2.additional",
+        "alternateKeys": [
+          "nuvia.history.baghdad-translation.c2.alternate.A",
+          "nuvia.history.baghdad-translation.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.preschool.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.high-school.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.baghdad-translation.c2.age.adult.prompt",
+            "instructionKey": "nuvia.history.baghdad-translation.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.attention.v1"
+          }
+        },
+        "passDomain": "주의",
+        "activity": {
+          "id": "nuvia.history.baghdad-translation.c2.activity",
+          "actionKind": "classifyEvidence",
+          "contractId": "action.classifyEvidence.r2",
+          "materialSetId": "nuvia.history.baghdad-translation.c2.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.baghdad-translation.c2.evidence.1",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.evidence.1",
+              "role": "evidence",
+              "visual": "document"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c2.evidence.2",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.evidence.2",
+              "role": "evidence",
+              "visual": "document"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c2.evidence.3",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.evidence.3",
+              "role": "evidence",
+              "visual": "document"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c2.reason.1",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c2.reason.2",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.baghdad-translation.c2.reason.3",
+              "labelKey": "nuvia.history.baghdad-translation.c2.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.baghdad-translation.c2.activity.prompt",
+          "observationKey": "nuvia.history.baghdad-translation.c2.activity.observation",
+          "hiddenExplanationId": "nuvia.history.baghdad-translation.c2.hiddenExplanation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.baghdad-translation.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.baghdad-translation.c2.activity (제안·원본 미명시)",
+          "rawContractId": "action.classifyEvidence.r2 (제안)",
+          "rawCausalId": "nuvia.history.baghdad-translation.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "nuvia.history.american-conquest",
+    "week": 29,
+    "titleKey": "nuvia.history.american-conquest.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "nuvia.history.american-conquest.c1",
+        "shortId": "W29-C1",
+        "missionId": "nuvia.history.american-conquest",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.american-conquest.c1.condition",
+        "actualHistoryKey": "nuvia.history.american-conquest.c1.actual",
+        "actualSceneKey": "nuvia.history.american-conquest.c1.scene",
+        "mechanismKey": "nuvia.history.american-conquest.c1.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.american-conquest.c1.causal",
+        "sourceIds": [
+          "W29-S01",
+          "W29-S02",
+          "W29-S03",
+          "W29-S04"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.american-conquest.c1.sources"
+        ],
+        "directKey": "nuvia.history.american-conquest.c1.direct",
+        "shortTermKey": "nuvia.history.american-conquest.c1.short",
+        "longTermKey": "nuvia.history.american-conquest.c1.long",
+        "additionalKey": "nuvia.history.american-conquest.c1.additional",
+        "alternateKeys": [
+          "nuvia.history.american-conquest.c1.alternate.A",
+          "nuvia.history.american-conquest.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.preschool.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.high-school.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.american-conquest.c1.age.adult.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          }
+        },
+        "passDomain": "동시처리",
+        "activity": {
+          "id": "nuvia.history.american-conquest.c1.activity",
+          "actionKind": "compareStructures",
+          "contractId": "action.compareStructures.r2",
+          "materialSetId": "nuvia.history.american-conquest.c1.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.american-conquest.c1.left.1",
+              "labelKey": "nuvia.history.american-conquest.c1.material.left.1",
+              "role": "left",
+              "visual": "comparison"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c1.right.1",
+              "labelKey": "nuvia.history.american-conquest.c1.material.right.1",
+              "role": "right",
+              "visual": "comparison"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c1.reason.1",
+              "labelKey": "nuvia.history.american-conquest.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c1.reason.2",
+              "labelKey": "nuvia.history.american-conquest.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c1.reason.3",
+              "labelKey": "nuvia.history.american-conquest.c1.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.american-conquest.c1.activity.prompt",
+          "observationKey": "nuvia.history.american-conquest.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.american-conquest.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.american-conquest.c1.materials"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.american-conquest.c1.activity",
+          "rawContractId": "action.compareStructures.r2",
+          "rawCausalId": "nuvia.history.american-conquest.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "nuvia.history.american-conquest.c2",
+        "shortId": "W29-C2",
+        "missionId": "nuvia.history.american-conquest",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.american-conquest.c2.condition",
+        "actualHistoryKey": "nuvia.history.american-conquest.c2.actual",
+        "actualSceneKey": "nuvia.history.american-conquest.c2.scene",
+        "mechanismKey": "nuvia.history.american-conquest.c2.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.american-conquest.c2.causal",
+        "sourceIds": [
+          "W29-S01",
+          "W29-S02",
+          "W29-S03",
+          "W29-S04"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.american-conquest.c2.sources"
+        ],
+        "directKey": "nuvia.history.american-conquest.c2.direct",
+        "shortTermKey": "nuvia.history.american-conquest.c2.short",
+        "longTermKey": "nuvia.history.american-conquest.c2.long",
+        "additionalKey": "nuvia.history.american-conquest.c2.additional",
+        "alternateKeys": [
+          "nuvia.history.american-conquest.c2.alternate.A",
+          "nuvia.history.american-conquest.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.preschool.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.high-school.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.american-conquest.c2.age.adult.prompt",
+            "instructionKey": "nuvia.history.american-conquest.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "nuvia.history.american-conquest.c2.activity",
+          "actionKind": "chooseGoalAndSteps",
+          "contractId": "action.chooseGoalAndSteps.r2",
+          "materialSetId": "nuvia.history.american-conquest.c2.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.american-conquest.c2.goal.1",
+              "labelKey": "nuvia.history.american-conquest.c2.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c2.response.1",
+              "labelKey": "nuvia.history.american-conquest.c2.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c2.response.2",
+              "labelKey": "nuvia.history.american-conquest.c2.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c2.constraint.1",
+              "labelKey": "nuvia.history.american-conquest.c2.material.constraint.1",
+              "role": "constraint",
+              "visual": "boundary"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c2.reason.1",
+              "labelKey": "nuvia.history.american-conquest.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.american-conquest.c2.reason.2",
+              "labelKey": "nuvia.history.american-conquest.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.american-conquest.c2.activity.prompt",
+          "observationKey": "nuvia.history.american-conquest.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.american-conquest.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.american-conquest.c2.materials"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.american-conquest.c2.activity",
+          "rawContractId": "action.chooseGoalAndSteps.r2",
+          "rawCausalId": "nuvia.history.american-conquest.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "nuvia.history.africa-partition",
+    "week": 39,
+    "titleKey": "nuvia.history.africa-partition.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "nuvia.history.africa-partition.c1",
+        "shortId": "W39-C1",
+        "missionId": "nuvia.history.africa-partition",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.africa-partition.c1.condition",
+        "actualHistoryKey": "nuvia.history.africa-partition.c1.actual",
+        "actualSceneKey": "nuvia.history.africa-partition.c1.scene",
+        "mechanismKey": "nuvia.history.africa-partition.c1.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.africa-partition.c1.causal",
+        "sourceIds": [
+          "R2-S39-A"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.africa-partition.c1.sources"
+        ],
+        "directKey": "nuvia.history.africa-partition.c1.direct",
+        "shortTermKey": "nuvia.history.africa-partition.c1.short",
+        "longTermKey": "nuvia.history.africa-partition.c1.long",
+        "additionalKey": "nuvia.history.africa-partition.c1.additional",
+        "alternateKeys": [
+          "nuvia.history.africa-partition.c1.alternate.A",
+          "nuvia.history.africa-partition.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.preschool.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.high-school.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.africa-partition.c1.age.adult.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          }
+        },
+        "passDomain": "동시처리",
+        "activity": {
+          "id": "nuvia.history.africa-partition.c1.core",
+          "actionKind": "mapRelation",
+          "contractId": "action.mapRelation.r2",
+          "materialSetId": "nuvia.history.africa-partition.c1.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.africa-partition.c1.node.1",
+              "labelKey": "nuvia.history.africa-partition.c1.material.node.1",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.node.2",
+              "labelKey": "nuvia.history.africa-partition.c1.material.node.2",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.node.3",
+              "labelKey": "nuvia.history.africa-partition.c1.material.node.3",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.node.4",
+              "labelKey": "nuvia.history.africa-partition.c1.material.node.4",
+              "role": "node",
+              "visual": "relation"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.meaning.1",
+              "labelKey": "nuvia.history.africa-partition.c1.material.meaning.1",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.meaning.2",
+              "labelKey": "nuvia.history.africa-partition.c1.material.meaning.2",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.meaning.3",
+              "labelKey": "nuvia.history.africa-partition.c1.material.meaning.3",
+              "role": "meaning",
+              "visual": "link"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.reason.1",
+              "labelKey": "nuvia.history.africa-partition.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c1.reason.2",
+              "labelKey": "nuvia.history.africa-partition.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.africa-partition.c1.activity.prompt",
+          "observationKey": "nuvia.history.africa-partition.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.africa-partition.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.africa-partition.c1.materials.r2-draft"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.africa-partition.c1.core",
+          "rawContractId": "action.mapRelation.r2 (제안)",
+          "rawCausalId": "nuvia.history.africa-partition.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "nuvia.history.africa-partition.c2",
+        "shortId": "W39-C2",
+        "missionId": "nuvia.history.africa-partition",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.africa-partition.c2.condition",
+        "actualHistoryKey": "nuvia.history.africa-partition.c2.actual",
+        "actualSceneKey": "nuvia.history.africa-partition.c2.scene",
+        "mechanismKey": "nuvia.history.africa-partition.c2.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.africa-partition.c2.causal",
+        "sourceIds": [
+          "R2-S39-A"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.africa-partition.c2.sources"
+        ],
+        "directKey": "nuvia.history.africa-partition.c2.direct",
+        "shortTermKey": "nuvia.history.africa-partition.c2.short",
+        "longTermKey": "nuvia.history.africa-partition.c2.long",
+        "additionalKey": "nuvia.history.africa-partition.c2.additional",
+        "alternateKeys": [
+          "nuvia.history.africa-partition.c2.alternate.A",
+          "nuvia.history.africa-partition.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.preschool.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.high-school.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.africa-partition.c2.age.adult.prompt",
+            "instructionKey": "nuvia.history.africa-partition.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.sequential.v1"
+          }
+        },
+        "passDomain": "순차처리",
+        "activity": {
+          "id": "nuvia.history.africa-partition.c2.core",
+          "actionKind": "arrangeSequence",
+          "contractId": "action.arrangeSequence.r2",
+          "materialSetId": "nuvia.history.africa-partition.c2.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.africa-partition.c2.step.1",
+              "labelKey": "nuvia.history.africa-partition.c2.material.step.1",
+              "role": "step",
+              "visual": "sequence"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c2.step.2",
+              "labelKey": "nuvia.history.africa-partition.c2.material.step.2",
+              "role": "step",
+              "visual": "sequence"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c2.reason.1",
+              "labelKey": "nuvia.history.africa-partition.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c2.reason.2",
+              "labelKey": "nuvia.history.africa-partition.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.africa-partition.c2.reason.3",
+              "labelKey": "nuvia.history.africa-partition.c2.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.africa-partition.c2.activity.prompt",
+          "observationKey": "nuvia.history.africa-partition.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.africa-partition.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.africa-partition.c2.materials.r2-draft"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.africa-partition.c2.core",
+          "rawContractId": "action.arrangeSequence.r2 (제안)",
+          "rawCausalId": "nuvia.history.africa-partition.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  },
+  {
+    "id": "nuvia.history.un-human-rights",
+    "week": 44,
+    "titleKey": "nuvia.history.un-human-rights.title",
+    "missionVersion": "1.0.0",
+    "contentVersion": "1.0.0",
+    "conditions": [
+      {
+        "id": "nuvia.history.un-human-rights.c1",
+        "shortId": "W44-C1",
+        "missionId": "nuvia.history.un-human-rights",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.un-human-rights.c1.condition",
+        "actualHistoryKey": "nuvia.history.un-human-rights.c1.actual",
+        "actualSceneKey": "nuvia.history.un-human-rights.c1.scene",
+        "mechanismKey": "nuvia.history.un-human-rights.c1.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "nuvia.history.un-human-rights.c1.causal",
+        "sourceIds": [
+          "R2-S44-A",
+          "R2-S44-B",
+          "R2-S44-C",
+          "R2-S44-D"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.un-human-rights.c1.sources"
+        ],
+        "directKey": "nuvia.history.un-human-rights.c1.direct",
+        "shortTermKey": "nuvia.history.un-human-rights.c1.short",
+        "longTermKey": "nuvia.history.un-human-rights.c1.long",
+        "additionalKey": "nuvia.history.un-human-rights.c1.additional",
+        "alternateKeys": [
+          "nuvia.history.un-human-rights.c1.alternate.A",
+          "nuvia.history.un-human-rights.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.preschool.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.high-school.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.un-human-rights.c1.age.adult.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.simultaneous.v1"
+          }
+        },
+        "passDomain": "동시처리",
+        "activity": {
+          "id": "nuvia.history.un-human-rights.c1.core",
+          "actionKind": "compareStructures",
+          "contractId": "action.compareStructures.r2",
+          "materialSetId": "nuvia.history.un-human-rights.c1.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.un-human-rights.c1.left.1",
+              "labelKey": "nuvia.history.un-human-rights.c1.material.left.1",
+              "role": "left",
+              "visual": "comparison"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c1.right.1",
+              "labelKey": "nuvia.history.un-human-rights.c1.material.right.1",
+              "role": "right",
+              "visual": "comparison"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c1.reason.1",
+              "labelKey": "nuvia.history.un-human-rights.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c1.reason.2",
+              "labelKey": "nuvia.history.un-human-rights.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c1.reason.3",
+              "labelKey": "nuvia.history.un-human-rights.c1.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.un-human-rights.c1.activity.prompt",
+          "observationKey": "nuvia.history.un-human-rights.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.un-human-rights.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.un-human-rights.c1.materials.r2-draft"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.un-human-rights.c1.core",
+          "rawContractId": "action.compareStructures.r2 (제안)",
+          "rawCausalId": "nuvia.history.un-human-rights.c1.causal (제안·원본 미명시)"
+        }
+      },
+      {
+        "id": "nuvia.history.un-human-rights.c2",
+        "shortId": "W44-C2",
+        "missionId": "nuvia.history.un-human-rights",
+        "missionVersion": "1.0.0",
+        "contentVersion": "1.0.0",
+        "conditionKey": "nuvia.history.un-human-rights.c2.condition",
+        "actualHistoryKey": "nuvia.history.un-human-rights.c2.actual",
+        "actualSceneKey": "nuvia.history.un-human-rights.c2.scene",
+        "mechanismKey": "nuvia.history.un-human-rights.c2.mechanism",
+        "mechanismLevel": 1,
+        "causalMechanismId": "nuvia.history.un-human-rights.c2.causal",
+        "sourceIds": [
+          "S44-03"
+        ],
+        "sourceLocatorKeys": [
+          "nuvia.history.un-human-rights.c2.sources"
+        ],
+        "directKey": "nuvia.history.un-human-rights.c2.direct",
+        "shortTermKey": "nuvia.history.un-human-rights.c2.short",
+        "longTermKey": "nuvia.history.un-human-rights.c2.long",
+        "additionalKey": "nuvia.history.un-human-rights.c2.additional",
+        "alternateKeys": [
+          "nuvia.history.un-human-rights.c2.alternate.A",
+          "nuvia.history.un-human-rights.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.preschool.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.elementary-low.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.elementary-high.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.middle-school.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.high-school.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "nuvia.history.un-human-rights.c2.age.adult.prompt",
+            "instructionKey": "nuvia.history.un-human-rights.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "nuvia.history.un-human-rights.c2.core",
+          "actionKind": "chooseGoalAndSteps",
+          "contractId": "action.chooseGoalAndSteps.r2",
+          "materialSetId": "nuvia.history.un-human-rights.c2.materials",
+          "materials": [
+            {
+              "id": "nuvia.history.un-human-rights.c2.goal.1",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c2.response.1",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c2.response.2",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c2.constraint.1",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.constraint.1",
+              "role": "constraint",
+              "visual": "boundary"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c2.reason.1",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "nuvia.history.un-human-rights.c2.reason.2",
+              "labelKey": "nuvia.history.un-human-rights.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "nuvia.history.un-human-rights.c2.activity.prompt",
+          "observationKey": "nuvia.history.un-human-rights.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "nuvia.history.un-human-rights.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "nuvia.history.un-human-rights.c2.materials.v1-draft"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "nuvia.history.un-human-rights.c2.core",
+          "rawContractId": "action.chooseGoalAndSteps.r2 (제안)",
+          "rawCausalId": "nuvia.history.un-human-rights.c2.causal (제안·원본 미명시)"
+        }
+      }
+    ]
+  }
+]

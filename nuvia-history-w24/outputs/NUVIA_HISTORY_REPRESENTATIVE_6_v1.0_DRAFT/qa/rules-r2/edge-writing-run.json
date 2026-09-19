@@ -1,0 +1,676 @@
+{
+  "schemaVersion": 1,
+  "revision": 10,
+  "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+  "missionId": "gutenberg",
+  "missionVersion": "3.0.0",
+  "contentVersion": "2.0.0",
+  "appVersion": "0.3.2",
+  "profile": {
+    "learnerId": "edge-r2-writing-1789803229159",
+    "alias": "어린이 탐험가",
+    "ageBand": "adult",
+    "attentionSupport": 0,
+    "source": "explicit-test"
+  },
+  "ageBandRuleId": "nuvia.age.adult.v1",
+  "createdAt": "2026-09-19T07:33:49.545Z",
+  "completedAt": "2026-09-19T07:33:50.996Z",
+  "stage": "complete",
+  "conditionId": "gutenberg.c1",
+  "prediction": {
+    "status": "recorded",
+    "value": {
+      "expression": {
+        "method": "choice",
+        "choiceId": "fewerBooks",
+        "text": "책이 더 적어질 것 같아요"
+      },
+      "recordedAt": "2026-09-19T07:33:50.264Z"
+    }
+  },
+  "alternate": {
+    "status": "recorded",
+    "value": "A"
+  },
+  "action": {
+    "status": "notProvided"
+  },
+  "story": {
+    "status": "recorded",
+    "value": {
+      "method": "text",
+      "text": "  내가 직접 쓴 이야기\n원문을 그대로 두어요.  "
+    }
+  },
+  "historyComparison": {
+    "status": "recorded",
+    "value": {
+      "comparisonKind": "history",
+      "expressionMode": "writing",
+      "discoveryText": "  서로 따로 쓴 같은 문장  ",
+      "evidenceText": "  실제 입력 근거  ",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0"
+    }
+  },
+  "predictionComparison": {
+    "status": "recorded",
+    "value": {
+      "comparisonKind": "prediction",
+      "expressionMode": "writing",
+      "discoveryText": "  서로 따로 쓴 같은 문장  ",
+      "evidenceText": "  실제 입력 근거  ",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0"
+    }
+  },
+  "canvas": {
+    "status": "notRecorded"
+  },
+  "cover": "antique",
+  "events": [
+    {
+      "eventId": "bf10b321-90d8-4e8a-9383-8b6dcb1e1d57",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": null,
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "missionStarted",
+      "timestamp": "2026-09-19T07:33:49.545Z",
+      "payload": {
+        "profileSource": "explicit-test"
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "182dc1ea-df96-4f23-b803-13b21c6a1e2f",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": null,
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "historyViewed",
+      "timestamp": "2026-09-19T07:33:49.970Z",
+      "payload": {
+        "viewedConditionId": "gutenberg.c1"
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "4344b180-e767-4436-b1a1-e7c21c24dde0",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": null,
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "historyViewed",
+      "timestamp": "2026-09-19T07:33:50.031Z",
+      "payload": {
+        "viewedConditionId": "gutenberg.c2"
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "85e46700-6b85-4eb5-ba93-be18cb00a4dc",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "conditionSelected",
+      "timestamp": "2026-09-19T07:33:50.130Z",
+      "payload": {
+        "kind": "condition",
+        "conditionId": "gutenberg.c1",
+        "previousConditionId": null
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "e8faa5e0-e9cb-4fd7-8579-429ca619cc8d",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "predictionRecorded",
+      "timestamp": "2026-09-19T07:33:50.264Z",
+      "payload": {
+        "method": "choice",
+        "hasText": true,
+        "provided": true
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "8b33150f-d82c-4c68-b9cf-ecdc44e42002",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "alternateViewed",
+      "timestamp": "2026-09-19T07:33:50.396Z",
+      "payload": {
+        "possibility": "A",
+        "kind": "fiction",
+        "causalLevel": 3
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "5de50ee0-a1c7-4c47-bf9d-cf9da487dae0",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "activityDeferred",
+      "timestamp": "2026-09-19T07:33:50.579Z",
+      "payload": {
+        "reason": "unknown"
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "96c340ff-7c41-4f85-82e0-5b4c1317c2b5",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "storyRecorded",
+      "timestamp": "2026-09-19T07:33:50.798Z",
+      "payload": {
+        "method": "text",
+        "hasText": true,
+        "provided": true
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "1d6628c0-eb44-4968-9ac9-b0f4bdab51fd",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "comparisonCompleted",
+      "timestamp": "2026-09-19T07:33:50.914Z",
+      "payload": {
+        "comparisonKind": "history",
+        "recordRef": "652165b9-ebff-4af0-b6f3-e0f5acef79a8/historyComparison",
+        "inputStage": "historyComparison",
+        "expressionMode": "writing",
+        "provided": true,
+        "hasDiscovery": true,
+        "hasEvidence": true
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "ce81d81a-6473-4a89-a2e4-324b84b181ba",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "comparisonCompleted",
+      "timestamp": "2026-09-19T07:33:50.996Z",
+      "payload": {
+        "comparisonKind": "prediction",
+        "recordRef": "652165b9-ebff-4af0-b6f3-e0f5acef79a8/predictionComparison",
+        "inputStage": "predictionComparison",
+        "expressionMode": "writing",
+        "provided": true,
+        "hasDiscovery": true,
+        "hasEvidence": true
+      },
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    },
+    {
+      "eventId": "5720cd53-cf77-44a2-ad05-8e5f5aba21b0",
+      "resultId": "652165b9-ebff-4af0-b6f3-e0f5acef79a8",
+      "missionId": "gutenberg",
+      "conditionId": "gutenberg.c1",
+      "missionVersion": "3.0.0",
+      "contentVersion": "2.0.0",
+      "ageBandRuleId": "nuvia.age.adult.v1",
+      "ageBand": "adult",
+      "eventType": "missionCompleted",
+      "timestamp": "2026-09-19T07:33:50.996Z",
+      "payload": {},
+      "supportLevel": 0,
+      "appVersion": "0.3.2"
+    }
+  ],
+  "contentSnapshot": {
+    "id": "gutenberg",
+    "week": 24,
+    "titleKey": "gutenberg.title",
+    "missionVersion": "3.0.0",
+    "contentVersion": "2.0.0",
+    "conditions": [
+      {
+        "id": "gutenberg.c1",
+        "shortId": "W24-C1",
+        "missionId": "gutenberg",
+        "missionVersion": "3.0.0",
+        "contentVersion": "2.0.0",
+        "conditionKey": "gutenberg.c1.condition",
+        "actualHistoryKey": "gutenberg.c1.actual",
+        "actualSceneKey": "gutenberg.c1.scene",
+        "mechanismKey": "gutenberg.c1.mechanism",
+        "mechanismLevel": 1,
+        "causalMechanismId": "gutenberg.c1.causal",
+        "sourceIds": [
+          "S1324-21"
+        ],
+        "sourceLocatorKeys": [
+          "gutenberg.c1.sources"
+        ],
+        "directKey": "gutenberg.c1.direct",
+        "shortTermKey": "gutenberg.c1.short",
+        "longTermKey": "gutenberg.c1.long",
+        "additionalKey": "gutenberg.c1.additional",
+        "alternateKeys": [
+          "gutenberg.c1.alternate.A",
+          "gutenberg.c1.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "gutenberg.c1.age.preschool.prompt",
+            "instructionKey": "gutenberg.c1.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "gutenberg.c1.age.elementary-low.prompt",
+            "instructionKey": "gutenberg.c1.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "gutenberg.c1.age.elementary-high.prompt",
+            "instructionKey": "gutenberg.c1.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "gutenberg.c1.age.middle-school.prompt",
+            "instructionKey": "gutenberg.c1.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "gutenberg.c1.age.high-school.prompt",
+            "instructionKey": "gutenberg.c1.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "gutenberg.c1.age.adult.prompt",
+            "instructionKey": "gutenberg.c1.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "gutenberg.c1.activity",
+          "actionKind": "revisePlan",
+          "contractId": "action.revisePlan.r2",
+          "materialSetId": "gutenberg.c1.materials",
+          "materials": [
+            {
+              "id": "gutenberg.c1.goal.1",
+              "labelKey": "gutenberg.c1.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "gutenberg.c1.response.1",
+              "labelKey": "gutenberg.c1.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c1.response.2",
+              "labelKey": "gutenberg.c1.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c1.response.3",
+              "labelKey": "gutenberg.c1.material.response.3",
+              "role": "response"
+            },
+            {
+              "id": "gutenberg.c1.reason.1",
+              "labelKey": "gutenberg.c1.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c1.reason.2",
+              "labelKey": "gutenberg.c1.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c1.reason.3",
+              "labelKey": "gutenberg.c1.material.reason.3",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "gutenberg.c1.activity.prompt",
+          "observationKey": "gutenberg.c1.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "gutenberg.c1.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "gutenberg.c1.activity (제안·원본 미명시)",
+          "rawContractId": "action.revisePlan.r2 (제안)",
+          "rawCausalId": "gutenberg.c1.causal (제안·원본 미명시)"
+        },
+        "learnerStoryOnly": true,
+        "historySummaryKey": "gutenberg.c1.book.historySummary",
+        "historyKeyPointKey": "gutenberg.c1.book.historyKeyPoint"
+      },
+      {
+        "id": "gutenberg.c2",
+        "shortId": "W24-C2",
+        "missionId": "gutenberg",
+        "missionVersion": "3.0.0",
+        "contentVersion": "2.0.0",
+        "conditionKey": "gutenberg.c2.condition",
+        "actualHistoryKey": "gutenberg.c2.actual",
+        "actualSceneKey": "gutenberg.c2.scene",
+        "mechanismKey": "gutenberg.c2.mechanism",
+        "mechanismLevel": 2,
+        "causalMechanismId": "gutenberg.c2.causal",
+        "sourceIds": [
+          "S1324-21"
+        ],
+        "sourceLocatorKeys": [
+          "gutenberg.c2.sources"
+        ],
+        "directKey": "gutenberg.c2.direct",
+        "shortTermKey": "gutenberg.c2.short",
+        "longTermKey": "gutenberg.c2.long",
+        "additionalKey": "gutenberg.c2.additional",
+        "alternateKeys": [
+          "gutenberg.c2.alternate.A",
+          "gutenberg.c2.alternate.B"
+        ],
+        "ageVariants": {
+          "preschool": {
+            "ageBandRuleId": "nuvia.age.preschool.v1",
+            "promptKey": "gutenberg.c2.age.preschool.prompt",
+            "instructionKey": "gutenberg.c2.age.preschool.instruction",
+            "expressionMode": "그림 선택·말하기·스티커·그리기·모르겠어요",
+            "visualSupportRule": "nuvia.visual.large-picture-two-choice.v1",
+            "readingDensityRule": "nuvia.reading.one-sentence.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-low": {
+            "ageBandRuleId": "nuvia.age.elementary-low.v1",
+            "promptKey": "gutenberg.c2.age.elementary-low.prompt",
+            "instructionKey": "gutenberg.c2.age.elementary-low.instruction",
+            "expressionMode": "그림 2개와 말·한 문장",
+            "visualSupportRule": "nuvia.visual.picture-keyword.v1",
+            "readingDensityRule": "nuvia.reading.one-to-two-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "elementary-high": {
+            "ageBandRuleId": "nuvia.age.elementary-high.v1",
+            "promptKey": "gutenberg.c2.age.elementary-high.prompt",
+            "instructionKey": "gutenberg.c2.age.elementary-high.instruction",
+            "expressionMode": "원인·조건·결과 그림과 2~3문장",
+            "visualSupportRule": "nuvia.visual.cause-process-result.v1",
+            "readingDensityRule": "nuvia.reading.two-to-three-sentences.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "middle-school": {
+            "ageBandRuleId": "nuvia.age.middle-school.v1",
+            "promptKey": "gutenberg.c2.age.middle-school.prompt",
+            "instructionKey": "gutenberg.c2.age.middle-school.instruction",
+            "expressionMode": "근거 구분과 짧은 이유",
+            "visualSupportRule": "nuvia.visual.evidence-assumption-possibility.v1",
+            "readingDensityRule": "nuvia.reading.short-evidence-reason.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "high-school": {
+            "ageBandRuleId": "nuvia.age.high-school.v1",
+            "promptKey": "gutenberg.c2.age.high-school.prompt",
+            "instructionKey": "gutenberg.c2.age.high-school.instruction",
+            "expressionMode": "근거·반론·불확실성 비교",
+            "visualSupportRule": "nuvia.visual.evidence-counterargument.v1",
+            "readingDensityRule": "nuvia.reading.evidence-rebuttal-uncertainty.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          },
+          "adult": {
+            "ageBandRuleId": "nuvia.age.adult.v1",
+            "promptKey": "gutenberg.c2.age.adult.prompt",
+            "instructionKey": "gutenberg.c2.age.adult.instruction",
+            "expressionMode": "자료 한계·복합 조건 비교",
+            "visualSupportRule": "nuvia.visual.source-limit-complex-cause.v1",
+            "readingDensityRule": "nuvia.reading.mobile-dense.v1",
+            "supportRuleRef": "nuvia.support.planning.v1"
+          }
+        },
+        "passDomain": "계획",
+        "activity": {
+          "id": "gutenberg.c2.activity",
+          "actionKind": "prioritizeActions",
+          "contractId": "action.prioritizeActions.r2",
+          "materialSetId": "gutenberg.c2.materials",
+          "materials": [
+            {
+              "id": "gutenberg.c2.goal.1",
+              "labelKey": "gutenberg.c2.material.goal.1",
+              "role": "goal",
+              "visual": "target"
+            },
+            {
+              "id": "gutenberg.c2.response.1",
+              "labelKey": "gutenberg.c2.material.response.1",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.response.2",
+              "labelKey": "gutenberg.c2.material.response.2",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.response.3",
+              "labelKey": "gutenberg.c2.material.response.3",
+              "role": "response",
+              "visual": "choice"
+            },
+            {
+              "id": "gutenberg.c2.constraint.1",
+              "labelKey": "gutenberg.c2.material.constraint.1",
+              "role": "constraint",
+              "visual": "boundary"
+            },
+            {
+              "id": "gutenberg.c2.reason.1",
+              "labelKey": "gutenberg.c2.material.reason.1",
+              "role": "reason",
+              "visual": "thought"
+            },
+            {
+              "id": "gutenberg.c2.reason.2",
+              "labelKey": "gutenberg.c2.material.reason.2",
+              "role": "reason",
+              "visual": "thought"
+            }
+          ],
+          "promptKey": "gutenberg.c2.activity.prompt",
+          "observationKey": "gutenberg.c2.activity.observation"
+        },
+        "forbiddenExpressionRefs": [
+          "gutenberg.c2.prohibitedClaims"
+        ],
+        "bookTemplateId": "nuvia.book.mission-8page.v1",
+        "resultIdPolicy": "sameResultIdRequired; mismatch=RESULT_LINK_ERROR; noBackfill; distinguish:notRecorded|notObserved|notCollected|notProvided",
+        "assetIds": [
+          "조건별 assetId 미명시"
+        ],
+        "sourceProvenance": {
+          "rawActivityId": "gutenberg.c2.activity (제안·원본 미명시)",
+          "rawContractId": "action.prioritizeActions.r2 (제안)",
+          "rawCausalId": "gutenberg.c2.causal (제안·원본 미명시)"
+        },
+        "learnerStoryOnly": true,
+        "historySummaryKey": "gutenberg.c2.book.historySummary",
+        "historyKeyPointKey": "gutenberg.c2.book.historyKeyPoint"
+      }
+    ]
+  },
+  "localeSnapshot": {
+    "gutenberg.title": "구텐베르크 인쇄술과 책의 확산",
+    "gutenberg.c1.age.preschool.prompt": "종이가 부족하면 책을 어떻게 만들까요?",
+    "gutenberg.c1.age.preschool.instruction": "종이가 부족하면 책을 어떻게 만들까요? 큰 그림 두 개를 보고 말·그림·선택으로 답하거나 모르겠어요를 고를 수 있어요.",
+    "gutenberg.c1.age.elementary-low.prompt": "종이가 부족하면 책을 어떻게 만들까요?",
+    "gutenberg.c1.age.elementary-low.instruction": "종이가 부족하면 책을 어떻게 만들까요? 바뀐 한 가지와 바로 달라질 수 있는 점을 그림과 1~2문장으로 연결해요.",
+    "gutenberg.c1.age.elementary-high.prompt": "조건 “인쇄용 종이가 부족하다면”에서 원인·바뀐 조건·직접 결과를 구분하고 2~3문장으로 설명해요.",
+    "gutenberg.c1.age.elementary-high.instruction": "조건 “인쇄용 종이가 부족하다면”에서 원인·바뀐 조건·직접 결과를 구분하고 2~3문장으로 설명해요. 직접 범위: 종이로 추가 인쇄할 분량이 제약됨",
+    "gutenberg.c1.age.middle-school.prompt": "출처에서 확인된 사실과 게임의 가정을 나누고, 종이로 추가 인쇄할 분량이 제약됨까지의 근거와 가능성 A/B를 짧게 설명해요.",
+    "gutenberg.c1.age.middle-school.instruction": "출처에서 확인된 사실과 게임의 가정을 나누고, 종이로 추가 인쇄할 분량이 제약됨까지의 근거와 가능성 A/B를 짧게 설명해요.",
+    "gutenberg.c1.age.high-school.prompt": "실제 기제와 Level 3 가능성 A/B를 구분하고, 장기 결과를 단정하지 않는 반론 1개와 추가 조건을 제시해요.",
+    "gutenberg.c1.age.high-school.instruction": "실제 기제와 Level 3 가능성 A/B를 구분하고, 장기 결과를 단정하지 않는 반론 1개와 추가 조건을 제시해요.",
+    "gutenberg.c1.age.adult.prompt": "자료가 지지하는 실제 인과 범위와 한계를 확인하고, 종이로 추가 인쇄할 분량이 제약됨의 직접·단기 영향 및 추가 조건을 모바일에서 읽기 쉬운 단위로 비교해요.",
+    "gutenberg.c1.age.adult.instruction": "자료가 지지하는 실제 인과 범위와 한계를 확인하고, 종이로 추가 인쇄할 분량이 제약됨의 직접·단기 영향 및 추가 조건을 모바일에서 읽기 쉬운 단위로 비교해요.",
+    "gutenberg.c1.material.goal.1": "남은 종이로 인쇄할 계획 세우기",
+    "gutenberg.c1.material.response.1": "꼭 인쇄할 내용 고르기",
+    "gutenberg.c1.material.response.2": "남은 종이의 양 확인하기",
+    "gutenberg.c1.material.reason.1": "종이가 부족해서",
+    "gutenberg.c1.material.reason.2": "남은 종이에 맞춰 계획하려고",
+    "gutenberg.c1.material.reason.3": "아직 모르겠어요",
+    "gutenberg.c1.activity.prompt": "종이가 부족할 때 인쇄 계획을 어떻게 바꿀까요?",
+    "gutenberg.c1.activity.observation": "종이 제약과 처음 대응을 보고 유지·변경 이유를 말·그림·짧은 글로 남긴다.",
+    "gutenberg.c1.condition": "인쇄용 종이가 부족하다면",
+    "gutenberg.c1.actual": "구텐베르크 성서의 종이 사본과 금속활자 인쇄가 확인된다.",
+    "gutenberg.c1.scene": "1450년대 마인츠 인쇄 공방의 종이 인쇄",
+    "gutenberg.c1.mechanism": "종이를 쓰는 인쇄 작업에는 인쇄 면을 받을 재료가 필요하다.",
+    "gutenberg.c1.sources": "Harry Ransom Center, University of Texas, The Gutenberg Bible / 100–105행, 서두와 종이 사본 설명",
+    "gutenberg.c1.direct": "종이로 추가 인쇄할 분량이 제약됨",
+    "gutenberg.c1.short": "이번 작업 순서와 남은 책 활용을 정할 수 있음",
+    "gutenberg.c1.long": "기본 결과에서 제외; 장기 영향은 추가 조건 없이 단정 금지",
+    "gutenberg.c1.additional": "남은 종이·완성 책·다른 재료·비용·시간",
+    "gutenberg.c1.alternate.A": "남은 책이 있다면 함께 보는 자리를 만들 수 있어요.",
+    "gutenberg.c1.alternate.B": "없다면 필요한 부분과 인쇄 순서를 먼저 정할 수 있어요.",
+    "gutenberg.c2.age.preschool.prompt": "책을 볼 사람이 줄면 누구와 어떻게 함께 볼까요?",
+    "gutenberg.c2.age.preschool.instruction": "책을 볼 사람이 줄면 누구와 어떻게 함께 볼까요? 큰 그림 두 개를 보고 말·그림·선택으로 답하거나 모르겠어요를 고를 수 있어요.",
+    "gutenberg.c2.age.elementary-low.prompt": "책을 볼 사람이 줄면 누구와 어떻게 함께 볼까요?",
+    "gutenberg.c2.age.elementary-low.instruction": "책을 볼 사람이 줄면 누구와 어떻게 함께 볼까요? 바뀐 한 가지와 바로 달라질 수 있는 점을 그림과 1~2문장으로 연결해요.",
+    "gutenberg.c2.age.elementary-high.prompt": "조건 “책을 볼 수 있는 사람이 제한된다면”에서 원인·바뀐 조건·직접 결과를 구분하고 2~3문장으로 설명해요.",
+    "gutenberg.c2.age.elementary-high.instruction": "조건 “책을 볼 수 있는 사람이 제한된다면”에서 원인·바뀐 조건·직접 결과를 구분하고 2~3문장으로 설명해요. 직접 범위: 가정 속 책을 직접 볼 기회가 줄어듦",
+    "gutenberg.c2.age.middle-school.prompt": "출처에서 확인된 사실과 게임의 가정을 나누고, 가정 속 책을 직접 볼 기회가 줄어듦까지의 근거와 가능성 A/B를 짧게 설명해요.",
+    "gutenberg.c2.age.middle-school.instruction": "출처에서 확인된 사실과 게임의 가정을 나누고, 가정 속 책을 직접 볼 기회가 줄어듦까지의 근거와 가능성 A/B를 짧게 설명해요.",
+    "gutenberg.c2.age.high-school.prompt": "실제 기제와 Level 3 가능성 A/B를 구분하고, 장기 결과를 단정하지 않는 반론 1개와 추가 조건을 제시해요.",
+    "gutenberg.c2.age.high-school.instruction": "실제 기제와 Level 3 가능성 A/B를 구분하고, 장기 결과를 단정하지 않는 반론 1개와 추가 조건을 제시해요.",
+    "gutenberg.c2.age.adult.prompt": "자료가 지지하는 실제 인과 범위와 한계를 확인하고, 가정 속 책을 직접 볼 기회가 줄어듦의 직접·단기 영향 및 추가 조건을 모바일에서 읽기 쉬운 단위로 비교해요.",
+    "gutenberg.c2.age.adult.instruction": "자료가 지지하는 실제 인과 범위와 한계를 확인하고, 가정 속 책을 직접 볼 기회가 줄어듦의 직접·단기 영향 및 추가 조건을 모바일에서 읽기 쉬운 단위로 비교해요.",
+    "gutenberg.c2.material.goal.1": "책을 함께 볼 방법 찾기",
+    "gutenberg.c2.material.response.1": "볼 수 있는 허락 확인",
+    "gutenberg.c2.material.response.2": "함께 볼 시간 확인",
+    "gutenberg.c2.material.response.3": "볼 자리 확인",
+    "gutenberg.c2.material.constraint.1": "책을 볼 수 있는 사람 제한",
+    "gutenberg.c2.material.reason.1": "먼저 확인하고 싶어서",
+    "gutenberg.c2.material.reason.2": "아직 모르겠어요",
+    "gutenberg.c2.activity.prompt": "먼저 확인할 일을 골라 봐요.",
+    "gutenberg.c2.activity.observation": "책을 함께 볼 목표 아래 허락·시간·자리 중 먼저 확인할 것을 고르고 이유를 표현한다.",
+    "gutenberg.c2.condition": "책을 볼 수 있는 사람이 제한된다면",
+    "gutenberg.c2.actual": "라틴어 인쇄본과 물리적 책 사본이 확인된다. 실제 공방 출입 제한은 사료 사실로 두지 않는다.",
+    "gutenberg.c2.scene": "1450년대 마인츠에서 제작된 책에 접근하는 창작 비교 장면",
+    "gutenberg.c2.mechanism": "물리적 책을 볼 기회와 문자 내용을 직접 살펴볼 기회가 연결된다. 독해 능력과 접근은 다르다.",
+    "gutenberg.c2.sources": "Harry Ransom Center, University of Texas, The Gutenberg Bible / 100–105행, 서두와 종이 사본 설명",
+    "gutenberg.c2.direct": "가정 속 책을 직접 볼 기회가 줄어듦",
+    "gutenberg.c2.short": "공유 방식·자리·시간에 관한 대응을 고를 수 있음",
+    "gutenberg.c2.long": "기본 결과에서 제외; 장기 영향은 추가 조건 없이 단정 금지",
+    "gutenberg.c2.additional": "소장 허락·읽는 사람·시간·다른 사본",
+    "gutenberg.c2.alternate.A": "허락된 공유 시간이 있으면 돌아가며 볼 수 있어요.",
+    "gutenberg.c2.alternate.B": "그런 시간이 없다면 볼 수 있는 방법을 더 알아볼 수 있어요.",
+    "thought.동시처리": "관계를 살펴봤어요",
+    "thought.순차처리": "차례대로 생각했어요",
+    "thought.계획": "먼저 계획했어요",
+    "thought.주의": "중요한 것을 찾아봤어요",
+    "missing.notRecorded": "기록 없음",
+    "missing.notObserved": "이번 활동에서 관찰되지 않음",
+    "missing.notCollected": "이번 활동에서는 수집되지 않음",
+    "missing.notProvided": "제공되지 않음",
+    "gutenberg.c1.material.response.3": "인쇄할 차례 정하기",
+    "gutenberg.c1.book.historySummary": "구텐베르크 성서의 종이 사본과 금속활자 인쇄가 확인된다.",
+    "gutenberg.c1.book.historyKeyPoint": "구텐베르크 성서에는 종이 사본이 있어요.",
+    "gutenberg.c2.book.historySummary": "라틴어 인쇄본과 물리적 책 사본이 확인된다. 실제 공방 출입 제한은 사료 사실로 두지 않는다.",
+    "gutenberg.c2.book.historyKeyPoint": "실제 책 사본이 남아 있어요."
+  }
+}

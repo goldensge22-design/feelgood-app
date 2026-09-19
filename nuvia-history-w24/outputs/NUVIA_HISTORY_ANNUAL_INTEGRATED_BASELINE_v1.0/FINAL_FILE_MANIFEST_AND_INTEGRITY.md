@@ -1,0 +1,35 @@
+# 최종 파일 목록 및 무결성
+
+생성일: 2026-09-19  
+기준본: `NUVIA_HISTORY_ANNUAL_INTEGRATED_BASELINE_v1.0`
+
+## 최종 파일
+
+| 파일 | 바이트 | SHA-256 |
+| --- | ---: | --- |
+| `00_BASELINE_DECLARATION.md` | 1,777 | `220eb612c9a320f88aa038fd1165a6ec13b8b63b05cf745d87a238ce8dbe86b0` |
+| `01_ANNUAL_INTEGRATED_MASTER_DESIGN_v1.0.md` | 2,357 | `cb179841f35e1999cde72fed33da6de0839049ca268975ed0329a4db53a04b9f` |
+| `FINAL_QA_AND_SHA256_REPORT.md` | 4,268 | `d428fd7f0c5fd95d73a2af023a0819e306cb0092149b22f8f365e03217df5f34` |
+| `NUVIA_HISTORY_48W_96_CONDITION_INTEGRATED_MATRIX_v1.0.xlsx` | 56,146 | `af8c9821ce4a38e2365adf253b94b7b729050781170697f891757c75997ae7a6` |
+| `NUVIA_HISTORY_AGE_EXPRESSION_v1.0.xlsx` | 55,508 | `44d40b38bd5dc63621e28c56d5f4ea6b205aec72d75cb38f0652ddf91b1f90ef` |
+| `NUVIA_HISTORY_BOOK_REPORT_LINKAGE_v1.0.xlsx` | 76,266 | `a29cbbd641b7889765f902410af5745cc087066ee964a6172c16d0e3c618db2b` |
+| `NUVIA_HISTORY_COMMON_VERSION_CONTRACT_v1.0.xlsx` | 21,941 | `e017e5db99b1046a0ef3fc9c74c5b88b49983c26d7b2604f12fcafd258abf19c` |
+| `OPEN_ISSUES_P1_P2.md` | 3,470 | `1da80d0c02cfd36999b68fd2a4535dbdd0f5428f9a37f240b605268d8ed5b223` |
+| `R2_CANDIDATE_TO_FINAL_BASELINE_CHANGELOG.md` | 1,413 | `035ffee0ca93f3a4bac1026211f055518072d0fb030bb8a2cf970b63e6382837` |
+| `W13_24_ANNUAL_INTEGRATION_SUPPLEMENT_v1.0.md` | 1,175 | `a423c71ed5043e6f5b7efabcd47e78bc024be8dfccb7c0a72185d7a0ae1eb62e` |
+
+이 무결성 파일은 자기 자신의 해시를 표 안에 포함하지 않는다. 자기 해시는 생성 후 외부 검수 결과와 완료 보고에 기록한다.
+
+## 무결성 결과
+
+- 후보 폴더 파일 집합 SHA-256: `ef2ea41a51c33772c01aa4b989e7171f8d11e6ae04f10fe4b20816ee042e475c`
+- 최종 폴더 파일 집합 SHA-256: `acf2d510b1d8b2965b2f9a7006b14515afe36c8cdbb6ab39ca77604964a9cda8` (`FINAL_FILE_MANIFEST_AND_INTEGRITY.md` 자체 제외)
+- 후보 XLSX 코어 집합 SHA-256: `cdf2eb4f399b18ecd4db8c1a87869f59219f0eb3540853159010db0df58e09d9`
+- 최종 XLSX 코어 집합 SHA-256: `312545f743ef5d7caf1092f4b2f3b41fd2a25ddb087ede6d0cef89c09c7fcebe`
+- 후보 대비 실제 셀 차이: 승인 메타데이터 258셀
+- 승인 범위 밖 셀 차이: 0
+- 기존 출력 보호 파일 대조: 696개
+- 보호 파일 변경: 0
+- 보호 파일 누락: 0
+- 수식·참조 오류: 0
+- P1 27건·P2 9건: OPEN 유지

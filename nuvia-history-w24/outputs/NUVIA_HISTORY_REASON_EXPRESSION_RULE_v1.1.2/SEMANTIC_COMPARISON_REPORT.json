@@ -1,0 +1,162 @@
+{
+  "comparedAt": "2026-09-19",
+  "candidatePath": "outputs/NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2_CANDIDATE/NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2_CANDIDATE.md",
+  "finalPath": "outputs/NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2/NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2.md",
+  "candidateSha256": "43be70a856726711fc6a54eea193e7485486ff3ba73cee8d9c565028adf5ff24",
+  "finalSha256": "c234f3c26175b7d294aea643d294f06b78ce99f50e60d413c8cc67fea5e5bc37",
+  "semanticClauseCount": 24,
+  "semanticDifferenceCount": 0,
+  "metadataOnlyChanges": {
+    "title": "후보 표기 제거",
+    "status": "CANDIDATE/승인 대기/비활성 → FINAL BASELINE/승인 완료/동결",
+    "path": "후보 폴더 → 별도 최종 폴더",
+    "implementationStatus": "승인 후 구현 → 별도 구현 명령 대기",
+    "openIssues": "P0 3/P1 4/P2 2/EO-P1-01 OPEN 유지"
+  },
+  "checks": [
+    {
+      "id": "scope_48_96_6",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "semantic_role",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "free_expression",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "readonly_choice",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "no_choice_copy",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "no_system_reason",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "low_question",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "low_instruction",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "high_question",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "high_instruction",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "skip_label",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "no_unknown_card",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "no_reason_ref_on_skip",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "neutral_report",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "completion_typed",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "completion_recorded",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "completion_drawn",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "completion_deferred",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "sources",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "non_ai",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "report_only",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "no_story_copy",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "legacy_preserve",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    },
+    {
+      "id": "same_identity",
+      "candidateContains": true,
+      "finalContains": true,
+      "matched": true
+    }
+  ]
+}

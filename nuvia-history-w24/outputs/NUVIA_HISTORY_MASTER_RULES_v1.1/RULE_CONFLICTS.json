@@ -1,0 +1,89 @@
+[
+  {
+    "id": "C-P0-01",
+    "priority": "P0",
+    "kind": "규칙/저장 ID 충돌",
+    "finding": "기존 자유 비교: comparisonKind=history/prediction, 기존 책 role=historyComparison/predictionComparison. 새 15.5는 comparisonKind=history_vs_story/prediction_vs_actual, 15.1·2는 같은 문자열을 pageRole로 명시.",
+    "location": "기존 부록 저장 계약; src/core/types.ts ComparisonRecord; src/core/artifacts.ts BOOK_ROLES; 새 마스터15.1·2·5",
+    "next": "저장 enum까지 새 버전으로 바꿀지, 페이지 의미 role과 저장 kind를 구분할지 사용자 결정 필요. 임의 alias/이관 없음.",
+    "status": "RESOLVED_BY_USER",
+    "resolution": "\n## R2 사용자 확정 계약 — 2026-09-19\n\n영구 저장 enum은 `comparisonKind = history` 또는 `comparisonKind = prediction`만 허용한다.\n`history`: 실제 역사와 사용자가 만든 나의 역사 비교.\n`prediction`: 최초 예측과 실제 역사 비교.\n`history_vs_story`, `prediction_vs_actual`은 설명용 별칭이며 저장 enum이 아니다. 기존 책 role ID도 보존한다. IndexedDB·이벤트·결과에 별칭·제3값·comparisonTag를 저장하지 않는다. 과거 기록을 소급 변환하지 않는다.\n\n문자열이 같다는 이유만으로 중복 판정하지 않는다. 서로 다른 eventId/comparisonKind, 각 단계의 독립 입력 이벤트와 출처, 서로 다른 저장 레코드, fallback 복사 없음이 모두 확인되면 동일한 문장도 정상이다. 동일 레코드 참조, 그림·음성 자동 재사용, 타 단계 입력의 기본값 복사, 미입력 페이지 대체 표시, 활동 라벨의 사용자 입력 변환은 금지한다.\n\n결과 공개 전의 선택·말·글·그림 최초 예측은 잠긴 스냅샷으로 보존한다. 8쪽에 실제 선택한 그림·문구·선택 당시 스냅샷을 표시할 수 있다. 선택하지 않은 라벨이나 계획 문구는 예측/창작으로 만들지 않는다. 8쪽의 새 비교 발견은 자유 표현만 사용하며 같았어요·달랐어요·새롭게 알았어요 고정 카드는 금지한다.\n\n7쪽은 history와 해당 입력 eventId만, 8쪽은 prediction과 별도 eventId만 사용한다. 동일 resultId 안에서도 미션·조건·버전·입력 역할을 대조한다. 원문은 평가·분류·요약하지 않는다. 실제 말·글·그림과 계획 기록은 분리한다.\n"
+  },
+  {
+    "id": "C-P0-02",
+    "priority": "P0",
+    "kind": "동일 원문 기준과 원문 보존 충돌",
+    "finding": "새15.7의 동일 사용자 문장 P0는 사용자가 두 질문에 독립적으로 같은 글을 남긴 경우까지 포함할 수 있음. 기존 부록은 분류·교정·요약 없이 원문 보존.",
+    "location": "새15.7-1·2; 기존 자유 비교 부록 저장·호환",
+    "next": "출처 복사/공유가 오류인지 내용 동등성 자체가 오류인지 결정 필요. 문자열만으로 사용자의 답을 실패 처리·강제 변경하지 않음. 예외를 승인된 규칙처럼 추가하지 않음.",
+    "status": "RESOLVED_BY_USER",
+    "resolution": "\n## R2 사용자 확정 계약 — 2026-09-19\n\n영구 저장 enum은 `comparisonKind = history` 또는 `comparisonKind = prediction`만 허용한다.\n`history`: 실제 역사와 사용자가 만든 나의 역사 비교.\n`prediction`: 최초 예측과 실제 역사 비교.\n`history_vs_story`, `prediction_vs_actual`은 설명용 별칭이며 저장 enum이 아니다. 기존 책 role ID도 보존한다. IndexedDB·이벤트·결과에 별칭·제3값·comparisonTag를 저장하지 않는다. 과거 기록을 소급 변환하지 않는다.\n\n문자열이 같다는 이유만으로 중복 판정하지 않는다. 서로 다른 eventId/comparisonKind, 각 단계의 독립 입력 이벤트와 출처, 서로 다른 저장 레코드, fallback 복사 없음이 모두 확인되면 동일한 문장도 정상이다. 동일 레코드 참조, 그림·음성 자동 재사용, 타 단계 입력의 기본값 복사, 미입력 페이지 대체 표시, 활동 라벨의 사용자 입력 변환은 금지한다.\n\n결과 공개 전의 선택·말·글·그림 최초 예측은 잠긴 스냅샷으로 보존한다. 8쪽에 실제 선택한 그림·문구·선택 당시 스냅샷을 표시할 수 있다. 선택하지 않은 라벨이나 계획 문구는 예측/창작으로 만들지 않는다. 8쪽의 새 비교 발견은 자유 표현만 사용하며 같았어요·달랐어요·새롭게 알았어요 고정 카드는 금지한다.\n\n7쪽은 history와 해당 입력 eventId만, 8쪽은 prediction과 별도 eventId만 사용한다. 동일 resultId 안에서도 미션·조건·버전·입력 역할을 대조한다. 원문은 평가·분류·요약하지 않는다. 실제 말·글·그림과 계획 기록은 분리한다.\n"
+  },
+  {
+    "id": "C-P0-03",
+    "priority": "P0",
+    "kind": "8쪽 선택지 금지와 최초 예측 보존 충돌",
+    "finding": "동결 본문과 Gate3은 최초 예측 그림 선택 경로를 허용하고 실제 선택을 원본 예측으로 저장. 새15.2는 선택지 문구를 금지 출처로 명시.",
+    "location": "동결 본문 최신 적용 결정 최초 예측; 새15.2; src/app/App.tsx prediction / ExpressionEditor",
+    "next": "실제 사용자가 고른 예측 원본과 미선택 시스템 라벨을 구분해 허용할지 결정 필요. 원본 예측 삭제·변형 금지.",
+    "status": "RESOLVED_BY_USER",
+    "resolution": "\n## R2 사용자 확정 계약 — 2026-09-19\n\n영구 저장 enum은 `comparisonKind = history` 또는 `comparisonKind = prediction`만 허용한다.\n`history`: 실제 역사와 사용자가 만든 나의 역사 비교.\n`prediction`: 최초 예측과 실제 역사 비교.\n`history_vs_story`, `prediction_vs_actual`은 설명용 별칭이며 저장 enum이 아니다. 기존 책 role ID도 보존한다. IndexedDB·이벤트·결과에 별칭·제3값·comparisonTag를 저장하지 않는다. 과거 기록을 소급 변환하지 않는다.\n\n문자열이 같다는 이유만으로 중복 판정하지 않는다. 서로 다른 eventId/comparisonKind, 각 단계의 독립 입력 이벤트와 출처, 서로 다른 저장 레코드, fallback 복사 없음이 모두 확인되면 동일한 문장도 정상이다. 동일 레코드 참조, 그림·음성 자동 재사용, 타 단계 입력의 기본값 복사, 미입력 페이지 대체 표시, 활동 라벨의 사용자 입력 변환은 금지한다.\n\n결과 공개 전의 선택·말·글·그림 최초 예측은 잠긴 스냅샷으로 보존한다. 8쪽에 실제 선택한 그림·문구·선택 당시 스냅샷을 표시할 수 있다. 선택하지 않은 라벨이나 계획 문구는 예측/창작으로 만들지 않는다. 8쪽의 새 비교 발견은 자유 표현만 사용하며 같았어요·달랐어요·새롭게 알았어요 고정 카드는 금지한다.\n\n7쪽은 history와 해당 입력 eventId만, 8쪽은 prediction과 별도 eventId만 사용한다. 동일 resultId 안에서도 미션·조건·버전·입력 역할을 대조한다. 원문은 평가·분류·요약하지 않는다. 실제 말·글·그림과 계획 기록은 분리한다.\n"
+  },
+  {
+    "id": "C-P0-04",
+    "priority": "P0",
+    "kind": "W24-C1 질문–자원 불일치",
+    "finding": "질문 ‘종이가 부족하면 책을 어떻게 만들까요?’의 제작 자원은 종이. 승인 활동 응답 gutenberg.c1.response.2는 ‘남은 책이 있는지 확인하기’여서 자원·목표·단계가 달라짐.",
+    "location": "src/content/missions.json W24-C1; locales/ko.json age.preschool prompt와 response.2; 새14.2",
+    "next": "역사/조건/PASS는 보존하고 후속 수정 승인에서 질문 의미 원본과 활동 자료를 재정합화. 이번에는 응답/조건 문구를 바꾸지 않음.",
+    "status": "RESOLVED_W24_VERIFIED",
+    "resolution": "165 tests; 12 UI routes + 4 edge routes; page 7/8 screenshots; 8-page book and 4-page report PDF. See R2_IMPLEMENTATION_QA_REPORT.md."
+  },
+  {
+    "id": "C-P0-05",
+    "priority": "P0",
+    "kind": "계획 라벨의 사용자 이야기 유입 경로",
+    "finding": "현재 creation에서 response 재료의 label을 이야기 선택지로 제시하고 선택 시 story.expression의 text에 저장하는 경로가 있음. 새14.9·15.1은 활동/선택지 문구를 자작 이야기로 쓰는 것을 금지.",
+    "location": "src/app/App.tsx creation ExpressionEditor options role=response; src/core/engine.ts story",
+    "next": "실제 말·글·그림 입력과 계획 선택 로그를 분리하는 후속 수정 대상. 과거 선택 기록은 임의 삭제·자작 글로 변환하지 않음.",
+    "status": "RESOLVED_W24_VERIFIED",
+    "resolution": "165 tests; 12 UI routes + 4 edge routes; page 7/8 screenshots; 8-page book and 4-page report PDF. See R2_IMPLEMENTATION_QA_REPORT.md."
+  },
+  {
+    "id": "C-P0-06",
+    "priority": "P0",
+    "kind": "7·8쪽 현재 출력의 새 규칙 부적합",
+    "finding": "ResultViews는 두 페이지에 같은 c.actualHistoryKey 전체 문장을 사용. 같은 book-page 템플릿에 조건부 블록으로 붙임. 7쪽 story는 text만 출력해 storyDrawingRef 전용 비교 장면이 없고, 새 비교판/타임라인 역할 분리가 없음.",
+    "location": "src/app/ResultViews.tsx i===6 / i===7; src/core/artifacts.ts pages7/8; 새15.1·3·4·7",
+    "next": "실제 역사 요약/핵심 한 줄 및 이야기 그림·예측 그림의 역할별 매핑, 배치 차별화를 후속 설계/수정에서 검수. 현재 화면/PDF는 손대지 않음.",
+    "status": "RESOLVED_W24_VERIFIED",
+    "resolution": "165 tests; 12 UI routes + 4 edge routes; page 7/8 screenshots; 8-page book and 4-page report PDF. See R2_IMPLEMENTATION_QA_REPORT.md."
+  },
+  {
+    "id": "C-P1-01",
+    "priority": "P1",
+    "kind": "허용 출처 목록의 음성·근거 표현 누락 경계",
+    "finding": "새 페이지 허용 목록은 이야기 음성/최초 예측 음성 및 사용자가 쓴 evidenceText를 직접 열거하지 않음. 기존 비교 규칙은 음성/그림과 근거 원문 연결을 허용.",
+    "location": "새15.1·2; 기존 부록 연령·저장·이야기책",
+    "next": "필수/허용 목록을 엄격 whitelist로 적용할지, 역할별 음성/근거 참조를 명시할지 결정 필요. 자동 전사·생성 금지.",
+    "status": "OPEN"
+  },
+  {
+    "id": "C-P1-02",
+    "priority": "P1",
+    "kind": "의미 스키마 경계 미확정",
+    "finding": "행동 목표 동일성을 검사하지만 18필드에 독립 goal ID는 없음. 자원 없는 질문의 resourceId, 자유 표현의 allowedAnswerIds 비적용 표현도 미정.",
+    "location": "새14.1·2·8; 공통 콘텐츠 스키마 R2",
+    "next": "기존 필드 조합/참조로 검수할지 추가 공통 필드가 필요한지 결정. 임의 정답 목록·가짜 자원·사건별 필드를 만들지 않음.",
+    "status": "OPEN"
+  },
+  {
+    "id": "C-P2-01",
+    "priority": "P2",
+    "kind": "새 규칙에 따른 실제 검수 대기",
+    "finding": "W24 UI/브라우저 PDF는 검수 완료. 나머지 96조건 전수 의미 검수·11언어·실제 휴대기기/터치펜·Windows 인쇄 대화상자/실물 인쇄는 미수행.",
+    "location": "작업 범위 문서 전용; QA_CHECKLIST",
+    "next": "후속 승인 후 체크리스트 수행. 기존 151개 테스트/12경로 결과를 새 규칙 통과로 재사용하지 않음.",
+    "status": "OPEN"
+  }
+]

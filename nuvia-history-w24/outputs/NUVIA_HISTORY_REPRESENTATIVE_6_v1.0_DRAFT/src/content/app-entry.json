@@ -1,0 +1,46 @@
+{
+  "missionId": "gutenberg",
+  "conditionPresentation": {
+    "gutenberg.c1": {
+      "canvasCondition": "paper",
+      "tone": "paper",
+      "backgroundId": "shared.workshop",
+      "focusSticker": "paper"
+    },
+    "gutenberg.c2": {
+      "canvasCondition": "access",
+      "tone": "access",
+      "backgroundId": "shared.workshop",
+      "focusSticker": "book"
+    }
+  },
+  "bookTitles": [
+    "표지",
+    "실제 역사",
+    "내가 바꾼 조건",
+    "나의 처음 예측",
+    "변경된 역사",
+    "나만의 이야기와 그림",
+    "실제 역사와 나의 역사 비교",
+    "최초 예측과 실제 역사 비교"
+  ],
+  "missionVersion": "5.0.0",
+  "contentVersion": "3.1.0",
+  "comparisonRuleId": "NUVIA_HISTORY_MASTER_RULES_v1.1",
+  "alignmentRuleId": "NUVIA_HISTORY_MASTER_RULES_v1.1",
+  "conditionContracts": {
+    "gutenberg.c1": {
+      "learnerStoryOnly": true,
+      "historySummaryKey": "gutenberg.c1.book.historySummary",
+      "historyKeyPointKey": "gutenberg.c1.book.historyKeyPoint"
+    },
+    "gutenberg.c2": {
+      "learnerStoryOnly": true,
+      "historySummaryKey": "gutenberg.c2.book.historySummary",
+      "historyKeyPointKey": "gutenberg.c2.book.historyKeyPoint"
+    }
+  },
+  "executionOrderRuleId": "NUVIA_HISTORY_EXECUTION_ORDER_RULE_v1.1.1",
+  "semanticBaselineId": "NUVIA_HISTORY_REPRESENTATIVE_6_SEMANTIC_BASELINE_v1.1",
+  "reasonExpressionRuleId": "NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2"
+}

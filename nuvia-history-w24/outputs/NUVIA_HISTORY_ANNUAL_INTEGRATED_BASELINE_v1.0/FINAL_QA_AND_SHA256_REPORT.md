@@ -1,0 +1,55 @@
+# 최종 QA 및 SHA-256 보고서
+
+검수일: 2026-09-19  
+판정: **NUVIA HISTORY 48주 연간 통합 설계 기준본 승격·동결 완료**
+
+## 최종 QA
+
+| 검수 항목 | 결과 | 판정 |
+| --- | ---: | --- |
+| 사건·조건 | 48·96 | 통과 |
+| conditionId 충돌 | 0 | 통과 |
+| 조건 승인 상태 | 96/96 | 통과 |
+| 연령 표현 | 576행·96조건 | 통과 |
+| 이야기책 페이지 | 768행·96조건 | 통과 |
+| 역사 비교 / 최초 예측 비교 | 96/96 / 96/96 | 통과 |
+| 동일 resultId / 성장 리포트 | 96/96 / 96/96 | 통과 |
+| missionVersion / contentVersion | 48/48 / 48/48 | 통과 |
+| 조건별 버전·최종 상태 | 96/96 | 통과 |
+| 후보 대비 승인 외 셀 차이 | 0 | 통과 |
+| 후보 상태 표기 잔존 | 0 | 통과 |
+| 수식·참조 오류 | 0 | 통과 |
+| P0 / P1 / P2 | 0 / 27 OPEN / 9 OPEN | 통과 |
+| 보호 파일 변경 / 누락 | 0 / 0 | 통과 |
+
+네 XLSX의 요약 시트를 렌더링해 제목, 승인 상태, 수치와 한글 표시를 확인했다. 실제 게임, 코드, 이미지, 음성, 실기기와 인쇄 검수는 수행하지 않았다.
+
+## 후보와 최종 XLSX SHA-256
+
+| 자료 | 파일 | SHA-256 |
+| --- | --- | --- |
+| 후보 | `01_NUVIA_HISTORY_48W_96_CONDITION_INTEGRATED_MATRIX_v1.0_R2_CANDIDATE.xlsx` | `b252835c6479e3a9b0ab02ffda5c9a1739ba58ce868a4fcd6195d45d63bf419d` |
+| 최종 | `NUVIA_HISTORY_48W_96_CONDITION_INTEGRATED_MATRIX_v1.0.xlsx` | `af8c9821ce4a38e2365adf253b94b7b729050781170697f891757c75997ae7a6` |
+| 후보 | `02_NUVIA_HISTORY_AGE_EXPRESSION_AUDIT_v1.0_R2_CANDIDATE.xlsx` | `095bbc77ce6d7b7694781d1b46080b5f7350414ece0f897dd3cee77553f14529` |
+| 최종 | `NUVIA_HISTORY_AGE_EXPRESSION_v1.0.xlsx` | `44d40b38bd5dc63621e28c56d5f4ea6b205aec72d75cb38f0652ddf91b1f90ef` |
+| 후보 | `03_NUVIA_HISTORY_BOOK_REPORT_LINKAGE_v1.0_R2_CANDIDATE.xlsx` | `274d2547664f888bd517001d732690bf4c07b86e47d83e4016e0052e62e43b54` |
+| 최종 | `NUVIA_HISTORY_BOOK_REPORT_LINKAGE_v1.0.xlsx` | `a29cbbd641b7889765f902410af5745cc087066ee964a6172c16d0e3c618db2b` |
+| 후보 | `04_NUVIA_HISTORY_COMMON_VERSION_CONTRACT_v1.0_R2_CANDIDATE.xlsx` | `5851696c71f6e24bf330892de7de20d240077df72c8e8d9cb8585421ed59095c` |
+| 최종 | `NUVIA_HISTORY_COMMON_VERSION_CONTRACT_v1.0.xlsx` | `e017e5db99b1046a0ef3fc9c74c5b88b49983c26d7b2604f12fcafd258abf19c` |
+
+네 XLSX의 정렬된 `파일명|SHA-256` 목록으로 계산한 코어 집합 해시는 후보 `cdf2eb4f399b18ecd4db8c1a87869f59219f0eb3540853159010db0df58e09d9`, 최종 `312545f743ef5d7caf1092f4b2f3b41fd2a25ddb087ede6d0cef89c09c7fcebe`이다.
+
+## 네 구간 동결 기준본
+
+| 구간 | 기준 파일 경로 | SHA-256 |
+| --- | --- | --- |
+| W01~12 | `outputs/NUVIA_HISTORY_HISTORICAL_EVIDENCE_W13_24_R1_DRAFT/01_HISTORICAL_DESIGN_BASELINE_W01_12_v1.0.md` | `60eaf8b1cb6ca7ae10d1643672311dc3dde453ed332ed84a9fde155454cce172` |
+| W01~12 | `outputs/NUVIA_HISTORY_CONDITION_W01_12_R3_2_DRAFT/NUVIA_HISTORY_FINAL_CONDITION_MATRIX_W01_12_R3_2_DRAFT.xlsx` | `7d5c3ef8c59b262fb99fb002d07e1f2ef30eb4ac54c7fffebf8c9a34801aab4a` |
+| W01~12 | `outputs/NUVIA_HISTORY_CONDITION_W01_12_R3_3_P0_CLOSURE_DRAFT/NUVIA_HISTORY_SELECTED_CONDITIONS_R3_3_DRAFT.md` | `27606aedb3ee27e09a2dd985806375852fac23b98c39a83d7bb6d5f95755c634` |
+| W13~24 | `outputs/HISTORICAL_DESIGN_BASELINE_W13_24_v1.0/00_BASELINE_DECLARATION.md` | `457e5c51287825257834761db73ed4bf2ffacc76fb41fa1ea52d179850ef6050` |
+| W13~24 | `outputs/HISTORICAL_DESIGN_BASELINE_W13_24_v1.0/01_APPROVED_CONDITION_MATRIX_W13_24_R3.xlsx` | `65cb18c4dc83f585481f81ae3878c9f5320af339b5f7ba4d6a0bb9420bbc00d1` |
+| W25~36 | `outputs/HISTORICAL_DESIGN_BASELINE_W25_36_v1.0/00_BASELINE_DECLARATION.md` | `663760d7d54eeaf8036cc4f33ddd01ec68ba0e9a784fbdbebf3687548a5d42ab` |
+| W25~36 | `outputs/HISTORICAL_DESIGN_BASELINE_W25_36_v1.0/NUVIA_HISTORY_W25_36_HISTORICAL_DESIGN_BASELINE_v1.0.xlsx` | `46d33849ebb5c5d911383c7bde299864bb1c2e9b2adedde400b8f0d2a4c89cff` |
+| W37~48 | `outputs/HISTORICAL_DESIGN_BASELINE_W37_48_v1.0/00_BASELINE_DECLARATION.md` | `eb0c1bde26adb040b156be6f8cedaa51d8da010446efe47c13e00d90f1f01d2b` |
+| W37~48 | `outputs/HISTORICAL_DESIGN_BASELINE_W37_48_v1.0/NUVIA_HISTORY_W37_48_HISTORICAL_DESIGN_BASELINE_v1.0.xlsx` | `52a52952cc19e033f256948f03cb44e178f3d6c9fb4ded08147a70711ed7a952` |
+

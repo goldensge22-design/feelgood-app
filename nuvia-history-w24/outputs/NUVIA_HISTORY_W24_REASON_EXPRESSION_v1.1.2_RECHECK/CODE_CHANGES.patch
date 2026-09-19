@@ -1,0 +1,564 @@
+--- before/src/app/app.css
++++ after/src/app/app.css
+@@ -23,3 +23,12 @@
+ @media print{.history-pair{grid-template-columns:minmax(0,1fr) 8mm minmax(0,1fr);gap:3mm}.comparison-arrow{transform:none}.history-pair section{padding:3mm}.book-page .history-board p,.book-page .prediction-timeline p{font-size:12pt;line-height:1.5}.comparison-history-scene{max-height:48mm}.history-board .user-art{max-height:50mm}.book-page .history-board .comparison-value .user-art{max-height:50mm}.book-page .prediction-timeline .user-art{max-height:48mm}.book-page .prediction-timeline .comparison-value .user-art{max-height:45mm}.discovery-panel{margin-top:5mm;padding:3mm}.timeline-step{margin-bottom:4mm;padding:1mm 3mm 3mm}.history-board h3,.prediction-timeline h3{font-size:14pt;margin:3mm 0}.prediction-timeline{margin-top:4mm}}
+ 
+ .picture-paper {display:inline-block;width:100px;height:76px;background-size:200% 200%;background-position:0 100%;background-repeat:no-repeat;filter:drop-shadow(2px 3px 2px #584c3344);}
++
++.reason-context{padding:.6rem 1rem;margin:.6rem 0;border:1px solid #b5a386;border-radius:10px;background:#f8f0dc;box-shadow:inset 0 1px 2px #8a71542b}
++.reason-context h2{font-family:inherit;font-size:1rem;text-shadow:none;margin:.2rem 0}
++.reason-editor textarea{display:block;width:100%;min-height:110px;box-sizing:border-box;white-space:pre-wrap;font:inherit}
++.reason-editor nav{display:flex;flex-wrap:wrap;gap:.5rem}.reason-editor .reason-skip{display:block;margin-top:1rem;min-height:44px;min-width:44px;font-size:.95rem;background:transparent;box-shadow:none;border-color:transparent;text-decoration:underline}
++.reason-draft-status{font-size:.9rem;color:#52606a}.reason-art{max-height:130px;object-fit:contain}.reason-context ol{padding-left:1.4rem}.reason-editor h2{font-size:1.2rem}
++@media print{[data-reason-report] .user-expression{font-size:10pt;white-space:pre-wrap;overflow-wrap:anywhere}[data-reason-report] audio{display:none}.reason-art{max-height:100px}}
++
++@media print{[data-reason-report] h4{margin:8px 0}[data-reason-report] p{margin:6px 0}[data-reason-report] .reason-art{max-height:85px}}
+--- before/src/app/App.tsx
++++ after/src/app/App.tsx
+@@ -1,7 +1,7 @@
+ import React,{useEffect,useRef,useState} from 'react';
+ import {releaseContent} from '../core/release';
+ import {loadContent} from '../core/content';
+-import {newRun,transition,condition,canonicalStage,type Command} from '../core/engine';
++import {newRun,transition,condition,canonicalStage,freeReason,type Command} from '../core/engine';
+ import type {ContentBundle,Run,Profile,Expression,ConditionDefinition} from '../core/types';
+ import {resolveProfile,presentation} from '../core/profile';
+ import {BrowserRepository} from '../core/storage';
+@@ -13,6 +13,7 @@
+ import {CanvasBridge} from './CanvasBridge';
+ import {ComparisonEditor} from './ComparisonEditor';
+ import {ExpressionEditor,ExpressionView} from './ExpressionEditor';
++import {ReasonEditor} from './ReasonEditor';
+ import {ResultViews,FieldView,StoryView} from './ResultViews';
+ import {ui} from './text';
+ import {artifactStore} from './localArtifacts';
+@@ -48,7 +49,7 @@
+  {run.stage==='condition'&&<section className="history-panel condition-options">{mission.conditions.map(x=><button key={x.id} onClick={()=>perform({type:'selectCondition',conditionId:x.id})} data-condition={x.id}><HistoryScene definition={x}/><strong>{t(x.semantic?.stages[profile.ageBand].conditionUnderstanding.promptKey??x.ageVariants[profile.ageBand].promptKey)}</strong></button>)}</section>}
+  {run.stage==='prediction'&&<><section className="history-panel"><p>{t(screen?.promptKey??c.ageVariants[profile.ageBand].promptKey)}</p><ExpressionEditor key={run.stage+c.id} run={run} repository={repository} options={options} onCommit={e=>expression('prediction',e)} busy={busy}/><button disabled={busy} onClick={()=>perform({type:'selectCondition',conditionId:mission.conditions.find(x=>x.id!==c.id)!.id})}>{ui('condition')}</button></section></>}
+  {run.stage==='alternate'&&<><HistoryScene definition={c} changed possibility={possibility}/><section className="history-panel"><p>{t(c.directKey)}</p><nav>{(['A','B'] as const).map(v=><button aria-pressed={possibility===v} key={v} onClick={()=>setPossibility(v)}>{ui('possibility')} {v}</button>)}</nav><p>{t(c.alternateKeys[possibility==='A'?0:1])}</p><strong className="fiction-mark">{ui('fiction')}</strong><button disabled={busy} className="primary" onClick={()=>perform({type:'reveal',possibility})}>{ui('next')}</button></section></>}
+- {run.stage==='activity'&&<section className="history-panel"><p>{t(c.conditionKey)}</p><ActivityRenderer definition={c.activity} promptKey={screen?.promptKey} subquestions={c.semantic?.subquestions[profile.ageBand]} busy={busy} t={t} labels={activityLabels} pageSize={p.choicePageSize} highlight={p.highlight} onCommit={value=>perform({type:'action',value})} onDefer={()=>perform({type:'deferAction',reason:'unknown'})} onRetry={()=>perform({type:'retryActivity'})}/></section>}
++ {run.stage==='activity'&&<section className="history-panel"><p>{t(c.conditionKey)}</p><ActivityRenderer draftKey={freeReason(run)?['nuvia.activityDraft.v1',run.profile.learnerId,run.resultId,run.conditionId,run.missionVersion,run.contentVersion].join(':'):undefined} renderReason={freeReason(run)?(value,onBack)=><ReasonEditor run={run} value={value} repository={repository} busy={busy} onBack={onBack} onCommit={reason=>send({type:'action',value,reason})}/>:undefined} definition={c.activity} promptKey={screen?.promptKey} subquestions={c.semantic?.subquestions[profile.ageBand]} busy={busy} t={t} labels={activityLabels} pageSize={p.choicePageSize} highlight={p.highlight} onCommit={value=>perform({type:'action',value})} onDefer={()=>perform({type:'deferAction',reason:'unknown'})} onRetry={()=>perform({type:'retryActivity'})}/></section>}
+  {run.stage==='creation'&&<section className="history-panel">{canvas?<CanvasBridge run={run} variant={settings(c.id).canvasCondition} prompt={ui('storyPrompt')} onSave={send} onClose={()=>setCanvas(false)}/>:<><p>{screen?t(screen.promptKey):ui('storyPrompt')}</p><button className="primary" onClick={()=>setCanvas(true)}>{ui('canvas')}</button>{run.canvas.status==='recorded'&&<><img className="user-art" src={run.canvas.value.scenes[0].preview} alt={ui('creation')}/><p>{ui('canvasDone')}</p><button data-use-canvas onClick={()=>void expression('story',{method:'drawing',canvasRef:run.canvas.status==='recorded'?run.canvas.value.id:'',text:run.canvas.status==='recorded'?run.canvas.value.scenes.map(s=>s.text).join('\n'):''})}>{ui('useDrawing')}</button></>}<ExpressionEditor key={run.stage} run={run} repository={repository} freeStory options={[]} onCommit={e=>expression('story',e)} busy={busy}/></>}</section>}
+  {(run.stage==='historyComparison'||run.stage==='predictionComparison')&&<><div className="compare-spread"><section className="history-panel"><h2>{ui('history')}</h2><HistoryScene definition={c}/><p>{t((run.stage==='historyComparison'?c.historySummaryKey:c.historyKeyPointKey)??c.actualHistoryKey)}</p></section><section className="history-panel"><h2>{ui(run.stage==='historyComparison'?'story':'predictionSaved')}</h2>{run.stage==='historyComparison'?<StoryView run={run} repository={repository} withCanvas/>:run.prediction.status==='recorded'&&<ExpressionView expression={run.prediction.value.expression} run={run} repository={repository}/>}</section></div><section className="history-panel"><ComparisonEditor key={run.stage} kind={run.stage==='historyComparison'?'history':'prediction'} run={run} repository={repository} onCommit={comparison=>send({type:'comparison',kind:comparison.comparisonKind,comparison})} busy={busy}/></section></>}
+  {run.stage==='complete'&&<ResultViews run={run} repository={repository}/>}
+--- before/src/app/assets.ts
++++ after/src/app/assets.ts
+@@ -2,3 +2,12 @@
+ import {AssetRegistry,type AssetRecord} from '../core/assetRegistry';
+ export const assets=new AssetRegistry(records as AssetRecord[]);
+ export const asset=(id:string)=>new URL(import.meta.env.BASE_URL+assets.resolve(id).path,location.href).href;
++// Keep already supplied local pictures in the document's decoded-image cache.
++// A connection loss while saving a reason must not blank the following result scene.
++const retainedImages:HTMLImageElement[]=[];
++let retained:Promise<void>|undefined;
++export function retainLocalImages():Promise<void>{
++ return retained??=Promise.all(records.filter(r=>r.state==='existing'&&(r.kind==='background'||r.kind==='sticker')).map(r=>new Promise<void>((resolve,reject)=>{
++  const image=new Image();retainedImages.push(image);image.onload=()=>resolve();image.onerror=()=>reject(Error('LOCAL_ASSET_UNAVAILABLE'));image.src=asset(r.id);
++ }))).then(()=>{}).catch(e=>{retained=undefined;throw e;});
++}
+--- before/src/app/ExpressionEditor.tsx
++++ after/src/app/ExpressionEditor.tsx
+@@ -6,12 +6,12 @@
+ import {saveDrawing,artifactStore} from './localArtifacts';
+ import {ui} from './text';
+ import {asset} from './assets';
+-export function DrawingInput({onChange}:{onChange:(png:string)=>void}){
++export function DrawingInput({onChange,initialValue='',strict=false}:{onChange:(png:string)=>void;initialValue?:string;strict?:boolean}){
+  const ref=useRef<HTMLCanvasElement>(null),gesture=useRef<{id:number;image:ImageData}|null>(null);
+- function clear(){const c=ref.current!,x=c.getContext('2d')!;x.fillStyle='#faf2d9';x.fillRect(0,0,c.width,c.height);onChange('');}
+- useEffect(clear,[]);
++ function clear(){const c=ref.current!,x=c.getContext('2d',{willReadFrequently:true})!;x.fillStyle='#faf2d9';x.fillRect(0,0,c.width,c.height);onChange('');}
++ useEffect(()=>{clear();if(initialValue){const image=new Image();image.onload=()=>{ref.current?.getContext('2d',{willReadFrequently:true})?.drawImage(image,0,0);onChange(initialValue);};image.src=initialValue;}},[]);
+  function point(e:React.PointerEvent){const c=ref.current!,r=c.getBoundingClientRect();return [(e.clientX-r.left)*c.width/r.width,(e.clientY-r.top)*c.height/r.height] as const;}
+- return <div className="drawing-input"><canvas width="640" height="360" ref={ref} role="img" aria-label={ui('draw')} onPointerDown={e=>{const c=ref.current!,x=c.getContext('2d')!;gesture.current={id:e.pointerId,image:x.getImageData(0,0,c.width,c.height)};c.setPointerCapture(e.pointerId);x.beginPath();x.moveTo(...point(e));x.strokeStyle='#253c49';x.lineWidth=7;x.lineCap='round';}} onPointerMove={e=>{if(gesture.current?.id!==e.pointerId)return;const x=ref.current!.getContext('2d')!;x.lineTo(...point(e));x.stroke();}} onPointerUp={e=>{if(gesture.current?.id!==e.pointerId)return;gesture.current=null;onChange(ref.current!.toDataURL('image/png'));}} onPointerCancel={()=>{if(gesture.current)ref.current!.getContext('2d')!.putImageData(gesture.current.image,0,0);gesture.current=null;}}/><button onClick={clear}>{ui('clear')}</button></div>;
++ return <div className="drawing-input"><canvas width="640" height="360" ref={ref} role="img" aria-label={ui('draw')} onPointerDown={e=>{const c=ref.current!,x=c.getContext('2d',{willReadFrequently:true})!;gesture.current={id:e.pointerId,image:x.getImageData(0,0,c.width,c.height)};c.setPointerCapture(e.pointerId);x.beginPath();x.moveTo(...point(e));x.strokeStyle='#253c49';x.lineWidth=7;x.lineCap='round';}} onPointerMove={e=>{if(gesture.current?.id!==e.pointerId)return;const x=ref.current!.getContext('2d',{willReadFrequently:true})!;x.lineTo(...point(e));x.stroke();}} onPointerUp={e=>{if(gesture.current?.id!==e.pointerId)return;const c=ref.current!,x=c.getContext('2d',{willReadFrequently:true})!,data=x.getImageData(0,0,c.width,c.height).data;const ink=Array.from({length:data.length/4},(_,i)=>i*4).some(i=>data[i]!==250||data[i+1]!==242||data[i+2]!==217);gesture.current=null;onChange(!strict||ink?c.toDataURL('image/png'):'');}} onPointerCancel={()=>{if(gesture.current)ref.current!.getContext('2d',{willReadFrequently:true})!.putImageData(gesture.current.image,0,0);gesture.current=null;}}/><button onClick={clear}>{ui('clear')}</button></div>;
+ }
+ export const audioBlob=(value:string)=>{const [head,body]=value.split(',');const bytes=Uint8Array.from(atob(body),c=>c.charCodeAt(0));return new Blob([bytes],{type:head.split(':')[1].split(';')[0]});};
+ export function ExpressionEditor({run,repository,options,onCommit,busy=false,freeStory=false}:{run:Run;repository:BrowserRepository;options:{id:string;text:string;visual:string}[];onCommit:(e:Expression)=>Promise<void>;busy?:boolean;freeStory?:boolean}){
+--- before/src/app/ResultViews.tsx
++++ after/src/app/ResultViews.tsx
+@@ -1,3 +1,4 @@
++import {ReasonView} from './ReasonEditor';
+ import React,{useState} from 'react';
+ import {bookModel,reportModel,authoredStory} from '../core/artifacts';
+ import {condition} from '../core/engine';
+@@ -38,7 +39,7 @@
+  <section className={`report-output ${view==='report'?'screen-visible':''}`} aria-label={ui('reportTitle')}>
+  <article className="report-page"><h1>{ui('reportTitle')}</h1><p>{run.profile.alias} · {new Date(run.createdAt).toLocaleDateString('ko-KR')}</p><h2>{t(run.contentSnapshot.titleKey)}</h2><h3>{ui('history')}</h3><p>{report.together.actualHistory}</p><h3>{ui('condition')}</h3><p>{report.together.changedCondition}</p><h3>{ui('predictionSaved')}</h3><FieldView value={prediction} run={run} repository={repository}/><h3>{ui('story')}</h3><StoryView run={run} repository={repository}/>{preview&&!(run.story.status==='recorded'&&run.story.value.method==='drawing')&&<img className="report-scene" src={preview} alt={ui('creation')}/>}</article>
+  <article className="report-page"><h2>{ui('historyComparison')}</h2><p>{report.together.actualHistory}</p><FieldView value={run.historyComparison} run={run} repository={repository}/><h2>{ui('predictionComparison')}</h2><FieldView value={prediction} run={run} repository={repository}/><FieldView value={run.predictionComparison} run={run} repository={repository}/>{report.together.thoughts.map(x=><p className="stamp" key={x}>{x}</p>)}<div className="book-thumbnail"><h3>{ui('book')}</h3><p>{t(run.contentSnapshot.titleKey)}</p>{preview&&<img src={preview} alt={ui('preview')}/>}<button onClick={()=>{setView('book');setPage(0);}}>{ui('book')}</button></div></article>
+- <article className="report-page"><h2>{ui('details')}</h2><p>{ui('observationsNote')}</p><dl><dt>{ui('date')}</dt><dd>{new Date(run.createdAt).toLocaleString('ko-KR')}</dd><dt>{ui('duration')}</dt><dd>{report.durationMs.status==='recorded'?Math.round(report.durationMs.value/1000)+' '+ui('seconds'):ui('noRecord')}</dd><dt>{ui('finished')}</dt><dd>{report.completed?'✓':ui('noRecord')}</dd><dt>{ui('mode')}</dt><dd>{report.details.expressionModes.map(x=>ui(({choice:'choose',text:'text',audio:'voice',drawing:'draw',unknown:'unknown',skip:'unknown',writing:'writing',voice:'voice',mixed:'mixed',deferred:'deferred'} as Record<string,string>)[x])).join(' · ')}</dd><dt>{ui('sticker')}</dt><dd>{report.details.stickerUse}</dd><dt>{ui('drawing')}</dt><dd>{report.details.drawingUse}</dd><dt>{ui('changes')}</dt><dd>{report.details.choiceChanges}</dd><dt>{ui('retry')}</dt><dd>{report.details.retries}</dd></dl><h3>{ui('observations')}</h3>{!action?<p>{ui(run.action.status==='notProvided'?'notProvided':'notObserved')}</p>:<>{action.actionKind==='revisePlan'&&<dl><dt>{ui('before')}</dt><dd>{name(action.beforeResponseId)}</dd><dt>{ui('after')}</dt><dd>{name(action.afterResponseId)}</dd><dt>{ui('reason')}</dt><dd>{name(action.reasonRef)}</dd></dl>}{action.actionKind==='prioritizeActions'&&<><h4>{ui('priority')}</h4><ol>{action.orderedResponseIds.map(id=><li key={id}>{name(id)}</li>)}</ol><p>{ui('reason')}: {name(action.reasonRef)}</p></>}{report.details.observations.map(o=><p key={o.eventId}>{o.description}</p>)}</>}</article>
++ <article className="report-page"><h2>{ui('details')}</h2><p>{ui('observationsNote')}</p><dl><dt>{ui('date')}</dt><dd>{new Date(run.createdAt).toLocaleString('ko-KR')}</dd><dt>{ui('duration')}</dt><dd>{report.durationMs.status==='recorded'?Math.round(report.durationMs.value/1000)+' '+ui('seconds'):ui('noRecord')}</dd><dt>{ui('finished')}</dt><dd>{report.completed?'✓':ui('noRecord')}</dd><dt>{ui('mode')}</dt><dd>{report.details.expressionModes.map(x=>ui(({choice:'choose',text:'text',audio:'voice',drawing:'draw',unknown:'unknown',skip:'unknown',writing:'writing',voice:'voice',mixed:'mixed',deferred:'deferred'} as Record<string,string>)[x])).join(' · ')}</dd><dt>{ui('sticker')}</dt><dd>{report.details.stickerUse}</dd><dt>{ui('drawing')}</dt><dd>{report.details.drawingUse}</dd><dt>{ui('changes')}</dt><dd>{report.details.choiceChanges}</dd><dt>{ui('retry')}</dt><dd>{report.details.retries}</dd></dl><h3>{ui('observations')}</h3>{!action?<p>{ui(run.action.status==='notProvided'?'notProvided':'notObserved')}</p>:<>{action.actionKind==='revisePlan'&&<dl><dt>{ui('before')}</dt><dd>{name(action.beforeResponseId)}</dd><dt>{ui('after')}</dt><dd>{name(action.afterResponseId)}</dd>{!c.activity.reasonExpressionRuleId&&<><dt>{ui('reason')}</dt><dd>{name(action.reasonRef??'')}</dd></>}</dl>}{action.actionKind==='prioritizeActions'&&<><h4>{ui('priority')}</h4><ol>{action.orderedResponseIds.map(id=><li key={id}>{name(id)}</li>)}</ol>{!c.activity.reasonExpressionRuleId&&<p>{ui('reason')}: {name(action.reasonRef??'')}</p>}</>}{report.details.observations.map(o=><p key={o.eventId}>{o.description}</p>)}</>}{c.activity.reasonExpressionRuleId&&<ReasonView run={run} repository={repository}/>}</article>
+  <article className="report-page"><h2>{ui('requestedSupport')}</h2>{report.details.hints.length?<ul>{report.details.hints.map(h=><li key={h.eventId}>{ui(String(h.type))} · {String(h.count)}</li>)}</ul>:<p>{ui('notObserved')}</p>}<h2>{ui('autoSupport')}</h2>{report.details.automaticSupports.length?<ul>{report.details.automaticSupports.map((h,i)=><li key={i}>{ui(String(h.type))}</li>)}</ul>:<p>{ui('notProvided')}</p>}<h2>{ui('nextSupport')}</h2>{report.nextSupport.length?<ul>{report.nextSupport.map(s=><li key={s.type}>{ui(s.type)}</li>)}</ul>:<p>{ui('notObserved')}</p>}<p>{ui('guideUnavailable')}</p><h3>{ui('source')}</h3>{c.sourceLocatorKeys.map(k=><p key={k}>{t(k)}</p>)}<p>{ui('transcript')}: {ui('notCollected')}</p><button onClick={()=>{setView('book');setPage(0);}}>{ui('book')}</button></article>
+  </section></div>;
+ }
+--- before/src/canvas/VoiceRecorder.tsx
++++ after/src/canvas/VoiceRecorder.tsx
+@@ -2,7 +2,7 @@
+ import {t} from './i18n';
+ import {AudioPlayback} from './AudioPlayback';
+ import {microphoneError,requestMicrophone} from './voiceSupport';
+-export function VoiceRecorder({value,onChange,onBusy,helpKey='ui.audioHelp'}:{value:string;onChange:(audio:string)=>void;onBusy:(busy:boolean)=>void;helpKey?:string}){
++export function VoiceRecorder({value,onChange,onBusy,helpKey='ui.audioHelp',allowImport=true}:{value:string;onChange:(audio:string)=>void;onBusy:(busy:boolean)=>void;helpKey?:string;allowImport?:boolean}){
+  const [phase,setPhase]=useState<'idle'|'waiting'|'recording'|'encoding'>('idle'),[error,setError]=useState(''),[seconds,setSeconds]=useState(0);
+  const run=useRef(0),mounted=useRef(true),rec=useRef<MediaRecorder|null>(null),media=useRef<MediaStream|null>(null),tick=useRef<ReturnType<typeof setInterval>|null>(null);
+  const callbacks=useRef({onChange,onBusy});callbacks.current={onChange,onBusy};
+@@ -27,6 +27,6 @@
+  {phase==='waiting'&&<><p role="status">{t('voice.waiting')}</p><button type="button" onClick={cancel}>{t('voice.cancel')}</button></>}
+  {phase==='recording'&&<p role="status">{t('ui.recording')} · {seconds}s</p>}{phase==='encoding'&&<p role="status">{t('voice.encoding')}</p>}
+  {error&&<div role="alert"><p>{t(error)}</p><p>{t('voice.browserHelp')}</p></div>}
+- <label>{t('voice.import')}<input type="file" accept="audio/*" disabled={phase!=='idle'} onChange={e=>{importAudio(e.target.files?.[0]);e.target.value='';}}/></label><small>{t('voice.importHelp')}</small>
++ {allowImport&&<><label>{t('voice.import')}<input type="file" accept="audio/*" disabled={phase!=='idle'} onChange={e=>{importAudio(e.target.files?.[0]);e.target.value='';}}/></label><small>{t('voice.importHelp')}</small></>}
+  {value&&<><p>{t('ui.audioReady')}</p><AudioPlayback src={value}/></>}</div>;
+ }
+--- before/src/content/app-entry.json
++++ after/src/content/app-entry.json
+@@ -24,8 +24,8 @@
+     "실제 역사와 나의 역사 비교",
+     "최초 예측과 실제 역사 비교"
+   ],
+-  "missionVersion": "4.0.0",
+-  "contentVersion": "3.0.0",
++  "missionVersion": "5.0.0",
++  "contentVersion": "3.1.0",
+   "comparisonRuleId": "NUVIA_HISTORY_MASTER_RULES_v1.1",
+   "alignmentRuleId": "NUVIA_HISTORY_MASTER_RULES_v1.1",
+   "conditionContracts": {
+@@ -41,5 +41,6 @@
+     }
+   },
+   "executionOrderRuleId": "NUVIA_HISTORY_EXECUTION_ORDER_RULE_v1.1.1",
+-  "semanticBaselineId": "NUVIA_HISTORY_REPRESENTATIVE_6_SEMANTIC_BASELINE_v1.1"
++  "semanticBaselineId": "NUVIA_HISTORY_REPRESENTATIVE_6_SEMANTIC_BASELINE_v1.1",
++  "reasonExpressionRuleId": "NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2"
+ }
+--- before/src/content/locales/app.ko.json
++++ after/src/content/locales/app.ko.json
+@@ -115,5 +115,24 @@
+   "myHistory": "나의 역사",
+   "discoveryHeading": "내가 발견한 점",
+   "actualKeyPoint": "실제 역사 핵심",
+-  "initialThought": "나의 처음 생각"
++  "initialThought": "나의 처음 생각",
++  "reasonQuestionLow": "왜 그렇게 골랐나요?",
++  "reasonInstructionLow": "내 생각을 말하거나, 그리거나, 짧게 써 보세요.",
++  "reasonQuestionHigh": "그렇게 선택한 이유를 직접 남겨 보세요.",
++  "reasonInstructionHigh": "선택할 때 생각한 조건이나 까닭을 적어 보세요.",
++  "reasonSave": "이유 저장하기",
++  "reasonSaveVoice": "말 저장하기",
++  "reasonSaveDrawing": "그림 저장하기",
++  "reasonSaveThought": "내 생각 저장하기",
++  "reasonSkip": "이유는 건너뛸게요",
++  "reasonMissing": "이번 활동에서는 이유가 기록되지 않았어요",
++  "reasonActivityDeferred": "이번 활동에서는 핵심 활동을 보류했어요",
++  "reasonWriting": "짧게 쓰기",
++  "reasonVoice": "말로 남기기",
++  "reasonDrawing": "그림으로 남기기",
++  "reasonSelected": "내가 고른 내용",
++  "reasonRecorded": "직접 남긴 이유",
++  "reasonRecordingInvalid": "녹음이 남지 않았어요. 다시 녹음하거나 다른 방법을 골라 주세요.",
++  "reasonDraftSaved": "입력 내용을 기기에 저장했어요.",
++  "reasonDraftError": "입력 내용을 저장하지 못했어요. 다시 시도해 주세요."
+ }
+--- before/src/core/artifacts.ts
++++ after/src/core/artifacts.ts
+@@ -39,7 +39,7 @@
+  const common={resultId:r.resultId,missionId:r.missionId,conditionId:c.id,missionVersion:r.missionVersion,contentVersion:r.contentVersion};
+  return {...common,titleKey:'report.singleMission',alias:r.profile.alias,createdAt:r.createdAt,completedAt:r.completedAt,completed:r.stage==='complete',durationMs:r.completedAt?recorded(Date.parse(r.completedAt)-Date.parse(r.createdAt)):missing<number>('notRecorded'),
+   together:{actualHistory:r.localeSnapshot[c.actualHistoryKey],changedCondition:r.localeSnapshot[c.conditionKey],initialPrediction:structuredClone(r.prediction),story:authoredStory(r),historyComparison:structuredClone(r.historyComparison),predictionComparison:structuredClone(r.predictionComparison),thoughts:observed?[r.localeSnapshot['thought.'+c.passDomain]]:[],preview:book.pages[5].previews.slice(0,1)},
+-  details:{observations:observed&&r.action.status==='recorded'?[{eventId:actionEvents[actionEvents.length-1].eventId,description:r.localeSnapshot[c.activity.observationKey],input:reportAction(r.action.value)}]:[],observationStatus:observed?'recorded':r.action.status==='notProvided'?'notProvided':'notObserved',hintCount:requested.length,hints:requested.map(e=>({type:e.payload.hintType,level:e.supportLevel,count:e.payload.requestCount,stage:e.payload.requestedAtStage,eventId:e.eventId})),automaticSupports:r.events.filter(e=>e.eventType==='supportApplied').map(e=>({type:e.payload.support,level:e.supportLevel})),choiceChanges:r.events.filter(e=>e.eventType==='choiceChanged'&&e.payload.kind==='condition').length,retries:r.events.filter(e=>e.eventType==='activityRetried').length,stickerUse:r.events.filter(e=>e.eventType==='canvasObjectAdded').length,drawingUse:r.events.filter(e=>e.eventType==='drawingAdded').length,expressionModes:[...new Set([predictionField(r),r.story,r.historyComparison,r.predictionComparison,...(r.canvas.status==='recorded'&&r.canvas.value.scenes.some(s=>s.audioRef)?[recorded<Expression>({method:'audio',text:'',audioRef:r.canvas.value.scenes.find(s=>s.audioRef)!.audioRef})]:[])].filter((f):f is {status:'recorded';value:ComparisonValue}=>f.status==='recorded').map(f=>isComparison(f.value)?f.value.expressionMode:f.value.method))],assessmentScores:missing('notCollected')},
++  details:{...(c.activity.reasonExpressionRuleId?{reason:r.reasonExpressions?.[0]??null,reasonStatus:r.reasonExpressions?.length?'recorded':r.events.some(e=>e.eventType==='activityDeferred'&&e.payload.scope==='reason')?'deferred':r.action.status==='notProvided'?'activityDeferred':'notRecorded'}:{}),observations:observed&&r.action.status==='recorded'?[{eventId:actionEvents[actionEvents.length-1].eventId,description:c.activity.reasonExpressionRuleId?undefined:r.localeSnapshot[c.activity.observationKey],input:reportAction(r.action.value)}]:[],observationStatus:observed?'recorded':r.action.status==='notProvided'?'notProvided':'notObserved',hintCount:requested.length,hints:requested.map(e=>({type:e.payload.hintType,level:e.supportLevel,count:e.payload.requestCount,stage:e.payload.requestedAtStage,eventId:e.eventId})),automaticSupports:r.events.filter(e=>e.eventType==='supportApplied').map(e=>({type:e.payload.support,level:e.supportLevel})),choiceChanges:r.events.filter(e=>e.eventType==='choiceChanged'&&e.payload.kind==='condition').length,retries:r.events.filter(e=>e.eventType==='activityRetried').length,stickerUse:r.events.filter(e=>e.eventType==='canvasObjectAdded').length,drawingUse:r.events.filter(e=>e.eventType==='drawingAdded').length,expressionModes:[...new Set([predictionField(r),r.story,r.historyComparison,r.predictionComparison,...(r.canvas.status==='recorded'&&r.canvas.value.scenes.some(s=>s.audioRef)?[recorded<Expression>({method:'audio',text:'',audioRef:r.canvas.value.scenes.find(s=>s.audioRef)!.audioRef})]:[])].filter((f):f is {status:'recorded';value:ComparisonValue}=>f.status==='recorded').map(f=>isComparison(f.value)?f.value.expressionMode:f.value.method))],assessmentScores:missing('notCollected')},
+   nextSupport: [...hintCounts.entries()].sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0])).slice(0,2).map(([type,count])=>({type,count})),
+   bookLink:{...common,artifact:'missionBook' as const},cumulativeReportEligible:false,
+  };
+--- before/src/core/contracts.ts
++++ after/src/core/contracts.ts
+@@ -8,7 +8,7 @@
+  const allowed=(id:unknown,role:string)=>typeof id==='string'&&def.materials.some(m=>m.id===id&&m.role===role);
+  const one=(id:unknown,role:string)=>need(allowed(id,role),'UNKNOWN_'+role.toUpperCase());
+  const list=(ids:unknown,role:string,min=1)=>{need(unique(ids)&&ids.length>=min,'INVALID_'+role.toUpperCase()+'_LIST');ids.forEach(id=>one(id,role));};
+- const reason=(id:unknown)=>one(id,'reason');
++ const reason=(id:unknown)=>{if(def.reasonExpressionRuleId==='NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2'){need(id===undefined||(typeof id==='string'&&id.startsWith('reason:')&&!def.materials.some(m=>m.id===id)),'REASON_RECORD_REQUIRED');}else one(id,'reason');};
+  switch(v.actionKind){
+  case 'mapRelation': list(v.nodeIds,'node',2);need(v.nodeIds.length===2,'RELATION_PAIR_REQUIRED');one(v.meaningKey,'meaning');need(v.relationId===def.id+'.relation','RELATION_ID_MISMATCH');break;
+  case 'arrangeSequence':list(v.orderedStepIds,'step',2);need(v.orderedStepIds.length===def.materials.filter(m=>m.role==='step').length,'INCOMPLETE_SEQUENCE');need(Array.isArray(v.precedenceRefs)&&v.precedenceRefs.length===v.orderedStepIds.length-1&&v.precedenceRefs.every((p,i)=>Array.isArray(p)&&p.length===2&&p[0]===v.orderedStepIds[i]&&p[1]===v.orderedStepIds[i+1]),'INVALID_PRECEDENCE');need(['planned','observed','unknown'].includes(v.completionState),'COMPLETION_STATE_REQUIRED');if(v.interruptedStepId)one(v.interruptedStepId,'step');break;
+--- before/src/core/engine.ts
++++ after/src/core/engine.ts
+@@ -1,18 +1,20 @@
+ import {recorded,missing,STAGES,productionDependencies,type Run,type ContentBundle,type Profile,type Dependencies,type EventType,type ConditionDefinition,type Expression,type CanvasArtifact,type ArtifactLink} from './types';
+-import {isComparison,type ComparisonRecord,type ComparisonValue} from './types';
++import {isComparison,type ComparisonRecord,type ComparisonValue,type ReasonInput,type ReasonExpressionRecord} from './types';
+ import {need,validateAction} from './contracts';
+ import {resolveProfile,presentation} from './profile';
+-export const APP_VERSION='0.4.0';
++export const APP_VERSION='0.5.0';
+ export const orderedActivityFirst=(r:Run)=>r.contentSnapshot.executionOrderRuleId==='NUVIA_HISTORY_EXECUTION_ORDER_RULE_v1.1.1';
+ export const canonicalStage=(stage:Run['stage'])=>({history:'conditionUnderstanding',condition:'conditionUnderstanding',prediction:'prediction',activity:'coreActivity',alternate:'alternateResult',creation:'learnerStory',historyComparison:'historyComparison',predictionComparison:'predictionComparison',complete:'artifactLink'}[stage]);
+-const activityCommitted=(r:Run)=>r.events.some(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred');
++export const freeReason=(r:Run)=>!!r.conditionId&&condition(r).activity.reasonExpressionRuleId==='NUVIA_HISTORY_REASON_EXPRESSION_RULE_v1.1.2';
++const actionEvents=(r:Run)=>r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred'&&e.payload.scope!=='reason');
++const activityCommitted=(r:Run)=>actionEvents(r).length>0;
+ export type Command=
+  |{type:'historyViewed';conditionId:string}
+  |{type:'continueHistory'}
+  |{type:'selectCondition';conditionId:string}
+  |{type:'prediction';expression:Expression}
+  |{type:'reveal';possibility:'A'|'B'}
+- |{type:'action';value:unknown}
++ |{type:'action';value:unknown;reason?:ReasonInput}
+  |{type:'deferAction';reason:'unknown'|'skip'}
+  |{type:'story';expression:Expression}
+  |{type:'comparison';kind:'history'|'prediction';comparison:ComparisonRecord}
+@@ -43,6 +45,41 @@
+  if(e.method==='audio')need(e.audioRef&&e.audioRef.startsWith('local-audio:'),'LOCAL_AUDIO_REQUIRED');
+  if(e.method==='drawing')need(e.canvasRef,'CANVAS_REQUIRED');
+ }
++export function validateReasonInput(raw:unknown){
++ const input=raw as ReasonInput;
++ need(input&&typeof input==='object','REASON_INPUT_REQUIRED');
++ const fields:Record<string,string[]>={typed:['source','reasonText'],recorded:['source','voiceRef'],drawn:['source','drawingRef'],deferred:['source']};
++ need(Object.hasOwn(fields,input.source)&&Object.keys(input).every(k=>fields[input.source].includes(k)),'REASON_INPUT_FIELDS');
++ if(input.source==='typed')need(typeof input.reasonText==='string'&&input.reasonText.trim().length>0,'EMPTY_REASON');
++ if(input.source==='recorded')need(typeof input.voiceRef==='string'&&input.voiceRef.startsWith('local-audio:'),'LOCAL_AUDIO_REQUIRED');
++ if(input.source==='drawn')need(typeof input.drawingRef==='string'&&input.drawingRef.startsWith('drawing:'),'LOCAL_DRAWING_REQUIRED');
++}
++function assertReason(r:Run){
++ const records=r.reasonExpressions??[],actions=actionEvents(r),events=r.events.filter(e=>e.eventType==='reasonExpressionRecorded'||e.eventType==='activityDeferred'&&e.payload.scope==='reason');
++ if(r.action.status!=='recorded'){need(records.length===0&&events.length===0,'UNEXPECTED_REASON');return;}
++ need(actions.length===1&&actions[0].eventType==='cognitiveActionRecorded'&&events.length===1,'REASON_EVENT_REQUIRED');
++ for(const [k,v] of Object.entries(r.action.value))need(JSON.stringify(actions[0].payload[k])===JSON.stringify(v),'ACTION_EVENT_MISMATCH');
++ const a=actions[0],e=events[0],qid=condition(r).semantic?.subquestions[r.profile.ageBand].reason?.semanticFields.questionId;
++ need(e.payload.actionEventId===a.eventId&&e.payload.reasonQuestionId===qid&&r.events.indexOf(e)>r.events.indexOf(a),'REASON_PROVENANCE');
++ const reveal=r.events.findIndex(x=>x.eventType==='alternateViewed');if(reveal>=0)need(r.events.indexOf(e)<reveal,'REASON_ORDER');
++ if(e.eventType==='activityDeferred'){
++  need(e.payload.source==='deferred'&&!('reasonRef' in r.action.value)&&records.length===0,'DEFERRED_REASON_EMPTY');
++  need(Object.keys(e.payload).every(k=>['scope','actionEventId','reasonQuestionId','source','canonicalStage','questionId'].includes(k)),'DEFERRED_REASON_FIELDS');
++  return;
++ }
++ need(records.length===1,'REASON_RECORD_REQUIRED');const v=records[0];
++ need('reasonRef' in r.action.value&&r.action.value.reasonRef===v.reasonRef&&e.payload.reasonRef===v.reasonRef&&v.reasonRef.startsWith('reason:'),'REASON_REF_MISMATCH');
++ for(const k of ['resultId','missionId','conditionId','missionVersion','contentVersion'] as const)need(v[k]===r[k],'REASON_LINK_ERROR');
++ need(v.actionEventId===a.eventId&&v.reasonQuestionId===qid&&e.payload.source===v.source&&!Number.isNaN(Date.parse(v.createdAt)),'REASON_PROVENANCE');
++ const {reasonRef,resultId,missionId,conditionId:cid,missionVersion,contentVersion,actionEventId,reasonQuestionId,createdAt,...input}=v;
++ validateReasonInput(input);need(e.payload.hasText===(v.source==='typed')&&e.payload.voiceRef===v.voiceRef&&e.payload.drawingRef===v.drawingRef,'REASON_EVENT_MISMATCH');
++ need(Object.keys(e.payload).every(k=>['reasonRef','actionEventId','reasonQuestionId','source','hasText','voiceRef','drawingRef','canonicalStage','questionId'].includes(k)),'REASON_EVENT_FIELDS');
++ // A reason has its own input provenance. It cannot silently reuse prediction/story/comparison media.
++ for(const f of [r.prediction.status==='recorded'?recorded(r.prediction.value.expression):missing<Expression>(),r.story,r.historyComparison,r.predictionComparison])if(f.status==='recorded'){
++  const x=f.value,refs=isComparison(x)?[x.voiceRef,x.drawingRef]:['audioRef' in x?x.audioRef:undefined,'canvasRef' in x?x.canvasRef:undefined];
++  need(!v.voiceRef||!refs.includes(v.voiceRef),'REASON_MEDIA_REUSED');need(!v.drawingRef||!refs.includes(v.drawingRef),'REASON_MEDIA_REUSED');
++ }
++}
+ const exprMeta=(e:Expression)=>({method:e.method,hasText:!!e.text,provided:e.method!=='unknown'&&e.method!=='skip'});
+ export function transition(previous:Run,command:Command,deps:Dependencies=productionDependencies):Run {
+  assertRun(previous);need(previous.stage!=='complete','COMPLETED_RESULT_IMMUTABLE');const r=structuredClone(previous);r.revision++;
+@@ -53,8 +90,8 @@
+  case 'selectCondition':need(r.stage==='condition'||r.stage==='prediction','INVALID_STAGE');need(r.prediction.status!=='recorded','PREDICTION_IMMUTABLE');need(r.contentSnapshot.conditions.some(c=>c.id===command.conditionId),'CONDITION_NOT_FOUND');append(r,r.conditionId?'choiceChanged':'conditionSelected',{kind:'condition',conditionId:command.conditionId,previousConditionId:r.conditionId},deps);r.conditionId=command.conditionId;r.events[r.events.length-1].conditionId=command.conditionId;r.stage='prediction';for(const support of presentation(condition(r),r.profile).automaticSupport)append(r,'supportApplied',{support,automatic:true},deps,undefined,r.profile.attentionSupport);break;
+  case 'prediction':{stage('prediction');need(r.prediction.status!=='recorded','PREDICTION_IMMUTABLE');const c=condition(r),expression=command.expression;validateExpression(expression);if(c.semantic&&expression.method==='choice')need(c.semantic.predictionOptions.some(o=>o.id===expression.choiceId&&r.localeSnapshot[o.textKey]===expression.text),'PREDICTION_CHOICE_MISMATCH');const at=deps.now();r.prediction=recorded({expression:structuredClone(expression),recordedAt:at});append(r,'predictionRecorded',exprMeta(expression),deps,at);r.stage=orderedActivityFirst(r)?'activity':'alternate';break;}
+  case 'reveal':stage('alternate');if(orderedActivityFirst(r))need(activityCommitted(r),'ACTIVITY_BEFORE_REVEAL');need(r.prediction.status==='recorded','PREDICTION_REQUIRED');need(['A','B'].includes(command.possibility),'POSSIBILITY_REQUIRED');r.alternate=recorded(command.possibility);append(r,'alternateViewed',{possibility:command.possibility,kind:'fiction',causalLevel:3},deps);r.stage=orderedActivityFirst(r)?'creation':'activity';break;
+- case 'action':{stage('activity');need(!activityCommitted(r),'ACTION_IMMUTABLE');const c=condition(r),value=validateAction(c.activity,command.value);r.action=recorded(value);append(r,'cognitiveActionRecorded',{...value,activityId:c.activity.id,materialSetId:c.activity.materialSetId,interactionContractId:c.activity.contractId,source:'learner',...(c.semantic?{inputQuestionIds:Object.values(c.semantic.subquestions[r.profile.ageBand]).map(q=>q.semanticFields.questionId)}:{})},deps);r.stage=orderedActivityFirst(r)?'alternate':'creation';break;}
+- case 'deferAction':stage('activity');need(!activityCommitted(r),'ACTION_IMMUTABLE');need(['unknown','skip'].includes(command.reason),'INVALID_DEFER');r.action=missing('notProvided');append(r,'activityDeferred',{reason:command.reason},deps);r.stage=orderedActivityFirst(r)?'alternate':'creation';break;
++ case 'action':{stage('activity');need(!activityCommitted(r),'ACTION_IMMUTABLE');const c=condition(r);let input=command.value,reasonRecord:ReasonExpressionRecord|undefined;const qid=String(c.semantic?.subquestions[r.profile.ageBand].reason?.semanticFields.questionId??'');if(freeReason(r)){need(command.reason,'REASON_INPUT_REQUIRED');need(input&&typeof input==='object'&&!('reasonRef' in input),'REASON_REF_NOT_CLIENT_ASSIGNED');validateReasonInput(command.reason);if(command.reason.source!=='deferred'){const link=artifactLink(r);reasonRecord={reasonRef:'reason:'+deps.id(),resultId:link.resultId,missionId:link.missionId,conditionId:link.conditionId,missionVersion:link.missionVersion,contentVersion:link.contentVersion,actionEventId:'',reasonQuestionId:qid,...command.reason,createdAt:deps.now()};input={...input,reasonRef:reasonRecord.reasonRef};}}const value=validateAction(c.activity,input);r.action=recorded(value);append(r,'cognitiveActionRecorded',{...value,activityId:c.activity.id,materialSetId:c.activity.materialSetId,interactionContractId:c.activity.contractId,source:'learner',...(c.semantic?{inputQuestionIds:Object.values(c.semantic.subquestions[r.profile.ageBand]).map(q=>q.semanticFields.questionId)}:{})},deps);if(freeReason(r)){const actionEventId=r.events.at(-1)!.eventId;if(reasonRecord){reasonRecord.actionEventId=actionEventId;r.reasonExpressions=[reasonRecord];append(r,'reasonExpressionRecorded',{reasonRef:reasonRecord.reasonRef,actionEventId,reasonQuestionId:qid,source:reasonRecord.source,hasText:reasonRecord.source==='typed',...(reasonRecord.voiceRef?{voiceRef:reasonRecord.voiceRef}:{}),...(reasonRecord.drawingRef?{drawingRef:reasonRecord.drawingRef}:{})},deps);}else append(r,'activityDeferred',{scope:'reason',actionEventId,reasonQuestionId:qid,source:'deferred'},deps);}r.stage=orderedActivityFirst(r)?'alternate':'creation';break;}
++ case 'deferAction':stage('activity');need(!activityCommitted(r),'ACTION_IMMUTABLE');need(['unknown','skip'].includes(command.reason),'INVALID_DEFER');r.action=missing('notProvided');append(r,'activityDeferred',{reason:command.reason,...(freeReason(r)?{scope:'activity'}:{})},deps);r.stage=orderedActivityFirst(r)?'alternate':'creation';break;
+  case 'retryActivity':stage('activity');append(r,'activityRetried',{},deps);break;
+  case 'canvas':{stage('creation');validateCanvas(r,command.canvas);r.canvas=recorded(structuredClone(command.canvas));for(const e of command.events){validateCanvasEvent(e,command.canvas);append(r,e.type,e.payload,deps);}break;}
+  case 'story':stage('creation');validateExpression(command.expression);if(condition(r).learnerStoryOnly)need(command.expression.method!=='choice','STORY_REQUIRES_LEARNER_INPUT');if(command.expression.method==='drawing')need(command.expression.canvasRef?.startsWith('drawing:')||(r.canvas.status==='recorded'&&r.canvas.value.completed&&command.expression.canvasRef===r.canvas.value.id),'CANVAS_REQUIRED');r.story=recorded(structuredClone(command.expression));append(r,'storyRecorded',exprMeta(command.expression),deps);r.stage='historyComparison';break;
+@@ -87,15 +124,16 @@
+  const predictions=r.events.filter(e=>e.eventType==='predictionRecorded'),revealIndex=r.events.findIndex(e=>e.eventType==='alternateViewed');
+  need(predictions.length<=1,'PREDICTION_IMMUTABLE');if(r.prediction.status==='recorded'){need(predictions.length===1&&predictions[0].timestamp===r.prediction.value.recordedAt,'PREDICTION_EVENT_MISMATCH');if(revealIndex>=0)need(r.events.findIndex(e=>e.eventType==='predictionRecorded')<revealIndex,'PREDICTION_ORDER');}
+  if(orderedActivityFirst(r)){
+-  const conditionEvents=['predictionRecorded','cognitiveActionRecorded','activityDeferred','alternateViewed','storyRecorded','comparisonCompleted','canvasObjectAdded','canvasObjectMoved','drawingAdded','sceneCompleted'];
++  const conditionEvents=['predictionRecorded','cognitiveActionRecorded','activityDeferred','reasonExpressionRecorded','alternateViewed','storyRecorded','comparisonCompleted','canvasObjectAdded','canvasObjectMoved','drawingAdded','sceneCompleted'];
+   for(const e of r.events.filter(e=>conditionEvents.includes(e.eventType)))need(e.conditionId===r.conditionId,'EVENT_CONDITION_MISMATCH');
+-  const actions=r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred');
++  const actions=actionEvents(r);
+   need(actions.length<=1,'ACTION_IMMUTABLE');
+   if(r.stage==='alternate'||STAGES.indexOf(r.stage)>=5)need(actions.length===1,'ACTIVITY_BEFORE_REVEAL');
+   if(actions.length){need(actions[0].conditionId===r.conditionId,'EVENT_CONDITION_MISMATCH');need(r.events.indexOf(actions[0])>r.events.findIndex(e=>e.eventType==='predictionRecorded'),'ACTIVITY_ORDER');need(actions[0].eventType==='activityDeferred'?r.action.status==='notProvided':r.action.status==='recorded','ACTION_EVENT_MISMATCH');}
+   if(revealIndex>=0)need(actions.length===1&&r.events.indexOf(actions[0])<revealIndex,'ACTIVITY_BEFORE_REVEAL');
+  }
+  if(r.action.status==='recorded')validateAction(condition(r).activity,r.action.value);
++ if(freeReason(r))assertReason(r);
+  if(r.canvas.status==='recorded')validateCanvas(r,r.canvas.value);
+  if(r.conditionId&&condition(r).learnerStoryOnly){
+   for(const [kind,field] of [['history',r.historyComparison],['prediction',r.predictionComparison]] as const)if(field.status==='recorded'){
+@@ -112,6 +150,7 @@
+  for(const key of ['contentSnapshot','localeSnapshot','profile','createdAt','missionVersion','contentVersion','ageBandRuleId'] as const)need(JSON.stringify(previous[key])===JSON.stringify(next[key]),'SNAPSHOT_IMMUTABLE');
+  need(JSON.stringify(next.events.slice(0,previous.events.length))===JSON.stringify(previous.events),'EVENT_HISTORY_IMMUTABLE');
+  if(orderedActivityFirst(previous)&&activityCommitted(previous))need(JSON.stringify(previous.action)===JSON.stringify(next.action),'ACTION_IMMUTABLE');
++ if(previous.reasonExpressions)need(JSON.stringify(previous.reasonExpressions)===JSON.stringify(next.reasonExpressions),'REASON_IMMUTABLE');
+  if(previous.prediction.status==='recorded')need(JSON.stringify(previous.prediction)===JSON.stringify(next.prediction),'PREDICTION_IMMUTABLE');
+  for(const key of ['historyComparison','predictionComparison'] as const)if(previous[key].status==='recorded')need(JSON.stringify(previous[key])===JSON.stringify(next[key]),'COMPARISON_IMMUTABLE');
+  if(STAGES.indexOf(previous.stage)>=6){need(JSON.stringify(previous.story)===JSON.stringify(next.story),'STORY_IMMUTABLE');need(JSON.stringify(previous.canvas)===JSON.stringify(next.canvas),'CANVAS_IMMUTABLE');}
+--- before/src/core/release.ts
++++ after/src/core/release.ts
+@@ -1,13 +1,14 @@
+ import {validateContent} from './content';
+ import {need} from './contracts';
+ import type {ContentBundle,Run,SemanticDefinition} from './types';
+-export interface RuntimeRelease {executionOrderRuleId?:string;missionId:string;missionVersion:string;contentVersion:string;comparisonRuleId:string;conditionContracts?:Record<string,{learnerStoryOnly:boolean;historySummaryKey:string;historyKeyPointKey:string}>;}
++export interface RuntimeRelease {reasonExpressionRuleId?:string;executionOrderRuleId?:string;missionId:string;missionVersion:string;contentVersion:string;comparisonRuleId:string;conditionContracts?:Record<string,{learnerStoryOnly:boolean;historySummaryKey:string;historyKeyPointKey:string}>;}
+ // Only the runtime copy receives a new contract version. Frozen source JSON stays intact.
+ export function releaseContent(source:ContentBundle,release:RuntimeRelease,semantics?:Record<string,SemanticDefinition>,semanticStrings?:Record<string,string>):ContentBundle{
+  const bundle=structuredClone(source),mission=bundle.missions.find(m=>m.id===release.missionId);
+  need(mission,'MISSION_NOT_FOUND');mission.missionVersion=release.missionVersion;mission.contentVersion=release.contentVersion;
+  if(release.executionOrderRuleId){mission.executionOrderRuleId=release.executionOrderRuleId;need(semantics&&semanticStrings,'SEMANTIC_CONTENT_REQUIRED');Object.assign(bundle.strings,semanticStrings);}
+  for(const c of mission.conditions){if(semantics){need(semantics[c.id],'SEMANTIC_CONDITION_REQUIRED');c.semantic=structuredClone(semantics[c.id]);}c.missionVersion=release.missionVersion;c.contentVersion=release.contentVersion;const contract=release.conditionContracts?.[c.id];if(contract)Object.assign(c,contract);}
++ if(release.reasonExpressionRuleId){need(semantics&&semanticStrings,"SEMANTIC_CONTENT_REQUIRED");for(const c of mission.conditions){c.activity.reasonExpressionRuleId=release.reasonExpressionRuleId;c.activity.materials=c.activity.materials.filter(m=>m.role!=='reason');for(const [age,qs] of Object.entries(c.semantic!.subquestions)){const q=qs.reason;if(!q)continue;const low=['preschool','elementary-low'].includes(age);bundle.strings[q.promptKey]=low?'왜 그렇게 골랐나요?':'그렇게 선택한 이유를 직접 남겨 보세요.';bundle.strings[q.instructionKey]=low?'내 생각을 말하거나, 그리거나, 짧게 써 보세요.':'선택할 때 생각한 조건이나 까닭을 적어 보세요.';q.semanticFields.expectedAnswerMeaning='사용자가 직접 남긴 이유 또는 명시적 이유 건너뛰기';q.semanticFields.expectedResponseType='freeExpression';q.semanticFields.allowedAnswerIds=[];}}}
+  validateContent(bundle);return bundle;
+ }
+ export const matchesRelease=(run:Run,release:RuntimeRelease)=>run.missionId===release.missionId&&run.missionVersion===release.missionVersion&&run.contentVersion===release.contentVersion;
+--- before/src/core/storage.ts
++++ after/src/core/storage.ts
+@@ -9,10 +9,19 @@
+  constructor(private readonly factory:IDBFactory=indexedDB){}
+  private open():Promise<IDBDatabase>{return new Promise((resolve,reject)=>{const q=this.factory.open(DATABASE,1);q.onupgradeneeded=()=>{q.result.createObjectStore('runs',{keyPath:'resultId'});q.result.createObjectStore('media',{keyPath:'id'});};q.onerror=()=>reject(q.error);q.onblocked=()=>reject(Error('STORAGE_BLOCKED'));q.onsuccess=()=>resolve(q.result);});}
+  async create(run:Run){assertRun(run);need(run.revision===0,'NEW_RESULT_REVISION');const db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('runs','readwrite');tx.objectStore('runs').add(structuredClone(run));tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error??Error('SAVE_ABORTED'));});}finally{db.close();}}
+- async save(run:Run,expectedRevision:number){assertRun(run);if(run.canvas.status==='recorded')for(const scene of run.canvas.value.scenes)if(scene.audioRef)await this.loadAudio(scene.audioRef,run.resultId,run.profile.learnerId);for(const field of [run.story,run.historyComparison,run.predictionComparison,run.prediction.status==='recorded'?{status:'recorded',value:run.prediction.value.expression}:run.prediction])if(field.status==='recorded'){const v=field.value;const ref=isComparison(v)?v.voiceRef:v.method==='audio'?v.audioRef:undefined;if(ref)await this.loadAudio(ref,run.resultId,run.profile.learnerId);}const db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('runs','readwrite'),store=tx.objectStore('runs'),q=store.get(run.resultId);let validationError:unknown;q.onsuccess=()=>{try{const before=q.result as Run|undefined;need(before,'RESULT_NOT_FOUND');need(before.revision===expectedRevision,'REVISION_CONFLICT');assertSuccessor(before,run);store.put(structuredClone(run));}catch(e){validationError=e;tx.abort();}};tx.oncomplete=()=>resolve();tx.onerror=()=>reject(validationError??tx.error);tx.onabort=()=>reject(validationError??tx.error??Error('SAVE_ABORTED'));});}finally{db.close();}}
++ async save(run:Run,expectedRevision:number){assertRun(run);for(const reason of run.reasonExpressions??[]){if(reason.voiceRef)await this.loadReasonMedia(reason.voiceRef,run,'audio');if(reason.drawingRef)await this.loadReasonMedia(reason.drawingRef,run,'drawing');}if(run.canvas.status==='recorded')for(const scene of run.canvas.value.scenes)if(scene.audioRef)await this.loadAudio(scene.audioRef,run.resultId,run.profile.learnerId);for(const field of [run.story,run.historyComparison,run.predictionComparison,run.prediction.status==='recorded'?{status:'recorded',value:run.prediction.value.expression}:run.prediction])if(field.status==='recorded'){const v=field.value;const ref=isComparison(v)?v.voiceRef:v.method==='audio'?v.audioRef:undefined;if(ref)await this.loadAudio(ref,run.resultId,run.profile.learnerId);}const db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('runs','readwrite'),store=tx.objectStore('runs'),q=store.get(run.resultId);let validationError:unknown;q.onsuccess=()=>{try{const before=q.result as Run|undefined;need(before,'RESULT_NOT_FOUND');need(before.revision===expectedRevision,'REVISION_CONFLICT');assertSuccessor(before,run);store.put(structuredClone(run));}catch(e){validationError=e;tx.abort();}};tx.oncomplete=()=>resolve();tx.onerror=()=>reject(validationError??tx.error);tx.onabort=()=>reject(validationError??tx.error??Error('SAVE_ABORTED'));});}finally{db.close();}}
+  async load(resultId:string,learnerId:string){const db=await this.open();try{return await new Promise<Run|null>((resolve,reject)=>{const q=db.transaction('runs').objectStore('runs').get(resultId);q.onsuccess=()=>{try{const r=q.result as Run|undefined;if(!r){resolve(null);return;}need(r.profile.learnerId===learnerId,'OWNER_MISMATCH');assertRun(r);resolve(structuredClone(r));}catch(e){reject(e);}};q.onerror=()=>reject(q.error);});}finally{db.close();}}
+  async list(learnerId:string){const db=await this.open();try{return await new Promise<Run[]>((resolve,reject)=>{const q=db.transaction('runs').objectStore('runs').getAll();q.onsuccess=()=>{try{const rows=(q.result as Run[]).filter(r=>r.profile.learnerId===learnerId);rows.forEach(assertRun);resolve(rows);}catch(e){reject(e);}};q.onerror=()=>reject(q.error);});}finally{db.close();}}
+- async saveAudio(resultId:string,learnerId:string,blob:Blob){need(blob.type.startsWith('audio/')&&blob.size>0&&blob.size<=750000,'INVALID_AUDIO');const ownerRun=await this.load(resultId,learnerId);need(ownerRun,'RESULT_NOT_FOUND');const id='local-audio:'+crypto.randomUUID(),db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('media','readwrite');tx.objectStore('media').add({id,resultId,learnerId,blob,missionId:ownerRun.missionId,conditionId:ownerRun.conditionId,missionVersion:ownerRun.missionVersion,contentVersion:ownerRun.contentVersion,appVersion:ownerRun.appVersion,ageBandRuleId:ownerRun.ageBandRuleId,createdAt:new Date().toISOString()});tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});return id;}finally{db.close();}}
++ async saveAudio(resultId:string,learnerId:string,blob:Blob,reasonMetadata?:{durationMs:number}){if(reasonMetadata)need(Number.isFinite(reasonMetadata.durationMs)&&reasonMetadata.durationMs>0,'EMPTY_REASON_AUDIO');need(blob.type.startsWith('audio/')&&blob.size>0&&blob.size<=750000,'INVALID_AUDIO');const ownerRun=await this.load(resultId,learnerId);need(ownerRun,'RESULT_NOT_FOUND');const id='local-audio:'+crypto.randomUUID(),db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('media','readwrite');tx.objectStore('media').add({id,resultId,learnerId,blob,...(reasonMetadata?{kind:'audio',durationMs:reasonMetadata.durationMs,inputSource:'recorded'}:{}),missionId:ownerRun.missionId,conditionId:ownerRun.conditionId,missionVersion:ownerRun.missionVersion,contentVersion:ownerRun.contentVersion,appVersion:ownerRun.appVersion,ageBandRuleId:ownerRun.ageBandRuleId,createdAt:new Date().toISOString()});tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error);});return id;}finally{db.close();}}
++ async saveReasonDrawing(run:Run,png:string){
++  need(png.startsWith('data:image/png;base64,')&&png.length<4000000,'LOCAL_DRAWING_REQUIRED');const owner=await this.load(run.resultId,run.profile.learnerId);need(owner&&owner.conditionId===run.conditionId,'MEDIA_LINK_ERROR');
++  const image=new Image();await new Promise<void>((resolve,reject)=>{image.onload=()=>resolve();image.onerror=()=>reject(Error('INVALID_REASON_DRAWING'));image.src=png;});
++  need(image.width===640&&image.height===360,'INVALID_REASON_DRAWING');const canvas=document.createElement('canvas');canvas.width=image.width;canvas.height=image.height;const ctx=canvas.getContext('2d')!;ctx.drawImage(image,0,0);const pixels=ctx.getImageData(0,0,canvas.width,canvas.height).data;let hasInk=false;for(let i=0;i<pixels.length;i+=4)if(pixels[i+3]>0&&(pixels[i]!==250||pixels[i+1]!==242||pixels[i+2]!==217)){hasInk=true;break;}need(hasInk,'EMPTY_REASON_DRAWING');
++  const id='drawing:'+crypto.randomUUID(),db=await this.open();try{await new Promise<void>((resolve,reject)=>{const tx=db.transaction('media','readwrite');tx.objectStore('media').add({id,kind:'drawing',inputSource:'drawn',png,resultId:run.resultId,learnerId:run.profile.learnerId,missionId:run.missionId,conditionId:run.conditionId,missionVersion:run.missionVersion,contentVersion:run.contentVersion,createdAt:new Date().toISOString()});tx.oncomplete=()=>resolve();tx.onabort=()=>reject(tx.error);tx.onerror=()=>reject(tx.error);});return id;}finally{db.close();}
++ }
++ async loadReasonMedia(id:string,run:Run,kind:'audio'|'drawing'){
++  const owner=await this.load(run.resultId,run.profile.learnerId);need(owner&&owner.missionId===run.missionId&&owner.conditionId===run.conditionId&&owner.missionVersion===run.missionVersion&&owner.contentVersion===run.contentVersion,'MEDIA_LINK_ERROR');const db=await this.open();try{return await new Promise<{blob?:Blob;png?:string;durationMs?:number}>((resolve,reject)=>{const q=db.transaction('media').objectStore('media').get(id);q.onsuccess=()=>{try{const item=q.result;need(item&&item.resultId===run.resultId&&item.learnerId===run.profile.learnerId&&item.kind===kind,'MEDIA_LINK_ERROR');for(const k of ['missionId','conditionId','missionVersion','contentVersion'] as const)need(item[k]===run[k],'MEDIA_LINK_ERROR');if(kind==='audio')need(item.inputSource==='recorded'&&item.durationMs>0&&item.blob?.size>0,'EMPTY_REASON_AUDIO');else need(item.inputSource==='drawn'&&typeof item.png==='string'&&item.png.startsWith('data:image/png;base64,'),'EMPTY_REASON_DRAWING');resolve(item);}catch(e){reject(e);}};q.onerror=()=>reject(q.error);});}finally{db.close();}
++ }
+  async loadAudio(id:string,resultId:string,learnerId:string){const run=await this.load(resultId,learnerId);need(run,'RESULT_NOT_FOUND');const db=await this.open();try{return await new Promise<Blob>((resolve,reject)=>{const q=db.transaction('media').objectStore('media').get(id);q.onsuccess=()=>{try{const item=q.result;need(item&&item.resultId===resultId&&item.learnerId===learnerId,'MEDIA_LINK_ERROR');for(const key of ['missionId','conditionId','missionVersion','contentVersion'] as const)if(item[key]!==undefined)need(item[key]===run[key],'MEDIA_LINK_ERROR');resolve(item.blob);}catch(e){reject(e);}};q.onerror=()=>reject(q.error);});}finally{db.close();}}
+ }
+ export class MemoryRepository implements RunRepository {
+--- before/src/core/types.ts
++++ after/src/core/types.ts
+@@ -10,7 +10,7 @@
+ export interface Profile {learnerId:string;alias:string;ageBand:AgeBand;attentionSupport:0|1|2|3;source:'linked-result'|'explicit-test';}
+ export interface AgeVariant {ageBandRuleId:string;promptKey:string;instructionKey:string;expressionMode:string;visualSupportRule:string;readingDensityRule:string;supportRuleRef:string;}
+ export interface Material {id:string;labelKey:string;role:'node'|'step'|'evidence'|'left'|'right'|'goal'|'response'|'constraint'|'reason'|'meaning';visual?:string;}
+-export interface ActivityDefinition {id:string;actionKind:ActionKind;contractId:string;materialSetId:string;materials:Material[];promptKey:string;observationKey:string;hiddenExplanationId?:string;}
++export interface ActivityDefinition {id:string;actionKind:ActionKind;contractId:string;materialSetId:string;materials:Material[];promptKey:string;observationKey:string;hiddenExplanationId?:string;reasonExpressionRuleId?:string;}
+ export interface SemanticScreen {promptKey:string;instructionKey:string;semanticFields:Record<string,unknown>;}
+ export interface SemanticDefinition {stages:Record<AgeBand,Record<string,SemanticScreen>>;subquestions:Record<AgeBand,Record<string,SemanticScreen>>;predictionOptions:{id:string;textKey:string;visual:string}[];}
+ export interface ConditionDefinition {semantic?:SemanticDefinition;learnerStoryOnly?:boolean;historySummaryKey?:string;historyKeyPointKey?:string;id:string;shortId:string;missionId:string;missionVersion:string;contentVersion:string;conditionKey:string;actualHistoryKey:string;actualSceneKey:string;mechanismKey:string;mechanismLevel:1|2;causalMechanismId:string;sourceIds:string[];sourceLocatorKeys:string[];directKey:string;shortTermKey:string;longTermKey:string;additionalKey:string;alternateKeys:[string,string];ageVariants:Record<AgeBand,AgeVariant>;passDomain:Domain;activity:ActivityDefinition;forbiddenExpressionRefs:string[];bookTemplateId:string;resultIdPolicy:string;assetIds:string[];sourceProvenance:{rawActivityId:string;rawContractId:string;rawCausalId:string};}
+@@ -19,11 +19,11 @@
+ export type ActionInput=
+  |{actionKind:'mapRelation';nodeIds:[string,string];relationId:string;meaningKey:string}
+  |{actionKind:'arrangeSequence';orderedStepIds:string[];precedenceRefs:[string,string][];interruptedStepId?:string;completionState:'planned'|'observed'|'unknown'}
+- |{actionKind:'classifyEvidence';evidenceItemIds:string[];categoryByItem:Record<string,'confirmed'|'hidden'|'unknown'>;hiddenExplanationId:string;uncertainItemIds:string[];reasonRef:string}
++ |{actionKind:'classifyEvidence';evidenceItemIds:string[];categoryByItem:Record<string,'confirmed'|'hidden'|'unknown'>;hiddenExplanationId:string;uncertainItemIds:string[];reasonRef?:string}
+  |{actionKind:'compareStructures';leftRelationIds:string[];rightRelationIds:string[];differenceRef:string}
+- |{actionKind:'chooseGoalAndSteps';goalId:string;responseId:string;constraintId:string;reasonRef:string}
+- |{actionKind:'prioritizeActions';goalId:string;orderedResponseIds:string[];constraintId:string;reasonRef:string}
+- |{actionKind:'revisePlan';goalId:string;beforeResponseId:string;afterResponseId:string;decision:'keep'|'change';reasonRef:string};
++ |{actionKind:'chooseGoalAndSteps';goalId:string;responseId:string;constraintId:string;reasonRef?:string}
++ |{actionKind:'prioritizeActions';goalId:string;orderedResponseIds:string[];constraintId:string;reasonRef?:string}
++ |{actionKind:'revisePlan';goalId:string;beforeResponseId:string;afterResponseId:string;decision:'keep'|'change';reasonRef?:string};
+ export type Expression={method:'choice'|'text'|'audio'|'drawing';text:string;choiceId?:string;audioRef?:string;canvasRef?:string}|{method:'unknown'|'skip';text:''};
+ export interface ComparisonRecord {
+  comparisonKind:'history'|'prediction';expressionMode:'writing'|'voice'|'drawing'|'mixed'|'deferred';
+@@ -35,11 +35,13 @@
+ export const isComparison=(value:ComparisonValue):value is ComparisonRecord=>'comparisonKind' in value;
+ export type Stage='history'|'condition'|'prediction'|'alternate'|'activity'|'creation'|'historyComparison'|'predictionComparison'|'complete';
+ export const STAGES:Stage[]=['history','condition','prediction','alternate','activity','creation','historyComparison','predictionComparison','complete'];
+-export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred';
++export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred'|'reasonExpressionRecorded';
+ export interface PerformanceEvent {eventId:string;resultId:string;missionId:string;conditionId:string|null;missionVersion:string;contentVersion:string;ageBandRuleId:string;ageBand:AgeBand;eventType:EventType;timestamp:string;payload:Record<string,unknown>;supportLevel:number;appVersion:string;}
+ export interface ArtifactLink {resultId:string;missionId:string;conditionId:string;missionVersion:string;contentVersion:string;learnerId:string;}
+ export interface SceneData extends ArtifactLink {id:string;backgroundId:string;stickers:{id:string;x:number;y:number;scale:number;flip:boolean}[];strokes:{color:string;width:number;erase:boolean;points:[number,number][]}[];text:string;preview:string;audioRef?:string;}
+ export interface CanvasArtifact extends ArtifactLink {id:string;scenes:SceneData[];completed:boolean;}
+-export interface Run {schemaVersion:1;revision:number;resultId:string;missionId:string;missionVersion:string;contentVersion:string;appVersion:string;profile:Profile;ageBandRuleId:string;createdAt:string;completedAt:string|null;stage:Stage;conditionId:string|null;prediction:Field<{expression:Expression;recordedAt:string}>;alternate:Field<'A'|'B'>;action:Field<ActionInput>;story:Field<Expression>;historyComparison:Field<ComparisonValue>;predictionComparison:Field<ComparisonValue>;canvas:Field<CanvasArtifact>;cover:'antique'|'linen'|'adventure';events:PerformanceEvent[];contentSnapshot:MissionDefinition;localeSnapshot:Record<string,string>;}
++export interface ReasonExpressionRecord {reasonRef:string;resultId:string;missionId:string;conditionId:string;missionVersion:string;contentVersion:string;actionEventId:string;reasonQuestionId:string;source:'typed'|'recorded'|'drawn';reasonText?:string;voiceRef?:string;drawingRef?:string;createdAt:string;}
++export type ReasonInput={source:'typed';reasonText:string}|{source:'recorded';voiceRef:string}|{source:'drawn';drawingRef:string}|{source:'deferred'};
++export interface Run {reasonExpressions?:ReasonExpressionRecord[];schemaVersion:1;revision:number;resultId:string;missionId:string;missionVersion:string;contentVersion:string;appVersion:string;profile:Profile;ageBandRuleId:string;createdAt:string;completedAt:string|null;stage:Stage;conditionId:string|null;prediction:Field<{expression:Expression;recordedAt:string}>;alternate:Field<'A'|'B'>;action:Field<ActionInput>;story:Field<Expression>;historyComparison:Field<ComparisonValue>;predictionComparison:Field<ComparisonValue>;canvas:Field<CanvasArtifact>;cover:'antique'|'linen'|'adventure';events:PerformanceEvent[];contentSnapshot:MissionDefinition;localeSnapshot:Record<string,string>;}
+ export interface Dependencies {id:()=>string;now:()=>string;}
+ export const productionDependencies:Dependencies={id:()=>crypto.randomUUID(),now:()=>new Date().toISOString()};
+--- before/src/ui/ActivityRenderer.tsx
++++ after/src/ui/ActivityRenderer.tsx
+@@ -1,10 +1,12 @@
+-import React,{useState} from 'react';
++import React,{useState,useEffect,type ReactNode} from 'react';
+ import type {ActionInput,ActivityDefinition,Material,SemanticScreen} from '../core/types';
+ import {validateAction} from '../core/contracts';
+ export interface ActivityLabels {next:string;back:string;save:string;unknown:string;reset:string;confirmed:string;hidden:string;uncertain:string;planned:string;observed:string;completionUnknown:string;reason:string;goal:string;response:string;constraint:string;before:string;after:string;meaning:string;left:string;right:string;sequence:string;interruption:string;none:string;}
+ // One renderer per shared action contract; missionId is never inspected here.
+-export function ActivityRenderer({definition:d,t,labels:l,pageSize=4,highlight=false,promptKey,subquestions,busy=false,onCommit,onDefer,onRetry}:{definition:ActivityDefinition;t:(k:string)=>string;labels:ActivityLabels;pageSize?:number;highlight?:boolean;promptKey?:string;subquestions?:Record<string,SemanticScreen>;busy?:boolean;onCommit:(a:ActionInput)=>void;onDefer:()=>void;onRetry:()=>void}){
+- const [step,setStep]=useState(0),[answers,setAnswers]=useState<Record<string,string[]>>({}),[category,setCategory]=useState<Record<string,'confirmed'|'hidden'|'unknown'>>({}),[state,setState]=useState<'planned'|'observed'|'unknown'>(),[interruption,setInterruption]=useState<string>(''),[page,setPage]=useState(0);
++export function ActivityRenderer({definition:d,t,labels:l,pageSize=4,highlight=false,promptKey,subquestions,busy=false,onCommit,onDefer,onRetry,renderReason,draftKey}:{definition:ActivityDefinition;t:(k:string)=>string;labels:ActivityLabels;pageSize?:number;highlight?:boolean;promptKey?:string;subquestions?:Record<string,SemanticScreen>;busy?:boolean;onCommit:(a:ActionInput)=>void;onDefer:()=>void;onRetry:()=>void;draftKey?:string;renderReason?:(value:ActionInput,onBack:()=>void)=>ReactNode}){
++ const [initial]=useState(()=>{try{return draftKey?JSON.parse(localStorage.getItem(draftKey)??'{}'):{};}catch{return {};}});
++ const [step,setStep]=useState<number>(initial.step??0),[answers,setAnswers]=useState<Record<string,string[]>>(initial.answers??{}),[category,setCategory]=useState<Record<string,'confirmed'|'hidden'|'unknown'>>({}),[state,setState]=useState<'planned'|'observed'|'unknown'>(),[interruption,setInterruption]=useState<string>(''),[page,setPage]=useState(0);
++ useEffect(()=>{if(draftKey)localStorage.setItem(draftKey,JSON.stringify({step,answers}));},[step,answers,draftKey]);
+  const role=(r:Material['role'])=>d.materials.filter(m=>m.role===r);
+  const stages:Record<ActivityDefinition['actionKind'],string[]>={mapRelation:['nodes','meaning'],arrangeSequence:['order','state','interruption'],classifyEvidence:role('evidence').map(m=>m.id).concat('reason'),compareStructures:['left','right','difference'],chooseGoalAndSteps:['goal','response','constraint','reason'],prioritizeActions:['goal','priorities','constraint','reason'],revisePlan:['goal','before','after','reason']};
+  const parts=stages[d.actionKind],part=parts[step];
+@@ -16,13 +18,14 @@
+  function build():ActionInput{const a=(key:string)=>answers[key]?.[0]??'',arr=(key:string)=>answers[key]??[];switch(d.actionKind){
+  case 'mapRelation':return {actionKind:d.actionKind,nodeIds:arr('nodes') as [string,string],relationId:d.id+'.relation',meaningKey:a('meaning')};
+  case 'arrangeSequence':return {actionKind:d.actionKind,orderedStepIds:arr('order'),precedenceRefs:arr('order').slice(1).map((id,i)=>[arr('order')[i],id]),completionState:state!,...(interruption!=='none'?{interruptedStepId:interruption}:{})};
+- case 'classifyEvidence':return {actionKind:d.actionKind,evidenceItemIds:role('evidence').map(x=>x.id),categoryByItem:category,hiddenExplanationId:d.hiddenExplanationId!,uncertainItemIds:Object.keys(category).filter(k=>category[k]==='unknown'),reasonRef:a('reason')};
++ case 'classifyEvidence':return {actionKind:d.actionKind,evidenceItemIds:role('evidence').map(x=>x.id),categoryByItem:category,hiddenExplanationId:d.hiddenExplanationId!,uncertainItemIds:Object.keys(category).filter(k=>category[k]==='unknown'),...(renderReason?{}:{reasonRef:a('reason')})};
+  case 'compareStructures':return {actionKind:d.actionKind,leftRelationIds:arr('left'),rightRelationIds:arr('right'),differenceRef:a('difference')};
+- case 'chooseGoalAndSteps':return {actionKind:d.actionKind,goalId:a('goal'),responseId:a('response'),constraintId:a('constraint'),reasonRef:a('reason')};
+- case 'prioritizeActions':return {actionKind:d.actionKind,goalId:a('goal'),orderedResponseIds:arr('priorities'),constraintId:a('constraint'),reasonRef:a('reason')};
+- case 'revisePlan':return {actionKind:d.actionKind,goalId:a('goal'),beforeResponseId:a('before'),afterResponseId:a('after'),decision:a('before')===a('after')?'keep':'change',reasonRef:a('reason')};
++ case 'chooseGoalAndSteps':return {actionKind:d.actionKind,goalId:a('goal'),responseId:a('response'),constraintId:a('constraint'),...(renderReason?{}:{reasonRef:a('reason')})};
++ case 'prioritizeActions':return {actionKind:d.actionKind,goalId:a('goal'),orderedResponseIds:arr('priorities'),constraintId:a('constraint'),...(renderReason?{}:{reasonRef:a('reason')})};
++ case 'revisePlan':return {actionKind:d.actionKind,goalId:a('goal'),beforeResponseId:a('before'),afterResponseId:a('after'),decision:a('before')===a('after')?'keep':'change',...(renderReason?{}:{reasonRef:a('reason')})};
+  }}
+  const title=subquestions?.[part]?t(subquestions[part].promptKey):({nodes:l.meaning,order:l.sequence,priorities:l.sequence,difference:l.reason,state:l.planned,interruption:l.interruption} as Record<string,string>)[part]??(l as unknown as Record<string,string>)[part]??t(d.materials.find(m=>m.id===part)!.labelKey);
++ if(part==='reason'&&renderReason)return <section className="activity-workbench">{renderReason(build(),()=>setStep(step-1))}</section>;
+  return <section className={`activity-workbench ${highlight?'highlight':''}`} aria-label={t(promptKey??d.promptKey)} data-question-id={subquestions?.[part]?.semanticFields.questionId as string|undefined}>
+  {!subquestions&&<p className="activity-instruction">{t(promptKey??d.promptKey)}</p>}<fieldset disabled={busy}><legend>{title}</legend>
+  {options.slice(page*pageSize,(page+1)*pageSize).map(m=><button type="button" key={m.id} aria-pressed={chosen.includes(m.id)} data-material={m.id} onClick={()=>choose(m.id)}><span className={`material-symbol ${m.visual??'choice'}`} aria-hidden="true"/>{t(m.labelKey)}{many&&chosen.includes(m.id)?` · ${chosen.indexOf(m.id)+1}`:''}</button>)}
+--- before/tests/comparison.test.ts
++++ after/tests/comparison.test.ts
+@@ -12,10 +12,10 @@
+ const bundle=await loadContent(),mission=bundle.missions.find(m=>m.week===24)!;
+ test('new comparison release versions only runtime W24 copy; original and other five missions stay intact',()=>{
+  const before=JSON.stringify(bundle),b=releaseContent(bundle,entry,semantics,strings),m=b.missions.find(m=>m.week===24)!;
+- assert.equal(JSON.stringify(bundle),before);assert.equal(m.missionVersion,'4.0.0');assert.equal(m.contentVersion,'3.0.0');
++ assert.equal(JSON.stringify(bundle),before);assert.equal(m.missionVersion,'5.0.0');assert.equal(m.contentVersion,'3.1.0');
+  assert.deepEqual(b.missions.filter(m=>m.week!==24),bundle.missions.filter(m=>m.week!==24));
+- const strip=(x:unknown)=>JSON.parse(JSON.stringify(x),(k,v)=>['missionVersion','contentVersion','learnerStoryOnly','historySummaryKey','historyKeyPointKey','semantic','executionOrderRuleId'].includes(k)?undefined:v);
+- assert.deepEqual(strip(m),strip(mission));const {r}=ready();assert.equal(matchesRelease(r,entry),false);
++ const strip=(x:unknown)=>JSON.parse(JSON.stringify(x),(k,v)=>['missionVersion','contentVersion','learnerStoryOnly','historySummaryKey','historyKeyPointKey','semantic','executionOrderRuleId','reasonExpressionRuleId'].includes(k)?undefined:v);
++ const original=structuredClone(mission);for(const c of original.conditions)c.activity.materials=c.activity.materials.filter(x=>x.role!=='reason');assert.deepEqual(strip(m),strip(original));const {r}=ready();assert.equal(matchesRelease(r,entry),false);
+ });
+ function ready(ci=0,age:typeof AGE_BANDS[number]='preschool'){
+  const deps=deterministic();let r=toPrediction(bundle,mission.id,mission.conditions[ci].id,{...profile,ageBand:age},deps);
+--- before/tests/execution-order.test.ts
++++ after/tests/execution-order.test.ts
+@@ -9,6 +9,7 @@
+ import {bookModel,reportModel} from '../src/core/artifacts';
+ import {AGE_BANDS,type Run} from '../src/core/types';
+ import {deterministic,profile,toPrediction,actionInput} from './helpers';
++function withoutReason(v:any){const {reasonRef,...rest}=v;return rest;}
+ const bundle=releaseContent(await loadContent(),entry,semantics,strings);
+ for(const ci of [1,2])for(const age of AGE_BANDS)for(const support of [0,1,2,3] as const)test(`execution order, source lock and deterministic output: C${ci}/${age}/support${support}`,()=>{
+  const deps=deterministic();let r=toPrediction(bundle,'gutenberg',`gutenberg.c${ci}`,{...profile,ageBand:age,attentionSupport:support},deps);
+@@ -18,14 +19,14 @@
+  const initial=JSON.stringify(r.prediction);assert.throws(()=>transition(r,{type:'reveal',possibility:'A'},deps),/INVALID_STAGE/);
+  assert.throws(()=>bookModel(r),/ARTIFACTS_REQUIRE_COMPLETION/);
+  const forged=structuredClone(r);forged.stage='alternate';assert.throws(()=>assertRun(forged));
+- if(support===1)r=transition(r,{type:'deferAction',reason:'unknown'},deps);else r=transition(r,{type:'action',value:actionInput(c.activity)},deps);
++ if(support===1)r=transition(r,{type:'deferAction',reason:'unknown'},deps);else r=transition(r,{type:'action',value:withoutReason(actionInput(c.activity)),reason:{source:'deferred'}},deps);
+  assert.equal(r.stage,'alternate');assert.throws(()=>transition(r,{type:'action',value:actionInput(c.activity)},deps),/INVALID_STAGE/);
+  const locked=r,action=JSON.stringify(r.action);r=transition(r,{type:'reveal',possibility:'B'},deps);assert.equal(r.stage,'creation');assertSuccessor(locked,r);
+  const tampered=structuredClone(r);tampered.action=support===1?{status:'recorded',value:actionInput(c.activity)}:{status:'notProvided'};assert.throws(()=>assertSuccessor(locked,tampered),/ACTION_/);
+  r=transition(r,{type:'story',expression:{method:'text',text:'  내 이야기\n직접 남김  '}},deps);
+  for(const kind of ['history','prediction'] as const)r=transition(r,{type:'comparison',kind,comparison:comparisonFromExpression(r,kind,{method:'text',text:'  각각 남긴 같은 원문  '})},deps);
+  assertRun(r);assert.equal(r.stage,'complete');assert.equal(JSON.stringify(r.prediction),initial);assert.equal(JSON.stringify(r.action),action);
+- const actions=r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred'),reveals=r.events.filter(e=>e.eventType==='alternateViewed');
++ const actions=r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred'&&e.payload.scope!=='reason'),reveals=r.events.filter(e=>e.eventType==='alternateViewed');
+  assert.equal(actions.length,1);assert.equal(reveals.length,1);assert.ok(r.events.indexOf(actions[0])<r.events.indexOf(reveals[0]));
+  assert.deepEqual([...new Set(r.events.map(e=>e.payload.canonicalStage))],['conditionUnderstanding','prediction','coreActivity','alternateResult','learnerStory','historyComparison','predictionComparison','artifactLink']);
+  const b=bookModel(r),report=reportModel(r);assert.equal(b.pages.length,8);assert.notEqual(b.pages[6].comparisonEventId,b.pages[7].comparisonEventId);assert.notEqual(b.pages[6].comparisonRecordRef,b.pages[7].comparisonRecordRef);assert.equal(b.resultId,report.resultId);assert.deepEqual(bookModel(r),b);assert.deepEqual(reportModel(r),report);
+--- before/tests/rules-r2.test.ts
++++ after/tests/rules-r2.test.ts
+@@ -8,7 +8,7 @@
+ import {AGE_BANDS,type Run,type ComparisonRecord} from '../src/core/types';
+ import {deterministic,profile,toPrediction,actionInput} from './helpers';
+ // Preserve regression coverage for the previously stored release and its original order.
+-const {executionOrderRuleId,...legacyEntry}=entry;
++const {executionOrderRuleId,reasonExpressionRuleId,...legacyEntry}=entry;
+ const bundle=releaseContent(await loadContent(),{...legacyEntry,missionVersion:'3.0.0',contentVersion:'2.0.0'});
+ function creation(ci:number,age:typeof AGE_BANDS[number]){
+  const deps=deterministic();let r=toPrediction(bundle,'gutenberg',`gutenberg.c${ci}`,{...profile,ageBand:age},deps);
+--- before/src/app/ReasonEditor.tsx
++++ after/src/app/ReasonEditor.tsx
+@@ -0,0 +1,52 @@
++import React,{useEffect,useRef,useState} from 'react';
++import type {ActionInput,ReasonInput,Run} from '../core/types';
++import {BrowserRepository} from '../core/storage';
++import {ExpressionView,DrawingInput,audioBlob} from './ExpressionEditor';
++import {VoiceRecorder} from '../canvas/VoiceRecorder';
++import {ui} from './text';
++import {retainLocalImages} from './assets';
++
++export function ReasonEditor({run,value,repository,busy,onCommit,onBack}:{run:Run;value:ActionInput;repository:BrowserRepository;busy:boolean;onCommit:(reason:ReasonInput)=>Promise<void>;onBack:()=>void}){
++ const low=['preschool','elementary-low'].includes(run.profile.ageBand),drawAllowed=low||run.profile.ageBand==='elementary-high';
++ const key=['nuvia.reasonDraft.v1',run.profile.learnerId,run.resultId,run.conditionId,run.missionVersion,run.contentVersion].join(':');
++ const [draft,setDraft]=useState(()=>{try{const saved=localStorage.getItem(key);if(saved)return JSON.parse(saved) as {mode:string;text:string;audio:string;drawing:string};}catch{}return {mode:low?'voice':'text',text:'',audio:'',drawing:''};});
++ const [recording,setRecording]=useState(false),[saving,setSaving]=useState(false),[error,setError]=useState(''),[saved,setSaved]=useState(false),[assetsReady,setAssetsReady]=useState(false);const live=useRef(true);
++ useEffect(()=>{live.current=true;return()=>{live.current=false;};},[]);
++ useEffect(()=>{let active=true;void retainLocalImages().then(()=>{if(active)setAssetsReady(true);}).catch(e=>{if(active)setError(String(e));});return()=>{active=false;};},[]);
++ useEffect(()=>{try{localStorage.setItem(key,JSON.stringify(draft));setSaved(true);}catch{setError(ui('reasonDraftError'));setSaved(false);}},[key,draft]);
++ const set=(field:string,v:string)=>setDraft(x=>({...x,[field]:v}));
++ const valid=draft.mode==='text'?!!draft.text.trim():draft.mode==='voice'?!!draft.audio:!!draft.drawing;
++ async function commit(deferred=false){setSaving(true);setError('');try{
++  let reason:ReasonInput={source:'deferred'};
++  if(!deferred){
++   if(draft.mode==='text'){if(!draft.text.trim())throw Error('EMPTY_REASON');reason={source:'typed',reasonText:draft.text};}
++   else if(draft.mode==='voice'){
++    const blob=audioBlob(draft.audio),ctx=new AudioContext();let duration=0;try{const decoded=await ctx.decodeAudioData(await blob.arrayBuffer());duration=decoded.duration*1000;}finally{await ctx.close();}
++    if(!Number.isFinite(duration)||duration<=0)throw Error(ui('reasonRecordingInvalid'));
++    reason={source:'recorded',voiceRef:await repository.saveAudio(run.resultId,run.profile.learnerId,blob,{durationMs:duration})};
++   }else{if(!draft.drawing)throw Error('EMPTY_REASON_DRAWING');reason={source:'drawn',drawingRef:await repository.saveReasonDrawing(run,draft.drawing)};}
++  }
++  await onCommit(reason);
++ }catch(e){if(live.current)setError(e instanceof Error?e.message:String(e));}finally{if(live.current)setSaving(false);}}
++ const c=run.contentSnapshot.conditions.find(x=>x.id===run.conditionId)!;
++ const selected=Object.entries(value).filter(([k])=>!['actionKind','reasonRef','decision'].includes(k)).flatMap(([,v])=>Array.isArray(v)?v:[v]).filter((v):v is string=>typeof v==='string'&&c.activity.materials.some(m=>m.id===v));
++ return <section className="reason-editor" data-reason-source={draft.mode}>
++  <section className="reason-context" aria-label={ui('predictionSaved')}><h2>{ui('predictionSaved')}</h2>{run.prediction.status==='recorded'&&<ExpressionView expression={run.prediction.value.expression} run={run} repository={repository}/>}</section>
++  <section className="reason-context" aria-label={ui('reasonSelected')}><h2>{ui('reasonSelected')}</h2><ol>{selected.map((id,i)=><li key={i}>{run.localeSnapshot[c.activity.materials.find(m=>m.id===id)!.labelKey]}</li>)}</ol></section>
++  <h2>{ui(low?'reasonQuestionLow':'reasonQuestionHigh')}</h2><p>{ui(low?'reasonInstructionLow':'reasonInstructionHigh')}</p>
++  <nav aria-label={ui('mode')}>{(low?['voice','draw','text']:drawAllowed?['text','voice','draw']:['text','voice']).map(mode=><button type="button" key={mode} disabled={busy||saving||recording} aria-pressed={draft.mode===mode} onClick={()=>set('mode',mode)}>{ui(mode==='voice'?'reasonVoice':mode==='draw'?'reasonDrawing':'reasonWriting')}</button>)}</nav>
++  {draft.mode==='text'&&<label>{ui('reasonRecorded')}<textarea data-reason-text value={draft.text} disabled={busy||saving} onChange={e=>set('text',e.target.value)}/></label>}
++  {draft.mode==='voice'&&<VoiceRecorder value={draft.audio} onChange={v=>set('audio',v)} onBusy={setRecording} allowImport={false} helpKey="canvas.voiceHelp"/>}
++  {draft.mode==='draw'&&drawAllowed&&<DrawingInput strict initialValue={draft.drawing} onChange={v=>set('drawing',v)}/>}
++  {error&&<p role="alert">{error}</p>}{saved&&<p className="reason-draft-status" role="status">{ui('reasonDraftSaved')}</p>}
++  <div className="actions"><button disabled={busy||saving||recording||!valid||!saved||!assetsReady} className="primary" onClick={()=>void commit()}>{ui(draft.mode==='voice'?'reasonSaveVoice':draft.mode==='draw'?'reasonSaveDrawing':low?'reasonSaveThought':'reasonSave')}</button><button disabled={busy||saving||recording} onClick={onBack}>{ui('previous')}</button></div>
++  <button className="reason-skip" disabled={busy||saving||recording||!assetsReady} onClick={()=>void commit(true)}>{ui('reasonSkip')}</button>
++ </section>;
++}
++
++export function ReasonView({run,repository}:{run:Run;repository:BrowserRepository}){
++ const reason=run.reasonExpressions?.[0];const [url,setUrl]=useState(''),[error,setError]=useState('');
++ useEffect(()=>{let active=true,objectUrl='';setUrl('');setError('');async function load(){if(!reason||reason.source==='typed')return;try{const media=await repository.loadReasonMedia((reason.voiceRef??reason.drawingRef)!,run,reason.source==='recorded'?'audio':'drawing');if(media.blob)objectUrl=URL.createObjectURL(media.blob);if(active)setUrl(objectUrl||media.png||'');}catch(e){if(active)setError(String(e));}}void load();return()=>{active=false;if(objectUrl)URL.revokeObjectURL(objectUrl);};},[reason,run.resultId,repository]);
++ if(error)return <p role="alert">{error}</p>;
++ return <section data-reason-report><h4>{ui('reasonRecorded')}</h4>{!reason?<p>{ui(run.action.status==='notProvided'?'reasonActivityDeferred':'reasonMissing')}</p>:<>{reason.source==='typed'?<p className="user-expression" data-reason-value>{reason.reasonText}</p>:reason.source==='recorded'?<><p>{ui('audioSaved')}</p>{url&&<audio controls src={url}/>}</>:url&&<img className="user-art reason-art" src={url} alt={ui('drawingSaved')}/>}</>}</section>;
++}
+--- before/tests/reason.test.ts
++++ after/tests/reason.test.ts
+@@ -0,0 +1,40 @@
++import test from 'node:test';
++import assert from 'node:assert/strict';
++import {loadContent} from '../src/core/content';
++import {releaseContent} from '../src/core/release';
++import entry from '../src/content/app-entry.json';
++import semantics from '../src/content/w24-semantic.json';
++import strings from '../src/content/locales/w24-semantic.ko.json';
++import {transition,assertRun,assertSuccessor,comparisonFromExpression} from '../src/core/engine';
++import {bookModel,reportModel} from '../src/core/artifacts';
++import {MemoryRepository} from '../src/core/storage';
++import {AGE_BANDS,type ReasonInput} from '../src/core/types';
++import {deterministic,profile,toPrediction,actionInput} from './helpers';
++const bundle=releaseContent(await loadContent(),entry,semantics,strings);
++function ready(ci=1,age:typeof AGE_BANDS[number]='preschool'){
++ const deps=deterministic();let r=toPrediction(bundle,'gutenberg',`gutenberg.c${ci}`,{...profile,ageBand:age},deps);r=transition(r,{type:'prediction',expression:{method:'unknown',text:''}},deps);
++ const {reasonRef,...value}=actionInput(r.contentSnapshot.conditions[ci-1].activity) as any;return {r,deps,value};
++}
++for(const ci of [1,2])for(const age of AGE_BANDS)for(const source of ['typed','recorded','drawn','deferred'] as const)test(`reason provenance / no story leak / locks C${ci}/${age}/${source}`,()=>{
++ let {r,deps,value}=ready(ci,age);const reason:ReasonInput=source==='typed'?{source,reasonText:'  내 이유 원문\n그대로  '}:source==='recorded'?{source,voiceRef:'local-audio:record'}:source==='drawn'?{source,drawingRef:'drawing:record'}:{source};
++ const before=JSON.stringify(r);const next=transition(r,{type:'action',value,reason},deps);assert.equal(JSON.stringify(r),before);r=next;
++ assert.equal(r.action.status,'recorded');assert.equal(r.stage,'alternate');assert.equal(r.events.filter(e=>e.eventType==='cognitiveActionRecorded').length,1);
++ if(source==='deferred'){assert.equal(r.reasonExpressions,undefined);assert.ok(!('reasonRef' in (r.action as any).value));assert.equal(r.events.at(-1)!.payload.scope,'reason');}
++ else{const record=r.reasonExpressions![0],ev=r.events.at(-1)!;assert.ok(record.reasonRef.startsWith('reason:'));assert.equal(record.reasonRef,(r.action as any).value.reasonRef);assert.equal(ev.eventType,'reasonExpressionRecorded');assert.equal(ev.payload.reasonRef,record.reasonRef);assert.equal(record.actionEventId,r.events.find(e=>e.eventType==='cognitiveActionRecorded')!.eventId);assert.ok(!('reasonText' in ev.payload));}
++ const locked=r;r=transition(r,{type:'reveal',possibility:'A'},deps);assertSuccessor(locked,r);assert.throws(()=>transition(r,{type:'action',value,reason},deps),/INVALID_STAGE/);
++ r=transition(r,{type:'story',expression:{method:'skip',text:''}},deps);for(const kind of ['history','prediction'] as const)r=transition(r,{type:'comparison',kind,comparison:comparisonFromExpression(r,kind,{method:'skip',text:''})},deps);
++ assertRun(r);const book=bookModel(r),report=reportModel(r);assert.equal(book.pages[5].text.status,'notProvided');assert.ok(!JSON.stringify(book).includes('내 이유 원문'));assert.equal(report.details.reasonStatus,source==='deferred'?'deferred':'recorded');assert.equal(report.details.observations.length,1);assert.equal(report.details.observations[0].description,undefined);
++ if(source!=='deferred'){const broken=structuredClone(r);broken.reasonExpressions![0].resultId='foreign';assert.throws(()=>assertRun(broken));const changed=structuredClone(r);changed.reasonExpressions![0].reasonQuestionId='foreign';assert.throws(()=>assertRun(changed));}
++});
++test('reason requires actual input, rejects material IDs, unknown fields and forged events',()=>{
++ const {r,deps,value}=ready();for(const reason of [undefined,{source:'typed',reasonText:'  \n '},{source:'recorded',voiceRef:'material'},{source:'drawn',drawingRef:''},{source:'deferred',reasonText:'generated'},{source:'mixed'}])assert.throws(()=>transition(r,{type:'action',value,reason:reason as any},deps));
++ assert.throws(()=>transition(r,{type:'action',value:{...value,reasonRef:'gutenberg.c1.reason.1'},reason:{source:'deferred'}},deps),/REASON_REF_NOT_CLIENT_ASSIGNED/);
++ const ok=transition(r,{type:'action',value,reason:{source:'typed',reasonText:'원문'}},deps);for(const mutate of [(x:any)=>x.reasonExpressions=[],(x:any)=>x.events.pop(),(x:any)=>x.events.at(-1).payload.actionEventId='foreign',(x:any)=>x.events.find((e:any)=>e.eventType==='cognitiveActionRecorded').payload.beforeResponseId='foreign',(x:any)=>x.events.at(-1).payload.reasonText='duplicate']){const b=structuredClone(ok);mutate(b);assert.throws(()=>assertRun(b));}
++});
++test('whole activity defer has no cognitive input and no reason reference',()=>{
++ const {r,deps}=ready();const next=transition(r,{type:'deferAction',reason:'unknown'},deps);assert.equal(next.events.at(-1)!.payload.scope,'activity');assert.equal(next.action.status,'notProvided');assert.equal(next.reasonExpressions,undefined);assert.equal(next.events.filter(e=>e.eventType==='cognitiveActionRecorded').length,0);assert.equal(transition(next,{type:'reveal',possibility:'B'},deps).stage,'creation');
++});
++test('failed atomic save preserves old run and reveal gate; successful save stores both events',async()=>{
++ const {r,deps,value}=ready();const repo=new MemoryRepository(),seed=structuredClone(r);seed.revision=0;await repo.create(seed);
++ const next=transition(seed,{type:'action',value,reason:{source:'deferred'}},deps);await assert.rejects(repo.save(next,99),/REVISION_CONFLICT/);assert.deepEqual(await repo.load(seed.resultId,profile.learnerId),seed);await repo.save(next,0);const loaded=(await repo.load(seed.resultId,profile.learnerId))!;assert.equal(loaded.events.at(-1)!.payload.scope,'reason');await assert.rejects(repo.load(seed.resultId,'other'),/OWNER_MISMATCH/);
++});
