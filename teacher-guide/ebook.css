@@ -546,7 +546,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .rule-notice b { color: var(--navy); }
 .profile-analysis { min-width: 0; }
 .profile-analysis-head { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 22px; align-items: center; margin-bottom: 16px; border-radius: 18px; background: var(--navy); color: #fff; padding: 24px; }
-.profile-analysis-head h3 { margin: 3px 0 12px; color: #fff; font-size: clamp(25px, 3.2vw, 35px); line-height: 1.25; }
+.profile-analysis-head h3 { margin: 3px 0 12px; color: #fff; font-size: clamp(25px, 3.2vw, 35px); line-height: 1.25; overflow-wrap: anywhere; }
 .profile-analysis-head > p { margin: 0; color: #dce9f7; }
 .profile-analysis .profile-code { margin: 0; color: var(--orange); font: 900 13px ui-monospace, monospace; }
 .profile-chips { display: flex; flex-wrap: wrap; gap: 6px; }

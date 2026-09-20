@@ -18,24 +18,46 @@ export const dynamicHeadings = [
   '학교와 가정이 함께 관찰할 기준'
 ];
 
-function collectKorean(value, output) {
+function collectUsage(value, group, inventory) {
   if (Array.isArray(value)) {
-    value.forEach(item => collectKorean(item, output));
+    value.forEach(item => collectUsage(item, group, inventory));
     return;
   }
   if (value && typeof value === 'object') {
-    Object.values(value).forEach(item => collectKorean(item, output));
+    Object.values(value).forEach(item => collectUsage(item, group, inventory));
     return;
   }
-  if (typeof value === 'string' && /[가-힣]/.test(value)) output.add(value.trim());
+  if (typeof value !== 'string' || !/[가-힣]/.test(value)) return;
+  const source = value.trim();
+  inventory.usage.set(source, (inventory.usage.get(source) || 0) + 1);
+  inventory.groups[group].add(source);
+}
+
+export function profileLocaleInventory() {
+  const inventory = {
+    usage: new Map(),
+    groups: {teacher:new Set(dynamicHeadings), student:new Set(), parent:new Set()}
+  };
+  dynamicHeadings.forEach(source => inventory.usage.set(source, 1));
+  engine.allCombinations().forEach(levels => {
+    const teacher = engine.teacherAnalysis(levels);
+    const parent = engine.parentAnalysis(levels);
+    Object.entries(teacher).forEach(([field, value]) => collectUsage(value, field === 'teacherScripts' ? 'student' : 'teacher', inventory));
+    Object.entries(parent).forEach(([field, value]) => collectUsage(value, field === 'scripts' ? 'parent' : 'parent', inventory));
+  });
+  const sources = [...inventory.usage.keys()].sort((left, right) => left.localeCompare(right, 'ko'));
+  const reusedKeys = sources.filter(source => inventory.usage.get(source) > 1);
+  const occurrences = [...inventory.usage.values()].reduce((sum, count) => sum + count, 0);
+  return {
+    sources,
+    occurrences,
+    uniqueKeys:sources.length,
+    reusedKeys:reusedKeys.length,
+    reusedOccurrences:reusedKeys.reduce((sum, source) => sum + inventory.usage.get(source) - 1, 0),
+    groups:Object.fromEntries(Object.entries(inventory.groups).map(([group, values]) => [group, [...values].sort((left, right) => left.localeCompare(right, 'ko'))]))
+  };
 }
 
 export function profileLocaleSources() {
-  const sources = new Set(dynamicHeadings);
-  engine.allCombinations().forEach(levels => {
-    collectKorean(engine.teacherAnalysis(levels), sources);
-    collectKorean(engine.parentAnalysis(levels), sources);
-  });
-  return [...sources].sort((left, right) => left.localeCompare(right, 'ko'));
+  return profileLocaleInventory().sources;
 }
-
