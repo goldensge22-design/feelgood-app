@@ -32,7 +32,42 @@ const RESULT_GUIDES = {
 };
 const chapters = $$('.chapter');
 const chapterIds = chapters.map(chapter => chapter.id);
-let profiles = [];
+const LEVEL_LABELS = {H: '상', M: '중', L: '하'};
+const PROFILE_AXES = {
+  plan: {
+    code: 'P', label: '계획',
+    H: {classroom:'목표를 세우고 방법을 바꾸며 오류를 점검하는 모습이 비교적 분명할 수 있습니다.',strength:'목표 설정·전략 선택·자기점검을 강점으로 활용할 수 있습니다.',teaching:'열린 과제에서 여러 전략을 비교하고 선택 이유를 설명하게 합니다.',nuvia:'목표를 직접 정하고 실행 뒤 전략을 유지하거나 수정하는 과제를 제공합니다.'},
+    M: {classroom:'익숙한 과제에서는 계획을 세우지만 새롭거나 복잡한 과제에서는 시작 틀이 도움이 될 수 있습니다.',strength:'목표와 절차가 분명할 때 계획 전략을 안정적으로 사용할 수 있습니다.',teaching:'과제 전 목표 한 문장과 중간 점검 질문을 제공합니다.',nuvia:'짧은 계획–실행–점검 주기를 반복합니다.'},
+    L: {classroom:'열린 과제에서 시작을 미루거나 한 방법을 반복하고 오류를 점검하지 못할 수 있습니다.',strength:'목표와 첫 행동이 분명하면 다른 처리 강점을 과제 수행에 연결할 수 있습니다.',teaching:'목표 한 문장 → 첫 행동 → 3단계 계획 → 중간 점검의 틀을 제공합니다.',nuvia:'작은 목표를 고르고 방법을 실행한 뒤 결과를 보고 수정하는 훈련을 우선합니다.'}
+  },
+  attention: {
+    code: 'A', label: '주의',
+    H: {classroom:'핵심 자극을 고르고 방해를 억제하며 정확성을 유지하는 모습이 나타날 수 있습니다.',strength:'선택적·지속적 주의와 세부 오류 확인을 강점으로 활용할 수 있습니다.',teaching:'관찰·검토·교정 역할과 정확성이 필요한 과제를 제공합니다.',nuvia:'방해 단서 속 핵심을 찾고 정확도를 스스로 확인하는 과제를 제공합니다.'},
+    M: {classroom:'환경과 과제 흥미에 따라 집중의 지속성과 정확도가 달라질 수 있습니다.',strength:'활동 구간과 목표가 분명할 때 필요한 자극에 집중할 수 있습니다.',teaching:'핵심어를 표시하고 활동 중간에 짧은 확인 지점을 둡니다.',nuvia:'짧은 집중 구간과 스스로 돌아오는 신호를 연습합니다.'},
+    L: {classroom:'주변 자극에 반응하거나 긴 과제에서 이탈하고 세부 오류를 놓칠 수 있습니다.',strength:'자극이 정리되고 활동이 짧으면 현재 과제에 다시 참여하는 힘을 찾을 수 있습니다.',teaching:'한 번에 한 지시, 불필요한 자극 줄이기, 8–12분 활동 구간과 복귀 신호를 사용합니다.',nuvia:'현재 질문에 필요한 단서를 직접 찾고 적용하는 짧은 주의 훈련을 우선합니다.'}
+  },
+  simultaneous: {
+    code: 'S', label: '동시처리',
+    H: {classroom:'전체 구조와 여러 정보의 관계를 빠르게 묶어 핵심을 파악할 수 있습니다.',strength:'시각·공간 관계, 패턴, 문맥과 개념 통합을 강점으로 활용할 수 있습니다.',teaching:'도식·마인드맵·복합 자료의 관계를 해석하는 심화 과제를 제공합니다.',nuvia:'사람·장소·정보·원인의 관계를 연결하고 전체 장면을 구성하게 합니다.'},
+    M: {classroom:'익숙한 주제에서는 전체 맥락을 이해하지만 정보가 많을 때 관계도가 도움이 될 수 있습니다.',strength:'예시나 시각 자료가 있을 때 부분을 전체 의미로 연결할 수 있습니다.',teaching:'전체 개요와 완성 예시를 먼저 보여준 뒤 세부 내용을 연결합니다.',nuvia:'두세 정보의 관계를 그림이나 배치로 연결하는 활동을 제공합니다.'},
+    L: {classroom:'부분 정보는 알지만 전체 관계, 문맥 또는 시각·공간 구조를 한꺼번에 묶는 데 시간이 걸릴 수 있습니다.',strength:'관계를 눈에 보이게 제시하면 세부 정보를 하나씩 연결해 이해할 수 있습니다.',teaching:'전체 지도·관계도·색상 묶음·예시와 비예시를 사용해 관계를 시각화합니다.',nuvia:'사람·책·장소·전달 방법의 관계를 직접 연결한 뒤 장면을 선택하게 합니다.'}
+  },
+  successive: {
+    code: 'Q', label: '순차처리',
+    H: {classroom:'순서·절차·음운 정보를 정확하게 유지하고 단계적으로 수행할 수 있습니다.',strength:'순서 기억, 절차 수행, 단계 설명과 계열 정보 처리를 강점으로 활용할 수 있습니다.',teaching:'절차를 설명하거나 규칙을 찾아 다음 단계를 예측하는 심화 과제를 제공합니다.',nuvia:'순서를 스스로 구성하고 다른 가능한 절차와 효율을 비교하게 합니다.'},
+    M: {classroom:'짧은 절차는 수행하지만 단계가 길거나 말 지시가 복잡하면 확인이 필요할 수 있습니다.',strength:'단계가 명확할 때 순서를 유지하며 과제를 수행할 수 있습니다.',teaching:'짧은 단계표를 주고 수행 뒤 순서를 다시 설명하게 합니다.',nuvia:'3–5개 과정을 직접 배열하고 빠진 단계를 확인합니다.'},
+    L: {classroom:'긴 말 지시, 절차 재현, 이야기나 풀이의 순서를 일부 건너뛸 수 있습니다.',strength:'절차가 짧고 보이는 형태로 제시되면 단계별 수행을 안정시킬 수 있습니다.',teaching:'긴 지시를 짧게 나누고 순서 카드·체크리스트·시범을 제공합니다.',nuvia:'고정된 1·2 번호 없이 중간 과정을 직접 배열해 완성하는 훈련을 우선합니다.'}
+  }
+};
+const FALLBACK_LANGUAGES = [
+  {code:'ko',label:'한국어',status:'ready'},{code:'en',label:'English',status:'pending'},
+  {code:'ja',label:'日本語',status:'pending'},{code:'zh-CN',label:'简体中文',status:'pending'},
+  {code:'es',label:'Español',status:'pending'},{code:'ru',label:'Русский',status:'pending'},
+  {code:'vi',label:'Tiếng Việt',status:'pending'},{code:'th',label:'ไทย',status:'pending'},
+  {code:'ar',label:'العربية',status:'pending'},{code:'it',label:'Italiano',status:'pending'},
+  {code:'az',label:'Azərbaycan',status:'pending'},{code:'mn',label:'Монгол',status:'pending'},
+  {code:'km',label:'ខ្មែរ',status:'pending'}
+];
 
 const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -138,71 +173,120 @@ function validateReportLinks() {
   });
 }
 
-function profileDialogMarkup(profile) {
-  const levels = Object.entries(profile.levels).map(([key, value]) => '<span>' + escapeHtml(key) + ' ' + escapeHtml(value) + '</span>').join('');
-  return '<span class="profile-code">' + escapeHtml(profile.id) + '</span>' +
-    '<h2 id="profileDialogTitle">' + escapeHtml(profile.name) + '</h2>' +
-    '<div class="profile-levels">' + levels + '</div>' +
-    '<p>' + escapeHtml(profile.summary) + '</p>' +
-    '<h3>교실에서 보이는 모습</h3><p>' + escapeHtml(profile.classroom) + '</p>' +
-    '<h3>강점</h3><p>' + escapeHtml(profile.strengths) + '</p>' +
-    '<h3>지원이 필요한 상황</h3><p>' + escapeHtml(profile.supportNeeds) + '</p>' +
-    '<h3>수업 설계 팁</h3><p>' + escapeHtml(profile.teachingTips) + '</p>' +
-    '<h3>상담 문장</h3><p>“' + escapeHtml(profile.counselingPhrase) + '”</p>' +
-    '<h3>NUVIA 연결</h3><p>' + escapeHtml(profile.nuvia) + '</p>';
+function selectedProfileLevels() {
+  return {
+    plan: $('#profilePlan').value,
+    attention: $('#profileAttention').value,
+    simultaneous: $('#profileSimultaneous').value,
+    successive: $('#profileSuccessive').value
+  };
 }
 
-function openProfile(id) {
-  const profile = profiles.find(item => item.id === id);
-  if (!profile) return;
-  $('#profileDialogBody').innerHTML = profileDialogMarkup(profile);
-  $('#profileDialog').showModal();
+function profileCode(levels) {
+  return Object.entries(levels).map(([key, level]) => PROFILE_AXES[key].code + '-' + level).join(' / ');
 }
 
-async function setupProfiles() {
-  const response = await fetch('data/profiles.ko.json');
-  if (!response.ok) throw new Error('프로필 데이터 오류: ' + response.status);
-  profiles = await response.json();
-  const list = $('#profileList');
-  const search = $('#profileSearch');
-  const filters = $$('[data-filter]');
+function profileName(levels) {
+  const entries = Object.entries(levels);
+  const high = entries.filter(([, level]) => level === 'H').map(([key]) => PROFILE_AXES[key].label);
+  const low = entries.filter(([, level]) => level === 'L').map(([key]) => PROFILE_AXES[key].label);
+  if (high.length === 4) return '전 영역 고강점 확장형';
+  if (low.length === 4) return '전 영역 지원 우선형';
+  if (entries.every(([, level]) => level === 'M')) return '균형 탐색형';
+  if (high.length && low.length) return high.join('·') + ' 강점 / ' + low.join('·') + ' 지원형';
+  if (high.length) return high.join('·') + ' 강점 확장형';
+  if (low.length) return low.join('·') + ' 지원 조정형';
+  return '상황 적응형';
+}
 
-  function render() {
-    const query = search.value.trim().toLowerCase();
-    const selected = Object.fromEntries(filters.map(filter => [filter.dataset.filter, filter.value]));
-    const shown = profiles.filter(profile => {
-      const haystack = [profile.id, profile.name, profile.summary, profile.classroom].join(' ').toLowerCase();
-      return haystack.includes(query) && Object.entries(selected).every(([key, value]) => !value || profile.levels[key] === value);
-    });
+function profileOverview(levels) {
+  const values = Object.values(levels);
+  const high = values.filter(level => level === 'H').length;
+  const low = values.filter(level => level === 'L').length;
+  if (high === 4) return '네 처리영역이 모두 강점 구간에 있습니다. 높은 수행을 하나의 능력으로 뭉뚱그리지 말고, 과제별로 어떤 전략을 선택하고 조절하는지 관찰합니다.';
+  if (low === 4) return '네 영역 모두에서 지원 신호가 나타났습니다. 학생을 낮은 능력으로 규정하지 않고 검사 조건과 반복 관찰을 먼저 확인하며, 가장 작은 성공 경험부터 지원합니다.';
+  if (values.every(level => level === 'M')) return '네 영역이 중간 구간에서 균형을 이룹니다. 특정 유형을 단정하기보다 과제의 낯섦·복잡성·흥미에 따라 달라지는 전략 사용을 관찰합니다.';
+  if (high && low) return '강점과 지원 필요가 함께 나타나는 차이가 큰 프로필입니다. 전체 평균만 보면 중요한 특성이 가려질 수 있으므로 강점을 지원의 통로로 활용합니다.';
+  if (high) return '뚜렷한 강점 영역을 중심으로 다른 처리과정을 연결할 수 있는 프로필입니다. 강점을 과도하게 한 방식으로만 사용하지 않는지도 함께 봅니다.';
+  return '특정 영역에서 더 구체적인 지원이 필요한 프로필입니다. 낮은 영역만 반복 훈련하기보다 중간 영역과 성공 경험을 활용해 참여 조건을 만듭니다.';
+}
 
-    $('#profileCount').textContent = '대표 프로필 ' + shown.length + '개 표시';
-    list.innerHTML = shown.length ? shown.map(profile => {
-      const levels = Object.entries(profile.levels).map(([key, value]) => '<span>' + escapeHtml(key) + ' ' + escapeHtml(value) + '</span>').join('');
-      return '<article class="profile-card"><span class="profile-code">' + escapeHtml(profile.id) + '</span>' +
-        '<h3>' + escapeHtml(profile.name) + '</h3><div class="profile-levels">' + levels + '</div>' +
-        '<p>' + escapeHtml(profile.summary) + '</p><button class="button" type="button" data-profile-id="' +
-        escapeHtml(profile.id) + '">상세 보기</button></article>';
-    }).join('') : '<p>조건에 맞는 대표 프로필이 없습니다. 필터를 초기화해 보세요.</p>';
-  }
+function listMarkup(items) {
+  return '<ul>' + items.map(item => '<li>' + escapeHtml(item) + '</li>').join('') + '</ul>';
+}
 
-  [search, ...filters].forEach(element => element.addEventListener('input', render));
-  $('#resetFilters').addEventListener('click', () => {
-    search.value = '';
-    filters.forEach(filter => { filter.value = ''; });
-    render();
-    search.focus();
+function analyzeProfile(levels) {
+  const entries = Object.entries(levels);
+  const highKeys = entries.filter(([, level]) => level === 'H').map(([key]) => key);
+  const midKeys = entries.filter(([, level]) => level === 'M').map(([key]) => key);
+  const lowKeys = entries.filter(([, level]) => level === 'L').map(([key]) => key);
+  const classroom = entries.map(([key, level]) => PROFILE_AXES[key][level].classroom);
+  const strengthKeys = highKeys.length ? highKeys : midKeys.length ? midKeys : Object.keys(levels);
+  const strengths = strengthKeys.map(key => PROFILE_AXES[key][levels[key]].strength);
+  const support = lowKeys.length
+    ? lowKeys.map(key => PROFILE_AXES[key].L.classroom)
+    : ['뚜렷한 하 구간이 없더라도 과제의 난도, 낯섦, 시간 압박에 따라 필요한 도움은 달라질 수 있습니다.'];
+  const teachingKeys = lowKeys.length ? [...lowKeys, ...highKeys] : highKeys.length ? highKeys : Object.keys(levels);
+  const teaching = [...new Set(teachingKeys.map(key => PROFILE_AXES[key][levels[key]].teaching))];
+  const nuvia = lowKeys.length
+    ? lowKeys.map(key => PROFILE_AXES[key].L.nuvia)
+    : highKeys.length
+      ? highKeys.map(key => PROFILE_AXES[key].H.nuvia)
+      : ['현재 학습 목표를 한 가지 정하고 계획·주의·동시·순차 활동을 짧게 순환하며 실제 생활 전이를 관찰합니다.'];
+  const highLabels = highKeys.map(key => PROFILE_AXES[key].label);
+  const lowLabels = lowKeys.map(key => PROFILE_AXES[key].label);
+  let feedback = '여러 방법을 사용할 수 있어. 이번 과제에 어떤 방법이 가장 잘 맞았는지 함께 찾아보자.';
+  if (highKeys.length && lowKeys.length) feedback = highLabels.join('·') + '의 강점을 활용해서 ' + lowLabels.join('·') + '이 필요한 순간에 쓸 방법을 함께 만들어 보자.';
+  else if (highKeys.length) feedback = highLabels.join('·') + '에서 보인 강점을 더 어려운 과제에도 적용하고, 어떤 전략이 효과적이었는지 확인해 보자.';
+  else if (lowKeys.length === 4) feedback = '이번 결과 하나로 너를 판단하지 않아. 편하게 참여할 수 있는 조건과 도움이 되는 방법을 하나씩 함께 찾아보자.';
+  else if (lowKeys.length) feedback = lowLabels.join('·') + '이 필요한 과제에서는 도움을 받아도 괜찮아. 가장 작은 첫 단계부터 성공해 보자.';
+  const cautions = ['이 자동 설명은 생성형 AI가 아니라 사전 설계된 고정 규칙의 조합입니다.', '검사 결과는 성격·능력·진로 또는 의학적 진단을 확정하지 않으며, 실제 관찰·상담·학업자료와 함께 해석합니다.'];
+  if (highKeys.length && lowKeys.length) cautions.push('상과 하가 함께 있는 프로필은 평균만으로 해석하지 말고 영역 간 차이가 실제 과제에서도 반복되는지 확인합니다.');
+  if (levels.plan === 'L' && levels.attention === 'L') cautions.push('계획과 주의의 동반 지원 신호는 수면·정서·동기·검사환경의 영향도 받을 수 있으므로 행동 관찰과 함께 재확인합니다.');
+  if ((levels.simultaneous === 'H' && levels.successive === 'L') || (levels.simultaneous === 'L' && levels.successive === 'H')) cautions.push('동시처리와 순차처리의 차이가 큽니다. 강한 방식으로 먼저 이해하게 한 뒤 약한 방식이 필요한 절차를 별도로 지원합니다.');
+  if (lowKeys.length === 4) cautions.push('네 영역 모두에서 낮은 수행이 지속된다면 피로·긴장·언어 이해·검사환경을 먼저 확인합니다. 수업과 생활에서도 어려움이 반복될 경우 보호자와 협의하여 전문기관의 종합평가와 지원을 권합니다.');
+  return {name:profileName(levels),code:profileCode(levels),overview:profileOverview(levels),classroom,strengths,support,teaching,feedback,nuvia,cautions};
+}
+
+function renderProfileAnalysis(levels, focus = false) {
+  const result = analyzeProfile(levels);
+  const chips = Object.entries(levels).map(([key, level]) => '<span class="profile-chip ' + level.toLowerCase() + '">' + escapeHtml(PROFILE_AXES[key].label) + ' ' + escapeHtml(LEVEL_LABELS[level]) + '</span>').join('');
+  $('#profileAnalysis').innerHTML = '<header class="profile-analysis-head"><div><p class="profile-code">' + escapeHtml(result.code) + '</p><h3 id="profileAnalysisTitle" tabindex="-1">' + escapeHtml(result.name) + '</h3><div class="profile-chips">' + chips + '</div></div><p>' + escapeHtml(result.overview) + '</p></header>' +
+    '<div class="profile-analysis-grid">' +
+      '<article><h4>교실에서 관찰될 수 있는 모습</h4>' + listMarkup(result.classroom) + '</article>' +
+      '<article><h4>기대되는 강점</h4>' + listMarkup(result.strengths) + '</article>' +
+      '<article><h4>도움이 필요한 상황</h4>' + listMarkup(result.support) + '</article>' +
+      '<article><h4>수업·과제 설계</h4>' + listMarkup(result.teaching) + '</article>' +
+      '<article><h4>교사가 사용할 수 있는 피드백</h4><p class="feedback-phrase">“' + escapeHtml(result.feedback) + '”</p></article>' +
+      '<article><h4>NUVIA 가정훈련 연결</h4>' + listMarkup(result.nuvia) + '</article>' +
+    '</div><aside class="profile-caution"><h4>해석할 때 꼭 확인하세요</h4>' + listMarkup(result.cautions) + '</aside>';
+  if (focus) $('#profileAnalysisTitle').focus({preventScroll: true});
+}
+
+function setupProfileExplorer() {
+  const form = $('#profileForm');
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    renderProfileAnalysis(selectedProfileLevels(), true);
   });
-  list.addEventListener('click', event => {
-    const button = event.target.closest('[data-profile-id]');
-    if (button) openProfile(button.dataset.profileId);
+  $('#resetProfile').addEventListener('click', () => {
+    ['#profilePlan','#profileAttention','#profileSimultaneous','#profileSuccessive'].forEach(selector => { $(selector).value = 'M'; });
+    renderProfileAnalysis(selectedProfileLevels());
+    $('#profilePlan').focus();
   });
-  render();
+  renderProfileAnalysis(selectedProfileLevels());
 }
 
 async function setupLanguages() {
-  const response = await fetch('locales/languages.json');
-  if (!response.ok) throw new Error('언어 데이터 오류: ' + response.status);
-  const languages = await response.json();
+  let languages = FALLBACK_LANGUAGES;
+  if (location.protocol !== 'file:') {
+    try {
+      const response = await fetch('locales/languages.json');
+      if (response.ok) languages = await response.json();
+    } catch (error) {
+      console.warn('언어 목록은 내장 기본값을 사용합니다.', error.message);
+    }
+  }
   const selects = $$('[data-language-select]');
   const options = languages.map(language =>
     '<option value="' + escapeHtml(language.code) + '" data-status="' + escapeHtml(language.status) + '">' +
@@ -246,15 +330,9 @@ $('#tocOverlay').addEventListener('click', () => closeToc(true));
 document.addEventListener('keydown', event => {
   if (event.key === 'Escape' && $('#tocPanel').classList.contains('open')) closeToc(true);
 });
-$('#closeProfileDialog').addEventListener('click', () => $('#profileDialog').close());
-$('#profileDialog').addEventListener('click', event => {
-  if (event.target === $('#profileDialog')) $('#profileDialog').close();
-});
 window.addEventListener('hashchange', () => syncFromLocation(true));
 
 validateReportLinks();
 syncFromLocation();
-Promise.all([setupProfiles(), setupLanguages()]).catch(error => {
-  console.error(error);
-  $('#profileList').innerHTML = '<p>대표 프로필 데이터를 불러오지 못했습니다. 정적 서버에서 다시 실행해 주세요.</p>';
-});
+setupProfileExplorer();
+setupLanguages();

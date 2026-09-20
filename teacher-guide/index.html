@@ -207,9 +207,16 @@
       </section>
 
       <section id="profiles" class="chapter" data-chapter-title="81가지 인지특성">
-        <div class="chapter-intro"><p class="eyebrow">PROFILE EXPLORER · 대표 5개</p><h2>81가지 특성은 데이터로 확장할 수 있게 설계합니다.</h2><p>현재는 대표 프로필 5개만 제공합니다. 각 카드는 검사 과제에서 나타난 인지처리 경향과 관찰 가능한 특성을 설명하며, 고정된 성격·정체성을 뜻하지 않습니다.</p></div>
-        <div class="filterbar" role="search" aria-label="대표 프로필 검색과 필터"><label>검색 <input id="profileSearch" type="search" placeholder="유형명·코드·교실 모습"></label><label>계획 <select data-filter="계획"><option value="">전체</option><option>상</option><option>중</option><option>하</option></select></label><label>주의 <select data-filter="주의"><option value="">전체</option><option>상</option><option>중</option><option>하</option></select></label><label>동시 <select data-filter="동시"><option value="">전체</option><option>상</option><option>중</option><option>하</option></select></label><label>순차 <select data-filter="순차"><option value="">전체</option><option>상</option><option>중</option><option>하</option></select></label><button id="resetFilters" class="text-button" type="button">초기화</button></div>
-        <p id="profileCount" class="result-count" aria-live="polite"></p><div id="profileList" class="profile-list"></div>
+        <div class="chapter-intro"><p class="eyebrow">PROFILE EXPLORER · 81 COMBINATIONS</p><h2>네 영역을 선택하면, 해당 인지특성을 자동으로 설명합니다.</h2><p>계획·주의·동시처리·순차처리의 상·중·하 조합은 총 81가지입니다. 네 수준을 선택한 뒤 적용 버튼을 누르면 수업 관찰과 지원 방향을 확인할 수 있습니다.</p></div>
+        <form id="profileForm" class="profile-controls" aria-label="PASS 81가지 인지특성 선택">
+          <label>계획<select id="profilePlan" name="plan"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>주의<select id="profileAttention" name="attention"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>동시처리<select id="profileSimultaneous" name="simultaneous"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>순차처리<select id="profileSuccessive" name="successive"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <div class="profile-control-actions"><button id="applyProfile" class="apply-profile" type="submit">적용하고 설명 보기</button><button id="resetProfile" class="reset-profile" type="button">초기화</button></div>
+        </form>
+        <p class="rule-notice"><b>AI 생성 설명이 아닙니다.</b> PASS 네 영역의 상·중·하 조합에 사전 설계된 해석 규칙을 적용하며, 검사정보를 외부로 전송하지 않습니다.</p>
+        <section id="profileAnalysis" class="profile-analysis" aria-live="polite" aria-atomic="true"></section>
       </section>
 
       <section id="teacher" class="chapter" data-chapter-title="결과를 수업에 연결하기">
@@ -250,7 +257,6 @@
     </div>
     <footer class="chapter-pagination"><button id="previousChapter" type="button">← 이전 장</button><p id="paginationLabel">1 / 14 · 여는 글</p><button id="nextChapter" type="button">다음 장 →</button></footer>
   </main>
-  <dialog id="profileDialog" class="profile-dialog" aria-labelledby="profileDialogTitle"><button id="closeProfileDialog" class="dialog-close" type="button" aria-label="상세 보기 닫기">×</button><div id="profileDialogBody"></div></dialog>
   <script src="app.js"></script>
 </body>
 </html>

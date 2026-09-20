@@ -132,7 +132,7 @@ try {
   await command('Page.enable');
   await command('Runtime.enable');
   await setViewport(viewports[0]);
-  await waitFor("document.querySelectorAll('.profile-card').length===5 && document.querySelectorAll('[data-language-select] option').length===26", 'data load');
+  await waitFor("document.querySelector('#profileAnalysis .profile-code')?.textContent==='P-M / A-M / S-M / Q-M' && document.querySelectorAll('[data-language-select] option').length===26", 'profile engine and language data');
 
   report.static = await evaluate("(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id); const duplicates=ids.filter((id,index)=>ids.indexOf(id)!==index); const empty=[...document.querySelectorAll('a')].filter(a=>!a.getAttribute('href')||a.getAttribute('href')==='#').length; const broken=[...document.querySelectorAll('a[href^=\"#\"]')].filter(a=>!document.querySelector(a.getAttribute('href'))).map(a=>a.getAttribute('href')); const css=[...document.styleSheets].map(sheet=>new URL(sheet.href).pathname.split('/').pop()); return {chapters:document.querySelectorAll('.chapter').length,toc:document.querySelectorAll('[data-chapter-link]').length,duplicates:[...new Set(duplicates)],emptyHref:empty,brokenInternal:broken,stylesheets:css}; })()");
   if (report.static.chapters !== 14 || report.static.toc !== 14 || report.static.duplicates.length || report.static.emptyHref || report.static.brokenInternal.length || report.static.stylesheets.join() !== 'ebook.css') failures.push('static-integrity');
@@ -192,7 +192,28 @@ try {
   await waitFor("location.hash==='#teacher'", 'opening teacher CTA');
   report.interactions.openingTeacher = await evaluate('location.hash');
   await openRoute('profiles');
-  report.interactions.profiles = await evaluate("(() => { const filter=document.querySelector('[data-filter=계획]'); filter.value='상'; filter.dispatchEvent(new Event('input',{bubbles:true})); const filtered=document.querySelectorAll('[data-profile-id]').length; document.querySelector('[data-profile-id]').click(); const opened=document.querySelector('#profileDialog').open; document.querySelector('#closeProfileDialog').click(); document.querySelector('#resetFilters').click(); return {filtered,opened,closed:!document.querySelector('#profileDialog').open,reset:document.querySelectorAll('[data-profile-id]').length===5}; })()");
+  const profileCombinations = [
+    ['H','H','H','H'],['M','M','M','M'],['L','L','L','L'],['H','M','H','L'],
+    ['L','H','M','H'],['H','L','L','M'],['M','H','L','M'],['L','M','H','L']
+  ];
+  report.interactions.profiles = [];
+  for (const combination of profileCombinations) {
+    const expectedCode = ['P','A','S','Q'].map((axis,index) => axis + '-' + combination[index]).join(' / ');
+    const result = await evaluate(`(() => {
+      const ids=['profilePlan','profileAttention','profileSimultaneous','profileSuccessive'];
+      ids.forEach((id,index)=>document.getElementById(id).value=${JSON.stringify(combination)}[index]);
+      document.querySelector('#profileForm').requestSubmit();
+      return {
+        code:document.querySelector('#profileAnalysis .profile-code').textContent,
+        sections:document.querySelectorAll('#profileAnalysis .profile-analysis-grid article').length,
+        caution:document.querySelector('#profileAnalysis .profile-caution').textContent.length>80,
+        aiNotice:document.querySelector('.rule-notice').textContent.includes('AI 생성 설명이 아닙니다')
+      };
+    })()`);
+    report.interactions.profiles.push({...result,expectedCode});
+  }
+  await evaluate("document.querySelector('#resetProfile').click()");
+  report.interactions.profileReset = await evaluate("document.querySelector('#profileAnalysis .profile-code').textContent==='P-M / A-M / S-M / Q-M' && ['profilePlan','profileAttention','profileSimultaneous','profileSuccessive'].every(id=>document.getElementById(id).value==='M')");
   await openRoute('dashboard');
   report.interactions.dashboard = await evaluate("(() => { const before=document.querySelector('#dashboardDetail').textContent; const button=document.querySelector('[data-dashboard=priority]'); button.click(); return {changed:document.querySelector('#dashboardDetail').textContent!==before,pressed:button.getAttribute('aria-pressed')==='true'}; })()");
   report.interactions.language = await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='km'; select.dispatchEvent(new Event('change',{bubbles:true})); const pending=!document.querySelector('#translationNotice').hidden; const synced=[...document.querySelectorAll('[data-language-select]')].every(item=>item.value==='km'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); return {pending,synced,restored:document.querySelector('#translationNotice').hidden}; })()");
@@ -206,7 +227,8 @@ try {
     await waitFor("location.hash==='#results' && !document.querySelector('[data-result-view=chooser]').hidden && document.querySelector('#resultInterpretation').hidden", 'result back ' + guide);
   }
   const resultGuidesPass = Object.values(report.interactions.resultGuides).every(item => item.visible && item.chooser && item.interpretation);
-  if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !report.interactions.profiles.opened || !report.interactions.profiles.closed || !report.interactions.profiles.reset || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !report.interactions.language.pending || !report.interactions.language.synced || !report.interactions.language.restored || !resultGuidesPass) failures.push('interactions');
+  const profilesPass = report.interactions.profiles.every(item => item.code===item.expectedCode && item.sections===6 && item.caution && item.aiNotice) && report.interactions.profileReset;
+  if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !profilesPass || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !report.interactions.language.pending || !report.interactions.language.synced || !report.interactions.language.restored || !resultGuidesPass) failures.push('interactions');
 
   await openRoute('pathways');
   const currentHash = await evaluate('location.hash');
