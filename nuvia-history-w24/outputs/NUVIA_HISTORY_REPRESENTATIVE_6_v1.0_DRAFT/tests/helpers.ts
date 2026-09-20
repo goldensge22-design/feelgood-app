@@ -4,7 +4,7 @@ export function deterministic():Dependencies{let n=0,t=0;return {id:()=>`test-id
 export const profile:Profile={learnerId:'test-learner',alias:'탐험가',ageBand:'preschool',attentionSupport:0,source:'explicit-test'};
 export function actionInput(d:ActivityDefinition):ActionInput {
  const ids=(role:string)=>d.materials.filter(m=>m.role===role).map(m=>m.id),one=(role:string)=>ids(role)[0];
- switch(d.actionKind){
+ switch(d.actionKind){case 'preschoolActivity':throw Error('USE_PRACTICE_EVIDENCE');
  case 'mapRelation':return {actionKind:d.actionKind,nodeIds:ids('node').slice(0,2) as [string,string],relationId:d.id+'.relation',meaningKey:one('meaning')};
  case 'arrangeSequence':return {actionKind:d.actionKind,orderedStepIds:ids('step'),precedenceRefs:ids('step').slice(1).map((id,i)=>[ids('step')[i],id]),completionState:'planned'};
  case 'classifyEvidence':return {actionKind:d.actionKind,evidenceItemIds:ids('evidence'),categoryByItem:Object.fromEntries(ids('evidence').map(id=>[id,'unknown'])),hiddenExplanationId:d.hiddenExplanationId!,uncertainItemIds:ids('evidence'),reasonRef:one('reason')};

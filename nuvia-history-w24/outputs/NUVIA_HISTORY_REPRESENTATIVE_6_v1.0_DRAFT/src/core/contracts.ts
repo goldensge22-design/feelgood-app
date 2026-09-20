@@ -1,9 +1,17 @@
+import {practiceValue} from './preschoolPractice';
 import {ACTIONS,type ActionInput,type ActivityDefinition} from './types';
 export class ContractError extends Error{constructor(readonly code:string){super(code);}}
 export function need(ok:unknown,code:string):asserts ok{if(!ok)throw new ContractError(code);}
 const unique=(a:unknown):a is string[]=>Array.isArray(a)&&a.every(x=>typeof x==='string'&&x.length>0)&&new Set(a).size===a.length;
 export function validateAction(def:ActivityDefinition,value:unknown):ActionInput {
  need(value&&typeof value==='object','ACTION_INVALID');const v=value as ActionInput;
+ if(v.actionKind==='preschoolActivity'){
+  need(def.actionKind===v.actionKind&&def.contractId==='nuvia.w24.preschool-practice.v1'&&def.practiceDomain===v.domain,'PRACTICE_DOMAIN_MISMATCH');
+  const expected=practiceValue(v.domain,def.id.split('.preschool.')[0],v.evidence);
+  need(v.goalId===expected.goalId&&v.methodId===expected.methodId,'PRACTICE_ACTION_MISMATCH');
+  need(Object.keys(v).every(k=>['actionKind','domain','goalId','methodId','evidence','reasonRef'].includes(k)),'UNEXPECTED_ACTION_FIELD');
+  need(v.reasonRef===undefined||v.reasonRef.startsWith('reason:'),'REASON_RECORD_REQUIRED');return structuredClone(v);
+ }
  need(ACTIONS.includes(v.actionKind)&&v.actionKind===def.actionKind,'ACTION_KIND_MISMATCH');
  const allowed=(id:unknown,role:string)=>typeof id==='string'&&def.materials.some(m=>m.id===id&&m.role===role);
  const one=(id:unknown,role:string)=>need(allowed(id,role),'UNKNOWN_'+role.toUpperCase());

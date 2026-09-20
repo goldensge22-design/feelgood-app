@@ -2,6 +2,9 @@ import {recorded,missing,STAGES,productionDependencies,type Run,type ContentBund
 import {isComparison,type ComparisonRecord,type ComparisonValue,type ReasonInput,type ReasonExpressionRecord} from './types';
 import {need,validateAction} from './contracts';
 import {resolveProfile,presentation} from './profile';
+import {kidKo} from '../content/preschool.ko';
+import {configurePractice,practiceEnabled,practiceSteps,validatePracticeSteps,phases} from './preschoolPractice';
+import type {PracticeStep} from './types';
 import {planningLength,planningProgress} from './preschoolPolicy';
 export const APP_VERSION='0.5.0';
 export const orderedActivityFirst=(r:Run)=>r.contentSnapshot.executionOrderRuleId==='NUVIA_HISTORY_EXECUTION_ORDER_RULE_v1.1.1';
@@ -10,6 +13,7 @@ export const freeReason=(r:Run)=>!!r.conditionId&&condition(r).activity.reasonEx
 const actionEvents=(r:Run)=>r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred'&&e.payload.scope!=='reason');
 const activityCommitted=(r:Run)=>actionEvents(r).length>0;
 export type Command=
+ |{type:'practiceStep';step:PracticeStep}
  |{type:'planningStep';phase:'choose'|'observe'|'revise';responseIds:string[]}
  |{type:'historyViewed';conditionId:string}
  |{type:'continueHistory'}
@@ -27,7 +31,7 @@ export type Command=
  |{type:'retryActivity'};
 export function newRun(bundle:ContentBundle,missionId:string,input:Profile,deps:Dependencies=productionDependencies):Run {
  const mission=bundle.missions.find(m=>m.id===missionId);need(mission,'MISSION_NOT_FOUND');const profile=resolveProfile(input),at=deps.now();
- const run:Run={schemaVersion:1,revision:0,resultId:deps.id(),missionId,missionVersion:mission.missionVersion,contentVersion:mission.contentVersion,appVersion:APP_VERSION,profile,ageBandRuleId:`nuvia.age.${profile.ageBand}.v1`,createdAt:at,completedAt:null,stage:'history',conditionId:null,prediction:missing(),alternate:missing(),action:missing(),story:missing(),historyComparison:missing(),predictionComparison:missing(),canvas:missing(),cover:'antique',events:[],contentSnapshot:structuredClone(mission),localeSnapshot:missionStrings(bundle,missionId)};
+ const run:Run={schemaVersion:1,revision:0,resultId:deps.id(),missionId,missionVersion:mission.missionVersion,contentVersion:mission.contentVersion,appVersion:APP_VERSION,profile,ageBandRuleId:`nuvia.age.${profile.ageBand}.v1`,createdAt:at,completedAt:null,stage:'history',conditionId:null,prediction:missing(),alternate:missing(),action:missing(),story:missing(),historyComparison:missing(),predictionComparison:missing(),canvas:missing(),cover:'antique',events:[],contentSnapshot:configurePractice(mission,profile),localeSnapshot:{...missionStrings(bundle,missionId),...(profile.practiceDomain?Object.fromEntries(Object.entries(kidKo).map(([k,v])=>['gutenberg.preschool.'+k,v])):{})}};
  append(run,'missionStarted',{profileSource:profile.source},deps,at,0);return run;
 }
 function missionStrings(bundle:ContentBundle,id:string){const result:Record<string,string>={};for(const [k,v] of Object.entries(bundle.strings))if(k.startsWith(id+'.')||k.startsWith('missing.')||k.startsWith('thought.'))result[k]=v;return result;}
@@ -87,7 +91,11 @@ export function transition(previous:Run,command:Command,deps:Dependencies=produc
  assertRun(previous);need(previous.stage!=='complete','COMPLETED_RESULT_IMMUTABLE');const r=structuredClone(previous);r.revision++;
  const stage=(s:Run['stage'])=>need(r.stage===s,'INVALID_STAGE');
  if(command.type==='action'&&planningProgress(r).length){const progress=planningProgress(r),value=command.value as Record<string,unknown>;need(progress.length===3,'PLANNING_INCOMPLETE');const first=(progress[0].payload.responseIds as string[])[0],last=(progress[2].payload.responseIds as string[])[0];need(value.actionKind==='revisePlan'?value.beforeResponseId===first&&value.afterResponseId===last:value.actionKind==='chooseGoalAndSteps'?value.responseId===last:true,'PLANNING_ACTION_MISMATCH');}
+ if(practiceEnabled(r)&&command.type==='action'){const steps=practiceSteps(r);validatePracticeSteps(condition(r).activity.practiceDomain!,r.conditionId!,steps,true);need(JSON.stringify((command.value as {evidence?:unknown})?.evidence)===JSON.stringify(steps),'PRACTICE_EVENT_MISMATCH');}
+ if(practiceEnabled(r)&&['deferAction','planningStep'].includes(command.type))throw Error('PRACTICE_REQUIRED');
  switch(command.type){
+ case 'practiceStep':{stage('activity');need(practiceEnabled(r),'PRACTICE_NOT_ENABLED');const steps=[...practiceSteps(r),command.step];validatePracticeSteps(condition(r).activity.practiceDomain!,r.conditionId!,steps);append(r,'practiceInteraction',{...command.step,requiredActionComplete:steps.length===phases(condition(r).activity.practiceDomain!).length,domain:condition(r).activity.practiceDomain,practiceQuestionId:condition(r).activity.id+'.'+command.step.phase},deps);break;}
+
  case 'planningStep':{
   stage('activity');const c=condition(r),progress=planningProgress(r),expected=['choose','observe','revise'][progress.length];
   need(command.phase===expected,'PLANNING_ORDER');need(Array.isArray(command.responseIds)&&command.responseIds.length===planningLength(r.profile)&&new Set(command.responseIds).size===command.responseIds.length,'PLANNING_LENGTH');
@@ -104,7 +112,7 @@ export function transition(previous:Run,command:Command,deps:Dependencies=produc
  case 'deferAction':stage('activity');need(!activityCommitted(r),'ACTION_IMMUTABLE');need(['unknown','skip'].includes(command.reason),'INVALID_DEFER');r.action=missing('notProvided');append(r,'activityDeferred',{reason:command.reason,...(freeReason(r)?{scope:'activity'}:{})},deps);r.stage=orderedActivityFirst(r)?'alternate':'creation';break;
  case 'retryActivity':stage('activity');append(r,'activityRetried',{},deps);break;
  case 'canvas':{stage('creation');validateCanvas(r,command.canvas);r.canvas=recorded(structuredClone(command.canvas));for(const e of command.events){validateCanvasEvent(e,command.canvas);append(r,e.type,e.payload,deps);}break;}
- case 'story':stage('creation');validateExpression(command.expression);if(condition(r).learnerStoryOnly)need(command.expression.method!=='choice','STORY_REQUIRES_LEARNER_INPUT');if(command.expression.method==='drawing')need(command.expression.canvasRef?.startsWith('drawing:')||(r.canvas.status==='recorded'&&r.canvas.value.completed&&command.expression.canvasRef===r.canvas.value.id),'CANVAS_REQUIRED');r.story=recorded(structuredClone(command.expression));append(r,'storyRecorded',exprMeta(command.expression),deps);r.stage='historyComparison';break;
+ case 'story':stage('creation');validateExpression(command.expression);if(practiceEnabled(r))need(!['skip','unknown','choice'].includes(command.expression.method),'STORY_INPUT_REQUIRED');if(condition(r).learnerStoryOnly)need(command.expression.method!=='choice','STORY_REQUIRES_LEARNER_INPUT');if(command.expression.method==='drawing')need(command.expression.canvasRef?.startsWith('drawing:')||(r.canvas.status==='recorded'&&r.canvas.value.completed&&command.expression.canvasRef===r.canvas.value.id),'CANVAS_REQUIRED');r.story=recorded(structuredClone(command.expression));append(r,'storyRecorded',exprMeta(command.expression),deps);r.stage='historyComparison';break;
  case 'comparison':{stage(command.kind==='history'?'historyComparison':'predictionComparison');const value='comparison' in command?command.comparison:comparisonFromExpression(r,command.kind,command.expression);validateComparison(r,value,command.kind);assertIndependentComparisonMedia(r,value);if(command.kind==='prediction')need(r.prediction.status==='recorded','PREDICTION_REQUIRED');r[command.kind==='history'?'historyComparison':'predictionComparison']=recorded(structuredClone(value));append(r,'comparisonCompleted',{comparisonKind:command.kind,...(condition(r).learnerStoryOnly?{recordRef:r.resultId+'/'+(command.kind==='history'?'historyComparison':'predictionComparison'),inputStage:r.stage}:{}),expressionMode:value.expressionMode,provided:value.expressionMode!=='deferred',hasDiscovery:!!value.discoveryText,hasEvidence:!!value.evidenceText},deps);if(command.kind==='history')r.stage='predictionComparison';else{r.stage='complete';r.completedAt=deps.now();append(r,'missionCompleted',{},deps,r.completedAt);}break;}
  case 'hint':need(['pictureExample','repeatGuide','reducedChoices','sequenceHelp','keyElement','canvasHelp','visualGuide'].includes(command.hintType)&&[0,1,2,3].includes(command.level),'INVALID_HINT');append(r,'hintRequested',{hintType:command.hintType,requestedAtStage:r.stage,requestCount:r.events.filter(e=>e.eventType==='hintRequested').length+1,automatic:false},deps,undefined,command.level);break;
  case 'cover':need(['antique','linen','adventure'].includes(command.cover),'INVALID_COVER');r.cover=command.cover;break;
@@ -134,7 +142,7 @@ export function assertRun(r:Run){
  const predictions=r.events.filter(e=>e.eventType==='predictionRecorded'),revealIndex=r.events.findIndex(e=>e.eventType==='alternateViewed');
  need(predictions.length<=1,'PREDICTION_IMMUTABLE');if(r.prediction.status==='recorded'){need(predictions.length===1&&predictions[0].timestamp===r.prediction.value.recordedAt,'PREDICTION_EVENT_MISMATCH');if(revealIndex>=0)need(r.events.findIndex(e=>e.eventType==='predictionRecorded')<revealIndex,'PREDICTION_ORDER');}
  if(orderedActivityFirst(r)){
-  const conditionEvents=['predictionRecorded','cognitiveActionRecorded','activityDeferred','reasonExpressionRecorded','alternateViewed','storyRecorded','comparisonCompleted','canvasObjectAdded','canvasObjectMoved','drawingAdded','sceneCompleted'];
+  const conditionEvents=['predictionRecorded','practiceInteraction','cognitiveActionRecorded','activityDeferred','reasonExpressionRecorded','alternateViewed','storyRecorded','comparisonCompleted','canvasObjectAdded','canvasObjectMoved','drawingAdded','sceneCompleted'];
   for(const e of r.events.filter(e=>conditionEvents.includes(e.eventType)))need(e.conditionId===r.conditionId,'EVENT_CONDITION_MISMATCH');
   const actions=actionEvents(r);
   need(actions.length<=1,'ACTION_IMMUTABLE');
@@ -142,6 +150,7 @@ export function assertRun(r:Run){
   if(actions.length){need(actions[0].conditionId===r.conditionId,'EVENT_CONDITION_MISMATCH');need(r.events.indexOf(actions[0])>r.events.findIndex(e=>e.eventType==='predictionRecorded'),'ACTIVITY_ORDER');need(actions[0].eventType==='activityDeferred'?r.action.status==='notProvided':r.action.status==='recorded','ACTION_EVENT_MISMATCH');}
   if(revealIndex>=0)need(actions.length===1&&r.events.indexOf(actions[0])<revealIndex,'ACTIVITY_BEFORE_REVEAL');
  }
+ if(practiceEnabled(r)){const steps=practiceSteps(r);validatePracticeSteps(condition(r).activity.practiceDomain!,r.conditionId!,steps,r.action.status==='recorded');if(r.action.status==='recorded'){need(r.action.value.actionKind==='preschoolActivity'&&JSON.stringify(r.action.value.evidence)===JSON.stringify(steps),'PRACTICE_EVENT_MISMATCH');}need(!r.events.some(e=>e.eventType==='activityDeferred'&&e.payload.scope==='activity'),'PRACTICE_REQUIRED');}
  if(r.action.status==='recorded')validateAction(condition(r).activity,r.action.value);
  if(freeReason(r))assertReason(r);
  if(r.canvas.status==='recorded')validateCanvas(r,r.canvas.value);

@@ -4,21 +4,25 @@ export const AGE_BANDS = ['preschool','elementary-low','elementary-high','middle
 export type AgeBand=typeof AGE_BANDS[number];
 export type Domain='동시처리'|'순차처리'|'계획'|'주의';
 export const ACTIONS=['mapRelation','arrangeSequence','classifyEvidence','compareStructures','chooseGoalAndSteps','prioritizeActions','revisePlan'] as const;
-export type ActionKind=typeof ACTIONS[number];
+export type ActionKind=typeof ACTIONS[number]|'preschoolActivity';
+export const PRACTICE_DOMAINS=['planning','attention','sequential','simultaneous'] as const;
+export type PracticeDomain=typeof PRACTICE_DOMAINS[number];
+export interface PracticeStep {phase:string;ids:string[];}
 export type Missing='notRecorded'|'notObserved'|'notCollected'|'notProvided';
 export type Field<T>={status:'recorded';value:T}|{status:Missing};
 export const recorded=<T>(value:T):Field<T>=>({status:'recorded',value});
 export const missing=<T>(status:Missing='notRecorded'):Field<T>=>({status});
-export interface Profile {learnerId:string;alias:string;ageBand:AgeBand;schoolGrade?:1|2|3|4|5|6;attentionSupport:0|1|2|3;source:'linked-result'|'explicit-test';}
+export interface Profile {learnerId:string;alias:string;ageBand:AgeBand;schoolGrade?:1|2|3|4|5|6;practiceDomain?:PracticeDomain;attentionSupport:0|1|2|3;source:'linked-result'|'explicit-test';}
 export interface AgeVariant {ageBandRuleId:string;promptKey:string;instructionKey:string;expressionMode:string;visualSupportRule:string;readingDensityRule:string;supportRuleRef:string;}
 export interface Material {id:string;labelKey:string;role:'node'|'step'|'evidence'|'left'|'right'|'goal'|'response'|'constraint'|'reason'|'meaning';visual?:string;}
-export interface ActivityDefinition {id:string;actionKind:ActionKind;contractId:string;materialSetId:string;materials:Material[];promptKey:string;observationKey:string;hiddenExplanationId?:string;reasonExpressionRuleId?:string;}
+export interface ActivityDefinition {practiceDomain?:PracticeDomain;id:string;actionKind:ActionKind;contractId:string;materialSetId:string;materials:Material[];promptKey:string;observationKey:string;hiddenExplanationId?:string;reasonExpressionRuleId?:string;}
 export interface SemanticScreen {promptKey:string;instructionKey:string;semanticFields:Record<string,unknown>;}
 export interface SemanticDefinition {stages:Record<AgeBand,Record<string,SemanticScreen>>;subquestions:Record<AgeBand,Record<string,SemanticScreen>>;predictionOptions:{id:string;textKey:string;visual:string}[];}
 export interface ConditionDefinition {semantic?:SemanticDefinition;learnerStoryOnly?:boolean;historySummaryKey?:string;historyKeyPointKey?:string;id:string;shortId:string;missionId:string;missionVersion:string;contentVersion:string;conditionKey:string;actualHistoryKey:string;actualSceneKey:string;mechanismKey:string;mechanismLevel:1|2;causalMechanismId:string;sourceIds:string[];sourceLocatorKeys:string[];directKey:string;shortTermKey:string;longTermKey:string;additionalKey:string;alternateKeys:[string,string];ageVariants:Record<AgeBand,AgeVariant>;passDomain:Domain;activity:ActivityDefinition;forbiddenExpressionRefs:string[];bookTemplateId:string;resultIdPolicy:string;assetIds:string[];sourceProvenance:{rawActivityId:string;rawContractId:string;rawCausalId:string};}
 export interface MissionDefinition {executionOrderRuleId?:string;id:string;week:number;titleKey:string;missionVersion:string;contentVersion:string;conditions:ConditionDefinition[];}
 export interface ContentBundle {locale:'ko';missions:MissionDefinition[];strings:Record<string,string>;}
 export type ActionInput=
+ |{actionKind:'preschoolActivity';domain:PracticeDomain;goalId:string;methodId:string;evidence:PracticeStep[];reasonRef?:string}
  |{actionKind:'mapRelation';nodeIds:[string,string];relationId:string;meaningKey:string}
  |{actionKind:'arrangeSequence';orderedStepIds:string[];precedenceRefs:[string,string][];interruptedStepId?:string;completionState:'planned'|'observed'|'unknown'}
  |{actionKind:'classifyEvidence';evidenceItemIds:string[];categoryByItem:Record<string,'confirmed'|'hidden'|'unknown'>;hiddenExplanationId:string;uncertainItemIds:string[];reasonRef?:string}
@@ -37,7 +41,7 @@ export type ComparisonValue=ComparisonRecord|Expression;
 export const isComparison=(value:ComparisonValue):value is ComparisonRecord=>'comparisonKind' in value;
 export type Stage='history'|'condition'|'prediction'|'alternate'|'activity'|'creation'|'historyComparison'|'predictionComparison'|'complete';
 export const STAGES:Stage[]=['history','condition','prediction','alternate','activity','creation','historyComparison','predictionComparison','complete'];
-export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred'|'reasonExpressionRecorded'|'planningInteraction';
+export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred'|'reasonExpressionRecorded'|'planningInteraction'|'practiceInteraction';
 export interface PerformanceEvent {eventId:string;resultId:string;missionId:string;conditionId:string|null;missionVersion:string;contentVersion:string;ageBandRuleId:string;ageBand:AgeBand;eventType:EventType;timestamp:string;payload:Record<string,unknown>;supportLevel:number;appVersion:string;}
 export interface ArtifactLink {resultId:string;missionId:string;conditionId:string;missionVersion:string;contentVersion:string;learnerId:string;}
 export interface SceneData extends ArtifactLink {id:string;backgroundId:string;stickers:{id:string;x:number;y:number;scale:number;flip:boolean}[];strokes:{color:string;width:number;erase:boolean;points:[number,number][]}[];text:string;preview:string;audioRef?:string;}

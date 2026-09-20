@@ -1,0 +1,35 @@
+ .practice-links{display:flex;gap:3px;align-items:center;justify-content:center;margin:10px 0;background:#e8f1df;border-radius:16px}.practice-links svg{min-width:0;width:22%;height:100px}.practice-links span{font-size:20px}
+ .practice-order.is-ready{min-height:540px;align-items:stretch;background:#e8f1df;border-radius:20px;gap:8px;padding:4px}.practice-order.is-ready button{max-width:none;min-width:0;border:0;box-shadow:none;background:transparent}.practice-order.is-ready svg{height:460px;width:100%}.practice-order.is-ready span{display:block;font-size:17px;line-height:1.4;overflow-wrap:anywhere}.practice-order.is-ready button+button:before{top:240px}.practice-goal-reminder{position:absolute;z-index:1;top:90px;left:12px;width:65px;background:#fff8e8;border-radius:12px;border:2px solid #b7cca7}.practice-goal-reminder svg{width:100%;height:65px}
+.phase-sequence .kid-choices{grid-template-columns:1fr}
+.phase-sequence .kid-choices svg{height:auto;aspect-ratio:4/3}
+.phase-sequence .kid-choices button{padding:3px 3px 8px}
+.phase-sequence .practice-order:empty{display:none}
+.phase-sequence .practice-order.is-ready{flex-direction:column;min-height:0;gap:22px;padding:0;background:transparent}
+.phase-sequence .practice-order.is-ready button{max-width:none;background:#e8f1df;border-radius:16px;padding:0 0 8px}
+.phase-sequence .practice-order.is-ready svg{height:auto;aspect-ratio:4/3}
+.phase-sequence .practice-order.is-ready button+button:before{content:"↓";top:-25px;left:48%}
+/* W24 preschool only. Text stays inside cards and never becomes a ruled page. */
+.preschool-shell .kid-choices span{white-space:normal;overflow-wrap:anywhere;font-size:clamp(14px,2.8vw,18px);line-height:1.4}
+ .preschool-shell .primary{color:#25464e;background:#b7d7bf;border-color:#648d73;font-weight:750}
+.preschool-practice .practice-context>svg{display:block;width:100%;height:clamp(220px,calc(100dvh - 290px),580px)}
+.practice-clue-board{display:grid;grid-template-columns:1fr;align-items:center;min-height:550px;background:#e8f1df;border-radius:22px;margin-bottom:12px}
+.practice-clue-board svg{width:100%;height:270px}
+.practice-result{margin:0 0 12px;background:#e8f1df;border-radius:24px;overflow:hidden}
+.practice-result svg{display:block;width:100%;height:clamp(280px,58dvh,540px)}
+.practice-result figcaption{padding:8px 14px;font-size:18px;line-height:1.5}
+.practice-result.compact svg{height:430px} .kid-help{margin-top:8px;font-size:15px;min-height:44px!important;padding:5px 16px!important}
+.practice-order{display:flex;min-height:100px;gap:8px;margin:10px 0;justify-content:center}
+.practice-order button{padding:0;flex:1;max-width:115px}.practice-order svg{width:100%;height:100px}
+.phase-sequence .practice-context>svg{height:230px}
+.phase-sequence .practice-order button+button{position:relative}
+.phase-sequence .practice-order button+button:before{content:'→';position:absolute;left:-11px;top:38px;color:#345b52}
+.preschool-shell .kid-expression textarea{display:block;width:100%;height:180px;min-height:180px;max-height:240px;box-sizing:border-box;background:#fffdf6;background-image:none!important;padding:14px 16px;font:22px/1.5 system-ui,sans-serif;text-indent:0;letter-spacing:normal;resize:vertical;color:#25464e}
+.kid-expression.mode-text .kid-writing{min-height:0}.kid-expression.mode-text .kid-reason-choice svg{height:80px}
+.kid-expression.mode-text .kid-comparison svg,.kid-expression.mode-text .kid-comparison .user-art{height:100px;min-height:100px}
+.kid-expression.mode-text .kid-modes{margin:6px 0}.kid-expression.mode-text nav{gap:8px;margin:10px 0}
+.kid-expression.mode-text>h1{margin-bottom:8px}.kid-expression.mode-text .kid-writing+nav{margin-top:8px}
+.preschool-shell .kid-comparison figure{min-height:238px}.preschool-shell .kid-comparison figure[data-user-content]{contain:layout}
+.preschool-shell .kid-expression.mode-text .kid-comparison figure{min-height:140px}
+.preschool-shell .kid-comparison .user-art{display:block;width:100%;height:190px;object-fit:contain}
+.preschool-shell .kid-expression .drawing-input canvas{display:block}
+@media(max-width:480px){.practice-result.compact svg{height:390px}.practice-result figcaption{font-size:16px}.practice-clue-board{min-height:520px}.practice-clue-board svg{height:260px}.phase-sequence .practice-context>svg{height:180px}.preschool-shell .kid-expression textarea{font-size:20px;line-height:1.5}.kid-expression.mode-text button{padding:10px 14px}}
