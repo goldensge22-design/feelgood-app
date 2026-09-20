@@ -569,6 +569,8 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
 .support-analysis-grid article > p { margin: 0; color: var(--muted); }
 .support-analysis-grid .support-feature-card { border-color: #91b7dc; background: #f7fbff; }
 .support-analysis-grid .support-feature-card h4 { color: var(--blue); }
+.support-analysis-grid li, .support-priority li { overflow-wrap: anywhere; line-height: 1.62; }
+.support-priority h4:not(:first-child) { margin-top: 20px; border-top: 1px solid #ecd8a7; padding-top: 16px; }
 .section-divider-title { margin: 34px 0 16px; border-top: 1px solid var(--line); padding-top: 28px; color: var(--navy); font-size: 22px; }
 .filterbar {
   display: flex;

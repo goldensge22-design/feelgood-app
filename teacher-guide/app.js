@@ -384,17 +384,12 @@ function renderTeacherProfile(levels, focus = false) {
   const result = GUIDE_PROFILE_ENGINE.teacherAnalysis(levels);
   $('#teacherProfileAnalysis').innerHTML = supportHeaderMarkup(result, 'teacherProfileAnalysisTitle') +
     '<div class="profile-analysis-grid support-analysis-grid">' +
-      supportArticle('영역별 고강점·영재 가능성 확인', result.highPotential) +
-      supportArticle('평균 범위의 균형', result.balance) +
-      supportArticle('좌·우 정보처리 기울기', result.tilt) +
-      supportArticle('계획·주의 실행조절 편차', result.executiveGap) +
-      supportArticle('특정 영역 하에 대한 지원', result.lowSupport) +
-      supportArticle('고강점·심화 분야', result.extensions) +
-      supportArticle('수업 설명과 자료 제공 방법', result.materials) +
-      supportArticle('구체적인 수업 TIP', result.teachingTips, 'support-feature-card') +
-      supportArticle('학급 관리와 과제 운영 TIP', result.management, 'support-feature-card') +
-      supportArticle('관찰·기록 기준', result.observation) +
-    '</div><aside class="profile-caution"><h4>해석과 적용의 경계</h4>' + listMarkup(result.cautions) + '</aside>';
+      supportArticle('수업에서 먼저 활용할 강점', result.strengthUses) +
+      supportArticle('수업에서 막힐 가능성이 큰 지점', result.bottlenecks) +
+      supportArticle('맞춤 수업 설계', result.lessonDesign, 'support-feature-card') +
+      supportArticle('맞춤 관리팁', result.management, 'support-feature-card') +
+      supportArticle('교사가 사용할 문장', result.teacherScripts) +
+    '</div><aside class="profile-caution support-priority"><h4>이 조합의 지원 우선순위</h4>' + listMarkup(result.priorities) + '<h4>관찰할 위험과 오해</h4>' + listMarkup(result.risks) + '</aside>';
   if (activeLocaleCode !== 'ko') localizeSubtree($('#teacherProfileAnalysis'));
   if (focus) $('#teacherProfileAnalysisTitle').focus({preventScroll: true});
 }
@@ -403,15 +398,12 @@ function renderParentProfile(levels, focus = false) {
   const result = GUIDE_PROFILE_ENGINE.parentAnalysis(levels);
   $('#parentProfileAnalysis').innerHTML = supportHeaderMarkup(result, 'parentProfileAnalysisTitle') +
     '<div class="profile-analysis-grid support-analysis-grid">' +
-      supportArticle('고강점·평균·기울기·지원 필요 설명', result.summary) +
-      supportArticle('보호자에게 설명할 핵심 문장', '“' + result.keyMessage + '”', 'support-feature-card') +
       supportArticle('가정에서 확인할 실제 행동', result.behaviors) +
       supportArticle('상담 중 교사가 물어볼 질문', result.questions) +
-      supportArticle('가정에서 실천할 작은 지원', result.homeSupports) +
-      supportArticle('교사가 바로 사용할 상담 문장', result.scripts, 'support-feature-card') +
-      supportArticle('피해야 할 낙인과 단정', result.avoid) +
-      supportArticle('학교와 가정이 함께 관찰할 기준', result.jointObservation) +
-    '</div>';
+      supportArticle('가정에서 실천할 지원', result.homeSupports, 'support-feature-card') +
+      supportArticle('상담 문장 예시', result.scripts, 'support-feature-card') +
+      supportArticle('피해야 할 해석', result.avoid) +
+    '</div><aside class="profile-caution"><h4>학교와 가정이 함께 관찰할 기준</h4>' + listMarkup(result.jointObservation) + '</aside>';
   if (activeLocaleCode !== 'ko') localizeSubtree($('#parentProfileAnalysis'));
   if (focus) $('#parentProfileAnalysisTitle').focus({preventScroll: true});
 }
