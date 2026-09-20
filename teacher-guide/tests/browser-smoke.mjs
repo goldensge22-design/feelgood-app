@@ -9,7 +9,7 @@ const outputDirectory = resolve(root, 'teacher-guide', 'screenshots');
 const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const sitePort = 4187;
 const debugPort = 9348;
-const routes = ['opening','guide','assessment','evidence','pass','pathways','results','levels','profiles','teacher','dashboard','nuvia','parents','support','closing'];
+const routes = ['opening','guide','assessment','assessment-expertise','pass','pathways','results','levels','profiles','teacher','dashboard','nuvia','parents','support','closing'];
 const viewports = [
   {name:'PC 1440×900',width:1440,height:900,mobile:false},
   {name:'노트북 1280×720',width:1280,height:720,mobile:false},

@@ -21,7 +21,8 @@ const LEGACY_HASHES = {
   principles: 'levels',
   guidance: 'teacher',
   help: 'support',
-  result: 'results'
+  result: 'results',
+  evidence: 'assessment-expertise'
 };
 const chapters = $$('.chapter');
 const chapterIds = chapters.map(chapter => chapter.id);
