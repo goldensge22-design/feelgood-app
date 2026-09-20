@@ -60,19 +60,94 @@ const PROFILE_AXES = {
   }
 };
 const FALLBACK_LANGUAGES = [
-  {code:'ko',label:'한국어',status:'ready'},{code:'en',label:'English',status:'pending'},
-  {code:'ja',label:'日本語',status:'pending'},{code:'zh-CN',label:'简体中文',status:'pending'},
-  {code:'es',label:'Español',status:'pending'},{code:'ru',label:'Русский',status:'pending'},
-  {code:'vi',label:'Tiếng Việt',status:'pending'},{code:'th',label:'ไทย',status:'pending'},
-  {code:'ar',label:'العربية',status:'pending'},{code:'it',label:'Italiano',status:'pending'},
-  {code:'az',label:'Azərbaycan',status:'pending'},{code:'mn',label:'Монгол',status:'pending'},
-  {code:'km',label:'ខ្មែរ',status:'pending'}
+  {code:'ko',label:'한국어',status:'ready',file:'ko.json'},{code:'en',label:'English',status:'ai-draft',file:'en.json'},
+  {code:'ja',label:'日本語',status:'ai-draft',file:'ja.json'},{code:'zh-CN',label:'简体中文',status:'ai-draft',file:'zh-CN.json'},
+  {code:'es',label:'Español',status:'ai-draft',file:'es.json'},{code:'ru',label:'Русский',status:'ai-draft',file:'ru.json'},
+  {code:'vi',label:'Tiếng Việt',status:'ai-draft',file:'vi.json'},{code:'th',label:'ไทย',status:'ai-draft',file:'th.json'},
+  {code:'ar',label:'العربية',status:'ai-draft',file:'ar.json'},{code:'it',label:'Italiano',status:'ai-draft',file:'it.json'},
+  {code:'az',label:'Azərbaycan',status:'ai-draft',file:'az.json'},{code:'mn',label:'Монгол',status:'ai-draft',file:'mn.json'},
+  {code:'km',label:'ខ្មែរ',status:'ai-draft',file:'km.json'}
 ];
 const GUIDE_PROFILE_ENGINE = window.GuideProfileEngine;
+const KOREAN_DOCUMENT_TITLE = document.title;
+const AI_TRANSLATION_NOTICE = 'AI 자동 번역 초안입니다. 의미와 교육·심리 용어는 한국어 승인본을 기준으로 확인해 주세요.';
+const TRANSLATABLE_ATTRIBUTES = ['aria-label', 'title', 'placeholder', 'data-chapter-title'];
+const koreanText = new WeakMap();
+const koreanAttributes = new WeakMap();
+let activeLocaleCode = 'ko';
+let activeLocaleMessages = {};
+let localeRequestId = 0;
 
 const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
 })[character]);
+
+function translatedValue(value) {
+  const source = String(value);
+  const trimmed = source.trim();
+  if (!trimmed || !activeLocaleMessages[trimmed]) return source;
+  const leading = source.match(/^\s*/)[0];
+  const trailing = source.match(/\s*$/)[0];
+  return leading + activeLocaleMessages[trimmed] + trailing;
+}
+
+function rememberElementAttributes(element) {
+  if (koreanAttributes.has(element)) return;
+  const values = {};
+  TRANSLATABLE_ATTRIBUTES.forEach(name => {
+    if (element.hasAttribute(name)) values[name] = element.getAttribute(name);
+  });
+  koreanAttributes.set(element, values);
+}
+
+function restoreKorean(root = document.body) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  let node;
+  while ((node = walker.nextNode())) {
+    if (koreanText.has(node)) node.nodeValue = koreanText.get(node);
+  }
+  const elements = root.matches ? [root, ...$$('*', root)] : $$('*', root);
+  elements.forEach(element => {
+    const values = koreanAttributes.get(element);
+    if (!values) return;
+    Object.entries(values).forEach(([name, value]) => element.setAttribute(name, value));
+  });
+}
+
+function localizeSubtree(root = document.body) {
+  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT, {
+    acceptNode(node) {
+      const parent = node.parentElement;
+      if (!parent || parent.closest('script, style, [data-language-select], [data-localize-skip]')) return NodeFilter.FILTER_REJECT;
+      return node.nodeValue.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+    }
+  });
+  let node;
+  while ((node = walker.nextNode())) {
+    if (!koreanText.has(node)) koreanText.set(node, node.nodeValue);
+    node.nodeValue = translatedValue(koreanText.get(node));
+  }
+  const elements = root.matches ? [root, ...$$('*', root)] : $$('*', root);
+  elements.forEach(element => {
+    if (element.closest('[data-language-select], [data-localize-skip]')) return;
+    rememberElementAttributes(element);
+    const values = koreanAttributes.get(element);
+    Object.entries(values).forEach(([name, value]) => element.setAttribute(name, translatedValue(value)));
+  });
+}
+
+function originalAttribute(element, name) {
+  const values = koreanAttributes.get(element);
+  return values && Object.hasOwn(values, name) ? values[name] : element.getAttribute(name);
+}
+
+function updateReportLinkLanguage(code) {
+  $$('[data-report-link]').forEach(link => {
+    const url = new URL(link.href);
+    url.searchParams.set('lang', code);
+    link.href = url.toString();
+  });
+}
 
 function requestedChapter() {
   const rawHash = decodeURIComponent(location.hash.slice(1));
@@ -116,6 +191,11 @@ function openToc() {
   $('#tocClose').focus();
 }
 
+function updatePaginationLabel(index) {
+  const sourceChapterTitle = originalAttribute(chapters[index], 'data-chapter-title');
+  $('#paginationLabel').textContent = String(index + 1) + ' / ' + chapterIds.length + ' · ' + translatedValue(sourceChapterTitle);
+}
+
 function renderChapter(id, focus = false) {
   const index = chapterIds.indexOf(id);
   if (index < 0) return;
@@ -133,7 +213,7 @@ function renderChapter(id, focus = false) {
   $('#chapterNumber').textContent = String(index + 1).padStart(2, '0');
   $('#chapterTotal').textContent = String(chapterIds.length);
   $('#chapterProgress').style.width = String(((index + 1) / chapterIds.length) * 100) + '%';
-  $('#paginationLabel').textContent = String(index + 1) + ' / ' + chapterIds.length + ' · ' + chapters[index].dataset.chapterTitle;
+  updatePaginationLabel(index);
   $('#previousChapter').disabled = index === 0;
   $('#nextChapter').disabled = index === chapterIds.length - 1;
   $('#previousChapter').dataset.targetChapter = chapterIds[index - 1] || '';
@@ -261,6 +341,7 @@ function renderProfileAnalysis(levels, focus = false) {
       '<article><h4>교사가 사용할 수 있는 피드백</h4><p class="feedback-phrase">“' + escapeHtml(result.feedback) + '”</p></article>' +
       '<article><h4>NUVIA 가정훈련 연결</h4>' + listMarkup(result.nuvia) + '</article>' +
     '</div><aside class="profile-caution"><h4>해석할 때 꼭 확인하세요</h4>' + listMarkup(result.cautions) + '</aside>';
+  if (activeLocaleCode !== 'ko') localizeSubtree($('#profileAnalysis'));
   if (focus) $('#profileAnalysisTitle').focus({preventScroll: true});
 }
 
@@ -314,6 +395,7 @@ function renderTeacherProfile(levels, focus = false) {
       supportArticle('학급 관리와 과제 운영 TIP', result.management, 'support-feature-card') +
       supportArticle('관찰·기록 기준', result.observation) +
     '</div><aside class="profile-caution"><h4>해석과 적용의 경계</h4>' + listMarkup(result.cautions) + '</aside>';
+  if (activeLocaleCode !== 'ko') localizeSubtree($('#teacherProfileAnalysis'));
   if (focus) $('#teacherProfileAnalysisTitle').focus({preventScroll: true});
 }
 
@@ -330,6 +412,7 @@ function renderParentProfile(levels, focus = false) {
       supportArticle('피해야 할 낙인과 단정', result.avoid) +
       supportArticle('학교와 가정이 함께 관찰할 기준', result.jointObservation) +
     '</div>';
+  if (activeLocaleCode !== 'ko') localizeSubtree($('#parentProfileAnalysis'));
   if (focus) $('#parentProfileAnalysisTitle').focus({preventScroll: true});
 }
 
@@ -361,22 +444,52 @@ async function setupLanguages() {
   if (new Set(languageCodes).size !== languageCodes.length) throw new Error('언어 코드가 중복되었습니다.');
   if (languages.length !== 13) throw new Error('지원 언어 목록은 13개여야 합니다.');
   const readyLanguages = languages.filter(language => language.status === 'ready').map(language => language.code);
-  if (readyLanguages.length !== 1 || readyLanguages[0] !== 'ko') throw new Error('승인 번역 상태가 언어 manifest와 일치하지 않습니다.');
+  if (readyLanguages.length !== 1 || readyLanguages[0] !== 'ko') throw new Error('한국어 승인본 상태가 언어 manifest와 일치하지 않습니다.');
   const selects = $$('[data-language-select]');
   const options = languages.map(language =>
     '<option value="' + escapeHtml(language.code) + '" data-status="' + escapeHtml(language.status) + '">' +
     escapeHtml(language.label) + '</option>'
   ).join('');
   selects.forEach(select => { select.innerHTML = options; });
-  selects.forEach(select => select.addEventListener('change', () => {
+  async function applyLanguage(select) {
+    const requestId = ++localeRequestId;
     const code = select.value;
     selects.forEach(other => { other.value = code; });
-    const pending = select.selectedOptions[0].dataset.status !== 'ready';
-    $('#translationNotice').hidden = !pending;
-    document.documentElement.lang = pending ? 'ko' : code;
+    const language = languages.find(item => item.code === code);
+    const isDraft = language.status === 'ai-draft';
+    selects.forEach(item => { item.disabled = true; });
+    restoreKorean(document.body);
+    activeLocaleMessages = {};
+    activeLocaleCode = code;
+    document.title = KOREAN_DOCUMENT_TITLE;
+    if (code !== 'ko') {
+      try {
+        const response = await fetch('locales/' + language.file, {cache:'no-store'});
+        if (!response.ok) throw new Error('HTTP ' + response.status);
+        const pack = await response.json();
+        if (pack.locale !== code || !pack.messages) throw new Error('locale pack 형식 오류');
+        if (requestId !== localeRequestId) return;
+        activeLocaleMessages = pack.messages;
+        document.title = translatedValue(KOREAN_DOCUMENT_TITLE);
+      } catch (error) {
+        console.warn('번역 파일을 불러오지 못해 한국어 승인본을 표시합니다.', code, error.message);
+        activeLocaleCode = 'ko';
+      }
+    }
+    $('#translationNotice').textContent = AI_TRANSLATION_NOTICE;
+    $('#translationNotice').hidden = code === 'ko';
+    document.documentElement.lang = activeLocaleCode;
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.requestedLanguage = code;
-  }));
+    updateReportLinkLanguage(activeLocaleCode);
+    localizeSubtree(document.body);
+    const visibleChapterIndex = chapterIds.indexOf(requestedChapter() || 'opening');
+    updatePaginationLabel(visibleChapterIndex < 0 ? 0 : visibleChapterIndex);
+    selects.forEach(item => { item.disabled = false; item.value = code; });
+    if (!isDraft && code !== 'ko') $('#translationNotice').hidden = true;
+  }
+  selects.forEach(select => select.addEventListener('change', () => { applyLanguage(select); }));
+  localizeSubtree(document.body);
 }
 
 $('#tocNav').addEventListener('click', event => {
@@ -398,6 +511,7 @@ $$('[data-result-back]').forEach(button => button.addEventListener('click', () =
 }));
 $$('[data-dashboard]').forEach(button => button.addEventListener('click', () => {
   $('#dashboardDetail').textContent = DASHBOARD_COPY[button.dataset.dashboard];
+  if (activeLocaleCode !== 'ko') localizeSubtree($('#dashboardDetail'));
   $$('[data-dashboard]').forEach(item => item.setAttribute('aria-pressed', String(item === button)));
 }));
 $('#tocToggle').addEventListener('click', () => $('#tocPanel').classList.contains('open') ? closeToc(true) : openToc());
