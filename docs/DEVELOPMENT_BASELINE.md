@@ -25,7 +25,7 @@ status: DIRTY — teacher-guide 수정 및 미추적 테스트 자산이 이미 
 ```text
 date: 2026-09-20 (Asia/Seoul)
 branch: codex/build-teacher-guide-b
-baseline commit: 6678e507223c1c59ad1da8ab372e5bcbef10f458
+baseline commit: 6678e5085457d2f230e2af4284bfdaf634788e9e
 subject: chore: establish shared development and i18n baseline
 scope: AGENTS.md, docs/i18n/, i18n/, scripts/check-i18n.mjs, DEVELOPMENT_BASELINE
 working tree note: Teacher Guide의 별도 미커밋 작업은 이 기준선에 포함되지 않음
