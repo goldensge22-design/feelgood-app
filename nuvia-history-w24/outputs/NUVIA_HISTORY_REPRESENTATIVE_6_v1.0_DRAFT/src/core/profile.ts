@@ -5,7 +5,8 @@ export interface ProfileProvider {load():Promise<Profile|null>;}
 export function resolveProfile(input:unknown):Profile {
  need(input&&typeof input==='object','PROFILE_REQUIRED');const p=input as Record<string,unknown>;
  need(typeof p.learnerId==='string'&&p.learnerId.length>0,'LEARNER_REQUIRED');need(AGE_BANDS.includes(p.ageBand as AgeBand),'AGE_RULE_REQUIRED');need([0,1,2,3].includes(p.attentionSupport as number),'SUPPORT_RULE_REQUIRED');need(['linked-result','explicit-test'].includes(p.source as string),'PROFILE_SOURCE_REQUIRED');
- return {learnerId:p.learnerId,alias:typeof p.alias==='string'&&p.alias.trim()?p.alias:'어린이 탐험가',ageBand:p.ageBand as AgeBand,attentionSupport:p.attentionSupport as 0|1|2|3,source:p.source as Profile['source']};
+ if(p.schoolGrade!==undefined)need(Number.isInteger(p.schoolGrade)&&[1,2,3,4,5,6].includes(p.schoolGrade as number)&&(p.ageBand==='elementary-low'?(p.schoolGrade as number)<=2:p.ageBand==='elementary-high'&&(p.schoolGrade as number)>=3),'GRADE_RULE_REQUIRED');
+ return {learnerId:p.learnerId,alias:typeof p.alias==='string'&&p.alias.trim()?p.alias:'어린이 탐험가',ageBand:p.ageBand as AgeBand,...(p.schoolGrade!==undefined?{schoolGrade:p.schoolGrade as Profile['schoolGrade']}:{}),attentionSupport:p.attentionSupport as 0|1|2|3,source:p.source as Profile['source']};
 }
 export function presentation(c:ConditionDefinition,p:Profile){
  const young=p.ageBand==='preschool',low=p.ageBand==='elementary-low',supported=p.attentionSupport>0;

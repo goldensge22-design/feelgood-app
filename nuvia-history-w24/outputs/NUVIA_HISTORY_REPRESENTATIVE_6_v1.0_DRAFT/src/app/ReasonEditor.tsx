@@ -6,7 +6,7 @@ import {VoiceRecorder} from '../canvas/VoiceRecorder';
 import {ui} from './text';
 import {retainLocalImages} from './assets';
 
-export function ReasonEditor({run,value,repository,busy,onCommit,onBack}:{run:Run;value:ActionInput;repository:BrowserRepository;busy:boolean;onCommit:(reason:ReasonInput)=>Promise<void>;onBack:()=>void}){
+export function ReasonEditor({run,value,repository,busy,onCommit,onBack}:{run:Run;value:ActionInput;repository:BrowserRepository;busy:boolean;onCommit:(reason:ReasonInput)=>Promise<void>;onBack?:()=>void}){
  const preschool=run.profile.ageBand==='preschool',low=['preschool','elementary-low'].includes(run.profile.ageBand),drawAllowed=low||run.profile.ageBand==='elementary-high';
  const key=['nuvia.reasonDraft.v1',run.profile.learnerId,run.resultId,run.conditionId,run.missionVersion,run.contentVersion].join(':');
  const [draft,setDraft]=useState(()=>{try{const saved=localStorage.getItem(key);if(saved)return JSON.parse(saved) as {mode:string;text:string;audio:string;drawing:string};}catch{}return {mode:low?'voice':'text',text:'',audio:'',drawing:''};});
@@ -40,7 +40,7 @@ export function ReasonEditor({run,value,repository,busy,onCommit,onBack}:{run:Ru
   {draft.mode==='voice'&&<VoiceRecorder value={draft.audio} onChange={v=>set('audio',v)} onBusy={setRecording} allowImport={false} helpKey="canvas.voiceHelp"/>}
   {draft.mode==='draw'&&drawAllowed&&<DrawingInput strict initialValue={draft.drawing} onChange={v=>set('drawing',v)}/>}
   {error&&<p role="alert">{error}</p>}{saved&&<p className="reason-draft-status" role="status">{ui('reasonDraftSaved')}</p>}<p className="reason-completion-note">{ui('reasonCompletionNote')}</p>
-  <div className="actions"><button disabled={busy||saving||recording||!valid||!saved||!assetsReady} className="primary" onClick={()=>void commit()}>{ui(draft.mode==='voice'?'reasonSaveVoice':draft.mode==='draw'?'reasonSaveDrawing':low?'reasonSaveThought':'reasonSave')}</button><button disabled={busy||saving||recording} onClick={onBack}>{ui('previous')}</button></div>
+  <div className="actions"><button disabled={busy||saving||recording||!valid||!saved||!assetsReady} className="primary" onClick={()=>void commit()}>{ui(draft.mode==='voice'?'reasonSaveVoice':draft.mode==='draw'?'reasonSaveDrawing':low?'reasonSaveThought':'reasonSave')}</button>{onBack&&<button disabled={busy||saving||recording} onClick={onBack}>{ui('previous')}</button>}</div>
   <button className="reason-skip" disabled={busy||saving||recording||!assetsReady} onClick={()=>void commit(true)}>{ui('reasonSkip')}</button>
  </section>;
 }

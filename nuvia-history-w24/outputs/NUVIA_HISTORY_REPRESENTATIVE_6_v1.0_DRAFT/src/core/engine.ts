@@ -2,6 +2,7 @@ import {recorded,missing,STAGES,productionDependencies,type Run,type ContentBund
 import {isComparison,type ComparisonRecord,type ComparisonValue,type ReasonInput,type ReasonExpressionRecord} from './types';
 import {need,validateAction} from './contracts';
 import {resolveProfile,presentation} from './profile';
+import {planningLength,planningProgress} from './preschoolPolicy';
 export const APP_VERSION='0.5.0';
 export const orderedActivityFirst=(r:Run)=>r.contentSnapshot.executionOrderRuleId==='NUVIA_HISTORY_EXECUTION_ORDER_RULE_v1.1.1';
 export const canonicalStage=(stage:Run['stage'])=>({history:'conditionUnderstanding',condition:'conditionUnderstanding',prediction:'prediction',activity:'coreActivity',alternate:'alternateResult',creation:'learnerStory',historyComparison:'historyComparison',predictionComparison:'predictionComparison',complete:'artifactLink'}[stage]);
@@ -9,6 +10,7 @@ export const freeReason=(r:Run)=>!!r.conditionId&&condition(r).activity.reasonEx
 const actionEvents=(r:Run)=>r.events.filter(e=>e.eventType==='cognitiveActionRecorded'||e.eventType==='activityDeferred'&&e.payload.scope!=='reason');
 const activityCommitted=(r:Run)=>actionEvents(r).length>0;
 export type Command=
+ |{type:'planningStep';phase:'choose'|'observe'|'revise';responseIds:string[]}
  |{type:'historyViewed';conditionId:string}
  |{type:'continueHistory'}
  |{type:'selectCondition';conditionId:string}
@@ -84,7 +86,15 @@ const exprMeta=(e:Expression)=>({method:e.method,hasText:!!e.text,provided:e.met
 export function transition(previous:Run,command:Command,deps:Dependencies=productionDependencies):Run {
  assertRun(previous);need(previous.stage!=='complete','COMPLETED_RESULT_IMMUTABLE');const r=structuredClone(previous);r.revision++;
  const stage=(s:Run['stage'])=>need(r.stage===s,'INVALID_STAGE');
+ if(command.type==='action'&&planningProgress(r).length){const progress=planningProgress(r),value=command.value as Record<string,unknown>;need(progress.length===3,'PLANNING_INCOMPLETE');const first=(progress[0].payload.responseIds as string[])[0],last=(progress[2].payload.responseIds as string[])[0];need(value.actionKind==='revisePlan'?value.beforeResponseId===first&&value.afterResponseId===last:value.actionKind==='chooseGoalAndSteps'?value.responseId===last:true,'PLANNING_ACTION_MISMATCH');}
  switch(command.type){
+ case 'planningStep':{
+  stage('activity');const c=condition(r),progress=planningProgress(r),expected=['choose','observe','revise'][progress.length];
+  need(command.phase===expected,'PLANNING_ORDER');need(Array.isArray(command.responseIds)&&command.responseIds.length===planningLength(r.profile)&&new Set(command.responseIds).size===command.responseIds.length,'PLANNING_LENGTH');
+  need(command.responseIds.every(id=>c.activity.materials.some(m=>m.role==='response'&&m.id===id)),'PLANNING_MATERIAL');
+  if(command.phase==='observe')need(JSON.stringify(command.responseIds)===JSON.stringify(progress[0].payload.responseIds),'PLANNING_OBSERVATION');
+  append(r,'planningInteraction',{phase:command.phase,responseIds:command.responseIds,goalId:c.activity.materials.find(m=>m.role==='goal')!.id,sceneId:c.id+':'+command.responseIds[0],...(command.phase==='revise'?{changed:JSON.stringify(command.responseIds)!==JSON.stringify(progress[0].payload.responseIds)}:{})},deps);break;
+ }
  case 'historyViewed':stage('history');need(r.contentSnapshot.conditions.some(c=>c.id===command.conditionId),'CONDITION_NOT_FOUND');append(r,'historyViewed',{viewedConditionId:command.conditionId},deps);break;
  case 'continueHistory':stage('history');need(r.contentSnapshot.conditions.every(c=>r.events.some(e=>e.eventType==='historyViewed'&&e.payload.viewedConditionId===c.id)),'HISTORY_NOT_VIEWED');r.stage='condition';break;
  case 'selectCondition':need(r.stage==='condition'||r.stage==='prediction','INVALID_STAGE');need(r.prediction.status!=='recorded','PREDICTION_IMMUTABLE');need(r.contentSnapshot.conditions.some(c=>c.id===command.conditionId),'CONDITION_NOT_FOUND');append(r,r.conditionId?'choiceChanged':'conditionSelected',{kind:'condition',conditionId:command.conditionId,previousConditionId:r.conditionId},deps);r.conditionId=command.conditionId;r.events[r.events.length-1].conditionId=command.conditionId;r.stage='prediction';for(const support of presentation(condition(r),r.profile).automaticSupport)append(r,'supportApplied',{support,automatic:true},deps,undefined,r.profile.attentionSupport);break;

@@ -9,7 +9,7 @@ export type Missing='notRecorded'|'notObserved'|'notCollected'|'notProvided';
 export type Field<T>={status:'recorded';value:T}|{status:Missing};
 export const recorded=<T>(value:T):Field<T>=>({status:'recorded',value});
 export const missing=<T>(status:Missing='notRecorded'):Field<T>=>({status});
-export interface Profile {learnerId:string;alias:string;ageBand:AgeBand;attentionSupport:0|1|2|3;source:'linked-result'|'explicit-test';}
+export interface Profile {learnerId:string;alias:string;ageBand:AgeBand;schoolGrade?:1|2|3|4|5|6;attentionSupport:0|1|2|3;source:'linked-result'|'explicit-test';}
 export interface AgeVariant {ageBandRuleId:string;promptKey:string;instructionKey:string;expressionMode:string;visualSupportRule:string;readingDensityRule:string;supportRuleRef:string;}
 export interface Material {id:string;labelKey:string;role:'node'|'step'|'evidence'|'left'|'right'|'goal'|'response'|'constraint'|'reason'|'meaning';visual?:string;}
 export interface ActivityDefinition {id:string;actionKind:ActionKind;contractId:string;materialSetId:string;materials:Material[];promptKey:string;observationKey:string;hiddenExplanationId?:string;reasonExpressionRuleId?:string;}
@@ -37,7 +37,7 @@ export type ComparisonValue=ComparisonRecord|Expression;
 export const isComparison=(value:ComparisonValue):value is ComparisonRecord=>'comparisonKind' in value;
 export type Stage='history'|'condition'|'prediction'|'alternate'|'activity'|'creation'|'historyComparison'|'predictionComparison'|'complete';
 export const STAGES:Stage[]=['history','condition','prediction','alternate','activity','creation','historyComparison','predictionComparison','complete'];
-export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred'|'reasonExpressionRecorded';
+export type EventType='missionStarted'|'historyViewed'|'conditionSelected'|'predictionRecorded'|'alternateViewed'|'cognitiveActionRecorded'|'hintRequested'|'supportApplied'|'choiceChanged'|'activityRetried'|'canvasObjectAdded'|'canvasObjectMoved'|'drawingAdded'|'sceneCompleted'|'storyRecorded'|'comparisonCompleted'|'missionCompleted'|'activityDeferred'|'reasonExpressionRecorded'|'planningInteraction';
 export interface PerformanceEvent {eventId:string;resultId:string;missionId:string;conditionId:string|null;missionVersion:string;contentVersion:string;ageBandRuleId:string;ageBand:AgeBand;eventType:EventType;timestamp:string;payload:Record<string,unknown>;supportLevel:number;appVersion:string;}
 export interface ArtifactLink {resultId:string;missionId:string;conditionId:string;missionVersion:string;contentVersion:string;learnerId:string;}
 export interface SceneData extends ArtifactLink {id:string;backgroundId:string;stickers:{id:string;x:number;y:number;scale:number;flip:boolean}[];strokes:{color:string;width:number;erase:boolean;points:[number,number][]}[];text:string;preview:string;audioRef?:string;}

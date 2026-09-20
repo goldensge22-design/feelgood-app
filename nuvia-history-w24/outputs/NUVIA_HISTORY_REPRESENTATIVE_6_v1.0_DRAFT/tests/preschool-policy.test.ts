@@ -1,0 +1,41 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {inspectPreschoolText,planningLength,planningProgress} from '../src/core/preschoolPolicy';
+import {resolveProfile} from '../src/core/profile';
+import {loadContent} from '../src/core/content';
+import {releaseContent} from '../src/core/release';
+import {transition} from '../src/core/engine';
+import {deterministic,profile,toPrediction} from './helpers';
+import entry from '../src/content/app-entry.json';
+import semantics from '../src/content/w24-semantic.json';
+import strings from '../src/content/locales/w24-semantic.ko.json';
+import type {Profile,ActionInput} from '../src/core/types';
+const bundle=releaseContent(await loadContent(),entry,semantics,strings);
+test('preschool policy rejects developer language, excess text and multiple questions',()=>{
+ for(const word of ['PASS','목표','조건','제약','전략','대안','근거','판단','완료 확인'])assert.ok(inspectPreschoolText(word).includes('FORBIDDEN_TEXT'));
+ assert.deepEqual(inspectPreschoolText('먼저 뭐 할까? 물어봐요 시간 자리',['먼저 뭐 할까?']),[]);
+ assert.ok(inspectPreschoolText('가'.repeat(81)).includes('TEXT_BUDGET'));
+ assert.ok(inspectPreschoolText('질문',['질문1','질문2']).includes('PROMPT_COUNT'));
+ assert.ok(inspectPreschoolText('질문',['가'.repeat(19)]).includes('PROMPT_LENGTH'));
+});
+test('grade input is preserved and incompatible profile grades are rejected',()=>{
+ assert.equal(resolveProfile({...profile,ageBand:'elementary-low',schoolGrade:2}).schoolGrade,2);
+ for(const grade of [0,3,7])assert.throws(()=>resolveProfile({...profile,ageBand:'elementary-low',schoolGrade:grade}),/GRADE_RULE_REQUIRED/);
+ assert.throws(()=>resolveProfile({...profile,schoolGrade:1}),/GRADE_RULE_REQUIRED/);
+});
+for(const [ageBand,schoolGrade] of [['preschool',undefined],['elementary-low',1],['elementary-low',2],['elementary-high',3],['elementary-high',4]] as const)for(const cid of ['gutenberg.c1','gutenberg.c2'])test(`${cid}/${ageBand}/${schoolGrade}: planning choices, observation and revision survive reload without scoring`,()=>{
+ const p:Profile={...profile,ageBand,...(schoolGrade?{schoolGrade}: {})},deps=deterministic();let r=toPrediction(bundle,'gutenberg',cid,p,deps);
+ r=transition(r,{type:'prediction',expression:{method:'unknown',text:''}},deps);
+ const c=r.contentSnapshot.conditions.find(x=>x.id===cid)!,all=c.activity.materials.filter(m=>m.role==='response').map(m=>m.id),ids=all.slice(0,planningLength(p));
+ assert.throws(()=>transition(r,{type:'planningStep',phase:'observe',responseIds:ids},deps),/PLANNING_ORDER/);
+ r=transition(r,{type:'planningStep',phase:'choose',responseIds:ids},deps);
+ assert.throws(()=>transition(r,{type:'planningStep',phase:'observe',responseIds:['foreign']},deps));
+ r=JSON.parse(JSON.stringify(r));r=transition(r,{type:'planningStep',phase:'observe',responseIds:ids},deps);
+ const revised=[...all].reverse().slice(0,ids.length);r=transition(r,{type:'planningStep',phase:'revise',responseIds:revised},deps);
+ const goalId=c.activity.materials.find(m=>m.role==='goal')!.id;
+ const value:ActionInput=cid.endsWith('.c1')?{actionKind:'revisePlan',goalId,beforeResponseId:ids[0],afterResponseId:revised[0],decision:'change'}:{actionKind:'chooseGoalAndSteps',goalId,responseId:revised[0],constraintId:c.activity.materials.find(m=>m.role==='constraint')!.id};
+ r=transition(r,{type:'action',value,reason:{source:'deferred'}},deps);
+ assert.equal(r.stage,'alternate');assert.equal(planningProgress(r).length,3);assert.equal(planningProgress(r)[2].payload.changed,true);
+ assert.equal(r.action.status,'recorded');assert.ok(!JSON.stringify(planningProgress(r)).includes('score'));
+ assert.ok(r.events.some(e=>e.eventType==='activityDeferred'&&e.payload.scope==='reason'));
+});
