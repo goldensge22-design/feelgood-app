@@ -1,6 +1,11 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
+const HTML_PREVIEW_HOST = 'htmlpreview.github.io';
+const isHtmlPreview = location.hostname === HTML_PREVIEW_HOST;
+const previewSource = isHtmlPreview ? decodeURIComponent(location.search.slice(1)) : '';
+const guideAssetBase = /^https?:\/\//.test(previewSource) ? new URL('.', previewSource) : new URL('.', location.href);
+
 const EXPECTED_REPORT_LINKS = {
   kpass: 'https://service.feel-good.io/api/v1/kpass/user/test-result/22599/eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZHgiOiIxNjM0NyIsImV4cCI6NDk0MjE4MjY2MSwiaWF0IjoxNzg4NTgyNjYxLCJqd3RUeXBlIjoiYWNjZXNzIn0.Lb3fK2yJlR4DNjHOg_GUgDvalnj8k9rbCPH5OKUTQ1eFeaWX0pBJuYx_M-lPtJl9gBlxYmRLASYCjo9HjVKoyg?lang=ko',
   teen: 'https://service.feel-good.io/api/v1/dcas/user/test-result/22600/eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZHgiOiIxNjM0OCIsImV4cCI6NDk0MjE4MjY2MSwiaWF0IjoxNzg4NTgyNjYxLCJqd3RUeXBlIjoiYWNjZXNzIn0.uyPtW9bRKA1sfnTxzvGAlTQ_4fpaQTHTDn1Uvi36El_St9-_IfO7MC360ORcE0oVzHO6IjvmcNOhMOlisVbhVg?lang=ko',
@@ -149,10 +154,12 @@ function updateReportLinkLanguage(code) {
 }
 
 function requestedLanguage() {
+  if (isHtmlPreview) return 'ko';
   return new URL(location.href).searchParams.get('lang') || 'ko';
 }
 
 function updateGuideLanguageUrl(code) {
+  if (isHtmlPreview) return;
   const url = new URL(location.href);
   if (code === 'ko') url.searchParams.delete('lang');
   else url.searchParams.set('lang', code);
@@ -432,7 +439,7 @@ async function setupLanguages() {
   let languages = FALLBACK_LANGUAGES;
   if (location.protocol !== 'file:') {
     try {
-      const response = await fetch('locales/languages.json');
+      const response = await fetch(new URL('locales/languages.json', guideAssetBase));
       if (response.ok) languages = await response.json();
     } catch (error) {
       console.warn('언어 목록은 내장 기본값을 사용합니다.', error.message);
@@ -461,7 +468,7 @@ async function setupLanguages() {
     document.title = KOREAN_DOCUMENT_TITLE;
     if (code !== 'ko') {
       try {
-        const response = await fetch('locales/' + language.file, {cache:'no-store'});
+        const response = await fetch(new URL('locales/' + language.file, guideAssetBase), {cache:'no-store'});
         if (!response.ok) throw new Error('HTTP ' + response.status);
         const pack = await response.json();
         if (pack.locale !== code || !pack.messages) throw new Error('locale pack 형식 오류');
