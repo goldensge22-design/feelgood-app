@@ -38,6 +38,8 @@
 
 언어 변경은 새 세션 시작이 아니다. 가능한 한 current route/page/chapter, selected tab/activity/answers, form input, game progress, timer state, result/report context, user/session identifier를 그대로 유지한다. locale 변경을 이유로 `localStorage`, `sessionStorage`, activity progress, answers, profile, PASS/report data, timer를 초기화하지 않는다. 기술상 reload가 필요하면 변경 전 상태를 저장하고 동일 위치와 진행 상태로 복원한다.
 
+언어 전환 중 대상 번역을 불러오기 전에 fallback 언어로 화면을 먼저 되돌리지 않는다. 현재 언어 화면을 유지한 채 대상 locale resource를 준비하고, 로딩과 검증이 끝난 뒤 제목·본문·접근성 문구·방향을 한 번에 교체한다. 초기 진입에서 locale 로딩이 필요하면 잘못된 언어 본문을 잠시 노출하지 말고 비언어적 로딩 상태나 렌더 보류를 사용한다. 번역 실패가 확정된 경우에만 fallback을 적용하며, 언어 선택기 비활성화와 빠른 연속 선택에서도 중간 언어가 깜빡이지 않는지 browser QA로 검증한다.
+
 URL의 `lang` parameter를 바꿀 때 기존 path, 다른 query parameter, hash를 보존한다. 예를 들어 `/history/week12?age=elementary&lang=ko`는 영어 전환 후 `/history/week12?age=elementary&lang=en`을 유지해야 하며 HOME으로 이동하거나 `age`를 삭제해서는 안 된다.
 
 기능 완료 전 다음을 수행한다.

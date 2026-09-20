@@ -108,6 +108,15 @@ locale 변경은 새 세션이 아니며 기본적으로 콘텐츠 표시 언어
 
 locale 변경을 이유로 `localStorage`, `sessionStorage`, activity progress, answers, profile, PASS data, report data, timer를 초기화하지 않는다. 전체 reload가 필요한 기술 구조에서는 변경 전 상태를 저장하고 reload 후 같은 위치와 진행 상태로 복원한다.
 
+### 언어 전환 화면의 원자적 교체
+
+- 대상 locale resource를 불러오는 동안 현재 언어 화면을 유지하고 fallback 언어로 먼저 복원하지 않는다.
+- 번역 파일의 로딩·형식 검증이 끝난 뒤 텍스트, 접근성 속성, 문서 제목, `lang`과 `dir`을 한 번의 렌더 단계에서 교체한다.
+- 초기 URL 언어를 준비하는 동안 다른 언어 본문을 먼저 보여 주지 않는다. 필요한 경우 비언어적 로딩 상태나 렌더 보류를 사용한다.
+- locale 로딩 실패가 확정된 경우에만 fallback을 적용하고 실패 전환과 정상 전환을 구분해 QA한다.
+- 빠른 연속 선택에서는 마지막 요청만 반영하며, 중간 locale이나 한국어가 순간적으로 노출되지 않게 request ID 또는 취소 가능한 로딩을 사용한다.
+- browser QA는 언어 전환 중 DOM 변경을 관찰해 fallback 언어 깜빡임, 혼합 언어 프레임과 상태 초기화가 없는지 검사한다.
+
 URL에 `lang`을 사용하는 프로그램은 path, 다른 query parameter, hash를 보존하고 `lang` 값만 바꾼다. 예를 들어 `/history/week12?age=elementary&lang=ko`에서 영어로 바꾸면 가능한 결과는 `/history/week12?age=elementary&lang=en`이다.
 
 ## 다국어 반응형 레이아웃 규칙
