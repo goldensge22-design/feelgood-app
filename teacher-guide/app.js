@@ -471,10 +471,8 @@ async function setupLanguages() {
     selects.forEach(other => { other.value = code; });
     const language = languages.find(item => item.code === code);
     selects.forEach(item => { item.disabled = true; });
-    restoreKorean(document.body);
-    activeLocaleMessages = {};
-    activeLocaleCode = code;
-    document.title = KOREAN_DOCUMENT_TITLE;
+    let nextLocaleMessages = {};
+    let nextLocaleCode = code;
     if (code !== 'ko') {
       try {
         const response = await fetch(new URL('locales/' + language.file, guideAssetBase), {cache:'no-store'});
@@ -482,15 +480,19 @@ async function setupLanguages() {
         const pack = await response.json();
         if (pack.locale !== code || !pack.messages) throw new Error('locale pack 형식 오류');
         if (requestId !== localeRequestId) return;
-        activeLocaleMessages = pack.messages;
-        document.title = translatedValue(KOREAN_DOCUMENT_TITLE);
+        nextLocaleMessages = pack.messages;
       } catch (error) {
         console.warn('번역 파일을 불러오지 못해 한국어 승인본을 표시합니다.', code, error.message);
-        activeLocaleCode = 'ko';
+        nextLocaleCode = 'ko';
       }
     }
+    if (requestId !== localeRequestId) return;
+    restoreKorean(document.body);
+    activeLocaleMessages = nextLocaleMessages;
+    activeLocaleCode = nextLocaleCode;
+    document.title = activeLocaleCode === 'ko' ? KOREAN_DOCUMENT_TITLE : translatedValue(KOREAN_DOCUMENT_TITLE);
     document.documentElement.lang = activeLocaleCode;
-    document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir = activeLocaleCode === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.requestedLanguage = code;
     updateReportLinkLanguage(activeLocaleCode);
     localizeSubtree(document.body);

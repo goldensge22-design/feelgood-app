@@ -328,6 +328,11 @@ try {
     languageResult.userSurface = await userSurfaceSnapshot();
     languageResults.push(languageResult);
   }
+  await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='es'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+  await waitFor("document.documentElement.dataset.requestedLanguage==='es' && !document.querySelector('.reader-language [data-language-select]').disabled", 'language transition source');
+  await evaluate("(() => { const title=document.querySelector('#opening h2'); window.__localeTransitionFrames=[]; window.__localeTransitionObserver=new MutationObserver(()=>window.__localeTransitionFrames.push(title.textContent.trim())); window.__localeTransitionObserver.observe(title,{subtree:true,childList:true,characterData:true}); const select=document.querySelector('.reader-language [data-language-select]'); select.value='ru'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+  await waitFor("document.documentElement.dataset.requestedLanguage==='ru' && !document.querySelector('.reader-language [data-language-select]').disabled", 'language transition target');
+  report.interactions.languageTransition = await evaluate("(() => { window.__localeTransitionObserver.disconnect(); const frames=[...window.__localeTransitionFrames]; delete window.__localeTransitionObserver; delete window.__localeTransitionFrames; return {frames,koreanFlash:frames.some(text=>/[가-힣]/.test(text)),finalLanguage:document.documentElement.lang}; })()");
   report.interactions.language = {
     count:languageSetup.options.length,
     unique:new Set(languageSetup.options.map(option=>option.code)).size,
@@ -365,7 +370,7 @@ try {
   const profilesPass = report.interactions.profiles.every(item => item.code===item.expectedCode && item.sections===6 && item.caution && item.privacyNotice) && report.interactions.profileReset;
   const teacherPass = report.interactions.teacherProfile.unchanged && report.interactions.teacherProfile.applied && report.interactions.teacherProfile.sections===8 && report.interactions.teacherProfile.reset;
   const parentPass = report.interactions.parentProfile.unchanged && report.interactions.parentProfile.applied && report.interactions.parentProfile.sections===9 && report.interactions.parentProfile.reset;
-  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profileCode===languageSetup.profile && item.teacherCode===languageSetup.teacher && item.parentCode===languageSetup.parent && item.profileValues==='H,M,L,H' && item.teacherValues==='H,L,M,H' && item.parentValues==='L,H,M,L' && item.dashboardPressed && item.reportLangs.every(code=>code===item.code) && item.userSurface.forbiddenHits.length===0 && item.userSurface.exactStatus.length===0 && item.userSurface.internalElements.length===0 && item.userSurface.cleanTopFlow && (item.code==='ko' ? item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.guideHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : !item.teacherHasKorean && !item.parentHasKorean && !item.guideHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
+  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && !report.interactions.languageTransition.koreanFlash && report.interactions.languageTransition.finalLanguage==='ru' && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profileCode===languageSetup.profile && item.teacherCode===languageSetup.teacher && item.parentCode===languageSetup.parent && item.profileValues==='H,M,L,H' && item.teacherValues==='H,L,M,H' && item.parentValues==='L,H,M,L' && item.dashboardPressed && item.reportLangs.every(code=>code===item.code) && item.userSurface.forbiddenHits.length===0 && item.userSurface.exactStatus.length===0 && item.userSurface.internalElements.length===0 && item.userSurface.cleanTopFlow && (item.code==='ko' ? item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.guideHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : !item.teacherHasKorean && !item.parentHasKorean && !item.guideHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
   if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !profilesPass || !teacherPass || !parentPass || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !languagePass || !resultGuidesPass) failures.push('interactions');
 
   const internationalViewports = [viewports[0],viewports[2],viewports[4],viewports[5]];
@@ -522,6 +527,7 @@ try {
       teacherProfile:report.interactions.teacherProfile,
       parentProfile:report.interactions.parentProfile,
       dashboard:report.interactions.dashboard,
+      languageTransition:report.interactions.languageTransition,
       localeState:report.interactions.localeState,
       languageReload:report.interactions.languageReload,
       resultGuides:report.interactions.resultGuides
