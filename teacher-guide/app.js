@@ -3,8 +3,17 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 
 const HTML_PREVIEW_HOST = 'htmlpreview.github.io';
 const isHtmlPreview = location.hostname === HTML_PREVIEW_HOST;
-const previewSource = isHtmlPreview ? decodeURIComponent(location.search.slice(1)) : '';
-const guideAssetBase = /^https?:\/\//.test(previewSource) ? new URL('.', previewSource) : new URL('.', location.href);
+function resolveGuideAssetBase() {
+  if (!isHtmlPreview) return new URL('.', location.href);
+  const previewSource = location.search.slice(1);
+  try {
+    return /^https?:\/\//.test(previewSource) ? new URL('.', previewSource) : new URL('.', location.href);
+  } catch (error) {
+    console.warn('외부 미리보기 자산 경로를 해석하지 못해 현재 경로를 사용합니다.', error.message);
+    return new URL('.', location.href);
+  }
+}
+const guideAssetBase = resolveGuideAssetBase();
 
 const EXPECTED_REPORT_LINKS = {
   kpass: 'https://service.feel-good.io/api/v1/kpass/user/test-result/22599/eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZHgiOiIxNjM0NyIsImV4cCI6NDk0MjE4MjY2MSwiaWF0IjoxNzg4NTgyNjYxLCJqd3RUeXBlIjoiYWNjZXNzIn0.Lb3fK2yJlR4DNjHOg_GUgDvalnj8k9rbCPH5OKUTQ1eFeaWX0pBJuYx_M-lPtJl9gBlxYmRLASYCjo9HjVKoyg?lang=ko',
