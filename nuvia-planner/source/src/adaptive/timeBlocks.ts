@@ -30,9 +30,13 @@ export function elapsedMilliseconds(t:PlannerTask,now=Date.now()){
 }
 export const actualBlockMinutes=(t:PlannerTask)=>Math.round(elapsedMilliseconds(t)/600)/100;
 export const remainingSeconds=(t:PlannerTask,now=Date.now())=>Math.max(0,Math.ceil((t.timeBlock!.budgetMinutes*60000-elapsedMilliseconds(t,now))/1000));
+export function stepForBlockStart(t:PlannerTask){
+ const remaining=t.steps.filter(s=>!s.done);
+ return remaining.find(s=>s.id===t.timeBlock?.chosenStepId)?.id||(remaining.length===1?remaining[0].id:'');
+}
 export function blockActivityReady(t:PlannerTask,band:Band,lower:boolean){
  const b=t.timeBlock;if(!b)return false;
- if(band==='A')return lower?b.prepared:t.steps.some(s=>s.id===b.chosenStepId&&!s.done);
+ if(band==='A')return lower?b.prepared:!!stepForBlockStart(t);
  if(band==='B')return !!t.subject.trim()&&!!t.learningScope?.trim()&&(b.phase!=='paused'||(!!b.nextStart.trim()&&!!t.nextTenAction?.trim()));
  if(band==='C')return t.deadlineDecision==='continue'||(t.deadlineDecision==='split'&&t.steps.length>=2);
  return /^([01]\d|2[0-3]):[0-5]\d$/.test(b.availableUntil)&&b.availableUntil>b.startTime&&t.handoffState==='now';
