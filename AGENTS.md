@@ -16,7 +16,11 @@
 - 공통 엔진과 정책은 공유하되 프로그램별 번역 데이터는 독립적으로 유지한다. 하나의 거대한 번역 파일로 합치지 않는다.
 - 새 key는 한국어 원문과 함께 등록하고 모든 지원 언어에서 존재 여부를 확인한다. 번역이 준비되지 않은 언어는 빈 값 대신 명시적인 상태(`draft` 또는 `needs-review`)로 추적한다.
 - 한국어 원문이 의미 있게 바뀌면 다른 언어 번역을 자동으로 유효하다고 간주하지 않는다. 영향받는 번역을 `needs-review`로 전환하거나 source version/hash를 갱신한다.
+- **MUST:** 한국어 원문 또는 translation key의 의미가 변경되지 않았다면 기존 다른 언어 번역을 재생성·재번역·덮어쓰기하지 않는다. 번역 작업은 신규 key와 실제로 의미가 변경된 key만 대상으로 하며, 전체 locale 파일이나 전체 번역값을 AI로 다시 생성하지 않는다. 기존 검수 완료 번역을 최대한 보존한다.
+- 가능한 프로그램은 source version/hash로 의미 변경을 추적한다. `UNCHANGED`는 기존 번역 유지, `NEW`는 전체 지원 언어 번역, `CHANGED`는 기존 번역을 `needs-review`, `DELETED`는 즉시 삭제하지 않고 orphan/deprecated 여부 검토가 원칙이다. formatting이나 key 순서만 바뀐 경우는 `UNCHANGED`로 취급한다.
+- 새 translation key를 만들기 전에 기존 locale/resource에서 동일하거나 실질적으로 같은 의미의 key를 반드시 검색한다. 있으면 재사용하고, 없을 때만 새 key를 만든다. `다음`, `이전`, `저장`, `취소`, `확인`, `닫기`, `시작`, `다시하기`, `계속하기`, `결과 보기` 같은 공통 UI 의미는 가능한 경우 `common.*` 형태의 안정 key를 재사용하며 프로그램 이름만 다른 중복 key를 만들지 않는다. 문맥이나 번역 의미가 실제로 다르면 억지로 합치지 않는다.
 - 선택 언어에 값이 없으면 프로그램의 fallback locale(기본 `ko`)을 표시한다. key 자체나 빈 화면을 사용자에게 노출하지 않고 개발/QA 로그에 누락을 기록한다.
+- fallback은 빈 화면을 막는 runtime safety일 뿐 번역 완료가 아니다. fallback으로 표시된 key는 coverage에 번역 완료로 계산하지 않고 validator에서 오류 또는 명시적 미완료 상태로 유지한다.
 - 문자열 연결로 문장을 만들지 않는다. 이름·점수·날짜 같은 동적 값은 명명 placeholder를 사용하고 모든 언어의 placeholder 집합을 원문과 일치시킨다.
 - 숫자, 날짜, 시간, 단위, 복수형은 `Intl` 또는 프레임워크의 locale 기능을 사용한다.
 - 접근성 텍스트(`aria-label`, `alt`, `title`, `placeholder`), 오류/알림, 그래프 라벨, PDF/인쇄 문구도 번역 대상이다.
@@ -27,6 +31,10 @@
 ## 구현 전 확인과 완료 조건
 
 기존 프로그램을 수정하기 전에 해당 프로그램의 locale manifest, 언어 선택/저장/URL 처리, fallback, 번역 상태, 이미지/TTS, 결과지 연동을 확인한다. 정상 배포본이나 기존 locale code를 임의로 삭제·변경하지 않는다.
+
+언어 변경은 새 세션 시작이 아니다. 가능한 한 current route/page/chapter, selected tab/activity/answers, form input, game progress, timer state, result/report context, user/session identifier를 그대로 유지한다. locale 변경을 이유로 `localStorage`, `sessionStorage`, activity progress, answers, profile, PASS/report data, timer를 초기화하지 않는다. 기술상 reload가 필요하면 변경 전 상태를 저장하고 동일 위치와 진행 상태로 복원한다.
+
+URL의 `lang` parameter를 바꿀 때 기존 path, 다른 query parameter, hash를 보존한다. 예를 들어 `/history/week12?age=elementary&lang=ko`는 영어 전환 후 `/history/week12?age=elementary&lang=en`을 유지해야 하며 HOME으로 이동하거나 `age`를 삭제해서는 안 된다.
 
 기능 완료 전 다음을 수행한다.
 
@@ -84,3 +92,5 @@ QA는 개발의 일부다. 변경 범위에 맞춰 다음을 확인한다.
 중요 프로그램은 branch, commit, date, status를 기준선 문서에 기록한다. Local, Staging/Preview, Production을 구분하며 로컬 성공을 배포 성공으로 간주하지 않는다. 사용자 승인 없이 기존 GitHub Pages/서비스 URL이나 정상 배포본을 교체하지 않는다.
 
 상세 i18n 계약과 프로그램별 현황은 `docs/i18n/README.md`, 중앙 locale 레지스트리는 `i18n/programs.json`, 현재 Git 기준선과 QA 절차는 `docs/DEVELOPMENT_BASELINE.md`를 따른다.
+
+정책과 자동화 범위를 구분한다. MASTER POLICY는 저장소 전체에 적용되지만 AUTOMATED STATIC QA는 `i18n/programs.json`에 등록된 프로그램만, PROGRAM BROWSER QA는 실제 browser QA가 구현된 프로그램만 검사한다. 현재 미등록 프로그램을 이 규칙 추가만을 이유로 일괄 수정하거나 추측한 경로로 등록하지 않는다.

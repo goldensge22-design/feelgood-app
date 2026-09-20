@@ -61,6 +61,42 @@ HTML을 포함하는 번역은 최소화한다. 허용 시 프로그램이 정�
 - 기준 원문 변경 시 locale pack의 `sourceVersion` 또는 `sourceHash`가 달라져야 하며, 검수 전 상태는 `needs-review`다.
 - 허용 상태의 기본 집합은 `ready`, `reviewed`, `needs-review`, `draft`, `ai-draft`다. 사용자에게 초안을 제공하는 경우 화면에 초안임을 알린다.
 
+### 변경 key만 번역하는 MUST 계약
+
+한국어 원문 또는 해당 translation key의 의미가 변경되지 않았다면 기존 다른 언어 번역을 재생성·재번역·덮어쓰기하지 않는다. 번역 대상은 `신규 key + 실제로 의미가 변경된 key`로 제한한다. 전체 locale 파일 또는 전체 번역값을 AI로 다시 생성하는 방식은 금지하며 기존 검수 완료 번역을 최대한 보존한다.
+
+가능한 프로그램은 source version/hash로 다음 상태를 추적한다.
+
+| 상태 | 처리 |
+|---|---|
+| `UNCHANGED` | 기존 번역을 그대로 유지한다. |
+| `NEW` | 전체 지원 언어에 번역을 추가하고 상태를 기록한다. |
+| `CHANGED` | 기존 번역을 유효하다고 간주하지 않고 `needs-review`로 전환한다. |
+| `DELETED` | 즉시 삭제하지 않고 runtime 참조와 orphan/deprecated 여부를 검토한다. |
+
+formatting, 공백, key 순서 변경처럼 의미가 달라지지 않은 수정은 전체 번역 재생성 사유가 아니다.
+
+### 기존 key 검색과 공통 문장 재사용
+
+새 문장이 생기면 `기존 동일 의미 key 검색 → 있으면 재사용 → 없으면 새 key 생성` 순서를 반드시 따른다. 문자열이 조금 다르다는 이유만으로 새 key를 만들지 않는다.
+
+`다음`, `이전`, `저장`, `취소`, `확인`, `닫기`, `시작`, `다시하기`, `계속하기`, `결과 보기`처럼 여러 프로그램에서 같은 의미로 쓰는 UI 문장은 가능한 경우 `common.next` 같은 안정적인 공통 의미 key를 재사용한다. `history.next`, `planner.next`, `kids.next`, `career.next`처럼 프로그램 이름만 다른 중복 key를 만들지 않는다. 다만 문맥 또는 실제 번역 의미가 다르면 비용 절감을 위해 억지로 하나의 key로 합치지 않는다.
+
+프로그램별 번역 데이터의 독립성은 유지한다. 공통 key 계약은 중복 의미와 naming을 줄이기 위한 것이며, 모든 프로그램을 하나의 거대 번역 파일이나 새로운 공통 runtime으로 합치라는 뜻이 아니다.
+
+## locale 전환과 사용자 상태 보존
+
+locale 변경은 새 세션이 아니며 기본적으로 콘텐츠 표시 언어만 변경한다. 전환 전후에 가능한 한 다음 상태를 보존한다.
+
+- current route, page, chapter
+- selected tab, activity, answers
+- form input, game progress, timer state
+- result/report context, user/session identifier
+
+locale 변경을 이유로 `localStorage`, `sessionStorage`, activity progress, answers, profile, PASS data, report data, timer를 초기화하지 않는다. 전체 reload가 필요한 기술 구조에서는 변경 전 상태를 저장하고 reload 후 같은 위치와 진행 상태로 복원한다.
+
+URL에 `lang`을 사용하는 프로그램은 path, 다른 query parameter, hash를 보존하고 `lang` 값만 바꾼다. 예를 들어 `/history/week12?age=elementary&lang=ko`에서 영어로 바꾸면 가능한 결과는 `/history/week12?age=elementary&lang=en`이다.
+
 ## QA 출력과 실패 기준
 
 `node scripts/check-i18n.mjs`는 등록 프로그램마다 다음을 출력한다.
@@ -70,6 +106,8 @@ Program | Language | Total | Translated | Missing | Orphan | Empty | Fallback | 
 ```
 
 다음은 오류로 처리한다: manifest/locale 파일 누락, 중복 locale, 기준 key 누락, 빈 번역, placeholder 불일치, 위험한 HTML, 잘못된 locale metadata, 프로그램이 요구하는 source hash 불일치. 한국어 잔존과 orphan key는 정확한 예외 판정이 필요하므로 기본적으로 경고하고, 신규 코드의 직접 하드코딩은 `--changed --strict-hardcoded`에서 오류로 처리한다.
+
+fallback은 runtime safety이고 translation coverage는 별도의 QA requirement다. fallback이 정상 작동해도 해당 key를 번역 완료로 계산하지 않으며 누락 key는 오류 또는 명시적인 미완료 상태로 보고한다. 현재 `proposal`과 `proposal-v2`의 기존 dynamic/orphan warning 19개는 별도 조사 대상이며, 이 계약 보강을 이유로 key를 임의 삭제하거나 정리하지 않는다.
 
 ## 점진적 마이그레이션
 
@@ -94,4 +132,21 @@ Program | Language | Total | Translated | Missing | Orphan | Empty | Fallback | 
 
 새 FeelGood 프로그램은 완성 후 i18n을 덧붙이는 흐름이 아니라, 개발 시작부터 루트 `AGENTS.md`의 MASTER RULE, 프로그램별 i18n/resource 구조, 반응형 구조, QA 등록 계획을 함께 갖춘다. 판단 순서는 `MASTER RULE → program-specific rule → current implementation → requested change`이며, MASTER RULE을 이유로 정상 프로그램을 전면 재작성하지 않는다.
 
+별도 지시가 없어도 신규 프로그램의 기본 조건은 `MASTER RULE + i18n first + existing-key reuse + changed-key-only translation + no unnecessary retranslation + state-preserving locale switch + responsive + RTL consideration + QA registration`이다.
+
 현재 공통화하는 것은 rules, registry, metadata, validation contract, QA contract다. 프로그램별 runtime loader는 기존 구현을 보호하며 지금 하나로 강제 통합하지 않는다. Teacher Guide의 browser/RTL/viewport/zoom/print QA도 Teacher Guide 전용으로 유지한다. 향후 실제 프로그램 등록 과정에서 기술 스택 간 공통점이 검증될 때만 shared browser QA layer를 별도 설계한다.
+
+범위는 다음처럼 구분한다.
+
+```text
+MASTER POLICY
+= 저장소 전체
+
+AUTOMATED STATIC QA
+= i18n/programs.json 등록 프로그램
+
+PROGRAM BROWSER QA
+= browser QA가 실제 구현된 프로그램
+```
+
+현재 자동 validator 대상은 `proposal`, `proposal-v2`, `teacher-guide`뿐이다. `KIDS`, `HISTORY`, `PLANNER`, `CAREER LAB`, `MY NUVIA`, `K-PASS`, `D-CAS`는 실제 작업 시 source와 runtime 구조를 조사한 뒤 규칙을 적용하며, 이번 계약 보강을 이유로 일괄 수정하거나 강제 등록하지 않는다.
