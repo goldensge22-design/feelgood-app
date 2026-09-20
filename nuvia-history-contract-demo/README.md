@@ -8,6 +8,8 @@
 - 현재 제공 언어는 `ko`뿐이며 다른 locale은 진입을 차단한다.
 - 자유 그림·글은 의미를 자동 판정하지 않는다. 필수 활동 증거와 별도로 저장한다.
 - 저장된 실제 역사·조건·예측·활동·이야기·두 비교를 8쪽 이야기책 파생 뷰로 조립한다.
+- 이미지 렌더링 역할은 `history-stage`, `condition-stage`, `storybook-cover`, `storybook-history`, `storybook-condition`, `storybook-result`로 분리한다.
+- 이야기책 삽화는 4:3 `contain`, 단독 역사 장면은 16:9 `contain`, 조건 장면은 3:2 `contain`을 사용한다. 표지만 2:1 `cover`이며 초점은 아직 검수 전 임시값이다.
 - C-P1-01은 미결정이므로 음성 기능은 변경하지 않았다.
 - 누락된 `NUVIA_HISTORY_ART_BIBLE.md`는 OPEN이며 기존 W24 자산만 사용했다.
 
