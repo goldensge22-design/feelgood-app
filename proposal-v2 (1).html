@@ -133,6 +133,22 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .wcard .ic{font-size:1.8rem;margin-bottom:12px;}
 .wcard h4{font-size:.97rem;font-weight:700;color:var(--navy);margin-bottom:8px;}
 .wcard p{font-size:.84rem;color:var(--textm);line-height:1.65;}
+.school-dashboard-entry{grid-column:1/-1;display:grid;grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center;gap:20px;border-left:4px solid var(--blue);background:linear-gradient(135deg,#fff 0%,#F3F6FF 100%);}
+.school-dashboard-entry .ic{margin:0;}
+.school-dashboard-entry .copy h4{font-size:1.08rem;margin-bottom:6px;}
+.school-dashboard-entry .copy p{margin:0;}
+.school-dashboard-entry .dashboard-action{display:flex;flex-direction:column;align-items:flex-end;gap:7px;}
+.school-dashboard-entry .dashboard-action a{white-space:nowrap;text-decoration:none;background:var(--navy);
+  border-color:var(--navy);color:#fff;box-shadow:0 7px 18px rgba(25,43,85,.18);}
+.school-dashboard-entry .dashboard-action a:hover{background:var(--gold);border-color:var(--gold);color:#fff;}
+.school-dashboard-entry .dashboard-action small{max-width:250px;text-align:right;color:var(--textl);font-size:.72rem;line-height:1.45;}
+@media(max-width:760px){
+  .school-dashboard-entry{grid-template-columns:auto minmax(0,1fr);}
+  .school-dashboard-entry .dashboard-action{grid-column:1/-1;align-items:stretch;}
+  .school-dashboard-entry .dashboard-action a{text-align:center;white-space:normal;}
+  .school-dashboard-entry .dashboard-action small{max-width:none;text-align:center;}
+}
 .prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;
   border-radius:16px;padding:28px;box-shadow:var(--sh);margin-bottom:32px;}
 .pstep{background:var(--bg);border-radius:12px;padding:16px 20px;text-align:center;flex:1;min-width:140px;}
@@ -1093,6 +1109,17 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <div class="wcard"><div class="ic">📈</div><h4 data-i18n="school_c4_h">측정 가능한 성장</h4><p data-i18n="school_c4_p">연 2회 재진단으로 정서지능·인지성장 변화를 수치로 증명. 학교 평가 자료로 활용 가능.</p></div>
     <div class="wcard"><div class="ic">🌐</div><h4 data-i18n="school_c5_h">다문화·글로벌 적합</h4><p data-i18n="school_c5_p">비언어 중심 검사로 다문화·다언어 환경 최적화. 국제학교·사립학교 모두 적용 가능.</p></div>
     <div class="wcard"><div class="ic">⚖️</div><h4 data-i18n="school_c6_h">보편 가치 기반</h4><p data-i18n="school_c6_p">동서양 철학·윤리 원리 기반 공통 가치교육. 특정 종교 편향 없는 균형 잡힌 인성교육.</p></div>
+    <div class="wcard school-dashboard-entry">
+      <div class="ic" aria-hidden="true">🖥️</div>
+      <div class="copy">
+        <h4 data-i18n="bm_dash_title">교사 대시보드 v3</h4>
+        <p data-i18n="bm_dash_sub">학생별 두뇌 유형 · PASS 프로파일 · 맞춤 지도 전략을 한눈에 확인하세요.</p>
+      </div>
+      <div class="dashboard-action">
+        <a class="btn-gold" data-dashboard-example href="https://goldensge22-design.github.io/feelgood-app/PASS_report_KNUE_Jeungpyeong_FeelGood_12lang_v3.html?lang=ko" target="_blank" rel="noopener noreferrer" data-i18n="bm_dash_try_btn">🎓 MindCompass 교사 대시보드 체험하기</a>
+        <small data-i18n="bm_dash_try_sub">샘플 데이터로 실제 교사 대시보드 v3를 미리 체험해보세요</small>
+      </div>
+    </div>
   </div>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_entry_title">학교 진입 경로</h3></div>
   <div class="prow mb40">
