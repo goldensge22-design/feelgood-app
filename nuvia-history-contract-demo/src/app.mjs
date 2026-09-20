@@ -5,8 +5,8 @@ import {load,save} from './storage.mjs';
 const root=document.querySelector('#app');
 const params=new URLSearchParams(location.search);
 const locale=params.get('lang')||'ko', qa=params.get('qa')==='1';
-let run=load();
 const requested=PATHS.includes(params.get('pass'))?params.get('pass'):null;
+let run=load(requested||'attention');
 if(!run) run=createRun(requested||'attention');
 let help=false,notice='',drawing=false,storyInk=Boolean(run.story.drawing),lastPoint=null;
 
