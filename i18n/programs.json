@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 2,
+  "rulesVersion": "1.0",
+  "defaultLocale": "ko",
+  "policy": {
+    "missingTranslation": "block",
+    "crossLocaleFallback": false,
+    "defaultLocaleOnlyWithoutSelection": true,
+    "userSelectableAvailability": ["release"],
+    "preserveUserDataOnLocaleError": true,
+    "productionError": "selected-locale-notice-or-language-selector",
+    "qaErrors": ["LANGUAGE_NOT_PROVIDED", "LOCALE_PACK_INCOMPLETE", "TRANSLATION_KEY_MISSING"]
+  },
+  "localeCatalog": {
+    "ko": {"label": "한국어", "dir": "ltr"},
+    "en": {"label": "English", "dir": "ltr"},
+    "ja": {"label": "日本語", "dir": "ltr"},
+    "zh": {"label": "中文", "dir": "ltr", "normalizationStatus": "reviewRequired"},
+    "fr": {"label": "Français", "dir": "ltr"},
+    "zh-CN": {"label": "简体中文", "dir": "ltr"},
+    "zh-TW": {"label": "繁體中文", "dir": "ltr"},
+    "mn": {"label": "Монгол", "dir": "ltr"},
+    "th": {"label": "ไทย", "dir": "ltr"},
+    "vi": {"label": "Tiếng Việt", "dir": "ltr"},
+    "ar": {"label": "العربية", "dir": "rtl"},
+    "ru": {"label": "Русский", "dir": "ltr"},
+    "km": {"label": "ខ្មែរ", "dir": "ltr"},
+    "es": {"label": "Español", "dir": "ltr"},
+    "it": {"label": "Italiano", "dir": "ltr"},
+    "az": {"label": "Azərbaycan", "dir": "ltr"}
+  },
+  "programs": [
+    {
+      "id": "nuvia-history",
+      "mode": "strict",
+      "format": "registered-external",
+      "defaultLocale": "ko",
+      "sourceLocale": "ko",
+      "supportedLocales": ["ko", "en", "zh", "ja", "vi", "th", "mn", "ru", "ar", "es", "fr"],
+      "selectableLocales": ["ko"],
+      "authority": "nuvia-history-w24/outputs/NUVIA_HISTORY_MASTER_RULES_v1.1/NUVIA_HISTORY_MASTER_RULES_v1.1.md",
+      "implementationBaseline": "cede993abcb68b5d017b1ca147ce335fc6f98bd6",
+      "languages": [
+        {"code": "ko", "availability": "release", "review": {"rtl": {"status": "reviewRequired"}, "font": {"status": "reviewRequired"}}},
+        {"code": "en", "availability": "planned"},
+        {"code": "zh", "availability": "blocked", "normalizationStatus": "reviewRequired"},
+        {"code": "ja", "availability": "planned"},
+        {"code": "vi", "availability": "planned"},
+        {"code": "th", "availability": "planned"},
+        {"code": "mn", "availability": "planned"},
+        {"code": "ru", "availability": "planned"},
+        {"code": "ar", "availability": "planned"},
+        {"code": "es", "availability": "planned"},
+        {"code": "fr", "availability": "planned"}
+      ]
+    },
+    {
+      "id": "proposal",
+      "mode": "strict",
+      "format": "js-global",
+      "html": "proposal/index.html",
+      "localeDir": "proposal/i18n",
+      "supportedLocales": ["ko", "en", "zh", "mn", "th", "vi", "ja", "ar", "ru"],
+      "defaultLocale": "ko",
+      "fallbackLocale": "ko"
+    },
+    {
+      "id": "proposal-v2",
+      "mode": "strict",
+      "format": "js-global-manifest",
+      "html": "proposal-v2 (1).html",
+      "manifest": "proposal-v2/i18n/manifest.js",
+      "localeDir": "proposal-v2/i18n",
+      "defaultLocale": "ko",
+      "fallbackLocale": "ko"
+    },
+    {
+      "id": "teacher-guide",
+      "mode": "strict",
+      "format": "json-source-map",
+      "manifest": "teacher-guide/locales/languages.json",
+      "localeDir": "teacher-guide/locales",
+      "sourceLocale": "ko",
+      "defaultLocale": "ko",
+      "fallbackLocale": "ko",
+      "notes": "현재 locale pack은 한국어 원문 문자열을 key로 사용한다. 기존 기능을 보존하며 안정 key로 점진 이행한다."
+    }
+  ]
+}
