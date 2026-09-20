@@ -51,10 +51,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 /* ── HOME ── */
 #sec-home{padding:0;min-height:0;display:none;background:var(--bg);}
 #sec-home.active{display:block;}
-.proposal-cover{min-height:100vh;padding:86px 24px 28px;display:flex;align-items:center;justify-content:center;
-  background:#fff;overflow:hidden;}
-.proposal-cover img{display:block;width:auto;height:auto;max-width:min(820px,92vw);
-  max-height:calc(100vh - 114px);object-fit:contain;box-shadow:0 18px 54px rgba(44,62,107,.18);}
 .home-hero{min-height:100vh;display:flex;align-items:center;justify-content:center;
   background:linear-gradient(145deg,#1C2D55 0%,#2C3E6B 40%,#3D4F7C 70%,#4A5A8B 100%);
   color:#fff;position:relative;overflow:hidden;}
@@ -454,8 +450,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .ntabs li{scroll-snap-align:start;flex:0 0 auto;}
   .ntabs li a{padding:8px 14px;min-height:36px;display:flex;align-items:center;}
   .ps{padding-top:124px;scroll-margin-top:112px;}
-  .proposal-cover{min-height:100svh;padding:128px 16px 24px;}
-  .proposal-cover img{max-width:94vw;max-height:calc(100svh - 152px);}
   #sec-home .hi{padding-top:150px;}
 }
 
@@ -1063,9 +1057,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
 <!-- ═══ HOME ═══ -->
 <section id="sec-home" class="ps active">
-  <div class="proposal-cover" aria-label="FeelGood proposal cover">
-    <img src="proposal/images/img-18.png" alt="FeelGood K-PASS D-CAS 제안서 표지" loading="eager" fetchpriority="high">
-  </div>
   <div class="home-hero">
     <div class="hb1"></div>
     <div class="hb2"></div>
