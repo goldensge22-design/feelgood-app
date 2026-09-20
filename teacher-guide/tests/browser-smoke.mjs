@@ -9,7 +9,7 @@ const outputDirectory = resolve(root, 'teacher-guide', 'screenshots');
 const edgePath = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe';
 const sitePort = 4187;
 const debugPort = 9348;
-const routes = ['opening','guide','assessment','assessment-expertise','pass','pathways','results','levels','profiles','teacher','dashboard','nuvia','parents','support','closing'];
+const routes = ['opening','guide','assessment','assessment-expertise','pass','pathways','results','profiles','teacher','dashboard','nuvia','parents','support','closing'];
 const viewports = [
   {name:'PC 1440×900',width:1440,height:900,mobile:false},
   {name:'노트북 1280×720',width:1280,height:720,mobile:false},
@@ -135,7 +135,7 @@ try {
   await waitFor("document.querySelectorAll('.profile-card').length===5 && document.querySelectorAll('[data-language-select] option').length===26", 'data load');
 
   report.static = await evaluate("(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id); const duplicates=ids.filter((id,index)=>ids.indexOf(id)!==index); const empty=[...document.querySelectorAll('a')].filter(a=>!a.getAttribute('href')||a.getAttribute('href')==='#').length; const broken=[...document.querySelectorAll('a[href^=\"#\"]')].filter(a=>!document.querySelector(a.getAttribute('href'))).map(a=>a.getAttribute('href')); const css=[...document.styleSheets].map(sheet=>new URL(sheet.href).pathname.split('/').pop()); return {chapters:document.querySelectorAll('.chapter').length,toc:document.querySelectorAll('[data-chapter-link]').length,duplicates:[...new Set(duplicates)],emptyHref:empty,brokenInternal:broken,stylesheets:css}; })()");
-  if (report.static.chapters !== 15 || report.static.toc !== 15 || report.static.duplicates.length || report.static.emptyHref || report.static.brokenInternal.length || report.static.stylesheets.join() !== 'ebook.css') failures.push('static-integrity');
+  if (report.static.chapters !== 14 || report.static.toc !== 14 || report.static.duplicates.length || report.static.emptyHref || report.static.brokenInternal.length || report.static.stylesheets.join() !== 'ebook.css') failures.push('static-integrity');
 
   for (const route of routes) {
     await openRoute(route);
@@ -196,7 +196,17 @@ try {
   await openRoute('dashboard');
   report.interactions.dashboard = await evaluate("(() => { const before=document.querySelector('#dashboardDetail').textContent; const button=document.querySelector('[data-dashboard=priority]'); button.click(); return {changed:document.querySelector('#dashboardDetail').textContent!==before,pressed:button.getAttribute('aria-pressed')==='true'}; })()");
   report.interactions.language = await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='km'; select.dispatchEvent(new Event('change',{bubbles:true})); const pending=!document.querySelector('#translationNotice').hidden; const synced=[...document.querySelectorAll('[data-language-select]')].every(item=>item.value==='km'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); return {pending,synced,restored:document.querySelector('#translationNotice').hidden}; })()");
-  if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !report.interactions.profiles.opened || !report.interactions.profiles.closed || !report.interactions.profiles.reset || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !report.interactions.language.pending || !report.interactions.language.synced || !report.interactions.language.restored) failures.push('interactions');
+  await openRoute('results');
+  report.interactions.resultGuides = {};
+  for (const guide of ['kpass','teen','adult']) {
+    await evaluate("document.querySelector('[data-result-guide=" + guide + "]').click()");
+    await waitFor("location.hash==='#results-" + guide + "' && !document.querySelector('[data-result-view=\"" + guide + "\"]').hidden && !document.querySelector('#resultInterpretation').hidden", 'result guide ' + guide);
+    report.interactions.resultGuides[guide] = await evaluate("({hash:location.hash,visible:!document.querySelector('[data-result-view=\"" + guide + "\"]').hidden,chooser:document.querySelector('[data-result-view=chooser]').hidden,interpretation:!document.querySelector('#resultInterpretation').hidden})");
+    await evaluate("document.querySelector('[data-result-view=\"" + guide + "\"] [data-result-back]').click()");
+    await waitFor("location.hash==='#results' && !document.querySelector('[data-result-view=chooser]').hidden && document.querySelector('#resultInterpretation').hidden", 'result back ' + guide);
+  }
+  const resultGuidesPass = Object.values(report.interactions.resultGuides).every(item => item.visible && item.chooser && item.interpretation);
+  if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !report.interactions.profiles.opened || !report.interactions.profiles.closed || !report.interactions.profiles.reset || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !report.interactions.language.pending || !report.interactions.language.synced || !report.interactions.language.restored || !resultGuidesPass) failures.push('interactions');
 
   await openRoute('pathways');
   const currentHash = await evaluate('location.hash');
@@ -263,7 +273,7 @@ try {
 
   await command('Emulation.setEmulatedMedia', {media:'print'});
   report.print = await evaluate("({visible:[...document.querySelectorAll('.chapter')].filter(chapter=>getComputedStyle(chapter).display!=='none').length,sidebar:getComputedStyle(document.querySelector('#tocPanel')).display,pagination:getComputedStyle(document.querySelector('.chapter-pagination')).display})");
-  if (report.print.visible !== 15 || report.print.sidebar !== 'none' || report.print.pagination !== 'none') failures.push('print');
+  if (report.print.visible !== 14 || report.print.sidebar !== 'none' || report.print.pagination !== 'none') failures.push('print');
 
   report.console = {exceptions,errors:consoleErrors};
   if (exceptions.length || consoleErrors.length) failures.push('console');

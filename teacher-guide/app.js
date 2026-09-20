@@ -18,11 +18,17 @@ const LEGACY_HASHES = {
   intro: 'assessment',
   map: 'pass',
   paths: 'pathways',
-  principles: 'levels',
+  principles: 'results',
+  levels: 'results',
   guidance: 'teacher',
   help: 'support',
   result: 'results',
   evidence: 'assessment-expertise'
+};
+const RESULT_GUIDES = {
+  'results-kpass': 'kpass',
+  'results-teen': 'teen',
+  'results-adult': 'adult'
 };
 const chapters = $$('.chapter');
 const chapterIds = chapters.map(chapter => chapter.id);
@@ -34,8 +40,30 @@ const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({
 
 function requestedChapter() {
   const rawHash = decodeURIComponent(location.hash.slice(1));
+  if (RESULT_GUIDES[rawHash]) return 'results';
   const id = LEGACY_HASHES[rawHash] || rawHash;
   return chapterIds.includes(id) ? id : null;
+}
+
+function requestedResultGuide() {
+  const rawHash = decodeURIComponent(location.hash.slice(1));
+  return RESULT_GUIDES[rawHash] || 'chooser';
+}
+
+function renderResultGuide(focus = false) {
+  const view = requestedResultGuide();
+  $$('[data-result-view]').forEach(panel => {
+    const active = panel.dataset.resultView === view;
+    panel.hidden = !active;
+    panel.setAttribute('aria-hidden', String(!active));
+  });
+  const interpretation = $('#resultInterpretation');
+  interpretation.hidden = view === 'chooser';
+  interpretation.setAttribute('aria-hidden', String(view === 'chooser'));
+  if (focus && view !== 'chooser') {
+    const panel = $('[data-result-view="' + view + '"]');
+    panel.focus({preventScroll: true});
+  }
 }
 
 function closeToc(returnFocus = false) {
@@ -77,10 +105,11 @@ function renderChapter(id, focus = false) {
   $('#reader').scrollTo({top: 0, behavior: 'auto'});
   closeToc();
 
-  if (focus) {
+  if (focus && id !== 'results') {
     chapters[index].tabIndex = -1;
     chapters[index].focus({preventScroll: true});
   }
+  if (id === 'results') renderResultGuide(focus);
 }
 
 function syncFromLocation(focus = false) {
@@ -197,6 +226,12 @@ $('#tocNav').addEventListener('click', event => {
   navigateToChapter(link.dataset.chapterLink);
 });
 $$('button[data-go]').forEach(button => button.addEventListener('click', () => navigateToChapter(button.dataset.go)));
+$$('[data-result-guide]').forEach(button => button.addEventListener('click', () => {
+  location.hash = 'results-' + button.dataset.resultGuide;
+}));
+$$('[data-result-back]').forEach(button => button.addEventListener('click', () => {
+  location.hash = 'results';
+}));
 ['#previousChapter', '#nextChapter'].forEach(selector => $(selector).addEventListener('click', event => {
   const target = event.currentTarget.dataset.targetChapter;
   if (target) navigateToChapter(target);
