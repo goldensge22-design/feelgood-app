@@ -184,12 +184,12 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   margin-top:20px;padding:12px 20px;border-radius:12px;background:var(--navy);color:#fff;font-size:.85rem;font-weight:800;
   box-shadow:0 8px 18px rgba(44,62,107,.2);}
 .case-dashboard-card:hover .case-cta{background:var(--gold);}
-.school-data-flow{display:grid;grid-template-columns:repeat(9,auto);align-items:center;justify-content:center;
+.school-data-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;justify-content:stretch;
   gap:10px;margin-top:26px;padding:18px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px rgba(74,126,200,.1);}
-.school-data-flow .flow-step{min-width:112px;padding:12px 10px;border-radius:11px;background:#f2f5fb;color:var(--navy);
-  text-align:center;font-size:.76rem;font-weight:800;line-height:1.45;}
+.school-data-flow .flow-step{width:100%;min-width:0;padding:12px 10px;border-radius:11px;background:#f2f5fb;color:var(--navy);
+  text-align:center;font-size:.76rem;font-weight:800;line-height:1.45;overflow-wrap:anywhere;word-break:break-word;}
 .school-data-flow .flow-step:first-child,.school-data-flow .flow-step:last-child{background:rgba(245,166,35,.15);}
-.school-data-flow .flow-arrow{color:var(--purple);font-weight:900;}
+.school-data-flow .flow-arrow{min-width:0;color:var(--purple);font-weight:900;text-align:center;}
 .school-case-message{margin:16px 0 0;color:var(--navy);text-align:center;font-size:.9rem;font-weight:800;}
 .prow{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:#fff;
   border-radius:16px;padding:28px;box-shadow:var(--sh);margin-bottom:32px;}
@@ -1023,6 +1023,41 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   }
   .shot-frame .bar span{width:9px;height:9px;border-radius:50%;background:#D6DAE2;}
   .shot-frame img{display:block;width:100%;height:auto;}
+  .localized-shot{display:none;min-height:clamp(270px,42vw,500px);padding:clamp(22px,4vw,46px);
+    color:#fff;background:linear-gradient(135deg,#172b4d 0%,#243c69 58%,#354d84 100%);}
+  html:not([lang="ko"]) .shot-frame img.korean-shot{display:none;}
+  html:not([lang="ko"]) .shot-frame .localized-shot{display:flex;flex-direction:column;justify-content:center;}
+  .localized-shot.kids{background:linear-gradient(135deg,#211d58 0%,#3a2775 58%,#5f4598 100%);}
+  .localized-shot.history{background:linear-gradient(135deg,#102634 0%,#16384b 60%,#285367 100%);}
+  .localized-shot.planner{color:var(--navy);background:linear-gradient(135deg,#fff9ed 0%,#eef1ff 54%,#ebe7ff 100%);}
+  .localized-shot.career{background:linear-gradient(135deg,#172842 0%,#243858 58%,#31486d 100%);}
+  .localized-shot-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:26px;}
+  .localized-shot-brand{font-family:'Montserrat',sans-serif;font-size:clamp(.85rem,1.6vw,1.25rem);font-weight:900;letter-spacing:.5px;}
+  .localized-shot-brand span{color:var(--gold);}
+  .localized-shot-demo{padding:6px 10px;border:1px solid rgba(255,255,255,.34);border-radius:999px;
+    font-family:'Montserrat',sans-serif;font-size:.62rem;font-weight:800;letter-spacing:1px;}
+  .localized-shot.planner .localized-shot-demo{border-color:rgba(44,62,107,.22);}
+  .localized-shot-body{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(190px,.7fr);gap:18px;min-width:0;}
+  .localized-shot-main,.localized-shot-side{min-width:0;border:1px solid rgba(255,255,255,.16);border-radius:16px;
+    background:rgba(255,255,255,.09);padding:clamp(18px,3vw,30px);}
+  .localized-shot.planner .localized-shot-main,.localized-shot.planner .localized-shot-side{border-color:rgba(44,62,107,.13);background:rgba(255,255,255,.66);}
+  .localized-shot-kicker{display:block;margin-bottom:10px;color:#ffcb69;font-family:'Montserrat',sans-serif;
+    font-size:.63rem;font-weight:900;letter-spacing:1.1px;text-transform:uppercase;}
+  .localized-shot.planner .localized-shot-kicker{color:var(--purple);}
+  .localized-shot h5{margin:0 0 10px;color:inherit;font-size:clamp(1.2rem,2.6vw,2rem);line-height:1.28;overflow-wrap:anywhere;}
+  .localized-shot p{margin:0;color:rgba(255,255,255,.76);font-size:clamp(.72rem,1.3vw,.9rem);line-height:1.65;overflow-wrap:anywhere;}
+  .localized-shot.planner p{color:var(--textm);}
+  .localized-shot-visual{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px;}
+  .localized-shot-visual i{display:block;height:clamp(48px,7vw,78px);border-radius:12px;
+    background:linear-gradient(145deg,rgba(255,255,255,.2),rgba(255,255,255,.06));border:1px solid rgba(255,255,255,.12);}
+  .localized-shot-visual i:nth-child(2){transform:translateY(-8px);background:linear-gradient(145deg,rgba(245,166,35,.55),rgba(245,166,35,.13));}
+  .localized-shot.planner .localized-shot-visual i{border-color:rgba(74,126,200,.16);background:rgba(74,126,200,.12);}
+  .localized-shot-side{display:grid;align-content:center;gap:12px;}
+  .localized-shot-side div{min-width:0;padding:11px 12px;border-radius:10px;background:rgba(255,255,255,.1);}
+  .localized-shot.planner .localized-shot-side div{background:rgba(74,126,200,.1);}
+  .localized-shot-side b{display:block;color:inherit;font-size:.76rem;line-height:1.4;overflow-wrap:anywhere;}
+  .localized-shot-side small{display:block;margin-top:5px;color:rgba(255,255,255,.64);font-size:.65rem;line-height:1.45;overflow-wrap:anywhere;}
+  .localized-shot.planner .localized-shot-side small{color:var(--textm);}
   .shot-cap{font-size:12px;color:#9AA3B2;padding:8px 4px 0;}
 
   .p-facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px;}
@@ -1109,6 +1144,11 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     .bridge-row, .transfer-row{grid-template-columns:1fr;text-align:left;}
     .bridge-row .to, .transfer-row .arrow-mid{transform:rotate(90deg);padding:4px 0;}
     .cl-timeline .row, .cl-steps .row{grid-template-columns:1fr;}
+    .localized-shot{min-height:0;padding:22px 16px;}
+    .localized-shot-head{margin-bottom:16px;}
+    .localized-shot-body{grid-template-columns:1fr;}
+    .localized-shot-side{grid-template-columns:1fr 1fr;padding:14px;}
+    .localized-shot-side div:last-child:nth-child(odd){grid-column:1 / -1;}
     h2.ct-title{font-size:26px;}
   }
 </style>
@@ -1649,7 +1689,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="p-sub" data-i18n="nv_kids_sub">하루 약 10분의 게임형 활동으로 계획·주의·동시처리·순차처리를 연습합니다.</p>
     <div class="shot-frame">
       <div class="bar"><span></span><span></span><span></span></div>
-      <img src="proposal/images/nuvia-kids.png" alt="NUVIA KIDS">
+      <img class="korean-shot" src="proposal/images/nuvia-kids.png" alt="NUVIA KIDS" data-i18n-alt="nv_kids_cap">
+      <div class="localized-shot kids" aria-label="NUVIA KIDS 미리보기" data-i18n-aria-label="nv_kids_cap">
+        <div class="localized-shot-head"><div class="localized-shot-brand">NUVIA <span>KIDS</span></div><div class="localized-shot-demo">DEMO</div></div>
+        <div class="localized-shot-body">
+          <div class="localized-shot-main"><span class="localized-shot-kicker">COGNITIVE TRAINING</span><h5 data-i18n="nv_kids_h">개인맞춤 인지훈련</h5><p data-i18n="nv_kids_sub">하루 약 10분의 게임형 활동으로 계획·주의·동시처리·순차처리를 연습합니다.</p><div class="localized-shot-visual"><i></i><i></i><i></i></div></div>
+          <div class="localized-shot-side">
+            <div><b data-i18n="nv_kids_f1_label">무엇을 연습하나</b><small data-i18n="nv_kids_f1_val">강점을 활용하고 지원이 필요한 인지영역을 반복 연습합니다.</small></div>
+            <div><b data-i18n="nv_kids_f2_label">어떻게 참여하나</b><small data-i18n="nv_kids_f2_val">연령에 맞는 조작과 안내로 짧게 활동하고 이어서 참여합니다.</small></div>
+            <div><b data-i18n="nv_kids_f3_label">무엇을 확인하나</b><small data-i18n="nv_kids_f3_val">정확도·반응시간·오류와 도움 사용·전략 변화를 살펴봅니다.</small></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="shot-cap" data-i18n="nv_kids_cap">NUVIA KIDS 실제 화면 · 별빛 터널 / 운석지대 스테이지 맵</div>
     <div class="p-facts">
@@ -1667,7 +1718,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="p-sub" data-i18n="nv_history_sub">세계사의 이야기와 자료 속에서 선택하고, 근거를 살펴보고, 판단을 다듬습니다.</p>
     <div class="shot-frame">
       <div class="bar"><span></span><span></span><span></span></div>
-      <img src="proposal/images/nuvia-history.png" alt="NUVIA HISTORY">
+      <img class="korean-shot" src="proposal/images/nuvia-history.png" alt="NUVIA HISTORY" data-i18n-alt="nv_history_cap">
+      <div class="localized-shot history" aria-label="NUVIA HISTORY 미리보기" data-i18n-aria-label="nv_history_cap">
+        <div class="localized-shot-head"><div class="localized-shot-brand">NUVIA <span>HISTORY</span></div><div class="localized-shot-demo">DEMO</div></div>
+        <div class="localized-shot-body">
+          <div class="localized-shot-main"><span class="localized-shot-kicker">HISTORY THINKING LAB</span><h5 data-i18n="nv_history_h">역사기반 사고력 훈련</h5><p data-i18n="nv_history_sub">세계사의 이야기와 자료 속에서 선택하고, 근거를 살펴보고, 판단을 다듬습니다.</p><div class="localized-shot-visual"><i></i><i></i><i></i></div></div>
+          <div class="localized-shot-side">
+            <div><b data-i18n="nv_history_th1">대상</b><small data-i18n="nv_history_r2_c1">초1~5 / 초6~중3</small></div>
+            <div><b data-i18n="nv_history_th2">자료</b><small data-i18n="nv_history_r2_c2">문장 · 단서 / 여러 자료 · 관점</small></div>
+            <div><b data-i18n="nv_history_th3">사고 활동</b><small data-i18n="nv_history_r2_c3">역할 · 순서 · 계획 / 대안 · 근거 연결</small></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="shot-cap" data-i18n="nv_history_cap">NUVIA HISTORY 실제 화면 · 세계사 3주차 「나일강 개척 보드」 · 고등학생 플레이 수준</div>
     <table class="ct-table" style="margin-bottom:22px;">
@@ -1688,7 +1750,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="p-sub" data-i18n="nv_planner_sub">초4부터 성인까지, 나의 실행 패턴을 발견하고 전략을 실제 생활에 적용합니다.</p>
     <div class="shot-frame">
       <div class="bar"><span></span><span></span><span></span></div>
-      <img src="proposal/images/nuvia-planner.png" alt="NUVIA PLANNER">
+      <img class="korean-shot" src="proposal/images/nuvia-planner.png" alt="NUVIA PLANNER" data-i18n-alt="nv_planner_cap">
+      <div class="localized-shot planner" aria-label="NUVIA PLANNER 미리보기" data-i18n-aria-label="nv_planner_cap">
+        <div class="localized-shot-head"><div class="localized-shot-brand">NUVIA <span>PLANNER</span></div><div class="localized-shot-demo">DEMO</div></div>
+        <div class="localized-shot-body">
+          <div class="localized-shot-main"><span class="localized-shot-kicker">MY DAY · MY PLAN</span><h5 data-i18n="nv_planner_h">메타인지 기반 자기관리</h5><p data-i18n="nv_planner_sub">초4부터 성인까지, 나의 실행 패턴을 발견하고 전략을 실제 생활에 적용합니다.</p><div class="localized-shot-visual"><i></i><i></i><i></i></div></div>
+          <div class="localized-shot-side">
+            <div><b data-i18n="nv_planner_axis_plan">PLAN · 계획</b><small data-i18n="nv_planner_r1_c2">우선순위 선택 · 과제 분해</small></div>
+            <div><b data-i18n="nv_planner_axis_start">START · 착수</b><small data-i18n="nv_planner_r2_c2">아주 작은 첫 행동</small></div>
+            <div><b data-i18n="nv_planner_axis_check">CHECK · 점검</b><small data-i18n="nv_planner_r6_c2">패턴 발견 · 전략 조정</small></div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="shot-cap" data-i18n="nv_planner_cap">NUVIA PLANNER 실제 화면 · 초4~6 프로필 A · 오늘 · 계획 조립</div>
     <table class="ct-table">
@@ -1760,7 +1833,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <p class="sub-desc" data-i18n="nv_cl_demo_desc">직무 선택부터 자료 분석, 역할 교대와 개인 할 일을 한 화면에서 안내하는 체험판입니다. (항공보안학과 · 보안직무 프로젝트 예시)</p>
       <div class="shot-frame">
         <div class="bar"><span></span><span></span><span></span></div>
-        <img src="proposal/images/nuvia-career-lab.png" alt="NUVIA CAREER LAB">
+        <img class="korean-shot" src="proposal/images/nuvia-career-lab.png" alt="NUVIA CAREER LAB" data-i18n-alt="nv_cl_demo_cap">
+        <div class="localized-shot career" aria-label="NUVIA CAREER LAB 미리보기" data-i18n-aria-label="nv_cl_demo_cap">
+          <div class="localized-shot-head"><div class="localized-shot-brand">NUVIA <span>CAREER LAB</span></div><div class="localized-shot-demo">DEMO</div></div>
+          <div class="localized-shot-body">
+            <div class="localized-shot-main"><span class="localized-shot-kicker">SECURITY CAREER STUDIO</span><h5 data-i18n="nv_cl_demo_h">DEMO · 학과별 직무 체험과 개인 PLANNER 화면</h5><p data-i18n="nv_cl_demo_desc">직무 선택부터 자료 분석, 역할 교대와 개인 할 일을 한 화면에서 안내하는 체험판입니다.</p><div class="localized-shot-visual"><i></i><i></i><i></i></div></div>
+            <div class="localized-shot-side">
+              <div><b data-i18n="nv_cl_i1_tag">중고등학생 진로 캠프</b><small data-i18n="nv_cl_i1_p">관심 지도 · 분야 비교 · 다음 탐색 계획</small></div>
+              <div><b data-i18n="nv_cl_i2_tag">대학생 학과별 직무 캠프</b><small data-i18n="nv_cl_i2_p">직무 산출물 · 수행 근거 · 포트폴리오</small></div>
+              <div><b>NUVIA PLANNER</b><small data-i18n="nv_cl_i2_out">→ PLANNER의 포트폴리오 정리로 연결</small></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="shot-cap" data-i18n="nv_cl_demo_cap">NUVIA CAREER LAB 실제 화면 · Security Career Studio · 대학생 체험판</div>
     </div>
