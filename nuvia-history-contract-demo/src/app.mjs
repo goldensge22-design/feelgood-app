@@ -8,7 +8,7 @@ const locale=params.get('lang')||'ko', qa=params.get('qa')==='1';
 const requested=PATHS.includes(params.get('pass'))?params.get('pass'):null;
 let run=load(requested||'attention');
 if(!run) run=createRun(requested||'attention');
-let help=false,notice='',drawing=false,storyInk=Boolean(run.story.drawing),lastPoint=null;
+let help=false,notice='',drawing=false,storyInk=Boolean(run.story.drawing),lastPoint=null,bookOpen=false,bookPage=0;
 
 if(locale!=='ko'){
   root.innerHTML=`<main class="language-block"><div class="card"><span class="brand">${ko.brand}</span><h1>${ko.unsupportedTitle}</h1><p>${ko.unsupportedBody}</p><a class="button primary" href="?lang=ko">${ko.korean}</a></div></main>`;
@@ -36,8 +36,22 @@ function screen(){
  if(run.step==='historyComparison') return comparison('history',ko.historyCompareTitle,ko.historyComparePrompt,`${ko.actualBody} / ${pathMeta[run.path].result}`);
  if(run.step==='predictionComparison') return comparison('prediction',ko.predictionCompareTitle,ko.predictionComparePrompt,`${run.prediction==='fewer'?ko.predictionA:ko.predictionB} / ${pathMeta[run.path].result}`);
  const state=bookState(run),status=state==='assembled'?ko.bookReady:state==='partial'?ko.bookPartial:ko.bookPending;
- return frame(`<div class="book-cover"><span>${ko.week}</span><h1>${ko.bookTitle}</h1><div class="book-window"><img src="./art/workshop.webp" alt="${ko.workshopShortAlt}"></div><p>${status}</p><dl><div><dt>${ko.firstThought}</dt><dd>${run.prediction==='fewer'?ko.predictionA:ko.predictionB}</dd></div><div><dt>${ko.thinkingPlay}</dt><dd>${pathMeta[run.path].label}</dd></div><div><dt>${ko.myRecord}</dt><dd>${run.story.text||ko.drawingSaved}</dd></div></dl>${button(ko.again,'restart','primary')}</div>`,'book');
+ if(bookOpen)return resultBook();
+ return frame(`<div class="book-cover"><span>${ko.week}</span><h1>${ko.bookTitle}</h1><div class="book-window"><img src="./art/workshop.webp" alt="${ko.workshopShortAlt}"></div><p>${status}</p><dl><div><dt>${ko.firstThought}</dt><dd>${run.prediction==='fewer'?ko.predictionA:ko.predictionB}</dd></div><div><dt>${ko.thinkingPlay}</dt><dd>${pathMeta[run.path].label}</dd></div><div><dt>${ko.myRecord}</dt><dd>${run.story.text||ko.drawingSaved}</dd></div></dl><div class="actions book-actions">${button(ko.openBook,'open-book','primary')}${button(ko.again,'restart')}</div></div>`,'book');
 }
+
+function resultBook(){const pages=bookPages(),page=pages[bookPage];return frame(`<article class="result-book"><header><span>${ko.week}</span><strong>${bookPage+1} / ${pages.length} ${ko.pageOf}</strong></header><div class="book-spread"><div class="page-number">${String(bookPage+1).padStart(2,'0')}</div><h1>${page.title}</h1>${page.image||''}<div class="page-body">${page.body}</div></div><nav class="book-nav" aria-label="${ko.bookTitle}">${button(ko.previousPage,'book-prev','secondary',bookPage===0)}${button(ko.closeBook,'close-book')}${button(ko.nextPage,'book-next','primary',bookPage===pages.length-1)}</nav></article>`,'book book-open')}
+function bookPages(){const prediction=run.prediction==='fewer'?ko.predictionA:ko.predictionB,story=run.story.text?`<p>${escapeHtml(run.story.text)}</p>`:run.story.drawing?`<figure><img src="${run.story.drawing}" alt="${ko.storyDrawing}"><figcaption>${ko.storyDrawing}</figcaption></figure>`:`<p>${ko.comparisonDeferred}</p>`,comparison=k=>run.comparisons[k].status==='recorded'?`<p>${escapeHtml(run.comparisons[k].value)}</p>`:`<p>${ko.comparisonDeferred}</p>`;return[
+ {title:ko.pageActual,image:`<img class="page-scene" src="./art/workshop.webp" alt="${ko.workshopAlt}">`,body:`<p>${ko.actualBody}</p><p>${ko.actualFact}</p>`},
+ {title:ko.pageCondition,image:`<img class="page-scene" src="./art/condition-objects-v1.webp" alt="${ko.objectsAlt}">`,body:`<p>${ko.conditionBody}</p>`},
+ {title:ko.pagePrediction,body:`<p class="page-quote">${prediction}</p>`},
+ {title:ko.pageThinking,body:`<div class="page-symbol">${pathSymbol(run.path)}</div><p>${pathMeta[run.path].label}</p><p>${pathQuestion()}</p>`},
+ {title:ko.pageResult,image:run.path==='planning'?`<img class="page-scene" src="./art/cast.webp" alt="${ko.castAlt}">`:'',body:`<p>${pathMeta[run.path].result}</p>`},
+ {title:ko.pageStory,body:story},
+ {title:ko.pageHistoryCompare,body:comparison('history')},
+ {title:ko.pagePredictionCompare,body:comparison('prediction')}
+]}
+function pathSymbol(path){return path==='attention'?'🔎':path==='simultaneous'?'🧩':path==='sequential'?'🪄':'🧭'}
 
 function pathQuestion(){return run.path==='attention'?ko.attentionQ:run.path==='simultaneous'?ko.simultaneousQ:run.path==='sequential'?ko.sequentialQ:ko.planningQ}
 function pathHelp(){return run.path==='attention'?ko.attentionHelp:run.path==='simultaneous'?ko.simultaneousHelp:run.path==='sequential'?ko.sequentialHelp:ko.planningHelp}
@@ -67,6 +81,10 @@ function act(a){
  if(a==='save-story'){const text=root.querySelector('#story-text')?.value||run.story.text;const c=root.querySelector('#story-canvas');const data=c&&storyInk?c.toDataURL('image/png'):run.story.drawing;if(!text&&!data){notice=ko.drawOrWriteNeeded;render();return}set({...run,story:{...run.story,text,drawing:data,saved:true},step:'historyComparison'},'story.saved',{mode:run.story.mode});return}
  if(a==='save-compare'){const v=root.querySelector('#compare-text').value.trim();if(!v){notice=ko.comparisonNeeded;render();return}saveComparison('recorded',v);return}
  if(a==='defer'){saveComparison('deferred','');return}
+ if(a==='open-book'){bookOpen=true;bookPage=0;render();return}
+ if(a==='close-book'){bookOpen=false;render();return}
+ if(a==='book-prev'){bookPage=Math.max(0,bookPage-1);render();return}
+ if(a==='book-next'){bookPage=Math.min(7,bookPage+1);render();return}
  if(a==='restart'){run=createRun(run.path);save(run);render()}
 }
 function saveComparison(status,value){const kind=run.step==='historyComparison'?'history':'prediction',nextStep=kind==='history'?'predictionComparison':'book';set({...run,comparisons:{...run.comparisons,[kind]:{status,value}},step:nextStep},`comparison.${kind}.${status}`)}
