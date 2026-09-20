@@ -68,6 +68,7 @@ const FALLBACK_LANGUAGES = [
   {code:'az',label:'Azərbaycan',status:'pending'},{code:'mn',label:'Монгол',status:'pending'},
   {code:'km',label:'ខ្មែរ',status:'pending'}
 ];
+const GUIDE_PROFILE_ENGINE = window.GuideProfileEngine;
 
 const escapeHtml = value => String(value).replace(/[&<>'"]/g, character => ({
   '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
@@ -277,6 +278,75 @@ function setupProfileExplorer() {
   renderProfileAnalysis(selectedProfileLevels());
 }
 
+function selectedSupportLevels(prefix) {
+  return {
+    plan: $('#' + prefix + 'Plan').value,
+    attention: $('#' + prefix + 'Attention').value,
+    simultaneous: $('#' + prefix + 'Simultaneous').value,
+    successive: $('#' + prefix + 'Successive').value
+  };
+}
+
+function supportHeaderMarkup(result, titleId) {
+  const tags = result.tags.length
+    ? result.tags.map(tag => '<span class="pattern-tag">' + escapeHtml(tag) + '</span>').join('')
+    : '<span class="pattern-tag">과제 조건 탐색형</span>';
+  return '<header class="profile-analysis-head support-analysis-head"><div><p class="profile-code">' + escapeHtml(result.code) + '</p><h3 id="' + titleId + '" tabindex="-1">' + escapeHtml(result.name) + '</h3><div class="pattern-tags" aria-label="프로파일 특징">' + tags + '</div></div><p>' + escapeHtml(result.summary) + '</p></header>';
+}
+
+function supportArticle(title, content, className = '') {
+  const body = Array.isArray(content) ? listMarkup(content) : '<p>' + escapeHtml(content) + '</p>';
+  return '<article' + (className ? ' class="' + className + '"' : '') + '><h4>' + escapeHtml(title) + '</h4>' + body + '</article>';
+}
+
+function renderTeacherProfile(levels, focus = false) {
+  const result = GUIDE_PROFILE_ENGINE.teacherAnalysis(levels);
+  $('#teacherProfileAnalysis').innerHTML = supportHeaderMarkup(result, 'teacherProfileAnalysisTitle') +
+    '<div class="profile-analysis-grid support-analysis-grid">' +
+      supportArticle('영역별 고강점·영재 가능성 확인', result.highPotential) +
+      supportArticle('평균 범위의 균형', result.balance) +
+      supportArticle('좌·우 정보처리 기울기', result.tilt) +
+      supportArticle('계획·주의 실행조절 편차', result.executiveGap) +
+      supportArticle('특정 영역 하에 대한 지원', result.lowSupport) +
+      supportArticle('고강점·심화 분야', result.extensions) +
+      supportArticle('수업 설명과 자료 제공 방법', result.materials) +
+      supportArticle('구체적인 수업 TIP', result.teachingTips, 'support-feature-card') +
+      supportArticle('학급 관리와 과제 운영 TIP', result.management, 'support-feature-card') +
+      supportArticle('관찰·기록 기준', result.observation) +
+    '</div><aside class="profile-caution"><h4>해석과 적용의 경계</h4>' + listMarkup(result.cautions) + '</aside>';
+  if (focus) $('#teacherProfileAnalysisTitle').focus({preventScroll: true});
+}
+
+function renderParentProfile(levels, focus = false) {
+  const result = GUIDE_PROFILE_ENGINE.parentAnalysis(levels);
+  $('#parentProfileAnalysis').innerHTML = supportHeaderMarkup(result, 'parentProfileAnalysisTitle') +
+    '<div class="profile-analysis-grid support-analysis-grid">' +
+      supportArticle('고강점·평균·기울기·지원 필요 설명', result.summary) +
+      supportArticle('보호자에게 설명할 핵심 문장', '“' + result.keyMessage + '”', 'support-feature-card') +
+      supportArticle('가정에서 확인할 실제 행동', result.behaviors) +
+      supportArticle('상담 중 교사가 물어볼 질문', result.questions) +
+      supportArticle('가정에서 실천할 작은 지원', result.homeSupports) +
+      supportArticle('교사가 바로 사용할 상담 문장', result.scripts, 'support-feature-card') +
+      supportArticle('피해야 할 낙인과 단정', result.avoid) +
+      supportArticle('학교와 가정이 함께 관찰할 기준', result.jointObservation) +
+    '</div>';
+  if (focus) $('#parentProfileAnalysisTitle').focus({preventScroll: true});
+}
+
+function setupSupportProfile({formId, prefix, resetId, render}) {
+  const form = $('#' + formId);
+  form.addEventListener('submit', event => {
+    event.preventDefault();
+    render(selectedSupportLevels(prefix), true);
+  });
+  $('#' + resetId).addEventListener('click', () => {
+    ['Plan', 'Attention', 'Simultaneous', 'Successive'].forEach(axis => { $('#' + prefix + axis).value = 'M'; });
+    render(selectedSupportLevels(prefix));
+    $('#' + prefix + 'Plan').focus();
+  });
+  render(selectedSupportLevels(prefix));
+}
+
 async function setupLanguages() {
   let languages = FALLBACK_LANGUAGES;
   if (location.protocol !== 'file:') {
@@ -287,6 +357,11 @@ async function setupLanguages() {
       console.warn('언어 목록은 내장 기본값을 사용합니다.', error.message);
     }
   }
+  const languageCodes = languages.map(language => language.code);
+  if (new Set(languageCodes).size !== languageCodes.length) throw new Error('언어 코드가 중복되었습니다.');
+  if (languages.length !== 13) throw new Error('지원 언어 목록은 13개여야 합니다.');
+  const readyLanguages = languages.filter(language => language.status === 'ready').map(language => language.code);
+  if (readyLanguages.length !== 1 || readyLanguages[0] !== 'ko') throw new Error('승인 번역 상태가 언어 manifest와 일치하지 않습니다.');
   const selects = $$('[data-language-select]');
   const options = languages.map(language =>
     '<option value="' + escapeHtml(language.code) + '" data-status="' + escapeHtml(language.status) + '">' +
@@ -300,6 +375,7 @@ async function setupLanguages() {
     $('#translationNotice').hidden = !pending;
     document.documentElement.lang = pending ? 'ko' : code;
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dataset.requestedLanguage = code;
   }));
 }
 
@@ -335,4 +411,6 @@ window.addEventListener('hashchange', () => syncFromLocation(true));
 validateReportLinks();
 syncFromLocation();
 setupProfileExplorer();
+setupSupportProfile({formId:'teacherProfileForm', prefix:'teacher', resetId:'resetTeacherProfile', render:renderTeacherProfile});
+setupSupportProfile({formId:'parentProfileForm', prefix:'parent', resetId:'resetParentProfile', render:renderParentProfile});
 setupLanguages();

@@ -35,15 +35,14 @@
       <a href="#support" data-chapter-link="support"><span>13</span>추가 도움이 필요한 경우</a>
       <a href="#closing" data-chapter-link="closing"><span>14</span>맺음말</a>
     </nav>
-    <label class="language toc-language"><span>언어 선택</span><select data-language-select aria-describedby="translationNotice"><option value="ko">한국어</option></select></label>
   </aside>
 
   <main id="reader" class="reader" tabindex="-1">
     <header class="reader-head">
       <div class="mobile-brand"><img src="assets/feelgood-logo-white-outline.png" alt="FeelGood"></div>
       <button id="tocToggle" class="toc-toggle" type="button" aria-expanded="false" aria-controls="tocPanel">목차</button>
-      <label class="language reader-language"><span class="sr-only">언어 선택</span><select data-language-select aria-describedby="translationNotice"><option value="ko">한국어</option></select></label>
       <div class="chapter-progress" aria-live="polite"><span id="chapterNumber">01</span><i aria-hidden="true"><b id="chapterProgress"></b></i><span id="chapterTotal">14</span></div>
+      <label class="language reader-language"><span class="sr-only">언어 선택</span><select data-language-select aria-label="언어 선택" aria-describedby="translationNotice"><option value="ko">한국어</option></select></label>
     </header>
     <div id="translationNotice" class="notice reader-notice" hidden role="status">선택한 언어는 번역 준비 중입니다. 한국어 기준 콘텐츠를 표시합니다.</div>
     <div class="chapter-reader">
@@ -220,7 +219,17 @@
       </section>
 
       <section id="teacher" class="chapter" data-chapter-title="결과를 수업에 연결하기">
-        <div class="chapter-intro"><p class="eyebrow">GUIDANCE · TEACHER FLOW</p><h2>특성을 고정하지 않고, 다음 수업의 행동으로 바꿉니다.</h2><p>프로필에서 선택한 강점과 지원 필요를 실제 수업의 설명, 자료, 시간, 피드백으로 하나씩 연결합니다.</p></div>
+        <div class="chapter-intro"><p class="eyebrow">GUIDANCE · TEACHER FLOW</p><h2>특성을 고정하지 않고, 다음 수업의 행동으로 바꿉니다.</h2><p>PASS 네 영역을 선택하고 적용하면 해당 조합을 수업·과제·학급 관리로 연결한 구체적인 교사 행동을 확인할 수 있습니다.</p></div>
+        <form id="teacherProfileForm" class="profile-controls support-profile-controls" aria-label="수업·관리 지원을 위한 PASS 인지특성 선택">
+          <label>계획<select id="teacherPlan" name="plan"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>주의<select id="teacherAttention" name="attention"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>동시처리<select id="teacherSimultaneous" name="simultaneous"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>순차처리<select id="teacherSuccessive" name="successive"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <div class="profile-control-actions"><button id="applyTeacherProfile" class="apply-profile" type="submit">수업·관리팁 적용</button><button id="resetTeacherProfile" class="reset-profile" type="button">초기화</button></div>
+        </form>
+        <p class="rule-notice"><b>선택만으로 결과가 바뀌지 않습니다.</b> 적용 버튼을 누른 뒤 수업·관리 분석이 갱신됩니다. ‘상’은 영재 판정이 아니며 실제 결과지 기준과 수행자료를 함께 확인합니다.</p>
+        <section id="teacherProfileAnalysis" class="profile-analysis support-analysis" aria-live="polite" aria-atomic="true"></section>
+        <h3 class="section-divider-title">영역별 공통 지도 원칙</h3>
         <div class="accordion-stack"><details open><summary>계획이 필요한 경우</summary><p>목표 한 문장 → 할 일 3단계 → 중간 확인 → 성찰 질문의 틀을 반복합니다. 첫 행동을 작게 정하고, 전략을 바꿨을 때의 성공을 구체적으로 피드백합니다.</p></details><details><summary>주의 지원이 필요한 경우</summary><p>핵심어를 표시하고 한 번에 한 지시를 제시합니다. 활동을 짧은 구간으로 나누며, 산만해진 뒤 돌아올 수 있는 표시나 루틴을 함께 정합니다.</p></details><details><summary>동시처리 지원이 필요한 경우</summary><p>전체 지도·관계도·완성 예시를 먼저 제공하고 세부 정보를 연결합니다. 글, 그림, 도표 중 이해에 도움이 되는 자료를 선택하게 합니다.</p></details><details><summary>순차처리 지원이 필요한 경우</summary><p>긴 지시를 번호 카드로 쪼개고, 말한 순서를 다시 확인하게 합니다. 시범 → 함께 하기 → 혼자 하기를 통해 절차를 안정적으로 익히게 합니다.</p></details></div>
         <div class="teacher-cards"><article><h3>설명과 자료</h3><p>전체 구조와 완성 예시, 번호 단계, 핵심 표시, 짧은 지시를 함께 사용합니다.</p></article><article><h3>과제와 시간</h3><p>공통 학습목표는 유지하고, 힌트·단계 수·활동 구간을 다르게 제공합니다.</p></article><article><h3>모둠과 피드백</h3><p>유형에 역할을 고정하지 않고 관심과 경험을 반영해 역할을 교대합니다.</p></article></div>
         <aside class="parent-script"><h3>수업 조정 전 확인 질문</h3><p>“이 학생에게 지금 필요한 것은 난이도 조절인가, 설명 방식의 변화인가, 시작과 점검을 돕는 구조인가?” 한 번에 한 가지를 바꾸고 실제 참여를 기록합니다.</p></aside>
@@ -241,7 +250,17 @@
       </section>
 
       <section id="parents" class="chapter" data-chapter-title="보호자 상담과 안내">
-        <div class="chapter-intro"><p class="eyebrow">FAMILY CONVERSATION</p><h2>결과를 판단이 아닌, 이해와 협력의 언어로 나눕니다.</h2><p>점수나 유형을 말하기 전에 학생의 실제 모습을 묻고, 가정과 학교에서 도움이 된 조건을 함께 찾습니다.</p></div>
+        <div class="chapter-intro"><p class="eyebrow">FAMILY CONVERSATION</p><h2>결과를 판단이 아닌, 이해와 협력의 언어로 나눕니다.</h2><p>PASS 네 영역을 선택하고 적용하면 같은 인지특성을 보호자 상담과 가정 지원의 언어로 바꾸어 확인할 수 있습니다.</p></div>
+        <form id="parentProfileForm" class="profile-controls support-profile-controls" aria-label="보호자 상담을 위한 PASS 인지특성 선택">
+          <label>계획<select id="parentPlan" name="plan"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>주의<select id="parentAttention" name="attention"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>동시처리<select id="parentSimultaneous" name="simultaneous"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <label>순차처리<select id="parentSuccessive" name="successive"><option value="H">상</option><option value="M" selected>중</option><option value="L">하</option></select></label>
+          <div class="profile-control-actions"><button id="applyParentProfile" class="apply-profile" type="submit">상담팁 적용</button><button id="resetParentProfile" class="reset-profile" type="button">초기화</button></div>
+        </form>
+        <p class="rule-notice"><b>상담용 해석은 수업팁을 복사하지 않습니다.</b> 보호자에게 전달할 설명, 가정에서 확인할 행동과 함께 관찰할 기준을 별도로 제공합니다.</p>
+        <section id="parentProfileAnalysis" class="profile-analysis support-analysis" aria-live="polite" aria-atomic="true"></section>
+        <h3 class="section-divider-title">보호자 상담의 공통 출발점</h3>
         <div class="info-grid two"><article><h3>먼저 전할 문장</h3><p>“이 결과는 잘하고 못하는 순위를 정하는 점수가 아니라, 어떤 설명과 연습이 더 잘 맞는지 함께 찾기 위한 자료입니다.”</p></article><article><h3>함께 정할 한 가지</h3><p>가정에서 부담 없이 이어갈 수 있는 작은 전략 한 가지와, 4주 뒤 함께 확인할 관찰 장면을 정합니다.</p></article></div>
       </section>
 
@@ -257,6 +276,7 @@
     </div>
     <footer class="chapter-pagination"><button id="previousChapter" type="button">← 이전 장</button><p id="paginationLabel">1 / 14 · 여는 글</p><button id="nextChapter" type="button">다음 장 →</button></footer>
   </main>
+  <script src="profile-engine.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
