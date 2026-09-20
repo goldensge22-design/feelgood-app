@@ -257,7 +257,7 @@ function renderChapter(id, focus = false) {
 function syncFromLocation(focus = false) {
   const id = requestedChapter();
   if (!id) {
-    history.replaceState(null, '', '#opening');
+    history.replaceState(null, '', new URL('#opening', location.href));
     renderChapter('opening', focus);
     return;
   }
