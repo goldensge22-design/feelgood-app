@@ -20,7 +20,18 @@ status: DIRTY — teacher-guide 수정 및 미추적 테스트 자산이 이미 
 
 ### 공통 기반 기준선
 
-검증을 마친 MASTER/i18n 공통 파일을 최초로 Git에 기록한 commit을 공통 기반 기준선으로 사용한다. 정확한 commit은 이 문서의 다음 기록 commit에서 고정한다. 이 기준선은 **공통 기반 파일의 기준점**이며, 동시에 존재하는 Teacher Guide 미커밋 작업까지 clean 또는 검증 완료로 선언하지 않는다.
+검증을 마친 MASTER/i18n 공통 파일을 최초로 Git에 기록한 다음 commit을 공통 기반 기준선으로 사용한다.
+
+```text
+date: 2026-09-20 (Asia/Seoul)
+branch: codex/build-teacher-guide-b
+baseline commit: 6678e507223c1c59ad1da8ab372e5bcbef10f458
+subject: chore: establish shared development and i18n baseline
+scope: AGENTS.md, docs/i18n/, i18n/, scripts/check-i18n.mjs, DEVELOPMENT_BASELINE
+working tree note: Teacher Guide의 별도 미커밋 작업은 이 기준선에 포함되지 않음
+```
+
+이 기준선은 **공통 기반 파일의 기준점**이며, 동시에 존재하는 Teacher Guide 미커밋 작업까지 clean 또는 검증 완료로 선언하지 않는다.
 
 어떤 기준선도 branch를 고정하거나 기존 사용자 변경을 되돌리거나 덮어쓸 권한을 부여하지 않는다. 작업 전 `git status --short`, `git branch --show-current`, `git rev-parse HEAD`, `git remote -v`로 최신 상태를 다시 확인한다.
 
