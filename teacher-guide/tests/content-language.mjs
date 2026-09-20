@@ -18,6 +18,8 @@ assert.match(index, /수업과 NUVIA로 옮기기/, 'K-PASS 결과지의 수업�
 assert.match(index, /수업과 NUVIA에서 연습할 한 가지/, '청소년 결과지의 수업·NUVIA 연결이 없습니다.');
 assert.match(index, /성장계획·자기소개서·NUVIA/, '성인 결과지의 NUVIA 연결이 없습니다.');
 assert.match(index, /검사정보를 외부로 전송하지 않습니다/, '사용자 보호 목적의 개인정보 안내가 없습니다.');
+assert.match(app, /searchParams\.get\('lang'\)/, '선택 언어를 URL에서 복원하는 코드가 없습니다.');
+assert.match(app, /searchParams\.set\('lang', code\)/, '선택 언어를 URL에 보존하는 코드가 없습니다.');
 
 const internalStatusUi = [
   'translationNotice',

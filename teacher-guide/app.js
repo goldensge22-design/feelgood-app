@@ -148,6 +148,17 @@ function updateReportLinkLanguage(code) {
   });
 }
 
+function requestedLanguage() {
+  return new URL(location.href).searchParams.get('lang') || 'ko';
+}
+
+function updateGuideLanguageUrl(code) {
+  const url = new URL(location.href);
+  if (code === 'ko') url.searchParams.delete('lang');
+  else url.searchParams.set('lang', code);
+  history.replaceState(history.state, '', url);
+}
+
 function requestedChapter() {
   const rawHash = decodeURIComponent(location.hash.slice(1));
   if (RESULT_GUIDES[rawHash]) return 'results';
@@ -438,7 +449,7 @@ async function setupLanguages() {
     escapeHtml(language.label) + '</option>'
   ).join('');
   selects.forEach(select => { select.innerHTML = options; });
-  async function applyLanguage(select) {
+  async function applyLanguage(select, syncUrl = true) {
     const requestId = ++localeRequestId;
     const code = select.value;
     selects.forEach(other => { other.value = code; });
@@ -470,9 +481,12 @@ async function setupLanguages() {
     const visibleChapterIndex = chapterIds.indexOf(requestedChapter() || 'opening');
     updatePaginationLabel(visibleChapterIndex < 0 ? 0 : visibleChapterIndex);
     selects.forEach(item => { item.disabled = false; item.value = code; });
+    if (syncUrl) updateGuideLanguageUrl(code);
   }
   selects.forEach(select => select.addEventListener('change', () => { applyLanguage(select); }));
-  localizeSubtree(document.body);
+  const initialCode = languageCodes.includes(requestedLanguage()) ? requestedLanguage() : 'ko';
+  selects.forEach(select => { select.value = initialCode; });
+  await applyLanguage(selects[0], initialCode !== requestedLanguage());
 }
 
 $('#tocNav').addEventListener('click', event => {

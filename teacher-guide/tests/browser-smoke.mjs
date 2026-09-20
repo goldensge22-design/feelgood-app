@@ -118,7 +118,8 @@ async function screenshot(name) {
 }
 
 async function openRoute(route) {
-  const url = 'http://127.0.0.1:' + sitePort + '/teacher-guide/#' + route;
+  const search = socket ? await evaluate('location.search') : '';
+  const url = 'http://127.0.0.1:' + sitePort + '/teacher-guide/' + search + '#' + route;
   await command('Page.navigate', {url});
   await waitFor("document.readyState === 'complete' && location.hash === '#" + route + "' && document.querySelectorAll('.chapter:not([hidden])').length === 1", 'route ' + route);
 }
@@ -289,8 +290,13 @@ try {
   report.interactions.localeState = await evaluate("(() => { const values=ids=>ids.map(id=>document.getElementById(id).value).join(); return {hash:location.hash,resultDetail:!document.querySelector('[data-result-view=teen]').hidden,profileCode:document.querySelector('#profileAnalysis .profile-code').textContent,teacherCode:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,parentCode:document.querySelector('#parentProfileAnalysis .profile-code').textContent,profileValues:values(['profilePlan','profileAttention','profileSimultaneous','profileSuccessive']),teacherValues:values(['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive']),parentValues:values(['parentPlan','parentAttention','parentSimultaneous','parentSuccessive']),dashboardPressed:document.querySelector('[data-dashboard=priority]').getAttribute('aria-pressed')==='true'}; })()");
   const localeStatePass = report.interactions.localeState.hash==='#results-teen' && report.interactions.localeState.resultDetail && report.interactions.localeState.profileCode===languageSetup.profile && report.interactions.localeState.teacherCode===languageSetup.teacher && report.interactions.localeState.parentCode===languageSetup.parent && report.interactions.localeState.profileValues==='H,M,L,H' && report.interactions.localeState.teacherValues==='H,L,M,H' && report.interactions.localeState.parentValues==='L,H,M,L' && report.interactions.localeState.dashboardPressed;
   if (!localeStatePass) failures.push('locale-state-preservation');
+  await command('Page.reload', {ignoreCache:true});
+  await waitFor("document.documentElement.dataset.requestedLanguage==='en' && !document.querySelector('.reader-language [data-language-select]').disabled && location.hash==='#results-teen' && !document.querySelector('[data-result-view=teen]').hidden", 'language URL reload state');
+  report.interactions.languageReload = await evaluate("({search:location.search,hash:location.hash,language:document.documentElement.lang,selected:document.querySelector('.reader-language [data-language-select]').value,heading:document.querySelector('#results .chapter-intro h2').textContent,hasKorean:/[가-힣]/.test(document.querySelector('#results').innerText)})");
+  if (report.interactions.languageReload.search!=='?lang=en' || report.interactions.languageReload.hash!=='#results-teen' || report.interactions.languageReload.language!=='en' || report.interactions.languageReload.selected!=='en' || report.interactions.languageReload.hasKorean) failures.push('language-url-reload');
   await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
   await waitFor("document.documentElement.dataset.requestedLanguage==='ko' && !document.querySelector('.reader-language [data-language-select]').disabled", 'restore Korean after locale state check');
+  await evaluate("(() => { const ids=['parentPlan','parentAttention','parentSimultaneous','parentSuccessive']; const values=['L','H','M','L']; ids.forEach((id,index)=>document.getElementById(id).value=values[index]); document.querySelector('#parentProfileForm').requestSubmit(); })()");
   await openRoute('results');
   report.interactions.resultGuides = {};
   for (const guide of ['kpass','teen','adult']) {
@@ -412,6 +418,7 @@ try {
       parentProfile:report.interactions.parentProfile,
       dashboard:report.interactions.dashboard,
       localeState:report.interactions.localeState,
+      languageReload:report.interactions.languageReload,
       resultGuides:report.interactions.resultGuides
     },
     languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,teacherHasKorean:item.teacherHasKorean,parentHasKorean:item.parentHasKorean,guideHasKorean:item.guideHasKorean,...(item.guideHasKorean&&item.code!=='ko'?{koreanSamples:item.koreanSamples}:{}),overflow:item.documentOverflow,clipped:item.clipped,userSurface:item.userSurface,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
