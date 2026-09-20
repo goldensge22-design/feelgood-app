@@ -24,6 +24,23 @@ const zoomWidths = [
   {name:'150%',width:960}
 ];
 const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png'};
+const localeRoot = resolve(root, 'teacher-guide', 'locales');
+const localeManifest = JSON.parse(await readFile(resolve(localeRoot, 'languages.json'), 'utf8'));
+const translationNoticeSource = 'AI 자동 번역 초안입니다. 의미와 교육·심리 용어는 한국어 승인본을 기준으로 확인해 주세요.';
+const localePacks = await Promise.all(localeManifest.filter(language => language.code !== 'ko').map(async language => JSON.parse(await readFile(resolve(localeRoot, language.file), 'utf8'))));
+const forbiddenUserPhrases = [...new Set([
+  translationNoticeSource,
+  'AI-generated translation',
+  'Machine-translated draft',
+  '번역 검수가 필요합니다.',
+  '한국어 승인본을 기준으로 확인해 주세요.',
+  '번역 상태',
+  '개발 중',
+  'QA용 안내',
+  '디버그 상태',
+  '내부 검수용 문구',
+  ...localePacks.flatMap(pack => [pack.disclaimer, pack.messages?.[translationNoticeSource]])
+].filter(Boolean))];
 
 const server = createServer(async (request, response) => {
   try {
@@ -107,10 +124,10 @@ async function openRoute(route) {
 }
 
 async function layoutSnapshot() {
-  return evaluate("(() => { const visible=document.querySelector('.chapter:not([hidden])'); const reader=document.querySelector('#reader'); const controls=[...visible.querySelectorAll('button,a,select,input')].filter(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0}); const clippedElements=[...visible.querySelectorAll('h1,h2,h3,p,span,strong,button,a')].filter(el=>el.scrollWidth>el.clientWidth+2); return {visible:visible.id,visibleCount:document.querySelectorAll('.chapter:not([hidden])').length,active:document.querySelector('[data-chapter-link][aria-current=page]')?.dataset.chapterLink||'',documentOverflow:document.documentElement.scrollWidth>innerWidth,readerOverflow:reader.scrollWidth>reader.clientWidth+1,clipped:clippedElements.length,clippedItems:clippedElements.map(el=>({tag:el.tagName.toLowerCase(),className:el.className,text:el.textContent.trim().slice(0,40),clientWidth:el.clientWidth,scrollWidth:el.scrollWidth})),smallTargets:controls.filter(el=>{const r=el.getBoundingClientRect();return r.width<40||r.height<40}).length}; })()");
+  return evaluate("(() => { const visible=document.querySelector('.chapter:not([hidden])'); const reader=document.querySelector('#reader'); const readerRect=reader.getBoundingClientRect(); const controls=[...visible.querySelectorAll('button,a,select,input')].filter(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0}); const clippedElements=[...visible.querySelectorAll('h1,h2,h3,p,span,strong,button,a')].filter(el=>el.scrollWidth>el.clientWidth+2); const outOfReader=[...reader.querySelectorAll('*')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<readerRect.left-1||r.right>readerRect.right+1)}).slice(0,8).map(el=>({tag:el.tagName.toLowerCase(),className:el.className,text:el.textContent.trim().slice(0,40),left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right)})); return {visible:visible.id,visibleCount:document.querySelectorAll('.chapter:not([hidden])').length,active:document.querySelector('[data-chapter-link][aria-current=page]')?.dataset.chapterLink||'',documentOverflow:document.documentElement.scrollWidth>innerWidth,readerOverflow:reader.scrollWidth>reader.clientWidth+1,readerWidths:[reader.clientWidth,reader.scrollWidth],outOfReader,clipped:clippedElements.length,clippedItems:clippedElements.map(el=>({tag:el.tagName.toLowerCase(),className:el.className,text:el.textContent.trim().slice(0,40),clientWidth:el.clientWidth,scrollWidth:el.scrollWidth})),smallTargets:controls.filter(el=>{const r=el.getBoundingClientRect();return r.width<40||r.height<40}).length}; })()");
 }
 
-const report = {static:{},routes:{},history:{},pagination:{},interactions:{},external:{},viewports:{},zoom:{},print:{},console:{},status:'PASS'};
+const report = {static:{},routes:{},history:{},pagination:{},interactions:{},external:{},viewports:{},internationalViewports:{},zoom:{},print:{},console:{},status:'PASS'};
 const failures = [];
 
 try {
@@ -134,8 +151,8 @@ try {
   await setViewport(viewports[0]);
   await waitFor("document.querySelector('#profileAnalysis .profile-code')?.textContent==='P-M / A-M / S-M / Q-M' && document.querySelector('#teacherProfileAnalysis .profile-code')?.textContent==='P-M / A-M / S-M / Q-M' && document.querySelector('#parentProfileAnalysis .profile-code')?.textContent==='P-M / A-M / S-M / Q-M' && document.querySelectorAll('[data-language-select] option').length===13", 'profile engines and language data');
 
-  report.static = await evaluate("(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id); const duplicates=ids.filter((id,index)=>ids.indexOf(id)!==index); const empty=[...document.querySelectorAll('a')].filter(a=>!a.getAttribute('href')||a.getAttribute('href')==='#').length; const broken=[...document.querySelectorAll('a[href^=\"#\"]')].filter(a=>!document.querySelector(a.getAttribute('href'))).map(a=>a.getAttribute('href')); const css=[...document.styleSheets].map(sheet=>new URL(sheet.href).pathname.split('/').pop()); return {chapters:document.querySelectorAll('.chapter').length,toc:document.querySelectorAll('[data-chapter-link]').length,duplicates:[...new Set(duplicates)],emptyHref:empty,brokenInternal:broken,stylesheets:css}; })()");
-  if (report.static.chapters !== 14 || report.static.toc !== 14 || report.static.duplicates.length || report.static.emptyHref || report.static.brokenInternal.length || report.static.stylesheets.join() !== 'ebook.css') failures.push('static-integrity');
+  report.static = await evaluate("(() => { const ids=[...document.querySelectorAll('[id]')].map(el=>el.id); const duplicates=ids.filter((id,index)=>ids.indexOf(id)!==index); const empty=[...document.querySelectorAll('a')].filter(a=>!a.getAttribute('href')||a.getAttribute('href')==='#').length; const broken=[...document.querySelectorAll('a[href^=\"#\"]')].filter(a=>!document.querySelector(a.getAttribute('href'))).map(a=>a.getAttribute('href')); const css=[...document.styleSheets].map(sheet=>new URL(sheet.href).pathname.split('/').pop()); const internalStatusDom=document.querySelectorAll('#translationNotice,.translation-notice,.reader-notice,[data-status],[data-build-id],[data-qa-status]').length; return {chapters:document.querySelectorAll('.chapter').length,toc:document.querySelectorAll('[data-chapter-link]').length,duplicates:[...new Set(duplicates)],emptyHref:empty,brokenInternal:broken,stylesheets:css,internalStatusDom}; })()");
+  if (report.static.chapters !== 14 || report.static.toc !== 14 || report.static.duplicates.length || report.static.emptyHref || report.static.brokenInternal.length || report.static.stylesheets.join() !== 'ebook.css' || report.static.internalStatusDom) failures.push('static-integrity');
 
   for (const route of routes) {
     await openRoute(route);
@@ -208,7 +225,7 @@ try {
         code:document.querySelector('#profileAnalysis .profile-code').textContent,
         sections:document.querySelectorAll('#profileAnalysis .profile-analysis-grid article').length,
         caution:document.querySelector('#profileAnalysis .profile-caution').textContent.length>80,
-        aiNotice:document.querySelector('.rule-notice').textContent.includes('AI 생성 설명이 아닙니다')
+        privacyNotice:document.querySelector('.rule-notice').textContent.includes('검사정보를 외부로 전송하지 않습니다')
       };
     })()`);
     report.interactions.profiles.push({...result,expectedCode});
@@ -246,18 +263,20 @@ try {
   await openRoute('dashboard');
   report.interactions.dashboard = await evaluate("(() => { const before=document.querySelector('#dashboardDetail').textContent; const button=document.querySelector('[data-dashboard=priority]'); button.click(); return {changed:document.querySelector('#dashboardDetail').textContent!==before,pressed:button.getAttribute('aria-pressed')==='true'}; })()");
   await openRoute('teacher');
-  const languageSetup = await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); const options=[...select.options].map(option=>({code:option.value,status:option.dataset.status})); const setValues=(ids,values)=>ids.forEach((id,index)=>document.getElementById(id).value=values[index]); setValues(['profilePlan','profileAttention','profileSimultaneous','profileSuccessive'],['H','M','L','H']); setValues(['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive'],['H','L','M','H']); setValues(['parentPlan','parentAttention','parentSimultaneous','parentSuccessive'],['L','H','M','L']); document.querySelector('#profileForm').requestSubmit(); document.querySelector('#teacherProfileForm').requestSubmit(); document.querySelector('#parentProfileForm').requestSubmit(); const dashboardButton=document.querySelector('[data-dashboard=priority]'); if(dashboardButton.getAttribute('aria-pressed')!=='true') dashboardButton.click(); return {options,profile:document.querySelector('#profileAnalysis .profile-code').textContent,teacher:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,parent:document.querySelector('#parentProfileAnalysis .profile-code').textContent,koreanReset:document.querySelector('#resetTeacherProfile').textContent.trim(),koreanHeading:document.querySelector('#teacher .chapter-intro h2').textContent.trim()}; })()");
+  const languageSetup = await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); const options=[...select.options].map(option=>({code:option.value})); const setValues=(ids,values)=>ids.forEach((id,index)=>document.getElementById(id).value=values[index]); setValues(['profilePlan','profileAttention','profileSimultaneous','profileSuccessive'],['H','M','L','H']); setValues(['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive'],['H','L','M','H']); setValues(['parentPlan','parentAttention','parentSimultaneous','parentSuccessive'],['L','H','M','L']); document.querySelector('#profileForm').requestSubmit(); document.querySelector('#teacherProfileForm').requestSubmit(); document.querySelector('#parentProfileForm').requestSubmit(); const dashboardButton=document.querySelector('[data-dashboard=priority]'); if(dashboardButton.getAttribute('aria-pressed')!=='true') dashboardButton.click(); return {options,profile:document.querySelector('#profileAnalysis .profile-code').textContent,teacher:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,parent:document.querySelector('#parentProfileAnalysis .profile-code').textContent,koreanReset:document.querySelector('#resetTeacherProfile').textContent.trim(),koreanHeading:document.querySelector('#teacher .chapter-intro h2').textContent.trim()}; })()");
   const languageResults = [];
   for (const option of languageSetup.options) {
     await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + option.code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
     await waitFor("document.documentElement.dataset.requestedLanguage==='" + option.code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'language ' + option.code);
-    languageResults.push(await evaluate("(() => { document.querySelector('#profileForm').requestSubmit(); document.querySelector('#teacherProfileForm').requestSubmit(); document.querySelector('#parentProfileForm').requestSubmit(); const panels=[document.querySelector('#profileAnalysis'),document.querySelector('#teacherProfileAnalysis'),document.querySelector('#parentProfileAnalysis')]; const clippedItems=panels.flatMap(panel=>[...panel.querySelectorAll('h2,h3,h4,p,li,button')]).filter(element=>element.getClientRects().length&&(element.scrollWidth>element.clientWidth+4||element.scrollHeight>element.clientHeight+4)).map(element=>({tag:element.tagName,className:element.className,text:element.textContent.trim().slice(0,80),width:[element.clientWidth,element.scrollWidth],height:[element.clientHeight,element.scrollHeight]})); const guideRoots=['guide','results','profiles','teacher','dashboard','nuvia','parents','support'].map(id=>document.getElementById(id)); const guideText=guideRoots.map(element=>element.textContent).join(' '); const koreanSamples=[...new Set(guideRoots.flatMap(root=>[...root.querySelectorAll('*')].map(element=>[...element.childNodes].filter(node=>node.nodeType===3).map(node=>node.nodeValue.trim()).join(' ')).filter(value=>/[가-힣]/.test(value))))].slice(0,12); const values=ids=>ids.map(id=>document.getElementById(id).value).join(); return {code:document.documentElement.lang,dir:document.documentElement.dir,notice:!document.querySelector('#translationNotice').hidden,reset:document.querySelector('#resetTeacherProfile').textContent.trim(),heading:document.querySelector('#teacher .chapter-intro h2').textContent.trim(),hash:location.hash,profileCode:document.querySelector('#profileAnalysis .profile-code').textContent,teacherCode:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,parentCode:document.querySelector('#parentProfileAnalysis .profile-code').textContent,profileValues:values(['profilePlan','profileAttention','profileSimultaneous','profileSuccessive']),teacherValues:values(['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive']),parentValues:values(['parentPlan','parentAttention','parentSimultaneous','parentSuccessive']),dashboardPressed:document.querySelector('[data-dashboard=priority]').getAttribute('aria-pressed')==='true',teacherHasKorean:/[가-힣]/.test(document.querySelector('#teacherProfileAnalysis').innerText),parentHasKorean:/[가-힣]/.test(document.querySelector('#parentProfileAnalysis').innerText),guideHasKorean:/[가-힣]/.test(guideText),koreanSamples,documentOverflow:document.documentElement.scrollWidth>innerWidth,clipped:clippedItems.length,clippedItems,reportLangs:[...document.querySelectorAll('[data-report-link]')].map(link=>new URL(link.href).searchParams.get('lang'))}; })()"));
+    const languageResult = await evaluate("(() => { document.querySelector('#profileForm').requestSubmit(); document.querySelector('#teacherProfileForm').requestSubmit(); document.querySelector('#parentProfileForm').requestSubmit(); const panels=[document.querySelector('#profileAnalysis'),document.querySelector('#teacherProfileAnalysis'),document.querySelector('#parentProfileAnalysis')]; const clippedItems=panels.flatMap(panel=>[...panel.querySelectorAll('h2,h3,h4,p,li,button')]).filter(element=>element.getClientRects().length&&(element.scrollWidth>element.clientWidth+4||element.scrollHeight>element.clientHeight+4)).map(element=>({tag:element.tagName,className:element.className,text:element.textContent.trim().slice(0,80),width:[element.clientWidth,element.scrollWidth],height:[element.clientHeight,element.scrollHeight]})); const guideRoots=[...document.querySelectorAll('.chapter')]; const guideText=guideRoots.map(element=>element.textContent).join(' '); const koreanSamples=[...new Set(guideRoots.flatMap(root=>[...root.querySelectorAll('*')].map(element=>[...element.childNodes].filter(node=>node.nodeType===3).map(node=>node.nodeValue.trim()).join(' ')).filter(value=>/[가-힣]/.test(value))))].slice(0,12); const values=ids=>ids.map(id=>document.getElementById(id).value).join(); return {code:document.documentElement.lang,dir:document.documentElement.dir,reset:document.querySelector('#resetTeacherProfile').textContent.trim(),heading:document.querySelector('#teacher .chapter-intro h2').textContent.trim(),hash:location.hash,profileCode:document.querySelector('#profileAnalysis .profile-code').textContent,teacherCode:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,parentCode:document.querySelector('#parentProfileAnalysis .profile-code').textContent,profileValues:values(['profilePlan','profileAttention','profileSimultaneous','profileSuccessive']),teacherValues:values(['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive']),parentValues:values(['parentPlan','parentAttention','parentSimultaneous','parentSuccessive']),dashboardPressed:document.querySelector('[data-dashboard=priority]').getAttribute('aria-pressed')==='true',teacherHasKorean:/[가-힣]/.test(document.querySelector('#teacherProfileAnalysis').innerText),parentHasKorean:/[가-힣]/.test(document.querySelector('#parentProfileAnalysis').innerText),guideHasKorean:/[가-힣]/.test(guideText),koreanSamples,documentOverflow:document.documentElement.scrollWidth>innerWidth,clipped:clippedItems.length,clippedItems,reportLangs:[...document.querySelectorAll('[data-report-link]')].map(link=>new URL(link.href).searchParams.get('lang'))}; })()");
+    languageResult.userSurface = await userSurfaceSnapshot();
+    languageResults.push(languageResult);
   }
   report.interactions.language = {
     count:languageSetup.options.length,
     unique:new Set(languageSetup.options.map(option=>option.code)).size,
-    ready:languageSetup.options.filter(option=>option.status==='ready').map(option=>option.code),
-    drafts:languageSetup.options.filter(option=>option.status==='ai-draft').map(option=>option.code),
+    ready:localeManifest.filter(option=>option.status==='ready').map(option=>option.code),
+    drafts:localeManifest.filter(option=>option.status==='ai-draft').map(option=>option.code),
     results:languageResults
   };
   await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
@@ -282,11 +301,31 @@ try {
     await waitFor("location.hash==='#results' && !document.querySelector('[data-result-view=chooser]').hidden && document.querySelector('#resultInterpretation').hidden", 'result back ' + guide);
   }
   const resultGuidesPass = Object.values(report.interactions.resultGuides).every(item => item.visible && item.chooser && item.interpretation);
-  const profilesPass = report.interactions.profiles.every(item => item.code===item.expectedCode && item.sections===6 && item.caution && item.aiNotice) && report.interactions.profileReset;
+  const profilesPass = report.interactions.profiles.every(item => item.code===item.expectedCode && item.sections===6 && item.caution && item.privacyNotice) && report.interactions.profileReset;
   const teacherPass = report.interactions.teacherProfile.unchanged && report.interactions.teacherProfile.applied && report.interactions.teacherProfile.sections===8 && report.interactions.teacherProfile.reset;
   const parentPass = report.interactions.parentProfile.unchanged && report.interactions.parentProfile.applied && report.interactions.parentProfile.sections===9 && report.interactions.parentProfile.reset;
-  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profileCode===languageSetup.profile && item.teacherCode===languageSetup.teacher && item.parentCode===languageSetup.parent && item.profileValues==='H,M,L,H' && item.teacherValues==='H,L,M,H' && item.parentValues==='L,H,M,L' && item.dashboardPressed && item.reportLangs.every(code=>code===item.code) && (item.code==='ko' ? !item.notice && item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.guideHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : item.notice && !item.teacherHasKorean && !item.parentHasKorean && !item.guideHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
+  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profileCode===languageSetup.profile && item.teacherCode===languageSetup.teacher && item.parentCode===languageSetup.parent && item.profileValues==='H,M,L,H' && item.teacherValues==='H,L,M,H' && item.parentValues==='L,H,M,L' && item.dashboardPressed && item.reportLangs.every(code=>code===item.code) && item.userSurface.forbiddenHits.length===0 && item.userSurface.exactStatus.length===0 && item.userSurface.internalElements.length===0 && item.userSurface.cleanTopFlow && (item.code==='ko' ? item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.guideHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : !item.teacherHasKorean && !item.parentHasKorean && !item.guideHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
   if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !profilesPass || !teacherPass || !parentPass || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !languagePass || !resultGuidesPass) failures.push('interactions');
+
+  const internationalViewports = [viewports[0],viewports[2],viewports[4],viewports[5]];
+  for (const code of ['en','ar','km']) {
+    await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+    await waitFor("document.documentElement.dataset.requestedLanguage==='" + code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'international viewport language ' + code);
+    report.internationalViewports[code] = {};
+    for (const viewport of internationalViewports) {
+      await setViewport(viewport);
+      await openRoute('parents');
+      const snapshot = await layoutSnapshot();
+      const userSurface = await userSurfaceSnapshot();
+      const parentState = await evaluate("(() => ({values:['parentPlan','parentAttention','parentSimultaneous','parentSuccessive'].map(id=>document.getElementById(id).value).join(),code:document.querySelector('#parentProfileAnalysis .profile-code').textContent}))()");
+      report.internationalViewports[code][viewport.name] = {snapshot,userSurface,parentState};
+      if (snapshot.documentOverflow || snapshot.readerOverflow || snapshot.clipped || snapshot.visibleCount!==1 || snapshot.visible!=='parents' || userSurface.forbiddenHits.length || userSurface.exactStatus.length || userSurface.internalElements.length || !userSurface.cleanTopFlow || parentState.values!=='L,H,M,L' || parentState.code!==languageSetup.parent) failures.push('international-viewport-' + code + '-' + viewport.name);
+      if (viewport.width===1440 || viewport.width===360) await screenshot('qa-parents-' + code + '-' + viewport.width + 'x' + viewport.height + '.png');
+    }
+  }
+  await setViewport(viewports[0]);
+  await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+  await waitFor("document.documentElement.dataset.requestedLanguage==='ko' && !document.querySelector('.reader-language [data-language-select]').disabled", 'restore Korean after international viewport checks');
 
   await openRoute('pathways');
   const currentHash = await evaluate('location.hash');
@@ -355,8 +394,9 @@ try {
   }
 
   await command('Emulation.setEmulatedMedia', {media:'print'});
-  report.print = await evaluate("({visible:[...document.querySelectorAll('.chapter')].filter(chapter=>getComputedStyle(chapter).display!=='none').length,sidebar:getComputedStyle(document.querySelector('#tocPanel')).display,pagination:getComputedStyle(document.querySelector('.chapter-pagination')).display})");
-  if (report.print.visible !== 14 || report.print.sidebar !== 'none' || report.print.pagination !== 'none') failures.push('print');
+  report.print = await evaluate("({visible:[...document.querySelectorAll('.chapter')].filter(chapter=>getComputedStyle(chapter).display!=='none').length,sidebar:getComputedStyle(document.querySelector('#tocPanel')).display,pagination:getComputedStyle(document.querySelector('.chapter-pagination')).display,lineButtonColor:getComputedStyle(document.querySelector('.chapter-opening .button.line')).color})");
+  report.print.userSurface = await userSurfaceSnapshot();
+  if (report.print.visible !== 14 || report.print.sidebar !== 'none' || report.print.pagination !== 'none' || report.print.lineButtonColor!=='rgb(0, 0, 0)' || report.print.userSurface.forbiddenHits.length || report.print.userSurface.exactStatus.length || report.print.userSurface.internalElements.length || !report.print.userSurface.cleanTopFlow) failures.push('print');
 
   report.console = {exceptions,errors:consoleErrors};
   if (exceptions.length || consoleErrors.length) failures.push('console');
@@ -374,8 +414,9 @@ try {
       localeState:report.interactions.localeState,
       resultGuides:report.interactions.resultGuides
     },
-    languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,teacherHasKorean:item.teacherHasKorean,parentHasKorean:item.parentHasKorean,guideHasKorean:item.guideHasKorean,...(item.guideHasKorean&&item.code!=='ko'?{koreanSamples:item.koreanSamples}:{}),overflow:item.documentOverflow,clipped:item.clipped,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
+    languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,teacherHasKorean:item.teacherHasKorean,parentHasKorean:item.parentHasKorean,guideHasKorean:item.guideHasKorean,...(item.guideHasKorean&&item.code!=='ko'?{koreanSamples:item.koreanSamples}:{}),overflow:item.documentOverflow,clipped:item.clipped,userSurface:item.userSurface,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
     viewports:Object.fromEntries(Object.entries(report.viewports).map(([name, value]) => [name, {overflow:value.overflow,clipped:value.clipped,multiple:value.multiple,activeMismatch:value.activeMismatch}])),
+    internationalViewports:Object.fromEntries(Object.entries(report.internationalViewports).map(([code, results]) => [code, Object.fromEntries(Object.entries(results).map(([name, value]) => [name, {overflow:value.snapshot.documentOverflow||value.snapshot.readerOverflow,clipped:value.snapshot.clipped,userSurface:value.userSurface,parentState:value.parentState}]))])),
     zoom:report.zoom,
     print:report.print,
     console:report.console
@@ -390,5 +431,21 @@ try {
     rm(profileDirectory, {recursive:true,force:true}).catch(() => {}),
     new Promise(resolveWait => setTimeout(resolveWait, 1500))
   ]);
+}
+
+async function userSurfaceSnapshot() {
+  return evaluate(`(() => {
+    const bodyText=document.body.innerText;
+    const forbidden=${JSON.stringify(forbiddenUserPhrases)};
+    const exactStatus=[...document.querySelectorAll('body *')].filter(element=>!element.children.length&&['ai-draft','needs-review','ready'].includes(element.textContent.trim().toLowerCase())).map(element=>element.textContent.trim());
+    const internalElements=[...document.querySelectorAll('#translationNotice,.translation-notice,.reader-notice,[data-status],[data-build-id],[data-qa-status]')].map(element=>element.id||element.className||element.tagName);
+    const readerHead=document.querySelector('.reader-head');
+    return {
+      forbiddenHits:forbidden.filter(phrase=>bodyText.includes(phrase)),
+      exactStatus,
+      internalElements,
+      cleanTopFlow:readerHead.nextElementSibling===document.querySelector('.chapter-reader')
+    };
+  })()`);
 }
 process.exit(process.exitCode || 0);

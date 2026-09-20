@@ -17,6 +17,18 @@ assert.match(index, /결과지 공통 읽기 순서/, '결과지 공통 읽기 �
 assert.match(index, /수업과 NUVIA로 옮기기/, 'K-PASS 결과지의 수업·NUVIA 연결이 없습니다.');
 assert.match(index, /수업과 NUVIA에서 연습할 한 가지/, '청소년 결과지의 수업·NUVIA 연결이 없습니다.');
 assert.match(index, /성장계획·자기소개서·NUVIA/, '성인 결과지의 NUVIA 연결이 없습니다.');
+assert.match(index, /검사정보를 외부로 전송하지 않습니다/, '사용자 보호 목적의 개인정보 안내가 없습니다.');
+
+const internalStatusUi = [
+  'translationNotice',
+  'reader-notice',
+  'data-status',
+  'AI 자동 번역 초안입니다.',
+  'AI 생성 설명이 아닙니다.'
+];
+for (const marker of internalStatusUi) {
+  assert.ok(!index.includes(marker) && !app.includes(marker), `일반 사용자 UI 생성 코드에 내부 상태 문구가 남았습니다: ${marker}`);
+}
 
 const vagueOnly = [
   '강점을 활용합니다.',
@@ -53,5 +65,6 @@ console.log(JSON.stringify({
   combinations:81,
   vagueStandalonePhrases:0,
   studentForbiddenTerms:0,
+  internalStatusUiMarkers:0,
   resultGuides:['kpass','teen','adult']
 }, null, 2));

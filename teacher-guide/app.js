@@ -70,7 +70,6 @@ const FALLBACK_LANGUAGES = [
 ];
 const GUIDE_PROFILE_ENGINE = window.GuideProfileEngine;
 const KOREAN_DOCUMENT_TITLE = document.title;
-const AI_TRANSLATION_NOTICE = 'AI 자동 번역 초안입니다. 의미와 교육·심리 용어는 한국어 승인본을 기준으로 확인해 주세요.';
 const TRANSLATABLE_ATTRIBUTES = ['aria-label', 'title', 'placeholder', 'data-chapter-title'];
 const koreanText = new WeakMap();
 const koreanAttributes = new WeakMap();
@@ -435,7 +434,7 @@ async function setupLanguages() {
   if (readyLanguages.length !== 1 || readyLanguages[0] !== 'ko') throw new Error('한국어 승인본 상태가 언어 manifest와 일치하지 않습니다.');
   const selects = $$('[data-language-select]');
   const options = languages.map(language =>
-    '<option value="' + escapeHtml(language.code) + '" data-status="' + escapeHtml(language.status) + '">' +
+    '<option value="' + escapeHtml(language.code) + '">' +
     escapeHtml(language.label) + '</option>'
   ).join('');
   selects.forEach(select => { select.innerHTML = options; });
@@ -444,7 +443,6 @@ async function setupLanguages() {
     const code = select.value;
     selects.forEach(other => { other.value = code; });
     const language = languages.find(item => item.code === code);
-    const isDraft = language.status === 'ai-draft';
     selects.forEach(item => { item.disabled = true; });
     restoreKorean(document.body);
     activeLocaleMessages = {};
@@ -464,8 +462,6 @@ async function setupLanguages() {
         activeLocaleCode = 'ko';
       }
     }
-    $('#translationNotice').textContent = AI_TRANSLATION_NOTICE;
-    $('#translationNotice').hidden = code === 'ko';
     document.documentElement.lang = activeLocaleCode;
     document.documentElement.dir = code === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.requestedLanguage = code;
@@ -474,7 +470,6 @@ async function setupLanguages() {
     const visibleChapterIndex = chapterIds.indexOf(requestedChapter() || 'opening');
     updatePaginationLabel(visibleChapterIndex < 0 ? 0 : visibleChapterIndex);
     selects.forEach(item => { item.disabled = false; item.value = code; });
-    if (!isDraft && code !== 'ko') $('#translationNotice').hidden = true;
   }
   selects.forEach(select => select.addEventListener('change', () => { applyLanguage(select); }));
   localizeSubtree(document.body);
