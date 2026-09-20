@@ -1,0 +1,3 @@
+import http from 'node:http';import {readFile,stat} from 'node:fs/promises';import {extname,join,resolve} from 'node:path';
+const port=Number(process.env.PORT||5197),root=resolve(process.argv[2]||'dist'),mime={'.html':'text/html; charset=utf-8','.css':'text/css','.mjs':'text/javascript','.webp':'image/webp','.woff2':'font/woff2'};
+http.createServer(async(req,res)=>{try{let p=join(root,decodeURIComponent(new URL(req.url,'http://x').pathname));if((await stat(p)).isDirectory())p=join(p,'index.html');res.setHeader('Content-Type',mime[extname(p)]||'application/octet-stream');res.end(await readFile(p));}catch{res.statusCode=404;res.end('Not found')}}).listen(port,'0.0.0.0',()=>console.log(`NUVIA HISTORY demo http://0.0.0.0:${port}`));
