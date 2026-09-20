@@ -519,6 +519,9 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .school-data-flow{grid-template-columns:1fr;gap:7px;}
   .school-data-flow .flow-step{width:100%;min-width:0;}
   .school-data-flow .flow-arrow{transform:rotate(90deg);text-align:center;}
+  .ct-section table.ct-table{width:100%;max-width:100%;table-layout:fixed;}
+  .ct-section table.ct-table th,.ct-section table.ct-table td{overflow-wrap:anywhere;word-break:break-word;}
+  .product-block h3{overflow-wrap:anywhere;word-break:break-word;}
 }
 @media(min-width:821px) and (max-width:1100px){
   .proposal-layout{grid-template-columns:190px minmax(0,1fr);}
@@ -1117,7 +1120,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <a class="nav-logo" href="#home" onclick="show('home');return false;" aria-label="FeelGood home">
     <img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" height="34" alt="FeelGood">
   </a>
-  <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Language / 언어"></select>
+  <select class="lang-select" id="langSelect" onchange="setLang(this.value)" aria-label="Language / 언어" data-i18n-aria-label="language_label"></select>
 </nav>
 
 <div class="mobile-toc-bar">
@@ -1130,7 +1133,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 <div class="toc-overlay" id="tocOverlay" aria-hidden="true"></div>
 
 <div class="proposal-layout">
-  <aside class="proposal-toc" id="proposalToc" aria-label="제안서 목차">
+  <aside class="proposal-toc" id="proposalToc" aria-label="제안서 목차" data-i18n-aria-label="toc_aria">
     <p class="toc-kicker">CONTENTS</p>
     <ol class="ntabs" id="ntabs">
       <li data-s="test"><a href="#assessment" onclick="show('test');return false;"><span class="toc-no">01</span><span data-i18n="nav_test">🧬 검사 소개</span></a></li>
@@ -1191,40 +1194,40 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <section class="school-case" aria-labelledby="schoolCaseTitle">
     <div class="school-case-head">
       <p class="case-kicker">SCHOOL DASHBOARD · CASE STUDY</p>
-      <h3 id="schoolCaseTitle"><span>검사에서 끝나지 않습니다.</span>학급 전체의 인지 특성을 교사가 한눈에 확인할 수 있습니다.</h3>
-      <p>K-PASS 검사 결과를 학급 단위로 통합하여 학생들의 인지 특성, 강점과 지원 필요 영역, PASS 영역별 분포를 교사가 수업과 학생 지원에 활용할 수 있는 정보로 확장합니다.</p>
+      <h3 id="schoolCaseTitle" data-i18n="case_title"><span>검사에서 끝나지 않습니다.</span>학급 전체의 인지 특성을 교사가 한눈에 확인할 수 있습니다.</h3>
+      <p data-i18n="case_desc">K-PASS 검사 결과를 학급 단위로 통합하여 학생들의 인지 특성, 강점과 지원 필요 영역, PASS 영역별 분포를 교사가 수업과 학생 지원에 활용할 수 있는 정보로 확장합니다.</p>
     </div>
-    <a class="case-dashboard-card" data-dashboard-example href="https://goldensge22-design.github.io/feelgood-app/PASS_report_KNUE_Jeungpyeong_FeelGood_12lang_v3.html?lang=ko" target="_blank" rel="noopener noreferrer" aria-label="한국교원대, 증평군, FeelGood 교사 대시보드 예시 새 탭에서 보기">
-      <div class="dashboard-browser" aria-label="교사 대시보드 미리보기">
+    <a class="case-dashboard-card" data-dashboard-example href="https://goldensge22-design.github.io/feelgood-app/PASS_report_KNUE_Jeungpyeong_FeelGood_12lang_v3.html?lang=ko" target="_blank" rel="noopener noreferrer" aria-label="한국교원대, 증평군, FeelGood 교사 대시보드 예시 새 탭에서 보기" data-i18n-aria-label="case_link_aria">
+      <div class="dashboard-browser" aria-label="교사 대시보드 미리보기" data-i18n-aria-label="case_preview_aria">
         <div class="dashboard-browser-bar"><i></i><i></i><i></i><span>FeelGood · Class Cognitive Dashboard</span></div>
         <div class="dashboard-preview">
-          <div class="dashboard-preview-title"><strong>학급 인지능력 개요</strong><span>PREVIEW</span></div>
+          <div class="dashboard-preview-title"><strong data-i18n="case_overview">학급 인지능력 개요</strong><span>PREVIEW</span></div>
           <div class="dashboard-domain-grid">
-            <div><b>동시처리</b><i></i></div><div><b>계획력</b><i></i></div><div><b>주의력</b><i></i></div><div><b>순차처리</b><i></i></div>
+            <div><b data-i18n="case_sim">동시처리</b><i></i></div><div><b data-i18n="case_plan">계획력</b><i></i></div><div><b data-i18n="case_attention">주의력</b><i></i></div><div><b data-i18n="case_successive">순차처리</b><i></i></div>
           </div>
           <div class="dashboard-mini-grid">
-            <div><b>처리유형 분포</b><span class="distribution-dots"><i></i><i></i><i></i><i></i></span></div>
-            <div><b>지원 필요 학생</b><span class="preview-lines"><i></i><i></i><i></i></span></div>
-            <div><b>학생 프로파일</b><span class="preview-lines"><i></i><i></i><i></i></span></div>
+            <div><b data-i18n="case_distribution">처리유형 분포</b><span class="distribution-dots"><i></i><i></i><i></i><i></i></span></div>
+            <div><b data-i18n="case_support">지원 필요 학생</b><span class="preview-lines"><i></i><i></i><i></i></span></div>
+            <div><b data-i18n="case_profiles">학생 프로파일</b><span class="preview-lines"><i></i><i></i><i></i></span></div>
           </div>
         </div>
       </div>
       <div class="case-card-copy">
         <p class="case-label">SCHOOL DASHBOARD · CASE STUDY</p>
-        <h4>한국교원대 × 증평군 × FeelGood</h4>
-        <h5>학급 인지능력 분석 대시보드</h5>
-        <p>학생 개인의 검사 결과를 넘어 학급 전체의 PASS 인지 특성과 지원 필요 영역을 시각적으로 확인하는 교사용 분석 대시보드 예시입니다.</p>
-        <span class="case-cta">교사 대시보드 예시 보기 →</span>
+        <h4 data-i18n="case_org_title">한국교원대 × 증평군 × FeelGood</h4>
+        <h5 data-i18n="case_org_sub">학급 인지능력 분석 대시보드</h5>
+        <p data-i18n="case_card_desc">학생 개인의 검사 결과를 넘어 학급 전체의 PASS 인지 특성과 지원 필요 영역을 시각적으로 확인하는 교사용 분석 대시보드 예시입니다.</p>
+        <span class="case-cta" data-i18n="case_cta">교사 대시보드 예시 보기 →</span>
       </div>
     </a>
-    <div class="school-data-flow" aria-label="검사 결과의 교육 활용 흐름">
-      <div class="flow-step">개별 검사</div><div class="flow-arrow">→</div>
-      <div class="flow-step">학급 데이터 통합</div><div class="flow-arrow">→</div>
-      <div class="flow-step">교사 대시보드</div><div class="flow-arrow">→</div>
-      <div class="flow-step">학생 이해</div><div class="flow-arrow">→</div>
-      <div class="flow-step">맞춤형 수업·지원</div>
+    <div class="school-data-flow" aria-label="검사 결과의 교육 활용 흐름" data-i18n-aria-label="case_flow_aria">
+      <div class="flow-step" data-i18n="case_flow1">개별 검사</div><div class="flow-arrow">→</div>
+      <div class="flow-step" data-i18n="case_flow2">학급 데이터 통합</div><div class="flow-arrow">→</div>
+      <div class="flow-step" data-i18n="case_flow3">교사 대시보드</div><div class="flow-arrow">→</div>
+      <div class="flow-step" data-i18n="case_flow4">학생 이해</div><div class="flow-arrow">→</div>
+      <div class="flow-step" data-i18n="case_flow5">맞춤형 수업·지원</div>
     </div>
-    <p class="school-case-message">검사 결과가 교사의 실제 학생 이해와 학급 운영 데이터로 연결됩니다.</p>
+    <p class="school-case-message" data-i18n="case_message">검사 결과가 교사의 실제 학생 이해와 학급 운영 데이터로 연결됩니다.</p>
   </section>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_entry_title">학교 진입 경로</h3></div>
   <div class="prow mb40">
@@ -1369,20 +1372,20 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     </div>
     <div class="rcard">
       <div class="rbadge" style="background:var(--teal);" data-i18n="report_teen_badge">D-CAS 청소년 트랙</div>
-      <div class="rqr"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/qr-dcas-teen.png" alt="D-CAS 청소년 QR"></div>
+      <div class="rqr"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/qr-dcas-teen.png" alt="D-CAS 청소년 QR" data-i18n-alt="report_teen_badge"></div>
       <p data-i18n="report_teen_desc">청소년 인지·기질<br>프로파일 검사</p>
       <a href="https://service.feel-good.io/api/v1/dcas/user/test-result/22600/eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZHgiOiIxNjM0OCIsImV4cCI6NDk0MjE4MjY2MSwiaWF0IjoxNzg4NTgyNjYxLCJqd3RUeXBlIjoiYWNjZXNzIn0.uyPtW9bRKA1sfnTxzvGAlTQ_4fpaQTHTDn1Uvi36El_St9-_IfO7MC360ORcE0oVzHO6IjvmcNOhMOlisVbhVg" target="_blank" class="rscan" style="color:var(--teal);" data-i18n="report_scan">SCAN</a>
     </div>
     <div class="rcard">
       <div class="rbadge" style="background:var(--gold);" data-i18n="report_adult_badge">D-CAS 성인 트랙</div>
-      <div class="rqr"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/qr-dcas-adult.png" alt="D-CAS 성인 QR"></div>
+      <div class="rqr"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/qr-dcas-adult.png" alt="D-CAS 성인 QR" data-i18n-alt="report_adult_badge"></div>
       <p data-i18n="report_adult_desc">성인 인지·기질<br>프로파일 검사</p>
       <a href="https://service.feel-good.io/api/v1/dcas/user/test-result/22601/eyJhbGciOiJIUzUxMiJ9.eyJyb2xlIjoiVVNFUiIsInVzZXJJZHgiOiIxNjM0OSIsImV4cCI6NDk0MjE4MjY2MSwiaWF0IjoxNzg4NTgyNjYxLCJqd3RUeXBlIjoiYWNjZXNzIn0.6V-I1PNXCnS5MmdYU2X1x0AUBHxRVuYEltjIePUxi429hWYaPZ9omoo8HZ62LqKB-mWnhXeKCzBvh65ND8fanw" target="_blank" class="rscan" style="color:var(--gold);" data-i18n="report_scan">SCAN</a>
     </div>
   </div>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_process_title">검사 프로세스</h3></div>
   <div class="prow">
-    <div class="pstep"><div class="num">STEP 1</div><h4 data-i18n="test_step1_h">다운로드</h4><p>PC / 태블릿<br>Windows · iOS</p></div>
+    <div class="pstep"><div class="num">STEP 1</div><h4 data-i18n="test_step1_h">다운로드</h4><p data-i18n="test_step1_p">PC / 태블릿<br>Windows · iOS</p></div>
     <div class="parr">→</div>
     <div class="pstep"><div class="num">STEP 2</div><h4 data-i18n="test_step2_h">검사 진행</h4><p data-i18n="test_step2_p">30~50분 소요<br>게임형 진행</p></div>
     <div class="parr">→</div>
@@ -1393,56 +1396,56 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 <div class="act-gallery-wrap">
   <div class="sh">
     <div class="sec-tag">Track Record</div>
-    <h3 class="sec-title" style="font-size:1.35rem;">검사 도입 & 활동 실적</h3>
-    <p class="sec-sub">K-PASS · D-CAS 기반 인지검사를 전국 대학, 청년기관, 초등학교, 해외 기관에 성공적으로 도입한 실제 현장 기록입니다.</p>
+    <h3 class="sec-title" style="font-size:1.35rem;" data-i18n="track_title">검사 도입 & 활동 실적</h3>
+    <p class="sec-sub" data-i18n="track_sub">K-PASS · D-CAS 기반 인지검사를 전국 대학, 청년기관, 초등학교, 해외 기관에 성공적으로 도입한 실제 현장 기록입니다.</p>
   </div>
 
   <div class="act-cat-block" style="margin-bottom:36px;">
     <div class="act-cat-hd" style="border-left:4px solid #1e40af;background:#eff6ff;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:20px;">🏫</span>
-      <span style="font-size:15px;font-weight:800;color:#1e40af;">국내 대학 파트너십</span>
+      <span style="font-size:15px;font-weight:800;color:#1e40af;" data-i18n="track_cat_university">국내 대학 파트너십</span>
     </div>
     <div class="act-grid">
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-02.jpg" alt="동의대학교 RISE 취업스쿨" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-02.jpg" alt="동의대학교 RISE 취업스쿨" data-i18n-alt="track_u1_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">동의대학교 RISE 취업스쿨</div>
-          <div class="act-desc">진로취업 파워UP 워크숍 — D-CAS 기반 자기이해 및 진로설계</div>
+          <div class="act-title" data-i18n="track_u1_title">동의대학교 RISE 취업스쿨</div>
+          <div class="act-desc" data-i18n="track_u1_desc">진로취업 파워UP 워크숍 — D-CAS 기반 자기이해 및 진로설계</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-03.jpg" alt="동서대학교 D-CAS 강의" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-03.jpg" alt="동서대학교 D-CAS 강의" data-i18n-alt="track_u2_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">동서대학교 D-CAS 강의</div>
-          <div class="act-desc">뇌과학 기반 D-CAS 검사 소개 및 진로 매핑 강의</div>
+          <div class="act-title" data-i18n="track_u2_title">동서대학교 D-CAS 강의</div>
+          <div class="act-desc" data-i18n="track_u2_desc">뇌과학 기반 D-CAS 검사 소개 및 진로 매핑 강의</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-04.jpg" alt="D-CAS 1:1 커리어 멘토링" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-04.jpg" alt="D-CAS 1:1 커리어 멘토링" data-i18n-alt="track_u3_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">D-CAS 1:1 커리어 멘토링</div>
-          <div class="act-desc">청년취업ON 프로그램 — D-CAS 강점 분석 기반 취업 실행 지원</div>
+          <div class="act-title" data-i18n="track_u3_title">D-CAS 1:1 커리어 멘토링</div>
+          <div class="act-desc" data-i18n="track_u3_desc">청년취업ON 프로그램 — D-CAS 강점 분석 기반 취업 실행 지원</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-05.jpg" alt="동의대학교 온라인 K-PASS 실습" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-05.jpg" alt="동의대학교 온라인 K-PASS 실습" data-i18n-alt="track_u4_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">동의대학교 온라인 K-PASS 실습</div>
-          <div class="act-desc">학생들이 직접 K-PASS 인지검사를 체험하는 수업</div>
+          <div class="act-title" data-i18n="track_u4_title">동의대학교 온라인 K-PASS 실습</div>
+          <div class="act-desc" data-i18n="track_u4_desc">학생들이 직접 K-PASS 인지검사를 체험하는 수업</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-06.jpg" alt="부산외대 글로벌마케터 5기" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-06.jpg" alt="부산외대 글로벌마케터 5기" data-i18n-alt="track_u5_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">부산외대 글로벌마케터 5기</div>
-          <div class="act-desc">D-CAS 검사결과를 활용한 자기이해 강의</div>
+          <div class="act-title" data-i18n="track_u5_title">부산외대 글로벌마케터 5기</div>
+          <div class="act-desc" data-i18n="track_u5_desc">D-CAS 검사결과를 활용한 자기이해 강의</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-07.jpg" alt="부산외대 대규모 특강" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-07.jpg" alt="부산외대 대규모 특강" data-i18n-alt="track_u6_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">부산외대 대규모 특강</div>
-          <div class="act-desc">아이디어 박스 세션 — 뇌유형별 팀 프로젝트</div>
+          <div class="act-title" data-i18n="track_u6_title">부산외대 대규모 특강</div>
+          <div class="act-desc" data-i18n="track_u6_desc">아이디어 박스 세션 — 뇌유형별 팀 프로젝트</div>
         </div>
       </div>
     </div>
@@ -1450,21 +1453,21 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div class="act-cat-block" style="margin-bottom:36px;">
     <div class="act-cat-hd" style="border-left:4px solid #065f46;background:#f0fdf4;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:20px;">💼</span>
-      <span style="font-size:15px;font-weight:800;color:#065f46;">취업 · 청년 지원</span>
+      <span style="font-size:15px;font-weight:800;color:#065f46;" data-i18n="track_cat_youth">취업 · 청년 지원</span>
     </div>
     <div class="act-grid">
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-08.jpg" alt="청년센터 CanCan 워크숍" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-08.jpg" alt="청년센터 CanCan 워크숍" data-i18n-alt="track_y1_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">청년센터 CanCan 워크숍</div>
-          <div class="act-desc">뇌유형 MY 워크시트 활동 — 강점 분석 및 직무 연결</div>
+          <div class="act-title" data-i18n="track_y1_title">청년센터 CanCan 워크숍</div>
+          <div class="act-desc" data-i18n="track_y1_desc">뇌유형 MY 워크시트 활동 — 강점 분석 및 직무 연결</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-09.jpg" alt="산자부 취업준비 청년 D-CAS 교육" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-09.jpg" alt="산자부 취업준비 청년 D-CAS 교육" data-i18n-alt="track_y2_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">산자부 취업준비 청년 D-CAS 교육</div>
-          <div class="act-desc">D-CAS 검사 및 인지특성 기반 취업 역량 강화 교육</div>
+          <div class="act-title" data-i18n="track_y2_title">산자부 취업준비 청년 D-CAS 교육</div>
+          <div class="act-desc" data-i18n="track_y2_desc">D-CAS 검사 및 인지특성 기반 취업 역량 강화 교육</div>
         </div>
       </div>
     </div>
@@ -1472,28 +1475,28 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div class="act-cat-block" style="margin-bottom:36px;">
     <div class="act-cat-hd" style="border-left:4px solid #6d28d9;background:#f5f3ff;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:20px;">🧒</span>
-      <span style="font-size:15px;font-weight:800;color:#6d28d9;">초등 K-PASS 검사</span>
+      <span style="font-size:15px;font-weight:800;color:#6d28d9;" data-i18n="track_cat_elementary">초등 K-PASS 검사</span>
     </div>
     <div class="act-grid">
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-10.jpg" alt="7개 교육기관 K-PASS 단체검사" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-10.jpg" alt="7개 교육기관 K-PASS 단체검사" data-i18n-alt="track_e1_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">7개 교육기관 K-PASS 단체검사</div>
-          <div class="act-desc">초등학생 대상 게임형 인지능력검사 실시</div>
+          <div class="act-title" data-i18n="track_e1_title">7개 교육기관 K-PASS 단체검사</div>
+          <div class="act-desc" data-i18n="track_e1_desc">초등학생 대상 게임형 인지능력검사 실시</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-11.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ①" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-11.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ①" data-i18n-alt="track_e2_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">한국교원대 × 증평군 K-PASS 검사 ①</div>
-          <div class="act-desc">충청북도 증평군 학생 대상 K-PASS 시범 운영</div>
+          <div class="act-title" data-i18n="track_e2_title">한국교원대 × 증평군 K-PASS 검사 ①</div>
+          <div class="act-desc" data-i18n="track_e2_desc">충청북도 증평군 학생 대상 K-PASS 시범 운영</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-12.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ②" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-12.jpg" alt="한국교원대 × 증평군 K-PASS 검사 ②" data-i18n-alt="track_e3_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">한국교원대 × 증평군 K-PASS 검사 ②</div>
-          <div class="act-desc">태블릿 기반 게임형 인지검사 — 학생·학부모 동반 참여</div>
+          <div class="act-title" data-i18n="track_e3_title">한국교원대 × 증평군 K-PASS 검사 ②</div>
+          <div class="act-desc" data-i18n="track_e3_desc">태블릿 기반 게임형 인지검사 — 학생·학부모 동반 참여</div>
         </div>
       </div>
     </div>
@@ -1501,42 +1504,42 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div class="act-cat-block" style="margin-bottom:36px;">
     <div class="act-cat-hd" style="border-left:4px solid #92400e;background:#fffbeb;padding:10px 16px;border-radius:0 10px 10px 0;margin-bottom:16px;display:flex;align-items:center;gap:10px;">
       <span style="font-size:20px;">🌍</span>
-      <span style="font-size:15px;font-weight:800;color:#92400e;">해외 진출</span>
+      <span style="font-size:15px;font-weight:800;color:#92400e;" data-i18n="track_cat_global">해외 진출</span>
     </div>
     <div class="act-grid">
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-13.jpg" alt="몽골 공립학교 K-PASS 시범검사" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-13.jpg" alt="몽골 공립학교 K-PASS 시범검사" data-i18n-alt="track_g1_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">몽골 공립학교 K-PASS 시범검사</div>
-          <div class="act-desc">울란바토르 공립학교 첫 해외 현장 시범</div>
+          <div class="act-title" data-i18n="track_g1_title">몽골 공립학교 K-PASS 시범검사</div>
+          <div class="act-desc" data-i18n="track_g1_desc">울란바토르 공립학교 첫 해외 현장 시범</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-14.jpg" alt="몽골 국립아동병원 온라인 검사" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-14.jpg" alt="몽골 국립아동병원 온라인 검사" data-i18n-alt="track_g2_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">몽골 국립아동병원 온라인 검사</div>
-          <div class="act-desc">부산·울란바토르 의료진 입회 비대면 지능검사 — 언론 보도</div>
+          <div class="act-title" data-i18n="track_g2_title">몽골 국립아동병원 온라인 검사</div>
+          <div class="act-desc" data-i18n="track_g2_desc">부산·울란바토르 의료진 입회 비대면 지능검사 — 언론 보도</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-15.jpg" alt="아제르바이잔 정신치료센터 MOU 체결" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-15.jpg" alt="아제르바이잔 정신치료센터 MOU 체결" data-i18n-alt="track_g3_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">아제르바이잔 정신치료센터 MOU 체결</div>
-          <div class="act-desc">K-PASS & D-CAS 해외 수출 달성 — 공식 업무협약 서명</div>
+          <div class="act-title" data-i18n="track_g3_title">아제르바이잔 정신치료센터 MOU 체결</div>
+          <div class="act-desc" data-i18n="track_g3_desc">K-PASS & D-CAS 해외 수출 달성 — 공식 업무협약 서명</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-16.jpg" alt="이라크 교육부 관계자 미팅" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-16.jpg" alt="이라크 교육부 관계자 미팅" data-i18n-alt="track_g4_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">이라크 교육부 관계자 미팅</div>
-          <div class="act-desc">K-PASS / D-CAS 도입 협의 — 중동 시장 진출 논의</div>
+          <div class="act-title" data-i18n="track_g4_title">이라크 교육부 관계자 미팅</div>
+          <div class="act-desc" data-i18n="track_g4_desc">K-PASS / D-CAS 도입 협의 — 중동 시장 진출 논의</div>
         </div>
       </div>
       <div class="act-card">
-        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-17.jpg" alt="인도 릴라이언스그룹 미팅" loading="lazy"></div>
+        <div class="act-img"><img src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-17.jpg" alt="인도 릴라이언스그룹 미팅" data-i18n-alt="track_g5_title" loading="lazy"></div>
         <div class="act-info">
-          <div class="act-title">인도 릴라이언스그룹 미팅</div>
-          <div class="act-desc">K-PASS / D-CAS Implementation Initiative — 인도 전역 도입 제안</div>
+          <div class="act-title" data-i18n="track_g5_title">인도 릴라이언스그룹 미팅</div>
+          <div class="act-desc" data-i18n="track_g5_desc">K-PASS / D-CAS Implementation Initiative — 인도 전역 도입 제안</div>
         </div>
       </div>
     </div>
@@ -1592,7 +1595,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         <div class="why-num">3</div>
         <h4 data-i18n="nv_why3_h">NUVIA의 후속 경험 설계</h4>
         <p data-i18n="nv_why3_p">HISTORY·CAREER LAB에서 전략을 다시 사용하고, PLANNER에서 실제 행동으로 실행하도록 설계합니다. 이 연결의 효과는 별도로 검증합니다.</p>
-        <div class="cite">NUVIA 통합 제안 및 CAREER LAB 기획안</div>
+        <div class="cite" data-i18n="nv_cite">NUVIA 통합 제안 및 CAREER LAB 기획안</div>
       </div>
     </div>
   </div>
@@ -1691,12 +1694,12 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <table class="ct-table">
       <thead><tr><th data-i18n="nv_planner_th1">영역</th><th data-i18n="nv_planner_th2">일상의 실행 전략</th></tr></thead>
       <tbody>
-        <tr><td class="name">PLAN · 계획</td><td data-i18n="nv_planner_r1_c2">우선순위 선택 · 과제 분해</td></tr>
-        <tr><td class="name">START · 착수</td><td data-i18n="nv_planner_r2_c2">아주 작은 첫 행동</td></tr>
-        <tr><td class="name">FOCUS · 집중</td><td data-i18n="nv_planner_r3_c2">집중 구간 · 방해요인 조절</td></tr>
-        <tr><td class="name">TIME · 시간</td><td data-i18n="nv_planner_r4_c2">예상 · 실제 비교 · 여유시간</td></tr>
-        <tr><td class="name">RECOVER · 회복</td><td data-i18n="nv_planner_r5_c2">Reset · 다음 가능한 행동</td></tr>
-        <tr><td class="name">CHECK · 점검</td><td data-i18n="nv_planner_r6_c2">패턴 발견 · 전략 조정</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_plan">PLAN · 계획</td><td data-i18n="nv_planner_r1_c2">우선순위 선택 · 과제 분해</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_start">START · 착수</td><td data-i18n="nv_planner_r2_c2">아주 작은 첫 행동</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_focus">FOCUS · 집중</td><td data-i18n="nv_planner_r3_c2">집중 구간 · 방해요인 조절</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_time">TIME · 시간</td><td data-i18n="nv_planner_r4_c2">예상 · 실제 비교 · 여유시간</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_recover">RECOVER · 회복</td><td data-i18n="nv_planner_r5_c2">Reset · 다음 가능한 행동</td></tr>
+        <tr><td class="name" data-i18n="nv_planner_axis_check">CHECK · 점검</td><td data-i18n="nv_planner_r6_c2">패턴 발견 · 전략 조정</td></tr>
       </tbody>
     </table>
     <p class="p-footnote" style="margin-top:16px;" data-i18n="nv_planner_foot">캠프 과제도 개인 할 일로 연결합니다. 스스로 계획하고 실행하는 힘을 기르도록 설계합니다. 화면의 A·B 프로필은 체험용 예시입니다.</p>
@@ -1822,10 +1825,10 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <h4 class="sub-title" data-i18n="nv_cl_camp_h">캠프 운영 — 혼합 분단과 역할 교대</h4>
       <p class="sub-desc" data-i18n="nv_cl_camp_desc">대학 시범 예시: 30명 · 6개 분단 · 팀당 5명 · 180분, 사전 검사와 사후 2주는 별도 운영. 서로 다른 인지특성과 경험을 섞어 편성하며, 역할은 점수로 고정하지 않습니다.</p>
       <div class="cl-timeline">
-        <div class="row"><div class="time">0~40분</div><div class="act" data-i18n="nv_cl_camp_r1_act">상황 이해 · 개인 목표 · 첫 역할 선택</div><div class="rule" data-i18n="nv_cl_camp_r1_rule">관심 · 경험 · 희망 역할 반영</div></div>
-        <div class="row"><div class="time">40~80분</div><div class="act" data-i18n="nv_cl_camp_r2_act">자료 분석 · 초안 · 중간 점검</div><div class="rule" data-i18n="nv_cl_camp_r2_rule">각자 개인 수행 근거 남기기</div></div>
-        <div class="row"><div class="time">90~145분</div><div class="act" data-i18n="nv_cl_camp_r3_act">역할 교대 · 새 조건 대응 · 최종안</div><div class="rule" data-i18n="nv_cl_camp_r3_rule">최소 한 번 교대와 인수인계</div></div>
-        <div class="row"><div class="time">145~180분</div><div class="act" data-i18n="nv_cl_camp_r4_act">팀 발표 · 피드백 · 개인 후속 계획</div><div class="rule" data-i18n="nv_cl_camp_r4_rule">팀 결과와 개인 기여 구분</div></div>
+        <div class="row"><div class="time" data-i18n="nv_cl_camp_time1">0~40분</div><div class="act" data-i18n="nv_cl_camp_r1_act">상황 이해 · 개인 목표 · 첫 역할 선택</div><div class="rule" data-i18n="nv_cl_camp_r1_rule">관심 · 경험 · 희망 역할 반영</div></div>
+        <div class="row"><div class="time" data-i18n="nv_cl_camp_time2">40~80분</div><div class="act" data-i18n="nv_cl_camp_r2_act">자료 분석 · 초안 · 중간 점검</div><div class="rule" data-i18n="nv_cl_camp_r2_rule">각자 개인 수행 근거 남기기</div></div>
+        <div class="row"><div class="time" data-i18n="nv_cl_camp_time3">90~145분</div><div class="act" data-i18n="nv_cl_camp_r3_act">역할 교대 · 새 조건 대응 · 최종안</div><div class="rule" data-i18n="nv_cl_camp_r3_rule">최소 한 번 교대와 인수인계</div></div>
+        <div class="row"><div class="time" data-i18n="nv_cl_camp_time4">145~180분</div><div class="act" data-i18n="nv_cl_camp_r4_act">팀 발표 · 피드백 · 개인 후속 계획</div><div class="rule" data-i18n="nv_cl_camp_r4_rule">팀 결과와 개인 기여 구분</div></div>
       </div>
     </div>
 
@@ -1855,7 +1858,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <table class="ct-table">
       <thead><tr><th data-i18n="nv_verify_th1">구분</th><th data-i18n="nv_verify_th2">확인하는 내용</th><th data-i18n="nv_verify_th3">해석 범위</th></tr></thead>
       <tbody>
-        <tr><td class="name">검사</td><td data-i18n="nv_verify_r1_c2">최근 검사일 · PASS 4요인 · 결과지</td><td data-i18n="nv_verify_r1_c3">표준화 검사 결과</td></tr>
+        <tr><td class="name" data-i18n="nv_verify_test">검사</td><td data-i18n="nv_verify_r1_c2">최근 검사일 · PASS 4요인 · 결과지</td><td data-i18n="nv_verify_r1_c3">표준화 검사 결과</td></tr>
         <tr><td class="name">KIDS</td><td data-i18n="nv_verify_r2_c2">정확도 · 시간 · 오류 · 도움 사용</td><td data-i18n="nv_verify_r2_c3">훈련 안의 수행 변화</td></tr>
         <tr><td class="name">HISTORY</td><td data-i18n="nv_verify_r3_c2">근거 사용 · 재검토 · 새 사례 적용</td><td data-i18n="nv_verify_r3_c3">역사 이해와 사고전략 수행</td></tr>
         <tr><td class="name">CAREER LAB</td><td data-i18n="nv_verify_r4_c2">역할 수행 · 수정 근거 · 개인 · 팀 산출물</td><td data-i18n="nv_verify_r4_c3">진로탐색과 직무 체험의 수행</td></tr>
@@ -7300,6 +7303,716 @@ Object.keys(window.LANG.en).forEach(function(key) {
   if (key.indexOf('nv_') === 0) window.LANG.ru[key] = window.LANG.en[key];
 });
 
+// 언어 QA 보완: 최근 추가된 학교 대시보드·활동 실적·고정 레이블을 번역 사전에 포함합니다.
+// 세부 현장 고유명사는 국제적으로 식별 가능한 영문 표기를 공통 대체값으로 사용합니다.
+const I18N_COMPLETENESS_KO = {
+  language_label:'언어 선택', toc_aria:'제안서 목차',
+  case_title:'<span>검사에서 끝나지 않습니다.</span>학급 전체의 인지 특성을 교사가 한눈에 확인할 수 있습니다.',
+  case_desc:'K-PASS 검사 결과를 학급 단위로 통합하여 학생들의 인지 특성, 강점과 지원 필요 영역, PASS 영역별 분포를 교사가 수업과 학생 지원에 활용할 수 있는 정보로 확장합니다.',
+  case_overview:'학급 인지능력 개요', case_sim:'동시처리', case_plan:'계획력', case_attention:'주의력', case_successive:'순차처리',
+  case_distribution:'처리유형 분포', case_support:'지원 필요 학생', case_profiles:'학생 프로파일',
+  case_org_title:'한국교원대 × 증평군 × FeelGood', case_org_sub:'학급 인지능력 분석 대시보드',
+  case_card_desc:'학생 개인의 검사 결과를 넘어 학급 전체의 PASS 인지 특성과 지원 필요 영역을 시각적으로 확인하는 교사용 분석 대시보드 예시입니다.',
+  case_cta:'교사 대시보드 예시 보기 →', case_flow1:'개별 검사', case_flow2:'학급 데이터 통합', case_flow3:'교사 대시보드', case_flow4:'학생 이해', case_flow5:'맞춤형 수업·지원',
+  case_message:'검사 결과가 교사의 실제 학생 이해와 학급 운영 데이터로 연결됩니다.',
+  case_link_aria:'한국교원대, 증평군, FeelGood 교사 대시보드 예시 새 탭에서 보기', case_preview_aria:'교사 대시보드 미리보기', case_flow_aria:'검사 결과의 교육 활용 흐름',
+  test_step1_p:'PC / 태블릿<br>Windows · iOS',
+  track_title:'검사 도입 & 활동 실적', track_sub:'K-PASS · D-CAS 기반 인지검사를 전국 대학, 청년기관, 초등학교, 해외 기관에 성공적으로 도입한 실제 현장 기록입니다.',
+  track_cat_university:'국내 대학 파트너십', track_cat_youth:'취업 · 청년 지원', track_cat_elementary:'초등 K-PASS 검사', track_cat_global:'해외 진출',
+  track_u1_title:'동의대학교 RISE 취업스쿨', track_u1_desc:'진로취업 파워UP 워크숍 — D-CAS 기반 자기이해 및 진로설계',
+  track_u2_title:'동서대학교 D-CAS 강의', track_u2_desc:'뇌과학 기반 D-CAS 검사 소개 및 진로 매핑 강의',
+  track_u3_title:'D-CAS 1:1 커리어 멘토링', track_u3_desc:'청년취업ON 프로그램 — D-CAS 강점 분석 기반 취업 실행 지원',
+  track_u4_title:'동의대학교 온라인 K-PASS 실습', track_u4_desc:'학생들이 직접 K-PASS 인지검사를 체험하는 수업',
+  track_u5_title:'부산외대 글로벌마케터 5기', track_u5_desc:'D-CAS 검사결과를 활용한 자기이해 강의',
+  track_u6_title:'부산외대 대규모 특강', track_u6_desc:'아이디어 박스 세션 — 뇌유형별 팀 프로젝트',
+  track_y1_title:'청년센터 CanCan 워크숍', track_y1_desc:'뇌유형 MY 워크시트 활동 — 강점 분석 및 직무 연결',
+  track_y2_title:'산자부 취업준비 청년 D-CAS 교육', track_y2_desc:'D-CAS 검사 및 인지특성 기반 취업 역량 강화 교육',
+  track_e1_title:'7개 교육기관 K-PASS 단체검사', track_e1_desc:'초등학생 대상 게임형 인지능력검사 실시',
+  track_e2_title:'한국교원대 × 증평군 K-PASS 검사 ①', track_e2_desc:'충청북도 증평군 학생 대상 K-PASS 시범 운영',
+  track_e3_title:'한국교원대 × 증평군 K-PASS 검사 ②', track_e3_desc:'태블릿 기반 게임형 인지검사 — 학생·학부모 동반 참여',
+  track_g1_title:'몽골 공립학교 K-PASS 시범검사', track_g1_desc:'울란바토르 공립학교 첫 해외 현장 시범',
+  track_g2_title:'몽골 국립아동병원 온라인 검사', track_g2_desc:'부산·울란바토르 의료진 입회 비대면 지능검사 — 언론 보도',
+  track_g3_title:'아제르바이잔 정신치료센터 MOU 체결', track_g3_desc:'K-PASS & D-CAS 해외 수출 달성 — 공식 업무협약 서명',
+  track_g4_title:'이라크 교육부 관계자 미팅', track_g4_desc:'K-PASS / D-CAS 도입 협의 — 중동 시장 진출 논의',
+  track_g5_title:'인도 릴라이언스그룹 미팅', track_g5_desc:'K-PASS / D-CAS Implementation Initiative — 인도 전역 도입 제안',
+  nv_cite:'NUVIA 통합 제안 및 CAREER LAB 기획안', nv_planner_axis_plan:'PLAN · 계획', nv_planner_axis_start:'START · 착수', nv_planner_axis_focus:'FOCUS · 집중', nv_planner_axis_time:'TIME · 시간', nv_planner_axis_recover:'RECOVER · 회복', nv_planner_axis_check:'CHECK · 점검',
+  nv_cl_camp_time1:'0~40분', nv_cl_camp_time2:'40~80분', nv_cl_camp_time3:'90~145분', nv_cl_camp_time4:'145~180분', nv_verify_test:'검사'
+};
+
+const I18N_COMPLETENESS_EN = {
+  language_label:'Language selector', toc_aria:'Proposal contents',
+  case_title:'<span>It does not end with the assessment.</span>Teachers can understand the cognitive profile of the whole class at a glance.',
+  case_desc:'K-PASS results are integrated at class level so teachers can use students’ cognitive characteristics, strengths, support needs, and PASS distributions for instruction and student support.',
+  case_overview:'Class Cognitive Overview', case_sim:'Simultaneous', case_plan:'Planning', case_attention:'Attention', case_successive:'Successive',
+  case_distribution:'Processing-Type Distribution', case_support:'Students Needing Support', case_profiles:'Student Profiles',
+  case_org_title:'Korea National University of Education × Jeungpyeong County × FeelGood', case_org_sub:'Class Cognitive Analysis Dashboard',
+  case_card_desc:'A teacher-facing analysis dashboard that visualizes the class-wide PASS profile and areas needing support beyond individual reports.',
+  case_cta:'View Teacher Dashboard Example →', case_flow1:'Individual Assessment', case_flow2:'Class Data Integration', case_flow3:'Teacher Dashboard', case_flow4:'Student Understanding', case_flow5:'Personalized Instruction & Support',
+  case_message:'Assessment results become practical information for understanding students and managing the class.',
+  case_link_aria:'Open the KNUE, Jeungpyeong County and FeelGood teacher dashboard example in a new tab', case_preview_aria:'Teacher dashboard preview', case_flow_aria:'Educational-use flow for assessment results',
+  test_step1_p:'PC / Tablet<br>Windows · iOS',
+  track_title:'Assessment Adoption & Activity Record', track_sub:'A record of K-PASS and D-CAS cognitive assessments successfully implemented at universities, youth organizations, elementary schools, and international sites.',
+  track_cat_university:'Korean University Partnerships', track_cat_youth:'Employment & Youth Support', track_cat_elementary:'Elementary K-PASS Assessments', track_cat_global:'Global Expansion',
+  track_u1_title:'Dong-Eui University RISE Career School', track_u1_desc:'Career Power-UP workshop — self-understanding and career planning based on D-CAS',
+  track_u2_title:'Dongseo University D-CAS Lecture', track_u2_desc:'Brain-science-based D-CAS introduction and career-mapping lecture',
+  track_u3_title:'D-CAS 1:1 Career Mentoring', track_u3_desc:'Youth Employment ON — job-search support based on D-CAS strength analysis',
+  track_u4_title:'Dong-Eui University Online K-PASS Practice', track_u4_desc:'A class in which students directly experience the K-PASS cognitive assessment',
+  track_u5_title:'BUFS Global Marketer Cohort 5', track_u5_desc:'Self-understanding lecture using D-CAS results',
+  track_u6_title:'BUFS Large-Group Special Lecture', track_u6_desc:'Idea Box session — team projects by cognitive type',
+  track_y1_title:'CanCan Youth Center Workshop', track_y1_desc:'Brain-Type MY worksheet — strength analysis and job linkage',
+  track_y2_title:'D-CAS Training for Job-Seeking Youth', track_y2_desc:'Employment-capability training based on D-CAS and cognitive characteristics',
+  track_e1_title:'Group K-PASS Assessment at Seven Schools', track_e1_desc:'Game-based cognitive assessment for elementary students',
+  track_e2_title:'KNUE × Jeungpyeong K-PASS Assessment ①', track_e2_desc:'K-PASS pilot for students in Jeungpyeong County, Chungcheongbuk-do',
+  track_e3_title:'KNUE × Jeungpyeong K-PASS Assessment ②', track_e3_desc:'Tablet-based game assessment with students and parents',
+  track_g1_title:'Mongolian Public School K-PASS Pilot', track_g1_desc:'First overseas field pilot at a public school in Ulaanbaatar',
+  track_g2_title:'Mongolian National Children’s Hospital Online Assessment', track_g2_desc:'Remote cognitive assessment observed by medical teams in Busan and Ulaanbaatar — media coverage',
+  track_g3_title:'MOU with an Azerbaijan Psychotherapy Center', track_g3_desc:'K-PASS and D-CAS international export — official partnership agreement',
+  track_g4_title:'Meeting with Iraqi Education Officials', track_g4_desc:'Discussion of K-PASS / D-CAS adoption and Middle East expansion',
+  track_g5_title:'Meeting with Reliance Group, India', track_g5_desc:'K-PASS / D-CAS implementation initiative proposed for nationwide adoption in India',
+  nv_cite:'NUVIA Integrated Proposal and CAREER LAB Plan', nv_planner_axis_plan:'PLAN · Planning', nv_planner_axis_start:'START · Initiation', nv_planner_axis_focus:'FOCUS · Concentration', nv_planner_axis_time:'TIME · Time', nv_planner_axis_recover:'RECOVER · Recovery', nv_planner_axis_check:'CHECK · Review',
+  nv_cl_camp_time1:'0–40 min', nv_cl_camp_time2:'40–80 min', nv_cl_camp_time3:'90–145 min', nv_cl_camp_time4:'145–180 min', nv_verify_test:'Assessment'
+};
+
+const I18N_COMPLETENESS_LOCAL = {
+  zh:{
+    language_label:'语言选择', toc_aria:'提案目录',
+    case_title:'<span>测评并非终点。</span>教师可以一目了然地了解全班的认知结构。', case_desc:'将 K-PASS 结果按班级整合，帮助教师把握学生的认知特点、优势、支持需求及 PASS 各领域分布，并用于教学与学生支持。',
+    case_overview:'班级认知能力概览', case_sim:'同时性加工', case_plan:'计划能力', case_attention:'注意能力', case_successive:'继时性加工', case_distribution:'加工类型分布', case_support:'需要支持的学生', case_profiles:'学生画像',
+    case_org_title:'韩国教员大学 × 曾坪郡 × FeelGood', case_org_sub:'班级认知能力分析仪表板', case_card_desc:'不仅呈现个人结果，还可视化全班 PASS 认知特征与需要支持的领域，供教师分析使用。', case_cta:'查看教师仪表板示例 →',
+    case_flow1:'个人测评', case_flow2:'班级数据整合', case_flow3:'教师仪表板', case_flow4:'理解学生', case_flow5:'个性化教学与支持', case_message:'测评结果将转化为教师理解学生和运营班级的实用信息。',
+    case_link_aria:'在新标签页打开韩国教员大学、曾坪郡与 FeelGood 教师仪表板示例', case_preview_aria:'教师仪表板预览', case_flow_aria:'测评结果的教育应用流程', test_step1_p:'PC / 平板电脑<br>Windows · iOS',
+    track_title:'测评导入与活动成果', track_sub:'K-PASS 与 D-CAS 认知测评在大学、青年机构、小学及海外机构成功实施的现场记录。', track_cat_university:'韩国大学合作', track_cat_youth:'就业与青年支持', track_cat_elementary:'小学 K-PASS 测评', track_cat_global:'海外拓展'
+  },
+  mn:{
+    language_label:'Хэл сонгох', toc_aria:'Саналын агуулга',
+    case_title:'<span>Үнэлгээгээр бүх зүйл дуусахгүй.</span>Багш ангийн танин мэдэхүйн бүтцийг нэг дороос харна.', case_desc:'K-PASS-ийн үр дүнг ангийн түвшинд нэгтгэн сурагчдын онцлог, давуу тал, дэмжлэг шаардлагатай чиглэл болон PASS тархалтыг сургалт, дэмжлэгт ашиглана.',
+    case_overview:'Ангийн танин мэдэхүйн тойм', case_sim:'Нэгэн зэрэг', case_plan:'Төлөвлөлт', case_attention:'Анхаарал', case_successive:'Дараалсан', case_distribution:'Боловсруулалтын хэв шинж', case_support:'Дэмжлэг хэрэгтэй сурагчид', case_profiles:'Сурагчийн профайл',
+    case_org_title:'KNUE × Жынпён-гүн × FeelGood', case_org_sub:'Ангийн танин мэдэхүйн шинжилгээний самбар', case_card_desc:'Хувь хүний тайлангаас цааш ангийн PASS онцлог, дэмжлэг шаардлагатай чиглэлийг дүрслэн харуулах багшийн самбарын жишээ.', case_cta:'Багшийн самбарын жишээг үзэх →',
+    case_flow1:'Хувийн үнэлгээ', case_flow2:'Ангийн өгөгдөл нэгтгэх', case_flow3:'Багшийн самбар', case_flow4:'Сурагчийг ойлгох', case_flow5:'Тохирсон сургалт ба дэмжлэг', case_message:'Үнэлгээний үр дүн нь сурагчийг ойлгох, ангийг удирдах бодит мэдээлэл болно.',
+    case_link_aria:'KNUE, Жынпён-гүн, FeelGood багшийн самбарын жишээг шинэ цонхонд нээх', case_preview_aria:'Багшийн самбарын урьдчилсан харагдац', case_flow_aria:'Үнэлгээний үр дүнг боловсролд ашиглах урсгал', test_step1_p:'PC / Таблет<br>Windows · iOS',
+    track_title:'Үнэлгээ нэвтрүүлсэн ба үйл ажиллагааны түүх', track_sub:'Их сургууль, залуучуудын байгууллага, бага сургууль болон гадаадын байгууллагад K-PASS, D-CAS-ийг амжилттай нэвтрүүлсэн түүх.', track_cat_university:'Солонгосын их сургуулийн түншлэл', track_cat_youth:'Ажил эрхлэлт ба залуучуудын дэмжлэг', track_cat_elementary:'Бага сургуулийн K-PASS үнэлгээ', track_cat_global:'Олон улсын өргөжилт'
+  },
+  th:{
+    language_label:'เลือกภาษา', toc_aria:'สารบัญข้อเสนอ',
+    case_title:'<span>การประเมินไม่ใช่จุดสิ้นสุด</span>ครูมองเห็นโครงสร้างการรู้คิดของทั้งชั้นได้ในภาพเดียว', case_desc:'รวมผล K-PASS ในระดับชั้นเรียน เพื่อให้ครูใช้ลักษณะการรู้คิด จุดแข็ง ความต้องการการสนับสนุน และการกระจายของ PASS ในการสอนและดูแลนักเรียน',
+    case_overview:'ภาพรวมความสามารถทางการรู้คิดของชั้นเรียน', case_sim:'การประมวลผลพร้อมกัน', case_plan:'การวางแผน', case_attention:'ความใส่ใจ', case_successive:'การประมวลผลตามลำดับ', case_distribution:'การกระจายรูปแบบการประมวลผล', case_support:'นักเรียนที่ต้องการการสนับสนุน', case_profiles:'โปรไฟล์นักเรียน',
+    case_org_title:'KNUE × อำเภอจึงพยอง × FeelGood', case_org_sub:'แดชบอร์ดวิเคราะห์การรู้คิดของชั้นเรียน', case_card_desc:'ตัวอย่างแดชบอร์ดสำหรับครูที่แสดงลักษณะ PASS ของทั้งชั้นและด้านที่ต้องการการสนับสนุน นอกเหนือจากรายงานรายบุคคล', case_cta:'ดูตัวอย่างแดชบอร์ดครู →',
+    case_flow1:'การประเมินรายบุคคล', case_flow2:'รวมข้อมูลชั้นเรียน', case_flow3:'แดชบอร์ดครู', case_flow4:'เข้าใจนักเรียน', case_flow5:'การสอนและสนับสนุนเฉพาะบุคคล', case_message:'ผลการประเมินถูกเปลี่ยนเป็นข้อมูลที่ครูใช้เข้าใจนักเรียนและบริหารชั้นเรียนได้จริง',
+    case_link_aria:'เปิดตัวอย่างแดชบอร์ดครู KNUE จึงพยอง และ FeelGood ในแท็บใหม่', case_preview_aria:'ตัวอย่างแดชบอร์ดครู', case_flow_aria:'ลำดับการใช้ผลประเมินเพื่อการศึกษา', test_step1_p:'PC / แท็บเล็ต<br>Windows · iOS',
+    track_title:'ประวัติการนำการประเมินไปใช้และกิจกรรม', track_sub:'บันทึกการนำ K-PASS และ D-CAS ไปใช้จริงในมหาวิทยาลัย หน่วยงานเยาวชน โรงเรียนประถม และองค์กรต่างประเทศ', track_cat_university:'ความร่วมมือกับมหาวิทยาลัยในเกาหลี', track_cat_youth:'การจ้างงานและการสนับสนุนเยาวชน', track_cat_elementary:'การประเมิน K-PASS ระดับประถม', track_cat_global:'การขยายสู่ต่างประเทศ'
+  },
+  vi:{
+    language_label:'Chọn ngôn ngữ', toc_aria:'Mục lục đề xuất',
+    case_title:'<span>Không dừng lại ở bài đánh giá.</span>Giáo viên có thể nhìn thấy cấu trúc nhận thức của cả lớp trong một màn hình.', case_desc:'Kết quả K-PASS được tích hợp theo lớp để giáo viên sử dụng đặc điểm nhận thức, điểm mạnh, nhu cầu hỗ trợ và phân bố PASS trong giảng dạy và hỗ trợ học sinh.',
+    case_overview:'Tổng quan năng lực nhận thức của lớp', case_sim:'Xử lý đồng thời', case_plan:'Lập kế hoạch', case_attention:'Chú ý', case_successive:'Xử lý tuần tự', case_distribution:'Phân bố kiểu xử lý', case_support:'Học sinh cần hỗ trợ', case_profiles:'Hồ sơ học sinh',
+    case_org_title:'KNUE × Huyện Jeungpyeong × FeelGood', case_org_sub:'Bảng điều khiển phân tích nhận thức lớp học', case_card_desc:'Ví dụ bảng điều khiển dành cho giáo viên, trực quan hóa đặc điểm PASS của cả lớp và các lĩnh vực cần hỗ trợ ngoài báo cáo cá nhân.', case_cta:'Xem ví dụ bảng điều khiển giáo viên →',
+    case_flow1:'Đánh giá cá nhân', case_flow2:'Tích hợp dữ liệu lớp', case_flow3:'Bảng điều khiển giáo viên', case_flow4:'Hiểu học sinh', case_flow5:'Dạy học và hỗ trợ cá nhân hóa', case_message:'Kết quả đánh giá trở thành thông tin thực tế để giáo viên hiểu học sinh và quản lý lớp.',
+    case_link_aria:'Mở ví dụ bảng điều khiển giáo viên KNUE, Jeungpyeong và FeelGood trong thẻ mới', case_preview_aria:'Xem trước bảng điều khiển giáo viên', case_flow_aria:'Quy trình sử dụng kết quả đánh giá trong giáo dục', test_step1_p:'PC / Máy tính bảng<br>Windows · iOS',
+    track_title:'Triển khai đánh giá và hoạt động thực tế', track_sub:'Ghi nhận việc triển khai thành công K-PASS và D-CAS tại các trường đại học, tổ chức thanh niên, trường tiểu học và cơ sở quốc tế.', track_cat_university:'Hợp tác với đại học Hàn Quốc', track_cat_youth:'Việc làm và hỗ trợ thanh niên', track_cat_elementary:'Đánh giá K-PASS tiểu học', track_cat_global:'Mở rộng quốc tế'
+  },
+  ja:{
+    language_label:'言語選択', toc_aria:'提案書の目次',
+    case_title:'<span>検査で終わりではありません。</span>教師は学級全体の認知構造をひと目で確認できます。', case_desc:'K-PASSの結果を学級単位で統合し、生徒の認知特性・強み・支援ニーズ・PASS領域別分布を授業と生徒支援に活用します。',
+    case_overview:'学級認知能力の概要', case_sim:'同時処理', case_plan:'計画力', case_attention:'注意力', case_successive:'継次処理', case_distribution:'処理タイプ分布', case_support:'支援が必要な生徒', case_profiles:'生徒プロフィール',
+    case_org_title:'韓国教員大学 × 曾坪郡 × FeelGood', case_org_sub:'学級認知能力分析ダッシュボード', case_card_desc:'個人結果を超えて、学級全体のPASS認知特性と支援が必要な領域を可視化する教師向け分析ダッシュボードの例です。', case_cta:'教師ダッシュボードの例を見る →',
+    case_flow1:'個別検査', case_flow2:'学級データ統合', case_flow3:'教師ダッシュボード', case_flow4:'生徒理解', case_flow5:'個別最適な授業・支援', case_message:'検査結果を、教師が生徒を理解し学級を運営するための実用情報につなげます。',
+    case_link_aria:'韓国教員大学・曾坪郡・FeelGoodの教師ダッシュボード例を新しいタブで開く', case_preview_aria:'教師ダッシュボードのプレビュー', case_flow_aria:'検査結果の教育活用フロー', test_step1_p:'PC / タブレット<br>Windows · iOS',
+    track_title:'検査導入・活動実績', track_sub:'K-PASS・D-CAS認知検査を大学、青年機関、小学校、海外機関に導入した実際の記録です。', track_cat_university:'韓国内大学との連携', track_cat_youth:'就職・青年支援', track_cat_elementary:'小学生K-PASS検査', track_cat_global:'海外展開'
+  },
+  ar:{
+    language_label:'اختيار اللغة', toc_aria:'محتويات المقترح',
+    case_title:'<span>لا تنتهي العملية عند التقييم.</span>يمكن للمعلم رؤية البنية المعرفية للصف بأكمله بوضوح.', case_desc:'تُدمج نتائج K-PASS على مستوى الصف ليستخدم المعلم خصائص الطلاب المعرفية ونقاط القوة واحتياجات الدعم وتوزيع مجالات PASS في التدريس ودعم الطلاب.',
+    case_overview:'نظرة عامة على القدرات المعرفية للصف', case_sim:'المعالجة المتزامنة', case_plan:'التخطيط', case_attention:'الانتباه', case_successive:'المعالجة المتتابعة', case_distribution:'توزيع أنماط المعالجة', case_support:'الطلاب المحتاجون إلى دعم', case_profiles:'ملفات الطلاب',
+    case_org_title:'الجامعة الكورية الوطنية للتربية × مقاطعة جونغبيونغ × FeelGood', case_org_sub:'لوحة تحليل القدرات المعرفية للصف', case_card_desc:'مثال للوحة تحليل خاصة بالمعلمين تعرض خصائص PASS للصف بأكمله ومجالات الدعم، إلى جانب التقارير الفردية.', case_cta:'عرض مثال لوحة المعلم ←',
+    case_flow1:'تقييم فردي', case_flow2:'دمج بيانات الصف', case_flow3:'لوحة المعلم', case_flow4:'فهم الطلاب', case_flow5:'تعليم ودعم مخصصان', case_message:'تتحول نتائج التقييم إلى معلومات عملية لفهم الطلاب وإدارة الصف.',
+    case_link_aria:'فتح مثال لوحة المعلم للجامعة الكورية الوطنية للتربية وجونغبيونغ وFeelGood في علامة تبويب جديدة', case_preview_aria:'معاينة لوحة المعلم', case_flow_aria:'مسار الاستخدام التعليمي لنتائج التقييم', test_step1_p:'حاسوب / جهاز لوحي<br>Windows · iOS',
+    track_title:'سجل تطبيق التقييم والأنشطة', track_sub:'سجل ميداني لتطبيق K-PASS وD-CAS بنجاح في الجامعات ومؤسسات الشباب والمدارس الابتدائية والمؤسسات الدولية.', track_cat_university:'شراكات الجامعات الكورية', track_cat_youth:'التوظيف ودعم الشباب', track_cat_elementary:'تقييم K-PASS للمرحلة الابتدائية', track_cat_global:'التوسع الدولي'
+  },
+  ru:{
+    language_label:'Выбор языка', toc_aria:'Содержание предложения',
+    case_title:'<span>Оценкой работа не заканчивается.</span>Учитель видит когнитивную структуру всего класса с первого взгляда.', case_desc:'Результаты K-PASS объединяются на уровне класса, чтобы использовать когнитивные особенности, сильные стороны, потребности в поддержке и распределение PASS в обучении и сопровождении учеников.',
+    case_overview:'Обзор когнитивных способностей класса', case_sim:'Одновременная обработка', case_plan:'Планирование', case_attention:'Внимание', case_successive:'Последовательная обработка', case_distribution:'Распределение типов обработки', case_support:'Ученики, нуждающиеся в поддержке', case_profiles:'Профили учеников',
+    case_org_title:'KNUE × округ Чынпхён × FeelGood', case_org_sub:'Панель анализа когнитивных способностей класса', case_card_desc:'Пример панели для учителя, визуализирующей профиль PASS всего класса и области поддержки помимо индивидуальных отчётов.', case_cta:'Открыть пример панели учителя →',
+    case_flow1:'Индивидуальная оценка', case_flow2:'Объединение данных класса', case_flow3:'Панель учителя', case_flow4:'Понимание учеников', case_flow5:'Персонализированное обучение и поддержка', case_message:'Результаты оценки становятся практической информацией для понимания учеников и управления классом.',
+    case_link_aria:'Открыть пример панели учителя KNUE, округа Чынпхён и FeelGood в новой вкладке', case_preview_aria:'Предпросмотр панели учителя', case_flow_aria:'Схема образовательного использования результатов оценки', test_step1_p:'ПК / планшет<br>Windows · iOS',
+    track_title:'Внедрение оценки и практика', track_sub:'Реальные примеры успешного внедрения K-PASS и D-CAS в университетах, молодёжных организациях, начальных школах и зарубежных учреждениях.', track_cat_university:'Партнёрства с университетами Кореи', track_cat_youth:'Трудоустройство и поддержка молодёжи', track_cat_elementary:'Оценка K-PASS в начальной школе', track_cat_global:'Международное развитие'
+  }
+};
+
+Object.assign(window.LANG.ko, I18N_COMPLETENESS_KO);
+Object.keys(window.LANG).forEach(function(code) {
+  if (code === 'ko') return;
+  Object.assign(window.LANG[code], I18N_COMPLETENESS_EN, I18N_COMPLETENESS_LOCAL[code] || {});
+});
+
+// BEGIN GENERATED RUSSIAN NUVIA TRANSLATIONS
+Object.assign(window.LANG.ru, {
+  "nv_title": "От оценки к\u003cbr>ежедневному росту: NUVIA",
+  "nv_lede": "Мы связываем когнитивные характеристики, обнаруженные с помощью K-PASS·D-CAS, с повторяющейся практикой в ​​​​ДЕТЯХ, прикладным мышлением в ИСТОРИИ, карьере и опыте работы в CAREER LAB и реальной жизнью в PLANNER. MY NUVIA записывает, действительно ли произошло это изменение.",
+  "nv_step1_num": "01 Оценка · Открытие",
+  "nv_step1_p": "Определите текущие когнитивные черты и области силы и поддержки.",
+  "nv_step2_num": "02 НУВИА · Опыт",
+  "nv_step2_h": "Когнитивный тренинг · Мышление · Карьера и работа",
+  "nv_step2_p": "Связывает когнитивную тренировку, мыслительную деятельность и опыт карьеры/работы с реальной практикой в ​​PLANNER.",
+  "nv_step3_num": "03 MY NUVIA · Подтверждение роста",
+  "nv_step3_h": "Запись изменений",
+  "nv_step3_p": "Отслеживает изменения в производительности, использовании стратегии и независимом применении.",
+  "nv_why_h": "Результаты когнитивной тренировки необходимо подтверждать и на других задачах",
+  "nv_why_sub": "Улучшение выполнения практической задачи и фактическое использование в других задачах или повседневной жизни должны проверяться отдельно. NUVIA создана для того, чтобы предоставить как контекст для применения стратегий, так и отчеты о производительности.",
+  "nv_why1_h": "Улучшенная производительность при выполнении практической задачи",
+  "nv_why1_p": "Обзоры когнитивных тренировок неизменно показывают улучшение результатов при выполнении самой практической задачи. Изменения в рамках обучения — это первое, что нужно подтвердить.",
+  "nv_why2_h": "Подтверждение перехода к другим задачам и повседневной жизни",
+  "nv_why2_p": "В тех же обзорах были обнаружены более слабые доказательства перехода к тесно связанным задачам и ограниченные доказательства улучшения выполнения задач с дальним переносом или повседневных когнитивных функций.",
+  "nv_why3_h": "Проектирование последующего опыта NUVIA",
+  "nv_why3_p": "Мы разрабатываем стратегии, которые можно повторно использовать в ЛАБОРАТОРИИ ИСТОРИИ и КАРЬЕРЫ, а затем воплощать в жизнь в ПЛАННЕРЕ. Эффект от этого соединения проверяется отдельно.",
+  "nv_bridge_h": "Трансферный мост спроектирован FeelGood",
+  "nv_bridge_sub": "Стратегии мышления применяются в HISTORY и CAREER LAB, реализуются как реальные действия в PLANNER, а MY NUVIA отслеживает изменения в использовании стратегий и независимой деятельности.",
+  "nv_bridge1_problem": "Мероприятия по изучению основных стратегий",
+  "nv_bridge1_solution": "\u003cb>ДЕТИ\u003c/b> — тренирует планирование, внимание, одновременную и последовательную обработку информации посредством коротких повторяющихся действий, используя сильные стороны и поддерживая области, которые в этом нуждаются.",
+  "nv_bridge2_problem": "Действия по применению стратегий в других ситуациях",
+  "nv_bridge2_solution": "\u003cb>ЛАБОРАТОРИЯ ИСТОРИИ · КАРЬЕРА\u003c/b> — применяет стратегии к историческим суждениям и карьерным/рабочим проектам, корректируя материалы, порядок действий и поддержку для достижения общей цели.",
+  "nv_bridge3_problem": "Рекорд, подтверждающий реальные действия",
+  "nv_bridge3_solution": "\u003cb>ПЛАНИРОВЩИК · MY NUVIA\u003c/b> — применяет стратегии к проектам и реальным задачам, фиксируя использованную поддержку, изменения плана и независимую производительность.",
+  "nv_bridge_note": "Данная конструкция предназначена для проверки возможности переноса. Его эффективность проверяется отдельно посредством пилотных запусков и последующих исследований.",
+  "nv_prod_h": "Роль каждой программы NUVIA и как они связаны",
+  "nv_prod_sub": "Выбирайте программу, соответствующую возрасту и целям; лагеря сначала подключаются к PLANNER.",
+  "nv_prod_th1": "Программа",
+  "nv_prod_th2": "Основной опыт",
+  "nv_prod_th3": "Основная аудитория · Цель",
+  "nv_prod_r1_c2": "Практика основных когнитивных процессов посредством игр.",
+  "nv_prod_r1_c3": "Дошкольный · для начального уровня",
+  "nv_prod_r2_c2": "Сравнивать доказательства и выносить суждения на основе исторических материалов.",
+  "nv_prod_r2_c3": "Мыслительная деятельность, соответствующая возрасту",
+  "nv_prod_r3_c2": "Планирование, выполнение и размышление",
+  "nv_prod_r3_c3": "От 4-го класса до студентов и взрослых",
+  "nv_prod_r4_c2": "Карьерные/рабочие проекты, отражающие когнитивные особенности",
+  "nv_prod_r4_c3": "Поиск карьеры в средней/старшей школе/трудовая практика на факультете колледжа",
+  "nv_prod_r5_c2": "Регистрация производительности и определение следующей необходимой поддержки",
+  "nv_prod_r5_c3": "Пользователь и авторизованные сторонники",
+  "nv_prod_foot": "Конфигурация по умолчанию для студенческого лагеря — D-CAS + CAREER LAB + PLANNER; ИСТОРИЯ является дополнительным дополнением.",
+  "nv_kids_h": "Персонализированный когнитивный тренинг",
+  "nv_kids_sub": "Около 10 минут игровой деятельности в день для тренировки планирования, внимания, одновременной и последовательной обработки информации.",
+  "nv_kids_cap": "Актуальный экран NUVIA KIDS · Карта сцены «Звездный туннель/Метеоритное поле»",
+  "nv_kids_f1_label": "Что они практикуют",
+  "nv_kids_f1_val": "Повторяющаяся практика, которая усиливает сильные стороны и поддерживает когнитивные области, которые в этом нуждаются.",
+  "nv_kids_f2_label": "Как они участвуют",
+  "nv_kids_f2_val": "Короткие занятия с соответствующими возрасту элементами управления и руководством, которые можно возобновить в любое время.",
+  "nv_kids_f3_label": "Что измеряется",
+  "nv_kids_f3_val": "Точность, время реакции, ошибки, использование помощи и изменения в стратегии.",
+  "nv_kids_foot": "Разработан на основе библиотеки из 400 обучающих мероприятий. Фактическое содержание и возрастной диапазон подтверждаются при реализации.",
+  "nv_kids_link": "\u003cb>ШАГ 1 → ШАГ 2\u003c/b> — разработан таким образом, чтобы стратегии, изученные здесь, повторно использовались в ИСТОРИЧЕСКОЙ мыслительной деятельности и повседневных задачах.",
+  "nv_history_h": "Тренировка исторического мышления",
+  "nv_history_sub": "Учащиеся выбирают, изучают доказательства и совершенствуют суждения на основе историй и материалов из мировой истории.",
+  "nv_history_cap": "Фактический экран NUVIA HISTORY · 3-я неделя всемирной истории «Совет по урегулированию Нила» · уровень игры для средней школы",
+  "nv_history_th1": "Возрастная группа",
+  "nv_history_th2": "Материалы",
+  "nv_history_th3": "Мыслительная деятельность",
+  "nv_history_r1_c1": "Дошкольный возраст 5–7 лет",
+  "nv_history_r1_c2": "Короткие сцены · иллюстрации · аудио",
+  "nv_history_r1_c3": "Исследовать · собирать · сравнивать результаты выборов",
+  "nv_history_r2_c1": "1–5 классы / 6–9 классы",
+  "nv_history_r2_c2": "Предложения · подсказки / несколько источников · точки зрения",
+  "nv_history_r2_c3": "Роли · последовательность · планирование / соединение альтернатив и доказательств",
+  "nv_history_r3_c1": "10–12 классы / колледж · взрослый",
+  "nv_history_r3_c2": "Противоречивые источники/гуманитарные и организационные случаи",
+  "nv_history_r3_c3": "Альтернативные гипотезы · аргументация / применение критериев суждения",
+  "nv_history_foot": "Сначала строится мировая история, а история Кореи запланирована как второй этап расширения. Профиль, показанный на экране, представляет собой образец оценки только для демонстрации.",
+  "nv_history_link": "\u003cb>ШАГ 2 → ШАГ 3\u003c/b>. Навыки сравнения источников и обоснования суждений переносятся в карьерный/рабочий опыт (CAREER LAB) и подключаются к следующему действию в PLANNER.",
+  "nv_planner_h": "Самоуправление, основанное на метапознании",
+  "nv_planner_sub": "Начиная с 4-го класса и до взрослой жизни, пользователи открывают для себя собственные модели поведения и применяют стратегии в реальной жизни.",
+  "nv_planner_cap": "Фактический экран NUVIA PLANNER · 4–6 классы, профиль A · Сегодня · Конструктор планов",
+  "nv_planner_th1": "Область",
+  "nv_planner_th2": "Стратегия ежедневного исполнения",
+  "nv_planner_r1_c2": "Выбор приоритетов · разбивка задач",
+  "nv_planner_r2_c2": "Одно очень маленькое первое действие",
+  "nv_planner_r3_c2": "Блоки концентрации · управление отвлекающими факторами",
+  "nv_planner_r4_c2": "Сравнение ожидаемого и фактического времени · создание в резерве",
+  "nv_planner_r5_c2": "Сброс · следующее возможное действие",
+  "nv_planner_r6_c2": "Выявление закономерностей · корректировка стратегии",
+  "nv_planner_foot": "Задачи лагеря также переносятся как личные дела. Предназначен для развития способности планировать и выполнять самостоятельно. Профили A/B на экране являются демонстрационными примерами.",
+  "nv_transfer_h": "ИСТОРИЯ и ПЛАНИРОВЩИК связаны посредством стратегии",
+  "nv_transfer_sub": "Это примеры дизайна, связывающие методы, используемые в мыслительной деятельности, с реальной жизнью. Очки и уровни двух продуктов никогда не объединяются — их объединяет стратегия, тип предоставляемой поддержки и реальный контекст применения.",
+  "nv_transfer_r1_h": "ИСТОРИЯ — Разбивка события на этапы, чтобы понять его",
+  "nv_transfer_r1_p": "ПЛАНИРОВЩИК: разбиваем подготовку презентации на исследование, структурирование и практику.",
+  "nv_transfer_r2_h": "ИСТОРИЯ — Краткий обзор взаимосвязей между несколькими источниками",
+  "nv_transfer_r2_p": "ПЛАНИРОВЩИК — Видение общей структуры и приоритетности задач, которые необходимо выполнить.",
+  "nv_transfer_r3_h": "ИСТОРИЯ — Пересмотр вывода после просмотра новых доказательств",
+  "nv_transfer_r3_p": "ПЛАНИРОВЩИК — Переопределение следующего действия, если график сбивается.",
+  "nv_transfer_r4_h": "ИСТОРИЯ — Пересмотр причин собственного суждения",
+  "nv_transfer_r4_p": "ПЛАНИРОВЩИК — Сравнение ожиданий с реальностью для корректировки собственной стратегии.",
+  "nv_cl_title": "Карьерные и рабочие лагеря, адаптированные к когнитивным особенностям",
+  "nv_cl_lede": "Дизайн класса отражает то, как каждый учащийся понимает информацию, делает суждения и действует. Результаты оценивания определяют ход занятия, а запись опыта переносится на следующий шаг учащегося.",
+  "nv_cl_i1_tag": "Карьерный лагерь для учащихся средних и старших классов",
+  "nv_cl_i1_h": "Студенты изучают интересующие области из первых рук и находят метод исследования, который им подходит.",
+  "nv_cl_i1_p": "Карта интересов · сравнение месторождений · следующий план разведки",
+  "nv_cl_i1_out": "→ Продолжается как последующая задача исследования в PLANNER.",
+  "nv_cl_i2_tag": "Факультетский трудовой лагерь для студентов колледжей",
+  "nv_cl_i2_h": "Студенты выполняют рабочие задания, связанные с их специальностью, и определяют свои сильные стороны и потребности в поддержке.",
+  "nv_cl_i2_p": "Результаты работы · доказательства эффективности · портфолио",
+  "nv_cl_i2_out": "→ Продолжается как организация портфолио в PLANNER.",
+  "nv_cl_demo_h": "ДЕМО · Моделирование работы конкретного отдела и экран личного ПЛАНИРОВЩИКА",
+  "nv_cl_demo_desc": "Демонстрация, которая помогает пользователям выбирать работу, анализировать данные, менять роли и создавать личные задачи на одном экране. (Пример: специальность «Авиационная безопасность», проект по обеспечению безопасности)",
+  "nv_cl_demo_cap": "Фактический экран NUVIA CAREER LAB · Security Career Studio · демонстрация для колледжа",
+  "nv_cl_diff_h": "Что это добавляет к существующим классам карьеры/работы",
+  "nv_cl_diff_desc": "Сочетает в себе информацию о карьере и практический опыт с когнитивно адаптированной поддержкой и последующим доведением до конца. В левом столбце описывается общий стиль работы для сравнения, а не обзор конкурентов.",
+  "nv_cl_diff_th1": "Сравнение",
+  "nv_cl_diff_th2": "Стиль лекций / обмена опытом",
+  "nv_cl_diff_th3": "NUVIA CAREER LAB Дизайн",
+  "nv_cl_diff_r1_c1": "Понимание личности",
+  "nv_cl_diff_r1_c2": "Консультирование по интересам, стремлениям и результатам",
+  "nv_cl_diff_r1_c3": "Когнитивные особенности + интересы/опыт + активность в деятельности",
+  "nv_cl_diff_r2_c1": "Формат опыта",
+  "nv_cl_diff_r2_c2": "Все работают с одними и теми же материалами и заказывают вместе.",
+  "nv_cl_diff_r2_c3": "Материалы, последовательность и поддержка адаптируются под общую цель.",
+  "nv_cl_diff_r3_c1": "Роль инструктора",
+  "nv_cl_diff_r3_c2": "Индивидуальная поддержка решается на месте",
+  "nv_cl_diff_r3_c3": "Предоставляет стандартный план урока, индивидуальное руководство и критерии вмешательства.",
+  "nv_cl_diff_r4_c1": "Что останется после",
+  "nv_cl_diff_r4_c2": "Впечатления от активности и запись посещаемости",
+  "nv_cl_diff_r4_c3": "Индивидуальные доказательства эффективности и результаты работы/разведки",
+  "nv_cl_diff_r5_c1": "После лагеря",
+  "nv_cl_diff_r5_c2": "Зависит от того, существует ли отдельное последующее мероприятие",
+  "nv_cl_diff_r5_c3": "Подключается к следующему действию и размышлению в PLANNER.",
+  "nv_cl_age_h": "Как различается деятельность для студентов средних, старших классов и студентов колледжей",
+  "nv_cl_age_desc": "Исследовательский вопрос, уровень ответственности и конечный результат структурированы по-разному в зависимости от уровня школы. Даже общая тема разрабатывается с разной степенью открытости, материальной сложности, ролей и результатов.",
+  "nv_cl_age_th1": "Уровень",
+  "nv_cl_age_th2": "Начальный вопрос",
+  "nv_cl_age_th3": "Пример действия",
+  "nv_cl_age_th4": "Индивидуальный выход",
+  "nv_cl_age_r1_c1": "Средняя школа · Открытие карьеры",
+  "nv_cl_age_r1_c2": "Какая работа будет интересна?",
+  "nv_cl_age_r1_c3": "Изготовление указателей для школьного мероприятия",
+  "nv_cl_age_r1_c4": "Карточка интересов и исследовательские вопросы",
+  "nv_cl_age_r2_c1": "Средняя школа · Планирование карьеры",
+  "nv_cl_age_r2_c2": "Какую сферу мне следует изучить дальше?",
+  "nv_cl_age_r2_c3": "Сравнение способов улучшения доступности мероприятий",
+  "nv_cl_age_r2_c4": "Основания для сравнения полей и план подготовки",
+  "nv_cl_age_r3_c1": "Колледж · Выполнение работы",
+  "nv_cl_age_r3_c2": "Как мне решить эту рабочую задачу?",
+  "nv_cl_age_r3_c3": "Разработка плана работы для имитации зала вылета",
+  "nv_cl_age_r3_c4": "Доказательства эффективности и портфолио",
+  "nv_cl_dept_h": "Пример рабочего проекта — Авиационная безопасность",
+  "nv_cl_dept_desc": "Образовательный симуляционный проект по управлению пассажирами и оперативной поддержке во время перегруженности зала вылета. (3-зонная планировка + 3 ситуационные записки + 4 вспомогательных персонала + 2 указателя)",
+  "nv_cl_dept_s1_task": "Оцените ситуацию — просмотрите материалы и выберите две зоны для приоритета.",
+  "nv_cl_dept_s1_out": "Выбранная проблема и ее обоснование",
+  "nv_cl_dept_s2_task": "Составьте план — разместите персонал и указатели, а также определите порядок выполнения.",
+  "nv_cl_dept_s2_out": "Схема компоновки и трехэтапный план выполнения",
+  "nv_cl_dept_s3_task": "Ротация ролей. Пересмотрите план при условии, что на одного сотрудника станет меньше.",
+  "nv_cl_dept_s3_out": "Акт приема-передачи и причина изменения",
+  "nv_cl_dept_s4_task": "Обзор и презентация — подтвердите ограничения, затем объясните альтернативу и ее обоснование.",
+  "nv_cl_dept_s4_out": "Окончательный план команды плюс отчет об индивидуальном вкладе",
+  "nv_cl_dept_foot": "Не выходит за рамки общего бюджета ресурсов, обеспечивает чистоту проходов и сохраняет процедуру проверки безопасности. Это не настоящая подготовка по досмотру или настоящие правила работы аэропорта.",
+  "nv_cl_deptx_h": "Разные специальности, разные задачи и результаты",
+  "nv_cl_deptx_desc": "Использует общую операционную структуру, но рабочие материалы и критерии оценки для конкретного отдела рассматриваются отдельно. Следующие элементы являются кандидатами на разработку; Объем проекта определяется после проверки профильными экспертами.",
+  "nv_cl_deptx_th1": "Образец майора",
+  "nv_cl_deptx_th2": "Проект трудоустройства кандидата",
+  "nv_cl_deptx_th3": "Ключевой результат",
+  "nv_cl_deptx_r1_c1": "Бизнес · Маркетинг",
+  "nv_cl_deptx_r1_c2": "Улучшение качества обслуживания клиентов моделируемого малого бизнеса",
+  "nv_cl_deptx_r1_c3": "Проблема клиента · сравнение альтернатив · план действий",
+  "nv_cl_deptx_r2_c1": "Туризм · Гостиничный бизнес",
+  "nv_cl_deptx_r2_c2": "Групповой поток гостей и обработка запросов",
+  "nv_cl_deptx_r2_c3": "План руководства и последовательность обслуживания",
+  "nv_cl_deptx_r3_c1": "Информатика · Программное обеспечение",
+  "nv_cl_deptx_r3_c2": "Прототип, улучшающий сервис кампуса",
+  "nv_cl_deptx_r3_c3": "Приоритизация функций · прототип · примечания к проверке",
+  "nv_cl_deptx_r4_c1": "Дизайн",
+  "nv_cl_deptx_r4_c2": "Улучшение указателей для навигации по кампусу",
+  "nv_cl_deptx_r4_c3": "Эскизные проекты · проверка удобства использования · обоснование изменений",
+  "nv_cl_deptx_r5_c1": "Социальное обеспечение",
+  "nv_cl_deptx_r5_c2": "Подключение симулированного клиента к службам поддержки",
+  "nv_cl_deptx_r5_c3": "Сравнение ресурсов · последовательность рефералов",
+  "nv_cl_deptx_r6_c1": "Уход и здоровье / Дошкольное образование",
+  "nv_cl_deptx_r6_c2": "Выписной методический материал/план воспитательной деятельности",
+  "nv_cl_deptx_r6_c3": "Материалы на простом языке / план поддержки деятельности и взаимодействия",
+  "nv_cl_camp_h": "Операции в лагере — смешанные группы и ротация ролей",
+  "nv_cl_camp_desc": "Пример пилотного проекта колледжа: 30 студентов · 6 групп · 5 на команду · 180 минут с предварительной оценкой и двухнедельным последующим тестированием отдельно. В группах сочетаются разные когнитивные черты и опыт; роли никогда не фиксируются по счету.",
+  "nv_cl_camp_r1_act": "Понимание ситуации · личные цели · выбор первой роли",
+  "nv_cl_camp_r1_rule": "Отражает интересы, опыт и предпочтительную роль",
+  "nv_cl_camp_r2_act": "Анализ данных · черновой вариант · промежуточная проверка",
+  "nv_cl_camp_r2_rule": "Каждый ученик оставляет свой отчет об успеваемости.",
+  "nv_cl_camp_r3_act": "Ротация ролей · реагирование на новые условия · окончательный план",
+  "nv_cl_camp_r3_rule": "По крайней мере, одна ротация и передача",
+  "nv_cl_camp_r4_act": "Презентация команды · обратная связь · индивидуальный план дальнейших действий",
+  "nv_cl_camp_r4_rule": "Результаты команды и индивидуальный вклад учитываются отдельно.",
+  "nv_cl_pc_h": "ПЛАНИРОВЩИК: где опыт лагеря становится следующим шагом",
+  "nv_cl_pc_desc": "Командные задачи переносятся в виде личных дел, а учащиеся пишут и пересматривают свои собственные планы. Индивидуальные результаты и личные заметки никогда не передаются команде.",
+  "nv_cl_pc_th1": "Тайминг",
+  "nv_cl_pc_th2": "Студенческая акция",
+  "nv_cl_pc_th3": "Поддержка, адаптированная к когнитивным особенностям",
+  "nv_cl_pc_r1_c1": "Начало деятельности",
+  "nv_cl_pc_r1_c2": "Запишите свою роль, первое действие и крайний срок.",
+  "nv_cl_pc_r1_c3": "Выбор разбивки задач или пустой доски планирования",
+  "nv_cl_pc_r2_c1": "Исполнение · Передача",
+  "nv_cl_pc_r2_c2": "Выполнение текущей задачи, затем обмен доказательствами и передача их",
+  "nv_cl_pc_r2_c3": "Инструменты руководства, последовательности и взаимосвязи текущих этапов",
+  "nv_cl_pc_r3_c1": "Конец лагеря",
+  "nv_cl_pc_r3_c2": "Выбираем метод, который помог и следующее действие",
+  "nv_cl_pc_r3_c3": "Вопросы для размышления и примеры конкретных действий",
+  "nv_cl_pc_r4_c1": "2 недели спустя",
+  "nv_cl_pc_r4_c2": "Выполнение выбранной задачи исследования/обучения с еженедельным размышлением.",
+  "nv_cl_pc_r4_c3": "Поддержка перезапуска действия и проверки прогресса",
+  "nv_cl_pc_foot": "Последующая работа продолжается в виде наблюдения для учащихся средних школ, сравнения на местах для старшеклассников, а также формирования профессиональных навыков и работы с портфолио для студентов колледжей.",
+  "nv_verify_h": "Записи подтверждают, действительно ли произошел трансфер",
+  "nv_verify_sub": "Профиль оценки служит исходной информацией, а записи программы служат свидетельством изменений. Сами по себе записи не доказывают причинно-следственного эффекта переноса, а оценки оценок, академические достижения и удовлетворенность никогда не объединяются в единый общий балл.",
+  "nv_verify_th1": "Категория",
+  "nv_verify_th2": "Что проверяется",
+  "nv_verify_th3": "Область интерпретации",
+  "nv_verify_r1_c2": "Дата последнего теста · 4 фактора прохождения · отчет",
+  "nv_verify_r1_c3": "Результат стандартизированной оценки",
+  "nv_verify_r2_c2": "Точность · время · ошибки · использование справки",
+  "nv_verify_r2_c3": "Изменение производительности во время тренировки",
+  "nv_verify_r3_c2": "Использование доказательств · пересмотр судебных решений · применение к новым делам",
+  "nv_verify_r3_c3": "Историческое понимание и реализация стратегии мышления",
+  "nv_verify_r4_c2": "Выполнение роли · обоснование изменений · индивидуальные/командные результаты",
+  "nv_verify_r4_c3": "Результаты поиска карьеры и моделирования работы",
+  "nv_verify_r5_c2": "Пересмотр плана · исполнение · размышление · самостоятельное использование",
+  "nv_verify_r5_c3": "Опыт самоконтроля и последующей деятельности",
+  "nv_age_h": "Программы, соответствующие возрасту и целям",
+  "nv_age_sub": "Оценка выбирается по фактическому возрасту, а программа – по классу, стадии развития и цели. ИСТОРИЯ является дополнительным дополнением.",
+  "nv_age_th1": "Аудитория",
+  "nv_age_th2": "Основная программа",
+  "nv_age_th3": "Фокус поддержки",
+  "nv_age_r1_c1": "Дошкольный – 3 класс",
+  "nv_age_r1_c3": "Игра · базовое познание · понимание истории",
+  "nv_age_r2_c1": "4–6 классы",
+  "nv_age_r2_c2": "ИСТОРИЯ + ПЛАНИРОВЩИК, с ДЕТЬМИ по мере необходимости",
+  "nv_age_r2_c3": "Введение в стратегию мышления и самоуправление",
+  "nv_age_r3_c1": "Средняя и старшая школа",
+  "nv_age_r3_c2": "CAREER LAB (карьерный трек) + ПЛАНИРОВЩИК",
+  "nv_age_r3_c3": "Выявление интересов · сравнение месторождений · исследование на практике",
+  "nv_age_r4_c1": "Студенты колледжа",
+  "nv_age_r4_c2": "КАРЬЕРНАЯ ЛАБОРАТОРИЯ (трек работы) + ПЛАНИРОВЩИК",
+  "nv_age_r4_c3": "Специализированная практика работы · проекты · самоуправление",
+  "nv_age_foot": "K-PASS применяется до 13 лет, D-CAS — с 14 лет. Взрослые используют HISTORY и PLANNER в соответствии со своими целями.",
+  "nv_cite": "Комплексное предложение NUVIA и план CAREER LAB",
+  "nv_planner_axis_plan": "ПЛАН · Планирование",
+  "nv_planner_axis_start": "СТАРТ · Инициирование",
+  "nv_planner_axis_focus": "ФОКУС · Концентрация",
+  "nv_planner_axis_time": "ВРЕМЯ · Время",
+  "nv_planner_axis_recover": "ВОССТАНОВЛЕНИЕ · Восстановление",
+  "nv_planner_axis_check": "ПРОВЕРИТЬ · Обзор",
+  "nv_cl_camp_time1": "0–40 мин.",
+  "nv_cl_camp_time2": "40–80 мин.",
+  "nv_cl_camp_time3": "90–145 мин.",
+  "nv_cl_camp_time4": "145–180 мин.",
+  "nv_verify_test": "Оценка"
+});
+// END GENERATED RUSSIAN NUVIA TRANSLATIONS
+
+// BEGIN GENERATED COMPLETENESS TRANSLATIONS
+Object.assign(window.LANG.zh, {
+  "track_u1_title": "东义大学RISE职业学校",
+  "track_u1_desc": "Career Power-UP工作坊——基于D-CAS的自我认识与职业规划",
+  "track_u2_title": "东西大学D-CAS讲座",
+  "track_u2_desc": "基于脑科学的D-CAS介绍及职业规划讲座",
+  "track_u3_title": "D-CAS 1:1 职业指导",
+  "track_u3_desc": "Youth就业ON——基于D-CAS实力分析的求职支持",
+  "track_u4_title": "东义大学在线 K-PASS 练习",
+  "track_u4_desc": "学生直接体验 K-PASS 认知评估的课程",
+  "track_u5_title": "BUFS 全球营销人员队列 5",
+  "track_u5_desc": "使用 D-CAS 结果的自我理解讲座",
+  "track_u6_title": "BUFS大集体专题讲座",
+  "track_u6_desc": "Idea Box 会议 — 按认知类型划分的团队项目",
+  "track_y1_title": "CanCan青年中心工作坊",
+  "track_y1_desc": "脑型我的工作表 — 优势分析和工作联系",
+  "track_y2_title": "D-CAS 青年求职培训",
+  "track_y2_desc": "基于D-CAS和认知特征的就业能力培训",
+  "track_e1_title": "七所学校的 K-PASS 小组评估",
+  "track_e1_desc": "基于游戏的小学生认知评估",
+  "track_e2_title": "KNUE × 曾坪 K-PASS 评估①",
+  "track_e2_desc": "忠清北道曾平郡学生 K-PASS 试点",
+  "track_e3_title": "KNUE × 曾坪 K-PASS 评估 ②",
+  "track_e3_desc": "与学生和家长进行基于平板电脑的游戏评估",
+  "track_g1_title": "蒙古公立学校 K-PASS 试点",
+  "track_g1_desc": "乌兰巴托一所公立学校的首个海外实地试点",
+  "track_g2_title": "蒙古国家儿童医院在线评估",
+  "track_g2_desc": "釜山和乌兰巴托医疗队观察远程认知评估——媒体报道",
+  "track_g3_title": "与阿塞拜疆心理治疗中心签署谅解备忘录",
+  "track_g3_desc": "K-PASS 与 D-CAS 国际出口 — 正式合作伙伴协议",
+  "track_g4_title": "会见伊拉克教育官员",
+  "track_g4_desc": "讨论 K-PASS / D-CAS 采用和中东扩张",
+  "track_g5_title": "会见印度信实集团",
+  "track_g5_desc": "K-PASS / D-CAS 实施倡议提议在印度全国范围内采用",
+  "nv_cite": "NUVIA 综合提案和 CAREER LAB 计划",
+  "nv_planner_axis_plan": "计划·规划",
+  "nv_planner_axis_start": "开始 · 启动",
+  "nv_planner_axis_focus": "专注·专注",
+  "nv_planner_axis_time": "时间·时间",
+  "nv_planner_axis_recover": "恢复·恢复",
+  "nv_planner_axis_check": "检查·审查",
+  "nv_cl_camp_time1": "0–40 分钟",
+  "nv_cl_camp_time2": "40–80 分钟",
+  "nv_cl_camp_time3": "90–145 分钟",
+  "nv_cl_camp_time4": "145–180 分钟",
+  "nv_verify_test": "评估"
+});
+Object.assign(window.LANG.mn, {
+  "track_u1_title": "Dong-Eui University RISE Career School",
+  "track_u1_desc": "Career Power-UP семинар — D-CAS дээр суурилсан өөрийгөө ойлгох, карьер төлөвлөлт",
+  "track_u2_title": "Dongseo University D-CAS лекц",
+  "track_u2_desc": "Тархины шинжлэх ухаанд суурилсан D-CAS-ийн танилцуулга, карьерын зураглал лекц",
+  "track_u3_title": "D-CAS 1:1 Ажил мэргэжлийн чиг баримжаа олгох",
+  "track_u3_desc": "Залуучуудын хөдөлмөр эрхлэлт ON — D-CAS-ийн хүч чадлын шинжилгээнд үндэслэсэн ажил хайх дэмжлэг",
+  "track_u4_title": "Dong-Eui их сургуулийн онлайн K-PASS дадлага",
+  "track_u4_desc": "Оюутнууд K-PASS танин мэдэхүйн үнэлгээг шууд мэдэрдэг анги",
+  "track_u5_title": "BUFS Global Marketer Cohort 5",
+  "track_u5_desc": "D-CAS үр дүнг ашиглан өөрийгөө ойлгох лекц",
+  "track_u6_title": "BUFS Том бүлгийн тусгай лекц",
+  "track_u6_desc": "Idea Box сесс - танин мэдэхүйн төрлөөр багийн төслүүд",
+  "track_y1_title": "CanCan залуучуудын төвийн семинар",
+  "track_y1_desc": "Brain-Type MY ажлын хуудас - хүч чадлын шинжилгээ ба ажлын уялдаа холбоо",
+  "track_y2_title": "Ажил хайж буй залуучуудад зориулсан D-CAS сургалт",
+  "track_y2_desc": "D-CAS болон танин мэдэхүйн шинж чанарт суурилсан хөдөлмөр эрхлэлтийн сургалт",
+  "track_e1_title": "Долоон сургуулийн K-PASS бүлгийн үнэлгээ",
+  "track_e1_desc": "Бага ангийн сурагчдад зориулсан тоглоомд суурилсан танин мэдэхүйн үнэлгээ",
+  "track_e2_title": "KNUE × Jeungpyeong K-PASS үнэлгээ ①",
+  "track_e2_desc": "Чунчонбүкдогийн Жунпёнг дүүргийн оюутнуудад зориулсан K-PASS туршилт",
+  "track_e3_title": "KNUE × Jeungpyeong K-PASS үнэлгээ ②",
+  "track_e3_desc": "Оюутан, эцэг эхтэй хамт таблет дээр суурилсан тоглоомын үнэлгээ",
+  "track_g1_title": "Монголын улсын сургуулийн K-PASS нисгэгч",
+  "track_g1_desc": "Улаанбаатар хотын улсын сургуульд гадаадад анхны хээрийн нисгэгч",
+  "track_g2_title": "Монголын үндэсний хүүхдийн эмнэлгийн онлайн үнэлгээ",
+  "track_g2_desc": "Пусан болон Улаанбаатар дахь эмнэлгийн багуудын ажигласан танин мэдэхүйн алсын зайн үнэлгээ — хэвлэл мэдээллийн хэрэгслээр",
+  "track_g3_title": "Азербайжаны сэтгэл заслын төвтэй хамтран ажиллах санамж бичиг",
+  "track_g3_desc": "K-PASS болон D-CAS олон улсын экспорт - албан ёсны түншлэлийн гэрээ",
+  "track_g4_title": "Иракийн боловсролын албаны хүмүүстэй уулзлаа",
+  "track_g4_desc": "K-PASS / D-CAS-ийг нэвтрүүлэх, Ойрхи Дорнодыг өргөжүүлэх тухай хэлэлцүүлэг",
+  "track_g5_title": "Энэтхэгийн Reliance групптэй хийсэн уулзалт",
+  "track_g5_desc": "K-PASS / D-CAS хэрэгжүүлэх санаачилгыг Энэтхэгт үндэсний хэмжээнд үрчлүүлэхээр санал болгосон",
+  "nv_cite": "NUVIA нэгдсэн санал ба CAREER LAB төлөвлөгөө",
+  "nv_planner_axis_plan": "ТӨЛӨВЛӨГӨӨ · Төлөвлөлт",
+  "nv_planner_axis_start": "START · Эхлэл",
+  "nv_planner_axis_focus": "ФОКУС · Төвлөрөл",
+  "nv_planner_axis_time": "ЦАГ · Цаг",
+  "nv_planner_axis_recover": "Сэргээх · Сэргээх",
+  "nv_planner_axis_check": "ШАЛГАХ · Хянах",
+  "nv_cl_camp_time1": "0-40 мин",
+  "nv_cl_camp_time2": "40-80 мин",
+  "nv_cl_camp_time3": "90-145 мин",
+  "nv_cl_camp_time4": "145-180 мин",
+  "nv_verify_test": "Үнэлгээ"
+});
+Object.assign(window.LANG.th, {
+  "track_u1_title": "โรงเรียนอาชีพ RISE มหาวิทยาลัยดงอึย",
+  "track_u1_desc": "เวิร์คช็อป Career Power-UP — การทำความเข้าใจตนเองและการวางแผนอาชีพตาม D-CAS",
+  "track_u2_title": "การบรรยาย D-CAS ของมหาวิทยาลัยดงซอ",
+  "track_u2_desc": "การแนะนำ D-CAS ตามหลักวิทยาศาสตร์สมองและการบรรยายเรื่องแผนที่อาชีพ",
+  "track_u3_title": "D-CAS 1:1 การให้คำปรึกษาด้านอาชีพ",
+  "track_u3_desc": "Youth Employment ON — การสนับสนุนการค้นหางานโดยอิงจากการวิเคราะห์ความแข็งแกร่งของ D-CAS",
+  "track_u4_title": "แบบฝึกหัด K-PASS ออนไลน์ของมหาวิทยาลัย Dong-Eui",
+  "track_u4_desc": "ชั้นเรียนที่นักเรียนสัมผัสประสบการณ์การประเมินความรู้ความเข้าใจ K-PASS โดยตรง",
+  "track_u5_title": "BUFS Global Marketer Cohort 5",
+  "track_u5_desc": "การบรรยายความเข้าใจตนเองโดยใช้ผล D-CAS",
+  "track_u6_title": "BUFS การบรรยายพิเศษกลุ่มใหญ่",
+  "track_u6_desc": "เซสชัน Idea Box — โครงการของทีมตามประเภทการรับรู้",
+  "track_y1_title": "การประชุมเชิงปฏิบัติการศูนย์เยาวชน CanCan",
+  "track_y1_desc": "ใบงาน Brain-Type MY — การวิเคราะห์ความแข็งแกร่งและการเชื่อมโยงงาน",
+  "track_y2_title": "การฝึกอบรม D-CAS สำหรับเยาวชนที่กำลังหางาน",
+  "track_y2_desc": "การฝึกอบรมขีดความสามารถในการจ้างงานโดยยึดตาม D-CAS และลักษณะการรับรู้",
+  "track_e1_title": "การประเมิน K-PASS แบบกลุ่มที่ Seven Schools",
+  "track_e1_desc": "การประเมินความรู้ความเข้าใจโดยใช้เกมสำหรับนักเรียนชั้นประถมศึกษา",
+  "track_e2_title": "KNUE × การประเมิน K-PASS ชองพยอง 1",
+  "track_e2_desc": "โครงการนำร่อง K-PASS สำหรับนักเรียนในเขตชองพยอง ชุงชองบุกโด",
+  "track_e3_title": "KNUE × Jeungpyeong K-PASS การประเมิน 2",
+  "track_e3_desc": "การประเมินเกมบนแท็บเล็ตกับนักเรียนและผู้ปกครอง",
+  "track_g1_title": "นักบิน K-PASS ของโรงเรียนรัฐบาลมองโกเลีย",
+  "track_g1_desc": "นักบินภาคสนามในต่างประเทศคนแรกที่โรงเรียนรัฐบาลในอูลานบาตอร์",
+  "track_g2_title": "การประเมินออนไลน์ของโรงพยาบาลเด็กแห่งชาติมองโกเลีย",
+  "track_g2_desc": "การประเมินความรู้ความเข้าใจระยะไกลโดยทีมแพทย์ในปูซานและอูลานบาตอร์ - การรายงานข่าวของสื่อ",
+  "track_g3_title": "MOU กับศูนย์จิตบำบัดอาเซอร์ไบจาน",
+  "track_g3_desc": "K-PASS และ D-CAS การส่งออกระหว่างประเทศ - ข้อตกลงความร่วมมืออย่างเป็นทางการ",
+  "track_g4_title": "พบปะกับเจ้าหน้าที่การศึกษาอิรัก",
+  "track_g4_desc": "การอภิปรายเกี่ยวกับการนำ K-PASS / D-CAS มาใช้และการขยายธุรกิจในตะวันออกกลาง",
+  "track_g5_title": "ประชุมร่วมกับ Reliance Group ประเทศอินเดีย",
+  "track_g5_desc": "โครงการริเริ่มการนำ K-PASS / D-CAS ไปใช้ทั่วประเทศอินเดีย",
+  "nv_cite": "ข้อเสนอบูรณาการของ NUVIA และแผน CAREER LAB",
+  "nv_planner_axis_plan": "วางแผน · การวางแผน",
+  "nv_planner_axis_start": "เริ่มต้น · การเริ่มต้น",
+  "nv_planner_axis_focus": "โฟกัส · ความเข้มข้น",
+  "nv_planner_axis_time": "เวลา · เวลา",
+  "nv_planner_axis_recover": "การกู้คืน · การกู้คืน",
+  "nv_planner_axis_check": "ตรวจสอบ · ทบทวน",
+  "nv_cl_camp_time1": "0–40 นาที",
+  "nv_cl_camp_time2": "40–80 นาที",
+  "nv_cl_camp_time3": "90–145 นาที",
+  "nv_cl_camp_time4": "145–180 นาที",
+  "nv_verify_test": "การประเมิน"
+});
+Object.assign(window.LANG.vi, {
+  "track_u1_title": "Đại học Dong-Eui Trường hướng nghiệp RISE",
+  "track_u1_desc": "Hội thảo Career Power-UP - tự hiểu và lập kế hoạch nghề nghiệp dựa trên D-CAS",
+  "track_u2_title": "Bài giảng D-CAS của Đại học Dongseo",
+  "track_u2_desc": "Bài giảng giới thiệu D-CAS dựa trên khoa học não bộ và lập bản đồ nghề nghiệp",
+  "track_u3_title": "D-CAS 1:1 Cố vấn nghề nghiệp",
+  "track_u3_desc": "Youth Jobs ON - hỗ trợ tìm kiếm việc làm dựa trên phân tích sức mạnh D-CAS",
+  "track_u4_title": "Thực hành K-PASS trực tuyến của Đại học Dong-Eui",
+  "track_u4_desc": "Lớp học trong đó học sinh trực tiếp trải nghiệm bài đánh giá nhận thức K-PASS",
+  "track_u5_title": "Nhóm tiếp thị toàn cầu BUFS 5",
+  "track_u5_desc": "Bài giảng tự hiểu sử dụng kết quả D-CAS",
+  "track_u6_title": "Bài giảng đặc biệt dành cho nhóm lớn của BUFS",
+  "track_u6_desc": "Phiên Idea Box - dự án nhóm theo loại nhận thức",
+  "track_y1_title": "Hội thảo Trung tâm Thanh thiếu niên CanCan",
+  "track_y1_desc": "Bảng tính Brain-Type MY - phân tích điểm mạnh và liên kết công việc",
+  "track_y2_title": "Đào tạo D-CAS cho thanh niên tìm việc làm",
+  "track_y2_desc": "Đào tạo năng lực việc làm dựa trên D-CAS và đặc điểm nhận thức",
+  "track_e1_title": "Đánh giá K-PASS nhóm tại bảy trường",
+  "track_e1_desc": "Đánh giá nhận thức dựa trên trò chơi cho học sinh tiểu học",
+  "track_e2_title": "Bài đánh giá KNUE × Jeungpyeong K-PASS ①",
+  "track_e2_desc": "Thí điểm K-PASS dành cho học sinh quận Jeungpyeong, Chungcheongbuk-do",
+  "track_e3_title": "Bài đánh giá KNUE × Jeungpyeong K-PASS ②",
+  "track_e3_desc": "Đánh giá trò chơi trên máy tính bảng với học sinh và phụ huynh",
+  "track_g1_title": "Thí điểm K-PASS của trường công lập Mông Cổ",
+  "track_g1_desc": "Phi công thực địa đầu tiên ở nước ngoài tại một trường công lập ở Ulaanbaatar",
+  "track_g2_title": "Đánh giá trực tuyến của Bệnh viện Nhi Quốc gia Mông Cổ",
+  "track_g2_desc": "Đánh giá nhận thức từ xa được các đội y tế ở Busan và Ulaanbaatar quan sát – phương tiện truyền thông đưa tin",
+  "track_g3_title": "Biên bản ghi nhớ với Trung tâm Trị liệu Tâm lý Azerbaijan",
+  "track_g3_desc": "Xuất khẩu quốc tế K-PASS và D-CAS — thỏa thuận hợp tác chính thức",
+  "track_g4_title": "Gặp gỡ các quan chức giáo dục Iraq",
+  "track_g4_desc": "Thảo luận về việc áp dụng K-PASS / D-CAS và mở rộng Trung Đông",
+  "track_g5_title": "Gặp gỡ với Tập đoàn Reliance, Ấn Độ",
+  "track_g5_desc": "Sáng kiến ​​triển khai K-PASS/D-CAS được đề xuất áp dụng trên toàn quốc ở Ấn Độ",
+  "nv_cite": "Kế hoạch LAB NGHỀ NGHIỆP và Đề xuất Tích hợp NUVIA",
+  "nv_planner_axis_plan": "KẾ HOẠCH · Lập kế hoạch",
+  "nv_planner_axis_start": "BẮT ĐẦU · Bắt đầu",
+  "nv_planner_axis_focus": "TẬP TRUNG · Tập trung",
+  "nv_planner_axis_time": "THỜI GIAN · Thời gian",
+  "nv_planner_axis_recover": "PHỤC HỒI · Phục hồi",
+  "nv_planner_axis_check": "KIỂM TRA · Đánh giá",
+  "nv_cl_camp_time1": "0–40 phút",
+  "nv_cl_camp_time2": "40–80 phút",
+  "nv_cl_camp_time3": "90–145 phút",
+  "nv_cl_camp_time4": "145–180 phút",
+  "nv_verify_test": "Đánh giá"
+});
+Object.assign(window.LANG.ja, {
+  "track_u1_title": "東義大学RISEキャリアスクール",
+  "track_u1_desc": "Career Power-UPワークショップ ～D-CASに基づく自己理解とキャリアプランニング～",
+  "track_u2_title": "東西大学 D-CAS 講義",
+  "track_u2_desc": "脳科学に基づいたD-CAS入門とキャリアマッピング講座",
+  "track_u3_title": "D-CAS 1:1 キャリアメンタリング",
+  "track_u3_desc": "Youth Employment ON ― D-CASの強み分析に基づく就職支援",
+  "track_u4_title": "東義大学オンライン K-PASS 演習",
+  "track_u4_desc": "K-PASS認知評価を直接体験する授業",
+  "track_u5_title": "BUFS グローバル マーケター コホート 5",
+  "track_u5_desc": "D-CAS結果を用いた自己理解講座",
+  "track_u6_title": "BUFS 大人数特別講義",
+  "track_u6_desc": "アイデア ボックス セッション — 認知タイプ別のチーム プロジェクト",
+  "track_y1_title": "カンカン青少年センターのワークショップ",
+  "track_y1_desc": "Brain-Type MYワークシート ～強み分析とジョブ連携～",
+  "track_y2_title": "求職者向けD-CAS研修",
+  "track_y2_desc": "D-CASと認知特性に基づく就業能力訓練",
+  "track_e1_title": "7校でのグループK-PASS評価",
+  "track_e1_desc": "小学生向けのゲームベースの認知評価",
+  "track_e2_title": "KNUE × 貞平 K-PASS 評価①",
+  "track_e2_desc": "忠清北道貞平郡の学生向けK-PASS試験運用",
+  "track_e3_title": "KNUE × 貞平 K-PASS 評価②",
+  "track_e3_desc": "生徒と保護者によるタブレットベースのゲーム評価",
+  "track_g1_title": "モンゴルの公立学校 K-PASS パイロット",
+  "track_g1_desc": "ウランバートルの公立学校で初の海外フィールドパイロット",
+  "track_g2_title": "モンゴル国立小児病院のオンライン評価",
+  "track_g2_desc": "釜山とウランバートルの医療チームが遠隔認知評価を観察 - メディア報道",
+  "track_g3_title": "アゼルバイジャン心理療法センターとのMOU",
+  "track_g3_desc": "K-PASS および D-CAS の国際輸出 — オフィシャルパートナー契約",
+  "track_g4_title": "イラクの教育当局者との会談",
+  "track_g4_desc": "K-PASS/D-CAS導入と中東拡大についての議論",
+  "track_g5_title": "インドのリライアンス・グループとの会合",
+  "track_g5_desc": "インド全土での導入を目指して提案されたK-PASS / D-CAS導入イニシアチブ",
+  "nv_cite": "NUVIA統合提案とCAREER LABプラン",
+  "nv_planner_axis_plan": "PLAN・企画",
+  "nv_planner_axis_start": "スタート・イニシエーション",
+  "nv_planner_axis_focus": "FOCUS・集中力",
+  "nv_planner_axis_time": "時間・時間",
+  "nv_planner_axis_recover": "リカバリー・リカバリー",
+  "nv_planner_axis_check": "チェック・レビュー",
+  "nv_cl_camp_time1": "0～40分",
+  "nv_cl_camp_time2": "40～80分",
+  "nv_cl_camp_time3": "90～145分",
+  "nv_cl_camp_time4": "145 ～ 180 分",
+  "nv_verify_test": "評価"
+});
+Object.assign(window.LANG.ar, {
+  "track_u1_title": "مدرسة RISE المهنية بجامعة دونغ إيوي",
+  "track_u1_desc": "ورشة عمل Power-UP – الفهم الذاتي والتخطيط الوظيفي على أساس D-CAS",
+  "track_u2_title": "محاضرة D-CAS بجامعة دونجسيو",
+  "track_u2_desc": "مقدمة D-CAS القائمة على علوم الدماغ ومحاضرة رسم الخرائط المهنية",
+  "track_u3_title": "D-CAS 1:1 التوجيه المهني",
+  "track_u3_desc": "تشغيل الشباب - دعم البحث عن عمل بناءً على تحليل قوة D-CAS",
+  "track_u4_title": "ممارسة K-PASS عبر الإنترنت في جامعة Dong-Eui",
+  "track_u4_desc": "فصل يختبر فيه الطلاب بشكل مباشر التقييم المعرفي لـ K-PASS",
+  "track_u5_title": "مجموعة المسوقين العالميين BUFS 5",
+  "track_u5_desc": "محاضرة فهم الذات باستخدام نتائج D-CAS",
+  "track_u6_title": "BUFS محاضرة خاصة للمجموعات الكبيرة",
+  "track_u6_desc": "جلسة Idea Box — مشاريع جماعية حسب النوع المعرفي",
+  "track_y1_title": "ورشة عمل مركز شباب كانكان",
+  "track_y1_desc": "ورقة عمل Brain-Type MY – تحليل القوة والربط الوظيفي",
+  "track_y2_title": "تدريب D-CAS للشباب الباحثين عن عمل",
+  "track_y2_desc": "التدريب على القدرة على التوظيف بناءً على D-CAS والخصائص المعرفية",
+  "track_e1_title": "تقييم K-PASS الجماعي في سبع مدارس",
+  "track_e1_desc": "التقييم المعرفي القائم على اللعبة لطلاب المرحلة الابتدائية",
+  "track_e2_title": "KNUE × تقييم Jeungpyeong K-PASS ①",
+  "track_e2_desc": "برنامج K-PASS التجريبي للطلاب في مقاطعة جيونج بيونج، تشانج تشونج بوك دو",
+  "track_e3_title": "KNUE × تقييم Jeungpyeong K-PASS ②",
+  "track_e3_desc": "تقييم الألعاب عبر الأجهزة اللوحية مع الطلاب وأولياء الأمور",
+  "track_g1_title": "المدرسة المنغولية العامة التجريبية K-PASS",
+  "track_g1_desc": "أول طيار ميداني خارجي في مدرسة عامة في أولانباتار",
+  "track_g2_title": "التقييم عبر الإنترنت لمستشفى الأطفال الوطني المنغولي",
+  "track_g2_desc": "التقييم المعرفي عن بعد الذي لاحظته الفرق الطبية في بوسان وأولان باتور – تغطية إعلامية",
+  "track_g3_title": "مذكرة تفاهم مع مركز العلاج النفسي في أذربيجان",
+  "track_g3_desc": "التصدير الدولي K-PASS وD-CAS — اتفاقية شراكة رسمية",
+  "track_g4_title": "لقاء مع مسؤولي التعليم العراقيين",
+  "track_g4_desc": "مناقشة اعتماد K-PASS/D-CAS والتوسع في الشرق الأوسط",
+  "track_g5_title": "اجتماع مع مجموعة ريلاينس، الهند",
+  "track_g5_desc": "مبادرة تنفيذ K-PASS / D-CAS مقترحة لاعتمادها على المستوى الوطني في الهند",
+  "nv_cite": "اقتراح NUVIA المتكامل وخطة CAREER LAB",
+  "nv_planner_axis_plan": "الخطة · التخطيط",
+  "nv_planner_axis_start": "ابدأ · البدء",
+  "nv_planner_axis_focus": "التركيز · التركيز",
+  "nv_planner_axis_time": "الوقت · الوقت",
+  "nv_planner_axis_recover": "التعافي · التعافي",
+  "nv_planner_axis_check": "تحقق · مراجعة",
+  "nv_cl_camp_time1": "0-40 دقيقة",
+  "nv_cl_camp_time2": "40-80 دقيقة",
+  "nv_cl_camp_time3": "90-145 دقيقة",
+  "nv_cl_camp_time4": "145-180 دقيقة",
+  "nv_verify_test": "تقدير"
+});
+Object.assign(window.LANG.ru, {
+  "track_u1_title": "Школа карьеры RISE Университета Донг-Эй",
+  "track_u1_desc": "Семинар Career Power-UP — самопонимание и планирование карьеры на основе D-CAS",
+  "track_u2_title": "Лекция D-CAS Университета Тонсо",
+  "track_u2_desc": "Введение в D-CAS, основанное на науке о мозге, и лекция по составлению карты карьеры",
+  "track_u3_title": "D-CAS 1:1 Карьерное наставничество",
+  "track_u3_desc": "Youth Employment ON — поддержка в поиске работы на основе анализа сильных сторон D-CAS",
+  "track_u4_title": "Онлайн-практика K-PASS Университета Донг-Эй",
+  "track_u4_desc": "Класс, в котором учащиеся непосредственно проходят когнитивную оценку K-PASS.",
+  "track_u5_title": "Глобальная когорта маркетологов BUFS 5",
+  "track_u5_desc": "Лекция по самопониманию с использованием результатов D-CAS",
+  "track_u6_title": "Специальная лекция BUFS для больших групп",
+  "track_u6_desc": "Сессия «Коробка идей» — командные проекты по когнитивному типу",
+  "track_y1_title": "Семинар Молодежного центра CanCan",
+  "track_y1_desc": "Таблица Brain-Type MY — анализ сильных сторон и связь с работой",
+  "track_y2_title": "Обучение D-CAS для молодежи, ищущей работу",
+  "track_y2_desc": "Обучение трудоустройству на основе D-CAS и когнитивных характеристик",
+  "track_e1_title": "Групповая оценка K-PASS в семи школах",
+  "track_e1_desc": "Когнитивное оценивание в игровой форме для учащихся начальной школы",
+  "track_e2_title": "KNUE × экзамен Jeungpyeong K-PASS ①",
+  "track_e2_desc": "Пилотный проект K-PASS для студентов округа Чонпхён, Чхунчхонпукто",
+  "track_e3_title": "KNUE × Экзамен K-PASS Jeungpyeong ②",
+  "track_e3_desc": "Оценка игры на планшете с учениками и родителями",
+  "track_g1_title": "Пилотный проект K-PASS в Монгольской государственной школе",
+  "track_g1_desc": "Первый зарубежный пилотный проект в государственной школе в Улан-Баторе.",
+  "track_g2_title": "Онлайн-оценка Монгольской национальной детской больницы",
+  "track_g2_desc": "Дистанционная когнитивная оценка наблюдалась медицинскими бригадами в Пусане и Улан-Баторе — освещение в СМИ",
+  "track_g3_title": "Меморандум о взаимопонимании с Азербайджанским психотерапевтическим центром",
+  "track_g3_desc": "Международный экспорт K-PASS и D-CAS — официальное партнерское соглашение",
+  "track_g4_title": "Встреча с представителями иракского образования",
+  "track_g4_desc": "Обсуждение внедрения K-PASS/D-CAS и расширения Ближнего Востока",
+  "track_g5_title": "Встреча с Reliance Group, Индия",
+  "track_g5_desc": "Инициатива по внедрению K-PASS/D-CAS предложена для общенационального внедрения в Индии"
+});
+// END GENERATED COMPLETENESS TRANSLATIONS
+
 // 번역 데이터는 i18n/*.js 가 window.LANG 에 채워줍니다.
 
 // ── 언어 적용 ────────────────────────────────────────────────────
@@ -7331,6 +8044,10 @@ function updateReportLinks(lang) {
     if (!a.dataset.reportBase) a.dataset.reportBase = a.href.split('?')[0];
     a.href = a.dataset.reportBase + '?lang=' + rl;
   });
+  document.querySelectorAll('a[data-dashboard-example]').forEach(a => {
+    if (!a.dataset.reportBase) a.dataset.reportBase = a.href.split('?')[0];
+    a.href = a.dataset.reportBase + '?lang=' + rl;
+  });
 }
 
 let currentLang = localStorage.getItem('fg_lang') || 'ko';
@@ -7359,9 +8076,19 @@ function setLang(lang) {
 
   document.querySelectorAll('[data-i18n]').forEach(el => {
     const key = el.dataset.i18n;
-    if (LANG[lang][key] !== undefined) {
-      el.innerHTML = LANG[lang][key];
+    const translated = LANG[lang][key] !== undefined ? LANG[lang][key] : (LANG.en[key] !== undefined ? LANG.en[key] : LANG.ko[key]);
+    if (translated !== undefined) {
+      el.innerHTML = translated;
     }
+  });
+
+  ['aria-label','title','alt','placeholder'].forEach(attr => {
+    const dataAttr = 'data-i18n-' + attr;
+    document.querySelectorAll('[' + dataAttr + ']').forEach(el => {
+      const key = el.getAttribute(dataAttr);
+      const translated = LANG[lang][key] !== undefined ? LANG[lang][key] : (LANG.en[key] !== undefined ? LANG.en[key] : LANG.ko[key]);
+      if (translated !== undefined) el.setAttribute(attr, translated.replace(/<[^>]*>/g, ''));
+    });
   });
 
   const sel = document.getElementById('langSelect');
@@ -7370,7 +8097,107 @@ function setLang(lang) {
   updateVideos(lang);
   updateReportLinks(lang);
   updateMobileTocLabel(HASH_SECTIONS[window.location.hash.replace(/^#/, '').toLowerCase()] || 'home');
+  if (new URLSearchParams(window.location.search).has('i18nqa')) {
+    const qa = runI18nQA(lang);
+    document.documentElement.setAttribute('data-i18n-qa', JSON.stringify(qa));
+    if (qa.missingByLanguage[lang].length || qa.emptyByLanguage[lang].length || qa.renderMismatch.length || qa.invalidRendered.length || qa.residualKorean.length) {
+      console.warn('[FeelGood i18n QA]', qa);
+    }
+  }
 }
+
+function i18nDomPath(el) {
+  if (!el || !el.tagName) return '';
+  const parts = [];
+  let node = el;
+  while (node && node !== document.body) {
+    let part = node.tagName.toLowerCase();
+    if (node.id) {
+      parts.unshift(part + '#' + node.id);
+      break;
+    }
+    if (node.classList && node.classList.length) part += '.' + Array.from(node.classList).slice(0,2).join('.');
+    if (node.parentElement) {
+      const siblings = Array.from(node.parentElement.children).filter(child => child.tagName === node.tagName);
+      if (siblings.length > 1) part += ':nth-of-type(' + (siblings.indexOf(node) + 1) + ')';
+    }
+    parts.unshift(part);
+    node = node.parentElement;
+  }
+  return parts.join(' > ');
+}
+
+function runI18nQA(lang) {
+  const selected = LANG[lang] ? lang : currentLang;
+  const keySet = new Set();
+  availableLangs().forEach(code => Object.keys(LANG[code]).forEach(key => keySet.add(key)));
+  document.querySelectorAll('[data-i18n]').forEach(el => keySet.add(el.dataset.i18n));
+  ['aria-label','title','alt','placeholder'].forEach(attr => {
+    document.querySelectorAll('[data-i18n-' + attr + ']').forEach(el => keySet.add(el.getAttribute('data-i18n-' + attr)));
+  });
+  document.querySelectorAll('[data-i18n-attr]').forEach(el => keySet.add(el.getAttribute('data-i18n-attr')));
+  const keys = Array.from(keySet).sort();
+  const missingByLanguage = {};
+  const emptyByLanguage = {};
+  availableLangs().forEach(code => {
+    missingByLanguage[code] = keys.filter(key => LANG[code][key] === undefined);
+    emptyByLanguage[code] = keys.filter(key => LANG[code][key] !== undefined && String(LANG[code][key]).trim() === '');
+  });
+
+  const resolveValue = key => LANG[selected][key] !== undefined ? LANG[selected][key] : (LANG.en[key] !== undefined ? LANG.en[key] : LANG.ko[key]);
+  const canonicalHtml = value => {
+    const template = document.createElement('template');
+    template.innerHTML = String(value);
+    return template.innerHTML;
+  };
+  const renderMismatch = [];
+  const invalidRendered = [];
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.dataset.i18n;
+    const expected = resolveValue(key);
+    const actual = el.innerHTML;
+    if (expected === undefined || canonicalHtml(expected) !== actual) {
+      renderMismatch.push({path:i18nDomPath(el),key:key,expected:expected === undefined ? null : String(expected),actual:actual});
+    }
+    if (!actual.trim() || actual.trim() === key || /^(undefined|null|\[object Object\])$/i.test(actual.trim())) {
+      invalidRendered.push({path:i18nDomPath(el),key:key,actual:actual});
+    }
+  });
+  ['aria-label','title','alt','placeholder'].forEach(attr => {
+    document.querySelectorAll('[data-i18n-' + attr + ']').forEach(el => {
+      const key = el.getAttribute('data-i18n-' + attr);
+      const expected = resolveValue(key);
+      const expectedText = expected === undefined ? null : String(expected).replace(/<[^>]*>/g, '');
+      const actual = el.getAttribute(attr);
+      if (expectedText === null || expectedText !== actual) {
+        renderMismatch.push({path:i18nDomPath(el) + '@' + attr,key:key,expected:expectedText,actual:actual});
+      }
+      if (!actual || actual.trim() === key || /^(undefined|null|\[object Object\])$/i.test(actual.trim())) {
+        invalidRendered.push({path:i18nDomPath(el) + '@' + attr,key:key,actual:actual});
+      }
+    });
+  });
+
+  const residualKorean = [];
+  if (selected !== 'ko') {
+    document.querySelectorAll('body *').forEach(el => {
+      if (el.closest('#langSelect,script,style')) return;
+      Array.from(el.childNodes).filter(node => node.nodeType === 3).forEach(node => {
+        const text = node.nodeValue.replace(/\s+/g, ' ').trim();
+        if (!text || !/[가-힣]/.test(text)) return;
+        residualKorean.push({path:i18nDomPath(el),key:el.dataset.i18n || null,text:text});
+      });
+      ['aria-label','title','alt','placeholder'].forEach(attr => {
+        const value = el.getAttribute && el.getAttribute(attr);
+        if (value && /[가-힣]/.test(value)) {
+          residualKorean.push({path:i18nDomPath(el) + '@' + attr,key:el.getAttribute('data-i18n-' + attr) || null,text:value});
+        }
+      });
+    });
+  }
+  return {selectedLang:selected,supportedLanguages:availableLangs(),totalKeys:keys.length,missingByLanguage,emptyByLanguage,renderMismatch,invalidRendered,residualKorean};
+}
+window.runI18nQA = runI18nQA;
 
 // 기관 탭(교육기관/기업/군경찰)도 다국어 처리되어 모든 언어에서 노출한다.
 const KO_ONLY = ['edu', 'biz', 'mil'];
