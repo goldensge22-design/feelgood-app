@@ -17,7 +17,7 @@ export const ko={
   speakOrDraw:'짧게 써 보거나 나중에 이어서 해요.', shortWrite:'짧게 써 보세요.', save:'저장', later:'나중에 할래요', next:'다음', back:'이전', begin:'시작하기', done:'이야기책 보기', help:'도움 보기', closeHelp:'도움 닫기',
   saved:'저장했어요.', needAction:'그림 속 활동을 먼저 마쳐 주세요.', needTwo:'필요한 단서 두 개를 찾아 주세요.', needLinks:'사람·장소·방법을 모두 골라 주세요.', needSequence:'세 장면을 모두 놓아 주세요.', needPlan:'목표와 방법을 고르고 결과를 확인해 주세요.',
   bookTitle:'내가 만든 구텐베르크 이야기', bookReady:'두 비교까지 담긴 이야기가 완성됐어요.', bookPartial:'한 비교를 나중에 이어서 할 수 있어요.', bookPending:'두 비교를 남기면 이야기가 완성돼요.', again:'다른 놀이도 해 보기', resume:'저장한 데모 이어서 하기', fresh:'새 데모 시작',
-  openBook:'이야기책 펼치기', closeBook:'표지로 돌아가기', previousPage:'이전 쪽', nextPage:'다음 쪽', pageOf:'쪽',
+  openBook:'이야기책 펼치기', previewBook:'이야기책 미리보기', closeBook:'표지로 돌아가기', previousPage:'이전 쪽', nextPage:'다음 쪽', pageOf:'쪽',
   pageActual:'실제 역사의 시작', pageCondition:'내가 바꾼 조건', pagePrediction:'처음 생각', pageThinking:'생각 놀이', pageResult:'놀이 뒤 달라진 모습', pageStory:'내가 만든 이야기', pageHistoryCompare:'실제 역사와 내 이야기', pagePredictionCompare:'처음 생각과 지금 이야기',
   comparisonDeferred:'이 비교는 나중에 이어서 할 수 있어요.', storyDrawing:'내가 그린 이야기',
   firstThought:'처음 생각', thinkingPlay:'생각 놀이', myRecord:'나의 기록', drawingSaved:'그림으로 저장했어요', withWhom:'누구와', where:'어디에서', how:'어떻게', placePicture:'그림 놓기', wantedGoal:'하고 싶은 일', whichMethod:'어떤 방법', seeOutcome:'결과 살펴보기',
