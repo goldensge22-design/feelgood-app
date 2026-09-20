@@ -1,6 +1,8 @@
 import type {CognitivePractice} from './CognitiveActivity';
+import {validateTimeBlockWorkspace,type TimeBlock} from './timeBlocks';
 import {validateTransfer,profileKey, type Assessment, type Band, type TrainingRecord} from './engine';
 export type Mode='demo'|'production';
+export interface PlannerTask {timeBlock?:TimeBlock;}
 export interface Step {id:string;title:string;done:boolean;date:string;}
 export interface Material {id:string;title:string;done:boolean;}
 export interface PlannerTask {repeat?:'daily'|'weekdays'|'none';repeatOf?:string;transferUsed?:boolean;domain?:'학습'|'생활'|'업무';deadline?:string;practice?:CognitivePractice;id:string;title:string;subject:string;date:string;minutes:number;owner:string;dependsOn:string;waiting:boolean;steps:Step[];materials:Material[];status:'planned'|'active'|'paused'|'done';resumeNote:string;startedAt:string;completedAt:string;actualMinutes:number|null;help:'none'|'some';adjustment:string;}
@@ -47,7 +49,7 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
  if(w.lastWeeklyReviewWeek!==undefined&&!date(w.lastWeeklyReviewWeek))throw new Error('주간 리뷰 날짜 오류');
  const ids=new Set<string>();
  for(const t of w.tasks){
-  if(!t||!text(t.id,160)||!t.id||ids.has(t.id)||!text(t.title,160)||!t.title.trim()||!text(t.subject,80)||!date(t.date)||!number(t.minutes,1,1440)||!text(t.owner,80)||!text(t.dependsOn,160)||typeof t.waiting!=='boolean'||!['planned','active','paused','done'].includes(t.status)||!text(t.resumeNote,500)||!text(t.startedAt,50)||!text(t.completedAt,50)||!(t.actualMinutes===null||number(t.actualMinutes,0,1440))||!['none','some'].includes(t.help)||!text(t.adjustment,500)||!Array.isArray(t.steps)||t.steps.length<1||t.steps.length>50||!Array.isArray(t.materials)||t.materials.length>100)throw new Error('할 일 자료의 형식이 올바르지 않아요.');
+  if(!t||!text(t.id,160)||!t.id||ids.has(t.id)||!text(t.title,160)||!t.title.trim()||!text(t.subject,80)||!date(t.date)||!number(t.minutes,1,1440)||!text(t.owner,80)||!text(t.dependsOn,160)||typeof t.waiting!=='boolean'||!['planned','active','paused','done'].includes(t.status)||!text(t.resumeNote,500)||!text(t.startedAt,50)||!text(t.completedAt,50)||!(t.actualMinutes===null||number(t.actualMinutes,0,t.timeBlock?100000:1440))||!['none','some'].includes(t.help)||!text(t.adjustment,500)||!Array.isArray(t.steps)||t.steps.length<1||t.steps.length>50||!Array.isArray(t.materials)||t.materials.length>100)throw new Error('할 일 자료의 형식이 올바르지 않아요.');
   if(t.repeat!==undefined&&!['daily','weekdays','none'].includes(t.repeat))throw new Error('반복 설정 오류');
   if(t.repeatOf!==undefined&&!text(t.repeatOf,160))throw new Error('반복 연결 오류');
   if(t.transferUsed!==undefined&&typeof t.transferUsed!=='boolean')throw new Error('전략 사용 기록 오류');
@@ -80,6 +82,7 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
   recordIds.add(r.id);
  }
  for(const r of w.records.filter(x=>x.kind==='followup_task')){const previous=w.records.find(x=>x.id===r.measures.previousRecordId&&x.kind==='real_task'&&x.measures.strategyApplied===true);if(!previous||previous.context.transfer?.bridgeId!==r.context.transfer?.bridgeId||previous.context.strategyId!==r.context.strategyId||previous.measures.taskDomain!==r.measures.previousTaskDomain)throw new Error('이전 적용 기록 연결 오류');}
+ validateTimeBlockWorkspace(w);
  return structuredClone(w);
 }
 export function weekDates(){const today=new Date();today.setHours(12,0,0,0);today.setDate(today.getDate()-((today.getDay()+6)%7));return Array.from({length:7},(_,i)=>{const d=new Date(today);d.setDate(d.getDate()+i);return localDate(d);});}
