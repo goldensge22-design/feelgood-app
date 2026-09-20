@@ -2,6 +2,20 @@
 
 정적 GitHub Pages용 독립 가이드입니다. 저장소 루트에서 정적 서버를 실행한 뒤 `/teacher-guide/`로 접속합니다. JSON 데이터를 불러오므로 `file://` 직접 열기보다 HTTP 실행을 권장합니다.
 
+## 승인된 최종 공개본
+
+- 승인일: 2026-09-21 (Asia/Seoul)
+- 상태: K-PASS·D-CAS 전자교사가이드 최종본
+- 브랜치: `codex/build-teacher-guide-b`
+- 콘텐츠 커밋: `4df5857221d41c10f25e97ae82e354293b97f402`
+- Git 태그: `teacher-guide-final-2026-09-21`
+- 공개 링크: [전자교사가이드 최종본](https://htmlpreview.github.io/?https://github.com/goldensge22-design/feelgood-app/blob/4df5857221d41c10f25e97ae82e354293b97f402/teacher-guide/public-preview.html#opening)
+- QA: 13개 언어, 14개 장, PC·태블릿·모바일·확대·인쇄·RTL·81개 PASS 조합 및 언어 전환 시 fallback 깜빡임 검사를 통과했습니다.
+- 번역 상태: 한국어 `ready`, 외국어 12개 `ai-draft`를 유지합니다.
+- 공개본 보안: 토큰형 결과지 샘플 링크는 공개 미리보기에서 비활성화하며 원본 가이드 파일은 변경하지 않습니다.
+
+이 기록의 `최종본`은 위 커밋과 공개 미리보기 URL을 의미합니다. 별도 승인 없이 이 링크를 다른 커밋으로 교체하거나 태그를 이동하지 않습니다.
+
 - 기준 콘텐츠: `docs/KPASS_DCAS_NUVIA_전자교사가이드_통합기획_v2.0.md`
 - 디자인·구현 기준: `docs/CODEX_전자교사가이드_B안_본제작_프롬프트.md`
 - 콘텐츠 공통 규칙: `docs/교사용_쉬운말_실행중심_콘텐츠_규칙.md`

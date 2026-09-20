@@ -61,6 +61,23 @@ working tree note: Teacher Guide의 별도 미커밋 작업은 이 기준선에 
 
 ### Teacher Guide
 
+- 사용자 승인 최종본 기준선:
+
+```text
+date: 2026-09-21 (Asia/Seoul)
+status: FINAL — K-PASS·D-CAS 전자교사가이드
+branch: codex/build-teacher-guide-b
+content commit: 4df5857221d41c10f25e97ae82e354293b97f402
+tag: teacher-guide-final-2026-09-21
+public preview: https://htmlpreview.github.io/?https://github.com/goldensge22-design/feelgood-app/blob/4df5857221d41c10f25e97ae82e354293b97f402/teacher-guide/public-preview.html#opening
+deployment class: External Preview — GitHub Pages production 아님
+locale status: ko ready, 12 foreign locales ai-draft
+security: 공개 미리보기의 토큰형 결과지 샘플 링크 비활성화; 원본 가이드 링크 유지
+working tree note: 기존 사용자 미커밋 스크린샷 3개는 최종본 태그와 커밋에 포함되지 않음
+```
+
+- 최종 기준선의 public preview는 13개 언어, 14개 장, PC·태블릿·모바일·확대·인쇄·RTL·81개 PASS 조합과 언어 전환 시 fallback 깜빡임 검사를 통과했다.
+- 위 태그는 콘텐츠 커밋에 고정하며 별도 사용자 승인 없이 이동하거나 덮어쓰지 않는다.
 - 아래 통과 기록은 commit `3432597d04ba0ad1e2d0c789592e7f6545cf8f6c`의 Teacher Guide 기준이며, 이후의 미커밋 콘텐츠 변경까지 검증 완료로 선언하지 않는다.
 - 12개 외국어 pack 각각 1,724개 message, 신규·변경·누락·빈 값·한국어 잔존·placeholder 불일치 0개. 아랍어 RTL과 6개 반응형 viewport browser QA를 통과했다.
 - 이 수치와 browser/RTL/viewport/zoom/print 결과는 **Teacher Guide 전용 QA 상태**다.
