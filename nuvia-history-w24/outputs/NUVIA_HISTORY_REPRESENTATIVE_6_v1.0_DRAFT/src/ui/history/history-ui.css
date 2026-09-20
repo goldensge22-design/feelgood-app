@@ -1,0 +1,71 @@
+/* Reuses the original app.css; these are composition and responsive adapters. */
+.history-shell{--history-blue:#396887;--history-orange:#b2672f;--history-purple:#735982;--history-ink:#243b43;color:var(--history-ink)}
+.history-header{gap:16px;flex-wrap:wrap}.history-header strong{font-size:20px}.history-header strong:first-letter{color:var(--history-orange)}
+.history-button:hover:not(:disabled),.history-choice:hover:not(:disabled){filter:brightness(1.04);border-color:#396887}
+.history-button:active:not(:disabled),.history-choice:active:not(:disabled){transform:translateY(3px)}
+.history-choice{position:relative;min-width:0;overflow:hidden}.history-choice[aria-pressed=true]{outline:3px solid #b2672f;outline-offset:2px}
+.scene-frame{isolation:isolate}.scene-frame>img{width:100%;display:block;aspect-ratio:8/5;object-fit:cover}
+.scene-caption{position:relative;padding:6px 14px;color:#fff2d3;background:#293b35}
+.history-status{display:inline-flex;padding:4px 12px;border-radius:20px;border:1px solid #b6a78b;background:#f4ead7;font-size:15px;color:#554b3d}
+.history-status.ready{background:#e4eff5;color:#244965;border-color:#789bae}
+.history-progress{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:15px}.history-progress progress{accent-color:#735982;max-width:100%;height:12px}
+.history-help{position:relative}.history-help>.history-panel{position:absolute;inset-inline-end:0;z-index:12;max-width:min(360px,90vw);min-width:250px}
+.comparison-spread{position:relative;background:linear-gradient(90deg,#f6ebd5 48%,#c9bda0 50%,#f6ebd5 52%);padding:14px;border:2px solid #a39376;border-radius:8px 16px 16px 8px;box-shadow:0 5px #a49b80,0 12px 22px #30251622}
+.comparison-spread>section{min-width:0;border:1px solid #baa989;border-radius:9px;background:#fff9e9;padding:12px}
+.comparison-flow{padding:14px;border:2px solid #a39376;border-left:6px solid #735982;border-radius:12px;background:#f8efdc;box-shadow:0 5px #a49b80}
+.comparison-flow>.timeline-step{padding:14px;background:#fff9e9;border:1px solid #baa989;border-radius:10px;min-width:0;margin:0 0 18px}
+.comparison-flow>.timeline-step+section:before{content:'↓';display:block;color:#735982;text-align:center;font-size:26px}
+.shared-story-page{min-height:0}.scene-frame .scene-objects{inset:0;z-index:1}
+.w24-illustration{position:relative;display:block;min-width:0;width:100%}
+.w24-illustration .scene-frame{margin:0;width:100%}
+.w24-illustration .scene-symbol{position:absolute;z-index:2;right:3%;bottom:3%;width:31%;border:2px solid #baa989;border-radius:14px;overflow:hidden;box-shadow:0 4px 8px #30251644;background:#faf2df}
+.w24-illustration .scene-symbol svg{display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;aspect-ratio:4/3!important}
+.w24-illustration[data-kind=paper] .scene-paper{opacity:.5;transform:scale(.7)}
+.w24-illustration[data-kind=access] .scene-person{left:85%;opacity:.7}
+.w24-illustration[data-active=true] .scene-person{animation:scene-arrive .5s ease-out both}
+.w24-illustration[data-active=true] .scene-book{animation:scene-arrive .7s ease-out both}
+@keyframes scene-arrive{from{translate:12px 0;opacity:.35}to{translate:0;opacity:1}}
+.history-shell.preschool-shell{max-width:1100px;font-family:Pretendard,system-ui,sans-serif;padding:20px 36px 48px}
+.history-shell.preschool-shell .kid-stage{max-width:960px;margin:20px auto 0}
+.history-shell.preschool-shell h1{font-family:MaruBuri,Georgia,serif}
+.history-shell.preschool-shell .kid-hero{max-width:none}
+.history-shell.preschool-shell .kid-hero .scene-frame>img{aspect-ratio:16/9;min-height:300px;max-height:560px}
+.history-shell.preschool-shell .kid-choices{gap:18px;margin:18px 0}
+.history-shell.preschool-shell button{border-radius:11px;border:1px solid #99866c;background:linear-gradient(#fff9e9,#e5d7ba);box-shadow:inset 0 2px 0 #fff9,0 4px 0 #837961,0 6px 9px #30251618;color:#243b43}
+.history-shell.preschool-shell button.primary{background:linear-gradient(#666174,#464355);color:#fffaf0;border-color:#434154}
+.history-shell.preschool-shell button[aria-pressed=true]{background:linear-gradient(#efddbf,#dbc199);border:2px solid #ae6837}
+.history-shell.preschool-shell button:active:not(:disabled){transform:translateY(3px);box-shadow:inset 0 2px 4px #49382425,0 1px 0 #837961}
+.history-shell.preschool-shell button:disabled{opacity:.55;box-shadow:none}
+.history-shell .kid-choices .w24-illustration{border-radius:9px;overflow:hidden}.history-shell .kid-choices .scene-frame>img{aspect-ratio:4/3}
+.history-shell .practice-context{max-width:760px;margin:auto}.history-shell .practice-clue-board{min-height:0;grid-template-columns:1fr 1fr;background:transparent}
+.history-shell .practice-result{background:transparent;border-radius:10px}.history-shell .practice-result .scene-frame>img{max-height:480px;object-fit:cover}
+.history-shell .practice-result.compact .scene-frame>img{max-height:300px}
+.history-shell .practice-goal-reminder{position:static;width:92px;margin:8px auto}
+.history-shell .practice-links .w24-illustration{width:22%}
+.history-shell .practice-order .w24-illustration{width:100%}
+.history-shell .phase-sequence .practice-order.is-ready{flex-direction:row;gap:18px;align-items:start}
+.history-shell .phase-sequence .practice-order.is-ready button{flex:1;background:#fff9e9;border:1px solid #baa989}
+.history-shell .phase-sequence .practice-order.is-ready button+button:before{content:'→';top:40%;left:-18px}
+.history-shell .kid-reason-choice{max-width:210px;margin:12px auto}
+.history-shell .kid-expression .drawing-input{max-width:760px;margin:auto}
+.history-shell .kid-expression .drawing-input canvas{aspect-ratio:4/3;height:auto;min-height:0}
+.history-shell .kid-expression .drawing-input>button{position:static;display:block;margin:8px 0 8px auto}
+.history-shell .kid-expression>h1{background:#faf3df}
+.history-shell .kid-comparison{display:block;margin:18px 0}
+.history-shell .kid-comparison .comparison-spread{display:grid;grid-template-columns:minmax(0,1fr) 24px minmax(0,1fr)}
+.history-shell .kid-comparison .user-art{width:100%;height:auto;max-height:360px;min-height:0;object-fit:contain}
+.history-shell .kid-comparison .comparison-spread .scene-frame>img{aspect-ratio:4/3;min-height:0;max-height:360px;object-fit:cover}
+.history-shell .kid-comparison .comparison-flow{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.history-shell .kid-comparison .comparison-flow>.timeline-step{margin:0}
+.history-shell .kid-comparison .comparison-flow>.timeline-step+section:before{content:'→'}
+.history-shell .kid-expression.mode-text .kid-reason-choice{max-width:100px}
+@media(max-width:600px){.history-shell.preschool-shell{padding:14px 12px 30px}.history-header{gap:8px}.history-header strong{font-size:18px}.history-shell.preschool-shell .kid-stage{margin-top:16px}.history-shell.preschool-shell .kid-hero .scene-frame>img{aspect-ratio:4/5;object-position:48%;min-height:0}.history-shell.preschool-shell .kid-choices{gap:9px}.history-shell .kid-comparison .comparison-spread{grid-template-columns:minmax(0,1fr) 16px minmax(0,1fr);gap:4px;padding:6px}.comparison-spread>section{padding:6px}.history-shell .kid-comparison .comparison-flow{grid-template-columns:1fr;gap:14px}.history-shell .kid-comparison .comparison-flow>.timeline-step+section:before{content:'↓'}.history-shell .phase-sequence .practice-order.is-ready{flex-direction:column}.history-shell .phase-sequence .practice-order.is-ready button+button:before{content:'↓';left:48%;top:-27px}.history-shell .practice-clue-board{gap:6px}.history-shell .kid-expression .drawing-input canvas{aspect-ratio:4/5}.history-shell .kid-comparison .user-art{max-height:250px}.history-shell .kid-expression.mode-text .kid-comparison .scene-frame>img{max-height:140px}.shared-story-page{padding:18px}}
+/* Keep existing action clues legible in a decorative workshop frame. */
+.history-shell .kid-choices .scene-symbol,.history-shell .practice-clue-board .scene-symbol,.history-shell .practice-links .scene-symbol,.history-shell .practice-order .scene-symbol{width:76%;right:12%;bottom:8%}
+.history-shell .practice-context{max-width:none}
+.history-shell .practice-result .scene-frame>img,.history-shell .practice-result.compact .scene-frame>img{max-height:none;aspect-ratio:16/9}
+.history-shell .kid-choices .scene-frame>img,.history-shell .practice-order .scene-frame>img{aspect-ratio:4/5}
+.history-shell .practice-order.is-ready{min-height:0}
+@media(max-width:600px){.history-shell .practice-clue-board .scene-frame>img{aspect-ratio:4/5}.history-shell .practice-result .scene-frame>img,.history-shell .practice-result.compact .scene-frame>img{aspect-ratio:4/5}.history-shell .kid-choices .scene-frame>img{aspect-ratio:3/5}.history-shell .phase-sequence .scene-frame>img{aspect-ratio:4/3}.history-shell .practice-links .scene-frame>img{aspect-ratio:4/3}}
+@media(min-width:601px){.history-shell .practice-clue-board .scene-frame>img,.history-shell .practice-result .scene-frame>img,.history-shell .practice-result.compact .scene-frame>img{aspect-ratio:4/3}.history-shell[data-stage=complete] .kid-hero .scene-frame>img{aspect-ratio:4/3;max-height:none}}
+@media(prefers-reduced-motion:reduce){.history-shell *{animation:none!important;transition:none!important;scroll-behavior:auto!important}}

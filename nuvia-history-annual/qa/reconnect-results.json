@@ -1,0 +1,1048 @@
+{
+  "status": "IMPLEMENTED_TECHNICAL_CHECKS_PASSED_VISUAL_REVIEW_PENDING",
+  "branch": "codex/nuvia-history-2-5d-reconnect",
+  "base": "991ad9c5870136c343734ca575bd3a1cd6a6b0d8",
+  "sourceDesign": "706bc0364eb415441b4a8b3acb025bb17b41040d",
+  "types": "PASS",
+  "productionBuild": "PASS",
+  "w24Tests": 299,
+  "annualTests": 6,
+  "protection": {
+    "status": "PASS",
+    "sourceCommit": "706bc0364eb415441b4a8b3acb025bb17b41040d",
+    "assets": [
+      {
+        "id": "shared.canvas-arrow",
+        "path": "art/canvas-arrow.svg",
+        "sha256": "449953ad4f461c35b29b28054a2b09f638bda4fa9985533698f557fa15844f50"
+      },
+      {
+        "id": "shared.canvas-box",
+        "path": "art/canvas-box.svg",
+        "sha256": "0ffe677c39a1533399284c70ec2be38661caa47b3c260ca220623397fc8898ae"
+      },
+      {
+        "id": "shared.canvas-bubble",
+        "path": "art/canvas-bubble.svg",
+        "sha256": "b0dcb8c9bff867fe7cf9d34c19bc6d820c142b203adb680dc9722c9e79ef5327"
+      },
+      {
+        "id": "shared.canvas-press",
+        "path": "art/canvas-press.svg",
+        "sha256": "724e9a29d2b30bd7adfbda591d2a7a22c87e5bcca50c32cfc69fe7a9707b1117"
+      },
+      {
+        "id": "shared.canvas-tree",
+        "path": "art/canvas-tree.svg",
+        "sha256": "e5cbb4f73268ba34f5576b3c2b6cebeef1ec51dae022a10625b5a359f50a09f7"
+      },
+      {
+        "id": "shared.canvas-type",
+        "path": "art/canvas-type.svg",
+        "sha256": "7d6bfca601ede7fc4e5ea6998cbd95c97d49b4e3da31572bd8f3f24ab210f70f"
+      },
+      {
+        "id": "shared.cast",
+        "path": "art/cast.webp",
+        "sha256": "79bf84fcc8c989d348750c9d34c57c1777a1a1f14493104108859e7e6f1f55ac"
+      },
+      {
+        "id": "shared.condition-objects-v1",
+        "path": "art/condition-objects-v1.webp",
+        "sha256": "7f847725b07b2d981e9ed871677a85cbf8a94aa4acfa75e01e6b468e33394386"
+      },
+      {
+        "id": "shared.props",
+        "path": "art/props.webp",
+        "sha256": "7f2ebbd0a25b7c4c81733f11111619bbb83431df1ad324c56861e8f60e0ccd81"
+      },
+      {
+        "id": "shared.workshop",
+        "path": "art/workshop.webp",
+        "sha256": "c9269b1dda37add6a1f559224cdd5b9ce957c29198c9fc68634e1afaf6c9a6de"
+      },
+      {
+        "id": "shared.MaruBuri-SemiBold",
+        "path": "fonts/MaruBuri-SemiBold.woff2",
+        "sha256": "340e4dcbf466028565d194cab86159dc40cedaf8e38db5429472a2468d8036f8"
+      },
+      {
+        "id": "shared.PretendardVariable",
+        "path": "fonts/PretendardVariable.woff2",
+        "sha256": "9599f12fd42fc0bce1cd50b47a0c022e108d7aa64dd0d1bb0ed44f3282d900b4"
+      }
+    ],
+    "originalW24Head": "cede993abcb68b5d017b1ca147ce335fc6f98bd6",
+    "originalW24Clean": true,
+    "protectedDiffEmpty": true,
+    "i18n": {
+      "baselineErrors": 20,
+      "newErrors": 0,
+      "historyErrors": [
+        {
+          "severity": "error",
+          "program": "nuvia-history",
+          "message": "LOCALE_PACK_INCOMPLETE: ko: pack or required-key contract missing"
+        },
+        {
+          "severity": "error",
+          "program": "nuvia-history",
+          "message": "RELEASE_REVIEW_MISSING: ko:rtl"
+        },
+        {
+          "severity": "error",
+          "program": "nuvia-history",
+          "message": "RELEASE_REVIEW_MISSING: ko:font"
+        }
+      ]
+    }
+  },
+  "entry": {
+    "status": "PASS",
+    "base": "http://127.0.0.1:5194/w24.html",
+    "mission": "gutenberg",
+    "age": "preschool",
+    "missionVersion": "5.3.0",
+    "contentVersion": "3.4.0",
+    "qaInspectorOutsidePlayer": true,
+    "resumeSameResult": true,
+    "newPreservesExistingResult": true,
+    "unsupportedMissionBlocked": true,
+    "consoleErrors": []
+  },
+  "surfaceQA": {
+    "status": "PASS",
+    "rows": [
+      {
+        "label": "390-annual",
+        "overflow": false,
+        "fonts": true,
+        "images": 2
+      },
+      {
+        "label": "390-W1-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-W48-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-preschool-intro",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-elementary-low-1-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-elementary-low-1-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-elementary-low-2-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-elementary-low-2-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-elementary-high-3-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-elementary-high-3-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-middle-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-middle-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-high-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-high-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-adult-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "390-adult-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "390-language-block",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-annual",
+        "overflow": false,
+        "fonts": true,
+        "images": 2
+      },
+      {
+        "label": "768-W1-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-W48-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-preschool-intro",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-elementary-low-1-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-elementary-low-1-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-elementary-low-2-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-elementary-low-2-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-elementary-high-3-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-elementary-high-3-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-middle-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-middle-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-high-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-high-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-adult-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "768-adult-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "768-language-block",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-annual",
+        "overflow": false,
+        "fonts": true,
+        "images": 2
+      },
+      {
+        "label": "1440-W1-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-W48-pending",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-preschool-intro",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-elementary-low-1-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-elementary-low-1-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-elementary-low-2-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-elementary-low-2-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-elementary-high-3-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-elementary-high-3-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-middle-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-middle-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-high-school-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-high-school-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-adult-history",
+        "overflow": false,
+        "fonts": true,
+        "images": 1
+      },
+      {
+        "label": "1440-adult-prediction",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      },
+      {
+        "label": "1440-language-block",
+        "overflow": false,
+        "fonts": true,
+        "images": 0
+      }
+    ],
+    "networkOrConsoleFailures": []
+  },
+  "preschool": [
+    {
+      "width": 390,
+      "status": "PASS",
+      "completed": [
+        {
+          "label": "viewport-390-planning-c1",
+          "domain": "planning",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-planning-c2",
+          "domain": "planning",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-attention-c1",
+          "domain": "attention",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-attention-c2",
+          "domain": "attention",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-sequential-c1",
+          "domain": "sequential",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-sequential-c2",
+          "domain": "sequential",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-simultaneous-c1",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-390-simultaneous-c2",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "syntheticVoice": "record+restore+save PASS",
+          "realMicrophone": "NOT_TESTED"
+        }
+      ],
+      "auditedStates": 94,
+      "visualWarnings": [
+        {
+          "label": "viewport-390-planning-c1-method",
+          "ratio": 0.6580185568749468
+        },
+        {
+          "label": "viewport-390-planning-c1-outcome",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "viewport-390-planning-c1-revise",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "viewport-390-planning-c1-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-planning-c1-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-planning-c1-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-planning-c2-method",
+          "ratio": 0.6365727874305257
+        },
+        {
+          "label": "viewport-390-planning-c2-outcome",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "viewport-390-planning-c2-revise",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "viewport-390-planning-c2-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-planning-c2-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-planning-c2-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-attention-c1-method",
+          "ratio": 0.6535437022365577
+        },
+        {
+          "label": "viewport-390-attention-c1-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-attention-c1-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-attention-c1-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-attention-c2-method",
+          "ratio": 0.6319742620045775
+        },
+        {
+          "label": "viewport-390-attention-c2-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-attention-c2-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-attention-c2-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-sequential-c1-method",
+          "ratio": 0.6580185568749468
+        },
+        {
+          "label": "viewport-390-sequential-c1-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-sequential-c1-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-sequential-c1-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-sequential-c2-method",
+          "ratio": 0.6365727874305257
+        },
+        {
+          "label": "viewport-390-sequential-c2-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-sequential-c2-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-sequential-c2-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-method",
+          "ratio": 0.6580185568749468
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-linkMethod",
+          "ratio": 0.6800398751023141
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-scene",
+          "ratio": 0.6751817317357385
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-method",
+          "ratio": 0.6365727874305257
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-linkMethod",
+          "ratio": 0.6602272038057303
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-scene",
+          "ratio": 0.6551898096655013
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-reason",
+          "ratio": 0.6907534191453983
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-history-comparison",
+          "ratio": 0.6491414994604296
+        },
+        {
+          "label": "viewport-390-simultaneous-c2-prediction-comparison",
+          "ratio": 0.6219600015227779
+        },
+        {
+          "label": "branch-c1-content",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "branch-c1-paper",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "branch-c1-order",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "branch-c2-tell",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "branch-c2-time",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "branch-c2-ask",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "synthetic-voice-method",
+          "ratio": 0.6365727874305257
+        },
+        {
+          "label": "synthetic-voice-outcome",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "synthetic-voice-revise",
+          "ratio": 0.6887182865216926
+        },
+        {
+          "label": "synthetic-voice-reason",
+          "ratio": 0.6907534191453983
+        }
+      ],
+      "textareaSamples": [
+        {
+          "label": "viewport-390-planning-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "20px",
+            "lineHeight": "30px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-390-attention-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "20px",
+            "lineHeight": "30px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-390-sequential-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "20px",
+            "lineHeight": "30px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-390-simultaneous-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "20px",
+            "lineHeight": "30px",
+            "overlap": false
+          }
+        }
+      ]
+    },
+    {
+      "width": 768,
+      "status": "PASS",
+      "completed": [
+        {
+          "label": "viewport-768-planning-c1",
+          "domain": "planning",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-planning-c2",
+          "domain": "planning",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-attention-c1",
+          "domain": "attention",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-attention-c2",
+          "domain": "attention",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-sequential-c1",
+          "domain": "sequential",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-sequential-c2",
+          "domain": "sequential",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-simultaneous-c1",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-768-simultaneous-c2",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        }
+      ],
+      "auditedStates": 82,
+      "visualWarnings": [
+        {
+          "label": "viewport-768-planning-c1-outcome",
+          "ratio": 0.6941001638976094
+        },
+        {
+          "label": "viewport-768-planning-c1-revise",
+          "ratio": 0.6941001638976094
+        },
+        {
+          "label": "viewport-768-planning-c2-outcome",
+          "ratio": 0.6941001638976094
+        },
+        {
+          "label": "viewport-768-planning-c2-revise",
+          "ratio": 0.6941001638976094
+        },
+        {
+          "label": "viewport-768-attention-c1-method",
+          "ratio": 0.685206132827209
+        },
+        {
+          "label": "viewport-768-attention-c2-method",
+          "ratio": 0.685206132827209
+        }
+      ],
+      "textareaSamples": [
+        {
+          "label": "viewport-768-planning-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-768-attention-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-768-sequential-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-768-simultaneous-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        }
+      ]
+    },
+    {
+      "width": 1440,
+      "status": "PASS",
+      "completed": [
+        {
+          "label": "viewport-1440-planning-c1",
+          "domain": "planning",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-planning-c2",
+          "domain": "planning",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-attention-c1",
+          "domain": "attention",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-attention-c2",
+          "domain": "attention",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-sequential-c1",
+          "domain": "sequential",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-sequential-c2",
+          "domain": "sequential",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-simultaneous-c1",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c1",
+          "stage": "complete",
+          "reason": "typed+restored",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        },
+        {
+          "label": "viewport-1440-simultaneous-c2",
+          "domain": "simultaneous",
+          "cid": "gutenberg.c2",
+          "stage": "complete",
+          "reason": "deferred",
+          "drawingRestored": true,
+          "localeRejectedWithoutMutation": true
+        }
+      ],
+      "auditedStates": 82,
+      "visualWarnings": [
+        {
+          "label": "viewport-1440-planning-c1-complete",
+          "ratio": 0.6729352367460988
+        },
+        {
+          "label": "viewport-1440-planning-c2-complete",
+          "ratio": 0.6729352367460988
+        },
+        {
+          "label": "viewport-1440-attention-c1-complete",
+          "ratio": 0.6729352367460988
+        },
+        {
+          "label": "viewport-1440-attention-c2-complete",
+          "ratio": 0.6729352367460988
+        },
+        {
+          "label": "viewport-1440-sequential-c2-complete",
+          "ratio": 0.6729352367460988
+        },
+        {
+          "label": "viewport-1440-simultaneous-c2-complete",
+          "ratio": 0.6729352367460988
+        }
+      ],
+      "textareaSamples": [
+        {
+          "label": "viewport-1440-planning-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-1440-attention-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-1440-sequential-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        },
+        {
+          "label": "viewport-1440-simultaneous-c1-writing",
+          "writing": {
+            "background": "none",
+            "padding": "14px 16px",
+            "font": "22px",
+            "lineHeight": "33px",
+            "overlap": false
+          }
+        }
+      ]
+    }
+  ]
+}

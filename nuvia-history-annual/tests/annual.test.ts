@@ -50,6 +50,13 @@ test('prohibited originals and proposed execution IDs excluded from public paylo
  for(const c of internal.conditions){
   if(c.prohibitedClaims){assert.equal(publicText.includes(c.prohibitedClaims),false);assert.equal(build.includes(c.prohibitedClaims),false);}
  }
- assert.equal(build.includes('prohibitedClaims'),false);assert.equal(build.includes('proposedInteractionContractId'),false);
+ // W24 retains its defensive guard and reference IDs, not internal QA prose.
+ // Check annual field names separately; check forbidden prose across BOTH entries above.
+ const manifest=JSON.parse(fs.readFileSync('dist/.vite/manifest.json','utf8'));
+ const seen=new Set<string>();
+ const entry=(id:string):string=>{if(seen.has(id))return '';seen.add(id);const chunk=manifest[id];return fs.readFileSync(path.join('dist',chunk.file),'utf8')+(chunk.imports??[]).map(entry).join('')+(chunk.dynamicImports??[]).map(entry).join('');};
+ const annualBuild=entry('index.html');
+ assert.equal(annualBuild.includes('prohibitedClaims'),false);assert.equal(annualBuild.includes('proposedInteractionContractId'),false);
+ assert.equal(publicText.includes('prohibitedClaims'),false);assert.equal(publicText.includes('proposedInteractionContractId'),false);
  for(const c of catalog.missions.flatMap<Mission['conditions'][number]>(m=>m.conditions))assert.ok(!/제안|미명시/.test(String(c.interactionContractId)));
 });
