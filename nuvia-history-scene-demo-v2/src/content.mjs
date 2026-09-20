@@ -1,5 +1,5 @@
 export const ko={
-  brand:'NUVIA HISTORY', demo:'규칙 검토용 데모', week:'24주 · 구텐베르크',
+  brand:'NUVIA HISTORY', demo:'장면 규칙 v1 새 데모', week:'24주 · 구텐베르크',
   progress:'진행', workshopAlt:'활자와 인쇄기가 있는 역사 공방', objectsAlt:'책과 공방 물건', castAlt:'책 이야기를 나누는 사람들', workshopShortAlt:'구텐베르크 공방', imagineCondition:'상상 조건',
   actualTitle:'옛날 책 공방을 봐요', actualBody:'구텐베르크는 금속 활자로 책을 찍었어요.', actualFact:'구텐베르크 성서는 1455년 무렵 완성된 것으로 여겨져요.',
   conditionTitle:'이야기 한 가지를 바꿔요', conditionBody:'책을 볼 수 있는 사람이 적어요.',

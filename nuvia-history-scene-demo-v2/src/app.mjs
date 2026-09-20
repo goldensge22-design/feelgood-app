@@ -1,6 +1,7 @@
 import {ko,pathMeta} from './content.mjs';
 import {PATHS,STEPS,createRun,evidenceComplete,bookState,event} from './contracts.mjs';
 import {load,save} from './storage.mjs';
+import {SCENE_POLICY_ID,sceneFigure,sceneQaSummary} from './sceneRegistry.mjs';
 
 const root=document.querySelector('#app');
 const params=new URLSearchParams(location.search);
@@ -28,8 +29,8 @@ function render(){
 }
 
 function screen(){
- if(run.step==='actual') return frame(`<figure class="scene-media scene-media--history-stage" data-scene-role="history-stage"><img class="scene-media__image" src="./art/workshop.webp" alt="${ko.workshopAlt}"></figure><div class="scene-copy"><span class="eyebrow">${ko.actualTitle}</span><h1>${ko.actualBody}</h1><p>${ko.actualFact}</p>${button(ko.begin,'next','primary')}</div>`,'workshop');
- if(run.step==='condition') return frame(`<figure class="scene-media scene-media--condition-stage" data-scene-role="condition-stage"><img class="scene-media__image" src="./art/condition-objects-v1.webp" alt="${ko.objectsAlt}"><figcaption class="condition-badge">${ko.imagineCondition}</figcaption></figure><div class="scene-copy"><h1>${ko.conditionTitle}</h1><p class="big-question">${ko.conditionBody}</p><div class="actions">${button(ko.back,'back')}${button(ko.next,'next','primary')}</div></div>`);
+ if(run.step==='actual') return frame(`${sceneFigure('gutenberg.history.workshop','history-stage',ko.workshopAlt)}<div class="scene-copy"><span class="eyebrow">${ko.actualTitle}</span><h1>${ko.actualBody}</h1><p>${ko.actualFact}</p>${button(ko.begin,'next','primary')}</div>`,'workshop');
+ if(run.step==='condition') return frame(`${sceneFigure('gutenberg.c2.altered-access','condition-stage',ko.objectsAlt,ko.imagineCondition)}<div class="scene-copy"><h1>${ko.conditionTitle}</h1><p class="big-question">${ko.conditionBody}</p><div class="actions">${button(ko.back,'back')}${button(ko.next,'next','primary')}</div></div>`);
  if(run.step==='prediction') return frame(`<div class="scene-copy wide"><h1>${ko.predictionTitle}</h1><p>${ko.predictionBody}</p><div class="choice-grid two">${choice(ko.predictionA,'fewer','prediction',run.prediction==='fewer','👂')}${choice(ko.predictionB,'share','prediction',run.prediction==='share','📖')}</div><div class="actions">${button(ko.back,'back')}${button(ko.next,'next','primary',!run.prediction)}</div></div>`);
  if(run.step==='path') return frame(`<div class="scene-copy wide"><h1>${pathQuestion()}</h1><p class="instruction">${pathHelp()}</p>${pathActivity()}${help?`<aside class="support-panel"><p>${pathHelp()}</p>${button(ko.closeHelp,'help')}</aside>`:''}<div class="actions">${button(ko.back,'back')}${button(help?ko.closeHelp:ko.help,'help')}${button(ko.next,'next','primary',!evidenceComplete(run))}</div></div>`,'activity');
  if(run.step==='story') return frame(`<div class="scene-copy wide"><h1>${ko.storyTitle}</h1><p class="big-question">${ko.storyPrompt}</p><div class="mode-tabs">${button(ko.draw,'draw',run.story.mode==='drawing'?'primary':'secondary')}${button(ko.write,'write',run.story.mode==='text'?'primary':'secondary')}</div>${run.story.mode==='drawing'?`<canvas id="story-canvas" width="640" height="360" aria-label="${ko.drawingArea}"></canvas>${button(ko.clear,'clear')}`:`<label class="sr-only" for="story-text">${ko.shortWrite}</label><textarea id="story-text" maxlength="180" placeholder="${ko.shortWrite}">${escapeHtml(run.story.text)}</textarea>`}<div class="actions">${button(ko.back,'back')}${button(ko.saveStory,'save-story','primary')}</div></div>`,'story');
@@ -37,21 +38,20 @@ function screen(){
  if(run.step==='predictionComparison') return comparison('prediction',ko.predictionCompareTitle,ko.predictionComparePrompt,`${run.prediction==='fewer'?ko.predictionA:ko.predictionB} / ${pathMeta[run.path].result}`);
  const state=bookState(run),status=state==='assembled'?ko.bookReady:state==='partial'?ko.bookPartial:ko.bookPending;
  if(bookOpen)return resultBook();
- return frame(`<div class="book-cover"><span>${ko.week}</span><h1>${ko.bookTitle}</h1><figure class="scene-media scene-media--storybook-cover" data-scene-role="storybook-cover"><img class="scene-media__image" src="./art/workshop.webp" alt="${ko.workshopShortAlt}"></figure><p>${status}</p><dl><div><dt>${ko.firstThought}</dt><dd>${run.prediction==='fewer'?ko.predictionA:ko.predictionB}</dd></div><div><dt>${ko.thinkingPlay}</dt><dd>${pathMeta[run.path].label}</dd></div><div><dt>${ko.myRecord}</dt><dd>${run.story.text||ko.drawingSaved}</dd></div></dl><div class="actions book-actions">${button(state==='assembled'?ko.openBook:ko.previewBook,'open-book','primary')}${button(ko.again,'restart')}</div></div>`,'book');
+ return frame(`<div class="book-cover"><span>${ko.week}</span><h1>${ko.bookTitle}</h1>${sceneFigure('gutenberg.history.workshop','storybook-cover',ko.workshopShortAlt)}<p>${status}</p><dl><div><dt>${ko.firstThought}</dt><dd>${run.prediction==='fewer'?ko.predictionA:ko.predictionB}</dd></div><div><dt>${ko.thinkingPlay}</dt><dd>${pathMeta[run.path].label}</dd></div><div><dt>${ko.myRecord}</dt><dd>${run.story.text||ko.drawingSaved}</dd></div></dl><div class="actions book-actions">${button(state==='assembled'?ko.openBook:ko.previewBook,'open-book','primary')}${button(ko.again,'restart')}</div></div>`,'book');
 }
 
 function resultBook(){const pages=bookPages(),page=pages[bookPage];return frame(`<article class="result-book"><header><span>${ko.week}</span><strong>${bookPage+1} / ${pages.length} ${ko.pageOf}</strong></header><div class="book-spread"><div class="page-number">${String(bookPage+1).padStart(2,'0')}</div><h1>${page.title}</h1>${page.image||''}<div class="page-body">${page.body}</div></div><nav class="book-nav" aria-label="${ko.bookTitle}">${button(ko.previousPage,'book-prev','secondary',bookPage===0)}${button(ko.closeBook,'close-book')}${button(ko.nextPage,'book-next','primary',bookPage===pages.length-1)}</nav></article>`,'book book-open')}
 function bookPages(){const prediction=run.prediction==='fewer'?ko.predictionA:ko.predictionB,story=run.story.text?`<p>${escapeHtml(run.story.text)}</p>`:run.story.drawing?`<figure><img src="${run.story.drawing}" alt="${ko.storyDrawing}"><figcaption>${ko.storyDrawing}</figcaption></figure>`:`<p>${ko.comparisonDeferred}</p>`,comparison=k=>run.comparisons[k].status==='recorded'?`<p>${escapeHtml(run.comparisons[k].value)}</p>`:`<p>${ko.comparisonDeferred}</p>`;return[
- {title:ko.pageActual,image:bookImage('storybook-history','./art/workshop.webp',ko.workshopAlt),body:`<p>${ko.actualBody}</p><p>${ko.actualFact}</p>`},
- {title:ko.pageCondition,image:bookImage('storybook-condition','./art/condition-objects-v1.webp',ko.objectsAlt),body:`<p>${ko.conditionBody}</p>`},
+ {title:ko.pageActual,image:sceneFigure('gutenberg.history.workshop','storybook-history',ko.workshopAlt),body:`<p>${ko.actualBody}</p><p>${ko.actualFact}</p>`},
+ {title:ko.pageCondition,image:sceneFigure('gutenberg.c2.altered-access','storybook-condition',ko.objectsAlt),body:`<p>${ko.conditionBody}</p>`},
  {title:ko.pagePrediction,body:`<p class="page-quote">${prediction}</p>`},
  {title:ko.pageThinking,body:`<div class="page-symbol">${pathSymbol(run.path)}</div><p>${pathMeta[run.path].label}</p><p>${pathQuestion()}</p>`},
- {title:ko.pageResult,image:run.path==='planning'?bookImage('storybook-result','./art/cast.webp',ko.castAlt):'',body:`<p>${pathMeta[run.path].result}</p>`},
+ {title:ko.pageResult,image:run.path==='planning'?sceneFigure('gutenberg.c2.planning-result','storybook-result',ko.castAlt):'',body:`<p>${pathMeta[run.path].result}</p>`},
  {title:ko.pageStory,body:story},
  {title:ko.pageHistoryCompare,body:comparison('history')},
  {title:ko.pagePredictionCompare,body:comparison('prediction')}
 ]}
-function bookImage(role,src,alt){return `<figure class="scene-media scene-media--storybook-illustration scene-media--${role}" data-scene-role="${role}"><img class="scene-media__image" src="${src}" alt="${alt}"></figure>`}
 function pathSymbol(path){return path==='attention'?'🔎':path==='simultaneous'?'🧩':path==='sequential'?'🪄':'🧭'}
 
 function pathQuestion(){return run.path==='attention'?ko.attentionQ:run.path==='simultaneous'?ko.simultaneousQ:run.path==='sequential'?ko.sequentialQ:ko.planningQ}
@@ -64,7 +64,7 @@ function pathActivity(){const e=run.evidence;
 }
 
 function comparison(kind,title,prompt,summary){const item=run.comparisons[kind];return frame(`<div class="scene-copy wide"><h1>${title}</h1><div class="compare-strip"><div>${summary.split(' / ')[0]}</div><span aria-hidden="true">↔</span><div>${summary.split(' / ')[1]}</div></div><p class="big-question">${prompt}</p><textarea id="compare-text" maxlength="180" placeholder="${ko.speakOrDraw}">${escapeHtml(item.value)}</textarea><div class="actions">${button(ko.back,'back')}${button(ko.later,'defer')}${button(ko.save,'save-compare','primary')}</div></div>`,'comparison')}
-function inspector(meta){return `<details class="qa"><summary>${ko.qa}</summary><pre>${escapeHtml(JSON.stringify({resultId:run.resultId,attemptId:run.attemptId,runMode:run.runMode,pathId:`w24-c2.${meta.passArea}.demo.v1`,passArea:meta.passArea,evidenceComplete:evidenceComplete(run),bookState:bookState(run),eventCount:run.events.length},null,2))}</pre></details>`}
+function inspector(meta){return `<details class="qa"><summary>${ko.qa}</summary><pre>${escapeHtml(JSON.stringify({resultId:run.resultId,attemptId:run.attemptId,runMode:run.runMode,pathId:`w24-c2.${meta.passArea}.demo.v1`,passArea:meta.passArea,evidenceComplete:evidenceComplete(run),bookState:bookState(run),eventCount:run.events.length,scenePolicyId:SCENE_POLICY_ID,scenes:sceneQaSummary()},null,2))}</pre></details>`}
 function escapeHtml(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 function bind(){

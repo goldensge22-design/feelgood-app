@@ -3,7 +3,7 @@ export const STEPS=['actual','condition','prediction','path','story','historyCom
 
 export function createRun(path='attention',now=Date.now()){
   if(!PATHS.includes(path)) path='attention';
-  return {schemaVersion:'demo.contract.v1',runMode:'demo',resultId:`demo:w24-c2:${now}:${Math.random().toString(36).slice(2,8)}`,attemptId:`attempt:${now}`,missionId:'gutenberg',conditionId:'gutenberg.c2',locale:'ko',contentVersion:'w24-1.0.0-demo-contract',path,step:'actual',prediction:null,evidence:{},story:{mode:'drawing',drawing:null,text:'',saved:false},comparisons:{history:{status:'empty',value:''},prediction:{status:'empty',value:''}},events:[],updatedAt:new Date(now).toISOString()};
+  return {schemaVersion:'demo.scene-contract.v1',runMode:'demo',resultId:`demo:scene-v1:w24-c2:${now}:${Math.random().toString(36).slice(2,8)}`,attemptId:`attempt:${now}`,missionId:'gutenberg',conditionId:'gutenberg.c2',locale:'ko',contentVersion:'w24-1.0.0-scene-demo-v1',path,step:'actual',prediction:null,evidence:{},story:{mode:'drawing',drawing:null,text:'',saved:false},comparisons:{history:{status:'empty',value:''},prediction:{status:'empty',value:''}},events:[],updatedAt:new Date(now).toISOString()};
 }
 
 export function evidenceComplete(run){
