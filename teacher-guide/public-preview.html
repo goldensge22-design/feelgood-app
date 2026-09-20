@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>K-PASS·D-CAS 교사 가이드 불러오는 중</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #f7f2e7; color: #17355f; font: 700 16px/1.6 system-ui, sans-serif; }
+    p { margin: 24px; text-align: center; }
+  </style>
+</head>
+<body>
+  <p id="status" role="status">전자교사 가이드를 불러오는 중입니다.</p>
+  <script>
+    (() => {
+      const releaseRoot = 'https://cdn.jsdelivr.net/gh/goldensge22-design/feelgood-app@751523a81dd893c64e8cc11ef3c428495215dc97/teacher-guide/';
+      fetch(releaseRoot + 'index.html')
+        .then((response) => {
+          if (!response.ok) throw new Error(`HTTP ${response.status}`);
+          return response.text();
+        })
+        .then((source) => {
+          const html = source.replace('<head>', `<head><base href="${releaseRoot}">`);
+          document.open();
+          document.write(html);
+          document.close();
+        })
+        .catch(() => {
+          document.getElementById('status').textContent = '가이드를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.';
+        });
+    })();
+  </script>
+</body>
+</html>
