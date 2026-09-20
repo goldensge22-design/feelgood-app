@@ -5,6 +5,7 @@ const guideRoot = resolve(import.meta.dirname);
 const release = '751523a81dd893c64e8cc11ef3c428495215dc97';
 const releaseRoot = `https://cdn.jsdelivr.net/gh/goldensge22-design/feelgood-app@${release}/teacher-guide/`;
 const source = await readFile(resolve(guideRoot, 'index.html'), 'utf8');
+const appSource = await readFile(resolve(guideRoot, 'app.js'), 'utf8');
 
 if (!source.includes('<head>')) throw new Error('index.html is missing <head>');
 
@@ -16,6 +17,18 @@ const preview = source
   .replace(
     /href="https:\/\/service\.feel-good\.io\/api\/v1\/[^\"]+" data-report-link="[^\"]+" target="_blank" rel="noopener noreferrer"/g,
     'href="#results" aria-disabled="true" data-public-preview-disabled="true"'
+  )
+  .replace('<script src="app.js"></script>', '<script src="public-app.js"></script>');
+
+const publicApp = appSource
+  .replace(
+    /function resolveGuideAssetBase\(\) \{[\s\S]*?\n\}/,
+    `function resolveGuideAssetBase() {\n  return new URL('${releaseRoot}');\n}`
+  )
+  .replace(
+    /const EXPECTED_REPORT_LINKS = \{[\s\S]*?\n\};/,
+    'const EXPECTED_REPORT_LINKS = {};'
   );
 
 await writeFile(resolve(guideRoot, 'public-preview.html'), preview, 'utf8');
+await writeFile(resolve(guideRoot, 'public-app.js'), publicApp, 'utf8');
