@@ -193,8 +193,9 @@ try {
   report.interactions.openingTeacher = await evaluate('location.hash');
   await openRoute('profiles');
   const profileCombinations = [
-    ['H','H','H','H'],['M','M','M','M'],['L','L','L','L'],['H','M','H','L'],
-    ['L','H','M','H'],['H','L','L','M'],['M','H','L','M'],['L','M','H','L']
+    ['H','H','H','H'],['M','M','M','M'],['L','L','L','L'],
+    ['H','H','H','L'],['H','H','L','H'],['L','H','H','H'],['H','L','H','H'],
+    ['H','L','H','L'],['L','H','L','H']
   ];
   report.interactions.profiles = [];
   for (const combination of profileCombinations) {
@@ -250,7 +251,7 @@ try {
   for (const option of languageSetup.options) {
     await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + option.code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
     await waitFor("document.documentElement.dataset.requestedLanguage==='" + option.code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'language ' + option.code);
-    languageResults.push(await evaluate("(() => { document.querySelector('#teacherProfileForm').requestSubmit(); ['parentPlan','parentAttention','parentSimultaneous','parentSuccessive'].forEach((id,index)=>document.getElementById(id).value=['L','H','L','H'][index]); document.querySelector('#parentProfileForm').requestSubmit(); const panels=[document.querySelector('#teacherProfileAnalysis'),document.querySelector('#parentProfileAnalysis')]; const clippedItems=panels.flatMap(panel=>[...panel.querySelectorAll('h2,h3,h4,p,li,button')]).filter(element=>element.getClientRects().length&&(element.scrollWidth>element.clientWidth+4||element.scrollHeight>element.clientHeight+4)).map(element=>({tag:element.tagName,className:element.className,text:element.textContent.trim().slice(0,80),width:[element.clientWidth,element.scrollWidth],height:[element.clientHeight,element.scrollHeight]})); return {code:document.documentElement.lang,dir:document.documentElement.dir,notice:!document.querySelector('#translationNotice').hidden,reset:document.querySelector('#resetTeacherProfile').textContent.trim(),heading:document.querySelector('#teacher .chapter-intro h2').textContent.trim(),hash:location.hash,profile:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,values:['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive'].map(id=>document.getElementById(id).value).join(),teacherHasKorean:/[가-힣]/.test(document.querySelector('#teacherProfileAnalysis').innerText),parentHasKorean:/[가-힣]/.test(document.querySelector('#parentProfileAnalysis').innerText),documentOverflow:document.documentElement.scrollWidth>innerWidth,clipped:clippedItems.length,clippedItems,reportLangs:[...document.querySelectorAll('[data-report-link]')].map(link=>new URL(link.href).searchParams.get('lang'))}; })()"));
+    languageResults.push(await evaluate("(() => { document.querySelector('#teacherProfileForm').requestSubmit(); ['parentPlan','parentAttention','parentSimultaneous','parentSuccessive'].forEach((id,index)=>document.getElementById(id).value=['L','H','L','H'][index]); document.querySelector('#parentProfileForm').requestSubmit(); const panels=[document.querySelector('#teacherProfileAnalysis'),document.querySelector('#parentProfileAnalysis')]; const clippedItems=panels.flatMap(panel=>[...panel.querySelectorAll('h2,h3,h4,p,li,button')]).filter(element=>element.getClientRects().length&&(element.scrollWidth>element.clientWidth+4||element.scrollHeight>element.clientHeight+4)).map(element=>({tag:element.tagName,className:element.className,text:element.textContent.trim().slice(0,80),width:[element.clientWidth,element.scrollWidth],height:[element.clientHeight,element.scrollHeight]})); const guideRoots=['guide','results','profiles','teacher','dashboard','nuvia','parents','support'].map(id=>document.getElementById(id)); const guideText=guideRoots.map(element=>element.textContent).join(' '); const koreanSamples=[...new Set(guideRoots.flatMap(root=>[...root.querySelectorAll('*')].map(element=>[...element.childNodes].filter(node=>node.nodeType===3).map(node=>node.nodeValue.trim()).join(' ')).filter(value=>/[가-힣]/.test(value))))].slice(0,12); return {code:document.documentElement.lang,dir:document.documentElement.dir,notice:!document.querySelector('#translationNotice').hidden,reset:document.querySelector('#resetTeacherProfile').textContent.trim(),heading:document.querySelector('#teacher .chapter-intro h2').textContent.trim(),hash:location.hash,profile:document.querySelector('#teacherProfileAnalysis .profile-code').textContent,values:['teacherPlan','teacherAttention','teacherSimultaneous','teacherSuccessive'].map(id=>document.getElementById(id).value).join(),teacherHasKorean:/[가-힣]/.test(document.querySelector('#teacherProfileAnalysis').innerText),parentHasKorean:/[가-힣]/.test(document.querySelector('#parentProfileAnalysis').innerText),guideHasKorean:/[가-힣]/.test(guideText),koreanSamples,documentOverflow:document.documentElement.scrollWidth>innerWidth,clipped:clippedItems.length,clippedItems,reportLangs:[...document.querySelectorAll('[data-report-link]')].map(link=>new URL(link.href).searchParams.get('lang'))}; })()"));
   }
   report.interactions.language = {
     count:languageSetup.options.length,
@@ -272,9 +273,9 @@ try {
   }
   const resultGuidesPass = Object.values(report.interactions.resultGuides).every(item => item.visible && item.chooser && item.interpretation);
   const profilesPass = report.interactions.profiles.every(item => item.code===item.expectedCode && item.sections===6 && item.caution && item.aiNotice) && report.interactions.profileReset;
-  const teacherPass = report.interactions.teacherProfile.unchanged && report.interactions.teacherProfile.applied && report.interactions.teacherProfile.sections===5 && report.interactions.teacherProfile.reset;
-  const parentPass = report.interactions.parentProfile.unchanged && report.interactions.parentProfile.applied && report.interactions.parentProfile.sections===5 && report.interactions.parentProfile.reset;
-  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profile===languageSetup.before && item.values==='H,L,M,H' && item.reportLangs.every(code=>code===item.code) && (item.code==='ko' ? !item.notice && item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : item.notice && !item.teacherHasKorean && !item.parentHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
+  const teacherPass = report.interactions.teacherProfile.unchanged && report.interactions.teacherProfile.applied && report.interactions.teacherProfile.sections===8 && report.interactions.teacherProfile.reset;
+  const parentPass = report.interactions.parentProfile.unchanged && report.interactions.parentProfile.applied && report.interactions.parentProfile.sections===9 && report.interactions.parentProfile.reset;
+  const languagePass = report.interactions.language.count===13 && report.interactions.language.unique===13 && report.interactions.language.ready.join()==='ko' && report.interactions.language.drafts.length===12 && languageResults.every(item => !item.documentOverflow && item.clipped===0 && item.hash==='#teacher' && item.profile===languageSetup.before && item.values==='H,L,M,H' && item.reportLangs.every(code=>code===item.code) && (item.code==='ko' ? !item.notice && item.dir==='ltr' && item.teacherHasKorean && item.parentHasKorean && item.guideHasKorean && item.reset===languageSetup.koreanReset && item.heading===languageSetup.koreanHeading : item.notice && !item.teacherHasKorean && !item.parentHasKorean && !item.guideHasKorean && item.dir===(item.code==='ar'?'rtl':'ltr') && item.reset!==languageSetup.koreanReset && item.heading!==languageSetup.koreanHeading));
   if (report.interactions.openingPathways !== '#pathways' || report.interactions.openingTeacher !== '#teacher' || !profilesPass || !teacherPass || !parentPass || !report.interactions.dashboard.changed || !report.interactions.dashboard.pressed || !languagePass || !resultGuidesPass) failures.push('interactions');
 
   await openRoute('pathways');
@@ -300,7 +301,7 @@ try {
       await evaluate("location.hash='#" + route + "'");
       await waitFor("location.hash==='#" + route + "' && !document.querySelector('#" + route + "').hidden", viewport.name + ' ' + route);
       chapterResults[route] = await layoutSnapshot();
-      if ((viewport.width === 1440 || viewport.width === 360) && (route === 'teacher' || route === 'parents')) {
+      if ((viewport.width === 1440 || viewport.width === 360) && ['results','profiles','teacher','parents'].includes(route)) {
         await screenshot('qa-' + route + '-' + viewport.width + 'x' + viewport.height + '.png');
       }
     }
@@ -352,7 +353,17 @@ try {
   report.status = failures.length ? 'FAIL: ' + [...new Set(failures)].join(', ') : 'PASS';
   const output = process.env.TEACHER_GUIDE_QA_SUMMARY === '1' ? {
     status:report.status,
-    languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,overflow:item.documentOverflow,clipped:item.clipped,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
+    interactions:{
+      openingPathways:report.interactions.openingPathways,
+      openingTeacher:report.interactions.openingTeacher,
+      profiles:report.interactions.profiles,
+      profileReset:report.interactions.profileReset,
+      teacherProfile:report.interactions.teacherProfile,
+      parentProfile:report.interactions.parentProfile,
+      dashboard:report.interactions.dashboard,
+      resultGuides:report.interactions.resultGuides
+    },
+    languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,teacherHasKorean:item.teacherHasKorean,parentHasKorean:item.parentHasKorean,guideHasKorean:item.guideHasKorean,...(item.guideHasKorean&&item.code!=='ko'?{koreanSamples:item.koreanSamples}:{}),overflow:item.documentOverflow,clipped:item.clipped,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
     viewports:Object.fromEntries(Object.entries(report.viewports).map(([name, value]) => [name, {overflow:value.overflow,clipped:value.clipped,multiple:value.multiple,activeMismatch:value.activeMismatch}])),
     zoom:report.zoom,
     print:report.print,
@@ -364,5 +375,9 @@ try {
   if (socket) socket.close();
   browser.kill();
   server.close();
-  await rm(profileDirectory, {recursive:true,force:true}).catch(() => {});
+  await Promise.race([
+    rm(profileDirectory, {recursive:true,force:true}).catch(() => {}),
+    new Promise(resolveWait => setTimeout(resolveWait, 1500))
+  ]);
 }
+process.exit(process.exitCode || 0);

@@ -12,6 +12,7 @@
   const AXES = {
     plan: {
       code: 'P', label: '계획',
+      plain: '목표·방법·점검', secondary: '계획 능력',
       high: '목표 설정·전략 선택·오류 점검을 스스로 확장하는 과제를 제공합니다.',
       support: '목표 한 문장, 첫 행동, 3단계 계획과 중간 점검표를 함께 제공합니다.',
       material: '선택 가능한 전략 카드와 자기점검 질문을 자료 첫 면에 배치합니다.',
@@ -23,6 +24,7 @@
     },
     attention: {
       code: 'A', label: '주의',
+      plain: '집중·복귀', secondary: '주의 능력',
       high: '핵심 단서 탐색·오류 검토·정확성 비교가 필요한 심화 활동을 제공합니다.',
       support: '한 번에 한 지시, 핵심 표시, 짧은 활동 구간과 복귀 신호를 사용합니다.',
       material: '불필요한 장식을 줄이고 핵심어와 확인 지점을 한눈에 보이게 합니다.',
@@ -34,6 +36,7 @@
     },
     simultaneous: {
       code: 'S', label: '동시처리',
+      plain: '전체 뜻·관계', secondary: '동시처리(우뇌 관련·전체·관계 처리 영역)',
       high: '복합 자료의 관계 찾기, 비교·분류·구조화와 개방형 추론을 확장합니다.',
       support: '전체 지도, 관계도, 색상 묶음과 완성 예시를 먼저 보여 줍니다.',
       material: '글·그림·도표의 관계를 연결하고 예시와 비예시를 나란히 제공합니다.',
@@ -45,6 +48,7 @@
     },
     successive: {
       code: 'Q', label: '순차처리',
+      plain: '순서·단계', secondary: '순차처리(좌뇌 관련·순서 처리 영역)',
       high: '절차 설명·규칙 발견·다음 단계 예측과 여러 절차의 효율 비교를 확장합니다.',
       support: '긴 지시를 짧게 나누고 순서 카드, 체크리스트와 시범을 제공합니다.',
       material: '단계를 번호와 동사로 표시하고 완료한 순서를 직접 확인하게 합니다.',
@@ -58,6 +62,29 @@
 
   const unique = items => [...new Set(items.filter(Boolean))];
   const labels = keys => keys.map(key => AXES[key].label);
+  const plainLabels = keys => keys.map(key => AXES[key].plain);
+  const PLAIN_LEVEL_TEXT = {
+    plan: {
+      H:'목표·방법·점검 — 스스로 목표와 방법을 정하고, 결과를 보고 방법을 바꾸는 장면이 자주 나타납니다.',
+      M:'목표·방법·점검 — 익숙한 과제에서는 스스로 시작하지만, 새 과제에서는 목표나 첫 행동을 함께 정하면 안정됩니다.',
+      L:'목표·방법·점검 — 무엇부터 할지 정하거나, 하던 방법을 바꾸고 끝에 확인하는 순간에 도움이 필요할 수 있습니다.'
+    },
+    attention: {
+      H:'집중·복귀 — 필요한 단서를 찾아 집중하고, 틀린 부분을 다시 확인하는 장면이 자주 나타납니다.',
+      M:'집중·복귀 — 과제 길이와 흥미에 따라 집중이 달라지며, 중간 확인 시점이 보이면 다시 돌아오기 쉽습니다.',
+      L:'집중·복귀 — 긴 활동에서 다른 자극으로 옮겨가거나, 놓친 뒤 어디로 돌아갈지 찾는 데 도움이 필요할 수 있습니다.'
+    },
+    simultaneous: {
+      H:'전체 뜻·관계 — 제목·그림·여러 정보를 한꺼번에 연결해 전체 뜻을 설명하는 장면이 자주 나타납니다.',
+      M:'전체 뜻·관계 — 익숙한 내용은 전체 맥락을 잡지만, 정보가 많을 때는 관계도나 완성 예시가 있으면 안정됩니다.',
+      L:'전체 뜻·관계 — 세부 정보는 알아도 서로 어떻게 이어지는지 또는 무엇을 묻는지 파악하는 데 시간이 걸릴 수 있습니다.'
+    },
+    successive: {
+      H:'순서·단계 — 들은 순서를 기억하고 절차대로 수행하며, 다음 단계를 설명하는 장면이 자주 나타납니다.',
+      M:'순서·단계 — 짧은 절차는 수행하지만 단계가 길어지면 번호나 완료 표시가 있으면 안정됩니다.',
+      L:'순서·단계 — 긴 지시, 준비물, 풀이 과정에서 중간 단계를 빠뜨리지 않도록 한 단계씩 보이는 도움이 필요할 수 있습니다.'
+    }
+  };
 
   function normalize(levels) {
     const normalized = {};
@@ -175,6 +202,27 @@
     })).join(' ');
   }
 
+  function plainProfile(facts) {
+    return ORDER.map(key => PLAIN_LEVEL_TEXT[key][facts.value[key]]);
+  }
+
+  function plainTitle(facts) {
+    if (facts.high.length === 4) return '스스로 해내는 방법을 더 넓혀 보는 조합';
+    if (facts.low.length === 4) return '작은 성공부터 한 단계씩 만드는 조합';
+    if (facts.mid.length === 4) return '과제 조건을 바꿔 비교해 보는 조합';
+    if (facts.high.length && facts.low.length) return '잘되는 방법으로 막히는 장면을 돕는 조합';
+    if (facts.high.length) return '잘되는 방법을 새 과제에도 써 보는 조합';
+    return '눈에 보이는 도움을 한 가지씩 시험하는 조합';
+  }
+
+  function plainSummary(facts) {
+    if (facts.low.length === 4) return '검사한 날의 피로·불안·언어 이해와 기기 환경을 먼저 확인합니다. 한 번에 한 단계만 제시해 작은 성공을 만들고, 수업과 생활의 어려움이 계속되면 보호자와 함께 추가 평가를 검토합니다.';
+    if (facts.high.length && facts.low.length) return '잘되는 과제 방식으로 먼저 시작한 뒤, 막히는 장면에는 카드·밑줄·관계도 중 한 가지만 더합니다. 2주 동안 시작 시간, 스스로 돌아온 횟수, 빠뜨린 단계와 완료 여부를 비교합니다.';
+    if (facts.high.length) return '학생이 스스로 사용한 방법을 말하게 하고 새 과제에서도 같은 방법을 써 보게 합니다. 과제가 어려워질 때도 같은 방법이 유지되는지 2주 동안 확인합니다.';
+    if (facts.low.length) return '어려운 장면을 한꺼번에 바꾸지 않고 카드·밑줄·완성 예시 중 한 가지만 먼저 사용합니다. 2주 뒤 시작과 완료가 나아졌는지 보고 도움을 유지하거나 바꿉니다.';
+    return '특징이 없다는 뜻이 아닙니다. 과제의 낯섦·길이·흥미를 한 번에 하나씩 바꾸고, 어떤 조건에서 시작·집중·이해·완료가 달라지는지 2주 동안 비교합니다.';
+  }
+
   function integratedSummary(facts, audience) {
     const pa = pairRule(facts, 'pa');
     const sq = pairRule(facts, 'sq');
@@ -199,12 +247,12 @@
   function strengthUses(facts) {
     const sources = facts.high.length ? facts.high : facts.mid.length ? facts.mid : ORDER;
     const uses = {
-      plan:'문제 해결과 프로젝트에서 목표·전략·점검 기준을 세우는 역할로 활용합니다.',
-      attention:'핵심 단서 찾기, 오류 점검, 토론 중 근거 확인에 활용합니다.',
-      simultaneous:'개념 이해, 관계 비교, 발표의 전체 구조 구성에 활용합니다.',
-      successive:'절차 수행, 단계 설명, 제출 전 순서 확인에 활용합니다.'
+      plan:'과제 시작 전에 학생이 목표 한 문장과 방법 두 가지를 적고, 먼저 쓸 방법을 고르게 합니다.',
+      attention:'활동 전에 찾아야 할 단서 하나를 정하고 밑줄을 긋게 한 뒤, 10분 뒤 스스로 돌아온 횟수를 확인합니다.',
+      simultaneous:'제목·그림·관계도를 먼저 보고 전체 내용을 한 문장으로 말하게 한 뒤 세부 내용을 붙입니다.',
+      successive:'해야 할 일을 한 단계씩 제시하고, 끝난 칸에 학생이 직접 체크한 뒤 다음 단계를 말하게 합니다.'
     };
-    return unique(sources.map(key => AXES[key].label + ' 활용 — ' + uses[key]));
+    return unique(sources.map(key => AXES[key].plain + ' — ' + uses[key]));
   }
 
   function bottlenecks(facts) {
@@ -221,13 +269,13 @@
     const sq = pairRule(facts, 'sq');
     const supportTask = facts.low.length ? labels(facts.low).join('·') + ' 지원 과제' : labels(facts.high.length ? facts.high : facts.mid).join('·') + ' 확장 과제';
     return [
-      '도입 — ' + (facts.value.simultaneous === 'L' ? '오늘 목표와 완성 예시를 먼저 보여주고 전체 위치를 표시합니다.' : '전체 지도와 오늘 목표를 함께 제시해 아는 것과 새로 배울 것을 연결합니다.'),
+      '도입 — ' + (facts.value.simultaneous === 'L' ? '칠판에 오늘 목표와 완성 예시를 먼저 보여주고, 학생이 지금 배울 부분을 손가락으로 가리키게 합니다.' : '칠판에 전체 흐름과 오늘 목표를 함께 표시하고, 3분 동안 아는 것과 새로 배울 것을 말하게 합니다.'),
       '설명 순서 — ' + sq.first,
       '사용할 자료 — ' + (facts.value.successive === 'L' ? '관계도 옆에 3~5개 순서 카드를 둡니다.' : facts.value.simultaneous === 'L' ? '단계표 옆에 각 단계의 전체 역할을 보이는 관계도를 둡니다.' : '전체 개요와 짧은 단계표를 함께 제공합니다.'),
       '과제 제시 — ' + pa.first,
-      '시간 분할 — ' + (facts.value.attention === 'L' ? '8~12분 실행과 1분 확인으로 나누고 복귀 신호를 정합니다.' : '한 활동이 끝날 때 전략과 정확도를 짧게 확인합니다.'),
-      '중간 확인 — 정답보다 목표 유지, 도움 사용, 전략 변경과 현재 단계 설명을 확인합니다.',
-      '마무리와 피드백 — 학생이 활용한 강점과 다음에 줄일 도움 한 가지를 직접 말하게 합니다.',
+      '시간 분할 — ' + (facts.value.attention === 'L' ? '8~12분 실행과 1분 확인으로 나누고 책상 표시나 손 신호 중 하나를 복귀 신호로 정합니다.' : '10분 활동 뒤 1분 동안 현재 단계와 틀린 부분을 확인합니다.'),
+      '중간 확인 — 정답을 바로 알려주지 않고 “지금 목표는 무엇이지?”, “어느 단계까지 했지?”를 묻고 학생의 답을 체크 칸에 표시합니다.',
+      '마무리와 피드백 — 학생이 오늘 계속 쓸 방법 하나와 다음 시간에 바꿀 방법 하나를 말하게 하고 활동지 아래에 적습니다.',
       '심화·지원 과제 — ' + supportTask + '를 제공하되 공통 학습목표와 기대 수준은 유지합니다.'
     ];
   }
@@ -236,10 +284,10 @@
     const pa = pairRule(facts, 'pa');
     const sq = pairRule(facts, 'sq');
     return [
-      '자리와 자극 환경 — ' + (facts.value.attention === 'L' ? '핵심 자료와 교사 신호가 잘 보이고 불필요한 자극이 적은 위치를 학생과 정합니다.' : '프로필로 자리를 고정하지 않고 과제에 필요한 자료가 잘 보이는지 확인합니다.'),
+      '자리와 자극 환경 — ' + (facts.value.attention === 'L' ? '핵심 자료와 교사 신호가 잘 보이고 불필요한 자극이 적은 위치를 학생과 정합니다.' : '과제 시작 전에 필요한 자료가 보이는지 학생에게 묻고, 활동마다 자리와 자료 위치가 맞는지 다시 확인합니다.'),
       '과제 시작 지원 — ' + pa.first,
       '활동 전환 — 다음 활동의 전체 위치와 첫 단계를 전환 전에 미리 보여줍니다.',
-      '모둠 활동 — ' + labels(facts.high.length ? facts.high : facts.mid).join('·') + ' 강점을 활용할 기회를 주되 역할은 활동마다 교대합니다.',
+      '모둠 활동 — 기록·설명·확인·발표 역할을 활동마다 교대하고, 학생이 가장 잘한 역할과 다음에 연습할 역할을 한 가지씩 고르게 합니다.',
       '제출과 마무리 — ' + (facts.value.successive === 'L' ? '제출 절차를 보이는 체크카드로 확인합니다.' : '학생이 완료 순서와 오류 점검 근거를 설명하게 합니다.'),
       '교사 개입 시점 — 시작 지연, 복귀 실패, 단계 누락 또는 전체 목표 상실이 두 번 반복될 때 한 가지 지원만 추가합니다.',
       '도움 줄이기 — ' + (facts.low.some(key => key === 'plan' || key === 'attention') ? pa.fade : sq.fade),
@@ -248,12 +296,54 @@
   }
 
   function teacherScripts(facts) {
-    const strong = labels(facts.high.length ? facts.high : facts.mid).join('·');
-    const need = labels(facts.low.length ? facts.low : facts.mid).join('·');
+    const firstNeed = facts.low[0] || facts.mid[0] || facts.high[0];
+    const prompts = {
+      plan:'“과제를 시작하기 전에 무엇을 할지, 어떤 방법을 쓸지, 끝나면 무엇을 확인할지 네가 하나씩 골라 보자.”',
+      attention:'“지금 찾아야 할 정보가 무엇이었지? 밑줄을 다시 보고 10분 뒤에 한 번 더 확인하자.”',
+      simultaneous:'“먼저 제목과 그림을 보고 전체 내용을 한 문장으로 말해 보자. 그다음 세부 내용을 어디에 붙일지 찾아보자.”',
+      successive:'“어느 순서에서 멈췄는지 같이 찾아보자. 다음에는 그 단계에 표시하고 다시 시작해 보자.”'
+    };
     return [
-      '“' + strong + '에서 네가 사용한 방법을 ' + need + '이 필요한 부분에도 연결해 보자.”',
+      prompts[firstNeed],
       '“지금은 답보다 어디서 멈췄는지, 어떤 표시가 다음 행동을 도왔는지 확인해 보자.”',
-      '“도움 하나를 줄여도 같은 전략을 사용할 수 있는지 네가 먼저 선택해 보자.”'
+      '“카드·밑줄·완성 예시 중 하나를 빼도 혼자 할 수 있는지 네가 먼저 골라 보자.”'
+    ];
+  }
+
+  function subjectTips(facts) {
+    return [
+      facts.value.simultaneous === 'L'
+        ? '국어·읽기 — 글을 읽기 전에 제목·그림을 보고 인물–사건–결과를 세 칸에 적게 합니다. 핵심 관계를 두 번 스스로 설명하면 가운데 칸을 비워 둡니다.'
+        : '국어·읽기 — 제목과 그림으로 전체 내용을 한 문장으로 예상하게 한 뒤, 근거가 되는 문장 두 곳에 밑줄을 긋게 합니다.',
+      facts.value.successive === 'L'
+        ? '수학 풀이 — 계산 결과뿐 아니라 풀이 순서를 1·2·3 칸에 쓰게 합니다. 두 단계 지시를 연속 3회 혼자 수행하면 번호 칸 하나를 줄입니다.'
+        : '수학 풀이 — 풀이가 끝나면 사용한 순서를 말하게 하고, 다른 풀이와 어느 단계가 같은지 표시하게 합니다.',
+      facts.value.plan === 'L'
+        ? '프로젝트 — 시작 전에 오늘 목표 하나와 방법 두 가지를 제시하고 학생이 하나를 고르게 합니다. 끝날 때 계속 쓸 방법과 바꿀 방법을 하나씩 적습니다.'
+        : '프로젝트 — 학생이 오늘 목표, 사용할 방법, 끝에 확인할 기준을 한 줄씩 적고 중간에 한 번 스스로 확인하게 합니다.',
+      facts.value.attention === 'L'
+        ? '탐구·실습 — 활동 전에 찾을 단서 한 가지에 표시하고 10분 뒤 1분 점검을 둡니다. 공개 지적 대신 약속한 책상 표시로 돌아오게 합니다.'
+        : '탐구·실습 — 관찰할 단서와 오류 확인 시점을 학생이 먼저 정하고, 활동 뒤 놓친 정보가 있었는지 확인하게 합니다.'
+    ];
+  }
+
+  function observationPlan(facts) {
+    const focus = facts.low[0] || facts.mid[0] || facts.high[0];
+    return [
+      '1주 1~2일 — 도움을 바꾸지 않고 과제 시작 시간, 교사 도움 횟수와 완료 여부를 기록합니다.',
+      '1주 3~5일 — 카드·밑줄·관계도·완성 예시 중 한 가지만 추가하고 같은 항목을 기록합니다.',
+      '2주 — 같은 도움을 세 번 이상 사용하며 학생이 스스로 시작하거나 돌아온 횟수와 빠뜨린 단계를 함께 셉니다.',
+      '확인할 행동 — ' + AXES[focus].observe
+    ];
+  }
+
+  function helpDecisions(facts) {
+    const pa = pairRule(facts, 'pa');
+    const sq = pairRule(facts, 'sq');
+    return [
+      '유지 — 같은 도움을 세 번 사용한 뒤 시작 시간이 줄거나, 스스로 돌아오거나, 빠뜨린 단계가 줄면 1주 더 유지합니다.',
+      '축소 — 목표 행동을 연속 3회 혼자 하면 카드의 한 칸, 교사 신호 한 번 또는 완성 예시의 일부를 줄입니다.',
+      '변경 — 2주 동안 변화가 없거나 피로·불안이 커지면 난이도를 먼저 낮추고 ' + (facts.low.some(key => key === 'plan' || key === 'attention') ? pa.first : sq.first) + ' 한 가지만 새로 시험합니다.'
     ];
   }
 
@@ -262,6 +352,7 @@
     const priorities = supportPriorities(facts);
     const lesson = lessonDesign(facts);
     const management = managementPlan(facts);
+    const profileInPlainLanguage = plainProfile(facts);
     const risks = unique([
       pairRule(facts, 'pa').risk, pairRule(facts, 'sq').risk,
       '상 선택만으로 영재를 확정하지 않고 실제 결과지 기준과 수행자료를 함께 확인합니다.',
@@ -270,9 +361,11 @@
     ]);
     return {
       code:profileCode(facts.value), name:profileName(facts.value), tags:facts.tags,
+      plainTitle:plainTitle(facts), plainSummary:plainSummary(facts), plainProfile:profileInPlainLanguage,
       classification:facts.classification, summary:integratedSummary(facts, 'teacher'), priorities,
       coreLearning:integratedSummary(facts, 'teacher'), strengthUses:strengthUses(facts), bottlenecks:bottlenecks(facts),
-      lessonDesign:lesson, management, teacherScripts:teacherScripts(facts), risks,
+      lessonDesign:lesson, subjectTips:subjectTips(facts), management, teacherScripts:teacherScripts(facts),
+      observationPlan:observationPlan(facts), helpDecisions:helpDecisions(facts), risks,
       expectedBehaviors:unique([AXES.plan.observe, AXES.attention.observe, AXES.simultaneous.observe, AXES.successive.observe]),
       bridge:bridgePath(facts), tilt:pairRule(facts, 'sq').teacher, executiveGap:pairRule(facts, 'pa').teacher,
       teachingTips:lesson.slice(0, 6), observation:management.slice(-2), cautions:risks
@@ -309,10 +402,8 @@
   }
 
   function parentScripts(facts) {
-    const strong = labels(facts.high.length ? facts.high : facts.mid).join('·');
-    const need = labels(facts.low.length ? facts.low : facts.mid).join('·');
     return [
-      '“이 결과는 ' + strong + '을 활용하면 ' + need + '이 필요한 장면을 더 편하게 지원할 수 있다는 뜻으로 보겠습니다.”',
+      '“이 결과는 잘하고 못하는 순위를 정하는 점수가 아니라, 어떤 설명과 연습이 더 잘 맞는지 함께 찾기 위한 자료입니다.”',
       '“가정에서는 한 번에 한 가지 도움만 적용하고, 시작·집중·완료가 어떻게 달라지는지 함께 확인해 주세요.”',
       '“잘된 결과보다 아이가 사용한 방법과 도움이 되었던 조건을 구체적으로 이야기해 주세요.”'
     ];
@@ -344,7 +435,11 @@
     ]);
     return {
       code:profileCode(facts.value), name:profileName(facts.value), tags:facts.tags,
-      classification:facts.classification, summary, parentCore:summary, keyMessage:summary,
+      plainTitle:plainTitle(facts), plainSummary:plainSummary(facts), plainProfile:plainProfile(facts),
+      classification:facts.classification, summary, parentCore:summary, keyMessage:plainSummary(facts),
+      confirmedStrengths:strengthUses(facts), schoolScenes:behaviors,
+      combinedInterpretation:plainSummary(facts), homeAction:homeSupports.slice(0, 1),
+      schoolAction:lessonDesign(facts).slice(0, 2), reviewCriteria:jointObservation,
       behaviors, questions, homeSupports, scripts, avoid, jointObservation,
       priorities:supportPriorities(facts), bridge:bridgePath(facts)
     };

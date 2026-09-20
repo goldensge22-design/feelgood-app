@@ -4,6 +4,7 @@
 
 - 기준 콘텐츠: `docs/KPASS_DCAS_NUVIA_전자교사가이드_통합기획_v2.0.md`
 - 디자인·구현 기준: `docs/CODEX_전자교사가이드_B안_본제작_프롬프트.md`
+- 콘텐츠 공통 규칙: `docs/교사용_쉬운말_실행중심_콘텐츠_규칙.md`
 - 81특성 대표 데이터: `data/profiles.ko.json` (현재 대표 5개)
 - 언어 구조: `locales/languages.json`과 언어별 JSON pack (한국어 `ready`, 외국어 12개 `ai-draft`)
 - 로컬 실행 예: `python -m http.server 4173` 후 `http://127.0.0.1:4173/teacher-guide/`
