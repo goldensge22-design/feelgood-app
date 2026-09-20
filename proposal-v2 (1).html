@@ -1046,7 +1046,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </a>
   <ul class="ntabs" id="ntabs">
     <li class="active" data-s="home"><a href="#home" onclick="show('home');return false;" aria-current="page" data-i18n="nav_home">🏠 홈</a></li>
-    <li data-s="edu"><a href="#education" onclick="show('edu');return false;" data-i18n="nav_edu">🏫 교육기관</a></li>
+    <li data-s="school"><a href="#school" onclick="show('school');return false;" data-i18n="nav_school">🏫 학교 제안</a></li>
     <li data-s="biz"><a href="#company" onclick="show('biz');return false;" data-i18n="nav_biz">🏢 기업</a></li>
     <li data-s="mil"><a href="#military" onclick="show('mil');return false;" data-i18n="nav_mil">🎖 군경찰</a></li>
     <li data-s="test"><a href="#assessment" onclick="show('test');return false;" data-i18n="nav_test">🧬 검사 소개</a></li>
@@ -1066,7 +1066,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
       <p data-i18n="hero_p">K-PASS / D-CAS 인지진단으로 학생 개개인의 두뇌 유형을 분석하고,<br>데이터 기반 개인 맞춤 교육으로 진정한 성장을 만들어 냅니다.</p>
       <div class="hbtns" aria-label="FeelGood proposal chapters">
-        <a class="btn-gold ko-only" id="hbtn-edu" href="#education" onclick="show('edu');return false;" data-i18n="hero_btn_edu">🏫 교육기관 제안</a>
+        <a class="btn-gold" id="hbtn-school" href="#school" onclick="show('school');return false;" data-i18n="hero_btn_school">🏫 학교 제안서 보기</a>
         <a class="btn-gold ko-only" id="hbtn-biz" href="#company" onclick="show('biz');return false;" data-i18n="hero_btn_biz">🏢 기업 제안</a>
         <a class="btn-gold ko-only" id="hbtn-mil" href="#military" onclick="show('mil');return false;" data-i18n="hero_btn_mil">🎖 군경찰 제안</a>
         <a class="btn-ghost" id="hbtn-test" href="#assessment" onclick="show('test');return false;" data-i18n="hero_btn_test">🧬 검사 소개</a>
@@ -7267,7 +7267,7 @@ function applyKoOnly(lang) {
 }
 
 // ── 섹션 전환 ────────────────────────────────────────────────────
-const SECTIONS = ['home','school','test','brainmap','edu','biz','mil'];
+const SECTIONS = ['home','school','biz','mil','test','brainmap','edu'];
 const SECTION_HASHES = {
   home: 'home',
   school: 'school',
@@ -7310,7 +7310,7 @@ function show(id, options) {
   const heroBtns = {
     test:   'hbtn-test',
     brainmap: 'hbtn-brainmap',
-    edu: 'hbtn-edu',
+    school: 'hbtn-school',
     biz: 'hbtn-biz',
     mil: 'hbtn-mil'
   };
