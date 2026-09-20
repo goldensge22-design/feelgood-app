@@ -15,13 +15,15 @@ const viewports = [
   {name:'노트북 1280×720',width:1280,height:720,mobile:false},
   {name:'소형 데스크톱 1024×768',width:1024,height:768,mobile:false},
   {name:'태블릿 768×1024',width:768,height:1024,mobile:true},
+  {name:'대형 모바일 430×932',width:430,height:932,mobile:true},
   {name:'모바일 390×844',width:390,height:844,mobile:true},
   {name:'소형 모바일 360×800',width:360,height:800,mobile:true}
 ];
 const zoomWidths = [
   {name:'100%',width:1440},
   {name:'125%',width:1152},
-  {name:'150%',width:960}
+  {name:'150%',width:960},
+  {name:'200%',width:720}
 ];
 const mime = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.png':'image/png'};
 const localeRoot = resolve(root, 'teacher-guide', 'locales');
@@ -128,7 +130,60 @@ async function layoutSnapshot() {
   return evaluate("(() => { const visible=document.querySelector('.chapter:not([hidden])'); const reader=document.querySelector('#reader'); const readerRect=reader.getBoundingClientRect(); const controls=[...visible.querySelectorAll('button,a,select,input')].filter(el=>{const s=getComputedStyle(el),r=el.getBoundingClientRect();return s.display!=='none'&&s.visibility!=='hidden'&&r.width>0&&r.height>0}); const clippedElements=[...visible.querySelectorAll('h1,h2,h3,p,span,strong,button,a')].filter(el=>el.scrollWidth>el.clientWidth+2); const outOfReader=[...reader.querySelectorAll('*')].filter(el=>{const r=el.getBoundingClientRect();return r.width>0&&(r.left<readerRect.left-1||r.right>readerRect.right+1)}).slice(0,8).map(el=>({tag:el.tagName.toLowerCase(),className:el.className,text:el.textContent.trim().slice(0,40),left:Math.round(el.getBoundingClientRect().left),right:Math.round(el.getBoundingClientRect().right)})); return {visible:visible.id,visibleCount:document.querySelectorAll('.chapter:not([hidden])').length,active:document.querySelector('[data-chapter-link][aria-current=page]')?.dataset.chapterLink||'',documentOverflow:document.documentElement.scrollWidth>innerWidth,readerOverflow:reader.scrollWidth>reader.clientWidth+1,readerWidths:[reader.clientWidth,reader.scrollWidth],outOfReader,clipped:clippedElements.length,clippedItems:clippedElements.map(el=>({tag:el.tagName.toLowerCase(),className:el.className,text:el.textContent.trim().slice(0,40),clientWidth:el.clientWidth,scrollWidth:el.scrollWidth})),smallTargets:controls.filter(el=>{const r=el.getBoundingClientRect();return r.width<40||r.height<40}).length}; })()");
 }
 
-const report = {static:{},routes:{},history:{},pagination:{},interactions:{},external:{},viewports:{},internationalViewports:{},zoom:{},print:{},console:{},status:'PASS'};
+async function chapterIntegrityMatrix(routeIds = routes) {
+  return evaluate(`(() => {
+    const routeIds=${JSON.stringify(routeIds)};
+    const visible=element=>{const style=getComputedStyle(element),rect=element.getBoundingClientRect();return style.display!=='none'&&style.visibility!=='hidden'&&rect.width>0&&rect.height>0;};
+    const describe=element=>({tag:element.tagName.toLowerCase(),className:String(element.className||''),text:element.textContent.trim().slice(0,90)});
+    const intersects=(a,b)=>Math.min(a.right,b.right)-Math.max(a.left,b.left)>2&&Math.min(a.bottom,b.bottom)-Math.max(a.top,b.top)>2;
+    const output={};
+    for(const id of routeIds){
+      renderChapter(id,false);
+      const root=document.getElementById(id);
+      const reader=document.getElementById('reader');
+      const readerRect=reader.getBoundingClientRect();
+      const textElements=[...root.querySelectorAll('h1,h2,h3,h4,p,li,a,button,label,span,strong,small,dt,dd,summary,.pass-node')].filter(visible);
+      const clipped=textElements.filter(element=>{const style=getComputedStyle(element);const verticalConcealed=['hidden','clip'].includes(style.overflowY)||style.webkitLineClamp&&style.webkitLineClamp!=='none';return element.clientWidth>0&&element.clientHeight>0&&(element.scrollWidth>element.clientWidth+3||verticalConcealed&&element.scrollHeight>element.clientHeight+3);}).map(describe);
+      const hiddenContent=textElements.filter(element=>{const style=getComputedStyle(element);const lineClamp=style.webkitLineClamp&&style.webkitLineClamp!=='none';const concealed=['hidden','clip'].includes(style.overflowX)||['hidden','clip'].includes(style.overflowY)||style.textOverflow==='ellipsis'||lineClamp;return concealed&&(element.scrollWidth>element.clientWidth+2||element.scrollHeight>element.clientHeight+2);}).map(describe);
+      const outsideViewport=textElements.filter(element=>{const rect=element.getBoundingClientRect();return rect.left<readerRect.left-2||rect.right>readerRect.right+2;}).map(describe);
+      const boundarySelector='.chapter-opening,.chapter-closing,.pass-node,article,.button,.card-actions a,.result-guide-head,.profile-controls,.plain-profile-card,.profile-analysis-head';
+      const escaped=textElements.filter(element=>{const boundary=element.parentElement?.closest(boundarySelector);if(!boundary||!visible(boundary))return false;const rect=element.getBoundingClientRect(),box=boundary.getBoundingClientRect();return rect.left<box.left-2||rect.right>box.right+2;}).map(describe);
+      const boxes=[...root.querySelectorAll('.pass-node,.info-grid>article,.report-grid>article,.pass-grid>article,.teacher-cards>article,.dashboard-grid>article,.nuvia-grid>article,.help-grid>article,.level-grid>article,.profile-analysis-grid>article')].filter(visible);
+      const overlaps=[];
+      boxes.forEach((first,index)=>boxes.slice(index+1).forEach(second=>{if(first.parentElement===second.parentElement&&intersects(first.getBoundingClientRect(),second.getBoundingClientRect()))overlaps.push(describe(first).text+' / '+describe(second).text);}));
+      if(id==='opening'){
+        const copy=root.querySelector('.opening-copy'),art=root.querySelector('.cognitive-art');
+        if(visible(copy)&&visible(art)&&intersects(copy.getBoundingClientRect(),art.getBoundingClientRect()))overlaps.push('opening-copy / cognitive-art');
+      }
+      const emptyBoxes=boxes.filter(element=>!element.textContent.trim()).map(describe);
+      const buttons=[...root.querySelectorAll('button,a.button,.card-actions a,.open-report,.back-button')].filter(visible);
+      const clippedButtons=buttons.filter(element=>element.scrollWidth>element.clientWidth+3||element.scrollHeight>element.clientHeight+3).map(describe);
+      output[id]={
+        horizontalOverflow:document.documentElement.scrollWidth>innerWidth+1||reader.scrollWidth>reader.clientWidth+1,
+        clipped,hiddenContent,outsideViewport,escaped,overlaps,emptyBoxes,clippedButtons
+      };
+    }
+    return output;
+  })()`);
+}
+
+function summarizeIntegrity(matrix) {
+  const chapters = Object.values(matrix);
+  const sum = key => chapters.reduce((total, chapter) => total + chapter[key].length, 0);
+  const escapedExamples = Object.entries(matrix).flatMap(([route, chapter]) => chapter.escaped.map(item => ({route, ...item}))).slice(0, 5);
+  return {
+    horizontalOverflow:chapters.filter(chapter => chapter.horizontalOverflow).length,
+    clipped:sum('clipped'),hiddenContent:sum('hiddenContent'),outsideViewport:sum('outsideViewport'),
+    escaped:sum('escaped'),overlaps:sum('overlaps'),emptyBoxes:sum('emptyBoxes'),clippedButtons:sum('clippedButtons'),
+    ...(escapedExamples.length ? {escapedExamples} : {})
+  };
+}
+
+function integrityPass(summary) {
+  return Object.entries(summary).filter(([key]) => key !== 'escapedExamples').every(([, value]) => value === 0);
+}
+
+const report = {static:{},routes:{},history:{},pagination:{},interactions:{},external:{},viewports:{},internationalViewports:{},multilingualLayout:{},multilingualZoom:{},zoom:{},print:{},printLayouts:{},console:{},status:'PASS'};
 const failures = [];
 
 try {
@@ -391,6 +446,39 @@ try {
     if (summary.overflow || summary.clipped || summary.multiple || summary.activeMismatch || (viewport.width<=1100 && (!summary.drawerOpen||!summary.drawerClose))) failures.push('viewport-' + viewport.name);
   }
 
+  for (const language of localeManifest) {
+    await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + language.code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+    await waitFor("document.documentElement.dataset.requestedLanguage==='" + language.code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'multilingual layout ' + language.code);
+    report.multilingualLayout[language.code] = {};
+    for (const viewport of viewports) {
+      await setViewport(viewport);
+      const matrix = await chapterIntegrityMatrix();
+      const summary = summarizeIntegrity(matrix);
+      report.multilingualLayout[language.code][viewport.name] = summary;
+      if (!integrityPass(summary)) failures.push('multilingual-layout-' + language.code + '-' + viewport.name);
+      if (language.code === 'es' && (viewport.width === 1440 || viewport.width === 360)) {
+        await evaluate("renderChapter('opening',false)");
+        await screenshot('i18n-after-opening-es-' + viewport.width + 'x' + viewport.height + '.png');
+      }
+    }
+  }
+
+  const zoomRoutes = ['opening','results','profiles','teacher','parents','closing'];
+  for (const language of localeManifest) {
+    await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + language.code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+    await waitFor("document.documentElement.dataset.requestedLanguage==='" + language.code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'multilingual zoom ' + language.code);
+    report.multilingualZoom[language.code] = {};
+    for (const zoom of zoomWidths) {
+      await setViewport({width:zoom.width,height:900,mobile:zoom.width<1100});
+      const summary = summarizeIntegrity(await chapterIntegrityMatrix(zoomRoutes));
+      report.multilingualZoom[language.code][zoom.name] = summary;
+      if (!integrityPass(summary)) failures.push('multilingual-zoom-' + language.code + '-' + zoom.name);
+    }
+  }
+
+  await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+  await waitFor("document.documentElement.dataset.requestedLanguage==='ko' && !document.querySelector('.reader-language [data-language-select]').disabled", 'restore Korean after multilingual layout checks');
+
   for (const zoom of zoomWidths) {
     await setViewport({width:zoom.width,height:900,mobile:zoom.width<1100});
     await openRoute('opening');
@@ -400,6 +488,23 @@ try {
   }
 
   await command('Emulation.setEmulatedMedia', {media:'print'});
+  const printViewports = [
+    {name:'A4 세로',width:794,height:1123,mobile:false},
+    {name:'A4 가로',width:1123,height:794,mobile:false}
+  ];
+  for (const language of localeManifest) {
+    await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='" + language.code + "'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+    await waitFor("document.documentElement.dataset.requestedLanguage==='" + language.code + "' && !document.querySelector('.reader-language [data-language-select]').disabled", 'print language ' + language.code);
+    report.printLayouts[language.code] = {};
+    for (const viewport of printViewports) {
+      await setViewport(viewport);
+      const summary = summarizeIntegrity(await chapterIntegrityMatrix());
+      report.printLayouts[language.code][viewport.name] = summary;
+      if (!integrityPass(summary)) failures.push('print-layout-' + language.code + '-' + viewport.name);
+    }
+  }
+  await evaluate("(() => { const select=document.querySelector('.reader-language [data-language-select]'); select.value='ko'; select.dispatchEvent(new Event('change',{bubbles:true})); })()");
+  await waitFor("document.documentElement.dataset.requestedLanguage==='ko' && !document.querySelector('.reader-language [data-language-select]').disabled", 'restore Korean after print layout checks');
   report.print = await evaluate("({visible:[...document.querySelectorAll('.chapter')].filter(chapter=>getComputedStyle(chapter).display!=='none').length,sidebar:getComputedStyle(document.querySelector('#tocPanel')).display,pagination:getComputedStyle(document.querySelector('.chapter-pagination')).display,lineButtonColor:getComputedStyle(document.querySelector('.chapter-opening .button.line')).color})");
   report.print.userSurface = await userSurfaceSnapshot();
   if (report.print.visible !== 14 || report.print.sidebar !== 'none' || report.print.pagination !== 'none' || report.print.lineButtonColor!=='rgb(0, 0, 0)' || report.print.userSurface.forbiddenHits.length || report.print.userSurface.exactStatus.length || report.print.userSurface.internalElements.length || !report.print.userSurface.cleanTopFlow) failures.push('print');
@@ -424,8 +529,11 @@ try {
     languages:report.interactions.language.results.map(item => ({code:item.code,dir:item.dir,teacherHasKorean:item.teacherHasKorean,parentHasKorean:item.parentHasKorean,guideHasKorean:item.guideHasKorean,...(item.guideHasKorean&&item.code!=='ko'?{koreanSamples:item.koreanSamples}:{}),overflow:item.documentOverflow,clipped:item.clipped,userSurface:item.userSurface,...(item.clipped ? {clippedItems:item.clippedItems} : {})})),
     viewports:Object.fromEntries(Object.entries(report.viewports).map(([name, value]) => [name, {overflow:value.overflow,clipped:value.clipped,multiple:value.multiple,activeMismatch:value.activeMismatch}])),
     internationalViewports:Object.fromEntries(Object.entries(report.internationalViewports).map(([code, results]) => [code, Object.fromEntries(Object.entries(results).map(([name, value]) => [name, {overflow:value.snapshot.documentOverflow||value.snapshot.readerOverflow,clipped:value.snapshot.clipped,userSurface:value.userSurface,parentState:value.parentState}]))])),
+    multilingualLayout:report.multilingualLayout,
+    multilingualZoom:report.multilingualZoom,
     zoom:report.zoom,
     print:report.print,
+    printLayouts:report.printLayouts,
     console:report.console
   } : report;
   console.log(JSON.stringify(output, null, 2));
