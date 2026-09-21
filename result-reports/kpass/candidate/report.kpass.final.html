@@ -270,6 +270,11 @@
     .cover-content{ text-align:center; max-width:100%; }
     .cover-intro{ text-align:left; }
     .cover .idcard{ margin:0 auto; text-align:left; }
+    table.data{ min-width:0; table-layout:fixed; font-size:11px; }
+    table.data th, table.data td{ padding:8px 6px; overflow-wrap:anywhere; word-break:break-word; }
+    .inline-cta > *{ min-width:0; }
+    .inline-cta .r{ width:100%; flex-shrink:1; }
+    .inline-cta .r a{ display:flex; width:100%; justify-content:center; text-align:center; white-space:normal; overflow-wrap:anywhere; }
   }
   @media print{ .cover{ box-shadow:none; border-radius:0; page-break-after:always; } }
 
@@ -1465,21 +1470,21 @@ const I18N = {
   },
 };
 
-// 전체 결과지 본문까지 번역된 locale만 운영 언어 선택기에 노출한다.
-// 나머지 locale은 표지/메뉴 일부만 번역되어 있으므로 사용자 화면에 노출하면
-// 번역문과 한국어 본문이 섞인다. 전체 번역 완료 후 status를 full로 승격한다.
+// 공통 결과지 locale 번들과 runtime이 전체 본문/개인화 문장을 번역한다.
+// 기존 I18N 표지 번역은 보존하지만 화면 전환은 공통 runtime 한 곳에서 담당한다.
 const KPASS_LOCALE_COVERAGE = Object.freeze({
   ko: { status:'full', source:'report.kpass.final.html' },
-  en: { status:'partial', scope:'cover/navigation only' },
-  th: { status:'partial', scope:'cover/navigation only' },
-  vi: { status:'partial', scope:'cover/navigation only' },
-  ru: { status:'partial', scope:'cover/navigation only' },
-  ar: { status:'partial', scope:'cover/navigation only' },
-  es: { status:'partial', scope:'cover/navigation only' },
-  zh: { status:'partial', scope:'cover/navigation only' },
-  ja: { status:'partial', scope:'cover/navigation only' },
-  it: { status:'partial', scope:'cover/navigation only' },
-  km: { status:'missing', scope:'not translated' }
+  en: { status:'full', source:'google-translate' },
+  ja: { status:'full', source:'google-translate' },
+  zh: { status:'full', source:'google-translate' },
+  es: { status:'full', source:'google-translate' },
+  ru: { status:'full', source:'google-translate' },
+  vi: { status:'full', source:'google-translate' },
+  th: { status:'full', source:'google-translate' },
+  ar: { status:'full', source:'google-translate' },
+  it: { status:'full', source:'google-translate' },
+  az: { status:'full', source:'google-translate' },
+  km: { status:'full', source:'google-translate' }
 });
 const KPASS_FULL_REPORT_LOCALES = Object.freeze(
   Object.keys(KPASS_LOCALE_COVERAGE).filter(code => KPASS_LOCALE_COVERAGE[code].status === 'full')
@@ -1518,7 +1523,8 @@ function normalizeReportLocale(value){
   return Object.prototype.hasOwnProperty.call(I18N, code) ? code : 'ko';
 }
 const requestedReportLocale = normalizeReportLocale(window.__REPORT_LOCALE__ || 'ko');
-let currentLang = KPASS_FULL_REPORT_LOCALES.includes(requestedReportLocale) ? requestedReportLocale : 'ko';
+// 공통 runtime이 언제나 동일한 한국어 source DOM에서 번역하도록 초기 shell은 ko로 유지한다.
+let currentLang = 'ko';
 
 function render(){
   const d = I18N[currentLang];
@@ -1578,12 +1584,12 @@ function render(){
 function buildLangMenu(){
   const menu = document.getElementById('langMenu');
   KPASS_FULL_REPORT_LOCALES.forEach(code=>{
-    const d = I18N[code];
+    const d = I18N[code] || {native:({az:'Azərbaycanca',km:'ភាសាខ្មែរ'}[code] || code.toUpperCase())};
     const item = document.createElement('div');
     item.className = 'lang-item';
     item.dataset.code = code;
     item.innerHTML = `<span>${d.native}</span><span class="en">${code.toUpperCase()}</span>`;
-    item.onclick = ()=>{ currentLang = code; render(); menu.classList.remove('open'); };
+    item.onclick = ()=>{ if(I18N[code]){ currentLang = code; render(); } menu.classList.remove('open'); };
     menu.appendChild(item);
   });
 }
@@ -1609,5 +1615,7 @@ render();
   });
 </script>
 
+<script src="../../locales/kpass-child.locales.js"></script>
+<script src="../../locales/report-i18n-runtime.js"></script>
 </body>
 </html>

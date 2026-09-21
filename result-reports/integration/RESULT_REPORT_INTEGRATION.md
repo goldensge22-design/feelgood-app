@@ -7,19 +7,20 @@
 <script>
   ResultReportAdapter.install({
     schemaVersion: 1,
-    reportKind: "dcas-teen",
-    locale: "ko",
+    reportKind: "dcas-adult",
+    locale: "km",
     person: {
       fullName: "홍길동",
       givenName: "길동",
       fullNameEn: "Gildong Hong",
       genderKey: "M",
-      ageYears: 16,
+      ageYears: 23,
       ageMonths: 0,
-      gradeLabel: "고등학교 1학년"
+      gradeLabel: "대학교 4학년",
+      majorName: "컴퓨터공학과"
     },
     test: { date: { y: 2026, m: 9, d: 21 } },
-    scores: { fullScale: null, P: 80, A: 56, S: 89, Q: 58 }
+    scores: { P: 80, A: 56, S: 89, Q: 78 }
   });
 </script>
 <!-- 그 다음 기존 결과지 HTML/스크립트 로드 -->
@@ -44,7 +45,7 @@
 
 ## locale 안전 규칙
 
-adapter는 요청 locale를 `window.__REPORT_LOCALE__`에 저장하지만, 각 결과지는 manifest의 `fullReportLocales`만 사용자에게 허용한다. 미완성 locale 요청은 한국어로 fallback하고 내부 경고를 기록한다. 부분 번역을 조합해 사용자 화면에 표시하지 않는다.
+adapter는 요청 locale를 `window.__REPORT_LOCALE__`에 저장한다. 지원 locale는 `ko/en/ja/zh/es/ru/vi/th/ar/it/az/km`이며 지역 코드가 붙은 값은 base locale로 표시한다. 미지원 locale만 한국어로 fallback한다.
 
 ## K-PASS 필수 차이
 
@@ -57,6 +58,7 @@ adapter는 요청 locale를 `window.__REPORT_LOCALE__`에 저장하지만, 각 �
 - 0~100 정답률 4축: `P/A/S/Q`
 - 전체척도 없음
 - `gradeLabel` 사용
+- 성인은 `majorName` 필수. adapter가 기존 엔진 프로필까지 전달한다.
 - H/M/L: L 0~52, M 53~74, H 75~100
 - S/Q: 차이 0~10 균형, 11 이상 높은 축 우세
 
@@ -67,5 +69,8 @@ adapter는 요청 locale를 `window.__REPORT_LOCALE__`에 저장하지만, 각 �
 3. 결과지의 데이터 bank
 4. 결과지 content engine
 5. HTML render
+6. HTML 하단의 locale bundle과 `report-i18n-runtime.js`
 
 개발자가 결과지 내부의 예시 `DEFAULT_PROFILE`을 직접 찾아 바꾸지 않는다. 예시값은 서버 데이터가 없을 때 로컬 미리보기에만 사용된다.
+
+성인 전공이 기존 목록에 없으면 입력값을 그대로 표시하고 추천 매핑 미연결 안내를 사용한다. 컴퓨터공학과로 조용히 대체하지 않는다.

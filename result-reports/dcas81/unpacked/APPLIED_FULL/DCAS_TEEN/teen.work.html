@@ -279,7 +279,7 @@
   .id-dark-card .chip{font-size:12px;background:rgba(255,255,255,.14);padding:4px 10px;border-radius:12px;font-weight:600;}
 
   .feature-row{display:flex;gap:14px;padding-top:16px;border-top:1px solid #E4DFF5;}
-  .feature-row div{flex:1;font-size:11.5px;line-height:1.5;}
+  .feature-row div{flex:1;min-width:0;font-size:11.5px;line-height:1.5;overflow-wrap:anywhere;}
   .feature-row .ico{margin-bottom:6px;color:var(--orange);}
   .feature-row .ico svg{width:18px;height:18px;}
   .feature-row b{display:block;font-size:12.5px;margin-bottom:2px;color:var(--navy);}
@@ -1757,7 +1757,8 @@ document.getElementById('sidebarList').addEventListener('click', function(e){
 
 function downloadPdf(){
   const wrap = document.getElementById('reportRoot');
-  const fname = (currentLang==='ko' ? (PROFILE.fullName + '_D-CAS_결과지') : ((PROFILE.fullNameEn || PROFILE.fullName) + '_D-CAS_Report')).replace(/\s+/g, '-') + '.pdf';
+  const exportLocale = window.__REPORT_LOCALE_ACTIVE__ || currentLang;
+  const fname = (exportLocale==='ko' ? (PROFILE.fullName + '_D-CAS_결과지') : ((PROFILE.fullNameEn || PROFILE.fullName) + '_D-CAS_Report')).replace(/\s+/g, '-') + '.pdf';
   wrap.classList.add('pdf-mode');
   html2pdf().set({
     margin:10,
@@ -1780,5 +1781,7 @@ document.addEventListener('click', function(e){
 render();
 if (typeof DCasTeenEngine !== 'undefined') { DCasTeenEngine.render(PROFILE); }
 </script>
+<script src="../../../../locales/dcas-teen.locales.js"></script>
+<script src="../../../../locales/report-i18n-runtime.js"></script>
 </body>
 </html>

@@ -55,6 +55,8 @@
   function getBalTier(s) {
     const vals = [s.P, s.A, s.S, s.Q];
     const max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
+    const levels = vals.map(function (v) { return v >= 75 ? 'HIGH' : (v <= 52 ? 'LOW' : 'MID'); });
+    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     if (max - min >= 20) return null;
     const avg = (s.P + s.A + s.S + s.Q) / 4;
     if (avg <= 52) return 'LOW';
@@ -164,8 +166,26 @@
     // 프로필에 majorName이 있고 select 옵션 목록에 실제로 존재하면 그 값으로 초기 선택을 맞춘다.
     const majorSelectInit = byId('majorSelect');
     if (majorSelectInit && PROFILE.majorName) {
-      const hasOption = Array.prototype.some.call(majorSelectInit.options, function (o) { return o.value === PROFILE.majorName; });
+      let hasOption = Array.prototype.some.call(majorSelectInit.options, function (o) { return o.value === PROFILE.majorName; });
+      if (!hasOption) {
+        const profileOption = document.createElement('option');
+        profileOption.value = PROFILE.majorName;
+        profileOption.textContent = PROFILE.majorName;
+        const customOption = majorSelectInit.querySelector('option[value="__custom__"]');
+        const optionHost = customOption && customOption.parentNode ? customOption.parentNode : majorSelectInit;
+        optionHost.insertBefore(profileOption, customOption || null);
+        hasOption = true;
+      }
       if (hasOption) majorSelectInit.value = PROFILE.majorName;
+      // 서버에서 받은 전공이 기본 select에 없더라도 컴퓨터공학과로 대체하지 않는다.
+      // 알려진 47개 학과/확장 분야면 기존 직무 자료에 연결하고, 알 수 없는 전공이면
+      // "매칭 데이터 미연결" 상태를 명시적으로 보여준다.
+      if (global.DCasJobEngine && global.DCasMajor47 && global.DCasMajor47.CATALOG[PROFILE.majorName]) {
+        global.DCasJobEngine.registerMajor(PROFILE.majorName, '전공진로::' + PROFILE.majorName);
+      } else if (global.DCasJobEngine && global.DCasJobsExtra && typeof global.DCasJobsExtra.guessCategory === 'function') {
+        const guess = global.DCasJobsExtra.guessCategory(PROFILE.majorName);
+        if (guess && guess.ncsMiddle) global.DCasJobEngine.registerMajor(PROFILE.majorName, guess.ncsMiddle);
+      }
     }
     // {{FULLNAME}} / {{GIVEN}} 플레이스홀더를 실제 값으로 전역 치환
     // (SECTIONS가 innerHTML로 꽂힌 뒤 실행되어야 하므로 render() 마지막에 호출)
@@ -205,7 +225,7 @@
     }
     // 패치: 첫화면 후크 문항의 "브레인스토밍 불편"·"코드/문서 꼼꼼" 고정 전제를 실제 최고축 기준으로 교체
     const rankedHook = [{k:'P',v:PROFILE.scores.P},{k:'A',v:PROFILE.scores.A},{k:'S',v:PROFILE.scores.S},{k:'Q',v:PROFILE.scores.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedHook = (rankedHook[0].v - rankedHook[3].v) < 20;
+    const isBalancedHook = getBalTier(PROFILE.scores) !== null;
     const balTierHook = getBalTier(PROFILE.scores);
     const topHookKey = rankedHook[0].k;
     const HOOK1 = { P:'과제나 프로젝트 순서를 정리하는 건 자신 있는데, 팀원과 아이디어를 자유롭게 주고받는 브레인스토밍은 왠지 불편하다', A:'하나의 작업에 깊게 몰입하는 건 자신 있는데, 여러 사람과 짧게 자주 소통해야 하는 자리는 왠지 피곤하다', S:'전체 그림을 파악하고 아이디어를 연결하는 건 자신 있는데, 그걸 세부 절차로 쪼개서 실행하려면 막막하다', Q:'세부 절차를 순서대로 처리하는 건 자신 있는데, 여러 아이디어를 한 번에 종합해야 하는 브레인스토밍은 왠지 불편하다' };
@@ -256,7 +276,7 @@
            weakKeyword: '보완 방향 · 몰입 루틴 만들기', weakExample: '"짧은 시간 단위로 나눠 집중력을 끌어올리는 루틴을 연습 중"' }
     };
     const rankedForTable = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedTable2 = (rankedForTable[0].v - rankedForTable[3].v) < 20;
+    const isBalancedTable2 = getBalTier(PROFILE.scores) !== null;
     const balTierTable2 = getBalTier(s);
     const balancedKw2 = balPick(balTierTable2, { LOW:'기초역량 다지기 · 전영역', MID:'균형 발달 · 상황별 유연 활용', HIGH:'균형 발달 · 고역량 통합 활용' });
     const balancedEx2 = balPick(balTierTable2, { LOW:'"짧은 과제를 하나씩 끝까지 완료"', MID:'"상황에 맞게 접근 방식을 유연하게 전환"', HIGH:'"복합적인 업무에서 여러 역량을 통합해 활용"' });
@@ -290,7 +310,7 @@
     const pLevel = axisLevel(s.P), aLevel = axisLevel(s.A);
     const sLevel = axisLevel(s.S), qLevel = axisLevel(s.Q);
     const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedTemp = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedTemp = getBalTier(PROFILE.scores) !== null;
     const balTierTemp = getBalTier(s);
 
     // ── 01번 기질카드 ──
@@ -578,7 +598,7 @@
     const strong2 = rankedAxes.slice(0,2).map(function(r){return r.k;});
     // 패치: 4개 축이 사실상 동점(균형형)일 때도 배열 순서상 상위 2개(계획력·주의력)를
     // "강점"으로 단정해 자소서 STEP1 등에 그대로 쓰이던 것을 수정
-    const isBalancedDocs = (rankedAxes[0].v - rankedAxes[3].v) < 20;
+    const isBalancedDocs = getBalTier(PROFILE.scores) !== null;
     const balTierDocs = getBalTier(s);
 
     // 09번 growth
@@ -894,7 +914,12 @@
     }
   }
 
-  function render() {
+  function render(nextProfile) {
+    if (nextProfile && typeof nextProfile === 'object') {
+      Object.assign(PROFILE, nextProfile);
+      if (nextProfile.scores) PROFILE.scores = Object.assign({}, nextProfile.scores);
+      if (nextProfile.testDate) PROFILE.testDate = Object.assign({}, nextProfile.testDate);
+    }
     applyIdentity();
     applyScores();
     applyCombo();

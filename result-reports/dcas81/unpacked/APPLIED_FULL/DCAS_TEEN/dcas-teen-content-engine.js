@@ -23,6 +23,8 @@
   function getBalTier(s) {
     const vals = [s.P, s.A, s.S, s.Q];
     const max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
+    const levels = vals.map(function (v) { return v >= 75 ? 'HIGH' : (v <= 52 ? 'LOW' : 'MID'); });
+    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     if (max - min >= 20) return null;
     const avg = (s.P + s.A + s.S + s.Q) / 4;
     if (avg <= 52) return 'LOW';
@@ -103,7 +105,7 @@
   function setProfile81Language(lang, PROFILE) {
     if (typeof DCasProfile81 === 'undefined') return null;
     global.__DCAS_LANG__ = DCasProfile81.normalizeLang(lang);
-    return applyProfile81(PROFILE);
+    return applyProfile81(PROFILE || global.__TEST_PROFILE__ || DEFAULT_PROFILE);
   }
 
   function applyIdentity(PROFILE) {
@@ -223,7 +225,7 @@
 
       // 패치: 11번 학습방안 과목별 전략 — 실제 최고축 기준으로 4과목 전부 교체
       // (4개 축이 균형형일 때는 특정 축을 단정하지 않고 균형형 전용 문구 사용)
-      const isBalancedLearnSubj = (ranked4[0].v - ranked4[3].v) < 20;
+      const isBalancedLearnSubj = getBalTier(s) !== null;
       const balTierLearnSubj = getBalTier(s);
       const topKeyLearn = isBalancedLearnSubj ? ('BAL_' + balTierLearnSubj) : ranked4[0].k;
       setHTML('pf-learn-kor' + sfx, T.learningSubject.kor[topKeyLearn]);
@@ -288,7 +290,7 @@
       const growLabel = isEn ? ' (growing)' : ' (보완중)';
       // 패치: 4개 축이 사실상 동점(균형형)일 때도 배열 순서상 상위 2개(계획력·주의력)를 "강점"으로,
       // 마지막(순차처리)을 "보완중"으로 단정하던 것을 수정 — 균형형에서는 특정 축을 강점/약점으로 가르지 않음
-      const isBalancedTable = (ranked[0].v - ranked[3].v) < 20;
+      const isBalancedTable = getBalTier(s) !== null;
       const balTierTable = getBalTier(s);
       const balancedKw = isEn
         ? balPick(balTierTable, { LOW:'Foundation-building · all areas', MID:'Balanced across all areas', HIGH:'Balanced · high, integrated ability' })
@@ -312,7 +314,7 @@
     // 패치: "지원서류 활용팩"(세특/자율진로활동/Common App/교사추천서/활동기록요약) 5개 카드가
     // 이름만 치환되고 본문은 항상 "동시처리+계획력(S+P)" 전제로 고정돼 있던 문제를 실제 최고축 기준으로 교체
     // (4개 축이 사실상 동점인 균형형 프로파일에서는 특정 축을 임의로 고르지 않고 별도 균형형 문구 사용)
-    const isBalancedForDocs = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedForDocs = getBalTier(s) !== null;
     const balTierDocs = getBalTier(s);
     applyDocCardsTeen(isBalancedForDocs ? ('BAL_' + balTierDocs) : ranked[0].k, nameForVars, isEn);
   }
@@ -450,7 +452,7 @@
     const top2 = ranked.slice(0,2), weak = ranked[3];
     // 패치: 4개 축 점수가 사실상 동일할 때(최고-최저 차이 20 미만) 항상 "계획력·주의력 강점/순차처리 약점"으로
     // 임의 결정되던 것을 콤보뱅크의 균형형(BAL) 판정 기준과 동일하게 맞춰 "균형형" 서술로 분기
-    const isBalancedProfile = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedProfile = getBalTier(s) !== null;
     const balTier = getBalTier(s);
     const AXIS_LABEL = bank.AXIS_LABEL;
     const sfx = isEn ? '-en' : '';
@@ -609,7 +611,7 @@
       }).join('');
     }
     const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedMatrix = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedMatrix = getBalTier(s) !== null;
     const balTierMatrix = getBalTier(s);
     const top2Label = isBalancedMatrix ? (isEn ? 'balanced' : '균형형') : AXIS_LABEL[ranked[0].k] + '×' + AXIS_LABEL[ranked[1].k];
     if (isEn) {
@@ -679,7 +681,7 @@
     const sfx = isEn ? '-en' : '';
     const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
     const weak = ranked[3];
-    const isBalancedProfile2 = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedProfile2 = getBalTier(s) !== null;
     const balTierParent = getBalTier(s);
     const AXIS_LABEL = isEn ? { P:'Planning', A:'Attention', S:'Simultaneous', Q:'Successive' } : { P: '계획력', A: '주의력', S: '동시처리', Q: '순차처리' };
     const weakLabel = AXIS_LABEL[weak.k];
@@ -798,7 +800,7 @@
     const s = PROFILE.scores;
     const d = bank.pickAxisData(s);
     const sfx = isEn ? '-en' : '';
-    const isBalancedMission = (d.ranked[0].v - d.ranked[3].v) < 20;
+    const isBalancedMission = getBalTier(PROFILE.scores) !== null;
     const balTierMission = getBalTier(s);
 
     // 09 미션보드
@@ -842,7 +844,7 @@
     }
     // 패치(리팩터링): 10번 3단계 로드맵도 i18n 뱅크 조회로 전환
     const rankedGrowth = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedGrowth = (rankedGrowth[0].v - rankedGrowth[3].v) < 20;
+    const isBalancedGrowth = getBalTier(PROFILE.scores) !== null;
     const balTierGrowth = getBalTier(s);
     const topKeyG = isBalancedGrowth ? ('BAL_' + balTierGrowth) : rankedGrowth[0].k, weakKeyG = isBalancedGrowth ? ('BAL_' + balTierGrowth) : rankedGrowth[3].k;
     const Tg = (typeof DCasI18n !== 'undefined') ? DCasI18n.get(isEn ? 'en' : 'ko') : null;
@@ -862,7 +864,7 @@
     const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
     const strong2Keys = [ranked[0].k, ranked[1].k];
     const weakKey = ranked[3].k;
-    const isBalancedAdm = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedAdm = getBalTier(s) !== null;
     const balTierAdm = getBalTier(s);
     const AXIS_LABEL = isEn ? { P:'Planning', A:'Attention', S:'Simultaneous', Q:'Successive' } : bank.AXIS_LABEL;
 
@@ -919,7 +921,7 @@
     const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return a.v-b.v;});
     const weakKey = ranked[0].k;
     const rankedDesc = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}].sort(function(a,b){return b.v-a.v;});
-    const isBalancedFaq = (rankedDesc[0].v - rankedDesc[3].v) < 20;
+    const isBalancedFaq = getBalTier(s) !== null;
     const balTierFaq = getBalTier(s);
     if (isEn) {
       const AXIS_LABEL_EN = { P:'Planning', A:'Attention', S:'Simultaneous', Q:'Successive' };
@@ -989,7 +991,7 @@
     const AXIS_LABEL_EN = { P: 'planning', A: 'attention', S: 'simultaneous processing', Q: 'successive processing' };
     const strongStr = strong2.map(function(k){return AXIS_LABEL[k];}).join('·');
     const weakStr = weak2.map(function(k){return AXIS_LABEL[k];}).join('·');
-    const isBalancedLearning = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedLearning = getBalTier(s) !== null;
     const balTierLearning = getBalTier(s);
     setText('pf-learning-intro', isBalancedLearning
       ? balPick(balTierLearning, {
@@ -1006,7 +1008,7 @@
         })
       : 'Leverage ' + strong2.map(function(k){return AXIS_LABEL_EN[k];}).join(' and ') + ' strengths, while building ' + weak2.map(function(k){return AXIS_LABEL_EN[k];}).join(' and ') + ' through short, structured routines.');
 
-    const isBalancedRoutine = (ranked[0].v - ranked[3].v) < 20;
+    const isBalancedRoutine = getBalTier(s) !== null;
     const topAxis = ranked[0].k, weakAxis = isBalancedRoutine ? 'BAL' : ranked[3].k;
     const topB = BRAINSCI[topAxis], weakB = BRAINSCI[weakAxis];
     const topBEn = BRAINSCI_EN[topAxis], weakBEn = BRAINSCI_EN[weakAxis];

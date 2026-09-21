@@ -2,6 +2,7 @@
   'use strict';
 
   const KINDS = ['kpass-child', 'dcas-teen', 'dcas-adult'];
+  const LOCALES = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
 
   function finiteNumber(value, field) {
     if (typeof value !== 'number' || !Number.isFinite(value)) {
@@ -28,6 +29,10 @@
     const m = integer(date.m, 'test.date.m', 1);
     const d = integer(date.d, 'test.date.d', 1);
     if (m > 12 || d > 31) throw new RangeError('test.date is invalid');
+    const actual = new Date(Date.UTC(y, m - 1, d));
+    if (actual.getUTCFullYear() !== y || actual.getUTCMonth() !== m - 1 || actual.getUTCDate() !== d) {
+      throw new RangeError('test.date is invalid');
+    }
     return { y:y, m:m, d:d };
   }
 
@@ -56,18 +61,23 @@
     const person = payload.person || {};
     const genderKey = text(person.genderKey, 'person.genderKey');
     if (!['M','F','X'].includes(genderKey)) throw new RangeError('person.genderKey must be M, F, or X');
+    const locale = text(payload.locale || 'ko', 'locale').toLowerCase().replaceAll('_','-');
+    if (!LOCALES.includes(locale.split('-')[0])) throw new RangeError('unsupported locale');
+    const ageMonths = integer(person.ageMonths || 0, 'person.ageMonths', 0);
+    if (ageMonths > 11) throw new RangeError('person.ageMonths must be between 0 and 11');
     return {
       schemaVersion: 1,
       reportKind: kind,
-      locale: text(payload.locale || 'ko', 'locale').toLowerCase().replace('_','-'),
+      locale: locale,
       person: {
         fullName: text(person.fullName, 'person.fullName'),
         givenName: text(person.givenName || person.fullName, 'person.givenName'),
         fullNameEn: text(person.fullNameEn, 'person.fullNameEn', true),
         genderKey: genderKey,
         ageYears: integer(person.ageYears, 'person.ageYears', 0),
-        ageMonths: integer(person.ageMonths || 0, 'person.ageMonths', 0),
-        gradeLabel: text(person.gradeLabel, 'person.gradeLabel', kind === 'kpass-child')
+        ageMonths: ageMonths,
+        gradeLabel: text(person.gradeLabel, 'person.gradeLabel', kind === 'kpass-child'),
+        majorName: text(person.majorName, 'person.majorName', kind !== 'dcas-adult')
       },
       test: { date: validateDate(payload.test && payload.test.date) },
       scores: validateScores(kind, payload.scores)
@@ -95,6 +105,7 @@
       genderKey: p.genderKey,
       ageYears: p.ageYears,
       gradeLabel: p.gradeLabel,
+      majorName: p.majorName,
       testDate: input.test.date,
       scores: { P:s.P, A:s.A, S:s.S, Q:s.Q }
     };
@@ -111,6 +122,7 @@
 
   global.ResultReportAdapter = {
     KINDS: KINDS.slice(),
+    LOCALES: LOCALES.slice(),
     normalize: normalize,
     toLegacyProfile: toLegacyProfile,
     install: install

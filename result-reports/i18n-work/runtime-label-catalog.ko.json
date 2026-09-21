@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "sourceLocale": "ko",
+  "translationProvider": "google-translate-web",
+  "purpose": "runtime-gender-labels",
+  "itemCount": 2,
+  "items": [
+    {
+      "key": "FGL_GENDER_F",
+      "source": "여",
+      "protected": { "text": "여", "placeholders": [] },
+      "contexts": ["kpass-child:runtime-label", "dcas-teen:runtime-label", "dcas-adult:runtime-label"]
+    },
+    {
+      "key": "FGL_GENDER_M",
+      "source": "남",
+      "protected": { "text": "남", "placeholders": [] },
+      "contexts": ["kpass-child:runtime-label", "dcas-teen:runtime-label", "dcas-adult:runtime-label"]
+    }
+  ]
+}

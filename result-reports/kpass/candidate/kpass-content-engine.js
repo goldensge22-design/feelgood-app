@@ -801,7 +801,12 @@ function applyPersonalization(profile){
   setHTML('pf-career-activities', (d.isBalanced ? balancedCareerActivities : CAREER_ACT[topKeyForSubject]).map(function(t){return '<span>'+t+'</span>';}).join(''));
 
   const weakLbl = d.weakAxis.name;
-  setText('pf-faq1-q', d.isBalanced ? 'Q. 균형형이면 특별히 살펴볼 영역이 없나요?' : 'Q. '+weakLbl+(hasBatchim(weakLbl)?'이':'가')+' 낮게 나온 게 걱정돼요. 계속 낮은 채로 남을까요?');
+  const weakAbsoluteLevel = d.perAxis[d.weakAxisKey].level;
+  setText('pf-faq1-q', d.isBalanced
+    ? 'Q. 균형형이면 특별히 살펴볼 영역이 없나요?'
+    : (weakAbsoluteLevel === 'L'
+      ? 'Q. '+weakLbl+(hasBatchim(weakLbl)?'이':'가')+' 낮게 나온 게 걱정돼요. 계속 낮은 채로 남을까요?'
+      : 'Q. '+weakLbl+(hasBatchim(weakLbl)?'이':'가')+' 다른 영역보다 상대적으로 낮은데, 보완이 필요한가요?'));
   setText('pf-faq1-a', d.isBalanced
     ? '균형형은 네 영역 사이의 차이가 작다는 뜻이지, 모든 능력 수준이 같다는 의미는 아니에요. 전체점수 수준을 함께 확인하고, 다양한 활동에서 아이가 편안해하거나 어려워하는 모습을 관찰하는 것이 중요합니다.'
     : '아니에요. '+weakLbl+'는 성장 과정의 충분한 훈련과 반복 경험, 적절한 교육적 지원을 통해 향상될 가능성이 있어요. 현재의 특성을 아는 것은 아이에게 맞는 지원 방법을 찾는 중요한 출발점입니다.');
@@ -919,7 +924,8 @@ function applyPersonalization(profile){
       : name+'의 4개 인지 영역이 서로 뚜렷한 차이 없이 고르게 나타났어요. 특정 영역을 보완하기보다, 다양한 활동을 골고루 경험하며 관심 분야를 넓혀가는 것을 추천해요.');
     setText('pf-growthtitle', d.balancedTier === 'L' ? '고른 지원 — 네 영역의 기초 능력을 함께 키워주세요.' : '고른 발달 — 특정 보완점보다 폭넓은 경험이 도움이 돼요.');
   } else {
-    setText('pf-growthdesc', josa(d.weakAxis.name,'은는')+' 또래 평균 수준('+d.perAxis[d.weakAxisKey].rankPct+'%ile)으로, 다른 강점 영역에 비해 상대적으로 낮게 나타났어요. 이는 부족함이 아니라, '+name+'의 다른 강점을 더 완성도 있게 만들어줄 다음 성장 지점이에요.');
+    const weakLevelText = d.perAxis[d.weakAxisKey].level === 'H' ? '또래보다 높은 수준' : (d.perAxis[d.weakAxisKey].level === 'L' ? '또래보다 낮은 수준' : '또래 평균 범위');
+    setText('pf-growthdesc', josa(d.weakAxis.name,'은는')+' '+weakLevelText+'('+d.perAxis[d.weakAxisKey].rankPct+'%ile)이지만, 아이 자신의 다른 강점 영역과 비교하면 상대적으로 덜 두드러졌어요. 이는 부족함을 뜻하지 않으며, '+name+'의 다른 강점을 더 완성도 있게 만들어줄 다음 성장 지점이에요.');
     setText('pf-growthtitle', d.weakAxis.name+' — 약점이 아니라 "다음 성장 지점"이에요.');
   }
   // v2.0: 성장포인트 Modifier — weak축 티어 + 보완축 티어 조합에 따라 다른 지원방식 제시 (GPT #1·#3 대응)
