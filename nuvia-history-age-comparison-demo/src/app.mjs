@@ -1,4 +1,5 @@
 import {ko,pathMeta,ageContent} from './content.mjs';
+import {planningCopy} from './locales/ko-planning.mjs';
 import {PATHS,AGE_BANDS,STEPS,createRun,evidenceComplete,bookState,event} from './contracts.mjs';
 import {load,save} from './storage.mjs';
 import {SCENE_POLICY_ID,sceneFigure,sceneQaSummary} from './sceneRegistry.mjs';
@@ -9,7 +10,7 @@ const locale=params.get('lang')||'ko', qa=params.get('qa')==='1';
 const ageBand=AGE_BANDS.includes(params.get('age'))?params.get('age'):'preschool';
 const requested=PATHS.includes(params.get('pass'))?params.get('pass'):'planning';
 const selectedPath=ageBand==='preschool'?requested:'planning';
-const copy=ageContent[ageBand];
+const copy={...ageContent[ageBand],...planningCopy.byAge[ageBand]};
 let run=load(selectedPath,ageBand);
 if(!run) run=createRun(selectedPath,Date.now(),ageBand);
 let help=false,notice='',drawing=false,storyInk=Boolean(run.story.drawing),lastPoint=null,bookOpen=false,bookPage=0;
@@ -24,10 +25,11 @@ function button(label,action,cls='secondary',disabled=false){return `<button cla
 function choice(label,value,group,selected=false,icon='◆'){return `<button class="choice ${selected?'selected':''}" data-choice="${group}" data-value="${value}" aria-pressed="${selected}"><span class="choice-icon" aria-hidden="true">${icon}</span><span>${label}</span></button>`}
 function frame(inner,kind='paper'){return `<section class="scene-frame ${kind}">${inner}</section>`}
 function progress(){const i=STEPS.indexOf(run.step);return `<div class="progress" aria-label="${ko.progress} ${i+1}/${STEPS.length}"><span style="width:${(i+1)/STEPS.length*100}%"></span></div>`}
+function ageNavigation(){return qa?`<nav class="age-navigation" aria-label="${planningCopy.ageNavigation}">${AGE_BANDS.map(age=>{const url=new URL(location.href);url.searchParams.set('age',age);return `<a class="button secondary" href="${escapeHtml(url.pathname+url.search+url.hash)}" ${age===ageBand?'aria-current="page"':''}>${planningCopy.ages[age]}</a>`}).join('')}</nav>`:''}
 
 function render(){
  const meta=pathMeta[run.path];
- root.innerHTML=`<div class="app-shell"><header class="brand-header"><div><span class="brand">${ko.brand}</span><span class="demo-chip">${ko.demo}</span></div><span class="week">${ko.week}</span></header>${progress()}<main class="play-area">${screen()}</main>${notice?`<div class="notice" role="status">${notice}</div>`:''}${qa?inspector(meta):''}</div>`;
+ root.innerHTML=`<div class="app-shell"><header class="brand-header"><div><span class="brand">${ko.brand}</span><span class="demo-chip">${ko.demo}</span></div><span class="week">${ko.week}</span></header>${ageNavigation()}${progress()}<main class="play-area">${screen()}</main>${notice?`<div class="notice" role="status">${notice}</div>`:''}${qa?inspector(meta):''}</div>`;
  bind(); if(run.step==='story') setupCanvas();
 }
 
@@ -68,12 +70,13 @@ function pathActivity(){const e=run.evidence;
 
 function planningActivity(e){
  const goalValues=['hear','see'],methodValues=['tell','time','own'],methodIcons=['💬','🕰️','◇'];
- const goals=`<div><strong>${ko.wantedGoal}</strong><div class="choice-grid two">${copy.goals.map((label,i)=>choice(label,goalValues[i],'goal',e.goal===goalValues[i],i?'📖':'◎')).join('')}</div></div>`;
+ const goalLabels=ageBand==='middle-school'?planningCopy.middleGoals:ageBand==='high-school'?planningCopy.highGoals:copy.goals;
+ const goals=`<div><strong>${ageBand==='preschool'?ko.wantedGoal:planningCopy.goalLabel}</strong><div class="choice-grid two">${goalLabels.map((label,i)=>choice(label,goalValues[i],'goal',e.goal===goalValues[i],i?'📖':'◎')).join('')}</div></div>`;
  const methods=e.goal?`<div><strong>${ko.whichMethod}</strong><div class="choice-grid three">${copy.methods.map((label,i)=>choice(label,methodValues[i],'method',e.method===methodValues[i],methodIcons[i])).join('')}</div></div>`:'';
  if(!e.method)return `<div class="plan-board">${goals}${methods}</div>`;
  const decision=e.outcomeSeen?`<div class="choice-grid two">${choice(ko.keep,'keep','decision',e.decision==='keep','✓')}${choice(ko.revise,'revise','decision',e.decision==='revise','↩')}</div>`:button(ko.seeOutcome,'see-outcome','primary');
- const reasons=e.decision&&copy.reasons?`<div><strong>${ko.reasonTitle}</strong><div class="choice-grid two">${copy.reasons.map((label,i)=>choice(label,`reason-${i}`,'reason',e.reason===`reason-${i}`,'◈')).join('')}</div></div>`:'';
- const uncertainty=e.reason&&copy.uncertainties?`<div><strong>${ko.uncertaintyTitle}</strong><div class="choice-grid two">${copy.uncertainties.map((label,i)=>choice(label,`uncertainty-${i}`,'uncertainty',e.uncertainty===`uncertainty-${i}`,'?')).join('')}</div></div>`:'';
+ const reasons=e.decision&&ageBand!=='preschool'?`<div class="planning-writing"><dl class="reason-context"><dt>${planningCopy.selectedMethod}</dt><dd>${copy.methods[methodValues.indexOf(e.method)]}</dd><dt>${planningCopy.expectedOutcome}</dt><dd>${resultText()}</dd></dl><label for="planning-reason">${planningCopy.reasonPrompt}</label><p id="reason-hint">${planningCopy.reasonHint}</p><textarea id="planning-reason" data-evidence-text="reasonText" maxlength="1500" aria-describedby="reason-hint planning-draft-notice" placeholder="${planningCopy.reasonPlaceholder}">${escapeHtml(e.reasonText||'')}</textarea><p id="planning-draft-notice" class="draft-note">${planningCopy.draftNotice}</p></div>`:'';
+ const uncertainty=e.decision&&ageBand==='high-school'?`<div class="planning-writing"><label for="planning-uncertainty">${planningCopy.uncertaintyPrompt}</label><p id="uncertainty-hint">${planningCopy.uncertaintyHint}</p><textarea id="planning-uncertainty" data-evidence-text="uncertaintyText" maxlength="1500" aria-describedby="uncertainty-hint planning-draft-notice" placeholder="${planningCopy.uncertaintyPlaceholder}">${escapeHtml(e.uncertaintyText||'')}</textarea></div>`:'';
  return `<div class="plan-board">${goals}${methods}<div class="consequence">${consequenceVisual()}<div><p>${resultText()}</p>${decision}</div></div>${reasons}${uncertainty}</div>`;
 }
 
@@ -95,6 +98,13 @@ function inspector(meta){return `<details class="qa"><summary>${ko.qa}</summary>
 function escapeHtml(v=''){return String(v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
 
 function bind(){
+ root.querySelectorAll('[data-evidence-text]').forEach(el=>el.oninput=()=>{
+   run=save({...run,evidence:{...run.evidence,[el.dataset.evidenceText]:el.value}});
+   const next=root.querySelector('[data-action="next"]');if(next)next.disabled=!evidenceComplete(run);
+ });
+ root.querySelectorAll('[data-evidence-text]').forEach(el=>el.onchange=()=>{
+   run=save(event(run,'planning.reasonWritten',{field:el.dataset.evidenceText,value:el.value,goal:run.evidence.goal,method:run.evidence.method,decision:run.evidence.decision}));
+ });
  root.querySelectorAll('[data-action]').forEach(el=>el.onclick=()=>act(el.dataset.action));
  root.querySelectorAll('[data-choice]').forEach(el=>el.onclick=()=>pick(el.dataset.choice,el.dataset.value));
  root.querySelectorAll('[data-seq-remove]').forEach(el=>el.onclick=()=>{const order=[...(run.evidence.order||[])];order.splice(Number(el.dataset.seqRemove),1);set({...run,evidence:{...run.evidence,order}},'sequence.removed')});
@@ -117,6 +127,7 @@ function act(a){
 }
 function saveComparison(status,value){const kind=run.step==='historyComparison'?'history':'prediction',nextStep=kind==='history'?'predictionComparison':'book';set({...run,comparisons:{...run.comparisons,[kind]:{status,value}},step:nextStep},`comparison.${kind}.${status}`)}
 function pick(group,value){const e={...run.evidence};
+ if(run.path==='planning'&&['goal','method'].includes(group)&&e[group]!==value){e.outcomeSeen=false;e.decision=null;}
  if(group==='prediction'){set({...run,prediction:value},'prediction.recorded',{value});return}
  if(group==='clue'){const s=new Set(e.clues||[]);s.has(value)?s.delete(value):s.add(value);e.clues=[...s];if(!['who','when'].includes(value))notice=ko.clueAgain}
  else if(group==='sequence'){e.order=[...(e.order||[]),value]}

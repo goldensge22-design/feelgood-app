@@ -15,8 +15,9 @@ export function evidenceComplete(run){
   if(run.path==='sequential') return Array.isArray(e.order)&&new Set(e.order).size===3&&['ask','meet','share'].every(x=>e.order.includes(x));
   const planningBase=Boolean(e.goal&&e.method&&e.outcomeSeen&&['keep','revise'].includes(e.decision));
   if(!planningBase)return false;
-  if(run.ageBand==='middle-school')return Boolean(e.reason);
-  if(run.ageBand==='high-school')return Boolean(e.reason&&e.uncertainty);
+  const hasText=value=>typeof value==='string'&&Boolean(value.trim());
+  if(run.ageBand==='middle-school')return hasText(e.reasonText);
+  if(run.ageBand==='high-school')return hasText(e.reasonText)&&hasText(e.uncertaintyText);
   return true;
 }
 

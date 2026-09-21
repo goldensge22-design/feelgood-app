@@ -2,5 +2,19 @@ import test from 'node:test';import assert from 'node:assert/strict';import {PAT
 test('demo namespace and mode',()=>{for(const p of PATHS){const r=createRun(p,1);assert.match(r.resultId,/^demo:/);assert.equal(r.runMode,'demo');assert.equal(validateRun(r),true)}});
 test('four paths require distinct evidence',()=>{const a=createRun('attention',1);a.evidence={clues:['who','when']};assert.equal(evidenceComplete(a),true);a.evidence={clues:['who','color']};assert.equal(evidenceComplete(a),false);const s=createRun('simultaneous',1);s.evidence={person:'reader',place:'bench',method:'tell'};assert.equal(evidenceComplete(s),true);const q=createRun('sequential',1);q.evidence={order:['ask','meet','share']};assert.equal(evidenceComplete(q),true);const p=createRun('planning',1);p.evidence={goal:'hear',method:'tell',outcomeSeen:true,decision:'keep'};assert.equal(evidenceComplete(p),true)});
 test('missing comparisons remain explicit in assembled derivative book',()=>{const r=createRun();r.comparisons.history.status='deferred';r.comparisons.prediction.status='deferred';assert.equal(bookState(r),'assembledWithMissingComparisons');r.comparisons.history.status='recorded';assert.equal(bookState(r),'assembledWithMissingComparisons');r.comparisons.prediction.status='recorded';assert.equal(bookState(r),'assembled')});
-test('age bands increase required planning evidence',()=>{const middle=createRun('planning',1,'middle-school');middle.evidence={goal:'hear',method:'tell',outcomeSeen:true,decision:'keep'};assert.equal(evidenceComplete(middle),false);middle.evidence.reason='reason-0';assert.equal(evidenceComplete(middle),true);const high=createRun('planning',1,'high-school');high.evidence={...middle.evidence};assert.equal(evidenceComplete(high),false);high.evidence.uncertainty='uncertainty-0';assert.equal(evidenceComplete(high),true)});
+test('age bands require learner writing, not legacy choice IDs or whitespace',()=>{
+ const middle=createRun('planning',1,'middle-school');
+ middle.evidence={goal:'hear',method:'tell',outcomeSeen:true,decision:'keep',reason:'reason-0'};
+ assert.equal(evidenceComplete(middle),false);
+ middle.evidence.reasonText=' \n ';assert.equal(evidenceComplete(middle),false);
+ middle.evidence.reasonText='낭독하면 직접 책을 못 보는 사람도 들을 수 있어 유지하고 싶어요.';
+ assert.equal(evidenceComplete(middle),true);
+ const high=createRun('planning',1,'high-school');high.evidence={...middle.evidence,uncertainty:'uncertainty-0'};
+ assert.equal(evidenceComplete(high),false);
+ high.evidence.uncertaintyText=' ';assert.equal(evidenceComplete(high),false);
+ high.evidence.uncertaintyText='모임이 제한되면 어렵다. 모임 허용 기록을 확인해야 한다.';
+ assert.equal(evidenceComplete(high),true);
+ high.evidence.outcomeSeen=false;assert.equal(evidenceComplete(high),false);
+ assert.equal(middle.evidence.reason,'reason-0');
+});
 test('unsupported locale is blocked',()=>{const r=createRun();r.locale='en';assert.throws(()=>validateRun(r),/LANGUAGE_NOT_PROVIDED/)});
