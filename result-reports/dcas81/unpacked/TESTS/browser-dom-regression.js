@@ -93,7 +93,9 @@ const cases = [
   { name:'TIE', scores:{P:60,A:60,S:60,Q:60}, compact:'MMMM', kind:'ALL_M', processing:'BALANCED' },
   { name:'DIFF_10', scores:{P:60,A:60,S:70,Q:60}, compact:'MMMM', kind:'ALL_M', processing:'BALANCED' },
   { name:'S_DOM_11', scores:{P:60,A:60,S:71,Q:60}, compact:'MMMM', kind:'ALL_M', processing:'S_DOMINANT' },
-  { name:'Q_DOM_11', scores:{P:60,A:60,S:60,Q:71}, compact:'MMMM', kind:'ALL_M', processing:'Q_DOMINANT' }
+  { name:'Q_DOM_11', scores:{P:60,A:60,S:60,Q:71}, compact:'MMMM', kind:'ALL_M', processing:'Q_DOMINANT' },
+  { name:'P_DOM', scores:{P:90,A:60,S:60,Q:60}, compact:'HMMM', kind:'PROFILE', processing:'BALANCED' },
+  { name:'A_DOM', scores:{P:60,A:90,S:60,Q:60}, compact:'MHMM', kind:'PROFILE', processing:'BALANCED' }
 ];
 
 async function navigateWithProfile(cdp, html, profile) {
@@ -106,7 +108,10 @@ async function navigateWithProfile(cdp, html, profile) {
   await delay(900);
 }
 
-async function inspect(cdp, track, testCase) {
+async function inspect(cdp, track, testCase, profile) {
+  const personalizedIds = track === 'teen'
+    ? ['pf-hook1','pf-hook2','pf-temp-adapt','pf-temp-mood','pf-learn-kor','pf-parent-docbody2','pf-doc-teuk-body','pf-emo-title','pf-matrix-explain','pf-mission-intro','pf-growth-step1','pf-faq-q1','pf-learning-intro','pf-routine-col3','pf-checkcard-title']
+    : ['pf-cover-hook1','pf-cover-hook2','pf-cover-teaser','pf-opinion','pf-workstyle','pf-collabstyle','pf-doc1-body','pf-doc2-body','pf-eff-h2','pf-eff-title1','pf-eff-sym1','pf-growthtip','pf-roadmap-sub','pf-jobs-combotag'];
   const result = await evaluate(cdp, `(() => {
     const text = id => { const el = document.getElementById(id); return el ? el.textContent.trim() : null; };
     const p = window.__DCAS_PROFILE81__;
@@ -128,8 +133,22 @@ async function inspect(cdp, track, testCase) {
       opinion:text('pf-opinion-summary'),
       processingText:text('${track === 'adult' ? 'pf-expert-processing-note' : 'pf-expert-braintype'}'),
       workstyle:text('pf-workstyle'),
+      headerTitle:text('t-title'),
+      headerMeta:text('t-meta'),
+      coverMeta:text('pf-cover-meta'),
+      jobsHeading:text('pf-jobs-h2'),
+      majorExample:text('pf-major-examplename'),
+      radarScores:['P','A','S','Q'].map(k => text('pf-radar-' + k)),
+      barScores:['P','A','S','Q'].map(k => text('pf-barval-' + k)),
+      personalized:Object.fromEntries(${JSON.stringify(personalizedIds)}.map(id => [id, text(id)])),
       sectionCount:document.querySelectorAll('main section').length,
-      bodyTextLength:document.body.innerText.length
+      bodyTextLength:document.body.innerText.length,
+      bodyText:document.body.innerText,
+      unresolved:[...document.body.innerText.matchAll(/\\{\\{[^}]+\\}\\}/g)].map(m=>m[0]),
+      legacyHits:[...document.querySelectorAll('[id]')]
+        .filter(el => !el.children.length && /(?:2026\\.08\\.23|(?:80|56|89|58|84|71|66|91)%)/.test(el.textContent))
+        .filter(el => !${JSON.stringify(Object.values(profile.scores).map(value => value + '%'))}.some(value => el.textContent.includes(value)))
+        .map(el => ({id:el.id,text:el.textContent.trim()}))
     };
   })()`);
   assert.ok(result.ready, `${track}/${testCase.name}: profile not rendered`);
@@ -146,6 +165,21 @@ async function inspect(cdp, track, testCase) {
     assert.ok(result[key], `${track}/${testCase.name}: missing ${key}`);
   }
   assert.ok(result.sectionCount >= 10 && result.bodyTextLength > 1500, `${track}/${testCase.name}: incomplete report DOM ${JSON.stringify({sectionCount:result.sectionCount, bodyTextLength:result.bodyTextLength})}`);
+  assert.ok(result.bodyText.includes(profile.fullName), `${track}/${testCase.name}: injected name missing`);
+  assert.ok(!result.bodyText.includes(track === 'teen' ? '이지훈' : '박준서'), `${track}/${testCase.name}: preview name leaked`);
+  assert.ok(!result.bodyText.includes('2026.08.23'), `${track}/${testCase.name}: preview date leaked`);
+  assert.deepStrictEqual(result.unresolved, [], `${track}/${testCase.name}: unresolved identity placeholders`);
+  assert.deepStrictEqual(result.legacyHits, [], `${track}/${testCase.name}: preview score leaked into personalized DOM`);
+  assert.ok(result.headerTitle.includes(profile.fullName), `${track}/${testCase.name}: header title is not personalized`);
+  assert.ok(result.headerMeta.includes(String(profile.ageYears)), `${track}/${testCase.name}: header age is not personalized`);
+  assert.ok(result.coverMeta.includes(String(profile.testDate.y)), `${track}/${testCase.name}: cover date is not personalized`);
+  assert.deepStrictEqual(result.barScores, ['P','A','S','Q'].map(k => profile.scores[k] + '%'), `${track}/${testCase.name}: score bars are not personalized`);
+  if (track === 'adult') {
+    assert.ok(result.coverMeta.includes(profile.majorName), `${track}/${testCase.name}: cover major is not personalized`);
+    assert.ok(result.jobsHeading.includes(profile.majorName), `${track}/${testCase.name}: jobs major is not personalized`);
+    assert.strictEqual(result.majorExample, '"' + profile.majorName + '"', `${track}/${testCase.name}: major example is not personalized`);
+  }
+  delete result.bodyText;
   await delay(900);
   const lateCover = await evaluate(cdp, `document.getElementById('pf-cover-code').textContent.trim()`);
   assert.strictEqual(lateCover, result.coverCode, `${track}/${testCase.name}: late overwrite detected`);
@@ -234,7 +268,10 @@ async function capturePdf(cdp, track) {
     await cdp.send('Page.enable');
     await cdp.send('Runtime.enable');
     const summary = { browser:browserPath, tracks:{} };
-    for (const track of ['teen','adult']) {
+    const requestedTrack = process.env.DCAS_TRACK;
+    const tracks = requestedTrack ? [requestedTrack] : ['teen','adult'];
+    assert.ok(tracks.every(track => track === 'teen' || track === 'adult'), 'DCAS_TRACK must be teen or adult');
+    for (const track of tracks) {
       const html = path.join(root, track === 'teen' ? 'DCAS_TEEN' : 'DCAS_ADULT', track === 'teen' ? 'teen.work.html' : 'adult.work.html');
       summary.tracks[track] = { cases:{} };
       for (const testCase of cases) {
@@ -242,11 +279,19 @@ async function capturePdf(cdp, track) {
           fullName:'검증 사용자', givenName:'검증', fullNameEn:'QA User', givenNameEn:'QA',
           genderKey:'F', ageYears:track === 'teen' ? 16 : 24,
           gradeLabel:track === 'teen' ? '고등학교 1학년' : '대학교 4학년',
-          testDate:{y:2026,m:9,d:20}, majorName:'컴퓨터공학과', scores:testCase.scores
+          testDate:{y:2026,m:9,d:20}, majorName:track === 'adult' ? '심리학과' : '', scores:testCase.scores
         };
         await navigateWithProfile(cdp, html, profile);
-        summary.tracks[track].cases[testCase.name] = await inspect(cdp, track, testCase);
+        summary.tracks[track].cases[testCase.name] = await inspect(cdp, track, testCase, profile);
       }
+      const personalizedKeys = Object.keys(summary.tracks[track].cases.ALL_L.personalized);
+      summary.tracks[track].personalizationVariation = Object.fromEntries(personalizedKeys.map(key => {
+        const values = Object.values(summary.tracks[track].cases).map(item => item.personalized[key]).filter(Boolean);
+        const unique = new Set(values);
+        assert.ok(values.length === cases.length, `${track}: missing personalized target ${key}`);
+        assert.ok(unique.size >= 2, `${track}: personalized target stayed fixed ${key}`);
+        return [key, unique.size];
+      }));
       summary.tracks[track].khmer = await applyAndInspectKhmer(cdp, track);
       summary.tracks[track].mobile = await captureMobile(cdp, track);
       summary.tracks[track].pdf = await capturePdf(cdp, track);

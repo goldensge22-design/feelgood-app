@@ -93,6 +93,17 @@ async function inspect(cdp) {
     child:document.getElementById('pf-childchip').textContent.trim(),
     scores:['P','A','S','Q'].map(k => document.getElementById('pf-side-'+k).textContent.trim()),
     body:document.body.innerText,
+    personalized:{
+      hero:document.getElementById('pf-herotype').textContent.trim(),
+      home:document.getElementById('pf-homeai').textContent.trim(),
+      temperament:document.getElementById('pf-temperament').textContent.trim(),
+      subject:document.getElementById('pf-subject-grid').textContent.trim(),
+      opinion:document.getElementById('pf-opinionlead').textContent.trim(),
+      career:document.getElementById('pf-careerdesc').textContent.trim(),
+      growth:document.getElementById('pf-growthdesc').textContent.trim(),
+      teacher:document.getElementById('pf-teachermsg').textContent.trim(),
+      brain:document.getElementById('pf-learntype-name').textContent.trim()
+    },
     errors:window.__KPASS_LOCALE_COVERAGE__
   }))()`);
 }
@@ -124,7 +135,24 @@ async function inspect(cdp) {
     assert.ok(result.child.includes(profile.name), 'profile name was not applied to the identity chip');
     assert.deepStrictEqual(result.scores, ['120','110','100','90'], 'scores were not applied consistently');
     assert.ok(!result.body.includes('송서우'), 'default preview name remains after personalization');
+    assert.ok(!result.body.includes('2023.02.27'), 'default preview date remains after personalization');
     assert.strictEqual(result.errors.km.status, 'missing');
+
+    const opposite = {
+      name:'역방향 검증 아동', genderKey:'M', ageYears:11, ageMonths:1,
+      testDate:{y:2026,m:9,d:22}, fullScaleScore:114,
+      scores:{P:90,A:95,S:120,Q:145}
+    };
+    await navigate(cdp, opposite, 'ko');
+    const oppositeResult = await inspect(cdp);
+    assert.ok(oppositeResult.title.includes(opposite.name));
+    assert.deepStrictEqual(oppositeResult.scores, ['90','95','120','145']);
+    assert.ok(!oppositeResult.body.includes(profile.name), 'previous profile name leaked after reload');
+    for (const key of Object.keys(result.personalized)) {
+      assert.ok(result.personalized[key], `missing personalized target ${key}`);
+      assert.ok(oppositeResult.personalized[key], `missing opposite personalized target ${key}`);
+      assert.notStrictEqual(result.personalized[key], oppositeResult.personalized[key], `personalized target stayed fixed: ${key}`);
+    }
     console.log('PASS: K-PASS personalization and full-locale-only menu');
   } finally {
     if (cdp) cdp.close();
