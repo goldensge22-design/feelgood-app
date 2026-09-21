@@ -18,6 +18,12 @@ const adultDeltaCatalogPath = path.join(repo, 'result-reports/i18n-work/adult-dy
 const adultDeltaDir = path.join(repo, 'result-reports/i18n-work/google-translations-adult-delta');
 const runtimeLabelCatalogPath = path.join(repo, 'result-reports/i18n-work/runtime-label-catalog.ko.json');
 const runtimeLabelDir = path.join(repo, 'result-reports/i18n-work/google-translations-runtime-labels');
+const kpassConsistencyCatalogPath = path.join(repo, 'result-reports/i18n-work/kpass-consistency-delta.ko.json');
+const kpassConsistencyDir = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-consistency');
+const kpassBalancedLowCatalogPath = path.join(repo, 'result-reports/i18n-work/kpass-balanced-low-delta.ko.json');
+const kpassBalancedLowDir = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-balanced-low');
+const kpassFullScaleCatalogPath = path.join(repo, 'result-reports/i18n-work/kpass-fullscale-delta.ko.json');
+const kpassFullScaleDir = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-fullscale');
 const outputDir = path.join(repo, 'result-reports', 'locales');
 const locales = ['en','ja','zh','es','ru','vi','th','ar','it','az','km'];
 const reports = ['kpass-child','dcas-teen','dcas-adult'];
@@ -26,6 +32,9 @@ const dynamicCatalog = JSON.parse(fs.readFileSync(dynamicCatalogPath, 'utf8'));
 const dynamicBaseCatalog = JSON.parse(fs.readFileSync(dynamicBaseCatalogPath, 'utf8'));
 const adultDeltaCatalog = JSON.parse(fs.readFileSync(adultDeltaCatalogPath, 'utf8'));
 const runtimeLabelCatalog = JSON.parse(fs.readFileSync(runtimeLabelCatalogPath, 'utf8'));
+const kpassConsistencyCatalog = JSON.parse(fs.readFileSync(kpassConsistencyCatalogPath, 'utf8'));
+const kpassBalancedLowCatalog = JSON.parse(fs.readFileSync(kpassBalancedLowCatalogPath, 'utf8'));
+const kpassFullScaleCatalog = JSON.parse(fs.readFileSync(kpassFullScaleCatalogPath, 'utf8'));
 const residualCatalog = fs.existsSync(residualCatalogPath) ? JSON.parse(fs.readFileSync(residualCatalogPath, 'utf8')) : {items:[]};
 
 function readLocale(locale) {
@@ -62,6 +71,27 @@ function readLocale(locale) {
     throw new Error(`${locale}: runtime labels translated ${Object.keys(runtimeLabels.translations || {}).length}/${runtimeLabelCatalog.items.length}`);
   }
   Object.assign(translations, runtimeLabels.translations);
+  const kpassConsistencyFile = path.join(kpassConsistencyDir, `${locale}.google-raw.json`);
+  if (!fs.existsSync(kpassConsistencyFile)) throw new Error(`missing K-PASS consistency translation file: ${kpassConsistencyFile}`);
+  const kpassConsistency = JSON.parse(fs.readFileSync(kpassConsistencyFile, 'utf8'));
+  if (Object.keys(kpassConsistency.translations || {}).length !== kpassConsistencyCatalog.items.length) {
+    throw new Error(`${locale}: K-PASS consistency translated ${Object.keys(kpassConsistency.translations || {}).length}/${kpassConsistencyCatalog.items.length}`);
+  }
+  Object.assign(translations, kpassConsistency.translations);
+  const kpassBalancedLowFile = path.join(kpassBalancedLowDir, `${locale}.google-raw.json`);
+  if (!fs.existsSync(kpassBalancedLowFile)) throw new Error(`missing K-PASS balanced-low translation file: ${kpassBalancedLowFile}`);
+  const kpassBalancedLow = JSON.parse(fs.readFileSync(kpassBalancedLowFile, 'utf8'));
+  if (Object.keys(kpassBalancedLow.translations || {}).length !== kpassBalancedLowCatalog.items.length) {
+    throw new Error(`${locale}: K-PASS balanced-low translated ${Object.keys(kpassBalancedLow.translations || {}).length}/${kpassBalancedLowCatalog.items.length}`);
+  }
+  Object.assign(translations, kpassBalancedLow.translations);
+  const kpassFullScaleFile = path.join(kpassFullScaleDir, `${locale}.google-raw.json`);
+  if (!fs.existsSync(kpassFullScaleFile)) throw new Error(`missing K-PASS full-scale translation file: ${kpassFullScaleFile}`);
+  const kpassFullScale = JSON.parse(fs.readFileSync(kpassFullScaleFile, 'utf8'));
+  if (Object.keys(kpassFullScale.translations || {}).length !== kpassFullScaleCatalog.items.length) {
+    throw new Error(`${locale}: K-PASS full-scale translated ${Object.keys(kpassFullScale.translations || {}).length}/${kpassFullScaleCatalog.items.length}`);
+  }
+  Object.assign(translations, kpassFullScale.translations);
   const unresolvedDynamic = dynamicCatalog.items.filter((item) => translations[item.key] === undefined);
   if (unresolvedDynamic.length) throw new Error(`${locale}: unresolved dynamic items ${unresolvedDynamic.length}`);
   const residualFile = path.join(residualDir, `${locale}.google-raw.json`);

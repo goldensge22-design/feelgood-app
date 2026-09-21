@@ -28,6 +28,15 @@ function profiles(def) {
     if (def.id === 'kpass-child') result.push({name:'Alex Kim',genderKey:'X',ageYears:10,ageMonths:4,testDate:{y:2026,m:9,d:21},fullScaleScore:112,scores});
     else result.push({fullName:'Alex Kim',givenName:'Alex',fullNameEn:'Alex Kim',genderKey:'X',ageYears:def.id === 'dcas-teen' ? 16 : 23,gradeLabel:def.id === 'dcas-teen' ? 'Grade 10' : 'University Year 4',majorName:'Cognitive Science',testDate:{y:2026,m:9,d:21},scores});
   }
+  if (def.id === 'kpass-child') {
+    for (const fullScaleScore of [75,85,90,101,110,120,130]) {
+      result.push({
+        name:'Alex Kim', genderKey:'X', ageYears:10, ageMonths:4,
+        testDate:{y:2026,m:9,d:21}, fullScaleScore,
+        scores:{P:130,A:119,S:80,Q:71}
+      });
+    }
+  }
   return result;
 }
 

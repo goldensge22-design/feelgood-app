@@ -16,6 +16,9 @@ const dynamicCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-wo
 const dynamicBaseCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'dynamic-source-catalog.base.ko.json'), 'utf8'));
 const adultDeltaCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'adult-dynamic-delta.ko.json'), 'utf8'));
 const runtimeLabelCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'runtime-label-catalog.ko.json'), 'utf8'));
+const kpassConsistencyCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'kpass-consistency-delta.ko.json'), 'utf8'));
+const kpassBalancedLowCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'kpass-balanced-low-delta.ko.json'), 'utf8'));
+const kpassFullScaleCatalog = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'kpass-fullscale-delta.ko.json'), 'utf8'));
 const errors = [];
 
 function loadBundle(file) {
@@ -39,12 +42,18 @@ for (const locale of targetLocales) {
   const dynamic = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-dynamic', `${locale}.google-raw.json`), 'utf8'));
   const adultDelta = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-adult-delta', `${locale}.google-raw.json`), 'utf8'));
   const runtimeLabels = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-runtime-labels', `${locale}.google-raw.json`), 'utf8'));
+  const kpassConsistency = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-kpass-consistency', `${locale}.google-raw.json`), 'utf8'));
+  const kpassBalancedLow = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-kpass-balanced-low', `${locale}.google-raw.json`), 'utf8'));
+  const kpassFullScale = JSON.parse(fs.readFileSync(path.join(reportRoot, 'i18n-work', 'google-translations-kpass-fullscale', `${locale}.google-raw.json`), 'utf8'));
   if (Object.keys(primary.translations || {}).length !== catalog.items.length) errors.push(`${locale}: incomplete primary translation`);
   if (Object.keys(repair.translations || {}).length !== repairCatalog.items.length) errors.push(`${locale}: incomplete repair translation`);
   if (Object.keys(dynamic.translations || {}).length !== dynamicBaseCatalog.items.length) errors.push(`${locale}: incomplete base dynamic translation`);
   if (Object.keys(adultDelta.translations || {}).length !== adultDeltaCatalog.items.length) errors.push(`${locale}: incomplete adult dynamic delta translation`);
   if (Object.keys(runtimeLabels.translations || {}).length !== runtimeLabelCatalog.items.length) errors.push(`${locale}: incomplete runtime label translation`);
-  const dynamicKeys = new Set([...Object.keys(dynamic.translations || {}), ...Object.keys(adultDelta.translations || {})]);
+  if (Object.keys(kpassConsistency.translations || {}).length !== kpassConsistencyCatalog.items.length) errors.push(`${locale}: incomplete K-PASS consistency translation`);
+  if (Object.keys(kpassBalancedLow.translations || {}).length !== kpassBalancedLowCatalog.items.length) errors.push(`${locale}: incomplete K-PASS balanced-low translation`);
+  if (Object.keys(kpassFullScale.translations || {}).length !== kpassFullScaleCatalog.items.length) errors.push(`${locale}: incomplete K-PASS full-scale translation`);
+  const dynamicKeys = new Set([...Object.keys(dynamic.translations || {}), ...Object.keys(adultDelta.translations || {}), ...Object.keys(kpassConsistency.translations || {}), ...Object.keys(kpassBalancedLow.translations || {}), ...Object.keys(kpassFullScale.translations || {})]);
   if (dynamicCatalog.items.some((item) => !dynamicKeys.has(item.key))) errors.push(`${locale}: unresolved full dynamic catalog item`);
 }
 

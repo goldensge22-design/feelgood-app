@@ -58,6 +58,7 @@ function fileUrl(file, locale) {
           select:[...document.querySelectorAll('#fg-report-language-select option')].map((node) => node.value),
           width:{scroll:document.documentElement.scrollWidth,client:document.documentElement.clientWidth},
           overflow:[...document.querySelectorAll('body *')].map((node) => {const r=node.getBoundingClientRect();return {tag:node.tagName,id:node.id,cls:String(node.className||'').slice(0,80),text:String(node.innerText||node.textContent||'').trim().slice(0,120),left:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width)}}).filter((x) => x.right > innerWidth + 2 || x.left < -2).sort((a,b)=>b.width-a.width).slice(0,10),
+          scrollers:[document.body,...document.querySelectorAll('body *')].map((node)=>{const s=getComputedStyle(node);return {tag:node.tagName,id:node.id,cls:String(node.className||'').slice(0,80),client:node.clientWidth,scroll:node.scrollWidth,overflowX:s.overflowX}}).filter((x)=>x.scroll>x.client+2&&!['auto','scroll'].includes(x.overflowX)).sort((a,b)=>(b.scroll-b.client)-(a.scroll-a.client)).slice(0,15),
           tokens:/__FG(?:PH|U)_/.test(document.body.innerText)
           ,residueNodes:(() => {const values=[];const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while((node=walker.nextNode()))if(/[가-힣]/.test(node.nodeValue)&&!['SCRIPT','STYLE','NOSCRIPT'].includes(node.parentElement?.tagName))values.push({text:node.nodeValue.trim(),parent:node.parentElement?.outerHTML.slice(0,300)});return values.slice(0,30)})()
         }));
@@ -72,7 +73,7 @@ function fileUrl(file, locale) {
           const residue = [...residueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0,8).map((match) => match[0]);
           assert.deepStrictEqual(residue, [], `${report.id}/${locale}: Korean residue visible; nodes=${JSON.stringify(result.residueNodes)}`);
         }
-        assert.ok(result.width.scroll <= result.width.client + 2, `${report.id}/${locale}: horizontal overflow ${result.width.scroll}/${result.width.client}; ${JSON.stringify(result.overflow)}`);
+        assert.ok(result.width.scroll <= result.width.client + 2, `${report.id}/${locale}: horizontal overflow ${result.width.scroll}/${result.width.client}; overflow=${JSON.stringify(result.overflow)}; scrollers=${JSON.stringify(result.scrollers)}`);
         assert.deepStrictEqual(failures, [], `${report.id}/${locale}: page errors`);
         await page.close();
       }

@@ -76,12 +76,13 @@ async function evaluate(cdp, expression) {
 }
 
 async function navigate(cdp, profile, locale) {
-  await cdp.send('Page.addScriptToEvaluateOnNewDocument', {
+  const injected = await cdp.send('Page.addScriptToEvaluateOnNewDocument', {
     source:`window.__TEST_PROFILE__=${JSON.stringify(profile)};window.__REPORT_LOCALE__=${JSON.stringify(locale)};`
   });
   const loaded = cdp.wait('Page.loadEventFired');
   await cdp.send('Page.navigate', { url:fileUrl(html) });
   await loaded;
+  await cdp.send('Page.removeScriptToEvaluateOnNewDocument', { identifier:injected.identifier });
   await delay(900);
 }
 
@@ -103,6 +104,18 @@ async function inspect(cdp) {
       growth:document.getElementById('pf-growthdesc').textContent.trim(),
       teacher:document.getElementById('pf-teachermsg').textContent.trim(),
       brain:document.getElementById('pf-learntype-name').textContent.trim()
+    },
+    consistency:{
+      legendS:document.getElementById('pf-legend-S').textContent.trim(),
+      legendQ:document.getElementById('pf-legend-Q').textContent.trim(),
+      matrixS:document.getElementById('pf-matrixstatus-S').textContent.trim(),
+      matrixQ:document.getElementById('pf-matrixstatus-Q').textContent.trim(),
+      percentiles:['P','A','S','Q'].map(k => document.getElementById('pf-exp-sub-'+k).textContent.trim()),
+      categories:['P','A','S','Q'].map(k => document.getElementById('pf-exp-cat-'+k).textContent.trim()),
+      fullScale:document.getElementById('pf-fullscale-oneliner').textContent.trim(),
+      learningName:document.getElementById('pf-learntype-name').textContent.trim(),
+      learningDesc:document.getElementById('pf-learntype-desc1').textContent.trim()+' '+document.getElementById('pf-learntype-desc2').textContent.trim(),
+      careers:document.getElementById('pf-careers-intro').textContent.trim()
     },
     errors:window.__KPASS_LOCALE_COVERAGE__
   }))()`);
@@ -156,6 +169,30 @@ async function inspect(cdp) {
       assert.ok(oppositeResult.personalized[key], `missing opposite personalized target ${key}`);
       assert.notStrictEqual(result.personalized[key], oppositeResult.personalized[key], `personalized target stayed fixed: ${key}`);
     }
+
+    const consistencyProfile = {
+      name:'불일치 검증 아동', genderKey:'F', ageYears:10, ageMonths:0,
+      testDate:{y:2026,m:9,d:21}, fullScaleScore:101,
+      scores:{P:130,A:119,S:80,Q:71}
+    };
+    await navigate(cdp, consistencyProfile, 'ko');
+    const consistency = (await inspect(cdp)).consistency;
+    assert.ok(consistency.legendS.includes('하위 9.1%') && consistency.legendQ.includes('하위 2.7%'), 'low-score compass labels must use lower-tail percentiles');
+    assert.ok(consistency.matrixS.includes('규준적 약') && consistency.matrixS.includes('하위 9.1%'), 'simultaneous matrix label must be low');
+    assert.ok(consistency.matrixQ.includes('규준적 약') && consistency.matrixQ.includes('하위 2.7%'), 'sequential matrix label must be low');
+    assert.deepStrictEqual(consistency.percentiles.map(text => text.match(/백분위 ([0-9.]+)/)?.[1]), ['97.7','89.7','9.1','2.7']);
+    assert.deepStrictEqual(consistency.categories, ['규준적 강','평균 수준','규준적 약','규준적 약']);
+    assert.ok(consistency.fullScale.includes('백분위 52.7'), 'full-scale percentile must use the same one-decimal calculation');
+    assert.strictEqual(consistency.learningName, '균형형 학습자(동반 저하)');
+    assert.ok(consistency.learningDesc.includes('균형–동반 저하형') && consistency.learningDesc.includes('단계적인 지원'), `balanced-low learning guidance missing: ${consistency.learningDesc}`);
+    assert.ok(consistency.careers.includes('계획력 강점') && consistency.careers.includes('동시처리·순차처리의 지원 필요성'), 'career guidance must reflect the full profile');
+
+    const translatedConsistencyProfile = { ...consistencyProfile, name:'QA Low Pair' };
+    await navigate(cdp, translatedConsistencyProfile, 'en');
+    const translatedConsistency = await inspect(cdp);
+    const translatedResidueBody = translatedConsistency.body.replaceAll('한국어', '');
+    const translatedResidue = [...translatedResidueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0, 8).map(match => match[0]);
+    assert.deepStrictEqual(translatedResidue, [], 'balanced-low English report contains Korean residue');
     console.log('PASS: K-PASS personalization and 12-locale menu');
   } finally {
     if (cdp) cdp.close();
