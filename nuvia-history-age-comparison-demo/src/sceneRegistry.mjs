@@ -24,21 +24,24 @@ export const assets={
 
 export const scenes={
  'gutenberg.history.workshop':{assetId:'shared.workshop',factMode:'history',sourceRefs:['S1324-21'],roles:['history-stage','storybook-history','storybook-cover'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'approved',educational:'approved',visual:'approved',rights:'approved',accessibility:'needs-review'}},
- 'gutenberg.c2.altered-access':{assetId:'shared.condition-objects-v1',factMode:'altered',baselineSceneId:'gutenberg.history.workshop',alteredConditionId:'gutenberg.c2',modeLabelKey:'scene.mode.altered',roles:['condition-stage','storybook-condition'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'approved',rights:'approved',accessibility:'needs-review'}},
- 'gutenberg.c2.planning-result':{assetId:'shared.cast',factMode:'user_imagined',modeLabelKey:'scene.mode.userImagined',roles:['storybook-result'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'approved',rights:'approved',accessibility:'needs-review'}}
+ 'gutenberg.c2.altered-access':{assetId:null,availability:{status:'pending',reasonCode:'SCENE_APPROVED_ASSET_UNAVAILABLE'},factMode:'altered',baselineSceneId:'gutenberg.history.workshop',alteredConditionId:'gutenberg.c2',modeLabelKey:'scene.mode.altered',roles:['condition-stage','storybook-condition'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'needs-review',rights:'not-applicable',accessibility:'needs-review'}},
+ 'gutenberg.c2.planning.tell':{assetId:'shared.cast',factMode:'user_imagined',modeLabelKey:'scene.mode.userImagined',derivedFromActionIds:['method:tell'],roles:['storybook-result'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'approved',rights:'approved',accessibility:'needs-review'}},
+ 'gutenberg.c2.planning.time':{assetId:null,availability:{status:'pending',reasonCode:'SCENE_APPROVED_ASSET_UNAVAILABLE'},factMode:'user_imagined',modeLabelKey:'scene.mode.userImagined',derivedFromActionIds:['method:time'],roles:['storybook-result'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'needs-review',rights:'not-applicable',accessibility:'needs-review'}},
+ 'gutenberg.c2.planning.own':{assetId:null,availability:{status:'pending',reasonCode:'SCENE_APPROVED_ASSET_UNAVAILABLE'},factMode:'user_imagined',modeLabelKey:'scene.mode.userImagined',derivedFromActionIds:['method:own'],roles:['storybook-result'],activityDependency:{requiredForCompletion:false,alternativeAssetIds:[]},review:{historical:'not-applicable',educational:'approved',visual:'needs-review',rights:'not-applicable',accessibility:'needs-review'}}
 };
 
 export function resolveScene(sceneId,role){
  const scene=scenes[sceneId],policyId=rolePolicies[role],policy=renderPolicies[policyId],asset=scene&&assets[scene.assetId],reasons=[];
- if(!scene||!asset||asset.availability.fileStatus!=='present')reasons.push('ASSET_FILE_MISSING');
+ if(scene?.availability?.status==='pending')reasons.push(scene.availability.reasonCode);
+ else if(!scene||!asset||asset.availability.fileStatus!=='present')reasons.push('ASSET_FILE_MISSING');
  if(asset&&!asset.rights.usageScope.includes(role))reasons.push('RIGHTS_SCOPE_MISMATCH');
  if(scene?.activityDependency.requiredForCompletion&&(!asset||asset.availability.fileStatus!=='present')&&!scene.activityDependency.alternativeAssetIds.length)reasons.push('REQUIRED_ACTIVITY_ASSET_UNAVAILABLE');
  if(!scene?.roles.includes(role)||!policy)reasons.push('RIGHTS_SCOPE_MISMATCH');
  return {status:reasons.length?'blocked':'eligible',reasons,scene,asset,policyId,policy};
 }
 
-export function sceneFigure(sceneId,role,alt,caption=''){
- const r=resolveScene(sceneId,role);if(r.status!=='eligible')return `<div class="scene-media scene-media--pending" data-scene-role="${role}" role="img" aria-label="${alt}"></div>`;
+export function sceneFigure(sceneId,role,alt,caption='',pendingText=''){
+ const r=resolveScene(sceneId,role);if(r.status!=='eligible')return `<div class="scene-media scene-media--${role} scene-media--pending" data-scene-id="${sceneId}" data-scene-role="${role}" data-scene-status="pending" role="img" aria-label="${alt}"><span aria-hidden="true">◌</span><p>${pendingText}</p></div>`;
  const captionHtml=caption?`<figcaption class="condition-badge">${caption}</figcaption>`:'';
  return `<figure class="scene-media scene-media--${role}${role.startsWith('storybook-')&&role!=='storybook-cover'?' scene-media--storybook-illustration':''}" data-scene-id="${sceneId}" data-scene-role="${role}" data-policy-id="${r.policyId}"><img class="scene-media__image" src="./${r.asset.path}" alt="${alt}">${captionHtml}</figure>`;
 }

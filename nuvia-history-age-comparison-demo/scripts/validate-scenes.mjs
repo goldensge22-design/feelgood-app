@@ -20,7 +20,7 @@ export async function validateSceneAssets(){
   if(scene.factMode==='history'&&(!scene.sourceRefs?.length||scene.alteredConditionId))throw Error(`HISTORY_SCENE_CONTRACT_INVALID:${sceneId}`);
   if(scene.factMode==='altered'&&(!scene.baselineSceneId||!scene.alteredConditionId||!scene.modeLabelKey))throw Error(`ALTERED_SCENE_CONTRACT_INVALID:${sceneId}`);
   if(scene.factMode==='user_imagined'&&(!scene.modeLabelKey||scene.sourceRefs?.length))throw Error(`IMAGINED_SCENE_CONTRACT_INVALID:${sceneId}`);
-  for(const role of scene.roles){const result=resolveScene(sceneId,role);if(result.status!=='eligible')throw Error(`SCENE_NOT_ELIGIBLE:${sceneId}:${role}:${result.reasons.join(',')}`)}
+  for(const role of scene.roles){const result=resolveScene(sceneId,role);if(scene.availability?.status==='pending'){if(result.reasons[0]!=='SCENE_APPROVED_ASSET_UNAVAILABLE')throw Error(`PENDING_SCENE_REASON_INVALID:${sceneId}`)}else if(result.status!=='eligible')throw Error(`SCENE_NOT_ELIGIBLE:${sceneId}:${role}:${result.reasons.join(',')}`)}
  }
  return true;
 }
