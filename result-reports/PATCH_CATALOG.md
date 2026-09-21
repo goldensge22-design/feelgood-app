@@ -44,10 +44,11 @@ K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScor
 
 성인 항공보안학과 직무 10개 패치다. 전체 결과지나 K-PASS가 아니다.
 
-- 적용 상태: 미적용/reference-only
-- 이유: `pass_profile`이 전문가 확정값이 아닌 `estimated`, confidence 0.5
-- 언어: 직무명/학과명 11개 언어, Khmer 없음
-- 남은 문제: 추천 이유 한국어 고정
+- 적용 상태: 현재 성인 개발 후보본에 통합. 원본 ZIP과 reference는 증거본으로 유지
+- 데이터 상태: `pass_profile`은 원본대로 `estimated`, confidence 0.5이며 전문가 확정값은 아님
+- 통합 범위: 요청된 10개 직무 전용 풀, 항공보안/산업보안 복수 직무군, `항공보안과`/`항공보안학과` 별칭
+- 언어: 공통 D-CAS locale 번들로 `ko/en/ja/zh/es/ru/vi/th/ar/it/az/km` 전체 문장 연결
+- QA: 10개 고유 직무 단위검사 및 `ko/zh/km` 실제 DOM·모바일·인코딩 검사 통과
 - 위치: `result-reports/dcas/references/files-zip/`
 
 ### `files (21).zip`, `files (26).zip`

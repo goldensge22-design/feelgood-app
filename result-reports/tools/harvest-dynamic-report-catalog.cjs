@@ -36,6 +36,20 @@ function profiles(def) {
         scores:{P:130,A:119,S:80,Q:71}
       });
     }
+  } else if (def.id === 'dcas-adult') {
+    const aviationProfiles = [
+      {P:82,A:76,S:76,Q:84}, {P:82,A:74,S:78,Q:80}, {P:72,A:92,S:80,Q:78},
+      {P:70,A:86,S:74,Q:80}, {P:78,A:88,S:86,Q:80}, {P:74,A:88,S:78,Q:78},
+      {P:76,A:88,S:76,Q:84}, {P:84,A:78,S:80,Q:82}, {P:70,A:86,S:74,Q:78},
+      {P:74,A:90,S:78,Q:80}
+    ];
+    for (const scores of aviationProfiles) {
+      result.push({
+        fullName:'Alex Kim', givenName:'Alex', fullNameEn:'Alex Kim', genderKey:'X',
+        ageYears:23, gradeLabel:'University Year 4', majorName:'항공보안학과',
+        testDate:{y:2026,m:9,d:21}, scores
+      });
+    }
   }
   return result;
 }

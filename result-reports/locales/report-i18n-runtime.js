@@ -4,7 +4,7 @@
   if (!bundle || !bundle.locales) return;
   const localeNames = bundle.localeNames || {};
   const supported = ['ko'].concat(Object.keys(bundle.locales));
-  const languageLabels = {ko:'언어',en:'Language',ja:'言語',zh:'语言',es:'Idioma',ru:'Язык',vi:'Ngôn ngữ',th:'ภาษา',ar:'اللغة',it:'Lingua',az:'Dil',km:'ភាសា'};
+  const languageLabels = {ko:'언어',en:'Language',ja:'言語',zh:'语言',es:'Idioma',ru:'Язык',vi:'Ngôn ngữ',th:'ภาษา',ar:'اللغة',it:'Lingua',az:'Dil',km:'ភាសា',mn:'Хэл'};
   const textOriginals = new WeakMap();
   const attrOriginals = new WeakMap();
   const translatedNodes = new Set();

@@ -1,14 +1,14 @@
 {
   "schemaVersion": 1,
   "sourceLocale": "ko",
-  "generatedAt": "2026-09-21T13:22:39.649Z",
+  "generatedAt": "2026-09-21T22:38:55.570Z",
   "translationProvider": "google-translate-web",
   "reports": [
     "kpass-child",
     "dcas-teen",
     "dcas-adult"
   ],
-  "itemCount": 1570,
+  "itemCount": 1689,
   "items": [
     {
       "key": "FGD_0025ED928D53962A",
@@ -195,6 +195,19 @@
       ]
     },
     {
+      "key": "FGD_028093838BE5A408",
+      "source": "이 직무는 신입 채용 비중이 높아요 — 아래 흐름을 따라가면 {n0}학년 때 바로 지원할 수 있어요.",
+      "protected": {
+        "text": "이 직무는 신입 채용 비중이 높아요 — 아래 흐름을 따라가면 __FGPH_000__학년 때 바로 지원할 수 있어요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_028F73F3ADEE77D6",
       "source": "순차처리는 측두엽 언어영역과 연결된 작업기억(working memory)과 밀접히 연관돼요. 이 영역은 언어·청각 정보를 순서대로 기억하는 기능과 관련이 깊은데, 이 기능은 학습·훈련을 통해 {n0}대 중반까지도 꾸준히 발달하는 것으로 알려져 있어요. 동시처리는 후두-두정엽(occipito-parietal) 연합영역과 관련이 깊은데, 흩어진 정보를 하나의 전체 형태로 통합하는 기능을 담당하며, 마인드맵처럼 전체 구조를 그려보는 활동으로 강화돼요. 즉 지금의 낮은 동시처리 점수는 고정된 한계가 아니라, 짧고 반복적인 훈련으로 충분히 개선 가능한 영역이라는 뜻이에요.",
       "protected": {
@@ -218,6 +231,30 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_02C0D5297875E42F",
+      "source": "공항보안 사무직 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "공항보안 사무직 직무, 면접에서 이렇게 어필해보세요",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_02D6A78BF5DDC5CA",
+      "source": "RANK {n0} · 산업보안 사무직",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 산업보안 사무직",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -336,6 +373,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_04CDD023ECC67158",
+      "source": "산업보안 사무직",
+      "protected": {
+        "text": "산업보안 사무직",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -595,6 +643,19 @@
         "text": "__FGPH_000__ 님은 동시처리와 순차처리가 동반 상승한, 전형적인 \"구조적 스토리텔러\" 프로파일입니다. 복잡한 내용을 재구성하는 과제에서 특히 강점을 보였을 것으로 추정됩니다. 다만 주의력이 상대적으로 낮아, 장기 목표를 끝까지 밀어붙이는 데는 중간 점검 습관이 도움이 됩니다. 이 프로파일은 \"복잡한 것을 이해하기 쉽게 구조화\"하는 것이 핵심 역량인 직무에서 뚜렷한 강점으로 작용합니다.",
         "placeholders": [
           "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_07FD57356FE4B9E2",
+      "source": "→ {n0}번 대테러보안요원 후순위 이유",
+      "protected": {
+        "text": "→ __FGPH_000__번 대테러보안요원 후순위 이유",
+        "placeholders": [
+          "{n0}"
         ]
       },
       "contexts": [
@@ -992,6 +1053,19 @@
       ]
     },
     {
+      "key": "FGD_0C9082A0A50366F1",
+      "source": "{n0}순위 직무(항공보안검색요원) 기준으로 설계했어요 · 신입 직행 가능",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(항공보안검색요원) 기준으로 설계했어요 · 신입 직행 가능",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_0CA7777D2904DBA2",
       "source": "{n0}개 하위척도 지수 중 최댓값과 최솟값의 차이가 균형 기준을 초과하여, 전체점수 하나보다 영역별 점수와 개인 내 강약을 함께 살펴보는 것이 적절합니다.",
       "protected": {
@@ -1015,6 +1089,19 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_0CE630DA181DC2C2",
+      "source": "RANK {n0} · 항공경비요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 항공경비요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
         "dcas-adult:dynamic-render"
       ]
     },
@@ -1207,6 +1294,20 @@
       ]
     },
     {
+      "key": "FGD_0FB71AF8F348519F",
+      "source": "이 직무가 요구하는 핵심 축은 순차처리·계획력이에요. 회원님의 순차처리 {n0}×계획력 {n1} 조합과 맞닿아 있어요.",
+      "protected": {
+        "text": "이 직무가 요구하는 핵심 축은 순차처리·계획력이에요. 회원님의 순차처리 __FGPH_000__×계획력 __FGPH_001__ 조합과 맞닿아 있어요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_0FB87E4EA8DD7981",
       "source": "{name}의 {n0}개 인지 영역이 서로 뚜렷한 차이 없이 고르게 나타났어요. 특정 영역을 보완하기보다, 다양한 활동을 골고루 경험하며 관심 분야를 넓혀가는 것을 추천해요.",
       "protected": {
@@ -1240,6 +1341,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_1037BB0C5DA5D4AD",
+      "source": "대테러보안요원",
+      "protected": {
+        "text": "대테러보안요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -1519,6 +1631,19 @@
       ]
     },
     {
+      "key": "FGD_13C403DB3CD42DCF",
+      "source": "항공경비요원 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "항공경비요원 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_13EFBAD5AB5CDBCF",
       "source": "\"끝까지 파고들어\", \"몰입\"은 {given} 님의 주의력 강점을 가장 잘 드러내는 표현이에요.",
       "protected": {
@@ -1554,6 +1679,19 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_14351100E6975A3D",
+      "source": "{n0}유형 직무 적용 · 직무 추천은 임의의 최고축이 아니라 네 영역의 전체 수준과 실제 경험을 함께 근거로 해석하세요.",
+      "protected": {
+        "text": "__FGPH_000__유형 직무 적용 · 직무 추천은 임의의 최고축이 아니라 네 영역의 전체 수준과 실제 경험을 함께 근거로 해석하세요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -1756,6 +1894,20 @@
       ]
     },
     {
+      "key": "FGD_1589B3CF4F55F594",
+      "source": "산업보안 경비요원 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "산업보안 경비요원 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_15BE64241783AAA6",
       "source": "주 {n0}회 설정 · 매일 체크",
       "protected": {
@@ -1780,11 +1932,38 @@
       ]
     },
     {
+      "key": "FGD_163672AB3AD82980",
+      "source": "🔗 {n0}번 [순차처리×계획력] 패턴이 TOP 직무 순위의 핵심 근거예요",
+      "protected": {
+        "text": "🔗 __FGPH_000__번 [순차처리×계획력] 패턴이 TOP 직무 순위의 핵심 근거예요",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_166C62C6919F8DD0",
       "source": "✓ 강점 · 책임감 있는 역할 수행",
       "protected": {
         "text": "✓ 강점 · 책임감 있는 역할 수행",
         "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_167A512E671A5D95",
+      "source": "이 직무가 요구하는 핵심 축은 주의력·순차처리이에요. 회원님의 주의력 {n0}×순차처리 {n1} 조합과 맞닿아 있어요.",
+      "protected": {
+        "text": "이 직무가 요구하는 핵심 축은 주의력·순차처리이에요. 회원님의 주의력 __FGPH_000__×순차처리 __FGPH_001__ 조합과 맞닿아 있어요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
       },
       "contexts": [
         "dcas-adult:dynamic-render"
@@ -1808,6 +1987,17 @@
       "source": "💡 체크가 유독 낮은 항목이 있다면, 이는 프로파일과도 일치해요 — 순차처리 요구가 높은 항목이기 때문이에요. 이런 항목은 \"약점\"이 아니라 \"의식적 훈련이 더 필요한 영역\"으로 접근하면 좋아요.",
       "protected": {
         "text": "💡 체크가 유독 낮은 항목이 있다면, 이는 프로파일과도 일치해요 — 순차처리 요구가 높은 항목이기 때문이에요. 이런 항목은 \"약점\"이 아니라 \"의식적 훈련이 더 필요한 영역\"으로 접근하면 좋아요.",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_170DFCD6E42081CF",
+      "source": "항공보안학과",
+      "protected": {
+        "text": "항공보안학과",
         "placeholders": []
       },
       "contexts": [
@@ -1909,6 +2099,19 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_189C98464A6108F6",
+      "source": "공항보안 사무직 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "공항보안 사무직 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -2178,6 +2381,19 @@
       ]
     },
     {
+      "key": "FGD_1C5CD875C0B84EF7",
+      "source": "{n0}유형 학습 적용 · 작은 점수 차이로 강·약축을 만들지 말고 과제별로 어떤 전략이 효과적인지 비교하세요.",
+      "protected": {
+        "text": "__FGPH_000__유형 학습 적용 · 작은 점수 차이로 강·약축을 만들지 말고 과제별로 어떤 전략이 효과적인지 비교하세요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_1CAC8E36611A2047",
       "source": "{n0}개 영역({n1})",
       "protected": {
@@ -2417,6 +2633,19 @@
       ]
     },
     {
+      "key": "FGD_1F6E7A3309A51425",
+      "source": "RANK {n0} · 산업보안 경비요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 산업보안 경비요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_1FB0ED06DDF6EB7C",
       "source": "순차처리 영역이 또래 아동 전체 집단 대비 상대적으로 높은 집단(규준적 강)에 속하는 것으로 나타났습니다. 주의력는 또래와 비슷한 평균적 수준입니다. 계획력·동시처리는 또래 대비 상대적으로 낮은 집단(규준적 약)에 속합니다.",
       "protected": {
@@ -2570,6 +2799,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_217016E1B6D85C0E",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 공항보안 사무직 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 공항보안 사무직 관련 문제를 해결한 과정\"을 문서로 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -2884,6 +3124,19 @@
       ]
     },
     {
+      "key": "FGD_2578C03FDC19F5EC",
+      "source": "{n0}순위 직무(항공경비요원) 기준으로 설계했어요 · 신입 직행 가능",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(항공경비요원) 기준으로 설계했어요 · 신입 직행 가능",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_2584F9722076273D",
       "source": "동시처리 영역이 또래 아동 전체 집단 대비 상대적으로 높은 집단(규준적 강)에 속하는 것으로 나타났습니다. 순차처리는 또래와 비슷한 평균적 수준입니다. 계획력·주의력는 또래 대비 상대적으로 낮은 집단(규준적 약)에 속합니다.",
       "protected": {
@@ -3063,6 +3316,17 @@
       ]
     },
     {
+      "key": "FGD_2789FCC5591E9198",
+      "source": "항공사보안요원 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "항공사보안요원 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_279E3F632578CB41",
       "source": "{name} 님은 {n0}개 영역의 정답률이 비교적 고르게 나타나며, 아직 네 영역 모두 기초를 다지는 단계예요. 특정 강점을 찾기보다는, 짧고 반복 가능한 루틴으로 작은 완료 경험을 함께 쌓아가는 것이 도움이 돼요.",
       "protected": {
@@ -3074,6 +3338,19 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_27D28F7973914858",
+      "source": "{n0}순위 직무(공항보안 사무직) 기준으로 설계했어요 · 유관 경험 권장",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(공항보안 사무직) 기준으로 설계했어요 · 유관 경험 권장",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -3363,6 +3640,20 @@
       "source": "전체 {n0}개 계열 · {n1}개 학과 중 검색·선택할 수 있어요(기타 직접 입력 포함). 아래 결과는",
       "protected": {
         "text": "전체 __FGPH_000__개 계열 · __FGPH_001__개 학과 중 검색·선택할 수 있어요(기타 직접 입력 포함). 아래 결과는",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_2B39E7CE25382962",
+      "source": "항공사보안요원 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "항공사보안요원 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
         "placeholders": [
           "{n0}",
           "{n1}"
@@ -4263,6 +4554,17 @@
       ]
     },
     {
+      "key": "FGD_361B7BDCD6F3D7BB",
+      "source": "항공보안검색요원",
+      "protected": {
+        "text": "항공보안검색요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_363645D8F7441981",
       "source": "{n0}·{n1}번에서 확인한 순차처리({n2})·계획력({n3})·통합적 사고를 자소서 전체를 관통하는 핵심 키워드 {n4}개로 확정해요.",
       "protected": {
@@ -4399,6 +4701,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_387BA05892062D6D",
+      "source": "RANK {n0} · 공항보안 사무직",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 공항보안 사무직",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -4580,6 +4895,20 @@
       ]
     },
     {
+      "key": "FGD_3ABD79118F6D8851",
+      "source": "→ {n0}번 {n1}순위(항공사보안 사무직) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(항공사보안 사무직) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_3AFE673B79EEBB9C",
       "source": "무용학과 계열",
       "protected": {
@@ -4623,6 +4952,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_3B6BBFBC12009599",
+      "source": "통합 역량 경험 · 항공경비요원",
+      "protected": {
+        "text": "통합 역량 경험 · 항공경비요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -4785,6 +5125,32 @@
       ]
     },
     {
+      "key": "FGD_3C8185BE2913EABA",
+      "source": "항공경비요원 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "항공경비요원 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_3CA6D794C55E1990",
+      "source": "항공보안검색요원 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "항공보안검색요원 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_3D2EFC892267FA7A",
       "source": "평균보다 +{n0}점 높아요",
       "protected": {
@@ -4824,6 +5190,17 @@
       ]
     },
     {
+      "key": "FGD_3D53FE01D4AC1DC1",
+      "source": "항공사보안요원 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "항공사보안요원 직무, 면접에서 이렇게 어필해보세요",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_3D8355BD377F9670",
       "source": "아래 두 사람은 주의력 × 동시처리이 특히 뛰어났던 인물이에요. 똑같아진다는 뜻이 아니라, 잘하는 방식이 비슷하다는 뜻이에요.",
       "protected": {
@@ -4832,6 +5209,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_3D853865E93D04EF",
+      "source": "산업보안 경비요원 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "산업보안 경비요원 직무, 면접에서 이렇게 어필해보세요",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -5506,6 +5894,17 @@
       ]
     },
     {
+      "key": "FGD_458BF25E6A90D4B5",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 항공보안검색요원 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 항공보안검색요원 관련 문제를 해결한 과정\"을 문서로 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_45A0009C1212E47D",
       "source": "인턴·자소서 준비를 시작해야 하는데 방향을 못 정한 {n0}~{n1}학년",
       "protected": {
@@ -5548,6 +5947,17 @@
       "source": "박준서 님의 인지 프로파일",
       "protected": {
         "text": "박준서 님의 인지 프로파일",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_46493D01C782CB12",
+      "source": "항공사보안 사무직 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "항공사보안 사무직 직무, 면접에서 이렇게 어필해보세요",
         "placeholders": []
       },
       "contexts": [
@@ -5611,6 +6021,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_4754740E8D848171",
+      "source": "항공보안검색요원 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "항공보안검색요원 직무, 면접에서 이렇게 어필해보세요",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -5774,6 +6195,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_49483795B033A858",
+      "source": "항공보안검색요원 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "항공보안검색요원 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -5941,6 +6376,19 @@
       ]
     },
     {
+      "key": "FGD_4ACB452C8D6C1796",
+      "source": "공항보안 사무직 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "공항보안 사무직 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_4ACF07F621B70AF7",
       "source": "{name} 님은 동시처리와 주의력을 발휘하는 힘이 뚜렷하게 강해요. 다만 계획력이 상대적으로 낮아, 관련 활동에서는 조금 더 의식적인 훈련이 도움이 됩니다. 이는 부족함이 아니라 지금 시점의 특성이며, 훈련을 통해 {n0}대 중반까지도 꾸준히 개선될 수 있는 영역이에요. 아이가 스스로 강점을 발휘한 경험을 자주 언어화해줄수록, 약점 보완도 훨씬 수월해집니다.",
       "protected": {
@@ -6030,6 +6478,17 @@
       ]
     },
     {
+      "key": "FGD_4BC64AC9C197C398",
+      "source": "산업보안 경비요원 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "산업보안 경비요원 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_4BF9308925FF0771",
       "source": "주의력에서 뜻대로 안 될 때 약간 아쉬워할 수 있지만, 크게 흔들리지는 않는 편이에요",
       "protected": {
@@ -6103,6 +6562,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_4CD8A14592F67996",
+      "source": "산업보안 경비요원 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "산업보안 경비요원 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -6298,6 +6770,19 @@
       ]
     },
     {
+      "key": "FGD_4F39A5D835A7CD60",
+      "source": "🔗 {n0}번 [주의력×동시처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+      "protected": {
+        "text": "🔗 __FGPH_000__번 [주의력×동시처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_4F3FBDCA520E24A8",
       "source": "기획 → 실행계획 수립 → 단계별 실행이라는 큰 그림은 강점(순차처리·주의력)으로, 각 단계를 빠짐없이 순서대로 완수하는 과정에서 동시처리를 자연스럽게 훈련해요. 예: 공모전 작품 하나를 기획부터 제출까지 스스로 완주.",
       "protected": {
@@ -6452,6 +6937,22 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_510676A0FB3F3EC5",
+      "source": "에서 특히 강점이 돼요 — 이 직무는 계획력·순차처리를 핵심으로 요구하는데, {given} 님의 계획력 {n0}×순차처리 {n1} 조합과 정확히 맞닿아 있어요(적합도 {n2}). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+      "protected": {
+        "text": "에서 특히 강점이 돼요 — 이 직무는 계획력·순차처리를 핵심으로 요구하는데, __FGPH_000__ 님의 계획력 __FGPH_001__×순차처리 __FGPH_002__ 조합과 정확히 맞닿아 있어요(적합도 __FGPH_003__). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+        "placeholders": [
+          "{given}",
+          "{n0}",
+          "{n1}",
+          "{n2}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -6630,6 +7131,20 @@
       ]
     },
     {
+      "key": "FGD_532C711D40931DC7",
+      "source": "다음 {n0}번에서 보게 될 \"학과 적합도\"는 {given} 님이 항공보안학과를 잘 선택했는지 채점하는 점수가 아니에요. 같은 학과 안에서도 사람마다 다른 인지 프로파일을 가지고 있고, 그 차이가 \"어떤 세부 직무가 더 잘 맞는지\"를 알려줄 뿐이에요. 적합도가 낮게 나오는 영역이 있더라도, 그건 \"학과를 잘못 골랐다\"는 뜻이 결코 아니에요.",
+      "protected": {
+        "text": "다음 __FGPH_000__번에서 보게 될 \"학과 적합도\"는 __FGPH_001__ 님이 항공보안학과를 잘 선택했는지 채점하는 점수가 아니에요. 같은 학과 안에서도 사람마다 다른 인지 프로파일을 가지고 있고, 그 차이가 \"어떤 세부 직무가 더 잘 맞는지\"를 알려줄 뿐이에요. 적합도가 낮게 나오는 영역이 있더라도, 그건 \"학과를 잘못 골랐다\"는 뜻이 결코 아니에요.",
+        "placeholders": [
+          "{n0}",
+          "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_53620F3A4FEE2BE5",
       "source": "{n0}유형 프로필 · P-L / A-H / S-L / Q-L",
       "protected": {
@@ -6739,6 +7254,30 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_5523A726C7566268",
+      "source": "통합 역량 경험 · 항공사보안 사무직",
+      "protected": {
+        "text": "통합 역량 경험 · 항공사보안 사무직",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_553950177D2BCB51",
+      "source": "항공사보안 사무직 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "항공사보안 사무직 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
         "dcas-adult:dynamic-render"
       ]
     },
@@ -6919,6 +7458,19 @@
         "text": "__FGPH_000__ 님은 동시처리와 순차처리가 동반 상승한, 전형적인 \"구조적 스토리텔러\" 프로파일입니다. 복잡한 내용을 재구성하는 과제에서 특히 강점을 보였을 것으로 추정됩니다. 다만 계획력이 상대적으로 낮아, 장기 목표를 끝까지 밀어붙이는 데는 중간 점검 습관이 도움이 됩니다. 이 프로파일은 \"복잡한 것을 이해하기 쉽게 구조화\"하는 것이 핵심 역량인 직무에서 뚜렷한 강점으로 작용합니다.",
         "placeholders": [
           "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_5862FE97E0966A07",
+      "source": "항공사보안 사무직 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "항공사보안 사무직 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
         ]
       },
       "contexts": [
@@ -7783,6 +8335,17 @@
       ]
     },
     {
+      "key": "FGD_61ED992EB4826E30",
+      "source": "항공사보안요원 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "항공사보안요원 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_61F1D336C3D29D77",
       "source": "{n0}위",
       "protected": {
@@ -7807,6 +8370,19 @@
       ]
     },
     {
+      "key": "FGD_62E00898046B7C3E",
+      "source": "항공사보안요원 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "항공사보안요원 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_6316B24BFA51C4BD",
       "source": "RANK {n0} · 적합도 {n1}",
       "protected": {
@@ -7817,7 +8393,8 @@
         ]
       },
       "contexts": [
-        "dcas-teen:dynamic-render"
+        "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -7938,6 +8515,20 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_65D20BDAE1C861B3",
+      "source": "항공사보안 사무직 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "항공사보안 사무직 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -8339,6 +8930,19 @@
       ]
     },
     {
+      "key": "FGD_6943F3A3001DDC64",
+      "source": "RANK {n0} · 항공사보안 사무직",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 항공사보안 사무직",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_69470EEB65842373",
       "source": "Das와 그의 동료들은, 우리가 지금 PASS라고 부르는 인지적 관점에서 지능이 재해석되어야 한다고 주장하면서, 미국, 영국, 및 캐나다의 심리학 정기간행물에 가장 많이 인용되는 소련의 학자 Luria({n0}, {n1}, {n2}, {n3}, {n4}, {n5})와 지능 분야 간의 연결을 시도하였다(Solso & Hoffman, {n6}). 이들은 PASS 과정들이 인간의 인지 기능에 있어서의 본질적인 요소라고 주장하였다.",
       "protected": {
@@ -8447,6 +9051,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_6A5B271795D49126",
+      "source": "이 직무가 요구하는 핵심 축은 계획력·순차처리이에요. 회원님의 계획력 {n0}×순차처리 {n1} 조합과 맞닿아 있어요.",
+      "protected": {
+        "text": "이 직무가 요구하는 핵심 축은 계획력·순차처리이에요. 회원님의 계획력 __FGPH_000__×순차처리 __FGPH_001__ 조합과 맞닿아 있어요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -8611,6 +9229,17 @@
       ]
     },
     {
+      "key": "FGD_6BCC0C70A14E705D",
+      "source": "산업보안검색요원",
+      "protected": {
+        "text": "산업보안검색요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_6BCF74835EF19593",
       "source": "△ 보완 포인트 · 순서 검증",
       "protected": {
@@ -8735,6 +9364,17 @@
       ]
     },
     {
+      "key": "FGD_6CF4DA4423DF3720",
+      "source": "산업보안 경비요원 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "산업보안 경비요원 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_6D2B7150E035037F",
       "source": "동시처리 약점 때문에 어려움을 겪었던 경험 → 스스로 방법을 찾아 극복한 과정을 \"성장 서사\"로 답하면 설득력이 높아요.",
       "protected": {
@@ -8809,6 +9449,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_6D576311E9CC9DC2",
+      "source": "RANK {n0} · 항공보안검색요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 항공보안검색요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -8950,6 +9603,17 @@
       ]
     },
     {
+      "key": "FGD_6FD0BB5F1B583602",
+      "source": "직무 전문성 · 항공보안검색요원",
+      "protected": {
+        "text": "직무 전문성 · 항공보안검색요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_6FD2993347063A5B",
       "source": "✅ 상황별 접근 카드 {n0}종",
       "protected": {
@@ -9057,6 +9721,17 @@
           "{n0}",
           "{n1}"
         ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_71B781765B238F96",
+      "source": "항공경비요원 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "항공경비요원 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
       },
       "contexts": [
         "dcas-adult:dynamic-render"
@@ -9252,6 +9927,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_7498066A70902048",
+      "source": "RANK {n0} · 항공사보안요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 항공사보안요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -9532,6 +10220,33 @@
       ]
     },
     {
+      "key": "FGD_786A91DB66076BA1",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 산업보안 경비요원 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 산업보안 경비요원 관련 문제를 해결한 과정\"을 문서로 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_786BEADC24E9FF3E",
+      "source": "에서 특히 강점이 돼요 — 이 직무는 주의력·동시처리를 핵심으로 요구하는데, {given} 님의 주의력 {n0}×동시처리 {n1} 조합과 정확히 맞닿아 있어요(적합도 {n2}). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+      "protected": {
+        "text": "에서 특히 강점이 돼요 — 이 직무는 주의력·동시처리를 핵심으로 요구하는데, __FGPH_000__ 님의 주의력 __FGPH_001__×동시처리 __FGPH_002__ 조합과 정확히 맞닿아 있어요(적합도 __FGPH_003__). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+        "placeholders": [
+          "{given}",
+          "{n0}",
+          "{n1}",
+          "{n2}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_78AF0BE3EB264D0D",
       "source": "{n0}유형 학습 적용 · 계획력, 주의력, 순차처리 영역은 지원 강도를 높이고, 한 번에 한 단계·시각화·짧은 반복을 우선 적용하세요.",
       "protected": {
@@ -9753,6 +10468,17 @@
       ]
     },
     {
+      "key": "FGD_7C62CF77054AD226",
+      "source": "항공경비요원",
+      "protected": {
+        "text": "항공경비요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_7C7D6A03603FE165",
       "source": "이미 잘하는 계획력 관련 활동을 더 자주 칭찬하고 언어화해주세요",
       "protected": {
@@ -9896,6 +10622,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_7E3E251CEAE95BE2",
+      "source": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 항공보안검색요원도 {n0}번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+      "protected": {
+        "text": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 항공보안검색요원도 __FGPH_000__번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -10402,6 +11141,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_831D81BAAC844A74",
+      "source": "항공보안검색요원 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "항공보안검색요원 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -11135,6 +11885,21 @@
       ]
     },
     {
+      "key": "FGD_8CC7301EB47FEA6B",
+      "source": "직무 기준으로는 계획력이 이미 충분한 수준(요구 {n0} vs 보유 {n1})이에요. 다른 직무·상황을 대비해 이렇게 훈련해두면 더 좋아요 — 일을 시작하기 전 \"가장 먼저 할 일 {n2}가지\"만 메모하는 습관을 들이면 시작이 한결 쉬워져요.",
+      "protected": {
+        "text": "직무 기준으로는 계획력이 이미 충분한 수준(요구 __FGPH_000__ vs 보유 __FGPH_001__)이에요. 다른 직무·상황을 대비해 이렇게 훈련해두면 더 좋아요 — 일을 시작하기 전 \"가장 먼저 할 일 __FGPH_002__가지\"만 메모하는 습관을 들이면 시작이 한결 쉬워져요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}",
+          "{n2}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_8CE6BE84FA09011A",
       "source": "{name}는 한번 집중하면 방해받지 않고 오래 몰입하는 힘이 또래보다 뛰어나서, 관심 있는 일에는 깊이 파고들어요. 또한, 계획을 세우는 힘은 또래와 비슷한 수준으로, 상황에 따라 계획을 잘 활용하기도 하고 즉흥적으로 움직이기도 해요. 또한, 여러 정보를 한 번에 통합해서 보는 데는 아직 도움이 필요한 편이라, 전체 그림을 먼저 보여주는 방식이 도움이 돼요. 마지막으로, 순서를 지키고 단계를 밟아가는 데는 아직 도움이 필요한 편이라, 절차를 눈에 보이게 쪼개주는 체크리스트가 도움이 돼요.",
       "protected": {
@@ -11728,6 +12493,19 @@
       ]
     },
     {
+      "key": "FGD_944922AFE6CB47F8",
+      "source": "{given} 님은 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+      "protected": {
+        "text": "__FGPH_000__ 님은 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+        "placeholders": [
+          "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_945AFC5F281DA962",
       "source": "문제 풀이 \"전략 세우기\"는 강점이에요. 문제 풀기 전 \"어떤 순서로 풀지\" {n0}줄로 먼저 적어보기",
       "protected": {
@@ -11816,6 +12594,19 @@
       ]
     },
     {
+      "key": "FGD_955A66659929CA67",
+      "source": "항공보안검색요원 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "항공보안검색요원 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_95BAA2EA82B3BDB3",
       "source": "주의력·동시처리를 요구하는 이 학과는, {name} 님의 인지 프로파일과 겹치는 부분이 커요.",
       "protected": {
@@ -11862,6 +12653,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_96609A3A20394D3C",
+      "source": "△ 순차처리가 요구 수준에 다소 미달",
+      "protected": {
+        "text": "△ 순차처리가 요구 수준에 다소 미달",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -11936,6 +12738,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_9732F69B5355176F",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 항공사보안요원 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 항공사보안요원 관련 문제를 해결한 과정\"을 문서로 정리",
+        "placeholders": []
+      },
+      "contexts": [
         "dcas-adult:dynamic-render"
       ]
     },
@@ -12073,6 +12886,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_98D8CF2BBA4F551B",
+      "source": "→ {n0}번 {n1}순위(산업보안 경비요원) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(산업보안 경비요원) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
         "dcas-adult:dynamic-render"
       ]
     },
@@ -12691,6 +13518,19 @@
       ]
     },
     {
+      "key": "FGD_A10C9B5C21081C32",
+      "source": "🔗 {n0}번 [계획력×순차처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+      "protected": {
+        "text": "🔗 __FGPH_000__번 [계획력×순차처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_A11D87485D5FC157",
       "source": "{name}는 여러 정보를 한 번에 종합해서 전체 그림을 그리는 힘이 또래보다 뛰어나서, 직관적으로 상황을 빠르게 파악해요. 또한, 정해진 순서를 정확하게 따라가는 힘이 또래보다 뛰어나서, 절차가 복잡한 과제도 차근차근 잘 해내요. 또한, 계획을 세우고 순서를 정하는 데는 아직 도움이 필요한 편이라, 큰 목표를 작은 단계로 쪼개주는 지원이 도움이 돼요. 마지막으로, 집중을 오래 유지하는 데는 아직 도움이 필요한 편이라, 짧고 반복적인 몰입 훈련이 도움이 돼요.",
       "protected": {
@@ -12928,6 +13768,17 @@
       ]
     },
     {
+      "key": "FGD_A3A2F64F01D51503",
+      "source": "통합 역량 경험 · 공항보안 사무직",
+      "protected": {
+        "text": "통합 역량 경험 · 공항보안 사무직",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_A3DB2178F3D51BC6",
       "source": "순차처리가 동시처리보다 {n0}p 높아, \"순차처리 중심으로 강점을 발휘하고 동시처리는 의식적으로 보완\"하는 전략이 효과적이에요.",
       "protected": {
@@ -12951,6 +13802,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_A4072689DAF3D8B9",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 항공경비요원 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 항공경비요원 관련 문제를 해결한 과정\"을 문서로 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -12988,6 +13850,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_A4BB65EC46C4C126",
+      "source": "→ {n0}번 {n1}순위(항공사보안요원) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(항공사보안요원) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -13114,6 +13990,19 @@
       ]
     },
     {
+      "key": "FGD_A63F29D2887BD497",
+      "source": "{n0}순위 직무(항공사보안요원) 기준으로 설계했어요 · 신입 직행 가능",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(항공사보안요원) 기준으로 설계했어요 · 신입 직행 가능",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_A646F0F50F6FE80A",
       "source": "사학과 계열",
       "protected": {
@@ -13195,6 +14084,20 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_A6AA0B68E5025069",
+      "source": "→ {n0}번 {n1}순위(항공보안검색요원) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(항공보안검색요원) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -13469,6 +14372,17 @@
       ]
     },
     {
+      "key": "FGD_A95CAEF825141A16",
+      "source": "항공사보안 사무직",
+      "protected": {
+        "text": "항공사보안 사무직",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_A963DCA221730663",
       "source": "{n0}유형 프로필 · P-M / A-H / S-L / Q-H",
       "protected": {
@@ -13525,6 +14439,22 @@
       "protected": {
         "text": "Situation: [배경] / Task: [내가 맡은 역할] / Action: \"요구사항을 작은 단위로 나눠 하나씩 짧게 완료\" / Result: \"[기한] 내 [정량 결과]로 완료\"",
         "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_A9D1B0B0F3CFA03E",
+      "source": "에서 특히 강점이 돼요 — 이 직무는 순차처리·계획력을 핵심으로 요구하는데, {given} 님의 순차처리 {n0}×계획력 {n1} 조합과 정확히 맞닿아 있어요(적합도 {n2}). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+      "protected": {
+        "text": "에서 특히 강점이 돼요 — 이 직무는 순차처리·계획력을 핵심으로 요구하는데, __FGPH_000__ 님의 순차처리 __FGPH_001__×계획력 __FGPH_002__ 조합과 정확히 맞닿아 있어요(적합도 __FGPH_003__). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+        "placeholders": [
+          "{given}",
+          "{n0}",
+          "{n1}",
+          "{n2}"
+        ]
       },
       "contexts": [
         "dcas-adult:dynamic-render"
@@ -13796,6 +14726,17 @@
       ]
     },
     {
+      "key": "FGD_ACDF6B6B7965DAE4",
+      "source": "— 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+      "protected": {
+        "text": "— 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_AD1081E533CF88CE",
       "source": "은 상대적으로 보완이 필요한 영역이에요. 순차처리는 평균과 비슷한 수준으로, 특별히 강하지도 약하지도 않아요.",
       "protected": {
@@ -13974,6 +14915,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_AF1FA55DB2D75C46",
+      "source": "RANK {n0} · 항공화물보안요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 항공화물보안요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -14198,6 +15152,30 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_B2292867C1E46EC9",
+      "source": "RANK {n0} · 대테러보안요원",
+      "protected": {
+        "text": "RANK __FGPH_000__ · 대테러보안요원",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_B22A1506C4F1601D",
+      "source": "△ 동시처리가 요구 수준에 다소 미달",
+      "protected": {
+        "text": "△ 동시처리가 요구 수준에 다소 미달",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -14429,6 +15407,19 @@
       ]
     },
     {
+      "key": "FGD_B54687F676F9A4BF",
+      "source": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 산업보안 경비요원도 {n0}번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+      "protected": {
+        "text": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 산업보안 경비요원도 __FGPH_000__번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_B558D7AF71515538",
       "source": "중",
       "protected": {
@@ -14575,6 +15566,19 @@
       ]
     },
     {
+      "key": "FGD_B6FAA3777F5E254B",
+      "source": "항공사보안요원 관련 심화 프로젝트 {n0}개 완성",
+      "protected": {
+        "text": "항공사보안요원 관련 심화 프로젝트 __FGPH_000__개 완성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_B7127BF1429EC640",
       "source": "{n0}유형 프로필 · P-M / A-H / S-H / Q-H",
       "protected": {
@@ -14599,6 +15603,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_B75C60F0CF86CF07",
+      "source": "균형형·혼합 수준 프로필 — 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+      "protected": {
+        "text": "균형형·혼합 수준 프로필 — 네 영역의 점수 차이가 작아 특정 축을 임의로 강점이나 약점으로 정하지 않습니다. 절대 수준과 과제별 실제 수행을 함께 해석해야 합니다.",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -14706,6 +15721,20 @@
       ]
     },
     {
+      "key": "FGD_B8D27D46258B1568",
+      "source": "공항보안 사무직 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "공항보안 사무직 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_B955C7FA3FDBB535",
       "source": "주의력과 순차처리가 함께 높아, 정해진 순서를 정확히 지키며 지치지 않고 반복하는 힘이 강해요. 동시처리는 상대적으로 낮아, 여러 사람의 의견을 한 번에 종합해야 하는 상황에서는 시간이 조금 더 필요할 수 있어요.",
       "protected": {
@@ -14740,6 +15769,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_B9B5EB5F88F92F85",
+      "source": "→ {n0}번 {n1}순위(항공경비요원) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(항공경비요원) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -14926,6 +15969,17 @@
       ]
     },
     {
+      "key": "FGD_BC56152D99B2D688",
+      "source": "항공경비요원 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "항공경비요원 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_BC5ECEAA8F3BB8FA",
       "source": "동시처리로 활동의 전체 맥락을 잡고, 계획력으로 그걸 구체적 실행 과정으로 풀어내는 힘이 학생부의 \"활동 서사\"(세특·창체 기록)를 쌓을 때 그대로 강점이 돼요. (서류(학생부)와 면접으로 활동 과정을 종합 평가. {n0}학년도 기준에서도 수시 중 비중이 가장 큼. ({n1}학년도 대입부터 대교협 공통 자기소개서는 폐지됐고, 학생부 안의 세부능력 특기사항·창의적 체험활동 기록으로 대체됨))",
       "protected": {
@@ -15019,6 +16073,17 @@
       ]
     },
     {
+      "key": "FGD_BD89F38E8411AFED",
+      "source": "공공행정·치안(산업보안)",
+      "protected": {
+        "text": "공공행정·치안(산업보안)",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_BDC79100D90F7111",
       "source": "동시처리·순차처리 영역이 또래 아동 전체 집단 대비 상대적으로 높은 집단(규준적 강)에 속하는 것으로 나타났습니다. 계획력는 또래와 비슷한 평균적 수준입니다. 주의력는 또래 대비 상대적으로 낮은 집단(규준적 약)에 속합니다.",
       "protected": {
@@ -15102,6 +16167,19 @@
       ]
     },
     {
+      "key": "FGD_BEA8E80A8E765DA0",
+      "source": "→ {n0}번 산업보안 사무직 후순위 이유",
+      "protected": {
+        "text": "→ __FGPH_000__번 산업보안 사무직 후순위 이유",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_BEAA9600D377A62C",
       "source": "{n0} · 기질 특성",
       "protected": {
@@ -15112,6 +16190,20 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render",
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_BEAF2CB5F22FADB0",
+      "source": "항공경비요원 인턴십 지원 시작 — {n0}번 학과적합도·{n1}번 직무순위 근거를 자소서에 활용",
+      "protected": {
+        "text": "항공경비요원 인턴십 지원 시작 — __FGPH_000__번 학과적합도·__FGPH_001__번 직무순위 근거를 자소서에 활용",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
         "dcas-adult:dynamic-render"
       ]
     },
@@ -15445,6 +16537,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_C29EE9660F31A27A",
+      "source": "\"항공보안학과\"",
+      "protected": {
+        "text": "\"항공보안학과\"",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -15829,6 +16932,19 @@
       ]
     },
     {
+      "key": "FGD_C6B45E8E6961D11C",
+      "source": "→ {n0}번 항공보안검색요원 후순위 이유",
+      "protected": {
+        "text": "→ __FGPH_000__번 항공보안검색요원 후순위 이유",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_C6ED0341A7262227",
       "source": "동시처리·순차처리",
       "protected": {
@@ -16185,10 +17301,34 @@
       ]
     },
     {
+      "key": "FGD_CC5FC517612A7F6F",
+      "source": "항공보안학과 안에서도 {given} 님의 프로파일은",
+      "protected": {
+        "text": "항공보안학과 안에서도 __FGPH_000__ 님의 프로파일은",
+        "placeholders": [
+          "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_CC60DF8A2E3DB21A",
       "source": "① 기초 다지기형 패턴",
       "protected": {
         "text": "① 기초 다지기형 패턴",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_CC619DFBF70F4429",
+      "source": "포트폴리오 완성 — \"강점을 발휘해 항공사보안 사무직 관련 문제를 해결한 과정\"을 문서로 정리",
+      "protected": {
+        "text": "포트폴리오 완성 — \"강점을 발휘해 항공사보안 사무직 관련 문제를 해결한 과정\"을 문서로 정리",
         "placeholders": []
       },
       "contexts": [
@@ -16522,6 +17662,17 @@
       ]
     },
     {
+      "key": "FGD_CFAB33BDEDC23D07",
+      "source": "항공사보안요원",
+      "protected": {
+        "text": "항공사보안요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_CFAC2E1F9023C389",
       "source": "{n0}유형 프로필 · P-H / A-L / S-H / Q-H",
       "protected": {
@@ -16672,6 +17823,30 @@
       ]
     },
     {
+      "key": "FGD_D206207F50E1BD6B",
+      "source": "공항보안 사무직",
+      "protected": {
+        "text": "공항보안 사무직",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_D22BBCC75FA41746",
+      "source": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 산업보안검색요원도 {n0}번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+      "protected": {
+        "text": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 산업보안검색요원도 __FGPH_000__번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_D28BB06BC632702D",
       "source": "{name}는 계획을 세우고 실행하는 힘이 또래보다 뚜렷하게 강해서, 목표를 정하면 끝까지 구조화해서 밀고 나가는 편이에요. 또한, 정해진 순서를 정확하게 따라가는 힘이 또래보다 뛰어나서, 절차가 복잡한 과제도 차근차근 잘 해내요. 또한, 집중력은 또래와 비슷한 수준으로, 흥미로운 활동에는 잘 몰입하지만 지루한 활동에서는 집중이 흐트러질 수 있어요. 마지막으로, 여러 정보를 한 번에 통합해서 보는 데는 아직 도움이 필요한 편이라, 전체 그림을 먼저 보여주는 방식이 도움이 돼요.",
       "protected": {
@@ -16734,6 +17909,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_D367E6BAC806E21A",
+      "source": "{n0}유형 진로 적용 · 균형형에서는 점수 순위보다 관심, 경험, 지속성 자료를 더 크게 반영하세요.",
+      "protected": {
+        "text": "__FGPH_000__유형 진로 적용 · 균형형에서는 점수 순위보다 관심, 경험, 지속성 자료를 더 크게 반영하세요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -16876,6 +18064,19 @@
       ]
     },
     {
+      "key": "FGD_D56E21C60B825FA7",
+      "source": "항공보안학과 안에서, {given} 님에게 맞는 직무",
+      "protected": {
+        "text": "항공보안학과 안에서, __FGPH_000__ 님에게 맞는 직무",
+        "placeholders": [
+          "{given}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_D60AF0EFE727DDD4",
       "source": "PASS 이론은 Das, Naglieri, Kirby({n0})가 소련의 심리학자 Luria의 연구를 토대로 정립한 인지처리 이론으로, 지능을 계획력·주의집중·동시처리·순차처리 네 가지 인지과정으로 재개념화합니다. K-PASS는 이 이론에 근거해 유동성 지능(Fluid Intelligence)을 측정합니다.",
       "protected": {
@@ -16935,6 +18136,30 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_D68A841557CD6BF4",
+      "source": "항공보안학과 적합도 (검수 중)",
+      "protected": {
+        "text": "항공보안학과 적합도 (검수 중)",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_D6AE3B8EAE40A7EB",
+      "source": "{n0}순위 직무(산업보안 경비요원) 기준으로 설계했어요 · 신입 직행 가능",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(산업보안 경비요원) 기준으로 설계했어요 · 신입 직행 가능",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -17148,6 +18373,17 @@
       ]
     },
     {
+      "key": "FGD_D898913DA421EEFF",
+      "source": "산업보안 경비요원",
+      "protected": {
+        "text": "산업보안 경비요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_D8A981D88EB6F621",
       "source": "집중은 그날그날 다를 수 있어요. 책상 위를 정리하고 방해되는 걸 치워두면 이순신처럼 몰입하는 순간이 자주 찾아와요.",
       "protected": {
@@ -17201,6 +18437,22 @@
         "text": "강점 키워드(계획력·주의력 관련 표현)가 최소 __FGPH_000__개 문항에 걸쳐 반복된다",
         "placeholders": [
           "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_D97E839DA5FF51C2",
+      "source": "에서 특히 강점이 돼요 — 이 직무는 주의력·순차처리를 핵심으로 요구하는데, {given} 님의 주의력 {n0}×순차처리 {n1} 조합과 정확히 맞닿아 있어요(적합도 {n2}). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+      "protected": {
+        "text": "에서 특히 강점이 돼요 — 이 직무는 주의력·순차처리를 핵심으로 요구하는데, __FGPH_000__ 님의 주의력 __FGPH_001__×순차처리 __FGPH_002__ 조합과 정확히 맞닿아 있어요(적합도 __FGPH_003__). 지원 시 이 조합을 구체적 경험과 엮어서 어필해보세요.",
+        "placeholders": [
+          "{given}",
+          "{n0}",
+          "{n1}",
+          "{n2}"
         ]
       },
       "contexts": [
@@ -17266,6 +18518,17 @@
       ]
     },
     {
+      "key": "FGD_DAC16FAF35F93627",
+      "source": "항공보안검색요원 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "항공보안검색요원 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_DAE2CD82BD7B3F88",
       "source": "{name}는 계획을 세우는 힘은 또래와 비슷한 수준으로, 상황에 따라 계획을 잘 활용하기도 하고 즉흥적으로 움직이기도 해요. 또한, 전체를 종합해서 보는 힘은 또래와 비슷한 수준으로, 필요할 때는 큰 그림을 그릴 수 있어요. 또한, 순서를 지키는 힘은 또래와 비슷한 수준으로, 대체로 절차를 무리 없이 잘 따라가요. 마지막으로, 집중을 오래 유지하는 데는 아직 도움이 필요한 편이라, 짧고 반복적인 몰입 훈련이 도움이 돼요.",
       "protected": {
@@ -17322,6 +18585,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_DB4A200D4960B8DE",
+      "source": "항공화물보안요원",
+      "protected": {
+        "text": "항공화물보안요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -17401,6 +18675,17 @@
       ]
     },
     {
+      "key": "FGD_DC1BD361C4430E5A",
+      "source": "통합 역량 경험 · 항공사보안요원",
+      "protected": {
+        "text": "통합 역량 경험 · 항공사보안요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_DC9C44B6834C5F14",
       "source": "{given} 님은 계획력과 주의력이 동반 상승한, 전형적인 \"목표관리형\" 프로파일입니다. 목표가 분명한 과제에서 특히 강점을 보였을 것으로 추정됩니다. 다만 동시처리가 상대적으로 낮아, 여러 정보를 한 번에 종합해야 하는 상황에서는 시간을 넉넉히 확보하는 편이 유리합니다. 이 프로파일은 \"지속적 몰입과 목표 달성\"이 핵심 역량인 직무에서 뚜렷한 강점으로 작용합니다.",
       "protected": {
@@ -17434,6 +18719,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_DD6F69A014B5B05A",
+      "source": "공항보안 사무직 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "공항보안 사무직 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -17484,6 +18780,20 @@
       "protected": {
         "text": "① 목표 완주형 패턴",
         "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_DE331A06B90AB557",
+      "source": "→ {n0}번 {n1}순위(공항보안 사무직) 근거",
+      "protected": {
+        "text": "→ __FGPH_000__번 __FGPH_001__순위(공항보안 사무직) 근거",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
       },
       "contexts": [
         "dcas-adult:dynamic-render"
@@ -17699,6 +19009,17 @@
       ]
     },
     {
+      "key": "FGD_E06147EFD3D3A4CB",
+      "source": "항공사보안 사무직 면접 대비: 강점이 드러난 구체 경험 정리",
+      "protected": {
+        "text": "항공사보안 사무직 면접 대비: 강점이 드러난 구체 경험 정리",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_E0D6B9583C80E392",
       "source": "각 계열이 실제 학업·직무에서 요구하는 {n0}개 인지영역의 가중치와, {name} 님의 정답률을 곱해 정규화한 값이에요. 예를 들어 인문 계열은 주의력×계획력 비중이 높아 {name} 님의 강점과 잘 맞물려요.",
       "protected": {
@@ -17773,6 +19094,28 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_E1650834C63FCB30",
+      "source": "항공사보안 사무직 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "항공사보안 사무직 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_E167058731F8C43E",
+      "source": "\"저는 세부 사항을 놓치지 않고 끝까지 확인하는 데 강점이 있습니다. [프로젝트 경험]에서도 체크리스트를 직접 만들어 반복 검증했고, 그 결과 배포 전 오류를 여러 건 사전에 잡아낼 수 있었습니다.\" — 주의력 강점을 구체 경험과 함께 제시하는 문장이에요.",
+      "protected": {
+        "text": "\"저는 세부 사항을 놓치지 않고 끝까지 확인하는 데 강점이 있습니다. [프로젝트 경험]에서도 체크리스트를 직접 만들어 반복 검증했고, 그 결과 배포 전 오류를 여러 건 사전에 잡아낼 수 있었습니다.\" — 주의력 강점을 구체 경험과 함께 제시하는 문장이에요.",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -18287,6 +19630,19 @@
       ]
     },
     {
+      "key": "FGD_E7ED5832BD3F4B37",
+      "source": "산업보안 경비요원 채용공고 요구역량과 {n0}번 자소서 설계 문구 매칭해 지원서 작성",
+      "protected": {
+        "text": "산업보안 경비요원 채용공고 요구역량과 __FGPH_000__번 자소서 설계 문구 매칭해 지원서 작성",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_E7F1DD000EED5A9E",
       "source": "주의력은 전두엽·망상활성계(reticular activating system)과 밀접히 연관돼요. 이 영역은 필요한 자극에 선택적으로 집중하고 방해 자극을 억제하는 기능을 담당하며, 짧은 몰입을 반복할수록 지속 시간이 늘어나요. 계획력은 전두엽(prefrontal cortex)과 관련이 깊은데, 목표 설정·자기조절·시간관리를 담당하며, 실제로 계획을 세우고 실행해보는 경험을 반복할수록 더 단단해져요. 즉 지금의 낮은 계획력 점수는 고정된 한계가 아니라, 짧고 반복적인 훈련으로 충분히 개선 가능한 영역이라는 뜻이에요.",
       "protected": {
@@ -18424,6 +19780,17 @@
       },
       "contexts": [
         "dcas-teen:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_E8C2A1C74ABE084B",
+      "source": "공항보안 사무직 관련 과목·프로젝트를 의식적으로 선택하기",
+      "protected": {
+        "text": "공항보안 사무직 관련 과목·프로젝트를 의식적으로 선택하기",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -18648,6 +20015,17 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_EC90D538D2077EA6",
+      "source": "항공경비요원 직무, 면접에서 이렇게 어필해보세요",
+      "protected": {
+        "text": "항공경비요원 직무, 면접에서 이렇게 어필해보세요",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -18965,6 +20343,20 @@
       ]
     },
     {
+      "key": "FGD_F2ABA1672302276C",
+      "source": "에 가장 강하게 맞아요. {n0}·{n1}번에서 학과 선택 로직과, 같은 학과 동기들과는 다른 나만의 직무 순위를 확인하세요.",
+      "protected": {
+        "text": "에 가장 강하게 맞아요. __FGPH_000__·__FGPH_001__번에서 학과 선택 로직과, 같은 학과 동기들과는 다른 나만의 직무 순위를 확인하세요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_F2C0CBCBE2565CCA",
       "source": "{n0}분 몰입 + 계획표 결합 챌린지",
       "protected": {
@@ -19144,6 +20536,19 @@
       ]
     },
     {
+      "key": "FGD_F4E082818E058CFA",
+      "source": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 항공화물보안요원도 {n0}번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+      "protected": {
+        "text": "아니에요. 적합도는 \"지금 프로파일 기준 상대적 우선순위\"일 뿐, 훈련과 경험으로 얼마든지 보완할 수 있어요. 항공화물보안요원도 __FGPH_000__번 자신감·성장 트래커를 활용하면 충분히 도전 가능해요.",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_F63290138882D592",
       "source": "네, 권장드려요. 특히 학습방안 챕터의 \"짧은 목표 세우기 연습\", \"전체 구조 보완 훈련\" 부분은 담임 선생님과 공유하시면 수업 중 지도에 참고가 될 수 있어요.",
       "protected": {
@@ -19242,6 +20647,17 @@
       ]
     },
     {
+      "key": "FGD_F6D70F6ACFBBACEC",
+      "source": "통합 역량 경험 · 산업보안 경비요원",
+      "protected": {
+        "text": "통합 역량 경험 · 산업보안 경비요원",
+        "placeholders": []
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_F6DBF1E70A3C8C14",
       "source": "계획력·주의력·동시처리 영역이 또래 아동 전체 집단 대비 상대적으로 높은 집단(규준적 강)에 속하는 것으로 나타났습니다. 순차처리는 또래 대비 상대적으로 낮은 집단(규준적 약)에 속합니다.",
       "protected": {
@@ -19328,6 +20744,20 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_F7D1953F9552834C",
+      "source": "{n0}번에서 확인한 {n1}순위 직무",
+      "protected": {
+        "text": "__FGPH_000__번에서 확인한 __FGPH_001__순위 직무",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -19425,6 +20855,19 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_F8C4F5CA0A400125",
+      "source": "{n0}순위 직무(항공사보안 사무직) 기준으로 설계했어요 · 유관 경험 권장",
+      "protected": {
+        "text": "__FGPH_000__순위 직무(항공사보안 사무직) 기준으로 설계했어요 · 유관 경험 권장",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {
@@ -19621,6 +21064,19 @@
       ]
     },
     {
+      "key": "FGD_FB0E77BC1F77CDDB",
+      "source": "🔗 {n0}번 [주의력×순차처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+      "protected": {
+        "text": "🔗 __FGPH_000__번 [주의력×순차처리] 패턴이 TOP 직무 순위의 핵심 근거예요",
+        "placeholders": [
+          "{n0}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_FB75BE951ABD81E0",
       "source": "네, 권장드려요. 특히 학습방안 챕터의 \"그림으로 정리해보기\", \"계획 세우기 보완 훈련\" 부분은 담임 선생님과 공유하시면 수업 중 지도에 참고가 될 수 있어요.",
       "protected": {
@@ -19768,6 +21224,20 @@
       ]
     },
     {
+      "key": "FGD_FD805362D5B784D7",
+      "source": "이 직무가 요구하는 핵심 축은 주의력·동시처리이에요. 회원님의 주의력 {n0}×동시처리 {n1} 조합과 맞닿아 있어요.",
+      "protected": {
+        "text": "이 직무가 요구하는 핵심 축은 주의력·동시처리이에요. 회원님의 주의력 __FGPH_000__×동시처리 __FGPH_001__ 조합과 맞닿아 있어요.",
+        "placeholders": [
+          "{n0}",
+          "{n1}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
+      ]
+    },
+    {
       "key": "FGD_FD8EC1B7445B59CA",
       "source": "순차처리와 동시처리를 함께 발휘해 완수한 경험 {n0}개를 STAR 구조로 {n1}초 분량 답변으로 미리 준비해두세요.",
       "protected": {
@@ -19793,6 +21263,22 @@
       },
       "contexts": [
         "kpass-child:dynamic-render"
+      ]
+    },
+    {
+      "key": "FGD_FDCFD7EF0622F8FF",
+      "source": "남 · 만 {n0}세 · 항공보안학과 University Year {n1} · 검사일 {n2}.{n3}",
+      "protected": {
+        "text": "남 · 만 __FGPH_000__세 · 항공보안학과 University Year __FGPH_001__ · 검사일 __FGPH_002__.__FGPH_003__",
+        "placeholders": [
+          "{n0}",
+          "{n1}",
+          "{n2}",
+          "{n3}"
+        ]
+      },
+      "contexts": [
+        "dcas-adult:dynamic-render"
       ]
     },
     {

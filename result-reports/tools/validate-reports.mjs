@@ -36,7 +36,8 @@ for (const [id, report] of Object.entries(manifest.reports)) {
   for (const locale of report.layerLocales || []) {
     if (!/^[a-z]{2}$/.test(locale)) errors.push(`${id}: invalid layer locale ${locale}`);
   }
-  if ((report.fullReportLocales || []).length !== 12) errors.push(`${id}: expected 12 full report locales`);
+  const expectedLocaleCount = id === 'kpass-child' ? 13 : 12;
+  if ((report.fullReportLocales || []).length !== expectedLocaleCount) errors.push(`${id}: expected ${expectedLocaleCount} full report locales`);
   for (const field of ['localeBundle','localeRuntime']) {
     if (!report[field] || !fs.existsSync(path.join(repo, report[field] || ''))) errors.push(`${id}: missing ${field}`);
   }
@@ -48,6 +49,9 @@ if (!kpassHtml.includes('KPASS_FULL_REPORT_LOCALES.forEach')) {
 }
 if (!kpassHtml.includes("km: { status:'full'")) {
   errors.push('kpass-child: Khmer full status is not explicit');
+}
+if (!kpassHtml.includes("mn: { status:'full'")) {
+  errors.push('kpass-child: Mongolian full status is not explicit');
 }
 
 const teenBank = fs.readFileSync(path.join(repo, manifest.reports['dcas-teen'].candidate, 'dcas-profile81-bank.js'), 'utf8');

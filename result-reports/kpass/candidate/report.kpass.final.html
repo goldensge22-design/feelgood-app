@@ -1487,7 +1487,8 @@ const KPASS_LOCALE_COVERAGE = Object.freeze({
   ar: { status:'full', source:'google-translate' },
   it: { status:'full', source:'google-translate' },
   az: { status:'full', source:'google-translate' },
-  km: { status:'full', source:'google-translate' }
+  km: { status:'full', source:'google-translate' },
+  mn: { status:'full', source:'google-translate' }
 });
 const KPASS_FULL_REPORT_LOCALES = Object.freeze(
   Object.keys(KPASS_LOCALE_COVERAGE).filter(code => KPASS_LOCALE_COVERAGE[code].status === 'full')
@@ -1587,7 +1588,7 @@ function render(){
 function buildLangMenu(){
   const menu = document.getElementById('langMenu');
   KPASS_FULL_REPORT_LOCALES.forEach(code=>{
-    const d = I18N[code] || {native:({az:'Azərbaycanca',km:'ភាសាខ្មែរ'}[code] || code.toUpperCase())};
+    const d = I18N[code] || {native:({az:'Azərbaycanca',km:'ភាសាខ្មែរ',mn:'Монгол'}[code] || code.toUpperCase())};
     const item = document.createElement('div');
     item.className = 'lang-item';
     item.dataset.code = code;
