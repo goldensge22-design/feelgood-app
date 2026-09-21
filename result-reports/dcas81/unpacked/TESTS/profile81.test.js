@@ -5,7 +5,7 @@ const vm = require('vm');
 
 const base = path.resolve(__dirname, '..');
 const root = fs.existsSync(path.join(base, 'DCAS_TEEN')) ? base : path.join(base, 'APPLIED_FULL');
-const expectedLangs = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az'];
+const expectedLangs = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
 const levels = ['L','M','H'];
 const values = { L:40, M:60, H:85 };
 
@@ -28,6 +28,10 @@ const teen = loadBank('DCAS_TEEN');
 const adult = loadBank('DCAS_ADULT');
 assert.deepStrictEqual(Array.from(teen.LANGS), expectedLangs);
 assert.deepStrictEqual(Array.from(adult.LANGS), expectedLangs);
+assert.strictEqual(teen.normalizeLang('km-KH'), 'km');
+assert.strictEqual(adult.normalizeLang('km'), 'km');
+assert.strictEqual(teen.LOCALE_META.km.status, 'ai-draft');
+assert.strictEqual(adult.LOCALE_META.km.sourceVersion, 'ko-profile81-v1');
 
 for (const bank of [teen, adult]) {
   const codes = new Set();
@@ -77,6 +81,14 @@ for (const bank of [teen, adult]) {
       assert.ok(profile.title && profile.summary && profile.fragments.every(f => f.text));
       assert.ok(profile.recommendations.learning && profile.recommendations.career && profile.recommendations.job);
       if (lang === 'ar') assert.strictEqual(profile.dir, 'rtl');
+      if (lang === 'km') {
+        const khmerText = [profile.title, profile.summary]
+          .concat(profile.fragments.map(f => f.text))
+          .concat([profile.recommendations.learning, profile.recommendations.career, profile.recommendations.job])
+          .join(' ');
+        assert.ok(/[\u1780-\u17FF]/.test(khmerText), '크메르어 문자가 포함되어야 함');
+        assert.strictEqual(profile.dir, 'ltr');
+      }
     }
   }
 }
@@ -98,4 +110,4 @@ assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:53,A:60,S:68,Q
 assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:30,A:40,S:45,Q:52}), 'BAL');
 assert.strictEqual(comboContext.DCasComboBank.pickComboKey({P:76,A:83,S:90,Q:99}), 'BAL');
 
-console.log('PASS: teen/adult 81 profiles, H/M/L boundaries, S/Q 0/10/11, invalid scores, 11 locales, special cases, and BAL routing');
+console.log('PASS: teen/adult 81 profiles, H/M/L boundaries, S/Q 0/10/11, invalid scores, 12 locales including Khmer, special cases, and BAL routing');
