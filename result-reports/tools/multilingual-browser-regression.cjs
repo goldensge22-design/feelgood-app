@@ -2,24 +2,27 @@ const assert = require('assert');
 const path = require('path');
 const { chromium } = require('C:/Users/golde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 
-const allLocales = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
-const locales = process.env.REPORT_LOCALE ? [process.env.REPORT_LOCALE] : allLocales;
+const standardLocales = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
+const kpassLocales = [...standardLocales, 'mn'];
 const root = path.resolve(__dirname, '..', '..');
 const reports = [
   {
     id:'kpass-child',
+    locales:kpassLocales,
     file:path.join(root, 'result-reports/kpass/candidate/report.kpass.final.html'),
     profile:{name:'Alex Kim',genderKey:'X',ageYears:10,ageMonths:4,testDate:{y:2026,m:9,d:21},fullScaleScore:112,scores:{P:120,A:108,S:96,Q:86}},
     identity:'Alex Kim'
   },
   {
     id:'dcas-teen',
+    locales:standardLocales,
     file:path.join(root, 'result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/teen.work.html'),
     profile:{fullName:'Alex Kim',givenName:'Alex',fullNameEn:'Alex Kim',genderKey:'X',ageYears:16,gradeLabel:'Grade 10',testDate:{y:2026,m:9,d:21},scores:{P:80,A:56,S:89,Q:78}},
     identity:'Alex Kim'
   },
   {
     id:'dcas-adult',
+    locales:standardLocales,
     file:path.join(root, 'result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html'),
     profile:{fullName:'Alex Kim',givenName:'Alex',fullNameEn:'Alex Kim',genderKey:'X',ageYears:23,gradeLabel:'University Year 4',majorName:'Cognitive Science',testDate:{y:2026,m:9,d:21},scores:{P:80,A:56,S:89,Q:78}},
     identity:'Alex Kim', major:'Cognitive Science'
@@ -38,6 +41,8 @@ function fileUrl(file, locale) {
   });
   try {
     for (const report of reports.filter((item) => !process.env.REPORT_FILTER || item.id === process.env.REPORT_FILTER)) {
+      const locales = process.env.REPORT_LOCALE ? [process.env.REPORT_LOCALE].filter((locale) => report.locales.includes(locale)) : report.locales;
+      if (!locales.length) continue;
       for (const locale of locales) {
         const page = await browser.newPage({ viewport:{width:390,height:844} });
         const failures = [];
@@ -64,7 +69,7 @@ function fileUrl(file, locale) {
         }));
         assert.strictEqual(result.lang, locale, `${report.id}/${locale}: html lang`);
         assert.strictEqual(result.dir, locale === 'ar' ? 'rtl' : 'ltr', `${report.id}/${locale}: direction`);
-        assert.deepStrictEqual(result.menu.length ? result.menu : result.select, allLocales, `${report.id}/${locale}: locale menu`);
+        assert.deepStrictEqual(result.menu.length ? result.menu : result.select, report.locales, `${report.id}/${locale}: locale menu`);
         assert.ok(result.body.includes(report.identity), `${report.id}/${locale}: identity missing; errors=${failures.join(' | ')}; body=${result.body.slice(0,500)}`);
         if (report.major) assert.ok(result.body.includes(report.major), `${report.id}/${locale}: major missing`);
         assert.strictEqual(result.tokens, false, `${report.id}/${locale}: internal token visible`);
@@ -91,7 +96,7 @@ function fileUrl(file, locale) {
       if (report.major) assert.ok(switched.body.includes(report.major), `${report.id}: major lost during switch`);
       assert.ok(switched.url.includes('lang=ar'), `${report.id}: URL locale not updated`);
       await page.close();
-      console.log(`PASS: ${report.id} ${locales.length === allLocales.length ? '12 locales' : locales.join(',')}, mobile width, live switch`);
+      console.log(`PASS: ${report.id} ${locales.length === report.locales.length ? report.locales.length + ' locales' : locales.join(',')}, mobile width, live switch`);
     }
   } finally {
     await browser.close();

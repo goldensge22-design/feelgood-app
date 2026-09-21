@@ -180,7 +180,10 @@
       // 서버에서 받은 전공이 기본 select에 없더라도 컴퓨터공학과로 대체하지 않는다.
       // 알려진 47개 학과/확장 분야면 기존 직무 자료에 연결하고, 알 수 없는 전공이면
       // "매칭 데이터 미연결" 상태를 명시적으로 보여준다.
-      if (global.DCasJobEngine && global.DCasMajor47 && global.DCasMajor47.CATALOG[PROFILE.majorName]) {
+      const alreadyRegistered = global.DCasJobEngine && global.DCasJobEngine.MAJOR_TO_NCS_MIDDLE[PROFILE.majorName];
+      if (alreadyRegistered) {
+        // 항공보안학과처럼 복수 직무군이 명시된 전공은 단일 키워드 추정값으로 덮어쓰지 않는다.
+      } else if (global.DCasJobEngine && global.DCasMajor47 && global.DCasMajor47.CATALOG[PROFILE.majorName]) {
         global.DCasJobEngine.registerMajor(PROFILE.majorName, '전공진로::' + PROFILE.majorName);
       } else if (global.DCasJobEngine && global.DCasJobsExtra && typeof global.DCasJobsExtra.guessCategory === 'function') {
         const guess = global.DCasJobsExtra.guessCategory(PROFILE.majorName);

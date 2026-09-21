@@ -24,6 +24,12 @@ const kpassBalancedLowCatalogPath = path.join(repo, 'result-reports/i18n-work/kp
 const kpassBalancedLowDir = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-balanced-low');
 const kpassFullScaleCatalogPath = path.join(repo, 'result-reports/i18n-work/kpass-fullscale-delta.ko.json');
 const kpassFullScaleDir = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-fullscale');
+const kpassMnCatalogPath = path.join(repo, 'result-reports/i18n-work/kpass-mn-catalog.ko.json');
+const kpassMnTranslationPath = path.join(repo, 'result-reports/i18n-work/google-translations-kpass-mn/mn.google-raw.json');
+const adultAviationCatalogPath = path.join(repo, 'result-reports/i18n-work/adult-aviation-delta.ko.json');
+const adultAviationDir = path.join(repo, 'result-reports/i18n-work/google-translations-adult-aviation');
+const adultAviationFixCatalogPath = path.join(repo, 'result-reports/i18n-work/adult-aviation-fix-delta.ko.json');
+const adultAviationFixDir = path.join(repo, 'result-reports/i18n-work/google-translations-adult-aviation-fix');
 const outputDir = path.join(repo, 'result-reports', 'locales');
 const locales = ['en','ja','zh','es','ru','vi','th','ar','it','az','km'];
 const reports = ['kpass-child','dcas-teen','dcas-adult'];
@@ -35,6 +41,14 @@ const runtimeLabelCatalog = JSON.parse(fs.readFileSync(runtimeLabelCatalogPath, 
 const kpassConsistencyCatalog = JSON.parse(fs.readFileSync(kpassConsistencyCatalogPath, 'utf8'));
 const kpassBalancedLowCatalog = JSON.parse(fs.readFileSync(kpassBalancedLowCatalogPath, 'utf8'));
 const kpassFullScaleCatalog = JSON.parse(fs.readFileSync(kpassFullScaleCatalogPath, 'utf8'));
+const kpassMnCatalog = JSON.parse(fs.readFileSync(kpassMnCatalogPath, 'utf8'));
+const kpassMnResult = JSON.parse(fs.readFileSync(kpassMnTranslationPath, 'utf8'));
+if (Object.keys(kpassMnResult.translations || {}).length !== kpassMnCatalog.items.length) {
+  throw new Error(`mn: K-PASS translated ${Object.keys(kpassMnResult.translations || {}).length}/${kpassMnCatalog.items.length}`);
+}
+const kpassMnTranslations = kpassMnResult.translations;
+const adultAviationCatalog = JSON.parse(fs.readFileSync(adultAviationCatalogPath, 'utf8'));
+const adultAviationFixCatalog = JSON.parse(fs.readFileSync(adultAviationFixCatalogPath, 'utf8'));
 const residualCatalog = fs.existsSync(residualCatalogPath) ? JSON.parse(fs.readFileSync(residualCatalogPath, 'utf8')) : {items:[]};
 
 function readLocale(locale) {
@@ -92,6 +106,20 @@ function readLocale(locale) {
     throw new Error(`${locale}: K-PASS full-scale translated ${Object.keys(kpassFullScale.translations || {}).length}/${kpassFullScaleCatalog.items.length}`);
   }
   Object.assign(translations, kpassFullScale.translations);
+  const adultAviationFile = path.join(adultAviationDir, `${locale}.google-raw.json`);
+  if (!fs.existsSync(adultAviationFile)) throw new Error(`missing adult aviation translation file: ${adultAviationFile}`);
+  const adultAviation = JSON.parse(fs.readFileSync(adultAviationFile, 'utf8'));
+  if (Object.keys(adultAviation.translations || {}).length !== adultAviationCatalog.items.length) {
+    throw new Error(`${locale}: adult aviation translated ${Object.keys(adultAviation.translations || {}).length}/${adultAviationCatalog.items.length}`);
+  }
+  Object.assign(translations, adultAviation.translations);
+  const adultAviationFixFile = path.join(adultAviationFixDir, `${locale}.google-raw.json`);
+  if (!fs.existsSync(adultAviationFixFile)) throw new Error(`missing adult aviation fix translation file: ${adultAviationFixFile}`);
+  const adultAviationFix = JSON.parse(fs.readFileSync(adultAviationFixFile, 'utf8'));
+  if (Object.keys(adultAviationFix.translations || {}).length !== adultAviationFixCatalog.items.length) {
+    throw new Error(`${locale}: adult aviation fix translated ${Object.keys(adultAviationFix.translations || {}).length}/${adultAviationFixCatalog.items.length}`);
+  }
+  Object.assign(translations, adultAviationFix.translations);
   const unresolvedDynamic = dynamicCatalog.items.filter((item) => translations[item.key] === undefined);
   if (unresolvedDynamic.length) throw new Error(`${locale}: unresolved dynamic items ${unresolvedDynamic.length}`);
   const residualFile = path.join(residualDir, `${locale}.google-raw.json`);
@@ -119,7 +147,7 @@ const manifest = {
   generatedAt:new Date().toISOString(),
   provider:'google-translate',
   reviewStatus:'machine-translated',
-  locales:['ko', ...locales],
+  locales:['ko', ...locales, 'mn'],
   reports:{}
 };
 
@@ -137,18 +165,20 @@ for (const report of reports) {
     sourceLocale:'ko',
     provider:'google-translate',
     reviewStatus:'machine-translated',
-    localeNames:{ko:'한국어',en:'English',ja:'日本語',zh:'中文',es:'Español',ru:'Русский',vi:'Tiếng Việt',th:'ไทย',ar:'العربية',it:'Italiano',az:'Azərbaycanca',km:'ភាសាខ្មែរ'},
+    localeNames:{ko:'한국어',en:'English',ja:'日本語',zh:'中文',es:'Español',ru:'Русский',vi:'Tiếng Việt',th:'ไทย',ar:'العربية',it:'Italiano',az:'Azərbaycanca',km:'ភាសាខ្មែរ',mn:'Монгол'},
     locales:{}
   };
-  for (const locale of locales) {
+  const reportLocales = report === 'kpass-child' ? [...locales, 'mn'] : locales;
+  for (const locale of reportLocales) {
+    const translationMap = locale === 'mn' ? kpassMnTranslations : localeMaps[locale];
     bundle.locales[locale] = items.map((item) => ({
       key:item.key,
       source:item.source,
       target:(() => {
-        let value = restore(item, localeMaps[locale][item.key]);
+        let value = restore(item, translationMap[item.key]);
         for (const placeholder of item.protected.placeholders) {
           const key = placeholderKeys.get(placeholder);
-          if (placeholder.startsWith('[') && key && localeMaps[locale][key] !== undefined) value = value.replaceAll(placeholder, localeMaps[locale][key]);
+          if (placeholder.startsWith('[') && key && translationMap[key] !== undefined) value = value.replaceAll(placeholder, translationMap[key]);
         }
         return value;
       })(),

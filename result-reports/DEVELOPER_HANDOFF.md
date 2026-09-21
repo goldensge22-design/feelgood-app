@@ -2,17 +2,17 @@
 
 작성일: 2026-09-21. 대상: K-PASS 아동, D-CAS 청소년, D-CAS 성인.
 
-> 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, 12개 전체 locale 및 크메르어까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.
+> 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, D-CAS 12개 locale, K-PASS 13개 locale(몽골어 포함)까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.
 
 ## 1. GitHub 작업 위치와 상태
 
 - 저장소: https://github.com/goldensge22-design/feelgood-app
 - 개발 브랜치: `codex/result-reports-google-i18n`
 - 시작 위치: https://github.com/goldensge22-design/feelgood-app/tree/codex/result-reports-google-i18n/result-reports
-- 코드/개인화/12개 언어 QA 기준: 이 문서가 포함된 `codex/result-reports-google-i18n` 브랜치 HEAD. 최종 SHA는 인계 보고서에서 확인한다.
+- 코드/개인화/다국어 QA 기준: 이 문서가 포함된 `codex/result-reports-google-i18n` 브랜치 HEAD. 최종 SHA는 인계 보고서에서 확인한다.
 - 원본 복구 기준 커밋: `d85af1c48050cf9447ef3a6f7e7610aa2905b0da`
 - 원본 브랜치: `codex/recover-planner-dcas81`. 원본 열람은 변경될 수 있는 브랜치 HEAD보다 위 커밋을 사용한다.
-- 현재 상태: 12개 언어 기술 QA가 포함된 개발 후보본. 운영 배포 완료본은 아니며 main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
+- 현재 상태: K-PASS 13개, D-CAS 청소년·성인 12개 언어 기술 QA가 포함된 개발 후보본. 운영 배포 완료본은 아니며 main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
 
 새 작업 브랜치는 개발 후보본 기준으로 만든다. 기존 작업 트리가 깨끗한지 먼저 확인한다.
 
@@ -80,11 +80,13 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 - 대표 사례: ALL_L/M/H, 동점, S/Q 차이 10/11, S/Q 양방향 우세, P/A 강점.
 - 예시 이름/검사일, 지정된 예시 점수, 미치환 신원 placeholder 검사.
 - D-CAS 표지 81유형의 지연 덮어쓰기, 390px 주요 레이어 너비, 대표 한국어 PDF 생성 및 파일 형식/크기 검사 통과.
-- K-PASS·D-CAS 청소년·D-CAS 성인 각각 12개 locale(총 36개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사했다.
+- K-PASS 13개 locale과 D-CAS 청소년·성인 각 12개 locale(총 37개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사했다.
+- `files.zip`의 항공보안학과 10개 직무를 성인 후보본에 통합했다. `항공보안과`/`항공보안학과` 두 별칭 모두 요청된 10개 전용 풀만 반환하며 산업보안 3개 직무도 포함한다. 원본의 `estimated`, confidence 0.5 상태는 유지한다.
+- 중국어 locale 전체를 replacement character·UTF-8 mojibake·한국어 잔존·내부 token 기준으로 검사했고, 항공보안학과 실제 중국어 DOM도 별도 통과했다.
 - 각 결과지에서 크메르어 → 아랍어 live 전환 시 URL, 사용자 데이터, 방향 전환 보존을 검사했다.
 - 크메르어는 81유형 레이어뿐 아니라 전체 결과지 공통 locale 번들에도 포함된다.
 
-통과는 기계 번역 문장의 원어민 수준 의미·문체 검수 완료를 뜻하지 않는다. 12개 locale에서 실제 DOM과 모바일 가로폭은 자동 순회했지만, 12개 언어 각각의 전체 PDF 페이지 육안 검수까지 한 것은 아니다. 대표 PDF 생성 통과와 전 언어 인쇄물 육안 검수는 구분한다.
+통과는 기계 번역 문장의 원어민 수준 의미·문체 검수 완료를 뜻하지 않는다. 지원 locale에서 실제 DOM과 모바일 가로폭은 자동 순회했지만, 모든 언어의 전체 PDF 페이지 육안 검수까지 한 것은 아니다. 대표 PDF 생성 통과와 전 언어 인쇄물 육안 검수는 구분한다.
 
 ### 추가 수정/확인 항목
 
@@ -103,7 +105,7 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 
 | 결과지 | manifest 전체 언어 | 부분 범위 |
 |---|---|---|
-| K-PASS | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell·개인화·접근성 |
+| K-PASS | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km/mn | 전체 shell·개인화·접근성 |
 | D-CAS 청소년 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
 | D-CAS 성인 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
 
@@ -113,7 +115,7 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 
 전체 본문, 개인화 문장, 버튼, 그래프, 접근성, 오류, 인쇄/PDF DOM을 번역했다. placeholder·누락·한국어 잔존·RTL·크메르 글꼴/줄바꿈은 자동/브라우저 QA로 검사한다. 기존 81유형 레이어의 `ai-draft` 등 원본 provenance는 임의로 바꾸지 않았다.
 
-`result-reports/i18n-work/`에는 정적 원문 3,607개, 실제 렌더 동적 원문 1,570개, 보정 51개, 런타임 성별 라벨 2개와 11개 Google 번역 결과를 증거로 보존한다. 운영 로드는 `result-reports/locales/` 번들만 사용한다.
+`result-reports/i18n-work/`에는 정적 원문 3,607개, 실제 렌더 동적 원문 1,689개, 보정 51개, 런타임 성별 라벨 2개와 Google 번역 결과를 증거로 보존한다. K-PASS 몽골어는 K-PASS 전용 1,838개 원문 카탈로그로 분리해 기존 D-CAS locale 계약을 변경하지 않았다. 운영 로드는 `result-reports/locales/` 번들만 사용한다.
 
 ## 6. 실행할 검증
 
@@ -126,6 +128,8 @@ node result-reports/tools/validate-report-locales.mjs
 node result-reports/dcas81/unpacked/TESTS/profile81.test.js
 node result-reports/tools/multilingual-browser-regression.cjs
 node result-reports/tools/kpass-browser-regression.js
+node result-reports/tools/adult-aviation-jobs.test.cjs
+node result-reports/tools/adult-aviation-browser-regression.cjs
 $env:DCAS_TRACK='teen'
 node result-reports/dcas81/unpacked/TESTS/browser-dom-regression.js
 $env:DCAS_TRACK='adult'
@@ -133,7 +137,7 @@ node result-reports/dcas81/unpacked/TESTS/browser-dom-regression.js
 Remove-Item Env:DCAS_TRACK
 ```
 
-현재 브라우저 테스트는 결과 엔진의 공식 `window.__TEST_PROFILE__` 계약을 직접 주입한다. adapter 자체 계약은 별도 단위 테스트로 검증했으며, 실제 서버 템플릿/인증/저장/API를 포함한 staging E2E는 개발자가 연결 후 추가한다. 배포 전 태블릿·PC 및 12개 언어 PDF 육안 검수를 수행한다.
+현재 브라우저 테스트는 결과 엔진의 공식 `window.__TEST_PROFILE__` 계약을 직접 주입한다. adapter 자체 계약은 별도 단위 테스트로 검증했으며, 실제 서버 템플릿/인증/저장/API를 포함한 staging E2E는 개발자가 연결 후 추가한다. 배포 전 태블릿·PC 및 지원 언어 PDF 육안 검수를 수행한다.
 
 ## 7. 개발 완료 보고 요청
 

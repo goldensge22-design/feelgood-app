@@ -40,7 +40,7 @@ if (batch.length) batches.push(batch);
 
 const locales = [
   ['en','en'], ['ja','ja'], ['zh','zh-CN'], ['es','es'], ['ru','ru'], ['vi','vi'],
-  ['th','th'], ['ar','ar'], ['it','it'], ['az','az'], ['km','km']
+  ['th','th'], ['ar','ar'], ['it','it'], ['az','az'], ['km','km'], ['mn','mn']
 ].filter(([locale]) => !onlyLocale || locale === onlyLocale);
 fs.mkdirSync(outDir, { recursive:true });
 

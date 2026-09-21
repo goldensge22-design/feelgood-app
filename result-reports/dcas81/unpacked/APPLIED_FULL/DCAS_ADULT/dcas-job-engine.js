@@ -20,7 +20,8 @@
     '컴퓨터공학과': '정보기술(SW)',
     /* ===== 패치: 공공서비스계열 · 사범교육계열 추가 (dcas-jobs-extra.js와 짝) ===== */
     '경찰행정과': '공공행정·치안(경찰행정)',
-    '항공보안과': '공공행정·치안(항공보안)',
+    '항공보안과': ['공공행정·치안(항공보안)', '공공행정·치안(산업보안)'],
+    '항공보안학과': ['공공행정·치안(항공보안)', '공공행정·치안(산업보안)'],
     '사회복지과': '사회복지·상담',
     '유아교육과': '영유아교육·보육',
     '평생교육융합학부': '평생교육·인재개발',
@@ -81,7 +82,12 @@
   function rankJobsForMajor(userScores, majorName, JOB_POOL) {
     const ncsMiddle = MAJOR_TO_NCS_MIDDLE[majorName];
     if (!ncsMiddle) return null; // 매핑 안 된 학과 — 2단계에서 채워야 함
-    const pool = JOB_POOL.filter(function (j) { return j.ncs.middle_name === ncsMiddle; });
+    const ncsMiddles = Array.isArray(ncsMiddle) ? ncsMiddle : [ncsMiddle];
+    const isAviationMajor = majorName === '항공보안과' || majorName === '항공보안학과';
+    const pool = JOB_POOL.filter(function (j) {
+      if (isAviationMajor) return j.id >= 9101 && j.id <= 9110;
+      return ncsMiddles.indexOf(j.ncs.middle_name) !== -1;
+    });
     const scored = pool.map(function (j) {
       return {
         job: j,
