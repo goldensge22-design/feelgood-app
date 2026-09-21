@@ -33,20 +33,23 @@
       "candidate": "result-reports/kpass/candidate",
       "entry": "result-reports/kpass/candidate/report.kpass.final.html",
       "profileContract": "kpass",
-      "fullReportLocales": ["ko"],
-      "partialLocales": ["en", "th", "vi", "ru", "ar", "es", "zh", "ja", "it"],
-      "missingLocales": ["az", "km"],
+      "fullReportLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
+      "localeBundle": "result-reports/locales/kpass-child.locales.js",
+      "localeRuntime": "result-reports/locales/report-i18n-runtime.js",
       "personalization": "implemented-candidate",
-      "status": "candidate-needs-browser-regression"
+      "translationStatus": "google-machine-translated-technical-qa",
+      "status": "candidate"
     },
     "dcas-teen": {
       "baseline": "result-reports/dcas/baseline/teen",
       "candidate": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN",
       "entry": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/teen.work.html",
       "profileContract": "dcas",
-      "fullReportLocales": ["ko", "en"],
+      "fullReportLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
+      "localeBundle": "result-reports/locales/dcas-teen.locales.js",
+      "localeRuntime": "result-reports/locales/report-i18n-runtime.js",
       "layerLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
-      "layerDraftLocales": ["km"],
+      "translationStatus": "google-machine-translated-technical-qa",
       "status": "candidate"
     },
     "dcas-adult": {
@@ -54,9 +57,11 @@
       "candidate": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT",
       "entry": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html",
       "profileContract": "dcas",
-      "fullReportLocales": ["ko"],
+      "fullReportLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
+      "localeBundle": "result-reports/locales/dcas-adult.locales.js",
+      "localeRuntime": "result-reports/locales/report-i18n-runtime.js",
       "layerLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
-      "layerDraftLocales": ["km"],
+      "translationStatus": "google-machine-translated-technical-qa",
       "status": "candidate"
     }
   },

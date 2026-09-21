@@ -2,15 +2,17 @@
 
 작성일: 2026-09-21. 대상: K-PASS 아동, D-CAS 청소년, D-CAS 성인.
 
+> 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, 12개 전체 locale 및 크메르어까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.
+
 ## 1. GitHub 작업 위치와 상태
 
 - 저장소: https://github.com/goldensge22-design/feelgood-app
 - 개발 브랜치: `codex/result-reports-google-i18n`
 - 시작 위치: https://github.com/goldensge22-design/feelgood-app/tree/codex/result-reports-google-i18n/result-reports
-- 코드/개인화 QA 기준 커밋: `cd46159a8c50379d091127379d3ba26cbe547bd8`
+- 코드/개인화/12개 언어 QA 기준: 이 문서가 포함된 `codex/result-reports-google-i18n` 브랜치 HEAD. 최종 SHA는 인계 보고서에서 확인한다.
 - 원본 복구 기준 커밋: `d85af1c48050cf9447ef3a6f7e7610aa2905b0da`
 - 원본 브랜치: `codex/recover-planner-dcas81`. 원본 열람은 변경될 수 있는 브랜치 HEAD보다 위 커밋을 사용한다.
-- 현재 상태: 개발 후보본. 전체 12개 언어 완료본이나 운영 배포 완료본이 아니다. main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
+- 현재 상태: 12개 언어 기술 QA가 포함된 개발 후보본. 운영 배포 완료본은 아니며 main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
 
 새 작업 브랜치는 개발 후보본 기준으로 만든다. 기존 작업 트리가 깨끗한지 먼저 확인한다.
 
@@ -34,6 +36,7 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 - [manifest](reports-manifest.json): 진입점, 언어 범위, 원본 해시.
 - [패치 목록](PATCH_CATALOG.md): 과거 패치의 적용 상태.
 - [언어 범위](LANGUAGE_COVERAGE.md): 전체 번역과 부분 번역 구분.
+- [locale 번들](locales/manifest.json): 세 결과지 전체 번역과 공통 runtime.
 
 보호 대상: 루트 원본 ZIP, `dcas81/source/`, `dcas/baseline/`, 복구 기준 커밋. `references/` 및 루트 `files.zip`은 참고 패치이며 후보본 전체에 자동 덮어쓰기하지 않는다. `files.zip`은 K-PASS 전체 결과지 패키지가 아니다.
 
@@ -62,34 +65,34 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 4. 결과 접근 권한과 사용자/검사/결과 ID는 서버에서 보존·검증한다. 현재 adapter 반환 객체는 이들 ID를 보존하는 저장 계약이 아니다.
 5. 개인정보를 URL query에 넣지 않는다. JSON을 HTML에 넣을 때 안전한 직렬화를 적용하고, 이름·전공 등 문자열의 HTML 삽입도 점검한다. adapter는 HTML sanitizer가 아니다.
 
-### 성인 전공 전달: 현재 adapter 보완 필요
+### 성인 전공 전달: 완료
 
-**P1: `person.majorName`을 넣어도 현 adapter의 normalize/toLegacyProfile이 전달하지 않는다.** 성인 엔진은 `window.__TEST_PROFILE__.majorName`을 읽는다. 직접 프로필 주입 QA는 통과했지만 adapter 경유 전공 연동은 완료되지 않았다.
-
-연동 브랜치에서 선택 필드 `person.majorName`을 검증·보존하고 legacy `majorName`으로 전달하도록 보완한다. 제공된 전공이 선택 목록에 없을 때 기본 컴퓨터공학과로 잘못 추천되지 않도록 사용자 정의 전공 처리도 확인한다. 영문 given name 필요 시 `givenNameEn` 전달 계약을 함께 확인한다. 이 지시서는 adapter 코드를 변경하지 않는다.
+`person.majorName`은 D-CAS 성인의 필수 필드이며 adapter가 legacy `majorName`까지 전달한다. 기존 47개 전공은 추천에 연결되고, 목록에 없는 전공은 입력값을 그대로 표시하며 컴퓨터공학과로 잘못 대체하지 않는다.
 
 ## 4. 검증된 범위와 한계
 
-개인화 QA 기준은 위 `cd46159` 커밋이다.
+개인화 QA 기준은 이 문서가 포함된 개발 브랜치 HEAD다.
 
 - K-PASS: 반대 방향 점수 프로필 2개, 주요 개인화 대상 9개 변화 확인.
 - D-CAS: 청소년·성인 각 9개 프로필, 각각 주요 대상 15개/14개 변화 확인.
 - 대표 사례: ALL_L/M/H, 동점, S/Q 차이 10/11, S/Q 양방향 우세, P/A 강점.
 - 예시 이름/검사일, 지정된 예시 점수, 미치환 신원 placeholder 검사.
-- D-CAS 표지 81유형의 지연 덮어쓰기, 390px 주요 레이어 너비, PDF 생성 및 파일 형식/크기 검사 통과.
-- 크메르어 검사는 81유형 레이어 대상이다. 전체 결과지 크메르어 완료를 의미하지 않는다.
+- D-CAS 표지 81유형의 지연 덮어쓰기, 390px 주요 레이어 너비, 대표 한국어 PDF 생성 및 파일 형식/크기 검사 통과.
+- K-PASS·D-CAS 청소년·D-CAS 성인 각각 12개 locale(총 36개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사했다.
+- 각 결과지에서 크메르어 → 아랍어 live 전환 시 URL, 사용자 데이터, 방향 전환 보존을 검사했다.
+- 크메르어는 81유형 레이어뿐 아니라 전체 결과지 공통 locale 번들에도 포함된다.
 
-통과는 모든 문장의 의미적 정합성이나 모든 페이지의 시각 검수 완료를 뜻하지 않는다. 이름/날짜 일부 검사는 현재 보이는 `innerText`, 지정 점수 검사는 ID가 있는 일부 요소를 사용한다. 모든 탭·숨겨진 섹션·전체 인쇄물·모든 언어를 순회한 누출 검사는 추가 필요하다. PDF 생성 통과와 전체 PDF 페이지 육안 검수는 구분한다.
+통과는 기계 번역 문장의 원어민 수준 의미·문체 검수 완료를 뜻하지 않는다. 12개 locale에서 실제 DOM과 모바일 가로폭은 자동 순회했지만, 12개 언어 각각의 전체 PDF 페이지 육안 검수까지 한 것은 아니다. 대표 PDF 생성 통과와 전 언어 인쇄물 육안 검수는 구분한다.
 
 ### 추가 수정/확인 항목
 
-1. 위 성인 `majorName` adapter 누락과 지원되지 않는 전공의 기본값 오적용.
-2. **P1 검토: 81유형 예외와 기존 문장 엔진의 의미 충돌.** 청소년 P=75/A=80/S=90/Q=99에서 표지는 ALL_H이지만 FAQ는 “계획력이 낮게 나온 게 걱정돼요”로 출력됐다. 상대적 최저와 절대적 하 수준을 구분하도록 FAQ/성장/추천 문장 전체를 확인한다. 기존 H/M/L 임계값을 임의 변경하지 않는다.
-3. K-PASS 성장 문장은 비균형형에서 약한 축을 일률적으로 “또래 평균 수준”이라고 쓰는 코드가 남아 있다(`kpass-content-engine.js`, `pf-growthdesc`). 실제 해당 축 수준과 표현을 맞추는 보완 검토가 필요하다.
-4. D-CAS 청소년 검사 진행 정보의 `148`, `약 55분`은 고정 텍스트다. 검사 규격인지 실제 응시 문항수/소요시간인지 구분하고, 실제 기록이라면 서버 필드로 연결한다. 응시 시간 데이터가 없는 상태에서 실측값으로 표시하지 않는다.
-5. K-PASS 공식 전체척도와 95% CI/규준 자료 연결. 전체척도 누락 시 평균을 운영 점수로 대체하지 않는다.
-6. 기존 상위축 조합 균형 기준(K-PASS 15, D-CAS 20)은 소스에 임시 기준 표시가 있다. 확정 매뉴얼과 대조한다. D-CAS S/Q 11점 기준 및 81유형 52/53·74/75 기준과 다른 용도의 값이다.
-7. adapter 날짜는 현재 월 1~12/일 1~31 검사만 한다. 실제 존재하지 않는 날짜, 월령 범위, 성별 X, 특수문자 이름, 누락/이상 점수도 서버→adapter→DOM 경로로 검사한다.
+1. 성인 `majorName` 전달과 미등록 전공의 기본값 오적용은 수정 완료했다.
+2. ALL_H FAQ와 K-PASS 성장 문장은 절대 H/M/L과 상대적 최저 영역을 구분하도록 수정했다.
+3. D-CAS 청소년 검사 진행 정보의 `148`, `약 55분`은 검사 규격 고정 문구로 남겼다. 실제 응시 기록으로 바꾸려면 서버 계약을 별도로 확장한다.
+4. K-PASS 공식 전체척도와 95% CI/규준 자료는 서버가 공식 값을 전달한다. 전체척도 누락 시 운영에서 평균으로 대체하지 않는다.
+5. 기존 상위축 조합 균형 기준(K-PASS 15, D-CAS 20)은 소스에 임시 기준 표시가 있다. 확정 매뉴얼과 대조한다. D-CAS S/Q 11점 기준 및 81유형 52/53·74/75 기준과 다른 용도의 값이다.
+6. adapter는 실제 달력 날짜, 월령 0~11, locale, 누락/이상 점수와 성인 전공을 검증한다. 서버는 XSS 안전 직렬화와 접근 권한을 별도로 책임진다.
+7. 저장소 규칙에 기재된 `scripts/check-i18n.mjs`는 현재 브랜치에 존재하지 않는다. 결과지 전용 `validate-report-locales.mjs`로 키·placeholder·한국어/내부 토큰 잔존을 검사했다.
 
 따라서 이전 “고정값 누출 미발견” 보고를 모든 개인화 문장·운영 연동이 완성됐다는 의미로 확대하지 않는다.
 
@@ -97,17 +100,17 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 
 | 결과지 | manifest 전체 언어 | 부분 범위 |
 |---|---|---|
-| K-PASS | ko | 기존 표지/메뉴 9개 추가 locale. az/km 누락으로 기록됨. |
-| D-CAS 청소년 | ko/en | 81유형 레이어 12개 locale |
-| D-CAS 성인 | ko | 81유형 레이어 12개 locale |
+| K-PASS | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell·개인화·접근성 |
+| D-CAS 청소년 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
+| D-CAS 성인 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
 
 목표: ko/en/ja/zh/es/ru/vi/th/ar/it/az/km. 크메르어는 캄보디아어 `km`이다.
 
 사용자 결정: 원어민 검수를 완료 조건으로 요구하지 않고 Google 번역을 사용한다. 기존 번역은 원문 의미가 바뀌지 않으면 유지하며, 신규·변경·누락 문구만 작업한다. 이 결정은 검사 판정 기준을 임의 확정할 권한과는 별개다.
 
-전체 본문, 개인화 문장, 버튼, 그래프, 접근성, 오류, 인쇄/PDF까지 번역하고 placeholder·누락·한국어 잔존·언어 전환 시 프로필 유지·RTL·크메르 글꼴/줄바꿈을 검증한 후 전체 locale를 활성화한다. fallback은 번역 완료로 계산하지 않는다. locale의 `ai-draft` 등 내부 상태를 근거 없이 ready로 바꾸지 않는다.
+전체 본문, 개인화 문장, 버튼, 그래프, 접근성, 오류, 인쇄/PDF DOM을 번역했다. placeholder·누락·한국어 잔존·RTL·크메르 글꼴/줄바꿈은 자동/브라우저 QA로 검사한다. 기존 81유형 레이어의 `ai-draft` 등 원본 provenance는 임의로 바꾸지 않았다.
 
-로컬 `result-reports/i18n-work/`와 Google 번역 실험 도구는 이 인계 기준에서 미추적/미완료이며 GitHub 제공물에 포함하지 않았다. 개발자는 완성 번역 파일로 간주하지 않는다.
+`result-reports/i18n-work/`에는 정적 원문 3,607개, 실제 렌더 동적 원문 1,549개, 보정 51개, 런타임 성별 라벨 2개와 11개 Google 번역 결과를 증거로 보존한다. 운영 로드는 `result-reports/locales/` 번들만 사용한다.
 
 ## 6. 실행할 검증
 
@@ -116,7 +119,9 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 ```powershell
 node result-reports/integration/result-report-adapter.test.js
 node result-reports/tools/validate-reports.mjs
+node result-reports/tools/validate-report-locales.mjs
 node result-reports/dcas81/unpacked/TESTS/profile81.test.js
+node result-reports/tools/multilingual-browser-regression.cjs
 node result-reports/tools/kpass-browser-regression.js
 $env:DCAS_TRACK='teen'
 node result-reports/dcas81/unpacked/TESTS/browser-dom-regression.js
@@ -125,7 +130,7 @@ node result-reports/dcas81/unpacked/TESTS/browser-dom-regression.js
 Remove-Item Env:DCAS_TRACK
 ```
 
-현재 브라우저 테스트는 legacy 프로필 직접 주입 방식이다. adapter와 서버 payload까지 포함하는 연동 회귀 테스트를 추가해야 한다. 지원 언어 전체 탭, 모바일/태블릿/PC, 인쇄 모든 페이지를 확인한다. 후보 브랜치에 중앙 i18n 검사기가 있을 경우 저장소 규칙의 검사도 실행하되 등록되지 않은 프로그램까지 검사 완료됐다고 보고하지 않는다.
+현재 브라우저 테스트는 결과 엔진의 공식 `window.__TEST_PROFILE__` 계약을 직접 주입한다. adapter 자체 계약은 별도 단위 테스트로 검증했으며, 실제 서버 템플릿/인증/저장/API를 포함한 staging E2E는 개발자가 연결 후 추가한다. 배포 전 태블릿·PC 및 12개 언어 PDF 육안 검수를 수행한다.
 
 ## 7. 개발 완료 보고 요청
 

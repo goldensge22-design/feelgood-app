@@ -123,20 +123,23 @@ async function inspect(cdp) {
     await cdp.send('Runtime.enable');
 
     const profile = {
-      name:'통합 검증 아동', genderKey:'F', ageYears:10, ageMonths:2,
+      name:'QA Child', genderKey:'F', ageYears:10, ageMonths:2,
       testDate:{y:2026,m:9,d:21}, fullScaleScore:111,
       scores:{P:120,A:110,S:100,Q:90}
     };
     await navigate(cdp, profile, 'en');
     const result = await inspect(cdp);
-    assert.strictEqual(result.lang, 'ko', 'partial English locale must fall back to Korean');
-    assert.deepStrictEqual(result.menu, ['ko'], 'partial locales must not appear in the user menu');
+    assert.strictEqual(result.lang, 'en', 'English locale was not applied');
+    assert.deepStrictEqual(result.menu, ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'], 'all full locales must appear in the user menu');
     assert.ok(result.title.includes(profile.name), 'profile name was not applied to the cover');
     assert.ok(result.child.includes(profile.name), 'profile name was not applied to the identity chip');
     assert.deepStrictEqual(result.scores, ['120','110','100','90'], 'scores were not applied consistently');
     assert.ok(!result.body.includes('송서우'), 'default preview name remains after personalization');
     assert.ok(!result.body.includes('2023.02.27'), 'default preview date remains after personalization');
-    assert.strictEqual(result.errors.km.status, 'missing');
+    assert.strictEqual(result.errors.km.status, 'full');
+    const residueBody = result.body.replaceAll(profile.name, '').replaceAll('한국어', '');
+    const residue = [...residueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0, 8).map(match => match[0]);
+    assert.deepStrictEqual(residue, [], `Korean residue remains in the English report: ${JSON.stringify(residue)}`);
 
     const opposite = {
       name:'역방향 검증 아동', genderKey:'M', ageYears:11, ageMonths:1,
@@ -153,7 +156,7 @@ async function inspect(cdp) {
       assert.ok(oppositeResult.personalized[key], `missing opposite personalized target ${key}`);
       assert.notStrictEqual(result.personalized[key], oppositeResult.personalized[key], `personalized target stayed fixed: ${key}`);
     }
-    console.log('PASS: K-PASS personalization and full-locale-only menu');
+    console.log('PASS: K-PASS personalization and 12-locale menu');
   } finally {
     if (cdp) cdp.close();
     browser.kill();

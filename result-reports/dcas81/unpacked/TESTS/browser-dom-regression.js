@@ -179,6 +179,9 @@ async function inspect(cdp, track, testCase, profile) {
     assert.ok(result.jobsHeading.includes(profile.majorName), `${track}/${testCase.name}: jobs major is not personalized`);
     assert.strictEqual(result.majorExample, '"' + profile.majorName + '"', `${track}/${testCase.name}: major example is not personalized`);
   }
+  if (testCase.name === 'ALL_H') {
+    assert.ok(!Object.values(result.personalized).some(text => /낮게 나온|came out low/.test(text || '')), `${track}/${testCase.name}: all-high profile described as low`);
+  }
   delete result.bodyText;
   await delay(900);
   const lateCover = await evaluate(cdp, `document.getElementById('pf-cover-code').textContent.trim()`);
@@ -279,16 +282,19 @@ async function capturePdf(cdp, track) {
           fullName:'검증 사용자', givenName:'검증', fullNameEn:'QA User', givenNameEn:'QA',
           genderKey:'F', ageYears:track === 'teen' ? 16 : 24,
           gradeLabel:track === 'teen' ? '고등학교 1학년' : '대학교 4학년',
-          testDate:{y:2026,m:9,d:20}, majorName:track === 'adult' ? '심리학과' : '', scores:testCase.scores
+          testDate:{y:2026,m:9,d:20}, majorName:track === 'adult' ? (testCase.name === 'A_DOM' ? '미래융합인지학과' : '심리학과') : '', scores:testCase.scores
         };
         await navigateWithProfile(cdp, html, profile);
         summary.tracks[track].cases[testCase.name] = await inspect(cdp, track, testCase, profile);
       }
       const personalizedKeys = Object.keys(summary.tracks[track].cases.ALL_L.personalized);
       summary.tracks[track].personalizationVariation = Object.fromEntries(personalizedKeys.map(key => {
-        const values = Object.values(summary.tracks[track].cases).map(item => item.personalized[key]).filter(Boolean);
+        const values = Object.entries(summary.tracks[track].cases)
+          .filter(([caseName]) => !(track === 'adult' && caseName === 'A_DOM'))
+          .map(([, item]) => item.personalized[key]).filter(Boolean);
         const unique = new Set(values);
-        assert.ok(values.length === cases.length, `${track}: missing personalized target ${key}`);
+        const expectedCases = track === 'adult' ? cases.length - 1 : cases.length;
+        assert.ok(values.length === expectedCases, `${track}: missing personalized target ${key}`);
         assert.ok(unique.size >= 2, `${track}: personalized target stayed fixed ${key}`);
         return [key, unique.size];
       }));
