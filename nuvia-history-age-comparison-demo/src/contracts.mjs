@@ -1,3 +1,4 @@
+import {REVIEW_CONTRACT,reviewComplete} from './reconsideration.mjs';
 export const PATHS=['attention','simultaneous','sequential','planning'];
 export const AGE_BANDS=['preschool','middle-school','high-school'];
 export const STEPS=['actual','condition','prediction','path','story','historyComparison','predictionComparison','book'];
@@ -9,6 +10,7 @@ export function createRun(path='planning',now=Date.now(),ageBand='preschool'){
 }
 
 export function evidenceComplete(run){
+  if(run.reviewContract===REVIEW_CONTRACT)return reviewComplete(run);
   const e=run.evidence;
   if(run.path==='attention') return Array.isArray(e.clues)&&new Set(e.clues).size>=2&&e.clues.every(x=>['who','when'].includes(x));
   if(run.path==='simultaneous') return ['person','place','method'].every(k=>typeof e[k]==='string'&&e[k]);
