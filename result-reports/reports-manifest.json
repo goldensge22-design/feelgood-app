@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "updatedAt": "2026-09-21",
+  "policy": {
+    "exposeOnlyFullReportLocales": true,
+    "fallbackLocale": "ko",
+    "sourceArchivesAreImmutable": true
+  },
+  "sourceArchives": {
+    "kpass-2026-09-12": {
+      "path": "KPASS_CHILD_FINAL_2026-09-12.zip",
+      "bytes": 399013,
+      "sha256": "4EE59BC695FB4FCFC218ED52370CF6410ACE89336DBD9F0C2CB1F1E1045E81BF"
+    },
+    "dcas-2026-09-12": {
+      "path": "DCAS_FINAL_REBUILT_20260912 (1).zip",
+      "bytes": 198408,
+      "sha256": "17DFEABD2DB3364B3DDF24AF538901BCF82D2CECE42883993969275215F42E96"
+    },
+    "dcas81-recovery": {
+      "path": "result-reports/dcas81/source/DCAS_81_PROFILE_PATCH_v1.0.zip",
+      "bytes": 433649,
+      "sha256": "F9D9B4949A39D29BD23151FFCCB9932D97230F5068C2B144C569D12EABD8334A"
+    },
+    "files-zip": {
+      "path": "files.zip",
+      "bytes": 13382,
+      "sha256": "F5D17FF5129D77A5E5B827462396FCAFD1033DBABECF8D772B0E05AFC3067DBE"
+    }
+  },
+  "reports": {
+    "kpass-child": {
+      "candidate": "result-reports/kpass/candidate",
+      "entry": "result-reports/kpass/candidate/report.kpass.final.html",
+      "profileContract": "kpass",
+      "fullReportLocales": ["ko"],
+      "partialLocales": ["en", "th", "vi", "ru", "ar", "es", "zh", "ja", "it"],
+      "missingLocales": ["az", "km"],
+      "personalization": "implemented-candidate",
+      "status": "candidate-needs-browser-regression"
+    },
+    "dcas-teen": {
+      "baseline": "result-reports/dcas/baseline/teen",
+      "candidate": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN",
+      "entry": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/teen.work.html",
+      "profileContract": "dcas",
+      "fullReportLocales": ["ko", "en"],
+      "layerLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
+      "layerDraftLocales": ["km"],
+      "status": "candidate"
+    },
+    "dcas-adult": {
+      "baseline": "result-reports/dcas/baseline/adult",
+      "candidate": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT",
+      "entry": "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html",
+      "profileContract": "dcas",
+      "fullReportLocales": ["ko"],
+      "layerLocales": ["ko", "en", "ja", "zh", "es", "ru", "vi", "th", "ar", "it", "az", "km"],
+      "layerDraftLocales": ["km"],
+      "status": "candidate"
+    }
+  },
+  "references": {
+    "kpass-files-26": {
+      "path": "result-reports/kpass/references/files-26",
+      "status": "reference-only",
+      "note": "Earlier diagnosis/score-engine material; do not overwrite the 2026-09-12 candidate."
+    },
+    "dcas-files-zip": {
+      "path": "result-reports/dcas/references/files-zip",
+      "status": "expert-review-required",
+      "note": "Adult aviation-security job patch; estimated profiles and no Khmer."
+    }
+  }
+}
