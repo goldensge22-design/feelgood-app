@@ -9,7 +9,7 @@ SHA-256: `F5D17FF5129D77A5E5B827462396FCAFD1033DBABECF8D772B0E05AFC3067DBE`
 
 `files.zip`은 D-CAS 청소년/성인 전체 결과지 파일이 아니다. 성인 결과지의 **항공보안학과 직무 10개를 추가·교체하는 패치**다. 원본 자체에는 캄보디아어가 없지만, 현재 개발 후보본에서는 공통 결과지 locale 번들로 `km`까지 연결했다.
 
-또한 이 패치의 `pass_profile`은 `attr_source: "estimated"`, `attr_confidence: 0.5`인 1차 추정치다. 전문가 검수 전 운영 점수 판정 근거로 확정하면 안 된다.
+이 패치의 `pass_profile`은 `attr_source: "estimated"`, `attr_confidence: 0.5`인 AI 1차 추정치다. 2026-09-22 소유자 결정에 따라 전문가 업데이트 전까지 현재 값을 운영 기준값으로 사용한다. 이는 운영 승인이지 전문가 검수 완료나 과학적 타당도 확정을 뜻하지 않는다.
 
 ## ZIP 내부 파일
 
@@ -40,7 +40,7 @@ SHA-256: `F5D17FF5129D77A5E5B827462396FCAFD1033DBABECF8D772B0E05AFC3067DBE`
 4. 일반 직무 풀의 `항공보안교육담당자`가 끼어드는 충돌 차단.
 5. 12개 D-CAS locale 증분 번역과 실제 `ko/zh/km` DOM 검사 추가.
 
-남은 운영 조건은 10개 `pass_profile`의 전문가 검수다. 현재 값은 원본과 동일한 `estimated`, confidence 0.5이며 이 상태를 숨기거나 확정값으로 승격하지 않는다.
+10개 `pass_profile`의 전문가 검수는 향후 업데이트 항목이며 현재 배포의 차단 조건이 아니다. 현재 값은 `operational_status: owner-approved-interim`, 기준일 `2026-09-22`로 사용한다. 전문가 값이 도착하면 동일 키와 직무 ID를 유지한 채 수치·근거·버전만 교체하고 회귀검사를 다시 실행한다.
 
 ## 함께 발견된 다른 ZIP
 

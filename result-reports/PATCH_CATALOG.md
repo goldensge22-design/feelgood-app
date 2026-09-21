@@ -45,7 +45,7 @@ K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScor
 성인 항공보안학과 직무 10개 패치다. 전체 결과지나 K-PASS가 아니다.
 
 - 적용 상태: 현재 성인 개발 후보본에 통합. 원본 ZIP과 reference는 증거본으로 유지
-- 데이터 상태: `pass_profile`은 원본대로 `estimated`, confidence 0.5이며 전문가 확정값은 아님
+- 데이터 상태: 원본 provenance는 `estimated`, confidence 0.5. 2026-09-22 소유자 승인으로 전문가 업데이트 전까지 운영 기준값(`owner-approved-interim`)으로 사용
 - 통합 범위: 요청된 10개 직무 전용 풀, 항공보안/산업보안 복수 직무군, `항공보안과`/`항공보안학과` 별칭
 - 언어: 공통 D-CAS locale 번들로 `ko/en/ja/zh/es/ru/vi/th/ar/it/az/km` 전체 문장 연결
 - QA: 10개 고유 직무 단위검사 및 `ko/zh/km` 실제 DOM·모바일·인코딩 검사 통과
@@ -59,7 +59,7 @@ K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScor
 
 - 파일명이 더 최근처럼 보인다는 이유로 archive ZIP을 후보본 위에 덮어쓰기
 - `files (26).zip`의 과거 `kpass-score-engine.js`를 09-12 K-PASS 엔진 위에 통째로 복사
-- `files.zip`의 추정 직무 프로파일을 전문가 검수 없이 운영 적용
+- `files.zip` 값을 전문가 검수 완료값이라고 표시하거나 provenance를 삭제하는 행위. 현재 값 자체는 소유자 승인 임시 운영 기준으로 사용 가능
 - D-CAS 81유형 locale 수를 전체 결과지 언어 수로 표시
 - 부분 번역 locale를 운영 언어 메뉴에 노출
 

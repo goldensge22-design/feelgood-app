@@ -10,7 +10,8 @@
  * 이번 패치 범위가 아니라 건드리지 않았습니다.
  *
  * pass_profile 수치는 dcas-major-requirements.js와 동일한 성격의 "1차 추정치"입니다.
- * 정식 서비스 적용 전 진로 전문가 검토를 권장합니다 (attr_source: 'estimated').
+ * 항공보안학과 10개 항목은 2026-09-22 소유자 결정에 따라 전문가 업데이트 전까지
+ * 운영 기준값으로 사용합니다. 출처 추적을 위해 attr_source: 'estimated'는 유지합니다.
  */
 (function (global) {
 
@@ -168,6 +169,15 @@
     { keywords: ['기술교육', '가정교육', '생활교육', '기술가정'], ncsMiddle: '기술·생활교육', label: '기술·생활교육' },
     { keywords: ['예술교육', '체육교육', '음악교육', '미술교육', '예체능'], ncsMiddle: '예술·체육교육', label: '예술·체육교육' },
   ];
+
+  // 운영 승인과 산출 출처는 별도 축이다. 현재 값은 운영에 사용하지만 전문가 검수값으로 오인하지 않는다.
+  JOB_POOL_EXTRA.forEach(function (job) {
+    if (job.id >= 9101 && job.id <= 9110) {
+      job.operational_status = 'owner-approved-interim';
+      job.operational_baseline_date = '2026-09-22';
+      job.replaced_by_expert_version = null;
+    }
+  });
 
   /* 수동 선택 fallback용 — 자동 키워드 매칭 실패 시 보여줄 계열 목록 (중복 제거) */
   const CATEGORY_LIST = [

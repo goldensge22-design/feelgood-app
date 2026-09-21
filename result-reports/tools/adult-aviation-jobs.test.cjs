@@ -18,6 +18,8 @@ const aviation = pool.filter((job) => job.id >= 9101 && job.id <= 9110);
 assert.deepStrictEqual(Array.from(aviation, (job) => job.label_ko), expected);
 assert.strictEqual(new Set(aviation.map((job) => job.id)).size, 10, 'aviation job ids must be unique');
 assert.ok(aviation.every((job) => job.attr_source === 'estimated' && job.attr_confidence === 0.5));
+assert.ok(aviation.every((job) => job.operational_status === 'owner-approved-interim'));
+assert.ok(aviation.every((job) => job.operational_baseline_date === '2026-09-22'));
 
 const scores = {P:80,A:85,S:78,Q:82};
 for (const major of ['항공보안과', '항공보안학과']) {
