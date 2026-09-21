@@ -35,6 +35,15 @@ describe('PASS adaptive training contract',()=>{
   const a=structuredClone(DEMOS[0]);a.axes.planning={level:'low',value:82,unit:'표준점수'};const r=validateAssessment(a);
   expect(r.axes.planning).toEqual(a.axes.planning);expect(r).not.toBe(a);
  });
+ it('uses official support order, then comparable score values, instead of a fixed axis order',()=>{
+  const a=structuredClone(DEMOS[0]);a.axes.attention={level:'low',value:35,unit:'%'};a.supportOrder=['attention','planning'];
+  expect(resolveTraining(a)).toMatchObject({route:'combined',target:'attention',remainingTargets:['planning']});
+  delete a.supportOrder;expect(resolveTraining(a)).toMatchObject({target:'attention',remainingTargets:['planning']});
+ });
+ it('schema 1.1 requires a declared score system and four display values',()=>{
+  const a=structuredClone(DEMOS[0]);expect(validateAssessment(a).scoreSystem?.metric).toBe('accuracy_rate');
+  delete a.scoreSystem;expect(()=>validateAssessment(a)).toThrow(/점수 체계/);
+ });
  it('accepts elementary lower-stage assessment without changing its cognitive axes',()=>{const a={...DEMOS[0],educationStage:'elementary_1_3' as const};expect(validateAssessment(a).axes).toEqual(a.axes);expect(validateAssessment(a).educationStage).toBe('elementary_1_3');});
  it.each([null,{}, {...DEMOS[0],schemaVersion:'2.0'},{...DEMOS[0],educationStage:'preschool'},{...DEMOS[0],axes:{planning:{level:'low'}}},{...DEMOS[0],subjectId:''}])('missing or unsupported official data fails closed: %j',raw=>expect(()=>validateAssessment(raw)).toThrow());
  it('unknown score scale cannot silently become a percentile or classify the learner',()=>{

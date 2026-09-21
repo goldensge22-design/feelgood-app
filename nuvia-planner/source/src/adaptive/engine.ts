@@ -13,14 +13,16 @@ export type TransferStrategy = keyof typeof STRATEGY_LABELS;
 export interface TransferLink {bridgeId:string;strategyId:TransferStrategy;history:{activityId:string;evidenceId:string};kids?:{activityId:string;evidenceId:string};}
 export interface Verification {recordId:string;subjectId:string;assessmentId:string;reviewId:string;evidenceId:string;reviewedAt:string;reviewerRole:'teacher'|'parent'|'assessor';outcome:'supported'|'not_supported'|'insufficient';}
 export interface Assessment {
- schemaVersion:'1.0'; assessmentId:string; subjectId:string; profileVersion:string;
+ schemaVersion:'1.0'|'1.1'; assessmentId:string; subjectId:string; profileVersion:string;
  educationStage:'elementary_1_3'|'elementary_4_6'|'middle'|'high'|'adult';
  axes:Record<Axis,{level:Level;value?:number;unit?:string}>; transfer?:TransferLink;
+ scoreSystem?:{instrument:'kpass'|'dcas';metric:'standard_score'|'percentile'|'accuracy_rate';label:string;interpretationVersion:string};
+ supportOrder?:Axis[]; strengthOrder?:Axis[];
 }
 export const STAGE_BAND:Record<Assessment['educationStage'],Band>={elementary_1_3:'A',elementary_4_6:'A',middle:'B',high:'C',adult:'D'};
 export const DEMOS:Assessment[] = [
- {schemaVersion:'1.0',assessmentId:'demo-a',subjectId:'demo-a',profileVersion:'demo-1',educationStage:'elementary_4_6',transfer:{bridgeId:'demo-bridge-a',strategyId:'STEP_BREAKDOWN',history:{activityId:'demo-history-sequence',evidenceId:'demo-history-a'},kids:{activityId:'demo-kids-sequence',evidenceId:'demo-kids-a'}},axes:{planning:{level:'low'},attention:{level:'mid'},simultaneous:{level:'high'},successive:{level:'mid'}}},
- {schemaVersion:'1.0',assessmentId:'demo-b',subjectId:'demo-b',profileVersion:'demo-1',educationStage:'elementary_4_6',transfer:{bridgeId:'demo-bridge-b',strategyId:'EVIDENCE_COMPARE',history:{activityId:'demo-history-evidence',evidenceId:'demo-history-b'},kids:{activityId:'demo-kids-compare',evidenceId:'demo-kids-b'}},axes:{planning:{level:'mid'},attention:{level:'low'},simultaneous:{level:'mid'},successive:{level:'high'}}}
+ {schemaVersion:'1.1',assessmentId:'demo-a',subjectId:'demo-a',profileVersion:'demo-1',educationStage:'elementary_4_6',scoreSystem:{instrument:'dcas',metric:'accuracy_rate',label:'데모 결과지 · 영역별 정답률',interpretationVersion:'demo-1'},supportOrder:['planning'],strengthOrder:['simultaneous'],transfer:{bridgeId:'demo-bridge-a',strategyId:'STEP_BREAKDOWN',history:{activityId:'demo-history-sequence',evidenceId:'demo-history-a'},kids:{activityId:'demo-kids-sequence',evidenceId:'demo-kids-a'}},axes:{planning:{level:'low',value:42,unit:'%'},attention:{level:'mid',value:58,unit:'%'},simultaneous:{level:'high',value:76,unit:'%'},successive:{level:'mid',value:65,unit:'%'}}},
+ {schemaVersion:'1.1',assessmentId:'demo-b',subjectId:'demo-b',profileVersion:'demo-1',educationStage:'elementary_4_6',scoreSystem:{instrument:'dcas',metric:'accuracy_rate',label:'데모 결과지 · 영역별 정답률',interpretationVersion:'demo-1'},supportOrder:['attention'],strengthOrder:['successive'],transfer:{bridgeId:'demo-bridge-b',strategyId:'EVIDENCE_COMPARE',history:{activityId:'demo-history-evidence',evidenceId:'demo-history-b'},kids:{activityId:'demo-kids-compare',evidenceId:'demo-kids-b'}},axes:{planning:{level:'mid',value:61,unit:'%'},attention:{level:'low',value:41,unit:'%'},simultaneous:{level:'mid',value:58,unit:'%'},successive:{level:'high',value:75,unit:'%'}}}
 ];
 function validId(x:unknown):x is string{return typeof x==='string'&&x.trim().length>0&&x.length<=160;}
 export function validateTransfer(raw:unknown):TransferLink {
@@ -39,7 +41,7 @@ export function validateVerification(raw:unknown,records:TrainingRecord[]):Verif
 export function validateAssessment(raw:unknown):Assessment {
  if (!raw || typeof raw!=='object') throw new Error('결과지 데이터를 기다리고 있습니다.');
  const r=raw as Record<string,unknown>;
- if(r.schemaVersion!=='1.0')throw new Error('지원하지 않는 결과지 형식입니다.');
+ if(!['1.0','1.1'].includes(String(r.schemaVersion)))throw new Error('지원하지 않는 결과지 형식입니다.');
  for(const k of ['assessmentId','subjectId','profileVersion'])if(typeof r[k]!=='string'||!(r[k] as string).trim()||(r[k] as string).length>160)throw new Error('검사 식별 정보와 버전이 필요합니다.');
  if(typeof r.educationStage!=='string'||!Object.hasOwn(STAGE_BAND,r.educationStage))throw new Error('학습 단계 정보가 필요합니다.');
  if(!r.axes||typeof r.axes!=='object')throw new Error('PASS 4영역 결과가 필요합니다.');
@@ -50,17 +52,21 @@ export function validateAssessment(raw:unknown):Assessment {
   if(a.value!==undefined&&(typeof a.value!=='number'||!Number.isFinite(a.value)||typeof a.unit!=='string'||!a.unit.trim()||a.unit.length>40))throw new Error('점수에는 유효한 숫자와 점수 단위가 필요합니다.');
   axes[axis]={level:a.level,...(a.value!==undefined?{value:a.value,unit:a.unit}:{})};
  }
- return {schemaVersion:'1.0',assessmentId:r.assessmentId as string,subjectId:r.subjectId as string,profileVersion:r.profileVersion as string,educationStage:r.educationStage as Assessment['educationStage'],axes,...(r.transfer!==undefined?{transfer:validateTransfer(r.transfer)}:{})};
+ const axisOrder=(value:unknown,name:string)=>{if(value===undefined)return undefined;if(!Array.isArray(value)||value.some(x=>!AXES.includes(x))||new Set(value).size!==value.length)throw new Error(`${name} 순서가 올바르지 않습니다.`);return value as Axis[];};
+ let scoreSystem:Assessment['scoreSystem'];
+ if(r.scoreSystem!==undefined){const v=r.scoreSystem as any;if(!v||!['kpass','dcas'].includes(v.instrument)||!['standard_score','percentile','accuracy_rate'].includes(v.metric)||!validId(v.label)||!validId(v.interpretationVersion))throw new Error('점수 체계와 해석 버전이 올바르지 않습니다.');scoreSystem={instrument:v.instrument,metric:v.metric,label:v.label,interpretationVersion:v.interpretationVersion};}
+ if(r.schemaVersion==='1.1'&&(!scoreSystem||AXES.some(axis=>axes[axis].value===undefined)))throw new Error('1.1 결과지는 점수 체계와 PASS 4영역 표시값이 모두 필요합니다.');
+ const supportOrder=axisOrder(r.supportOrder,'지원'),strengthOrder=axisOrder(r.strengthOrder,'강점');
+ return {schemaVersion:r.schemaVersion as Assessment['schemaVersion'],assessmentId:r.assessmentId as string,subjectId:r.subjectId as string,profileVersion:r.profileVersion as string,educationStage:r.educationStage as Assessment['educationStage'],axes,...(scoreSystem?{scoreSystem}:{}),...(supportOrder?{supportOrder}:{}),...(strengthOrder?{strengthOrder}:{}),...(r.transfer!==undefined?{transfer:validateTransfer(r.transfer)}:{})};
 }
-export function profileKey(a:Assessment){return JSON.stringify([a.subjectId,a.assessmentId,a.profileVersion,AXES.map(x=>a.axes[x]),a.transfer??null]);}
+export function profileKey(a:Assessment){return JSON.stringify([a.subjectId,a.assessmentId,a.profileVersion,a.scoreSystem??null,a.supportOrder??null,a.strengthOrder??null,AXES.map(x=>a.axes[x]),a.transfer??null]);}
 export function resolveTraining(a:Assessment){
- const lows=AXES.filter(x=>a.axes[x].level==='low');
+ const sortByOfficialOrder=(items:Axis[],order:Axis[]|undefined,direction:1|-1)=>[...items].sort((x,y)=>{const xi=order?.indexOf(x)??-1,yi=order?.indexOf(y)??-1;if(xi>=0||yi>=0)return (xi<0?999:xi)-(yi<0?999:yi);const xv=a.axes[x].value,yv=a.axes[y].value;if(typeof xv==='number'&&typeof yv==='number'&&a.axes[x].unit===a.axes[y].unit)return (xv-yv)*direction;return AXES.indexOf(x)-AXES.indexOf(y);});
+ const lows=sortByOfficialOrder(AXES.filter(x=>a.axes[x].level==='low'),a.supportOrder,1);
  const route:Route=lows.length===0?'integrated':lows.length>1?'combined':lows[0];
- // First iteration prioritizes planning -> attention -> simultaneous -> successive; preserve remaining targets.
  const target:Axis=lows[0]??'planning';
- const strengths=AXES.filter(x=>a.axes[x].level==='high'&&x!==target);
- const preference:Axis[]=target==='attention'?['successive','planning','simultaneous','attention']:['simultaneous','successive','planning','attention'];
- const support=preference.find(x=>strengths.includes(x))??'universal';
+ const strengths=sortByOfficialOrder(AXES.filter(x=>a.axes[x].level==='high'&&x!==target),a.strengthOrder,-1);
+ const support:Axis|'universal'=strengths.length>0?strengths[0]:'universal';
  return {route,target,support,remainingTargets:lows.slice(1),reason:`${AXIS_LABEL[target]} 과정을 직접 연습하고, ${support==='universal'?'공통 안내':AXIS_LABEL[support]+' 강점'}를 발판으로 사용합니다.`};
 }
 export type Assignment=ReturnType<typeof resolveTraining>;
