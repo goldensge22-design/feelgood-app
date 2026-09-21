@@ -41,7 +41,11 @@ const html=`<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta nam
 function markdown(v,depth=0){if(Array.isArray(v))return v.map(x=>`${'  '.repeat(depth)}- ${typeof x==='object'?'\n'+markdown(x,depth+1):x}`).join('\n');if(v&&typeof v==='object')return Object.entries(v).filter(([k])=>k!=='id').map(([k,x])=>`${'  '.repeat(depth)}- ${r.labels[k]||k}: ${typeof x==='object'?'\n'+markdown(x,depth+1):x}`).join('\n');return String(v);}
 const md=`# ${r.title}\n\n${r.intro}\n\n## ${r.scope}\n\n${markdown(r.notes)}\n\n${bundle.variants.map(v=>`## ${v.ageLabel}\n\n${v.stages.map((s,i)=>`### ${i+1}. ${s.title||s.question}\n\n${markdown(s)}`).join('\n\n')}`).join('\n\n')}\n\n## ${r.provenance}\n\n${markdown(source)}\n`;
 await mkdir('dist',{recursive:true});
-await writeFile('dist/review.html',html);await writeFile('dist/review.json',JSON.stringify(bundle,null,2)+'\n');await writeFile('dist/review.md',md);
+const publicHtml=html.replace('</nav>',`<a href="./downloads/review.html" download="NUVIA_HISTORY_review.html">${esc(r.htmlDownload)}</a></nav>`);
+await writeFile('dist/review.html',publicHtml);await writeFile('dist/review.json',JSON.stringify(bundle,null,2)+'\n');await writeFile('dist/review.md',md);
+await mkdir('dist/downloads',{recursive:true});
+await writeFile('dist/downloads/review.html',html);await writeFile('dist/downloads/review.json',JSON.stringify(bundle,null,2)+'\n');await writeFile('dist/downloads/review.md',md);
+await writeFile('dist/_headers',['/review.json','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.json"','/review.md','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.md"','/downloads/review.html','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.html"','/downloads/review','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.html"','/downloads/review.json','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.json"','/downloads/review.md','  Content-Disposition: attachment; filename="NUVIA_HISTORY_review.md"',''].join('\n'));
 const index=await readFile('dist/index.html','utf8');
 await writeFile('dist/index.html',index.replace('<body>','<body><noscript><p><a href="./review.html">'+esc(r.title)+'</a></p></noscript>'));
 console.log('Exported review.html, review.json, review.md (no learner data; no JavaScript required)');

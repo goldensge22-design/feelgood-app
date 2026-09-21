@@ -1,7 +1,7 @@
 export const reviewCopy={
  title:'NUVIA HISTORY 중·고등 데모 — 문항 검토 자료',
  intro:'실제 실행 중인 한국어 문구와 진행 조건을 추출한 자료입니다. 이 페이지는 자바스크립트 없이 본문 전체를 읽을 수 있습니다. 학생의 작성 내용이나 저장 기록은 포함하지 않습니다.',
- download:'전체 문항 데이터 JSON',markdown:'전체 문항 텍스트 Markdown',play:'데모 실행',
+ download:'전체 문항 데이터 JSON',markdown:'전체 문항 텍스트 Markdown',htmlDownload:'검토 페이지 HTML 다운로드',play:'데모 실행',
  scope:'현재 평가 범위와 구현 한계',
  notes:[
   '중학생·고등학생 URL은 모두 W24-C2 Planning 경로입니다. Attention·Simultaneous·Sequential의 중·고등 난이도는 이 자료로 평가할 수 없습니다.',
