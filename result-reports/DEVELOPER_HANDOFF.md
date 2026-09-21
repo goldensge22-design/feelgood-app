@@ -82,6 +82,7 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 - D-CAS 표지 81유형의 지연 덮어쓰기, 390px 주요 레이어 너비, 대표 한국어 PDF 생성 및 파일 형식/크기 검사 통과.
 - K-PASS 13개 locale과 D-CAS 청소년·성인 각 12개 locale(총 37개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사했다.
 - `files.zip`의 항공보안학과 10개 직무를 성인 후보본에 통합했다. `항공보안과`/`항공보안학과` 두 별칭 모두 요청된 10개 전용 풀만 반환하며 산업보안 3개 직무도 포함한다. 원본의 `estimated`, confidence 0.5 상태는 유지한다.
+- 2026-09-22 소유자 결정: 위 10개 `pass_profile`은 전문가 업데이트 전까지 운영 기준값으로 사용한다. 내부 provenance는 `estimated`, confidence 0.5로 유지하고 `operational_status: owner-approved-interim`으로 구분한다. 서버 연동·배포를 막는 미완료 항목은 아니다.
 - 중국어 locale 전체를 replacement character·UTF-8 mojibake·한국어 잔존·내부 token 기준으로 검사했고, 항공보안학과 실제 중국어 DOM도 별도 통과했다.
 - 각 결과지에서 크메르어 → 아랍어 live 전환 시 URL, 사용자 데이터, 방향 전환 보존을 검사했다.
 - 크메르어는 81유형 레이어뿐 아니라 전체 결과지 공통 locale 번들에도 포함된다.
