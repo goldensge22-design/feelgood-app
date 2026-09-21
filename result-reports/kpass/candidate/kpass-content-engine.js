@@ -59,11 +59,12 @@ function scoreToPercentileTop(score){ // "또래 상위 X%" 표기용 (100-백�
 }
 function scoreToPercentileRank(score){ // "또래 상위 X%ile" 그 자체(순차처리 37%ile류)
   const z=(score-100)/15;
-  return Math.round((0.5*(1+erf(z/Math.SQRT2)))*100);
+  return Math.round((0.5*(1+erf(z/Math.SQRT2)))*1000)/10;
 }
+function formatPercentile(value){ return Number(value).toFixed(1); }
 function barWidthPct(score){ return Math.max(0,Math.min(100,(score-40)/120*100)); }
 function classifyLevel(score){ if(score>=120) return 'H'; if(score<=85) return 'L'; return 'M'; }
-function isNormativeStrong(score){ return score>115; }
+function isNormativeStrong(score){ return classifyLevel(score)==='H'; }
 
 /* 개인내적(자기 자신 대비) 강/약 — 기존엔 CRITICAL_VALUES(축별 임의 점수차 기준값)로 판정했으나,
    이 값이 송서우 한 명의 예시 데이터를 그대로 가져온 임시값이라 실제 배포에 쓸 수 없었음.
@@ -528,7 +529,9 @@ function applyPersonalization(profile){
   if (poly) poly.setAttribute('points', d.compassPolygon);
   ['P','A','S','Q'].forEach(function(k){
     const a = d.perAxis[k];
-    const sub = a.normStrong ? '또래 상위 '+a.topPct+'%' : '또래 평균 수준';
+    const sub = a.level==='H'
+      ? '또래 상위 '+formatPercentile(a.topPct)+'%'
+      : (a.level==='L' ? '또래 하위 '+formatPercentile(a.rankPct)+'%' : '또래 평균 수준 · 백분위 '+formatPercentile(a.rankPct));
     setHTML('pf-legend-'+k, '<b>'+AXIS_LABEL[k]+' '+a.score+'</b>'+sub);
   });
 
@@ -620,9 +623,11 @@ function applyPersonalization(profile){
     const fill = byId('pf-matrixfill-'+k);
     if (fill){ fill.style.width = a.barWidth+'%'; fill.querySelector('span') && (fill.querySelector('span').textContent = a.score); }
     setHTML('pf-matrixstatus-'+k,
-      a.normStrong
-        ? (a.personalStatus==='PS' ? '<b class="up">이중강점</b>상위 '+a.topPct+'%' : '<b class="up">규준강점</b>상위 '+a.topPct+'%')
-        : '<b class="midc">평균권</b>상위 '+a.topPct+'%');
+      a.level==='H'
+        ? (a.personalStatus==='PS' ? '<b class="up">이중강점</b>상위 '+formatPercentile(a.topPct)+'%' : '<b class="up">규준강점</b>상위 '+formatPercentile(a.topPct)+'%')
+        : (a.level==='L'
+          ? '<b class="weak">규준적 약</b>하위 '+formatPercentile(a.rankPct)+'%'
+          : '<b class="midc">평균권</b>백분위 '+formatPercentile(a.rankPct)));
   });
   setText('pf-strongcount', d.strongCount+'/4');
   setHTML('pf-strongcountdesc', '4개 인지 영역 중 <b style="color:var(--ink);">'+d.strongCount+'개 영역('+Math.round(d.strongCount/4*100)+'%)</b>이 또래 대비 강점 구간이에요.');
@@ -638,7 +643,7 @@ function applyPersonalization(profile){
   ['P','A','S','Q'].forEach(function(k){
     const a = d.perAxis[k];
     setText('pf-exp-num-'+k, String(a.score));
-    setText('pf-exp-sub-'+k, '또래 백분위 '+a.rankPct.toFixed(1)+' (95%CI는 전문가 감수 후 공개 예정)');
+    setText('pf-exp-sub-'+k, '또래 백분위 '+formatPercentile(a.rankPct)+' (95%CI는 전문가 감수 후 공개 예정)');
     const marker = byId('pf-exp-marker-'+k);
     if (marker){ marker.style.left = a.barWidth+'%'; marker.textContent = String(a.score); }
     const catEl = byId('pf-exp-cat-'+k);
@@ -655,7 +660,7 @@ function applyPersonalization(profile){
 
   // 항목10: 전체 지능지수(Full Scale) — 4축 평균 기반 실제 계산(기존엔 134 고정값)
   const fullScaleScore = d.fullScaleScore;
-  const fullScalePct = scoreToPercentileRank(fullScaleScore);
+  const fullScalePct = formatPercentile(scoreToPercentileRank(fullScaleScore));
   const fullScaleLevel = fullScaleScore >= 130 ? '매우 높음' : (fullScaleScore >= 120 ? '높음' : (fullScaleScore >= 110 ? '평균 상' : (fullScaleScore >= 90 ? '평균' : (fullScaleScore >= 80 ? '평균 하' : '낮음'))));
   setText('pf-fullscale-score', String(fullScaleScore));
   setText('pf-fullscale-oneliner', '또래 아동 대비 백분위 ' + fullScalePct + ' — ' + fullScaleLevel + ' 수준입니다. 표준점수 평균 100, 표준편차 15를 기준으로 산출되었습니다. (계획력·주의력·동시처리·순차처리 4개 영역 평균)');
@@ -860,15 +865,19 @@ function applyPersonalization(profile){
   const isBalancedLearntype = learnDiff <= learntypeThreshold;
   const sIsHigher = learnD < 0; // D<0 → 동시처리가 더 높음
   const learnDominantLabel = sIsHigher ? '동시처리' : '순차처리';
+  const balancedLowPair = isBalancedLearntype && d.perAxis.S.level === 'L' && d.perAxis.Q.level === 'L';
   setText('pf-learntype-qscore', String(qScore));
   setText('pf-learntype-sscore', String(sScore));
-  setText('pf-learntype-name', isBalancedLearntype ? '균형형 학습자' : (learnDominantLabel + ' 우세형 학습자'));
+  setText('pf-learntype-name', balancedLowPair ? '균형형 학습자(동반 저하)' : (isBalancedLearntype ? '균형형 학습자' : (learnDominantLabel + ' 우세형 학습자')));
   if (isBalancedLearntype) {
     setText('pf-learntype-diff', '차이 ' + learnDiff + '점 · 균형 기준(만 '+profile.ageYears+'세 기준 '+learntypeThreshold+'점) 이내');
   } else {
     setText('pf-learntype-diff', '차이 ' + learnDiff + '점 · 균형 기준(만 '+profile.ageYears+'세 기준 '+learntypeThreshold+'점) 초과로 우세형 판정');
   }
-  if (isBalancedLearntype) {
+  if (balancedLowPair) {
+    setHTML('pf-learntype-desc1', '동시처리와 순차처리의 점수 차이는 균형 기준 이내이지만, 두 점수 모두 <b style="color:var(--ink)">규준적 약 범위</b>에 해당해 <b style="color:var(--ink)">균형–동반 저하형</b>으로 해석합니다. 두 처리방식을 고르게 잘 쓴다는 뜻이 아니라, 전체 그림 이해와 순서 처리 모두에서 단계적인 지원이 필요하다는 의미입니다.');
+    setText('pf-learntype-desc2', '학습에서는 전체 그림을 먼저 짧게 보여준 뒤, 해야 할 일을 한 단계씩 나누어 제시하세요. 그림·도식과 체크리스트를 함께 사용하고, 짧은 과제의 완료 경험부터 쌓는 방식이 적절합니다.');
+  } else if (isBalancedLearntype) {
     setHTML('pf-learntype-desc1', '동시처리와 순차처리 능력이 비슷한 수준으로 나타나 <b style="color:var(--ink)">균형형 학습자</b>로 판단됩니다. 상황에 따라 전체를 직관적으로 파악하는 방식과 순서대로 차근차근 처리하는 방식을 고루 쓸 수 있어요.');
     setText('pf-learntype-desc2', '한쪽 방식에 치우치지 않고 유연하게 접근할 수 있다는 뜻이라, 다양한 학습 자료·방식에 골고루 적응하는 힘이 있어요.');
   } else if (sIsHigher) {
@@ -881,7 +890,13 @@ function applyPersonalization(profile){
 
   // --- 진로 적성 (기존엔 '동시처리 우세형' 전제로 고정) ---
   const careersDominantLabel = isBalancedLearntype ? '균형형' : (learnDominantLabel + ' 우세형');
-  setText('pf-careers-intro', careersDominantLabel + ' 인지 프로파일을 기반으로 한 분야별 추천 직업군입니다. 27개 세부 유형 대신 인지 특성 대분류 중심으로 제시하여 판단의 정확도와 진로 선택의 유연성을 함께 확보합니다.');
+  if (balancedLowPair) {
+    const normativeStrengths = d.ranked.filter(function(r){ return d.perAxis[r.k].level === 'H'; }).map(function(r){ return AXIS_LABEL[r.k]; });
+    const careerAnchor = normativeStrengths.length ? normativeStrengths.join('·') + ' 강점' : AXIS_LABEL[d.ranked[0].k] + '의 상대적 강점';
+    setText('pf-careers-intro', careerAnchor + '을 중심으로, 동시처리·순차처리의 지원 필요성을 함께 고려한 진로 탐색 정보입니다. 추천 직업군은 가능성을 제한하거나 진로를 확정하는 값이 아니며, 충분한 학습 지원과 실제 활동 관찰을 함께 반영해야 합니다.');
+  } else {
+    setText('pf-careers-intro', careersDominantLabel + ' 인지 프로파일을 기반으로 한 분야별 추천 직업군입니다. 27개 세부 유형 대신 인지 특성 대분류 중심으로 제시하여 판단의 정확도와 진로 선택의 유연성을 함께 확보합니다.');
+  }
 
   // --- 검사자 총평 ---
   // 패치: top2 조합 강도 표현("최상위권"/"우수하게")이 실제 티어와 무관하게 고정이었던 버그 수정.
