@@ -68,7 +68,7 @@
     return (typeof DCasProfile81 !== 'undefined') ? DCasProfile81.normalizeLang(requested) : 'ko';
   }
 
-  function ensureProfile81Note(sectionId, id, label, text, dir) {
+  function ensureProfile81Note(sectionId, id, label, text, dir, lang) {
     const section = byId(sectionId);
     if (!section) return;
     let note = byId(id);
@@ -79,6 +79,7 @@
       section.appendChild(note);
     }
     note.dir = dir || 'ltr';
+    note.lang = lang || '';
     note.textContent = label + ' · ' + text;
   }
 
@@ -104,6 +105,10 @@
     setText('pf-cover-typename', p81.title);
     setText('pf-herotag', p81.labels.profile + ' · ' + p81.code);
     setText('pf-herotype', p81.title);
+    ['pf-cover-typename', 'pf-herotag', 'pf-herotype'].forEach(function (id) {
+      const el = byId(id);
+      if (el) el.lang = p81.lang;
+    });
 
     const temperament = byId('temperament');
     if (temperament) {
@@ -117,6 +122,7 @@
         else temperament.insertBefore(card, temperament.firstChild);
       }
       card.dir = p81.dir;
+      card.lang = p81.lang;
       card.innerHTML = '<h4 style="margin:0 0 8px;font-size:14px;color:var(--navy);">' + p81.labels.profile + ' · ' + p81.code + '</h4>' +
         '<p style="margin:0 0 10px;font-size:13.5px;line-height:1.7;"><b>' + p81.title + '</b> — ' + p81.summary + '</p>' +
         '<div class="two-col">' + p81.fragments.map(function (f) {
@@ -126,10 +132,10 @@
     }
 
     // 81유형은 동일 점수를 직무 점수에 다시 더하지 않고, 지원 강도·추천 이유·환경 조건을 바꾸는 입력으로 사용한다.
-    ensureProfile81Note('efficiency', 'pf-profile81-learning-note', p81.labels.learning, p81.recommendations.learning, p81.dir);
-    ensureProfile81Note('major', 'pf-profile81-career-note', p81.labels.career, p81.recommendations.career, p81.dir);
-    ensureProfile81Note('jobs', 'pf-profile81-job-note', p81.labels.job, p81.recommendations.job, p81.dir);
-    ensureProfile81Note('expert', 'pf-expert-processing-note', '두뇌유형', processingSummary(p81.processing), 'ltr');
+    ensureProfile81Note('efficiency', 'pf-profile81-learning-note', p81.labels.learning, p81.recommendations.learning, p81.dir, p81.lang);
+    ensureProfile81Note('major', 'pf-profile81-career-note', p81.labels.career, p81.recommendations.career, p81.dir, p81.lang);
+    ensureProfile81Note('jobs', 'pf-profile81-job-note', p81.labels.job, p81.recommendations.job, p81.dir, p81.lang);
+    ensureProfile81Note('expert', 'pf-expert-processing-note', '두뇌유형', processingSummary(p81.processing), 'ltr', 'ko');
     setText('pf-opinion-summary', p81.title + ' — ' + p81.summary);
 
     // 전영역 저·중·고 및 동점 균형형은 기존 BAL의 과도한 강점 문구를 상속하지 않는다.

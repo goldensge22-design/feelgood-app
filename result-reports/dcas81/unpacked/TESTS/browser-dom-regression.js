@@ -175,6 +175,36 @@ async function captureMobile(cdp, track) {
   return layout;
 }
 
+async function applyAndInspectKhmer(cdp, track) {
+  const switchExpression = track === 'teen'
+    ? "DCasTeenEngine.setProfile81Language('km', PROFILE)"
+    : "DCasAdultEngine.setProfile81Language('km')";
+  await evaluate(cdp, switchExpression);
+  await delay(300);
+  const result = await evaluate(cdp, `(() => {
+    const text = id => { const el=document.getElementById(id); return el ? el.textContent.trim() : ''; };
+    const p=window.__DCAS_PROFILE81__;
+    const ids=['pf-cover-typename','pf-herotag','pf-herotype','pf-profile81-card','pf-profile81-learning-note','pf-profile81-career-note','pf-profile81-job-note'];
+    return {
+      lang:p && p.lang,
+      dir:p && p.dir,
+      title:p && p.title,
+      elements:ids.map(id => {
+        const el=document.getElementById(id);
+        return {id, text:text(id), lang:el && el.lang, dir:el && el.dir};
+      })
+    };
+  })()`);
+  assert.strictEqual(result.lang, 'km', `${track}: Khmer locale not applied`);
+  assert.strictEqual(result.dir, 'ltr', `${track}: Khmer direction must be ltr`);
+  assert.ok(/[\u1780-\u17FF]/.test(result.title), `${track}: Khmer title missing`);
+  for (const item of result.elements) {
+    assert.ok(item.text && /[\u1780-\u17FF]/.test(item.text), `${track}: Khmer text missing in ${item.id}`);
+    assert.strictEqual(item.lang, 'km', `${track}: lang attribute missing in ${item.id}`);
+  }
+  return result;
+}
+
 async function capturePdf(cdp, track) {
   await evaluate(cdp, `document.getElementById('reportRoot').classList.add('pdf-mode')`);
   await delay(200);
@@ -217,6 +247,7 @@ async function capturePdf(cdp, track) {
         await navigateWithProfile(cdp, html, profile);
         summary.tracks[track].cases[testCase.name] = await inspect(cdp, track, testCase);
       }
+      summary.tracks[track].khmer = await applyAndInspectKhmer(cdp, track);
       summary.tracks[track].mobile = await captureMobile(cdp, track);
       summary.tracks[track].pdf = await capturePdf(cdp, track);
     }

@@ -2,7 +2,7 @@
  * D-CAS 공통 81유형 정적 콘텐츠 엔진
  * - P/A/S/Q 각 축을 H/M/L로 분류: 3^4 = 81
  * - 생성형 AI/API를 사용하지 않음
- * - 지원 언어: ko/en/ja/zh/es/ru/vi/th/ar/it/az
+ * - 지원 언어: ko/en/ja/zh/es/ru/vi/th/ar/it/az/km
  * - D-CAS 원점수 기준 기본 절단점: H >= 75, L <= 52, M = 53~74
  */
 (function (global) {
@@ -12,7 +12,10 @@
   const DEFAULT_THRESHOLDS = { high: 75, low: 52, balance: 20 };
   const LANG_ALIASES = {
     ko:'ko', kr:'ko', en:'en', ja:'ja', jp:'ja', zh:'zh', cn:'zh',
-    es:'es', ru:'ru', vi:'vi', vn:'vi', th:'th', ar:'ar', it:'it', az:'az'
+    es:'es', ru:'ru', vi:'vi', vn:'vi', th:'th', ar:'ar', it:'it', az:'az', km:'km'
+  };
+  const LOCALE_META = {
+    km:{label:'ខ្មែរ',dir:'ltr',status:'ai-draft',sourceLocale:'ko',sourceVersion:'ko-profile81-v1'}
   };
 
   const I18N = {
@@ -120,6 +123,34 @@
       fragments:{P:{H:'Planlaşdırma yüksəkdir; məqsəd qoyma və addımları təşkil etmə gücündən istifadə etmək olar.',M:'Planlaşdırma ortadır; qısa və konkret məqsədlər strategiyanı sabitləşdirir.',L:'Planlaşdırma aşağıdır; məqsədi kiçik addımlara bölün və növbəti hərəkəti görünən edin.'},A:{H:'Diqqət yüksəkdir; yayındırıcıları idarə etməklə davamlı fokusdan istifadə etmək olar.',M:'Diqqət ortadır; sabit rutin maraq və mühitdən yaranan dəyişkənliyi azaldır.',L:'Diqqət aşağıdır; qısa fokus blokları, dərhal rəy və az yayındırıcı mühit lazımdır.'},S:{H:'Eyni vaxtlı emal yüksəkdir; məlumatı birləşdirib ümumi quruluşu görmək olar.',M:'Eyni vaxtlı emal ortadır; diaqram və qısa xülasə ümumi mənzərəni sabitləşdirir.',L:'Eyni vaxtlı emal aşağıdır; əvvəlcə ümumi mənzərəni göstərin və əlaqələri vizuallaşdırın.'},Q:{H:'Ardıcıl emal yüksəkdir; prosedurları addım-addım dəqiq izləmək olar.',M:'Ardıcıl emal ortadır; ardıcıllıq cədvəli və şifahi təkrar kömək edir.',L:'Ardıcıl emal aşağıdır; hər dəfə bir addım göstərin və siyahı ilə yoxlayın.'}},
       rec:{ALL_L:{learning:'Qısa və asan vahidlərlə başlayın, dörd sahədə tamamlanma təcrübəsi yaradın.',career:'Cari ballarla seçimləri məhdudlaşdırmayın; dəstəklənən təcrübələrdə maraq və dəyişimi izləyin.',job:'İş uyğunluğu istisna meyarı deyil; strukturlaşdırılmış başlanğıc tapşırıqlarda real performansı yoxlayın.'},ALL_M:{learning:'Dörd strategiyanı növbə ilə sınayın və tapşırığa görə müqayisə edin.',career:'Maraq, davamlılıq və nəticənin birlikdə göründüyü sahələri tapın.',job:'Tövsiyəni təcrübə, maraq və öyrənmə imkanı ilə birləşdirin.'},ALL_H:{learning:'Bir neçə emal üsulunu birləşdirən mürəkkəb tapşırıqları sınayın.',career:'Maraq sahəsi seçin və uzun layihələrlə ixtisaslaşın.',job:'Real maraq və təcrübə ilə mürəkkəb problem həlli rollarını araşdırın.'},BAL:{learning:'Kiçik fərqlərdən güclü-zəif sahə yaratmayın; strategiyaları tapşırığa görə müqayisə edin.',career:'Balanslı profildə maraq, təcrübə və davamlılığa daha çox çəki verin.',job:'Süni yüksək oxdan deyil, ümumi səviyyə və təcrübədən şərh edin.'},supportLow:'{axes} üçün dəstəyi artırın: bir addım, vizuallaşdırma və qısa təkrar.',useHigh:'{axes} sahələrini digər sahələrə dəstək verən resurs kimi istifadə edin.',career:'81 tip kodu izahı dəstəkləyir, karyeranı müəyyən etmir.',job:'Eyni ballar iki dəfə çəkilmir; profil gücləri və dəstək şərtlərini izah edir.'},
       labels:{profile:'81 tipli profil',learning:'Öyrənmədə tətbiq',career:'Karyerada tətbiq',job:'İşdə tətbiq'}
+    },
+    km: {
+      axis:{P:'ការធ្វើផែនការ',A:'ការយកចិត្តទុកដាក់',S:'ដំណើរការព័ត៌មានព្រមគ្នា',Q:'ដំណើរការព័ត៌មានតាមលំដាប់'}, level:{H:'ខ្ពស់',M:'មធ្យម',L:'ទាប'},
+      titles:{ALL_L:'មានតុល្យភាព · ត្រូវពង្រឹងមូលដ្ឋានទូទៅ',ALL_M:'មានតុល្យភាព · ស្វែងរកក្នុងកម្រិតស្តង់ដារ',ALL_H:'មានតុល្យភាព · សមាហរណកម្មសមត្ថភាពខ្ពស់',BAL:'មានតុល្យភាព · ទម្រង់កម្រិតចម្រុះ',PROFILE:'ទម្រង់ការយល់ដឹង ៨១ ប្រភេទ'},
+      summaries:{
+        ALL_L:'វិស័យទាំងបួនស្ថិតក្នុងកម្រិតទាប។ មិនមានវិស័យណាមួយខ្សោយដាច់ដោយឡែកទេ ប៉ុន្តែត្រូវការការគាំទ្រមូលដ្ឋានទូទៅ។ កុំប្រើលទ្ធផលនេះតែមួយគត់ដើម្បីកំណត់សមត្ថភាព ឬជម្រើសអាជីព; សូមពិចារណារួមជាមួយការសង្កេតប្រចាំថ្ងៃ និងការវាយតម្លៃបន្ថែម។',
+        ALL_M:'វិស័យទាំងបួនស្ថិតក្នុងកម្រិតមធ្យម។ ជំនួសឱ្យការកំណត់ចំណុចខ្លាំង ឬចំណុចខ្សោយលេចធ្លោ គួរសាកល្បងបទពិសោធន៍ចម្រុះ ដើម្បីស្វែងរកចំណាប់អារម្មណ៍ និងសមត្ថភាពអនុវត្តជាក់ស្តែង។',
+        ALL_H:'វិស័យទាំងបួនស្ថិតក្នុងកម្រិតខ្ពស់។ អាចប្រើវិធីដំណើរការព័ត៌មានទាំងបួនរួមគ្នាបាន ដូច្នេះកិច្ចការស្មុគស្មាញ និងការសិក្សាស៊ីជម្រៅក្នុងវិស័យដែលចាប់អារម្មណ៍គឺសមស្រប។',
+        BAL:'ពិន្ទុទាំងបួននៅជិតគ្នា ដូច្នេះមិនកំណត់វិស័យខ្លាំងបំផុត ឬខ្សោយបំផុតដោយបង្ខំទេ។ ត្រូវបកស្រាយកម្រិតជាក់លាក់រួមជាមួយលទ្ធផលអនុវត្តតាមកិច្ចការ។',
+        PROFILE:'នេះជាទម្រង់មួយក្នុងចំណោម ៨១ ប្រភេទ ដែលបង្កើតពីកម្រិតខ្ពស់ មធ្យម និងទាបនៃវិស័យទាំងបួន។ វាបង្ហាញទាំងកម្រិតជាក់លាក់ និងលំនាំផ្ទាល់ខ្លួន។'
+      },
+      fragments:{
+        P:{H:'ការធ្វើផែនការស្ថិតក្នុងកម្រិតខ្ពស់ ហើយអាចប្រើសមត្ថភាពកំណត់គោលដៅ និងរៀបចំជំហានអនុវត្តបានយ៉ាងសកម្ម។',M:'ការធ្វើផែនការស្ថិតក្នុងកម្រិតមធ្យម ហើយអាចហាត់យុទ្ធសាស្ត្រផែនការបានល្អជាមួយគោលដៅខ្លី និងជាក់លាក់។',L:'ការធ្វើផែនការស្ថិតក្នុងកម្រិតទាប ដូច្នេះគួរបំបែកគោលដៅជាជំហានតូចៗ និងបង្ហាញសកម្មភាពបន្ទាប់ឱ្យឃើញច្បាស់។'},
+        A:{H:'ការយកចិត្តទុកដាក់ស្ថិតក្នុងកម្រិតខ្ពស់ ហើយអាចប្រើសមត្ថភាពផ្តោតលើកិច្ចការមួយដោយគ្រប់គ្រងអ្វីដែលរំខាន។',M:'ការយកចិត្តទុកដាក់ស្ថិតក្នុងកម្រិតមធ្យម ហើយទម្លាប់ថេរអាចជួយកាត់បន្ថយការប្រែប្រួលតាមចំណាប់អារម្មណ៍ និងបរិយាកាស។',L:'ការយកចិត្តទុកដាក់ស្ថិតក្នុងកម្រិតទាប ដូច្នេះត្រូវការវគ្គផ្តោតខ្លីៗ មតិត្រឡប់ភ្លាមៗ និងបរិយាកាសដែលមានការរំខានតិច។'},
+        S:{H:'ដំណើរការព័ត៌មានព្រមគ្នាស្ថិតក្នុងកម្រិតខ្ពស់ ហើយអាចរួមបញ្ចូលព័ត៌មានជាច្រើន ដើម្បីយល់ពីរចនាសម្ព័ន្ធ និងទំនាក់ទំនងទាំងមូល។',M:'ដំណើរការព័ត៌មានព្រមគ្នាស្ថិតក្នុងកម្រិតមធ្យម ហើយការប្រើគំនូសតាងជាមួយសេចក្តីសង្ខេបខ្លីអាចជួយឱ្យយល់រូបភាពទាំងមូលបានថេរ។',L:'ដំណើរការព័ត៌មានព្រមគ្នាស្ថិតក្នុងកម្រិតទាប ដូច្នេះគួរបង្ហាញរូបភាពទាំងមូលជាមុន និងធ្វើឱ្យទំនាក់ទំនងរវាងព័ត៌មានមើលឃើញបាន។'},
+        Q:{H:'ដំណើរការព័ត៌មានតាមលំដាប់ស្ថិតក្នុងកម្រិតខ្ពស់ ហើយអាចអនុវត្តនីតិវិធីមួយជំហានម្តងៗបានត្រឹមត្រូវ។',M:'ដំណើរការព័ត៌មានតាមលំដាប់ស្ថិតក្នុងកម្រិតមធ្យម ហើយតារាងលំដាប់ជំហានជាមួយការពន្យល់ដោយមាត់អាចជួយឱ្យការអនុវត្តមានស្ថិរភាព។',L:'ដំណើរការព័ត៌មានតាមលំដាប់ស្ថិតក្នុងកម្រិតទាប ដូច្នេះគួរបង្ហាញម្តងមួយជំហាន និងប្រើបញ្ជីត្រួតពិនិត្យដើម្បីបញ្ជាក់ការបញ្ចប់។'}
+      },
+      rec:{
+        ALL_L:{learning:'ចាប់ផ្តើមពីកិច្ចការខ្លី និងងាយស្រួល ហើយបង្កើតបទពិសោធន៍បញ្ចប់កិច្ចការនៅគ្រប់វិស័យទាំងបួន។',career:'កុំកំណត់ជម្រើសតាមពិន្ទុបច្ចុប្បន្ន; សង្កេតចំណាប់អារម្មណ៍ និងល្បឿននៃការរីកចម្រើនក្នុងបទពិសោធន៍ដែលមានការគាំទ្រល្អ។',job:'ភាពសមស្របនឹងការងារមិនមែនជាលក្ខខណ្ឌដកចេញទេ។ ត្រូវពិនិត្យការអនុវត្តជាក់ស្តែងក្នុងកិច្ចការចាប់ផ្តើមដែលមានរចនាសម្ព័ន្ធ និងការគាំទ្រសមស្រប។'},
+        ALL_M:{learning:'សាកល្បងប្តូររវាងការធ្វើផែនការ ការផ្តោតអារម្មណ៍ ការមើលរូបភាពទាំងមូល និងការធ្វើតាមលំដាប់ ហើយប្រៀបធៀបវិធីដែលមានប្រសិទ្ធភាព។',career:'ស្វែងរកវិស័យដែលចំណាប់អារម្មណ៍ ការតស៊ូ និងលទ្ធផលល្អកើតឡើងរួមគ្នាតាមរយៈបទពិសោធន៍ចម្រុះ។',job:'បង្រួមជម្រើសដោយពិចារណាអនុសាសន៍រួមជាមួយបទពិសោធន៍ ចំណាប់អារម្មណ៍ និងសមត្ថភាពក្នុងការបណ្តុះបណ្តាល។'},
+        ALL_H:{learning:'សាកល្បងកិច្ចការស្មុគស្មាញ និងកម្រិតខ្ពស់ ដែលត្រូវការប្រើវិធីដំណើរការព័ត៌មានជាច្រើនរួមគ្នា។',career:'ជ្រើសរើសវិស័យដែលចាប់អារម្មណ៍ និងអភិវឌ្ឍជំនាញតាមរយៈគម្រោងរយៈពេលវែង។',job:'ស្វែងរកតួនាទីដោះស្រាយបញ្ហាស្មុគស្មាញ និងសម្របសម្រួល ដោយពិចារណាចំណាប់អារម្មណ៍ និងបទពិសោធន៍ជាក់ស្តែង។'},
+        BAL:{learning:'កុំបង្កើតចំណុចខ្លាំង ឬខ្សោយពីភាពខុសគ្នាតូចៗនៃពិន្ទុ; ប្រៀបធៀបថាវិធីណាមានប្រសិទ្ធភាពតាមប្រភេទកិច្ចការ។',career:'សម្រាប់ទម្រង់មានតុល្យភាព គួរផ្តល់ទម្ងន់ដល់ចំណាប់អារម្មណ៍ បទពិសោធន៍ និងការតស៊ូជាងលំដាប់ពិន្ទុ។',job:'បកស្រាយអនុសាសន៍តាមកម្រិតទូទៅ និងបទពិសោធន៍ មិនមែនតាមវិស័យខ្ពស់ដែលកំណត់ដោយបង្ខំទេ។'},
+        supportLow:'បង្កើនការគាំទ្រសម្រាប់ {axes} ដោយបង្ហាញម្តងមួយជំហាន ប្រើរូបភាព និងធ្វើឡើងវិញខ្លីៗ។',
+        useHigh:'ប្រើ {axes} ជាធនធានសម្រាប់កិច្ចការ និងដើម្បីគាំទ្រវិស័យផ្សេងទៀត។',
+        career:'លេខកូដ ៨១ ប្រភេទជួយពន្យល់ពីភាពសមស្រប និងលក្ខខណ្ឌគាំទ្រ ប៉ុន្តែមិនកំណត់អាជីពទេ។',
+        job:'ពិន្ទុដដែលមិនត្រូវបានគណនាទម្ងន់ពីរដងទេ; ទម្រង់ ៨១ ប្រភេទត្រូវបានប្រើដើម្បីពន្យល់ចំណុចខ្លាំង និងលក្ខខណ្ឌគាំទ្រ។'
+      },
+      labels:{profile:'ទម្រង់ ៨១ ប្រភេទ',learning:'ការអនុវត្តក្នុងការសិក្សា',career:'ការអនុវត្តក្នុងការជ្រើសរើសអាជីព',job:'ការអនុវត្តក្នុងការងារ'}
     }
   };
 
@@ -227,7 +258,7 @@
   }
 
   global.DCasProfile81 = {
-    LANGS:Object.keys(I18N), I18N:I18N, ORDER:ORDER, DEFAULT_THRESHOLDS:DEFAULT_THRESHOLDS,
+    LANGS:Object.keys(I18N), I18N:I18N, LOCALE_META:LOCALE_META, ORDER:ORDER, DEFAULT_THRESHOLDS:DEFAULT_THRESHOLDS,
     normalizeLang:normalizeLang, setLang:setLang, getLang:getLang, getLevel:getLevel,
     validateScores:validateScores, classifyProcessing:classifyProcessing,
     classify:classify, toPlainText:toPlainText

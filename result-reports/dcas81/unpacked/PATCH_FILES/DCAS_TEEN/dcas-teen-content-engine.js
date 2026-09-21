@@ -37,7 +37,7 @@
     return (typeof DCasProfile81 !== 'undefined') ? DCasProfile81.normalizeLang(requested) : 'ko';
   }
 
-  function ensureProfile81Note(sectionId, id, label, text, dir) {
+  function ensureProfile81Note(sectionId, id, label, text, dir, lang) {
     const section = byId(sectionId);
     if (!section) return;
     let note = byId(id);
@@ -48,6 +48,7 @@
       section.appendChild(note);
     }
     note.dir = dir || 'ltr';
+    note.lang = lang || '';
     note.textContent = label + ' · ' + text;
   }
 
@@ -67,6 +68,10 @@
     // 기질 특성: 81유형 코드·예외 유형명·4축별 정적 문장을 모두 노출한다.
     setText('pf-herotag' + sfx, p81.labels.profile + ' · ' + p81.code);
     setText('pf-herotype' + sfx, p81.title);
+    ['pf-cover-typename' + sfx, 'pf-herotag' + sfx, 'pf-herotype' + sfx].forEach(function (id) {
+      const el = byId(id);
+      if (el) el.lang = p81.lang;
+    });
     const temperament = byId('temperament');
     if (temperament) {
       let card = byId('pf-profile81-card' + sfx);
@@ -79,6 +84,7 @@
         else temperament.insertBefore(card, temperament.firstChild);
       }
       card.dir = p81.dir;
+      card.lang = p81.lang;
       card.innerHTML = '<h4 style="margin:0 0 8px;font-size:14px;color:var(--navy);">' + p81.labels.profile + ' · ' + p81.code + '</h4>' +
         '<p style="margin:0 0 10px;font-size:13.5px;line-height:1.7;"><b>' + p81.title + '</b> — ' + p81.summary + '</p>' +
         '<div class="two-col">' + p81.fragments.map(function (f) {
@@ -88,9 +94,9 @@
     }
 
     // 같은 점수를 추천식에 다시 가중하지 않고, 81유형을 지원 강도와 추천 이유에 추가 입력으로 사용한다.
-    ensureProfile81Note('learning', 'pf-profile81-learning-note' + sfx, p81.labels.learning, p81.recommendations.learning, p81.dir);
-    ensureProfile81Note('dept', 'pf-profile81-career-note' + sfx, p81.labels.career, p81.recommendations.career, p81.dir);
-    ensureProfile81Note('jobs', 'pf-profile81-job-note' + sfx, p81.labels.job, p81.recommendations.job, p81.dir);
+    ensureProfile81Note('learning', 'pf-profile81-learning-note' + sfx, p81.labels.learning, p81.recommendations.learning, p81.dir, p81.lang);
+    ensureProfile81Note('dept', 'pf-profile81-career-note' + sfx, p81.labels.career, p81.recommendations.career, p81.dir, p81.lang);
+    ensureProfile81Note('jobs', 'pf-profile81-job-note' + sfx, p81.labels.job, p81.recommendations.job, p81.dir, p81.lang);
     return p81;
   }
 
