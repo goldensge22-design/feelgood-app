@@ -146,6 +146,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .school-case-head h3{margin-bottom:12px;color:var(--navy);font-size:clamp(1.45rem,2.7vw,2.2rem);line-height:1.32;}
 .school-case-head h3 span{display:block;color:var(--gold);}
 .school-case-head p{color:var(--textm);font-size:.93rem;line-height:1.75;}
+.case-benefit-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:0 0 22px;}
+.case-benefit{min-width:0;padding:16px 14px;border:1px solid rgba(74,126,200,.14);border-radius:15px;background:#fff;
+  box-shadow:0 6px 18px rgba(44,62,107,.07);}
+.case-benefit .case-benefit-icon{display:grid;width:34px;height:34px;margin-bottom:10px;place-items:center;border-radius:10px;
+  background:linear-gradient(145deg,rgba(245,166,35,.18),rgba(74,126,200,.12));font-size:1rem;}
+.case-benefit h4{margin-bottom:6px;color:var(--navy);font-size:.82rem;line-height:1.45;overflow-wrap:anywhere;}
+.case-benefit p{color:var(--textm);font-size:.72rem;line-height:1.6;overflow-wrap:anywhere;}
 .case-dashboard-card{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(270px,.7fr);gap:24px;
   padding:18px;border:1px solid rgba(74,126,200,.18);border-radius:22px;background:#fff;
   box-shadow:0 14px 34px rgba(44,62,107,.12);color:inherit;text-decoration:none;
@@ -159,6 +166,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .dashboard-preview-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px;}
 .dashboard-preview-title strong{color:var(--navy);font-size:.86rem;}
 .dashboard-preview-title span{padding:4px 8px;border-radius:20px;background:rgba(245,166,35,.16);color:#925d00;font-size:.62rem;font-weight:800;}
+.dashboard-mode-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin-bottom:10px;}
+.dashboard-mode-row span{min-width:0;padding:7px 5px;border-radius:8px;background:#eaf0fa;color:var(--navy);font-size:.62rem;
+  font-weight:800;text-align:center;overflow-wrap:anywhere;}
+.dashboard-mode-row span:last-child{background:rgba(245,166,35,.18);color:#815300;}
 .dashboard-domain-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:10px;}
 .dashboard-domain-grid div{min-width:0;padding:11px 8px;border-radius:10px;background:#fff;box-shadow:0 3px 12px rgba(44,62,107,.07);}
 .dashboard-domain-grid b{display:block;margin-bottom:8px;color:var(--navy);font-size:.7rem;}
@@ -184,6 +195,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   margin-top:20px;padding:12px 20px;border-radius:12px;background:var(--navy);color:#fff;font-size:.85rem;font-weight:800;
   box-shadow:0 8px 18px rgba(44,62,107,.2);}
 .case-dashboard-card:hover .case-cta{background:var(--gold);}
+.case-actions{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin-top:20px;}
+.case-actions .case-cta{margin-top:0;}
+.case-secondary-link{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 18px;border:1.5px solid rgba(44,62,107,.25);
+  border-radius:12px;background:#fff;color:var(--navy);font-size:.78rem;font-weight:800;text-decoration:none;transition:background .2s,border-color .2s;}
+.case-secondary-link:hover{background:#f4f7fd;border-color:var(--blue);}
+.case-disclaimer{margin:14px 0 0;padding:12px 14px;border-radius:12px;background:rgba(74,126,200,.07);color:var(--textm);
+  font-size:.72rem;line-height:1.65;overflow-wrap:anywhere;}
 .school-data-flow{display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr);align-items:center;justify-content:stretch;
   gap:10px;margin-top:26px;padding:18px;border-radius:16px;background:#fff;box-shadow:inset 0 0 0 1px rgba(74,126,200,.1);}
 .school-data-flow .flow-step{width:100%;min-width:0;padding:12px 10px;border-radius:11px;background:#f2f5fb;color:var(--navy);
@@ -511,11 +529,13 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .ps{min-height:calc(100vh - 114px);padding:34px 5vw 54px;scroll-margin-top:114px;}
   #sec-home .hi{padding-top:72px;}
   .case-dashboard-card{grid-template-columns:1fr;gap:16px;padding:13px;}
+  .case-benefit-grid{grid-template-columns:1fr 1fr;}
   .dashboard-domain-grid{grid-template-columns:1fr 1fr;}
   .dashboard-mini-grid{grid-template-columns:1fr;}
   .dashboard-mini-grid div{min-height:68px;}
   .case-card-copy{padding:8px 4px 4px;}
   .case-cta{align-self:stretch;text-align:center;}
+  .case-actions{display:grid;grid-template-columns:1fr;}
   .school-data-flow{grid-template-columns:1fr;gap:7px;}
   .school-data-flow .flow-step{width:100%;min-width:0;}
   .school-data-flow .flow-arrow{transform:rotate(90deg);text-align:center;}
@@ -527,6 +547,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .proposal-layout{grid-template-columns:190px minmax(0,1fr);}
   .proposal-toc{margin-left:14px;padding-inline:12px;}
   .case-dashboard-card{grid-template-columns:1fr;}
+  .case-benefit-grid{grid-template-columns:repeat(3,minmax(0,1fr));}
 }
 
 
@@ -1233,15 +1254,24 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
   <section class="school-case" aria-labelledby="schoolCaseTitle">
     <div class="school-case-head">
-      <p class="case-kicker">SCHOOL DASHBOARD · CASE STUDY</p>
-      <h3 id="schoolCaseTitle" data-i18n="case_title"><span>검사에서 끝나지 않습니다.</span>학급 전체의 인지 특성을 교사가 한눈에 확인할 수 있습니다.</h3>
-      <p data-i18n="case_desc">K-PASS 검사 결과를 학급 단위로 통합하여 학생들의 인지 특성, 강점과 지원 필요 영역, PASS 영역별 분포를 교사가 수업과 학생 지원에 활용할 수 있는 정보로 확장합니다.</p>
+      <p class="case-kicker" data-i18n="case_kicker">SCHOOL DATA DASHBOARD · 15 LANGUAGES</p>
+      <h3 id="schoolCaseTitle" data-i18n="case_title"><span>검사 결과를 학교 운영의 다음 결정으로.</span>학생을 더 잘 이해하는 데이터가 반편성·지원·성장 기록으로 이어집니다.</h3>
+      <p data-i18n="case_desc">K-PASS 결과를 학급·학교·학과 단위로 통합해 균형 있는 반편성 참고, 영역별 재능 및 영재·2E 후보 발견, 지원학생 우선순위, 상담·수업·진로 전략, 누적 성장 추세까지 한 흐름에서 확인합니다.</p>
     </div>
-    <a class="case-dashboard-card" data-dashboard-example href="https://goldensge22-design.github.io/feelgood-app/PASS_report_KNUE_Jeungpyeong_FeelGood_12lang_v3.html?lang=ko" target="_blank" rel="noopener noreferrer" aria-label="한국교원대, 증평군, FeelGood 교사 대시보드 예시 새 탭에서 보기" data-i18n-aria-label="case_link_aria">
+    <div class="case-benefit-grid" aria-label="학교 데이터 대시보드 핵심 활용" data-i18n-aria-label="case_benefits_aria">
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">⚖️</span><h4 data-i18n="case_b1_h">균형 있는 반편성</h4><p data-i18n="case_b1_p">지원 필요 학생의 쏠림과 학급별 PASS 분포를 함께 살펴 자동 배치안을 만들고 교사가 최종 조정합니다.</p></article>
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">✨</span><h4 data-i18n="case_b2_h">영재·2E 후보 발견</h4><p data-i18n="case_b2_p">계획력·주의력·동시처리·순차처리 강점과 2E 신호를 함께 보며 심화 지원이 필요한 후보를 찾습니다.</p></article>
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">🧭</span><h4 data-i18n="case_b3_h">지원학생 우선순위</h4><p data-i18n="case_b3_p">위기·지원 필요·관찰 학생을 사유별로 모아 상담, 학부모 안내, 재검사 등 조치 상태를 관리합니다.</p></article>
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">📝</span><h4 data-i18n="case_b4_h">상담·생기부 참고자료</h4><p data-i18n="case_b4_p">익명 프로파일과 상담·활동 기록을 학생 이해와 생활기록부 참고자료로 정리하고 교사가 검토해 활용합니다.</p></article>
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">🎯</span><h4 data-i18n="case_b5_h">수업·진로 연결</h4><p data-i18n="case_b5_p">학급 PASS 특성에 맞는 수업 전략과 학생별 진로·직무 탐색 질문을 제공해 실제 지도에 연결합니다.</p></article>
+      <article class="case-benefit"><span class="case-benefit-icon" aria-hidden="true">📈</span><h4 data-i18n="case_b6_h">검사 누적 성장도</h4><p data-i18n="case_b6_p">동일 학생의 반복 검사 결과를 학기·연도별로 비교해 PASS 영역의 변화와 교육 지원 이후의 성장 추세를 확인합니다.</p></article>
+    </div>
+    <a class="case-dashboard-card" data-school-dashboard-example href="https://goldensge22-design.github.io/feelgood-app/school-dashboard-demo/homeroom.html?lang=ko" target="_blank" rel="noopener noreferrer" aria-label="15개 언어 학교 데이터 대시보드 샘플을 새 탭에서 보기" data-i18n-aria-label="case_link_aria">
       <div class="dashboard-browser" aria-label="교사 대시보드 미리보기" data-i18n-aria-label="case_preview_aria">
-        <div class="dashboard-browser-bar"><i></i><i></i><i></i><span>FeelGood · Class Cognitive Dashboard</span></div>
+        <div class="dashboard-browser-bar"><i></i><i></i><i></i><span data-i18n="case_browser_brand">FeelGood · School Data Dashboard</span></div>
         <div class="dashboard-preview">
-          <div class="dashboard-preview-title"><strong data-i18n="case_overview">학급 인지능력 개요</strong><span>PREVIEW</span></div>
+          <div class="dashboard-preview-title"><strong data-i18n="case_overview">학교·학급 인지능력 개요</strong><span data-i18n="case_preview_badge">15 LANGUAGES</span></div>
+          <div class="dashboard-mode-row"><span data-i18n="case_mode_home">우리 반</span><span data-i18n="case_mode_school">학교 전체</span><span data-i18n="case_mode_track">학과·진로</span></div>
           <div class="dashboard-domain-grid">
             <div><b data-i18n="case_sim">동시처리</b><i></i></div><div><b data-i18n="case_plan">계획력</b><i></i></div><div><b data-i18n="case_attention">주의력</b><i></i></div><div><b data-i18n="case_successive">순차처리</b><i></i></div>
           </div>
@@ -1253,13 +1283,16 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         </div>
       </div>
       <div class="case-card-copy">
-        <p class="case-label">SCHOOL DASHBOARD · CASE STUDY</p>
-        <h4 data-i18n="case_org_title">한국교원대 × 증평군 × FeelGood</h4>
-        <h5 data-i18n="case_org_sub">학급 인지능력 분석 대시보드</h5>
-        <p data-i18n="case_card_desc">학생 개인의 검사 결과를 넘어 학급 전체의 PASS 인지 특성과 지원 필요 영역을 시각적으로 확인하는 교사용 분석 대시보드 예시입니다.</p>
-        <span class="case-cta" data-i18n="case_cta">교사 대시보드 예시 보기 →</span>
+        <p class="case-label" data-i18n="case_card_label">LIVE SAMPLE · 15 LANGUAGES</p>
+        <h4 data-i18n="case_org_title">FeelGood 학교 데이터 대시보드</h4>
+        <h5 data-i18n="case_org_sub">담임 · 학교 전체 · 학과/진로 통합 분석</h5>
+        <p data-i18n="case_card_desc">익명 학생 ID 기반 샘플로 학급 인지 특성, 반편성 참고, 영재·2E 후보, 지원학생, 누적 성장과 진로 상담 화면을 직접 체험할 수 있습니다.</p>
+        <span class="case-cta" data-i18n="case_cta">15개 언어 샘플 대시보드 직접 보기 →</span>
       </div>
     </a>
+    <div class="case-actions">
+      <a class="case-secondary-link" data-report-case href="https://goldensge22-design.github.io/feelgood-app/PASS_report_KNUE_Jeungpyeong_FeelGood_12lang_v3.html?lang=ko" target="_blank" rel="noopener noreferrer" aria-label="한국교원대, 증평군, FeelGood 기존 사례를 새 탭에서 보기" data-i18n-aria-label="case_secondary_aria" data-i18n="case_secondary_cta">한국교원대 × 증평군 기존 사례 보기 →</a>
+    </div>
     <div class="school-data-flow" aria-label="검사 결과의 교육 활용 흐름" data-i18n-aria-label="case_flow_aria">
       <div class="flow-step" data-i18n="case_flow1">개별 검사</div><div class="flow-arrow">→</div>
       <div class="flow-step" data-i18n="case_flow2">학급 데이터 통합</div><div class="flow-arrow">→</div>
@@ -1267,7 +1300,8 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <div class="flow-step" data-i18n="case_flow4">학생 이해</div><div class="flow-arrow">→</div>
       <div class="flow-step" data-i18n="case_flow5">맞춤형 수업·지원</div>
     </div>
-    <p class="school-case-message" data-i18n="case_message">검사 결과가 교사의 실제 학생 이해와 학급 운영 데이터로 연결됩니다.</p>
+    <p class="school-case-message" data-i18n="case_message">검사 결과가 반편성, 학생 지원, 수업 설계, 상담과 성장 기록에 연결될 때 학교가 실제로 사용할 수 있는 데이터가 됩니다.</p>
+    <p class="case-disclaimer" data-i18n="case_disclaimer">대시보드는 교육적 선별과 지원을 돕는 참고 도구이며 의학적 진단이나 자동 의사결정을 대신하지 않습니다. 반편성과 생활기록부 반영은 학교 기준과 교사의 검토를 거쳐야 합니다.</p>
   </section>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_entry_title">학교 진입 경로</h3></div>
   <div class="prow mb40">
@@ -1281,16 +1315,16 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_pkg_title">도입 패키지</h3></div>
   <table class="ptbl mb40">
-    <thead><tr><th data-i18n="school_th1">패키지</th><th data-i18n="school_th2">포함 내용</th><th data-i18n="school_th3">가격</th></tr></thead>
+    <thead><tr><th data-i18n="school_th1">패키지</th><th data-i18n="school_th2">포함 내용</th><th data-i18n="school_th3">도입 비용</th></tr></thead>
     <tbody>
-      <tr><td><span class="pbadge" data-i18n="school_p1_name">검사만</span></td><td data-i18n="school_p1_desc">K-PASS / D-CAS 검사 진행 (결과 리포트 포함)</td><td><strong data-i18n="school_p1_price">75,000원 / 인</strong></td></tr>
-      <tr><td><span class="pbadge" data-i18n="school_p2_name">검사 + 프로그램 제작</span></td><td data-i18n="school_p2_desc">검사 진행 + 학교 맞춤 AI 프로그램 설계 제작 + 플랫폼 이용</td><td><strong data-i18n="school_p2_price">10,000원 / 인</strong><br><span style="font-size:.8rem;color:var(--textl);" data-i18n="school_p2_note">+ 프로그램 사용료</span></td></tr>
-      <tr><td><span class="pbadge" data-i18n="school_p3_name">검사 + 예시 프로그램</span></td><td data-i18n="school_p3_desc">검사 진행 + 기존 예시 프로그램 그대로 운영</td><td><strong data-i18n="school_p3_price">10,000원 / 인</strong><br><span style="font-size:.8rem;color:var(--textl);" data-i18n="school_p3_note">+ 4,000원 / 명 (전교 인원 기준)</span></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p1_name">검사만</span></td><td data-i18n="school_p1_desc">K-PASS / D-CAS 검사 진행 (결과 리포트 포함)</td><td><strong data-i18n="school_p1_price">협의</strong></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p2_name">검사 + 프로그램 제작</span></td><td data-i18n="school_p2_desc">검사 진행 + 학교 맞춤 AI 프로그램 설계 제작 + 플랫폼 이용</td><td><strong data-i18n="school_p2_price">협의</strong></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p3_name">검사 + 예시 프로그램</span></td><td data-i18n="school_p3_desc">검사 진행 + 기존 예시 프로그램 그대로 운영</td><td><strong data-i18n="school_p3_price">협의</strong></td></tr>
     </tbody>
   </table>
   <div style="background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.3);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:var(--textm);line-height:1.9;">
     <strong style="color:var(--gold);" data-i18n="school_guide_title">💡 안내</strong><br>
-    <span data-i18n="school_guide_body">· 학교 전체 인원수에 따라 금액 협의 가능합니다.<br>· 프로그램 사용료는 도입 기능·커스터마이징 범위에 따라 별도 안내드립니다.</span>
+    <span data-i18n="school_guide_body">세부 비용은 운영 인원, 도입 기능과 커스터마이징 범위를 확인한 후 협의하여 안내합니다.</span>
   </div>
   <div style="display:flex;gap:14px;flex-wrap:wrap;">
     <button class="btn-navy" onclick="show('test')" data-i18n="school_btn_test">🧬 검사 소개 보기</button>
@@ -2324,7 +2358,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20260920-1"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20260922-1"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -2337,17 +2371,25 @@ function availableLangs() {
 
 function updateReportLinks(lang) {
   const rl = (LANGUAGE_META[lang] && LANGUAGE_META[lang].reportCode) || 'en';
+  const dl = (LANGUAGE_META[lang] && LANGUAGE_META[lang].dashboardCode) || 'en';
   document.querySelectorAll('a.rscan').forEach(a => {
     if (!a.dataset.reportBase) a.dataset.reportBase = a.href.split('?')[0];
     a.href = a.dataset.reportBase + '?lang=' + rl;
   });
-  document.querySelectorAll('a[data-dashboard-example]').forEach(a => {
+  document.querySelectorAll('a[data-report-case]').forEach(a => {
     if (!a.dataset.reportBase) a.dataset.reportBase = a.href.split('?')[0];
     a.href = a.dataset.reportBase + '?lang=' + rl;
   });
+  document.querySelectorAll('a[data-school-dashboard-example]').forEach(a => {
+    if (!a.dataset.dashboardBase) a.dataset.dashboardBase = a.href.split('?')[0];
+    a.href = a.dataset.dashboardBase + '?lang=' + encodeURIComponent(dl);
+  });
 }
 
-let currentLang = localStorage.getItem('fg_lang') || 'ko';
+const requestedLang = new URLSearchParams(window.location.search).get('lang');
+let currentLang = (requestedLang && LANG[requestedLang])
+  ? requestedLang
+  : (localStorage.getItem('fg_lang') || 'ko');
 if (!LANG[currentLang]) currentLang = availableLangs()[0] || 'ko';
 
 // 드롭다운 옵션을 로드된 언어로 채운다
@@ -2367,6 +2409,9 @@ function setLang(lang) {
   if (!LANG[lang]) lang = availableLangs()[0];
   currentLang = lang;
   localStorage.setItem('fg_lang', lang);
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState(window.history.state, '', url.pathname + url.search + url.hash);
   document.documentElement.lang = lang;
   document.documentElement.dir = (LANGUAGE_META[lang] && LANGUAGE_META[lang].dir) || 'ltr';
   document.title = LANG[lang].title;

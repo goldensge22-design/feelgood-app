@@ -1,0 +1,30 @@
+.top-in{gap:14px;flex-wrap:wrap}
+.dashboard-switch{display:flex;gap:4px;align-items:center;margin-inline-start:auto}
+.dashboard-switch a{display:inline-flex;align-items:center;min-height:36px;padding:7px 10px;border-radius:9px;color:#dce6f7;text-decoration:none;font-size:13px;font-weight:750;white-space:nowrap}
+.dashboard-switch a:hover{background:rgba(255,255,255,.1);color:#fff}
+.dashboard-switch a[aria-current="page"]{background:#fff;color:var(--navy,#172b4d)}
+.language-control{display:flex;align-items:center;gap:6px}
+.language-control label{font-size:12px;color:#dce6f7;white-space:nowrap}
+.language-control select{min-height:38px;max-width:158px;background:#fff;color:var(--ink,#15223b);border:1px solid rgba(255,255,255,.35);border-radius:9px;padding:7px 28px 7px 9px;font-weight:750}
+html:lang(ja) body,html:lang(zh-CN) body,html:lang(zh-TW) body{word-break:normal;line-break:strict}
+.shell>*{min-width:0}
+.ss,.ss .nm,.ss .d,.pname,.snm,.tier-n,.kpi,.sval,.slvl,.brow>*{min-width:0;overflow-wrap:anywhere}
+@media(max-width:900px){.scale-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.bal{grid-template-columns:1fr}.brow{min-width:0}}
+@media(max-width:1050px){.dashboard-switch{order:3;width:100%;margin:0;overflow-x:auto}.ctl{min-width:0;margin-inline-start:auto}.ctl>*{min-width:0}}
+@media(max-width:720px){
+  .top-in{align-items:center}
+  .brand{min-width:0}
+  .brand>span:last-child{overflow-wrap:anywhere}
+  .language-control label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+  .language-control select{max-width:138px}
+  .dashboard-switch a{font-size:12px;padding:6px 9px}
+  .toc{top:calc(env(safe-area-inset-top,0px) + 104px)!important}
+  main,.sec,[id^="b-"]{min-width:0;max-width:100%}
+  .tw{min-width:0;width:100%;max-width:100%}
+  .tag{max-width:100%;white-space:normal!important;overflow-wrap:anywhere;word-break:normal}
+  .ctl{max-width:100%;flex-wrap:wrap}
+  .ctl select:not(#language-select){max-width:min(100%,220px)}
+  .tl{height:104px}
+  .tl .lbl{max-width:42%;white-space:normal!important;line-height:1.35;overflow-wrap:anywhere;text-align:center}
+}
+@media print{.dashboard-switch,.language-control{display:none!important}}
