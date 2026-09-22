@@ -1,6 +1,6 @@
-// FeelGood proposal translations: 🇻🇳 Tiếng Việt
+// FeelGood proposal translations: vi
 window.LANG = window.LANG || {};
-window.LANG.vi = {
+window.LANG["vi"] = {
   "title": "FeelGood — Giáo dục Cá nhân hóa Dựa trên Khoa học Não bộ",
   "nav_home": "🏠 Trang chủ",
   "nav_school": "🏫 Đề xuất cho Trường học",
@@ -739,6 +739,29 @@ window.LANG.vi = {
   "case_link_aria": "Mở ví dụ bảng điều khiển giáo viên KNUE, Jeungpyeong và FeelGood trong thẻ mới",
   "case_preview_aria": "Xem trước bảng điều khiển giáo viên",
   "case_flow_aria": "Quy trình sử dụng kết quả đánh giá trong giáo dục",
+  "case_kicker": "BẢNG DỮ LIỆU TRƯỜNG HỌC · 15 NGÔN NGỮ",
+  "case_benefits_aria": "Các mục đích sử dụng chính của bảng thông tin dữ liệu trường học",
+  "case_b1_h": "Hình thành lớp học cân bằng",
+  "case_b1_p": "Xem xét mức độ tập trung của học sinh cần hỗ trợ cùng với việc phân bổ PASS của mỗi lớp, tạo bản dự thảo xếp lớp và để các nhà giáo dục thực hiện những điều chỉnh cuối cùng.",
+  "case_b2_h": "Khám phá ứng viên Năng khiếu và 2E",
+  "case_b2_p": "Xem xét các điểm mạnh trong quá trình xử lý Planning, Attention, Simultaneous và Successive cùng với các tín hiệu 2E để xác định các ứng viên cần hỗ trợ nâng cao.",
+  "case_b3_h": "Hỗ trợ-Ưu tiên sinh viên",
+  "case_b3_p": "Nhóm các học sinh gặp khủng hoảng, cần hỗ trợ và quan sát theo lý do và quản lý các hành động tiếp theo như tư vấn, liên lạc với phụ huynh và đánh giá lại.",
+  "case_b4_h": "Tư vấn và tham khảo hồ sơ trường học",
+  "case_b4_p": "Sắp xếp các hồ sơ ẩn danh và ghi chú tư vấn/hoạt động làm tài liệu tham khảo để hiểu học sinh và chuẩn bị hồ sơ trường học, tùy thuộc vào sự xem xét của nhà giáo dục.",
+  "case_b5_h": "Hướng dẫn và kết nối nghề nghiệp",
+  "case_b5_p": "Cung cấp các chiến lược giảng dạy phù hợp với đặc điểm của lớp PASS cũng như các câu hỏi tìm hiểu công việc và nghề nghiệp dành riêng cho học sinh để được hướng dẫn thực tế.",
+  "case_b6_h": "Tăng trưởng đánh giá tích lũy",
+  "case_b6_p": "So sánh các kết quả lặp lại của cùng một sinh viên theo học kỳ và năm để xem xét những thay đổi trên các miền PASS và xu hướng phát triển sau hỗ trợ giáo dục.",
+  "case_browser_brand": "FeelGood · Bảng điều khiển dữ liệu trường học",
+  "case_preview_badge": "15 NGÔN NGỮ",
+  "case_mode_home": "Lớp học của tôi",
+  "case_mode_school": "Toàn trường",
+  "case_mode_track": "Bộ phận · Nghề nghiệp",
+  "case_card_label": "MẪU TRỰC TIẾP · 15 NGÔN NGỮ",
+  "case_secondary_cta": "Xem vụ án KNUE × Jeungpyeong hiện có →",
+  "case_secondary_aria": "Mở trường hợp KNUE, Quận Jeungpyeong và FeelGood hiện có trong tab mới",
+  "case_disclaimer": "Bảng thông tin là công cụ tham khảo để sàng lọc và hỗ trợ giáo dục; nó không thay thế chẩn đoán y tế hoặc ra quyết định tự động. Việc lập lớp và sử dụng trong hồ sơ chính thức của trường đòi hỏi phải có tiêu chí của trường và sự xem xét của nhà giáo dục.",
   "test_step1_p": "PC / Máy tính bảng<br>Windows · iOS",
   "track_title": "Triển khai đánh giá và hoạt động thực tế",
   "track_sub": "Ghi nhận việc triển khai thành công K-PASS và D-CAS tại các trường đại học, tổ chức thanh niên, trường tiểu học và cơ sở quốc tế.",

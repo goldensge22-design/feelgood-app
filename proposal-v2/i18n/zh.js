@@ -1,6 +1,6 @@
-// FeelGood proposal translations: 🇨🇳 中文
+// FeelGood proposal translations: zh
 window.LANG = window.LANG || {};
-window.LANG.zh = {
+window.LANG["zh"] = {
   "title": "FeelGood — 基于脑科学的个性化教育",
   "nav_home": "🏠 首页",
   "nav_school": "🏫 学校方案",
@@ -739,6 +739,29 @@ window.LANG.zh = {
   "case_link_aria": "在新标签页打开韩国教员大学、曾坪郡与 FeelGood 教师仪表板示例",
   "case_preview_aria": "教师仪表板预览",
   "case_flow_aria": "测评结果的教育应用流程",
+  "case_kicker": "学校数据仪表板 · 15 种语言",
+  "case_benefits_aria": "学校数据仪表板的主要用途",
+  "case_b1_h": "均衡的班级形成",
+  "case_b1_p": "审查需要支持的学生的集中程度以及每个班级的PASS分布，生成安置草案，并让教育工作者进行最终调整。",
+  "case_b2_h": "天才和2E候选人发现",
+  "case_b2_p": "考虑Planning、Attention、Simultaneous和Successive处理方面的优势以及2E信号来识别高级支持的候选者。",
+  "case_b3_h": "支持学生的优先事项",
+  "case_b3_p": "按理由对危机、需要支持和观察的学生进行分组，并管理咨询、家长沟通和重新评估等后续行动。",
+  "case_b4_h": "咨询和学校记录参考",
+  "case_b4_p": "整理匿名简介和咨询/活动笔记，作为了解学生和准备学校记录的参考，并接受教育者审查。",
+  "case_b5_h": "指导和职业联系",
+  "case_b5_p": "提供符合 PASS 班级特征的教学策略以及学生特定的职业和工作探索问题，以提供实际指导。",
+  "case_b6_h": "累积评估增长",
+  "case_b6_p": "按学期和年份比较同一学生的重复结果，以审查PASS领域的变化以及教育支持后的增长趋势。",
+  "case_browser_brand": "FeelGood · 学校数据仪表板",
+  "case_preview_badge": "15种语言",
+  "case_mode_home": "我的班级",
+  "case_mode_school": "全校",
+  "case_mode_track": "部门·职业",
+  "case_card_label": "实时示例 · 15 种语言",
+  "case_secondary_cta": "查看现有的 KNUE × Jeungpyeong 案例 →",
+  "case_secondary_aria": "在新选项卡中打开现有的 KNUE、曾平县和 FeelGood 案例",
+  "case_disclaimer": "仪表板是教育筛选和支持的参考工具；它不能取代医疗诊断或自动决策。正式学校记录中的班级形成和使用需要学校标准和教育者审查。",
   "test_step1_p": "PC / 平板电脑<br>Windows · iOS",
   "track_title": "测评导入与活动成果",
   "track_sub": "K-PASS 与 D-CAS 认知测评在大学、青年机构、小学及海外机构成功实施的现场记录。",

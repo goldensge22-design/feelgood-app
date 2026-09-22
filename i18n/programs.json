@@ -16,6 +16,7 @@
     "ru": {"label": "Русский", "dir": "ltr"},
     "km": {"label": "ខ្មែរ", "dir": "ltr"},
     "es": {"label": "Español", "dir": "ltr"},
+    "fr": {"label": "Français", "dir": "ltr"},
     "it": {"label": "Italiano", "dir": "ltr"},
     "az": {"label": "Azərbaycan", "dir": "ltr"}
   },
@@ -50,6 +51,18 @@
       "defaultLocale": "ko",
       "fallbackLocale": "ko",
       "notes": "현재 locale pack은 한국어 원문 문자열을 key로 사용한다. 기존 기능을 보존하며 안정 key로 점진 이행한다."
+    },
+    {
+      "id": "school-dashboard-demo",
+      "mode": "strict",
+      "format": "json-keyed-manifest",
+      "html": "school-dashboard-demo/homeroom.html",
+      "manifest": "school-dashboard-demo/locales/manifest.json",
+      "localeDir": "school-dashboard-demo/locales",
+      "sourceLocale": "ko",
+      "defaultLocale": "ko",
+      "fallbackLocale": "ko",
+      "notes": "학교 대시보드 데모 3종이 공유하는 안정 key 기반 locale pack. 외국어는 ai-draft이며 사용자 화면에는 검수 메타데이터를 노출하지 않는다."
     }
   ]
 }

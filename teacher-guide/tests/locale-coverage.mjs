@@ -26,9 +26,9 @@ function sourceHash(keys) {
   return createHash('sha256').update([...keys].sort().join('\n')).digest('hex');
 }
 
-if (manifest.length !== 13 || new Set(codes).size !== 13) failures.push('언어 코드 13개 고유성');
+if (manifest.length !== 15 || new Set(codes).size !== 15) failures.push('언어 코드 15개 고유성');
 if (ready.join() !== 'ko') failures.push('한국어 승인본 상태');
-if (drafts.length !== 12) failures.push('외국어 AI 초안 상태');
+if (drafts.length !== 14) failures.push('외국어 AI 초안 상태');
 
 const loaded = [];
 for (const language of drafts) {

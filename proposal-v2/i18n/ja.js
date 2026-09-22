@@ -1,6 +1,6 @@
-// FeelGood proposal translations: 🇯🇵 日本語
+// FeelGood proposal translations: ja
 window.LANG = window.LANG || {};
-window.LANG.ja = {
+window.LANG["ja"] = {
   "title": "FeelGood — 脳科学に基づくパーソナライズ教育",
   "nav_home": "🏠 ホーム",
   "nav_school": "🏫 学校向けご提案",
@@ -739,6 +739,29 @@ window.LANG.ja = {
   "case_link_aria": "韓国教員大学・曾坪郡・FeelGoodの教師ダッシュボード例を新しいタブで開く",
   "case_preview_aria": "教師ダッシュボードのプレビュー",
   "case_flow_aria": "検査結果の教育活用フロー",
+  "case_kicker": "学校データ ダッシュボード · 15 言語",
+  "case_benefits_aria": "学校データ ダッシュボードの主な用途",
+  "case_b1_h": "バランスのとれたクラス編成",
+  "case_b1_p": "各クラスのPASS分布と合わせてサポートが必要な生徒の集中を確認し、配置案を作成し、教育者に最終調整を行わせます。",
+  "case_b2_h": "才能のある候補者と 2E 候補者の発見",
+  "case_b2_p": "Planning、Attention、Simultaneous、および Successive 処理の強みを 2E 信号とともに検討して、高度なサポートの候補を特定します。",
+  "case_b3_h": "サポート学生の優先事項",
+  "case_b3_p": "危機に瀕している生徒、支援が必要な生徒、および生徒を理由別にグループ分けして観察し、カウンセリング、保護者とのコミュニケーション、再評価などのフォローアップ措置を管理します。",
+  "case_b4_h": "カウンセリングと学歴の参照",
+  "case_b4_p": "教育者のレビューを前提として、生徒を理解し、学校の記録を作成するための参考資料として、匿名のプロフィールとカウンセリング/活動ノートを整理します。",
+  "case_b5_h": "指導とキャリアのつながり",
+  "case_b5_p": "クラス PASS の特性に合わせた指導戦略を提供し、実践的な指導として生徒固有のキャリアや就職活動に関する質問を提供します。",
+  "case_b6_h": "累積評価の増加",
+  "case_b6_p": "同じ生徒の繰り返しの結果を学期ごと、年ごとに比較して、教育サポート後の PASS 領域全体の変化と成長傾向を確認します。",
+  "case_browser_brand": "FeelGood · 学校データ ダッシュボード",
+  "case_preview_badge": "15 言語",
+  "case_mode_home": "私のクラス",
+  "case_mode_school": "学校全体",
+  "case_mode_track": "部署・経歴",
+  "case_card_label": "ライブサンプル · 15 言語",
+  "case_secondary_cta": "既存のKNUE × ジュンピョン事件を見る→",
+  "case_secondary_aria": "既存の KNUE、貞平郡、FeelGood のケースを新しいタブで開きます",
+  "case_disclaimer": "ダッシュボードは、教育のスクリーニングとサポートのための参照ツールです。医学的診断や自動化された意思決定に代わるものではありません。クラスの編成と学校の公式記録での使用には、学校の基準と教育者のレビューが必要です。",
   "test_step1_p": "PC / タブレット<br>Windows · iOS",
   "track_title": "検査導入・活動実績",
   "track_sub": "K-PASS・D-CAS認知検査を大学、青年機関、小学校、海外機関に導入した実際の記録です。",

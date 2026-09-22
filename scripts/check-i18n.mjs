@@ -115,6 +115,37 @@ function checkJsonMap(program) {
   }
 }
 
+function checkJsonKeyed(program) {
+  const manifest = JSON.parse(fs.readFileSync(path.join(root, program.manifest), 'utf8'));
+  const locales = manifest.map(item => item.code);
+  if (new Set(locales).size !== locales.length) error(program.id, 'duplicate locales');
+  if (!locales.includes(program.fallbackLocale)) error(program.id, 'fallback locale is not supported');
+  const packs = {};
+  for (const item of manifest) {
+    const expected = registry.localeCatalog[item.code];
+    if (!expected) error(program.id, `unknown locale ${item.code}`);
+    if (!statuses.has(item.status)) error(program.id, `${item.code}: invalid status ${item.status}`);
+    if (expected && item.dir !== expected.dir) error(program.id, `${item.code}: direction mismatch`);
+    const file = path.join(root, program.localeDir, item.file);
+    if (!fs.existsSync(file)) { error(program.id, `${item.code}: locale file missing`); continue; }
+    const raw = fs.readFileSync(file, 'utf8');
+    const duplicate = duplicateMessageKeys(raw);
+    if (duplicate.length) error(program.id, `${item.code}: duplicate message keys ${duplicate.slice(0, 10).join(', ')}`);
+    const pack = JSON.parse(raw);
+    packs[item.code] = pack;
+    if (pack.locale !== item.code || pack.sourceLocale !== program.sourceLocale) error(program.id, `${item.code}: locale metadata mismatch`);
+    if (pack.status && !statuses.has(pack.status)) error(program.id, `${item.code}: invalid pack status ${pack.status}`);
+    if (pack.direction && expected && pack.direction !== expected.dir) error(program.id, `${item.code}: direction mismatch`);
+  }
+  const sourcePack = packs[program.sourceLocale] || {messages:{}};
+  const source = sourcePack.messages || {};
+  for (const item of manifest) {
+    const pack = packs[item.code] || {messages:{}};
+    if (sourcePack.sourceHash && pack.sourceHash !== sourcePack.sourceHash) error(program.id, `${item.code}: sourceHash mismatch`);
+    compare(program, item.code, source, pack.messages || {});
+  }
+}
+
 function checkChanged() {
   let diff;
   try {
@@ -142,6 +173,7 @@ for (const program of registry.programs) {
   try {
     if (program.format.startsWith('js-global')) checkJs(program);
     else if (program.format === 'json-source-map') checkJsonMap(program);
+    else if (program.format === 'json-keyed-manifest') checkJsonKeyed(program);
     else warn(program.id, `unsupported format ${program.format}`);
   } catch (cause) { error(program.id, cause.message); }
 }
