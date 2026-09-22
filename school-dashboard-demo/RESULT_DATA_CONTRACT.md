@@ -146,6 +146,8 @@ function toDashboardStudent(result) {
 
 실제 결과지 속성명이 다르면 **서버/BFF의 위 매핑 함수만 변경**한다. 프런트 adapter는 호환을 위해 위 표의 후보 별칭을 받지만, 신규 개발은 정규화 경로를 사용한다. `careerTop5` 항목은 최소 `rank`, `name`이 필요하며 가능하면 `jobCode`, `fitScore`, `strengths` 또는 `fitReason`도 제공한다.
 
+API는 요청의 `Accept-Language`에 맞춰 `careerAptitude.summary`, `careerTop5[].name`, `fitReason`을 현지화해서 반환하거나, 프런트 locale resource에서 해석 가능한 안정적인 `messageKey/jobCode`를 함께 제공한다. 학생별 결과 문장을 한국어 한 언어로만 저장해 다른 언어 화면에 그대로 노출하지 않는다.
+
 실사용 모드에서 `careerTop5`가 없으면 화면은 “결과지 연동 필드 확인”을 표시한다. 공개 샘플에서만 내장 직무 라이브러리 계산을 사용하므로 실제 학생에게 임의 계산값이 노출되지 않는다.
 
 ## 집계·개인화 규칙
