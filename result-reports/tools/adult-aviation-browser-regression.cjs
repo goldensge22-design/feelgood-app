@@ -4,7 +4,7 @@ const { chromium } = require('C:/Users/golde/.cache/codex-runtimes/codex-primary
 
 const root = path.resolve(__dirname, '..', '..');
 const file = path.join(root, 'result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html');
-const locales = ['ko', 'zh', 'km'];
+const locales = ['ko', 'zh', 'zh-TW', 'fr', 'km', 'mn'];
 const profile = {
   fullName:'Alex Kim', givenName:'Alex', fullNameEn:'Alex Kim', genderKey:'X', ageYears:23,
   gradeLabel:'University Year 4', majorName:'항공보안학과', testDate:{y:2026,m:9,d:22},
@@ -59,7 +59,7 @@ const fileUrl = (locale) => `file:///${file.replace(/\\/g, '/').replace(/ /g, '%
       }
       await page.close();
     }
-    console.log('PASS: adult aviation-security 10-job DOM in ko/zh/km, mobile width, no encoding residue');
+    console.log('PASS: adult aviation-security 10-job DOM in ko/zh/zh-TW/fr/km/mn, mobile width, no encoding residue');
   } finally {
     await browser.close();
   }

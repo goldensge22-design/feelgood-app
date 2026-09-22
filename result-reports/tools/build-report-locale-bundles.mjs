@@ -1,18 +1,20 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import vm from 'node:vm';
 import { fileURLToPath } from 'node:url';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '..', '..');
-const catalogPath = path.resolve(process.argv[2] || path.join(repo, 'result-reports/i18n-work/source-catalog.v7.ko.json'));
-const machineDir = path.resolve(process.argv[3] || path.join(repo, 'result-reports/i18n-work/google-translations-v9'));
-const docDir = path.resolve(process.argv[4] || path.join(repo, 'result-reports/i18n-work/google-translations-final'));
-const repairCatalogPath = path.resolve(process.argv[5] || path.join(repo, 'result-reports/i18n-work/repair-catalog.ko.json'));
-const repairDir = path.resolve(process.argv[6] || path.join(repo, 'result-reports/i18n-work/google-translations-repair'));
-const dynamicCatalogPath = path.resolve(process.argv[7] || path.join(repo, 'result-reports/i18n-work/dynamic-source-catalog.ko.json'));
-const dynamicDir = path.resolve(process.argv[8] || path.join(repo, 'result-reports/i18n-work/google-translations-dynamic'));
-const residualCatalogPath = path.resolve(process.argv[9] || path.join(repo, 'result-reports/i18n-work/residual-source-catalog.ko.json'));
-const residualDir = path.resolve(process.argv[10] || path.join(repo, 'result-reports/i18n-work/google-translations-residual'));
+const positionalArgs = process.argv.slice(2).filter((arg) => !arg.startsWith('--'));
+const catalogPath = path.resolve(positionalArgs[0] || path.join(repo, 'result-reports/i18n-work/source-catalog.v7.ko.json'));
+const machineDir = path.resolve(positionalArgs[1] || path.join(repo, 'result-reports/i18n-work/google-translations-v9'));
+const docDir = path.resolve(positionalArgs[2] || path.join(repo, 'result-reports/i18n-work/google-translations-final'));
+const repairCatalogPath = path.resolve(positionalArgs[3] || path.join(repo, 'result-reports/i18n-work/repair-catalog.ko.json'));
+const repairDir = path.resolve(positionalArgs[4] || path.join(repo, 'result-reports/i18n-work/google-translations-repair'));
+const dynamicCatalogPath = path.resolve(positionalArgs[5] || path.join(repo, 'result-reports/i18n-work/dynamic-source-catalog.ko.json'));
+const dynamicDir = path.resolve(positionalArgs[6] || path.join(repo, 'result-reports/i18n-work/google-translations-dynamic'));
+const residualCatalogPath = path.resolve(positionalArgs[7] || path.join(repo, 'result-reports/i18n-work/residual-source-catalog.ko.json'));
+const residualDir = path.resolve(positionalArgs[8] || path.join(repo, 'result-reports/i18n-work/google-translations-residual'));
 const dynamicBaseCatalogPath = path.join(repo, 'result-reports/i18n-work/dynamic-source-catalog.base.ko.json');
 const adultDeltaCatalogPath = path.join(repo, 'result-reports/i18n-work/adult-dynamic-delta.ko.json');
 const adultDeltaDir = path.join(repo, 'result-reports/i18n-work/google-translations-adult-delta');
@@ -31,7 +33,8 @@ const adultAviationDir = path.join(repo, 'result-reports/i18n-work/google-transl
 const adultAviationFixCatalogPath = path.join(repo, 'result-reports/i18n-work/adult-aviation-fix-delta.ko.json');
 const adultAviationFixDir = path.join(repo, 'result-reports/i18n-work/google-translations-adult-aviation-fix');
 const outputDir = path.join(repo, 'result-reports', 'locales');
-const locales = ['en','ja','zh','es','ru','vi','th','ar','it','az','km'];
+const appendOnly = process.argv.includes('--append-only');
+const locales = ['en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'];
 const reports = ['kpass-child','dcas-teen','dcas-adult'];
 const catalog = JSON.parse(fs.readFileSync(catalogPath, 'utf8'));
 const dynamicCatalog = JSON.parse(fs.readFileSync(dynamicCatalogPath, 'utf8'));
@@ -147,7 +150,7 @@ const manifest = {
   generatedAt:new Date().toISOString(),
   provider:'google-translate',
   reviewStatus:'machine-translated',
-  locales:['ko', ...locales, 'mn'],
+  locales:['ko', ...locales],
   reports:{}
 };
 
@@ -165,12 +168,12 @@ for (const report of reports) {
     sourceLocale:'ko',
     provider:'google-translate',
     reviewStatus:'machine-translated',
-    localeNames:{ko:'한국어',en:'English',ja:'日本語',zh:'中文',es:'Español',ru:'Русский',vi:'Tiếng Việt',th:'ไทย',ar:'العربية',it:'Italiano',az:'Azərbaycanca',km:'ភាសាខ្មែរ',mn:'Монгол'},
+    localeNames:{ko:'한국어',en:'English',ja:'日本語',zh:'简体中文','zh-TW':'繁體中文',es:'Español',fr:'Français',ru:'Русский',vi:'Tiếng Việt',th:'ไทย',ar:'العربية',it:'Italiano',az:'Azərbaycanca',km:'ភាសាខ្មែរ',mn:'Монгол'},
     locales:{}
   };
-  const reportLocales = report === 'kpass-child' ? [...locales, 'mn'] : locales;
+  const reportLocales = locales;
   for (const locale of reportLocales) {
-    const translationMap = locale === 'mn' ? kpassMnTranslations : localeMaps[locale];
+    const translationMap = locale === 'mn' && report === 'kpass-child' ? kpassMnTranslations : localeMaps[locale];
     bundle.locales[locale] = items.map((item) => ({
       key:item.key,
       source:item.source,
@@ -186,7 +189,30 @@ for (const report of reports) {
     }));
   }
   const target = path.join(outputDir, `${report}.locales.js`);
-  fs.writeFileSync(target, `window.__FG_REPORT_I18N__ = ${JSON.stringify(bundle)};\n`, 'utf8');
+  if (appendOnly && fs.existsSync(target)) {
+    const original = fs.readFileSync(target, 'utf8');
+    const sandbox = {window:{}};
+    vm.runInNewContext(original, sandbox, {filename:target});
+    const existing = sandbox.window.__FG_REPORT_I18N__;
+    const missingLocales = Object.keys(bundle.locales).filter((locale) => !Object.hasOwn(existing.locales || {}, locale));
+    let updated = original;
+    if (missingLocales.length) {
+      const oldNames = `"localeNames":${JSON.stringify(existing.localeNames || {})}`;
+      const addedNames = Object.fromEntries(missingLocales.map((locale) => [locale, bundle.localeNames[locale]]));
+      const newNames = `"localeNames":${JSON.stringify({...existing.localeNames, ...addedNames})}`;
+      if (!updated.includes(oldNames)) throw new Error(`${report}: localeNames insertion anchor missing`);
+      updated = updated.replace(oldNames, newNames);
+      const additions = missingLocales.map((locale) => `${JSON.stringify(locale)}:${JSON.stringify(bundle.locales[locale])}`).join(',');
+      if (!/\}\};\s*$/.test(updated)) throw new Error(`${report}: locale insertion anchor missing`);
+      updated = updated.replace(/\}\};\s*$/, `,${additions}}};\n`);
+      fs.writeFileSync(target, updated, 'utf8');
+      console.log(`APPENDED ${target} LOCALES ${missingLocales.join(',')}`);
+    } else {
+      console.log(`UNCHANGED ${target}; no missing locales`);
+    }
+  } else {
+    fs.writeFileSync(target, `window.__FG_REPORT_I18N__ = ${JSON.stringify(bundle)};\n`, 'utf8');
+  }
   manifest.reports[report] = {
     itemCount:items.length,
     staticItemCount:catalog.items.filter((item) => item.contexts.some((context) => context.startsWith(`${report}:`))).length,
@@ -196,5 +222,7 @@ for (const report of reports) {
   console.log(`WROTE ${target} ITEMS ${items.length}`);
 }
 
-fs.writeFileSync(path.join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
-console.log(`WROTE ${path.join(outputDir, 'manifest.json')}`);
+if (!appendOnly) {
+  fs.writeFileSync(path.join(outputDir, 'manifest.json'), `${JSON.stringify(manifest, null, 2)}\n`, 'utf8');
+  console.log(`WROTE ${path.join(outputDir, 'manifest.json')}`);
+}

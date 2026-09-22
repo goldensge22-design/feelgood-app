@@ -2,7 +2,7 @@
 
 작성일: 2026-09-21. 대상: K-PASS 아동, D-CAS 청소년, D-CAS 성인.
 
-> 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, D-CAS 12개 locale, K-PASS 13개 locale(몽골어 포함)까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.
+> 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, K-PASS·D-CAS 청소년·D-CAS 성인 각 15개 locale까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.
 
 ## 1. GitHub 작업 위치와 상태
 
@@ -12,7 +12,7 @@
 - 코드/개인화/다국어 QA 기준: 이 문서가 포함된 `codex/result-reports-google-i18n` 브랜치 HEAD. 최종 SHA는 인계 보고서에서 확인한다.
 - 원본 복구 기준 커밋: `d85af1c48050cf9447ef3a6f7e7610aa2905b0da`
 - 원본 브랜치: `codex/recover-planner-dcas81`. 원본 열람은 변경될 수 있는 브랜치 HEAD보다 위 커밋을 사용한다.
-- 현재 상태: K-PASS 13개, D-CAS 청소년·성인 12개 언어 기술 QA가 포함된 개발 후보본. 운영 배포 완료본은 아니며 main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
+- 현재 상태: 세 결과지 모두 15개 언어 기술 QA가 포함된 개발 후보본. 운영 배포 완료본은 아니며 main 병합 및 기존 운영 결과지 교체 승인은 아직 없다.
 
 새 작업 브랜치는 개발 후보본 기준으로 만든다. 기존 작업 트리가 깨끗한지 먼저 확인한다.
 
@@ -80,7 +80,7 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 - 대표 사례: ALL_L/M/H, 동점, S/Q 차이 10/11, S/Q 양방향 우세, P/A 강점.
 - 예시 이름/검사일, 지정된 예시 점수, 미치환 신원 placeholder 검사.
 - D-CAS 표지 81유형의 지연 덮어쓰기, 390px 주요 레이어 너비, 대표 한국어 PDF 생성 및 파일 형식/크기 검사 통과.
-- K-PASS 13개 locale과 D-CAS 청소년·성인 각 12개 locale(총 37개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사했다.
+- K-PASS와 D-CAS 청소년·성인 각 15개 locale(총 45개 모바일 렌더)에서 언어 코드, RTL, 이름·성인 전공, 한국어/내부 토큰 잔존, 가로 overflow를 검사한다. 2026-09-22 추가 언어는 중국어 번체(`zh-TW`)와 프랑스어(`fr`)이며, D-CAS에는 몽골어(`mn`)도 전체 적용했다.
 - `files.zip`의 항공보안학과 10개 직무를 성인 후보본에 통합했다. `항공보안과`/`항공보안학과` 두 별칭 모두 요청된 10개 전용 풀만 반환하며 산업보안 3개 직무도 포함한다. 원본의 `estimated`, confidence 0.5 상태는 유지한다.
 - 2026-09-22 소유자 결정: 위 10개 `pass_profile`은 전문가 업데이트 전까지 운영 기준값으로 사용한다. 내부 provenance는 `estimated`, confidence 0.5로 유지하고 `operational_status: owner-approved-interim`으로 구분한다. 서버 연동·배포를 막는 미완료 항목은 아니다.
 - 중국어 locale 전체를 replacement character·UTF-8 mojibake·한국어 잔존·내부 token 기준으로 검사했고, 항공보안학과 실제 중국어 DOM도 별도 통과했다.
@@ -106,17 +106,17 @@ HTML 하나만 복사하지 말고 같은 디렉터리의 JS/JSON/locale 등 상
 
 | 결과지 | manifest 전체 언어 | 부분 범위 |
 |---|---|---|
-| K-PASS | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km/mn | 전체 shell·개인화·접근성 |
-| D-CAS 청소년 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
-| D-CAS 성인 | ko/en/ja/zh/es/ru/vi/th/ar/it/az/km | 전체 shell + 기존 81유형 레이어 |
+| K-PASS | ko/en/ja/zh/zh-TW/es/fr/ru/vi/th/ar/it/az/km/mn | 전체 shell·개인화·접근성 |
+| D-CAS 청소년 | ko/en/ja/zh/zh-TW/es/fr/ru/vi/th/ar/it/az/km/mn | 전체 shell + 기존 81유형 레이어 + 전체 번들 |
+| D-CAS 성인 | ko/en/ja/zh/zh-TW/es/fr/ru/vi/th/ar/it/az/km/mn | 전체 shell + 기존 81유형 레이어 + 전체 번들 |
 
-목표: ko/en/ja/zh/es/ru/vi/th/ar/it/az/km. 크메르어는 캄보디아어 `km`이다.
+목표: ko/en/ja/zh/zh-TW/es/fr/ru/vi/th/ar/it/az/km/mn. `zh`는 중국어 간체 호환 코드, `zh-TW`는 중국어 번체, `km`은 크메르어(캄보디아어)다.
 
 사용자 결정: 원어민 검수를 완료 조건으로 요구하지 않고 Google 번역을 사용한다. 기존 번역은 원문 의미가 바뀌지 않으면 유지하며, 신규·변경·누락 문구만 작업한다. 이 결정은 검사 판정 기준을 임의 확정할 권한과는 별개다.
 
 전체 본문, 개인화 문장, 버튼, 그래프, 접근성, 오류, 인쇄/PDF DOM을 번역했다. placeholder·누락·한국어 잔존·RTL·크메르 글꼴/줄바꿈은 자동/브라우저 QA로 검사한다. 기존 81유형 레이어의 `ai-draft` 등 원본 provenance는 임의로 바꾸지 않았다.
 
-`result-reports/i18n-work/`에는 정적 원문 3,607개, 실제 렌더 동적 원문 1,689개, 보정 51개, 런타임 성별 라벨 2개와 Google 번역 결과를 증거로 보존한다. K-PASS 몽골어는 K-PASS 전용 1,838개 원문 카탈로그로 분리해 기존 D-CAS locale 계약을 변경하지 않았다. 운영 로드는 `result-reports/locales/` 번들만 사용한다.
+`result-reports/i18n-work/`에는 정적 원문 3,607개, 실제 렌더 동적 원문 1,689개, 보정 51개, 런타임 성별 라벨 2개와 Google 번역 결과를 증거로 보존한다. K-PASS 기존 몽골어 1,838개 카탈로그는 그대로 보존하고, D-CAS 몽골어와 신규 `fr`·`zh-TW`는 공통 원문 카탈로그의 증분 번역으로 추가했다. 운영 로드는 `result-reports/locales/` 번들만 사용한다.
 
 ## 6. 실행할 검증
 

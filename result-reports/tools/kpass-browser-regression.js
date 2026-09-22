@@ -143,7 +143,7 @@ async function inspect(cdp) {
     await navigate(cdp, profile, 'en');
     const result = await inspect(cdp);
     assert.strictEqual(result.lang, 'en', 'English locale was not applied');
-    assert.deepStrictEqual(result.menu, ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km','mn'], 'all full locales must appear in the user menu');
+    assert.deepStrictEqual(result.menu, ['ko','en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'], 'all full locales must appear in the user menu');
     assert.ok(result.title.includes(profile.name), 'profile name was not applied to the cover');
     assert.ok(result.child.includes(profile.name), 'profile name was not applied to the identity chip');
     assert.deepStrictEqual(result.scores, ['120','110','100','90'], 'scores were not applied consistently');
@@ -193,7 +193,7 @@ async function inspect(cdp) {
     const translatedResidueBody = translatedConsistency.body.replaceAll('한국어', '');
     const translatedResidue = [...translatedResidueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0, 8).map(match => match[0]);
     assert.deepStrictEqual(translatedResidue, [], 'balanced-low English report contains Korean residue');
-    console.log('PASS: K-PASS personalization and 13-locale menu');
+    console.log('PASS: K-PASS personalization and 15-locale menu');
   } finally {
     if (cdp) cdp.close();
     browser.kill();

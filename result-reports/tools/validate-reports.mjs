@@ -36,7 +36,7 @@ for (const [id, report] of Object.entries(manifest.reports)) {
   for (const locale of report.layerLocales || []) {
     if (!/^[a-z]{2}$/.test(locale)) errors.push(`${id}: invalid layer locale ${locale}`);
   }
-  const expectedLocaleCount = id === 'kpass-child' ? 13 : 12;
+  const expectedLocaleCount = 15;
   if ((report.fullReportLocales || []).length !== expectedLocaleCount) errors.push(`${id}: expected ${expectedLocaleCount} full report locales`);
   for (const field of ['localeBundle','localeRuntime']) {
     if (!report[field] || !fs.existsSync(path.join(repo, report[field] || ''))) errors.push(`${id}: missing ${field}`);
