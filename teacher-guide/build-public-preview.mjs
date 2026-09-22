@@ -2,7 +2,7 @@ import {readFile, writeFile} from 'node:fs/promises';
 import {resolve} from 'node:path';
 
 const guideRoot = resolve(import.meta.dirname);
-const release = '751523a81dd893c64e8cc11ef3c428495215dc97';
+const release = '465a4c6fb06dd107a3ea6ae25bd6d5f9fb8a8267';
 const releaseRoot = `https://cdn.jsdelivr.net/gh/goldensge22-design/feelgood-app@${release}/teacher-guide/`;
 const source = await readFile(resolve(guideRoot, 'index.html'), 'utf8');
 const appSource = await readFile(resolve(guideRoot, 'app.js'), 'utf8');

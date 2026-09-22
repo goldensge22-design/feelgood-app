@@ -4,7 +4,7 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const HTML_PREVIEW_HOST = 'htmlpreview.github.io';
 const isHtmlPreview = location.hostname === HTML_PREVIEW_HOST;
 function resolveGuideAssetBase() {
-  return new URL('https://cdn.jsdelivr.net/gh/goldensge22-design/feelgood-app@751523a81dd893c64e8cc11ef3c428495215dc97/teacher-guide/');
+  return new URL('https://cdn.jsdelivr.net/gh/goldensge22-design/feelgood-app@465a4c6fb06dd107a3ea6ae25bd6d5f9fb8a8267/teacher-guide/');
 }
 const guideAssetBase = resolveGuideAssetBase();
 
@@ -65,7 +65,8 @@ const PROFILE_AXES = {
 const FALLBACK_LANGUAGES = [
   {code:'ko',label:'한국어',status:'ready',file:'ko.json'},{code:'en',label:'English',status:'ai-draft',file:'en.json'},
   {code:'ja',label:'日本語',status:'ai-draft',file:'ja.json'},{code:'zh-CN',label:'简体中文',status:'ai-draft',file:'zh-CN.json'},
-  {code:'es',label:'Español',status:'ai-draft',file:'es.json'},{code:'ru',label:'Русский',status:'ai-draft',file:'ru.json'},
+  {code:'zh-TW',label:'繁體中文',status:'ai-draft',file:'zh-TW.json'},{code:'es',label:'Español',status:'ai-draft',file:'es.json'},
+  {code:'fr',label:'Français',status:'ai-draft',file:'fr.json'},{code:'ru',label:'Русский',status:'ai-draft',file:'ru.json'},
   {code:'vi',label:'Tiếng Việt',status:'ai-draft',file:'vi.json'},{code:'th',label:'ไทย',status:'ai-draft',file:'th.json'},
   {code:'ar',label:'العربية',status:'ai-draft',file:'ar.json'},{code:'it',label:'Italiano',status:'ai-draft',file:'it.json'},
   {code:'az',label:'Azərbaycan',status:'ai-draft',file:'az.json'},{code:'mn',label:'Монгол',status:'ai-draft',file:'mn.json'},
@@ -151,6 +152,28 @@ function updateReportLinkLanguage(code) {
   });
 }
 
+function updateSchoolDashboardLinkLanguage(code) {
+  $$('[data-school-dashboard-link]').forEach(link => {
+    if (isHtmlPreview) {
+      const previewSource = location.search.slice(1);
+      try {
+        const sourceUrl = new URL(previewSource);
+        const dashboardUrl = new URL('../school-dashboard-demo/track.html', sourceUrl);
+        dashboardUrl.searchParams.set('lang', code);
+        link.href = HTML_PREVIEW_HOST === location.hostname
+          ? 'https://' + HTML_PREVIEW_HOST + '/?' + dashboardUrl.toString()
+          : dashboardUrl.toString();
+        return;
+      } catch (error) {
+        console.warn('샘플 대시보드 미리보기 주소를 만들지 못했습니다.', error.message);
+      }
+    }
+    const dashboardUrl = new URL('../school-dashboard-demo/track.html', guideAssetBase);
+    dashboardUrl.searchParams.set('lang', code);
+    link.href = dashboardUrl.toString();
+  });
+}
+
 function requestedLanguage() {
   if (isHtmlPreview) return 'ko';
   return new URL(location.href).searchParams.get('lang') || 'ko';
@@ -233,7 +256,11 @@ function renderChapter(id, focus = false) {
   $('#nextChapter').disabled = index === chapterIds.length - 1;
   $('#previousChapter').dataset.targetChapter = chapterIds[index - 1] || '';
   $('#nextChapter').dataset.targetChapter = chapterIds[index + 1] || '';
-  $('#reader').scrollTo({top: 0, behavior: 'auto'});
+  const reader = $('#reader');
+  reader.scrollTo({top: 0, behavior: 'auto'});
+  requestAnimationFrame(() => {
+    if (requestedChapter() === id) reader.scrollTo({top: 0, behavior: 'auto'});
+  });
   closeToc();
 
   if (focus && id !== 'results') {
@@ -445,7 +472,7 @@ async function setupLanguages() {
   }
   const languageCodes = languages.map(language => language.code);
   if (new Set(languageCodes).size !== languageCodes.length) throw new Error('언어 코드가 중복되었습니다.');
-  if (languages.length !== 13) throw new Error('지원 언어 목록은 13개여야 합니다.');
+  if (languages.length !== 15) throw new Error('지원 언어 목록은 15개여야 합니다.');
   const readyLanguages = languages.filter(language => language.status === 'ready').map(language => language.code);
   if (readyLanguages.length !== 1 || readyLanguages[0] !== 'ko') throw new Error('한국어 승인본 상태가 언어 manifest와 일치하지 않습니다.');
   const selects = $$('[data-language-select]');
@@ -484,6 +511,7 @@ async function setupLanguages() {
     document.documentElement.dir = activeLocaleCode === 'ar' ? 'rtl' : 'ltr';
     document.documentElement.dataset.requestedLanguage = code;
     updateReportLinkLanguage(activeLocaleCode);
+    updateSchoolDashboardLinkLanguage(activeLocaleCode);
     localizeSubtree(document.body);
     const visibleChapterIndex = chapterIds.indexOf(requestedChapter() || 'opening');
     updatePaginationLabel(visibleChapterIndex < 0 ? 0 : visibleChapterIndex);
