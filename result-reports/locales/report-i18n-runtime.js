@@ -3,8 +3,11 @@
   const bundle = global.__FG_REPORT_I18N__;
   if (!bundle || !bundle.locales) return;
   const localeNames = bundle.localeNames || {};
-  const supported = ['ko'].concat(Object.keys(bundle.locales));
-  const languageLabels = {ko:'언어',en:'Language',ja:'言語',zh:'语言',es:'Idioma',ru:'Язык',vi:'Ngôn ngữ',th:'ภาษา',ar:'اللغة',it:'Lingua',az:'Dil',km:'ភាសា',mn:'Хэл'};
+  const preferredOrder = ['ko','en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'];
+  const available = new Set(['ko', ...Object.keys(bundle.locales)]);
+  const supported = preferredOrder.filter((locale) => available.has(locale))
+    .concat([...available].filter((locale) => !preferredOrder.includes(locale)));
+  const languageLabels = {ko:'언어',en:'Language',ja:'言語',zh:'语言','zh-TW':'語言',es:'Idioma',fr:'Langue',ru:'Язык',vi:'Ngôn ngữ',th:'ภาษา',ar:'اللغة',it:'Lingua',az:'Dil',km:'ភាសា',mn:'Хэл'};
   const textOriginals = new WeakMap();
   const attrOriginals = new WeakMap();
   const translatedNodes = new Set();
@@ -20,8 +23,12 @@
   let compiled = compile(activeLocale);
 
   function normalizeLocale(value) {
-    const code = String(value || 'ko').trim().toLowerCase().split(/[-_]/)[0];
-    return supported.includes(code) ? code : 'ko';
+    const requested = String(value || 'ko').trim().replace('_', '-');
+    const exact = supported.find((code) => code.toLowerCase() === requested.toLowerCase());
+    if (exact) return exact;
+    if (requested.toLowerCase() === 'zh-cn' && supported.includes('zh')) return 'zh';
+    const base = requested.toLowerCase().split('-')[0];
+    return supported.includes(base) ? base : 'ko';
   }
   function escapeRegex(value) { return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
   function compile(locale) {

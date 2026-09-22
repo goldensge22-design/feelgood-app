@@ -6,12 +6,12 @@ import { fileURLToPath } from 'node:url';
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '..', '..');
 const reportRoot = path.join(repo, 'result-reports');
-const expectedLocales = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km','mn'];
-const targetLocales = expectedLocales.slice(1, -1);
+const expectedLocales = ['ko','en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'];
+const targetLocales = expectedLocales.slice(1);
 const reportLocales = {
   'kpass-child': expectedLocales,
-  'dcas-teen': expectedLocales.slice(0, -1),
-  'dcas-adult': expectedLocales.slice(0, -1)
+  'dcas-teen': expectedLocales,
+  'dcas-adult': expectedLocales
 };
 const manifest = JSON.parse(fs.readFileSync(path.join(reportRoot, 'reports-manifest.json'), 'utf8'));
 const localeManifest = JSON.parse(fs.readFileSync(path.join(reportRoot, 'locales', 'manifest.json'), 'utf8'));
@@ -36,6 +36,10 @@ function loadBundle(file) {
 
 function sameArray(actual, expected) {
   return actual.length === expected.length && actual.every((value, index) => value === expected[index]);
+}
+
+function sameMembers(actual, expected) {
+  return actual.length === expected.length && expected.every((value) => actual.includes(value));
 }
 
 if (!sameArray(localeManifest.locales, expectedLocales)) errors.push('locale manifest does not list the canonical locale union');
@@ -86,7 +90,7 @@ for (const [reportId, report] of Object.entries(manifest.reports)) {
   if (bundle.reportId !== reportId) errors.push(`${reportId}: bundle reportId mismatch`);
   if (bundle.provider !== 'google-translate' || bundle.reviewStatus !== 'machine-translated') errors.push(`${reportId}: bundle provenance/status mismatch`);
   const expectedTargets = reportLocales[reportId].slice(1);
-  if (!sameArray(Object.keys(bundle.locales), expectedTargets)) errors.push(`${reportId}: bundle target locale order/coverage mismatch`);
+  if (!sameMembers(Object.keys(bundle.locales), expectedTargets)) errors.push(`${reportId}: bundle target locale coverage mismatch`);
   const expectedCount = localeManifest.reports[reportId].itemCount;
   for (const locale of expectedTargets) {
     const entries = bundle.locales[locale] || [];
@@ -115,4 +119,4 @@ if (errors.length) {
   process.exit(1);
 }
 
-console.log(`PASS: K-PASS 13 locales + D-CAS teen/adult 12 locales; ${catalog.items.length} static + ${dynamicCatalog.items.length} dynamic source items; ${repairCatalog.items.length} repair + ${runtimeLabelCatalog.items.length} runtime label items; no Korean/token/encoding residue; dynamic placeholders preserved`);
+console.log(`PASS: K-PASS + D-CAS teen/adult 15 locales; ${catalog.items.length} static + ${dynamicCatalog.items.length} dynamic source items; ${repairCatalog.items.length} repair + ${runtimeLabelCatalog.items.length} runtime label items; no Korean/token/encoding residue; dynamic placeholders preserved`);

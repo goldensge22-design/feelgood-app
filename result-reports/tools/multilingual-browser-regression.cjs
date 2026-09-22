@@ -2,8 +2,8 @@ const assert = require('assert');
 const path = require('path');
 const { chromium } = require('C:/Users/golde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 
-const standardLocales = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
-const kpassLocales = [...standardLocales, 'mn'];
+const standardLocales = ['ko','en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'];
+const kpassLocales = standardLocales;
 const root = path.resolve(__dirname, '..', '..');
 const reports = [
   {
