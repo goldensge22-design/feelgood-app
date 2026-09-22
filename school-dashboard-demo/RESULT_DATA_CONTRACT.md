@@ -21,7 +21,21 @@ URL의 다른 query와 hash는 언어 변경 후에도 유지된다. 서버 경�
     "organizationId": "org-1",
     "schoolId": "school-1",
     "assessmentCycleId": "2026-2",
-    "assessmentType": "K-PASS"
+    "assessmentType": "K-PASS",
+    "testedAt": "2026-09-20T01:00:00Z",
+    "policy": {
+      "version": "school-approved-2026-2",
+      "hi": 120,
+      "lo": 85,
+      "crisis": 80,
+      "crisisCount": 2,
+      "lrGap": 11,
+      "lrGap5": 12,
+      "lrImb": 20,
+      "spread": 40,
+      "profileStrengthGap": 10
+    },
+    "schoolMeans": {"planning": 101.2, "attention": 99.8, "simultaneous": 102.1, "successive": 98.7}
   },
   "classes": []
 }
@@ -41,6 +55,8 @@ URL의 다른 query와 hash는 언어 변경 후에도 유지된다. 서버 경�
   "grade": 2,
   "enrolled": 24,
   "trainingRate": 42,
+  "testedAt": "2026-09-20T01:00:00Z",
+  "careerTrackCode": "ICT",
   "students": []
 }
 ```
@@ -69,6 +85,14 @@ URL의 다른 query와 hash는 언어 변경 후에도 유지된다. 서버 경�
     "successive": 98,
     "iq": 100
   },
+  "careerAptitude": {
+    "profileName": "융합 문제해결형",
+    "summary": "전체 구조를 파악하고 실행 계획으로 옮기는 강점이 두드러집니다."
+  },
+  "careerTop5": [
+    {"rank": 1, "jobCode": "DATA_ANALYST", "name": "데이터 분석가", "fitScore": 91, "strengths": ["PLAN", "ATT"]},
+    {"rank": 2, "jobCode": "PRODUCT_MANAGER", "name": "디지털 제품기획자", "fitScore": 88, "strengths": ["PLAN", "SIM"]}
+  ],
   "cognitiveProfile": {
     "type81": "external-contract-value",
     "processingType": "balanced"
@@ -79,6 +103,58 @@ URL의 다른 query와 hash는 언어 변경 후에도 유지된다. 서버 경�
 필수 점수는 Planning, Attention, Simultaneous, Successive 네 표준점수다. adapter는 `PLAN/planning/plan`, `ATT/attention/att`, `SIM/simultaneous/sim`, `SUC/successive/sequential/suc` 별칭을 허용한다. IQ, 81유형, 원본 인지특성, `resultId`, `userId`, `testId`는 현재 UI에서 사용하지 않더라도 삭제하거나 개명하지 않고 학생 객체에 보존한다.
 
 학생 이름 대신 권한에 맞는 표시용 익명 ID를 `id`로 내려야 한다. 실명 표시가 필요하면 소속관리 서버에서 권한을 확인한 뒤 별도 필드를 제공한다.
+
+## 결과지에서 연결할 위치 — 개발자 필독
+
+대시보드는 결과지 화면의 HTML을 읽지 않는다. 결과지를 만든 서버 원본/결과 JSON에서 아래 값을 BFF 응답의 학생 객체로 복사한다. **결과지와 대시보드가 같은 계산 결과를 공유**해야 하며 대시보드에서 점수나 진로 결과를 다시 임의 산출하지 않는다.
+
+| 결과지 파트 | 결과지 원본 후보 경로 | 대시보드 정규화 경로 | 용도 |
+|---|---|---|---|
+| 점수 요약 | `result.scoreSummary`, `result.scores`, `standardScores` | `student.scores.planning`, `.attention`, `.simultaneous`, `.successive` | 세 대시보드의 평균·분포·지원 등급·학생 비교 전체 |
+| 전체/IQ | `result.scoreSummary.iq`, `result.scores.iq` | `student.scores.iq` | 계약 보존 필드. 화면 확장 시 사용 |
+| 진로 적성 | `result.careerAptitude`, `result.career.aptitude` | `student.careerAptitude` | 학과별 대시보드의 학생 진로적성 요약 |
+| 직무 Top 5 | `result.careerTop5`, `result.jobTop5`, `result.career.top5`, `result.careerAptitude.topJobs` | `student.careerTop5[0..4]` | 학생별 추천 직무·진로군 Top 5 |
+| 검사 식별자 | 결과 저장 레코드의 ID | `resultId`, `testId`, `userId`, `studentId` | 중복 제거·추적·상세 결과지 연결 |
+| 검사일 | `testedAt`, `completedAt`, `assessedAt` | `student.testedAt` 또는 `class.testedAt` | 검사일 표시·재검사 권장 시점 |
+| 연령 | 검사 시점의 `ageYears`, `ageMonths` | 동일 필드 | 5세 S/Q 기준 적용. 현재 나이가 아니라 검사 시점 나이 사용 |
+
+### 권장 BFF 매핑 예시
+
+```js
+function toDashboardStudent(result) {
+  return {
+    id: result.displayStudentId,
+    studentId: result.studentId,
+    userId: result.userId,
+    resultId: result.id,
+    testId: result.testId,
+    testedAt: result.testedAt,
+    ageYears: result.ageAtTest?.years,
+    ageMonths: result.ageAtTest?.months,
+    scores: {
+      planning: result.scoreSummary.planning.standardScore,
+      attention: result.scoreSummary.attention.standardScore,
+      simultaneous: result.scoreSummary.simultaneous.standardScore,
+      successive: result.scoreSummary.successive.standardScore,
+      iq: result.scoreSummary.iq?.standardScore
+    },
+    careerAptitude: result.careerAptitude,
+    careerTop5: result.careerTop5
+  };
+}
+```
+
+실제 결과지 속성명이 다르면 **서버/BFF의 위 매핑 함수만 변경**한다. 프런트 adapter는 호환을 위해 위 표의 후보 별칭을 받지만, 신규 개발은 정규화 경로를 사용한다. `careerTop5` 항목은 최소 `rank`, `name`이 필요하며 가능하면 `jobCode`, `fitScore`, `strengths` 또는 `fitReason`도 제공한다.
+
+실사용 모드에서 `careerTop5`가 없으면 화면은 “결과지 연동 필드 확인”을 표시한다. 공개 샘플에서만 내장 직무 라이브러리 계산을 사용하므로 실제 학생에게 임의 계산값이 노출되지 않는다.
+
+## 집계·개인화 규칙
+
+- 동일 학생 결과가 여러 건이면 `testedAt/completedAt/assessedAt/resultDate/updatedAt` 중 최신 시각의 결과 한 건만 사용한다. 서버에서도 해당 `assessmentCycleId` 범위의 최신 결과만 내려주는 것을 권장한다.
+- 점수 네 개 중 하나라도 없거나 40~200 범위를 벗어나면 해당 학생은 집계에서 제외하고 제외 건수를 알린다. 유효 학생이 0명인 학급/학과는 표시하지 않는다.
+- 학급 API에서 학교 평균을 비교하려면 `class.schoolMeans`, `class.comparison.schoolMeans` 또는 `meta.schoolMeans`를 반드시 제공한다. 한 학급 데이터만 받은 상태에서 그 학급을 “학교 평균”으로 재사용하지 않는다.
+- `policy`는 학교/검사 버전별 승인 기준이다. 서버 값이 있으면 화면 문구와 계산이 함께 갱신된다. `version`과 시행일은 서버 감사 로그에 보존한다.
+- 학과 ID가 UUID인 경우 내장 샘플 코드와 혼동하지 않도록 `careerTrackCode`를 별도로 제공한다. 실사용 Top 5는 이 코드가 아니라 결과지 `careerTop5`가 우선이다.
 
 ## 실행 모드
 

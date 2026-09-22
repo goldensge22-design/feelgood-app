@@ -19,6 +19,8 @@
 - `?data=sample` 또는 `?data=live`로 개발 중 모드를 명시할 수 있다. query 값은 설정값보다 우선한다.
 - 서버·인증 방식이 다르면 `window.KPASSDashboardTransport.load(request)`만 구현해 교체할 수 있다.
 - `resultId`, `testId`, `userId`, IQ, 81유형과 원본 인지특성은 UI 사용 여부와 관계없이 정규화 객체에 보존한다.
+- 점수 요약의 PASS 네 표준점수와 검사일은 결과지 값을 사용한다. 같은 학생의 여러 결과가 오면 검사 시각 기준 최신 건만 집계한다.
+- 학과별 진로적성과 직무 Top 5는 결과지 산출값을 우선한다. 실사용 데이터에 해당 필드가 없으면 임의 추천을 계산하지 않고 연동 누락을 표시한다.
 
 소속관리·결과지·서버 개발자가 사용할 상세 요청/응답 계약은 `RESULT_DATA_CONTRACT.md`에 있다. 상담 메모와 조치 상태는 아직 브라우저 저장 방식이며, 서버 저장은 개발자 연동 범위로 남겨 둔다.
 
@@ -28,7 +30,7 @@
 
 locale 결정 순서는 URL `lang` → 저장 locale → 브라우저 locale → `ko`다. 언어 전환은 현재 페이지, 선택 학생·학급·계열, 상담 메모와 조치 상태를 유지한 채 resource 로딩 완료 후 한 번에 적용한다. 중국 본토는 `zh-CN`, 대만은 `zh-TW`로 분리한다.
 
-세 대시보드에서 실제로 렌더링되는 고정 문구와 동적 문구를 모두 수집해 안정 key 또는 placeholder가 포함된 패턴 key로 관리한다. 각 locale pack은 516개 key를 가지며, 화면 제목·목차·표·그래프·필터·상태·알림·상담·인쇄 문구와 동적으로 생성되는 설명까지 변환한다. 한국어는 `ready`, 14개 외국어는 `ai-draft` 상태이므로 데모 확인에는 사용할 수 있지만 정식 API 연동·배포 전에 교육 용어와 자연스러움에 대한 사람 검수가 필요하다.
+세 대시보드에서 실제로 렌더링되는 고정 문구와 동적 문구를 모두 수집해 안정 key 또는 placeholder가 포함된 패턴 key로 관리한다. 각 locale pack은 535개 key를 가지며, 화면 제목·목차·표·그래프·필터·상태·오류·상담·인쇄 문구와 동적으로 생성되는 설명까지 변환한다. 한국어는 `ready`, 14개 외국어는 `ai-draft` 상태이므로 데모 확인에는 사용할 수 있지만 정식 API 연동·배포 전에 교육 용어와 자연스러움에 대한 사람 검수가 필요하다.
 
 언어 선택기는 세 화면 모두 상단 고정 영역의 드롭다운으로 제공한다. 데스크톱에서는 왼쪽 목차가 스크롤을 따라가며, 좁은 화면에서는 콘텐츠를 가리지 않도록 상단 가로 스크롤 목차로 전환한다.
 
@@ -44,6 +46,7 @@ node school-dashboard-demo/scripts/translate-dom-i18n.mjs
 node school-dashboard-demo/scripts/build-locales.mjs
 node school-dashboard-demo/scripts/verify-original-content.mjs
 node school-dashboard-demo/scripts/verify-result-adapter.mjs
+node school-dashboard-demo/scripts/verify-dashboard-syntax.mjs
 node school-dashboard-demo/scripts/verify-browser-i18n.mjs
 node scripts/check-i18n.mjs
 node scripts/check-i18n.mjs --changed --strict-hardcoded

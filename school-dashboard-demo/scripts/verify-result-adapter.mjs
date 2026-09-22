@@ -67,4 +67,21 @@ function runtime({hostname='127.0.0.1',search='',fetchImpl}={}){
   );
 }
 
+{
+  const window=runtime();
+  const latest=window.KPASSDashboardDataAdapter.selectLatestResults([
+    {studentId:'student-1',resultId:'old',testedAt:'2026-01-01T00:00:00Z'},
+    {studentId:'student-1',resultId:'new',testedAt:'2026-09-20T00:00:00Z'},
+    {studentId:'student-2',resultId:'only',testedAt:'2026-08-01T00:00:00Z'}
+  ]);
+  assert.equal(latest.length,2);
+  assert.equal(latest[0].resultId,'new');
+  const career=window.KPASSDashboardDataAdapter.normalizeCareerTop5({
+    result:{careerAptitude:{summary:'career summary'},jobTop5:[{rank:1,jobName:'Data analyst',score:91,linkedDomains:['PLAN','ATT']}]}
+  });
+  assert.equal(career.careerAptitude.summary,'career summary');
+  assert.equal(career.careerTop5[0].name,'Data analyst');
+  assert.equal(career.careerTop5[0].fitScore,91);
+}
+
 console.log('Result adapter contract QA: PASS');

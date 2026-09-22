@@ -13,6 +13,12 @@ window.KPASS_DASHBOARD_CONFIG=Object.assign({
   credentials:'include',
   requestTimeoutMs:15000,
   allowSampleFallback:false,
+  policy:{
+    version:'demo-2026-09',
+    mean:100,sd:15,hi:120,lo:85,crisis:80,crisisCount:2,watchMax:99,
+    lrGap:11,lrGap5:12,lrImb:20,spread:40,ci:7,edge:3,dci:15,profileStrengthGap:10,minN:5,
+    giftedMix:{each:110,avg:108},giftedAvg:100,attMate:108,retestMin:12,retestMax:18
+  },
   endpoints:{
     homeroom:'/dashboard/classes/{classId}',
     school:'/dashboard/schools/{schoolId}',

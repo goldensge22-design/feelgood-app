@@ -102,7 +102,10 @@ function translateExact(ko,target){
       var raw=n.nodeValue,trim=raw.trim(),compact=trim.replace(/\s+/g,' '),value=translated(compact);
       if(value&&value!==compact)n.nodeValue=raw.slice(0,raw.indexOf(trim))+value+raw.slice(raw.indexOf(trim)+trim.length);
     });
-    root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(function(el){['aria-label','title','placeholder'].forEach(function(a){var v=el.getAttribute(a),value=translated(v);if(value)el.setAttribute(a,value);});});
+    var attributed=[];
+    if(root.nodeType===1&&root.matches('[aria-label],[title],[placeholder]'))attributed.push(root);
+    root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(function(el){attributed.push(el);});
+    attributed.forEach(function(el){['aria-label','title','placeholder'].forEach(function(a){var v=el.getAttribute(a),value=translated(v);if(value)el.setAttribute(a,value);});});
   }
   run(document.body);
   var translatedTitle=translated(document.title.replace(/\s+/g,' ').trim());if(translatedTitle)document.title=translatedTitle;

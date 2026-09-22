@@ -229,8 +229,8 @@ textarea{width:100%;min-height:150px;background:var(--panel);border:1px solid va
   <main id="main"></main>
 </div>
 
-<script src="dashboard-runtime-config.js?v=1"></script>
-<script src="result-data-adapter.js?v=1"></script>
+<script src="dashboard-runtime-config.js?v=2"></script>
+<script src="result-data-adapter.js?v=2"></script>
 <script>
 (function(){
 'use strict';
@@ -250,13 +250,14 @@ var CFG = {
   ci:7,                       // 개별 점수 95% 신뢰구간 폭(±)
   edge:3,                     // 경계선: 하 기준점(lo)에서 이 점수 이내(상 기준점은 쓰지 않음)
   dci:15,                     // 개인 내 강약: 개인 평균과의 차 이 점수 이상(선별용 단순 기준)
+  profileStrengthGap:10,      // 개인 평균 대비 대표 강점형 기준
   minN:5,                     // 이 인원 미만이면 비율은 숨기고 인원수만 표시
   giftedMix:{each:110,avg:108},
   giftedAvg:100,
   attMate:108,
-  retestMin:12, retestMax:18,
-  testDate:'2026-09-20'
+  retestMin:12, retestMax:18
 };
+Object.assign(CFG,(window.KPASS_DASHBOARD_CONFIG&&window.KPASS_DASHBOARD_CONFIG.policy)||{});
 
 var SC = [
   {k:'PLAN', n:'계획력',  c:'var(--plan)'},
@@ -328,6 +329,8 @@ function scChip(v){return '<span class="sc '+band(v)+'">'+v+'</span>';}
 function addM(d,m){var x=new Date(d.getTime());x.setMonth(x.getMonth()+m);return x;}
 function ym(d){return d.getFullYear()+'년 '+(d.getMonth()+1)+'월';}
 function ymd(d){return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일';}
+function validDate(value){var d=value?new Date(value):null;return d&&!isNaN(d.getTime())?d:null;}
+function classTestDate(c){var dates=(c&&c.students||[]).map(function(st){return validDate(st.testedAt||st.completedAt);}).filter(Boolean).sort(function(a,b){return b-a;});return validDate(c&&(c.testedAt||c.assessmentDate))||dates[0]||validDate(state.meta&&state.meta.testedAt);}
 
 /* 예시 데이터(시드 고정 난수). 실제 결과가 연결되면 이 부분만 교체돼요 */
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -388,22 +391,33 @@ var DATA = {
   },
   /* 서버 JSON 한 건 → 대시보드용 ClassObj. 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeClass: function(c){
+    var rawStudents=c.students||c.results||[];
+    if(window.KPASSDashboardDataAdapter)rawStudents=window.KPASSDashboardDataAdapter.selectLatestResults(rawStudents);
     return Object.assign({},c,{
-      id:    String(c.id!=null?c.id:(c.classId!=null?c.classId:c.code)),
+      id:    String(c.id!=null?c.id:(c.classId!=null?c.classId:(c.code!=null?c.code:''))),
       label: c.label || c.name || ((c.grade!=null?c.grade+'학년 ':'')+(c.no!=null?c.no+'반':'')),
       grade: c.grade!=null?Number(c.grade):0,
       enrolled: c.enrolled!=null?Number(c.enrolled):null,
       training: c.training!=null?Number(c.training):(c.trainingRate!=null?Number(c.trainingRate):null),
-      students: (c.students||c.results||[]).map(DATA.normalizeStudent)
+      testedAt:c.testedAt||c.assessmentDate||c.completedAt||null,
+      schoolMeans:c.schoolMeans||(c.comparison&&c.comparison.schoolMeans)||null,
+      careerTrackCode:c.careerTrackCode||c.trackCode||c.departmentCode||c.code||null,
+      students: rawStudents.map(DATA.normalizeStudent)
     });
   },
   /* 서버 JSON 한 명 → 대시보드용 StudentObj. SS 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeStudent: function(st){
-    var ss = st.s || st.scores || st.standardScores || st;
-    function pick(){ for(var i=0;i<arguments.length;i++){ var v=ss[arguments[i]]; if(v!=null&&isFinite(Number(v))) return Math.round(Number(v)); } return null; }
+    var result=st.result||{};
+    var ss = st.s || st.scores || st.standardScores || result.scoreSummary || result.scores || result.standardScores || st;
+    var career=window.KPASSDashboardDataAdapter?window.KPASSDashboardDataAdapter.normalizeCareerTop5(st):{careerAptitude:st.careerAptitude||null,careerTop5:st.careerTop5||[]};
+    function pick(){ for(var i=0;i<arguments.length;i++){ var v=ss[arguments[i]];if(v&&typeof v==='object')v=v.standardScore!=null?v.standardScore:(v.score!=null?v.score:v.value); if(v!=null&&isFinite(Number(v))) return Math.round(Number(v)); } return null; }
     return Object.assign({},st,{
-      id: String(st.id!=null?st.id:(st.studentId!=null?st.studentId:st.code)),
-      age: st.age || st.ageLabel || '',
+      id: String(st.id!=null?st.id:(st.studentId!=null?st.studentId:(st.code!=null?st.code:''))),
+      ageYears:st.ageYears!=null?Number(st.ageYears):(result.ageYears!=null?Number(result.ageYears):null),
+      ageMonths:st.ageMonths!=null?Number(st.ageMonths):(result.ageMonths!=null?Number(result.ageMonths):null),
+      age: st.age || st.ageLabel || (st.ageYears!=null?String(st.ageYears)+'y '+String(st.ageMonths||0)+'m':''),
+      careerAptitude:career.careerAptitude,
+      careerTop5:career.careerTop5,
       s: {
         PLAN: pick('PLAN','planning','plan','계획력'),
         ATT:  pick('ATT','attention','att','주의력'),
@@ -429,7 +443,7 @@ function buildSampleList(){
       SC.forEach(function(x){sc[x.k]=clamp(Math.round(100+d.shift[x.k]+base*0.55+g()*10.5),60,160);});
       students.push({id:d.key+i,age:(13+Math.floor(r()*4))+'y',s:sc});
     }
-    return {id:d.key,label:d.name,grade:0,students:students,enrolled:d.n+Math.floor(r()*3),training:Math.round(30+r()*50)};
+    return {id:d.key,careerTrackCode:d.key,label:d.name,grade:0,testedAt:'2026-09-20',students:students,enrolled:d.n+Math.floor(r()*3),training:Math.round(30+r()*50)};
   });
 }
 
@@ -438,13 +452,13 @@ function sanitize(list){
   (list||[]).forEach(function(c){
     if(!c||!c.id) return;
     var students=(c.students||[]).filter(function(st){
-      if(!st||!st.s) {dropped++;return false;}
+      if(!st||!st.id||!st.s) {dropped++;return false;}
       var ok=SC.every(function(x){var v=st.s[x.k];return typeof v==='number'&&isFinite(v)&&v>=40&&v<=200;});
       if(ok){kept++;}else{dropped++;}
       return ok;
     });
     var key=String(c.id);
-    if(classes[key]) return;
+    if(classes[key]||!students.length) return;
     classes[key]=Object.assign({},c,{id:key,label:c.label||key,grade:c.grade||0,students:students,
       enrolled:(c.enrolled!=null?c.enrolled:null),training:(c.training!=null?c.training:null)});
     order.push(key);
@@ -454,18 +468,19 @@ function sanitize(list){
 }
 
 var classes={}, classOrder=[];
-var state={cid:null,filter:'all',pairScale:'SUC',parentId:null,careerStudentId:null,source:'sample',actions:{},careerNotes:{},dropped:0};
+var state={cid:null,filter:'all',pairScale:'SUC',parentId:null,careerStudentId:null,source:'sample',actions:{},careerNotes:{},dropped:0,meta:{}};
 function cur(){return classes[state.cid];}
-function loadActions(){try{return JSON.parse(localStorage.getItem('fg_class_actions')||'{}')||{};}catch(e){return {};}}
-function saveActions(){try{localStorage.setItem('fg_class_actions',JSON.stringify(state.actions));}catch(e){}}
-function loadCareerNotes(){try{return JSON.parse(localStorage.getItem('fg_department_career_notes')||'{}')||{};}catch(e){return {};}}
-function saveCareerNotes(){try{localStorage.setItem('fg_department_career_notes',JSON.stringify(state.careerNotes));}catch(e){}}
+function storageKey(name){return 'fg.schoolDashboard.'+name+'.'+[CONTEXT.organizationId||'org',CONTEXT.schoolId||'school',CONTEXT.departmentId||'department'].join('.');}
+function loadActions(){try{return JSON.parse(localStorage.getItem(storageKey('classActions'))||'{}')||{};}catch(e){return {};}}
+function saveActions(){try{localStorage.setItem(storageKey('classActions'),JSON.stringify(state.actions));}catch(e){}}
+function loadCareerNotes(){try{return JSON.parse(localStorage.getItem(storageKey('careerNotes'))||'{}')||{};}catch(e){return {};}}
+function saveCareerNotes(){try{localStorage.setItem(storageKey('careerNotes'),JSON.stringify(state.careerNotes));}catch(e){}}
 function careerNoteKey(){return state.cid+'|'+state.careerStudentId;}
 state.actions=loadActions();
 state.careerNotes=loadCareerNotes();
 
 /* ============ 분석 ============ */
-function lrThresh(st){var m=/(\d+)\s*(?:y|세)/.exec(st.age||'');var yr=m?parseInt(m[1],10):null;return yr===5?CFG.lrGap5:CFG.lrGap;}
+function lrThresh(st){var m=/(\d+)\s*(?:y|세)/.exec(st.age||'');var yr=isFinite(Number(st.ageYears))?Number(st.ageYears):(m?parseInt(m[1],10):null);return yr===5?CFG.lrGap5:CFG.lrGap;}
 function analyze(st){
   var v=SC.map(function(x){return st.s[x.k];});
   var min=Math.min.apply(null,v), max=Math.max.apply(null,v), pm=avg(v);
@@ -487,7 +502,7 @@ function analyze(st){
   var dbl=SC.filter(function(x){return st.s[x.k]>=CFG.hi&&st.s[x.k]-pm>=CFG.dci;});
   var weak=SC.filter(function(x){return pm-st.s[x.k]>=CFG.dci;});
   var top=SC.slice().sort(function(a,b){return st.s[b.k]-st.s[a.k];});
-  var typ=(st.s[top[0].k]-pm>=10)?top[0].n+' 강점형':'고른 프로파일형';
+  var typ=(st.s[top[0].k]-pm>=CFG.profileStrengthGap)?top[0].n+' 강점형':'고른 프로파일형';
   return {min:min,max:max,pm:pm,gap:gap,lr:lr,balSub:balSub,tier:tier,twoE:twoE,edges:edges,gt:gt,dbl:dbl,weak:weak,lrImb:lrImb,spread:(max-min)>=CFG.spread,lowBoth:st.s.SIM<=CFG.lo&&st.s.SUC<=CFG.lo,top:top,typ:typ};
 }
 function stats(c){
@@ -504,6 +519,9 @@ function stats(c){
   return {A:A,n:n,m:m,sd:sd,lo:lo,mid:mid,hi:hi,ci:function(k){return n>1?1.96*sd[k]/Math.sqrt(n):0;}};
 }
 function schoolMeans(){
+  var explicit=cur()&&cur().schoolMeans||state.meta&&state.meta.schoolMeans;
+  if(explicit){var mapped={};SC.forEach(function(x){var v=explicit[x.k]!=null?explicit[x.k]:explicit[{PLAN:'planning',ATT:'attention',SIM:'simultaneous',SUC:'successive'}[x.k]];mapped[x.k]=Number(v);});if(SC.every(function(x){return isFinite(mapped[x.k]);}))return mapped;}
+  if(classOrder.length<2)return null;
   var all=[];classOrder.forEach(function(k){all=all.concat(classes[k].students);});
   var o={};SC.forEach(function(x){o[x.k]=avg(all.map(function(s){return s.s[x.k];}));});return o;
 }
@@ -552,7 +570,8 @@ function ovHTML(){
   ins.push('순차처리(Q)가 더 높은 순차 우세형 '+left+'명, 동시처리(S)가 더 높은 동시 우세형 '+right+'명이에요.');
   var q=S.A.filter(function(o){return flagsFor(o.a).length;}).length;
   ins.push('먼저 살펴볼 학생은 '+q+'명이에요. “주의 학생”에서 사유와 조치 상태를 확인하세요.');
-  return '<p class="hero-meta">'+esc(c.label)+', '+S.n+'명이 '+ymd(new Date(CFG.testDate+'T00:00:00'))+'에 검사했어요.</p>'
+  var tested=classTestDate(c);
+  return '<p class="hero-meta">'+esc(c.label)+', '+S.n+'명'+(tested?'이 '+ymd(tested)+'에 검사했어요.':'의 검사 결과예요.')+'</p>'
     +'<h1 class="hero-h">'+head+'</h1>'
     +'<div class="scale-strip">'+strip+'</div>'
     +'<div class="kpis">'+kp+'</div>'
@@ -562,7 +581,7 @@ function ovHTML(){
 
 function profileHTML(){
   var c=cur(),S=stats(c),sch=schoolMeans(),ex=expected();
-  var showSchool=classOrder.length>1;
+  var showSchool=!!sch;
   function pos(v){return clamp((v-70)/60*100,0,100);}
   var axis='<div class="prow head"><div></div><div class="axis">'+[70,CFG.lo,100,CFG.hi,130].map(function(v){return '<span style="left:'+pos(v)+'%">'+v+'</span>';}).join('')+'</div><div>학생 분포</div></div>';
   var rows=SC.map(function(x){
@@ -664,7 +683,7 @@ function mixHTML(){
   var tl=Object.keys(types).sort(function(a,b){return types[b]-types[a];}).map(function(k){return '<span class="tag">'+esc(k)+' '+types[k]+'명</span>';}).join('');
   return '<div class="panel">'+head+rows+'</div>'
     +'<h3>강점 유형 구성</h3><div>'+tl+'</div>'
-    +'<p class="small" style="margin-top:10px">가장 높은 영역이 개인 평균보다 10점 이상 높으면 “영역 강점형”, 아니면 “고른 프로파일형”으로 묶어요. 세부 인지 유형(81유형)은 개인 결과지에서 확인해요. 개인 내 강약은 선별용 단순 기준(±'+CFG.dci+'점)이에요.</p>';
+    +'<p class="small" style="margin-top:10px">가장 높은 영역이 개인 평균보다 '+CFG.profileStrengthGap+'점 이상 높으면 “영역 강점형”, 아니면 “고른 프로파일형”으로 묶어요. 세부 인지 유형(81유형)은 개인 결과지에서 확인해요. 개인 내 강약은 선별용 단순 기준(±'+CFG.dci+'점)이에요.</p>';
 }
 
 function queueHTML(){
@@ -786,7 +805,7 @@ function departmentStudentsHTML(){
 }
 
 function retestHTML(){
-  var t0=new Date(CFG.testDate+'T00:00:00'), a=addM(t0,CFG.retestMin), b=addM(t0,CFG.retestMax);
+  var c=cur(),t0=classTestDate(c);if(!t0)return '<div class="empty">검사일이 없어 재검사 권장 시기를 계산할 수 없어요.</div>';var a=addM(t0,CFG.retestMin), b=addM(t0,CFG.retestMax);
   var total=b.getTime()-t0.getTime();
   function f(d){return clamp((d.getTime()-t0.getTime())/total*100,0,100);}
   var now=new Date();
@@ -834,7 +853,7 @@ function criteriaHTML(){
     ['영재 판별',CFG.hi+' 이상인 영역이 있고 위기·지원 필요가 아님','2E는 별도 경보로 표시'],
     ['2E 경보',CFG.hi+' 이상 영역과 '+CFG.lo+' 이하 영역이 함께 있음','강점과 어려움이 함께 있는 경우'],
     ['처리방식 우세(S/Q)','|동시처리 − 순차처리| '+CFG.lrGap+' 이상(5세 '+CFG.lrGap5+')','동시(S)가 높으면 동시처리 우세형, 순차(Q)가 높으면 순차처리 우세형. 0~'+(CFG.lrGap-1)+'점은 균형형'],
-    ['좌우불균형','|동시처리 − 순차처리| '+CFG.lrImb+' 이상','처리방식 우세(11점)와 별개로, 두 처리방식 격차가 큰 경우'],
+    ['좌우불균형','|동시처리 − 순차처리| '+CFG.lrImb+' 이상','처리방식 우세('+CFG.lrGap+'점)와 별개로, 두 처리방식 격차가 큰 경우'],
     ['프로파일 불균형','최고 − 최저 '+CFG.spread+' 이상','네 영역 전체 편차로, 위 세 기준과 별개'],
     ['경계선','하 기준점 '+CFG.lo+' ±'+CFG.edge+'점 이내('+(CFG.lo-CFG.edge)+'~'+(CFG.lo+CFG.edge)+')','개별 점수의 95% 신뢰구간이 약 ±'+CFG.ci+'점이라 하 여부가 바뀔 수 있어요. 상 기준('+CFG.hi+')은 경계선에 쓰지 않아요'],
     ['개인 내 강약','개인 평균보다 '+CFG.dci+'점 이상 높거나 낮음','선별용 단순 기준']
@@ -895,27 +914,39 @@ var CAREER = {
 };
 function careerHTML(){
   var c=cur();
-  var lib=CAREER[c.id];
-  if(!lib){
-    return '<div class="empty">'+esc(tr('career.empty',null,'이 학과에는 아직 준비된 직무 후보군이 없어요. 관리자에게 직무 라이브러리 등록을 요청하세요.'))+'</div>';
-  }
   if(!state.careerStudentId||!c.students.some(function(s){return s.id===state.careerStudentId;}))state.careerStudentId=c.students[0].id;
   var st=c.students.filter(function(s){return s.id===state.careerStudentId;})[0];
   var options=c.students.map(function(s){return '<option value="'+esc(s.id)+'"'+(s.id===st.id?' selected':'')+'>'+esc(s.id)+'</option>';}).join('');
-  var ranked=lib.jobs.map(function(job){
-    var score=Object.keys(job.w).reduce(function(total,k){return total+st.s[k]*job.w[k];},0);
-    var focus=Object.keys(job.w).sort(function(a,b){return job.w[b]-job.w[a];}).slice(0,2).map(careerDomainLabel).join(' · ');
-    return {n:tr(CAREER_JOB_KEYS[job.n],null,job.n),score:score,focus:focus};
-  }).sort(function(a,b){return b.score-a.score||a.n.localeCompare(b.n);}).slice(0,5);
+  var resultRanked=(st.careerTop5||[]).map(function(job,i){
+    var strengths=job.strengths;
+    if(Array.isArray(strengths))strengths=strengths.map(function(value){return careerDomainLabel(String(value).toUpperCase());}).join(' · ');
+    else if(strengths&&typeof strengths==='object')strengths=Object.keys(strengths).filter(function(key){return strengths[key];}).map(function(key){return careerDomainLabel(key.toUpperCase());}).join(' · ');
+    return {n:job.name,score:job.fitScore,focus:String(strengths||job.reason||job.fitReason||'')};
+  }).filter(function(job){return job.n;}).slice(0,5);
+  var lib=CAREER[c.careerTrackCode||c.trackCode||c.code||c.id];
+  var ranked=resultRanked;
+  if(!ranked.length&&state.source==='sample'&&lib){
+    ranked=lib.jobs.map(function(job){
+      var score=Object.keys(job.w).reduce(function(total,k){return total+st.s[k]*job.w[k];},0);
+      var focus=Object.keys(job.w).sort(function(a,b){return job.w[b]-job.w[a];}).slice(0,2).map(careerDomainLabel).join(' · ');
+      return {n:tr(CAREER_JOB_KEYS[job.n],null,job.n),score:score,focus:focus};
+    }).sort(function(a,b){return b.score-a.score||a.n.localeCompare(b.n);}).slice(0,5);
+  }
+  if(!ranked.length){
+    return '<div class="row" style="margin-top:0"><label for="career-student">'+esc(tr('career.student',null,'학생'))+'</label><select id="career-student">'+options+'</select></div><div class="empty">'+esc(tr('career.resultMissing',null,'이 학생의 결과지에 진로적성·직무 Top 5 데이터가 없어요. 결과지 연동 필드를 확인하세요.'))+'</div>';
+  }
   var strengths=SC.slice().sort(function(a,b){return st.s[b.k]-st.s[a.k];}).slice(0,2);
   var strengthNames=strengths.map(function(x){return careerDomainLabel(x.k);}).join(' · ');
   var experiencePrompt=tr('career.prompt.'+strengths[0].k,null,{
     PLAN:'목표를 세우고 역할·일정을 조정해 끝까지 실행한 경험',ATT:'작은 오류나 변화를 발견하고 집중해서 품질을 높인 경험',SIM:'여러 자료를 연결해 전체 구조나 새로운 해결책을 만든 경험',SUC:'복잡한 절차를 순서대로 정리하거나 정확하게 설명한 경험'
   }[strengths[0].k]);
   var note=state.careerNotes[careerNoteKey()]||'';
-  var rows=ranked.map(function(job,i){return '<tr><td><b>'+(i+1)+'</b></td><td><b>'+esc(job.n)+'</b></td><td>'+esc(tr('career.uses',{strengths:job.focus},job.focus+' 활용'))+'</td></tr>';}).join('');
+  var rows=ranked.map(function(job,i){var detail=job.focus||tr('career.reportProvided',null,'결과지 진로적성 분석');if(isFinite(job.score))detail+=(detail?' · ':'')+tr('career.fitScore',{score:fmt1(job.score)},'적합도 '+fmt1(job.score));return '<tr><td><b>'+(i+1)+'</b></td><td><b>'+esc(job.n)+'</b></td><td>'+esc(detail)+'</td></tr>';}).join('');
+  var aptitude=st.careerAptitude||{};
+  var aptitudeSummary=typeof aptitude==='string'?aptitude:(aptitude.summary||aptitude.description||aptitude.profileName||aptitude.title||'');
   return '<div class="row" style="margin-top:0"><label for="career-student">'+esc(tr('career.student',null,'학생'))+'</label><select id="career-student" aria-label="'+esc(tr('career.selectAria',null,'진로 추천 학생 선택'))+'">'+options+'</select>'
     +'<span class="small">'+esc(st.age||'')+'</span></div>'
+    +(aptitudeSummary?'<div class="panel" style="margin-top:12px"><h3 style="margin-top:0">'+esc(tr('career.aptitude.title',null,'결과지 진로적성'))+'</h3><p>'+esc(aptitudeSummary)+'</p></div>':'')
     +'<div class="panel" style="margin-top:12px"><h3 style="margin-top:0">'+esc(tr('career.top5',{student:st.id},st.id+' 추천 직무·진로군 Top 5'))+'</h3>'
     +'<div class="tw"><table><thead><tr><th>'+esc(tr('career.rank',null,'순위'))+'</th><th>'+esc(tr('career.job',null,'직무·진로군'))+'</th><th>'+esc(tr('career.strengths',null,'연결된 인지 강점'))+'</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>'
     +'<div class="two" style="margin-top:14px"><div class="blk" style="--c:var(--blue)"><h3>'+esc(tr('career.counsel.title',null,'진로 상담'))+'</h3><ul class="insights">'
@@ -932,14 +963,14 @@ function careerHTML(){
     +'<div class="panel" style="margin-top:14px"><h3 style="margin-top:0">'+esc(tr('career.note.title',null,'진로·자기소개서 상담 기록'))+'</h3><p class="small">'+esc(tr('career.note.help',null,'관심 직무와 실제 경험, 다음 행동을 기록하세요.'))+'</p>'
     +'<textarea id="career-note" aria-label="'+esc(tr('career.note.aria',null,'진로·자기소개서 상담 기록'))+'" placeholder="'+esc(tr('career.note.placeholder',null,'관심 직무, 실제 경험과 다음 행동'))+'">'+esc(note)+'</textarea>'
     +'<div class="row"><button class="btn primary" type="button" id="career-note-save">'+esc(tr('common.save',null,'저장'))+'</button><span class="small" id="career-note-status" aria-live="polite"></span></div></div>'
-    +'<p class="small" style="margin-top:10px">'+esc(tr('career.disclaimer',null,'현재 학과의 직무 후보군을 정렬한 탐색용 결과이며 진로 진단이 아니에요.'))+'</p>';
+    +'<p class="small" style="margin-top:10px">'+esc(resultRanked.length?tr('career.resultSource',null,'직무 Top 5와 진로적성은 학생 결과지에서 연동한 값입니다. 상담 시 흥미·가치관·경험·희망도 함께 확인하세요.'):tr('career.disclaimer',null,'현재 학과의 직무 후보군을 정렬한 탐색용 결과이며 진로 진단이 아니에요.'))+'</p>';
 }
 
 var SECTIONS=[
   {g:'계열 개요',id:'overview',t:'계열 한눈에 보기',hero:true,fn:ovHTML},
   {g:'계열 개요',id:'profile',t:'영역별 계열 프로파일',lead:'네 인지 영역의 계열 평균과 하·중·상 분포를 규준과 전체 평균에 견줘 봐요.',fn:profileHTML},
   {g:'계열 개요',id:'tiers',t:'지원 등급 분포',lead:'가장 낮은 영역을 기준으로 계열 전체의 지원 수요를 봐요.',fn:tiersHTML},
-  {g:'계열 개요',id:'balance',t:'처리방식 우세(S/Q)',lead:'동시처리(S)와 순차처리(Q)의 차이로 계열의 우세 성향을 봐요. 차이 11점 이상이면 우세형(5세는 12점)이에요.',fn:balanceHTML},
+  {g:'계열 개요',id:'balance',t:'처리방식 우세(S/Q)',lead:'동시처리(S)와 순차처리(Q)의 차이로 계열의 우세 성향을 봐요. 차이 '+CFG.lrGap+'점 이상이면 우세형(5세는 '+CFG.lrGap5+'점)이에요.',fn:balanceHTML},
   {g:'계열 개요',id:'mix',t:'강점과 보완 구성',lead:'학생 자신의 평균과 견줬을 때 뚜렷하게 높거나 낮은 영역이 어디에 몰려 있는지 봐요.',fn:mixHTML},
   {g:'학과 분석',id:'students',t:'학과 학생 비교',lead:'현재 학과 학생의 네 영역 점수와 지원 등급, 인지특성을 익명 ID 기준으로 비교해요.',fn:departmentStudentsHTML},
   {g:'진로·상담',id:'career',t:'학생별 추천 직무·진로군 Top 5',lead:'학생을 선택하면 현재 학과의 직무 후보군을 인지특성과 연결해 상위 5개 탐색 순위로 보여줘요.',fn:careerHTML},
@@ -1047,7 +1078,9 @@ function setupSpy(){
   on('s-overview');
 }
 
-function applyData(list,source){
+function applyRuntimeMeta(meta){state.meta=meta||{};var p=state.meta.policy||{};Object.keys(CFG).forEach(function(key){if(p[key]==null)return;if(typeof CFG[key]==='number'){var value=Number(p[key]);if(isFinite(value))CFG[key]=value;}else if(key!=='giftedMix')CFG[key]=p[key];});if(p.giftedMix)CFG.giftedMix=Object.assign({},CFG.giftedMix,p.giftedMix);}
+function applyData(list,source,meta){
+  applyRuntimeMeta(meta);
   var r=sanitize(list);
   classes=r.classes;classOrder=r.order;state.dropped=r.dropped;state.source=source;
   if(!classOrder.length){classes={};classOrder=[];return false;}
@@ -1059,21 +1092,22 @@ function applyData(list,source){
   return true;
 }
 function showFatal(msg){
-  $('#banner').innerHTML='<p style="background:var(--orange-soft);border-left-color:var(--t-crisis)"><b>데이터를 불러오지 못했어요.</b> '+esc(msg)+' 페이지를 새로고침하거나 관리자에게 문의하세요.</p>';
-  $('#main').innerHTML='<section class="sec"><div class="empty">표시할 학급 데이터가 없어요. 아래 “데이터 불러오기”에 검사 결과를 붙여 넣어 볼 수도 있어요.</div><div id="b-data"></div></section>';
+  $('#banner').innerHTML='<p style="background:var(--orange-soft);border-left-color:var(--t-crisis)"><b>'+esc(tr('runtime.error.title',null,'데이터를 불러오지 못했어요.'))+'</b> '+esc(msg)+' '+esc(tr('runtime.error.help',null,'페이지를 새로고침하거나 관리자에게 문의하세요.'))+'</p>';
+  $('#main').innerHTML='<section class="sec"><div class="empty">'+esc(tr('runtime.empty',null,'표시할 학급 데이터가 없어요.'))+'</div><div id="b-data"></div></section>';
   buildShell();$('#b-data')&&renderBody('data');
 }
+function errorText(err){return tr('runtime.error.'+String(err&&err.code||'unknown').toLowerCase(),err&&err.details,err&&err.message||'결과지 데이터를 불러오지 못했습니다.');}
 function boot(){
   buildShell();
-  $('#banner').innerHTML='<p>학급 데이터를 불러오는 중이에요…</p>';
+  $('#banner').innerHTML='<p>'+esc(tr('runtime.loading.track',null,'학과 데이터를 불러오는 중이에요…'))+'</p>';
   var p;
   try{ p=DATA.load(CONTEXT); }catch(e){ p=Promise.reject(e); }
   Promise.resolve(p).then(function(res){
-    var ok=applyData((res&&res.classes)||[], (res&&res.source)||'live');
-    if(!ok){ showFatal('학급 데이터가 비어 있어요.'); return; }
+    var ok=applyData((res&&res.classes)||[], (res&&res.source)||'live',res&&res.meta);
+    if(!ok){ showFatal(tr('runtime.error.empty_results',null,'학급 데이터가 비어 있어요.')); return; }
     renderAllBodies();setupSpy();
   }).catch(function(err){
-    if(err&&err.dashboardFatal){showFatal(err.message||'결과지 데이터를 불러오지 못했습니다.');return;}
+    if(err&&err.dashboardFatal){showFatal(errorText(err));return;}
     // 연동 실패 시에도 화면이 비지 않도록 예시 데이터로 대체
     var ok=applyData(buildSampleList(),'sample');
     if(ok){renderAllBodies();setupSpy();
@@ -1081,12 +1115,11 @@ function boot(){
     }else{ showFatal(err&&err.message||'알 수 없는 오류'); }
   });
 }
-window.addEventListener('kpass-locale-ready',function(){
-  if(classOrder.length)renderAllBodies();
-});
-boot();
+var booted=false;function bootOnce(){if(booted)return;booted=true;boot();}
+window.addEventListener('kpass-locale-ready',function(){if(classOrder.length)renderAllBodies();else bootOnce();});
+if(window.kpassT)bootOnce();
 })();
 </script>
-<script src="full-dashboard-shell.js?v=7"></script>
+<script src="full-dashboard-shell.js?v=8"></script>
 </body>
 </html>

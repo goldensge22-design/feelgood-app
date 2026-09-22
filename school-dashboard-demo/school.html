@@ -240,8 +240,8 @@ textarea{width:100%;min-height:150px;background:var(--panel);border:1px solid va
   <main id="main"></main>
 </div>
 
-<script src="dashboard-runtime-config.js?v=1"></script>
-<script src="result-data-adapter.js?v=1"></script>
+<script src="dashboard-runtime-config.js?v=2"></script>
+<script src="result-data-adapter.js?v=2"></script>
 <script>
 (function(){
 'use strict';
@@ -261,13 +261,14 @@ var CFG = {
   ci:7,                       // 개별 점수 95% 신뢰구간 폭(±)
   edge:3,                     // 경계선: 하 기준점(lo)에서 이 점수 이내(상 기준점은 쓰지 않음)
   dci:15,                     // 개인 내 강약: 개인 평균과의 차 이 점수 이상(선별용 단순 기준)
+  profileStrengthGap:10,      // 개인 평균 대비 대표 강점형 기준
   minN:5,                     // 이 인원 미만이면 비율은 숨기고 인원수만 표시
   giftedMix:{each:110,avg:108},
   giftedAvg:100,
   attMate:108,
-  retestMin:12, retestMax:18,
-  testDate:'2026-09-20'
+  retestMin:12, retestMax:18
 };
+Object.assign(CFG,(window.KPASS_DASHBOARD_CONFIG&&window.KPASS_DASHBOARD_CONFIG.policy)||{});
 
 var SC = [
   {k:'PLAN', n:'계획력',  c:'var(--plan)'},
@@ -339,6 +340,8 @@ function scChip(v){return '<span class="sc '+band(v)+'">'+v+'</span>';}
 function addM(d,m){var x=new Date(d.getTime());x.setMonth(x.getMonth()+m);return x;}
 function ym(d){return d.getFullYear()+'년 '+(d.getMonth()+1)+'월';}
 function ymd(d){return d.getFullYear()+'년 '+(d.getMonth()+1)+'월 '+d.getDate()+'일';}
+function validDate(value){var d=value?new Date(value):null;return d&&!isNaN(d.getTime())?d:null;}
+function classTestDate(c){var dates=(c&&c.students||[]).map(function(st){return validDate(st.testedAt||st.completedAt);}).filter(Boolean).sort(function(a,b){return b-a;});return validDate(c&&(c.testedAt||c.assessmentDate))||dates[0]||validDate(state.meta&&state.meta.testedAt);}
 
 /* 예시 데이터(시드 고정 난수). 실제 결과가 연결되면 이 부분만 교체돼요 */
 function mulberry(a){return function(){a|=0;a=a+0x6D2B79F5|0;var t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
@@ -399,22 +402,29 @@ var DATA = {
   },
   /* 서버 JSON 한 건 → 대시보드용 ClassObj. 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeClass: function(c){
+    var rawStudents=c.students||c.results||[];
+    if(window.KPASSDashboardDataAdapter)rawStudents=window.KPASSDashboardDataAdapter.selectLatestResults(rawStudents);
     return Object.assign({},c,{
-      id:    String(c.id!=null?c.id:(c.classId!=null?c.classId:c.code)),
+      id:    String(c.id!=null?c.id:(c.classId!=null?c.classId:(c.code!=null?c.code:''))),
       label: c.label || c.name || ((c.grade!=null?c.grade+'학년 ':'')+(c.no!=null?c.no+'반':'')),
       grade: c.grade!=null?Number(c.grade):0,
       enrolled: c.enrolled!=null?Number(c.enrolled):null,
       training: c.training!=null?Number(c.training):(c.trainingRate!=null?Number(c.trainingRate):null),
-      students: (c.students||c.results||[]).map(DATA.normalizeStudent)
+      testedAt:c.testedAt||c.assessmentDate||c.completedAt||null,
+      schoolMeans:c.schoolMeans||(c.comparison&&c.comparison.schoolMeans)||null,
+      students: rawStudents.map(DATA.normalizeStudent)
     });
   },
   /* 서버 JSON 한 명 → 대시보드용 StudentObj. SS 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeStudent: function(st){
-    var ss = st.s || st.scores || st.standardScores || st;
-    function pick(){ for(var i=0;i<arguments.length;i++){ var v=ss[arguments[i]]; if(v!=null&&isFinite(Number(v))) return Math.round(Number(v)); } return null; }
+    var result=st.result||{};
+    var ss = st.s || st.scores || st.standardScores || result.scoreSummary || result.scores || result.standardScores || st;
+    function pick(){ for(var i=0;i<arguments.length;i++){ var v=ss[arguments[i]];if(v&&typeof v==='object')v=v.standardScore!=null?v.standardScore:(v.score!=null?v.score:v.value); if(v!=null&&isFinite(Number(v))) return Math.round(Number(v)); } return null; }
     return Object.assign({},st,{
-      id: String(st.id!=null?st.id:(st.studentId!=null?st.studentId:st.code)),
-      age: st.age || st.ageLabel || '',
+      id: String(st.id!=null?st.id:(st.studentId!=null?st.studentId:(st.code!=null?st.code:''))),
+      ageYears:st.ageYears!=null?Number(st.ageYears):(result.ageYears!=null?Number(result.ageYears):null),
+      ageMonths:st.ageMonths!=null?Number(st.ageMonths):(result.ageMonths!=null?Number(result.ageMonths):null),
+      age: st.age || st.ageLabel || (st.ageYears!=null?String(st.ageYears)+'y '+String(st.ageMonths||0)+'m':''),
       s: {
         PLAN: pick('PLAN','planning','plan','계획력'),
         ATT:  pick('ATT','attention','att','주의력'),
@@ -443,7 +453,7 @@ function buildSampleList(){
       students.push({id:L+i,age:(d.grade+6)+'y '+Math.floor(r()*12)+'m',s:s});
     }
     if(L==='C'){students[6]={id:'C7',age:'8y 5m',s:{PLAN:130,ATT:119,SIM:80,SUC:71}};}
-    return {id:L,label:'Class '+L,grade:d.grade,students:students,enrolled:d.n+Math.floor(r()*3),training:Math.round(30+r()*50)};
+    return {id:L,label:'Class '+L,grade:d.grade,testedAt:'2026-09-20',students:students,enrolled:d.n+Math.floor(r()*3),training:Math.round(30+r()*50)};
   });
 }
 
@@ -453,13 +463,13 @@ function sanitize(list){
   (list||[]).forEach(function(c){
     if(!c||!c.id) return;
     var students=(c.students||[]).filter(function(st){
-      if(!st||!st.s) {dropped++;return false;}
+      if(!st||!st.id||!st.s) {dropped++;return false;}
       var ok=SC.every(function(x){var v=st.s[x.k];return typeof v==='number'&&isFinite(v)&&v>=40&&v<=200;});
       if(ok){kept++;}else{dropped++;}
       return ok;
     });
     var key=String(c.id);
-    if(classes[key]) return;
+    if(classes[key]||!students.length) return;
     classes[key]=Object.assign({},c,{id:key,label:c.label||key,grade:c.grade||0,students:students,
       enrolled:(c.enrolled!=null?c.enrolled:null),training:(c.training!=null?c.training:null)});
     order.push(key);
@@ -469,15 +479,16 @@ function sanitize(list){
 }
 
 var classes={}, classOrder=[];
-var state={cid:null,filter:'all',pairScale:'SUC',parentId:null,source:'sample',actions:{},dropped:0,formation:null};
+var state={cid:null,filter:'all',pairScale:'SUC',parentId:null,source:'sample',actions:{},dropped:0,formation:null,meta:{}};
 function cur(){return classes[state.cid];}
-function loadActions(){try{return JSON.parse(localStorage.getItem('fg_class_actions')||'{}')||{};}catch(e){return {};}}
-function saveActions(){try{localStorage.setItem('fg_class_actions',JSON.stringify(state.actions));}catch(e){}}
+function storageKey(name){return 'fg.schoolDashboard.'+name+'.'+[CONTEXT.organizationId||'org',CONTEXT.schoolId||'school'].join('.');}
+function loadActions(){try{return JSON.parse(localStorage.getItem(storageKey('classActions'))||'{}')||{};}catch(e){return {};}}
+function saveActions(){try{localStorage.setItem(storageKey('classActions'),JSON.stringify(state.actions));}catch(e){}}
 state.actions=loadActions();
 state.formation=loadFormation();
 
 /* ============ 분석 ============ */
-function lrThresh(st){var m=/(\d+)\s*(?:y|세)/.exec(st.age||'');var yr=m?parseInt(m[1],10):null;return yr===5?CFG.lrGap5:CFG.lrGap;}
+function lrThresh(st){var m=/(\d+)\s*(?:y|세)/.exec(st.age||'');var yr=isFinite(Number(st.ageYears))?Number(st.ageYears):(m?parseInt(m[1],10):null);return yr===5?CFG.lrGap5:CFG.lrGap;}
 function analyze(st){
   var v=SC.map(function(x){return st.s[x.k];});
   var min=Math.min.apply(null,v), max=Math.max.apply(null,v), pm=avg(v);
@@ -499,7 +510,7 @@ function analyze(st){
   var dbl=SC.filter(function(x){return st.s[x.k]>=CFG.hi&&st.s[x.k]-pm>=CFG.dci;});
   var weak=SC.filter(function(x){return pm-st.s[x.k]>=CFG.dci;});
   var top=SC.slice().sort(function(a,b){return st.s[b.k]-st.s[a.k];});
-  var typ=(st.s[top[0].k]-pm>=10)?top[0].n+' 강점형':'고른 프로파일형';
+  var typ=(st.s[top[0].k]-pm>=CFG.profileStrengthGap)?top[0].n+' 강점형':'고른 프로파일형';
   return {min:min,max:max,pm:pm,gap:gap,lr:lr,balSub:balSub,tier:tier,twoE:twoE,edges:edges,gt:gt,dbl:dbl,weak:weak,lrImb:lrImb,spread:(max-min)>=CFG.spread,lowBoth:st.s.SIM<=CFG.lo&&st.s.SUC<=CFG.lo,top:top,typ:typ};
 }
 function stats(c){
@@ -516,6 +527,9 @@ function stats(c){
   return {A:A,n:n,m:m,sd:sd,lo:lo,mid:mid,hi:hi,ci:function(k){return n>1?1.96*sd[k]/Math.sqrt(n):0;}};
 }
 function schoolMeans(){
+  var explicit=cur()&&cur().schoolMeans||state.meta&&state.meta.schoolMeans;
+  if(explicit){var mapped={};SC.forEach(function(x){var v=explicit[x.k]!=null?explicit[x.k]:explicit[{PLAN:'planning',ATT:'attention',SIM:'simultaneous',SUC:'successive'}[x.k]];mapped[x.k]=Number(v);});if(SC.every(function(x){return isFinite(mapped[x.k]);}))return mapped;}
+  if(classOrder.length<2)return null;
   var all=[];classOrder.forEach(function(k){all=all.concat(classes[k].students);});
   var o={};SC.forEach(function(x){o[x.k]=avg(all.map(function(s){return s.s[x.k];}));});return o;
 }
@@ -564,7 +578,8 @@ function ovHTML(){
   ins.push('순차처리(Q)가 더 높은 순차 우세형 '+left+'명, 동시처리(S)가 더 높은 동시 우세형 '+right+'명이에요.');
   var q=S.A.filter(function(o){return flagsFor(o.a).length;}).length;
   ins.push('먼저 살펴볼 학생은 '+q+'명이에요. “주의 학생”에서 사유와 조치 상태를 확인하세요.');
-  return '<p class="hero-meta">'+esc(c.label)+', '+S.n+'명이 '+ymd(new Date(CFG.testDate+'T00:00:00'))+'에 검사했어요.</p>'
+  var tested=classTestDate(c);
+  return '<p class="hero-meta">'+esc(c.label)+', '+S.n+'명'+(tested?'이 '+ymd(tested)+'에 검사했어요.':'의 검사 결과예요.')+'</p>'
     +'<h1 class="hero-h">'+head+'</h1>'
     +'<div class="scale-strip">'+strip+'</div>'
     +'<div class="kpis">'+kp+'</div>'
@@ -574,7 +589,7 @@ function ovHTML(){
 
 function profileHTML(){
   var c=cur(),S=stats(c),sch=schoolMeans(),ex=expected();
-  var showSchool=classOrder.length>1;
+  var showSchool=!!sch;
   function pos(v){return clamp((v-70)/60*100,0,100);}
   var axis='<div class="prow head"><div></div><div class="axis">'+[70,CFG.lo,100,CFG.hi,130].map(function(v){return '<span style="left:'+pos(v)+'%">'+v+'</span>';}).join('')+'</div><div>학생 분포</div></div>';
   var rows=SC.map(function(x){
@@ -676,7 +691,7 @@ function mixHTML(){
   var tl=Object.keys(types).sort(function(a,b){return types[b]-types[a];}).map(function(k){return '<span class="tag">'+esc(k)+' '+types[k]+'명</span>';}).join('');
   return '<div class="panel">'+head+rows+'</div>'
     +'<h3>강점 유형 구성</h3><div>'+tl+'</div>'
-    +'<p class="small" style="margin-top:10px">가장 높은 영역이 개인 평균보다 10점 이상 높으면 “영역 강점형”, 아니면 “고른 프로파일형”으로 묶어요. 세부 인지 유형(81유형)은 개인 결과지에서 확인해요. 개인 내 강약은 선별용 단순 기준(±'+CFG.dci+'점)이에요.</p>';
+    +'<p class="small" style="margin-top:10px">가장 높은 영역이 개인 평균보다 '+CFG.profileStrengthGap+'점 이상 높으면 “영역 강점형”, 아니면 “고른 프로파일형”으로 묶어요. 세부 인지 유형(81유형)은 개인 결과지에서 확인해요. 개인 내 강약은 선별용 단순 기준(±'+CFG.dci+'점)이에요.</p>';
 }
 
 function queueHTML(){
@@ -783,7 +798,7 @@ function schoolHTML(){
 }
 
 function retestHTML(){
-  var t0=new Date(CFG.testDate+'T00:00:00'), a=addM(t0,CFG.retestMin), b=addM(t0,CFG.retestMax);
+  var c=cur(),t0=classTestDate(c);if(!t0)return '<div class="empty">검사일이 없어 재검사 권장 시기를 계산할 수 없어요.</div>';var a=addM(t0,CFG.retestMin), b=addM(t0,CFG.retestMax);
   var total=b.getTime()-t0.getTime();
   function f(d){return clamp((d.getTime()-t0.getTime())/total*100,0,100);}
   var now=new Date();
@@ -831,7 +846,7 @@ function criteriaHTML(){
     ['영재 판별',CFG.hi+' 이상인 영역이 있고 위기·지원 필요가 아님','2E는 별도 경보로 표시'],
     ['2E 경보',CFG.hi+' 이상 영역과 '+CFG.lo+' 이하 영역이 함께 있음','강점과 어려움이 함께 있는 경우'],
     ['처리방식 우세(S/Q)','|동시처리 − 순차처리| '+CFG.lrGap+' 이상(5세 '+CFG.lrGap5+')','동시(S)가 높으면 동시처리 우세형, 순차(Q)가 높으면 순차처리 우세형. 0~'+(CFG.lrGap-1)+'점은 균형형'],
-    ['좌우불균형','|동시처리 − 순차처리| '+CFG.lrImb+' 이상','처리방식 우세(11점)와 별개로, 두 처리방식 격차가 큰 경우'],
+    ['좌우불균형','|동시처리 − 순차처리| '+CFG.lrImb+' 이상','처리방식 우세('+CFG.lrGap+'점)와 별개로, 두 처리방식 격차가 큰 경우'],
     ['프로파일 불균형','최고 − 최저 '+CFG.spread+' 이상','네 영역 전체 편차로, 위 세 기준과 별개'],
     ['경계선','하 기준점 '+CFG.lo+' ±'+CFG.edge+'점 이내('+(CFG.lo-CFG.edge)+'~'+(CFG.lo+CFG.edge)+')','개별 점수의 95% 신뢰구간이 약 ±'+CFG.ci+'점이라 하 여부가 바뀔 수 있어요. 상 기준('+CFG.hi+')은 경계선에 쓰지 않아요'],
     ['개인 내 강약','개인 평균보다 '+CFG.dci+'점 이상 높거나 낮음','선별용 단순 기준']
@@ -848,8 +863,8 @@ function dataHTML(){
 }
 
 /* ============ 반 편성표 ============ */
-function loadFormation(){try{return JSON.parse(localStorage.getItem('fg_formation')||'null');}catch(e){return null;}}
-function saveFormation(){try{localStorage.setItem('fg_formation',JSON.stringify(state.formation));}catch(e){}}
+function loadFormation(){try{return JSON.parse(localStorage.getItem(storageKey('formation'))||'null');}catch(e){return null;}}
+function saveFormation(){try{localStorage.setItem(storageKey('formation'),JSON.stringify(state.formation));}catch(e){}}
 function roster(){ // 전체 학생을 id로 조회할 수 있게 (id는 반 접두사로 전역 고유)
   var map={};
   classOrder.forEach(function(k){classes[k].students.forEach(function(st){map[st.id]={st:st,a:analyze(st),mean:avg(SC.map(function(x){return st.s[x.k];}))};});});
@@ -939,7 +954,7 @@ var SECTIONS=[
   {g:'학급 개요',id:'overview',t:'학급 한눈에 보기',hero:true,fn:ovHTML},
   {g:'학급 개요',id:'profile',t:'영역별 학급 프로파일',lead:'네 영역의 학급 평균과 하·중·상 학생 분포를 규준과 학교 평균에 견줘 봐요.',fn:profileHTML},
   {g:'학급 개요',id:'tiers',t:'관리 등급 분포',lead:'가장 낮은 영역을 기준으로 5단계로 나눠 학급 전체의 지원 수요를 봐요.',fn:tiersHTML},
-  {g:'학급 개요',id:'balance',t:'처리방식 우세(S/Q)',lead:'동시처리(S)와 순차처리(Q)의 차이로 우세 유형을 봐요. 차이 '+'11점 이상이면 우세형(5세는 12점), 이하이면 균형형이에요.',fn:balanceHTML},
+  {g:'학급 개요',id:'balance',t:'처리방식 우세(S/Q)',lead:'동시처리(S)와 순차처리(Q)의 차이로 우세 유형을 봐요. 차이 '+CFG.lrGap+'점 이상이면 우세형(5세는 '+CFG.lrGap5+'점), 이하이면 균형형이에요.',fn:balanceHTML},
   {g:'학급 개요',id:'mix',t:'강점과 보완 구성',lead:'학생 자신의 평균과 견줬을 때 뚜렷하게 높거나 낮은 영역이 어디에 몰려 있는지 봐요.',fn:mixHTML},
   {g:'학교 전체',id:'school',t:'학교 전체 보기',lead:'학급끼리 평균과 지원 수요를 견줘 프로그램과 예산을 정하는 데 참고해요.',fn:schoolHTML},
   {g:'학교 전체',id:'formation',t:'반 편성표',lead:'전체 학생을 개인 평균이 균등하고 지원 필요 학생이 분산되도록 자동 배치한 뒤, 학생을 옮기거나 뺄 수 있어요.',fn:formationHTML},
@@ -1046,7 +1061,9 @@ function setupSpy(){
   on('s-overview');
 }
 
-function applyData(list,source){
+function applyRuntimeMeta(meta){state.meta=meta||{};var p=state.meta.policy||{};Object.keys(CFG).forEach(function(key){if(p[key]==null)return;if(typeof CFG[key]==='number'){var value=Number(p[key]);if(isFinite(value))CFG[key]=value;}else if(key!=='giftedMix')CFG[key]=p[key];});if(p.giftedMix)CFG.giftedMix=Object.assign({},CFG.giftedMix,p.giftedMix);}
+function applyData(list,source,meta){
+  applyRuntimeMeta(meta);
   var r=sanitize(list);
   classes=r.classes;classOrder=r.order;state.dropped=r.dropped;state.source=source;
   if(!classOrder.length){classes={};classOrder=[];return false;}
@@ -1058,21 +1075,23 @@ function applyData(list,source){
   return true;
 }
 function showFatal(msg){
-  $('#banner').innerHTML='<p style="background:var(--orange-soft);border-left-color:var(--t-crisis)"><b>데이터를 불러오지 못했어요.</b> '+esc(msg)+' 페이지를 새로고침하거나 관리자에게 문의하세요.</p>';
-  $('#main').innerHTML='<section class="sec"><div class="empty">표시할 학급 데이터가 없어요. 아래 “데이터 불러오기”에 검사 결과를 붙여 넣어 볼 수도 있어요.</div><div id="b-data"></div></section>';
+  $('#banner').innerHTML='<p style="background:var(--orange-soft);border-left-color:var(--t-crisis)"><b>'+esc(tx('runtime.error.title','데이터를 불러오지 못했어요.'))+'</b> '+esc(msg)+' '+esc(tx('runtime.error.help','페이지를 새로고침하거나 관리자에게 문의하세요.'))+'</p>';
+  $('#main').innerHTML='<section class="sec"><div class="empty">'+esc(tx('runtime.empty','표시할 학급 데이터가 없어요.'))+'</div><div id="b-data"></div></section>';
   buildShell();$('#b-data')&&renderBody('data');
 }
+function tx(key,fallback,vars){var value=window.kpassT&&window.kpassT(key,vars);return value||fallback;}
+function errorText(err){return tx('runtime.error.'+String(err&&err.code||'unknown').toLowerCase(),err&&err.message||'결과지 데이터를 불러오지 못했습니다.',err&&err.details);}
 function boot(){
   buildShell();
-  $('#banner').innerHTML='<p>학급 데이터를 불러오는 중이에요…</p>';
+  $('#banner').innerHTML='<p>'+esc(tx('runtime.loading.school','학교 데이터를 불러오는 중이에요…'))+'</p>';
   var p;
   try{ p=DATA.load(CONTEXT); }catch(e){ p=Promise.reject(e); }
   Promise.resolve(p).then(function(res){
-    var ok=applyData((res&&res.classes)||[], (res&&res.source)||'live');
-    if(!ok){ showFatal('학급 데이터가 비어 있어요.'); return; }
+    var ok=applyData((res&&res.classes)||[], (res&&res.source)||'live',res&&res.meta);
+    if(!ok){ showFatal(tx('runtime.error.empty_results','학급 데이터가 비어 있어요.')); return; }
     renderAllBodies();setupSpy();
   }).catch(function(err){
-    if(err&&err.dashboardFatal){showFatal(err.message||'결과지 데이터를 불러오지 못했습니다.');return;}
+    if(err&&err.dashboardFatal){showFatal(errorText(err));return;}
     // 연동 실패 시에도 화면이 비지 않도록 예시 데이터로 대체
     var ok=applyData(buildSampleList(),'sample');
     if(ok){renderAllBodies();setupSpy();
@@ -1080,9 +1099,11 @@ function boot(){
     }else{ showFatal(err&&err.message||'알 수 없는 오류'); }
   });
 }
-boot();
+var booted=false;function bootOnce(){if(booted)return;booted=true;boot();}
+window.addEventListener('kpass-locale-ready',function(){if(classOrder.length)renderAllBodies();else bootOnce();});
+if(window.kpassT)bootOnce();
 })();
 </script>
-<script src="full-dashboard-shell.js?v=7"></script>
+<script src="full-dashboard-shell.js?v=8"></script>
 </body>
 </html>

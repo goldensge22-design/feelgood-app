@@ -5,11 +5,12 @@ var ALLOWED_MODES=['auto','live','sample'];
 
 function own(obj,key){return Object.prototype.hasOwnProperty.call(obj||{},key);}
 function text(value){return value==null?'':String(value).trim();}
-function error(code,message,cause){
+function error(code,message,cause,details){
   var err=new Error(message);
   err.code=code;
   err.dashboardFatal=true;
   if(cause)err.cause=cause;
+  if(details)err.details=details;
   return err;
 }
 function isLocal(){
@@ -30,14 +31,14 @@ function joinUrl(base,path){
 function fillTemplate(template,context){
   return template.replace(/\{([A-Za-z0-9_]+)\}/g,function(all,key){
     var value=context[key];
-    if(value==null||value==='')throw error('MISSING_CONTEXT','필수 조회 식별자가 없습니다: '+key);
+    if(value==null||value==='')throw error('MISSING_CONTEXT','Missing required dashboard context: '+key,null,{key:key});
     return encodeURIComponent(value);
   });
 }
 function endpointFor(scope,context,config){
   if(typeof config.endpointBuilder==='function')return config.endpointBuilder(scope,context);
   var template=config.endpoints&&config.endpoints[scope];
-  if(!template)throw error('MISSING_ENDPOINT','대시보드 API 경로가 설정되지 않았습니다: '+scope);
+  if(!template)throw error('MISSING_ENDPOINT','Dashboard API endpoint is not configured: '+scope,null,{scope:scope});
   return joinUrl(config.apiBase,fillTemplate(template,context));
 }
 function listFromPayload(payload){
@@ -57,7 +58,49 @@ function resultMeta(payload){
     assessmentType:text(meta.assessmentType),
     assessmentCycleId:text(meta.assessmentCycleId||meta.cycleId),
     organizationId:text(meta.organizationId),
-    schoolId:text(meta.schoolId)
+    schoolId:text(meta.schoolId),
+    testedAt:text(meta.testedAt||meta.assessmentDate||meta.completedAt),
+    policy:meta.policy&&typeof meta.policy==='object'?meta.policy:{},
+    schoolMeans:meta.schoolMeans||meta.comparison&&meta.comparison.schoolMeans||null
+  };
+}
+function resultDate(item){
+  var value=item&&(item.testedAt||item.completedAt||item.assessedAt||item.resultDate||item.updatedAt);
+  var time=value?Date.parse(value):NaN;
+  return isFinite(time)?time:0;
+}
+function resultIdentity(item,index){
+  var value=item&&(item.studentId||item.userId||item.subjectId||item.id||item.code);
+  return value==null||value===''?'__row_'+index:String(value);
+}
+function selectLatestResults(items){
+  var selected={},order=[];
+  (Array.isArray(items)?items:[]).forEach(function(item,index){
+    if(!item)return;
+    var key=resultIdentity(item,index);
+    if(!own(selected,key)){selected[key]=item;order.push(key);return;}
+    if(resultDate(item)>=resultDate(selected[key]))selected[key]=item;
+  });
+  return order.map(function(key){return selected[key];});
+}
+function normalizeCareerTop5(student){
+  var result=student&&student.result||{};
+  var career=student&&student.career||result.career||{};
+  var aptitude=student&&student.careerAptitude||result.careerAptitude||career.aptitude||null;
+  var list=student&&(student.careerTop5||student.jobTop5)||result.careerTop5||result.jobTop5||career.top5||career.jobTop5||(aptitude&&(aptitude.top5||aptitude.topJobs||aptitude.recommendedJobs))||[];
+  if(!Array.isArray(list))list=[];
+  return {
+    careerAptitude:aptitude,
+    careerTop5:list.slice(0,5).map(function(item,index){
+      if(typeof item==='string')return {rank:index+1,name:item};
+      item=item||{};
+      return Object.assign({},item,{
+        rank:Number(item.rank)||index+1,
+        name:text(item.name||item.title||item.jobName||item.job||item.careerName||item.label),
+        fitScore:item.fitScore!=null?Number(item.fitScore):(item.score!=null?Number(item.score):null),
+        strengths:item.strengths||item.linkedDomains||item.domains||item.reasons||[]
+      });
+    }).filter(function(item){return item.name;})
   };
 }
 function requestHeaders(context){
@@ -74,12 +117,12 @@ function fetchJson(url,context,config){
     credentials:config.credentials||'include',
     signal:controller&&controller.signal
   }).then(function(response){
-    if(!response.ok)throw error('HTTP_ERROR','결과지 서버 응답 오류 (HTTP '+response.status+')');
+    if(!response.ok)throw error('HTTP_ERROR','Dashboard result request failed (HTTP '+response.status+')',null,{status:response.status});
     return response.json();
   }).catch(function(err){
     if(err&&err.dashboardFatal)throw err;
-    if(err&&err.name==='AbortError')throw error('REQUEST_TIMEOUT','결과지 데이터를 불러오는 시간이 초과되었습니다.',err);
-    throw error('NETWORK_ERROR','결과지 서버에 연결하지 못했습니다.',err);
+    if(err&&err.name==='AbortError')throw error('REQUEST_TIMEOUT','Dashboard result request timed out.',err);
+    throw error('NETWORK_ERROR','Could not connect to the dashboard result server.',err);
   }).finally(function(){if(timeout)clearTimeout(timeout);});
 }
 function normalizeClasses(payload,normalizeClass){
@@ -108,16 +151,16 @@ function load(options){
   var request=transportPromise||fetchJson(endpointFor(scope,context,config),context,config);
   return request.then(function(payload){
     var classes=normalizeClasses(payload,options.normalizeClass);
-    if(!classes.length)throw error('EMPTY_RESULTS','조회된 결과지 데이터가 없습니다.');
+    if(!classes.length)throw error('EMPTY_RESULTS','No dashboard result data was returned.');
     return {classes:classes,source:'live',meta:resultMeta(payload)};
   }).catch(function(err){
     if(config.allowSampleFallback){
       return sampleResult(options).then(function(result){result.warning=err;return result;});
     }
     if(err&&err.dashboardFatal)throw err;
-    throw error('ADAPTER_ERROR','결과지 데이터를 처리하지 못했습니다.',err);
+    throw error('ADAPTER_ERROR','Could not process dashboard result data.',err);
   });
 }
 
-window.KPASSDashboardDataAdapter={load:load,resolveMode:resolveMode,listFromPayload:listFromPayload};
+window.KPASSDashboardDataAdapter={load:load,resolveMode:resolveMode,listFromPayload:listFromPayload,resultMeta:resultMeta,selectLatestResults:selectLatestResults,normalizeCareerTop5:normalizeCareerTop5};
 })(window);
