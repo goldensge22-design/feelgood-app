@@ -244,6 +244,8 @@ textarea{width:100%;min-height:150px;background:var(--panel);border:1px solid va
   <main id="main"></main>
 </div>
 
+<script src="dashboard-runtime-config.js?v=1"></script>
+<script src="result-data-adapter.js?v=1"></script>
 <script>
 (function(){
 'use strict';
@@ -371,54 +373,59 @@ function pad2(n){return (n<10?'0':'')+n;}
 var CONTEXT = (function(){
   var q={};
   try{ new URLSearchParams(location.search).forEach(function(v,k){q[k]=v;}); }catch(e){}
-  return { schoolId:q.school||q.schoolId||null, classId:q['class']||q.classId||null, raw:q };
+  return {
+    organizationId:q.organizationId||q.organization||null,
+    schoolId:q.school||q.schoolId||null,
+    classId:q['class']||q.classId||null,
+    departmentId:q.departmentId||q.department||null,
+    assessmentCycleId:q.assessmentCycleId||q.cycleId||null,
+    assessmentType:q.assessmentType||'K-PASS',
+    locale:q.lang||'ko',
+    raw:q
+  };
 })();
 
 var DATA = {
   /* 실제 연동: 이 함수만 교체하세요. Promise<{classes,source}> 를 돌려주면 돼요.
      아래는 예시 데이터를 돌려주는 기본 구현이에요. */
   load: function(ctx){
+    if(window.KPASSDashboardDataAdapter){
+      return window.KPASSDashboardDataAdapter.load({scope:'homeroom',context:ctx,sampleFactory:buildSampleList,normalizeClass:DATA.normalizeClass});
+    }
     return Promise.resolve({ classes: buildSampleList(), source:'sample' });
   },
 
   /* 참고용 연동 예시 (개발자가 load 를 이걸로 바꾸면 됨).
      서버 응답의 필드 이름이 다르면 normalizeClass 안 매핑만 고치세요. */
   loadFromApi: function(ctx){
-    var base='/api/v1/kpass/admin'; // 실제 주소로
-    var url = base+'/schools/'+encodeURIComponent(ctx.schoolId)+'/classes';
-    return fetch(url, {headers:{'Accept':'application/json'}, credentials:'include'})
-      .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); return res.json(); })
-      .then(function(json){
-        var list=(json.classes||json.data||json||[]).map(DATA.normalizeClass);
-        if(!list.length) throw new Error('학급 데이터가 비어 있어요.');
-        return { classes:list, source:'live' };
-      });
+    if(!window.KPASSDashboardDataAdapter)throw new Error('결과지 adapter가 로드되지 않았습니다.');
+    return window.KPASSDashboardDataAdapter.load({scope:'homeroom',context:ctx,sampleFactory:buildSampleList,normalizeClass:DATA.normalizeClass});
   },
   /* 서버 JSON 한 건 → 대시보드용 ClassObj. 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeClass: function(c){
-    return {
+    return Object.assign({},c,{
       id:    String(c.id!=null?c.id:(c.classId!=null?c.classId:c.code)),
       label: c.label || c.name || ((c.grade!=null?c.grade+'학년 ':'')+(c.no!=null?c.no+'반':'')),
       grade: c.grade!=null?Number(c.grade):0,
       enrolled: c.enrolled!=null?Number(c.enrolled):null,
       training: c.training!=null?Number(c.training):(c.trainingRate!=null?Number(c.trainingRate):null),
       students: (c.students||c.results||[]).map(DATA.normalizeStudent)
-    };
+    });
   },
   /* 서버 JSON 한 명 → 대시보드용 StudentObj. SS 필드 이름 매핑은 여기서만 바꿔요. */
   normalizeStudent: function(st){
     var ss = st.s || st.scores || st.standardScores || st;
     function pick(){ for(var i=0;i<arguments.length;i++){ var v=ss[arguments[i]]; if(v!=null&&isFinite(Number(v))) return Math.round(Number(v)); } return null; }
-    return {
+    return Object.assign({},st,{
       id: String(st.id!=null?st.id:(st.studentId!=null?st.studentId:st.code)),
       age: st.age || st.ageLabel || '',
       s: {
         PLAN: pick('PLAN','planning','plan','계획력'),
         ATT:  pick('ATT','attention','att','주의력'),
         SIM:  pick('SIM','simultaneous','sim','동시처리'),
-        SUC:  pick('SUC','successive','suc','순차처리')
+        SUC:  pick('SUC','successive','sequential','suc','순차처리')
       }
-    };
+    });
   }
 };
 
@@ -457,8 +464,8 @@ function sanitize(list){
     });
     var key=String(c.id);
     if(classes[key]) return;
-    classes[key]={id:key,label:c.label||key,grade:c.grade||0,students:students,
-      enrolled:(c.enrolled!=null?c.enrolled:null),training:(c.training!=null?c.training:null)};
+    classes[key]=Object.assign({},c,{id:key,label:c.label||key,grade:c.grade||0,students:students,
+      enrolled:(c.enrolled!=null?c.enrolled:null),training:(c.training!=null?c.training:null)});
     order.push(key);
   });
   order.sort(function(a,b){return (classes[a].grade-classes[b].grade)|| (classes[a].label<classes[b].label?-1:1);});
@@ -1046,6 +1053,7 @@ function boot(){
     if(!ok){ showFatal('학급 데이터가 비어 있어요.'); return; }
     renderAllBodies();setupSpy();
   }).catch(function(err){
+    if(err&&err.dashboardFatal){showFatal(err.message||'결과지 데이터를 불러오지 못했습니다.');return;}
     var ok=applyData(buildSampleList(),'sample');
     if(ok){renderAllBodies();setupSpy();
       $('#banner').innerHTML='<p style="background:var(--orange-soft)"><b>실제 데이터를 불러오지 못해 예시 데이터를 보여주고 있어요.</b> ('+esc(err&&err.message||'오류')+')</p>';
