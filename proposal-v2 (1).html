@@ -2582,9 +2582,11 @@ function updateMobileTocLabel(id) {
   if (!current) return;
   const item = document.querySelector('#ntabs li[data-s="' + id + '"]');
   if (!item) {
-    current.textContent = id === 'home' ? '목차에서 항목을 선택하세요' : 'CONTENTS';
+    current.textContent = '';
+    current.hidden = true;
     return;
   }
+  current.hidden = false;
   const number = item.querySelector('.toc-no');
   const label = item.querySelector('[data-i18n]');
   current.textContent = (number ? number.textContent + ' ' : '') + (label ? label.textContent.replace(/^[^\p{L}\p{N}]+/u, '') : '');
