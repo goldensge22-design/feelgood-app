@@ -2,6 +2,8 @@
 'use strict';
 var FALLBACK='ko';
 var STORAGE='fg.schoolDashboard.locale';
+var SCRIPT_VERSION=(function(){try{return new URL(document.currentScript.src,location.href).searchParams.get('v')||'';}catch(e){return'';}})();
+function assetUrl(path){return path+(SCRIPT_VERSION?'?v='+encodeURIComponent(SCRIPT_VERSION):'');}
 var MODE=document.body.getAttribute('data-mode')||location.pathname.split('/').pop().replace('.html','')||'homeroom';
 var UI_STATE_STORAGE='fg.schoolDashboard.localeState.'+MODE;
 var LOCALES=[
@@ -115,7 +117,7 @@ function translateExact(ko,target){
 function interpolate(text,vars){return String(text||'').replace(/\{(\w+)\}/g,function(_,key){return vars&&vars[key]!=null?vars[key]:'';});}
 var locale=resolveLocale();var meta=LOCALES.filter(function(x){return x[0]===locale;})[0]||LOCALES[0];document.documentElement.lang=locale;document.documentElement.dir=meta[2];try{localStorage.setItem(STORAGE,locale);}catch(e){}
 if(MODE==='track'&&location.hash==='#s-school'){var migrated=new URL(location.href);migrated.hash='s-students';history.replaceState(null,'',migrated.pathname+migrated.search+migrated.hash);}
-Promise.all([fetch('locales/ko.json').then(function(r){return r.json();}),fetch('locales/'+locale+'.json').then(function(r){return r.json();})]).then(function(packs){
+Promise.all([fetch(assetUrl('locales/ko.json')).then(function(r){return r.json();}),fetch(assetUrl('locales/'+locale+'.json')).then(function(r){return r.json();})]).then(function(packs){
   var source=packs[0].messages||{},target=packs[1].messages||{};
   window.kpassT=function(key,vars){return interpolate(target[key]||source[key]||'',vars);};
   installShell(locale,target);if(locale!==FALLBACK)translateExact(source,target);
