@@ -30,3 +30,151 @@ button:not(:disabled):active{transform:translateY(2px);box-shadow:none!important
 @media(max-width:720px){.np-brand img{width:50px}.np-brand h1{font-size:23px}.np-capacity-shelf{padding:13px}.np-shelf-head{align-items:flex-start;flex-direction:column}.np-time-shelf{overflow-x:auto;overscroll-behavior-inline:contain}.np-time-block{flex:0 0 92px}.np-add-workbench{grid-template-columns:95px 1fr}.np-add-workbench button{grid-column:1/-1;width:100%}.np-choice-row{display:grid;grid-template-columns:1fr}.np-choice-row button{min-width:0;width:100%}.np-replan-row{align-items:flex-start;flex-direction:column}.np-replan-row button{width:100%}.np-replan-parts{grid-template-columns:1fr}.np-plan-lanes article{align-items:flex-start}.np-plan-card-controls button{min-width:44px;min-height:44px}.np-week{grid-template-columns:1fr}.np-week>section{min-height:88px}.np-layout aside{grid-template-columns:1fr}.np-saving{grid-column:auto}.np-island{transform:none;margin:0}}
 @media(max-width:380px){.np-shell{padding-inline:9px}.np-card{padding-inline:12px}.np-demo-tabs{flex-direction:column}.np-stage>div{flex-wrap:wrap}.np-stage button{min-width:46%}.np-plan-lanes article{gap:6px}.np-order-badge{width:24px}.np-plan-card-controls{min-width:44px}.np-time-block{flex-basis:84px}.np-add-workbench{grid-template-columns:1fr}.np-add-workbench button{grid-column:auto}.np-replan{padding:12px}}
 @media(prefers-reduced-motion:reduce){button,.np-plan-lanes article,.np-time-block{animation:none!important;transition:none!important}}
+
+/* NUVIA desk — flat front-facing paper, with a shallow six-pixel edge. */
+:root{--desk-ink:#172c4e;--desk-muted:#596b83;--desk-paper:#fffdf7;--desk-ground:#f4f1e9;--desk-line:#d8dfdf;--desk-accent:#e8792e;--desk-accent-edge:#b94e16;--desk-color:#dbe8eb}
+body{background:var(--desk-ground);color:var(--desk-ink)}
+.np-shell{max-width:1380px;padding-top:15px}
+.np-header{margin:0 0 14px;padding:5px 0 14px;border-bottom:1px solid var(--desk-line)}
+.np-brand{gap:12px}.np-brand img{width:52px}.np-brand h1{font-size:25px;letter-spacing:-.035em;padding-left:13px;border-color:#b6c7ca;color:var(--desk-ink)}.np-brand h1 span{color:var(--desk-ink);font-weight:550}
+.np-badge{background:#e8eff0;color:#36516a;border-color:#cedcdd}
+.np-intro{margin:0 0 15px}.np-intro h2{font-size:clamp(23px,3vw,32px);line-height:1.22;margin:2px 0 3px}.np-intro p:last-child{margin:0}
+.np-eyebrow{color:#526b7b;letter-spacing:.09em}
+.np-profile,.np-card,.np-side-card,.np-island-card,.np-demo{background:var(--desk-paper);border-color:var(--desk-line);border-radius:16px;box-shadow:0 6px 0 #cdd7d5}
+.np-profile{padding:12px 17px;margin-bottom:12px;border-top:3px solid var(--desk-ink)}
+.np-profile-head h2{font-size:17px}.np-profile-assignment{background:#f6e9d7;color:#71441f}.np-profile-assignment span{color:#71441f}
+.np-axes{margin:10px 0 6px}.np-axes>div,.np-axes .high,.np-axes .low{background:#f2f5f2;color:var(--desk-ink);border-color:#e0e7e2;min-width:0}.np-axes>div{padding:8px 10px}.np-axes strong{font-variant-numeric:tabular-nums;font-size:16px}.np-axes small{color:#566982}.np-profile-more summary{color:var(--desk-ink)}
+.np-demo{margin-bottom:12px;padding:12px}.np-demo-tabs button[aria-pressed=true],.np-demo-tabs button:nth-child(2)[aria-pressed=true]{background:#e8f0ee;border-color:#567c8a;box-shadow:0 4px 0 #b9d0cd}
+.np-stage button[aria-pressed=true]{background:#f8e4cf;border-color:#d6894c;color:#683a19}
+.np-nav{margin:16px 0;border-color:var(--desk-line);background:#e7eeeb;padding:5px;border-radius:13px;gap:5px}.np-nav button{min-height:44px;color:var(--desk-ink)}.np-nav button[aria-current=page]{background:var(--desk-ink);color:#fffdf7;box-shadow:0 3px 0 #09182c}
+.np-layout{grid-template-columns:minmax(0,1fr) 250px;gap:19px}.np-layout aside{min-width:0}
+.np-card{padding:20px}.np-side-card{padding:18px}.np-side-card ol{color:var(--desk-ink)}
+button{min-height:44px;border-color:#c4d3d3;background:#fffdf9;color:var(--desk-ink);transition:transform 180ms ease,box-shadow 180ms ease,background-color 180ms ease}
+button:hover:not(:disabled){background:#edf3f0;border-color:#7c9ca3}
+.np-primary,.np-current .np-primary,.np-focus-stage .np-primary{background:var(--desk-accent);border-color:var(--desk-accent);color:#fffdf7;box-shadow:0 5px 0 var(--desk-accent-edge)}
+.np-primary:hover:not(:disabled),.np-current .np-primary:hover:not(:disabled),.np-focus-stage .np-primary:hover:not(:disabled){background:#d86620;color:#fffdf7}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #dc772c;outline-offset:3px}
+input:not([type=checkbox]),select,textarea{border-color:#b9ccca;background:#fffefa;color:var(--desk-ink)}
+input[type=checkbox]{accent-color:var(--desk-ink)}
+.np-capacity-shelf{background:#ecf2ee;border-color:#c9d8d4;box-shadow:0 5px 0 #cedbd7}.np-time-shelf{background:#dce8e5;box-shadow:inset 0 -6px 0 #afc5c0}.np-time-block{border-radius:10px;box-shadow:0 5px 0 #78928b55}.np-capacity-shelf.is-full{background:#f5ede4;border-color:#dccbbc;box-shadow:0 5px 0 #d9c9b8}.np-capacity-shelf.is-full .np-time-shelf{background:#e9dfd3;box-shadow:inset 0 -6px 0 #c3b7a8}
+.np-time-block.is-complete{background:#dbe8df;border-left-color:#729281;opacity:.88}.np-time-block.is-free{background:#f8faf6;border:1px dashed #9dafa9;color:#566b69;box-shadow:none}.np-time-block.is-overflow{background:#e8e5df;border-left:4px solid #8d9698;color:#58636a}
+.np-shelf-breakdown{display:flex;flex-wrap:wrap;gap:6px 15px;color:#445a65;font-size:12px}.np-shelf-breakdown strong{color:var(--desk-ink)}
+.np-desk-surface{background:var(--desk-color);border:1px solid #b5c8c7;border-bottom:6px solid #95aead;border-radius:18px;padding:16px;margin:14px 0 18px;transition:background-color 180ms}
+.np-desk-top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.np-desk-top p{margin:2px 0;color:var(--desk-ink)}.np-desk-color{display:flex;align-items:center;gap:8px;margin:0;font-size:12px;color:var(--desk-ink)}.np-desk-color input{width:44px!important;height:44px;min-height:44px;padding:3px!important;border-radius:9px;cursor:pointer}.np-desk-hint{font-size:12px;margin:8px 0 0;color:#40586b}
+.np-island-base,.np-desk,.np-orange-block,.np-purple-block,.np-earned span{transform:none}
+.np-current,.np-focus-stage{background:var(--desk-ink);box-shadow:0 6px 0 #0c1b32}.np-current p,.np-focus-stage p{color:#dbe8eb}
+.np-empty-callout{border-color:#9fb6b2;background:#f1f5f1}.np-add-workbench{background:#e9f0ed;box-shadow:0 5px 0 #bdccc7}
+.np-week>section,.np-week>section.today{background:#f7f8f3;border-color:#cbd9d5}.np-week>section.today{border-color:#547788}
+@media(max-width:767px){.np-shell{padding:12px 13px 28px}.np-layout{grid-template-columns:1fr}.np-layout aside{display:grid;grid-template-columns:1fr}.np-brand h1{font-size:21px}.np-brand img{width:42px}.np-header{margin-bottom:10px}.np-intro h2{font-size:25px}.np-nav{position:sticky;top:0;z-index:5;box-shadow:0 4px 0 #cddbd5}.np-nav button{font-size:11px;padding:7px 3px}.np-axes{grid-template-columns:repeat(2,minmax(0,1fr))}.np-profile-assignment{margin-top:8px}.np-desk-surface{padding:11px}.np-card{padding:16px}.np-shelf-head{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){button,.np-desk-surface{transition:none!important}}
+.np-desk-now .tb-station{outline:2px solid #e8792e;outline-offset:3px}
+.np-shell button{min-height:44px;transition:transform 180ms ease!important}
+.np-shell summary{min-height:44px}
+.np-desk-surface{transition:none}
+@media(prefers-reduced-motion:reduce){.np-shell button{transition:none!important;animation:none!important}}
+.np-intro{margin:0 0 7px}
+.np-intro p{margin:0;color:#415773;font-weight:650}
+.np-demo{display:block;padding:2px 13px;margin-bottom:8px}
+.np-demo>details>summary{padding:8px 0;color:#243b59}
+.np-demo-settings{display:grid;grid-template-columns:1.35fr 1fr;gap:16px;padding:8px 0 12px}
+.np-profile{margin-bottom:8px}
+.np-nav{margin:8px 0 12px}
+.np-review-banner{margin-bottom:8px}
+@media(max-width:767px){
+ .np-demo-settings{grid-template-columns:1fr}
+ .np-intro p{font-size:12px}
+ .np-profile{padding:9px 12px}
+ .np-profile-head{gap:6px}
+ .np-axes{gap:5px}
+ .np-axes>div{padding:6px}
+ .np-axes strong{font-size:14px}
+ .np-axes small{font-size:10px}
+}
+.np-layout main{display:flex;flex-direction:column}
+.np-layout main>.np-desk-surface{order:-1;margin-top:0}
+.np-header{padding-bottom:6px;margin-bottom:7px}
+.np-brand img{width:39px}
+.np-brand h1{font-size:24px}
+.np-profile{padding:9px 12px;margin-bottom:6px}
+.np-profile-head{align-items:center}
+.np-profile-head h2{font-size:15px;margin:0}
+.np-profile-head small{font-size:10px}
+.np-profile-assignment{padding:5px 9px}
+.np-axes{margin:6px 0 2px;gap:6px}
+.np-axes>div{padding:5px 7px}
+.np-axes strong{font-size:15px}
+.np-axes small{font-size:10px;margin-top:1px;line-height:1.3}
+.np-profile-more{margin-top:3px}
+.np-profile-more summary{min-height:32px;padding:5px 0;font-size:11px}
+.np-intro{margin:0 0 4px}.np-intro p{font-size:12px}
+.np-nav{margin:4px 0 8px}
+.np-nav button{font-size:12px}
+.np-desk-surface{margin:0 0 12px;padding:9px;border-bottom-width:5px;background:var(--desk-color)}
+.np-desk-top{margin-bottom:5px}
+.np-desk-top p{font-size:12px}
+.np-layout aside .np-streak{font-size:12px}
+.np-report-first{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:9px;margin:12px 0}
+.np-report-first>div{border:1px solid #c8d8d2;background:#f2f6f1;border-radius:11px;padding:12px}
+.np-report-first b{display:block;color:#172c4e;font-size:13px}
+.np-report-first p{margin:5px 0;font-size:12px}
+.np-report-first button{display:block;text-align:left;margin-top:5px;font-size:12px;max-width:100%}
+@media(max-width:767px){
+ .np-shell{padding:8px 9px 24px}
+ .np-header{margin-bottom:5px}
+ .np-brand img{width:33px}
+ .np-brand h1{font-size:20px}
+ .np-profile{padding:7px 9px}
+ .np-profile-head{display:flex;gap:4px}
+ .np-profile-head h2{font-size:13px}
+ .np-profile-assignment{margin:0;font-size:10px;max-width:45%}
+ .np-axes{grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+ .np-axes>div{padding:4px 6px}
+ .np-axes strong{font-size:13px}
+ .np-axes small{font-size:9px}
+ .np-nav{position:static}
+ .np-desk-surface{padding:7px}
+ .np-desk-top .np-eyebrow{font-size:9px}
+ .np-desk-top p{font-size:11px}
+ .np-report-first{grid-template-columns:1fr}
+}
+/* The desk owns the wide work area. Reference and backup live below, not beside, the task. */
+.np-layout{grid-template-columns:minmax(0,1fr)}
+.np-layout aside{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:8px}
+.np-layout aside>.np-side-card{margin:0}
+.np-support-collapsed{align-self:start;padding:8px 13px}
+.np-support-collapsed summary{font-size:12px;min-height:34px;padding:5px 0;color:#172c4e}
+.np-shell{padding-top:8px}
+.np-header{min-height:39px;padding:0 0 5px;margin:0 0 4px}
+.np-brand img{width:31px}
+.np-brand{gap:6px}
+.np-brand h1{font-size:21px;padding-left:8px}
+.np-profile{padding:6px 10px;margin-bottom:4px;border-top-width:2px}
+.np-profile-head h2{font-size:13px}
+.np-profile-head small{font-size:10px}
+.np-profile-assignment{font-size:10px;padding:4px 7px}
+.np-axes{margin:4px 0 0;gap:4px}
+.np-axes>div{padding:4px 6px}
+.np-axes strong{font-size:14px}
+.np-axes small{font-size:11px;margin:0;line-height:1.25}
+.np-profile-more{margin-top:1px}
+.np-profile-more summary{min-height:26px!important;padding:3px 0}
+.np-intro{margin:0 0 2px}
+.np-intro p{font-size:12px;line-height:1.25}
+.np-nav{margin:3px 0 5px;padding:3px}
+.np-nav button{min-height:44px;font-size:13px;padding:4px}
+.np-review-banner{padding:5px 9px;margin:0 0 5px;font-size:11px}
+.np-desk-surface{padding:7px;margin:0 0 9px}
+.np-desk-top{margin:0 0 3px}
+.np-desk-top p{margin:0;font-size:11px;line-height:1.2}
+.np-desk-top .np-eyebrow{font-size:9px}
+.np-desk-color input{width:34px!important;height:34px;min-height:34px;padding:2px!important}
+@media(max-width:767px){
+ .np-shell{padding:5px 7px 20px}
+ .np-layout aside{grid-template-columns:1fr}
+ .np-profile-head{gap:5px}
+ .np-profile-assignment{max-width:43%}
+ .np-axes{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .np-axes>div{padding:4px 6px}
+ .np-axes small{font-size:11px}
+ .np-desk-surface{padding:5px}
+}

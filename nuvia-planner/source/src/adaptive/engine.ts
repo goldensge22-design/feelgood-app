@@ -1,6 +1,9 @@
 /** 2026-09-13 approved adaptive training layer. Does not recalculate legacy Growth/Level. */
 export const AXES = ['planning', 'attention', 'simultaneous', 'successive'] as const;
 export type Axis = typeof AXES[number];
+export type GoalAxis = Axis | 'integrated';
+export type GoalEvidenceStatus = 'performed'|'skipped'|'not_applicable'|'unobserved';
+export interface GoalEvidence {status:GoalEvidenceStatus;checks:Record<string,boolean>;}
 export type Band = 'A' | 'B' | 'C' | 'D';
 export type Level = 'high' | 'mid' | 'low';
 export const AXIS_LABEL: Record<Axis, string> = {planning:'계획',attention:'주의',simultaneous:'동시처리',successive:'순차처리'};
@@ -54,22 +57,34 @@ export function validateAssessment(raw:unknown):Assessment {
  }
  const axisOrder=(value:unknown,name:string)=>{if(value===undefined)return undefined;if(!Array.isArray(value)||value.some(x=>!AXES.includes(x))||new Set(value).size!==value.length)throw new Error(`${name} 순서가 올바르지 않습니다.`);return value as Axis[];};
  let scoreSystem:Assessment['scoreSystem'];
- if(r.scoreSystem!==undefined){const v=r.scoreSystem as any;if(!v||!['kpass','dcas'].includes(v.instrument)||!['standard_score','percentile','accuracy_rate'].includes(v.metric)||!validId(v.label)||!validId(v.interpretationVersion))throw new Error('점수 체계와 해석 버전이 올바르지 않습니다.');scoreSystem={instrument:v.instrument,metric:v.metric,label:v.label,interpretationVersion:v.interpretationVersion};}
+ if(r.scoreSystem!==undefined){const v=r.scoreSystem as any;if(!v||!['kpass','dcas'].includes(v.instrument)||!['standard_score','percentile','accuracy_rate'].includes(v.metric)||!validId(v.label)||!validId(v.interpretationVersion))throw new Error('점수 체계와 해석 버전이 올바르지 않습니다.');if(r.schemaVersion==='1.1'&&((v.instrument==='kpass'&&!['standard_score','percentile'].includes(v.metric))||(v.instrument==='dcas'&&v.metric!=='accuracy_rate')))throw new Error('K-PASS와 D-CAS의 공식 점수 종류가 서로 맞지 않습니다.');scoreSystem={instrument:v.instrument,metric:v.metric,label:v.label,interpretationVersion:v.interpretationVersion};}
  if(r.schemaVersion==='1.1'&&(!scoreSystem||AXES.some(axis=>axes[axis].value===undefined)))throw new Error('1.1 결과지는 점수 체계와 PASS 4영역 표시값이 모두 필요합니다.');
+  if(r.schemaVersion==='1.1'&&scoreSystem){const units=AXES.map(axis=>axes[axis].unit);if(units.some(unit=>!unit)||new Set(units).size!==1||(scoreSystem.instrument==='dcas'&&units[0]!=='%'))throw new Error('1.1 네 영역은 검사 종류에 맞는 하나의 점수 단위를 사용해야 합니다.');}
  const supportOrder=axisOrder(r.supportOrder,'지원'),strengthOrder=axisOrder(r.strengthOrder,'강점');
  return {schemaVersion:r.schemaVersion as Assessment['schemaVersion'],assessmentId:r.assessmentId as string,subjectId:r.subjectId as string,profileVersion:r.profileVersion as string,educationStage:r.educationStage as Assessment['educationStage'],axes,...(scoreSystem?{scoreSystem}:{}),...(supportOrder?{supportOrder}:{}),...(strengthOrder?{strengthOrder}:{}),...(r.transfer!==undefined?{transfer:validateTransfer(r.transfer)}:{})};
 }
 export function profileKey(a:Assessment){return JSON.stringify([a.subjectId,a.assessmentId,a.profileVersion,a.scoreSystem??null,a.supportOrder??null,a.strengthOrder??null,AXES.map(x=>a.axes[x]),a.transfer??null]);}
-export function resolveTraining(a:Assessment){
+export function resolveTraining(a:Assessment,round=0){
  const sortByOfficialOrder=(items:Axis[],order:Axis[]|undefined,direction:1|-1)=>[...items].sort((x,y)=>{const xi=order?.indexOf(x)??-1,yi=order?.indexOf(y)??-1;if(xi>=0||yi>=0)return (xi<0?999:xi)-(yi<0?999:yi);const xv=a.axes[x].value,yv=a.axes[y].value;if(typeof xv==='number'&&typeof yv==='number'&&a.axes[x].unit===a.axes[y].unit)return (xv-yv)*direction;return AXES.indexOf(x)-AXES.indexOf(y);});
  const lows=sortByOfficialOrder(AXES.filter(x=>a.axes[x].level==='low'),a.supportOrder,1);
  const route:Route=lows.length===0?'integrated':lows.length>1?'combined':lows[0];
- const target:Axis=lows[0]??'planning';
+  const rotation=lows.length?Math.max(0,Math.floor(round))%lows.length:0;
+  const orderedLows=[...lows.slice(rotation),...lows.slice(0,rotation)];
+  const target:Axis=orderedLows[0]??'planning';
  const strengths=sortByOfficialOrder(AXES.filter(x=>a.axes[x].level==='high'&&x!==target),a.strengthOrder,-1);
  const support:Axis|'universal'=strengths.length>0?strengths[0]:'universal';
- return {route,target,support,remainingTargets:lows.slice(1),reason:`${AXIS_LABEL[target]} 과정을 직접 연습하고, ${support==='universal'?'공통 안내':AXIS_LABEL[support]+' 강점'}를 발판으로 사용합니다.`};
+  return {route,target,support,remainingTargets:orderedLows.slice(1),reason:`${AXIS_LABEL[target]} 과정을 직접 연습하고, ${support==='universal'?'공통 안내':AXIS_LABEL[support]+' 강점'}를 발판으로 사용합니다.`};
 }
 export type Assignment=ReturnType<typeof resolveTraining>;
+export const GOAL_EVIDENCE_CHECKS:Record<GoalAxis,{id:string;label:string}[]>={
+ planning:[{id:'scope_decided',label:'오늘 할 범위를 직접 정했어요.'},{id:'priority_decided',label:'먼저 할 일이나 예상 시간을 직접 정하거나 바꿨어요.'}],
+ attention:[{id:'current_action_selected',label:'지금 할 행동 하나를 골랐어요.'}],
+ simultaneous:[{id:'two_items_connected',label:'목표·마감·준비물·관련 과제 중 두 가지 이상을 연결했어요.'},{id:'relationship_checked',label:'연결한 항목 사이의 관계를 확인했어요.'}],
+ successive:[{id:'two_steps_ordered',label:'두 단계 이상을 순서대로 놓았어요.'},{id:'one_step_progressed',label:'순서 중 한 단계 이상을 진행했어요.'}],
+ integrated:[{id:'plan_confirmed_or_changed',label:'계획을 확인하거나 직접 바꿨어요.'},{id:'execution_ended',label:'실제 실행을 마치고 종료 기록을 남겼어요.'}]
+};
+export function emptyGoalEvidence():Record<GoalAxis,GoalEvidence>{return Object.fromEntries([...AXES,'integrated'].map(axis=>[axis,{status:'unobserved',checks:Object.fromEntries(GOAL_EVIDENCE_CHECKS[axis as GoalAxis].map(x=>[x.id,false]))}])) as Record<GoalAxis,GoalEvidence>;}
+export function goalEvidenceReady(axis:GoalAxis,evidence:GoalEvidence|undefined){return evidence?.status==='performed'&&GOAL_EVIDENCE_CHECKS[axis].every(check=>evidence.checks[check.id]===true);}
 export const AGE_RULES:Record<Band,{conditions:number;items:number;cards:number;judgment:string}>={
  A:{conditions:2,items:3,cards:6,judgment:'두 조건을 확인하고 다음 행동 판단'},
  B:{conditions:3,items:4,cards:8,judgment:'순서와 마감 또는 정보 출처를 함께 판단'},
@@ -130,7 +145,7 @@ export function relationPairs(band:Band,round:number){
  return rotate(pairs,round).slice(0,AGE_RULES[band].conditions);
 }
 export interface TrainingRecord {
- id:string;createdAt:string;context:{mode:'demo'|'production';assessmentId:string;subjectId:string;profileVersion:string;profileKey:string;band:Band;route:Route;target:Axis;support:Assignment['support'];rulesVersion:'planner-1.6'|'planner-1.7'|'planner-1.8'|'planner-2.0';axes:Assessment['axes'];transfer:TransferLink|null;strategyId:TransferStrategy};
+ id:string;createdAt:string;context:{mode:'demo'|'production';assessmentId:string;subjectId:string;profileVersion:string;profileKey:string;band:Band;route:Route;target:Axis;support:Assignment['support'];rulesVersion:'planner-1.6'|'planner-1.7'|'planner-1.8'|'planner-2.0'|'planner-3.1';axes:Assessment['axes'];transfer:TransferLink|null;strategyId:TransferStrategy};
  kind:'rehearsal'|'real_task'|'followup_task';verification?:Verification;source:'system_observed'|'self_report';
  measures:Record<string,number|string|boolean>;
 }

@@ -32,8 +32,10 @@ describe('PASS adaptive training contract',()=>{
   expect(matchesSignal(card,next)).toBe(false);
  });
  it('official results are validated and preserve scores with explicit units',()=>{
-  const a=structuredClone(DEMOS[0]);a.axes.planning={level:'low',value:82,unit:'표준점수'};const r=validateAssessment(a);
+  const a=structuredClone(DEMOS[0]);a.axes.planning={level:'low',value:82,unit:'%'};const r=validateAssessment(a);
   expect(r.axes.planning).toEqual(a.axes.planning);expect(r).not.toBe(a);
+  a.axes.planning={level:'low',value:82,unit:'표준점수'};
+  expect(()=>validateAssessment(a)).toThrow(/점수 단위/);
  });
  it('uses official support order, then comparable score values, instead of a fixed axis order',()=>{
   const a=structuredClone(DEMOS[0]);a.axes.attention={level:'low',value:35,unit:'%'};a.supportOrder=['attention','planning'];

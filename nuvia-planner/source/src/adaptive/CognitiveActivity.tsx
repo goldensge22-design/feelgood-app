@@ -2,13 +2,15 @@ import React from 'react';
 import type {PlannerTask} from './workspace';
 export interface CognitivePractice {firstId:string;reason:string;focusAction:string;parked:string;returns:number;}
 export const emptyPractice: CognitivePractice={firstId:'',reason:'',focusAction:'',parked:'',returns:0};
-export function practiceReady(task:PlannerTask,focused:boolean){const p=task.practice;return focused?!!p?.focusAction:!!p?.reason&&p.firstId===task.steps[0].id;}
+/** Goal-preparation activities are optional: the real task can always start. */
+export function practiceReady(_task:PlannerTask,_focused:boolean){return true;}
 export function CognitiveActivity({task,focused,patch}:{task:PlannerTask;focused:boolean;patch:(changes:Partial<PlannerTask>)=>void}){
  const p={...emptyPractice,...task.practice},done=task.status==='done',active=task.status==='active';
  const update=(next:Partial<CognitivePractice>)=>patch({practice:{...p,...next}});
  return <section className={`np-cognitive ${focused?'attention':'planning'}`} data-testid={focused?'attention-activity':'planning-activity'}>
- <span className="np-eyebrow">{focused?'주의 훈련 · 지금 할 일로 돌아오기':'계획 훈련 · 내가 시작 순서 정하기'}</span>
+  <span className="np-eyebrow">{focused?'지금 한 가지 · 다시 돌아오기':'할 만큼 정하기 · 내가 시작 순서 정하기'}</span>
  <h3>{focused?'딴생각이 나도, 이 행동으로 돌아와요':'무엇부터 해야 뒤의 일이 쉬워질까요?'}</h3>
+  <small>이 목표 행동은 선택 활동이에요. 건너뛰어도 실제 할 일을 바로 시작할 수 있어요.</small>
  {focused?<>
  <div className="np-cognitive-target"><small>돌아올 행동</small><b>{task.steps.find(s=>!s.done)?.title||'마무리 확인하기'}</b></div>
  {!active&&(!p.focusAction||task.status!=='paused')&&<label>시작 전에 방해를 하나 줄여요<select aria-label="집중 준비 행동" value={p.focusAction} disabled={done} onChange={e=>update({focusAction:e.target.value})}><option value="">지금 할 행동 선택</option><option value="notifications">알림을 끄고 시작하기</option><option value="materials">필요한 자료만 꺼내기</option><option value="park">다른 할 일은 메모에 맡기기</option></select></label>}

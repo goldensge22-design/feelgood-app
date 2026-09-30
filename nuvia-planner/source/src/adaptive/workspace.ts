@@ -1,17 +1,17 @@
 import type {CognitivePractice} from './CognitiveActivity';
 import {validateTimeBlockWorkspace,type TimeBlock} from './timeBlocks';
-import {validateTransfer,profileKey, type Assessment, type Band, type TrainingRecord} from './engine';
+import {validateTransfer,profileKey,GOAL_EVIDENCE_CHECKS,type GoalAxis,type GoalEvidence, type Assessment, type Band, type TrainingRecord} from './engine';
 export type Mode='demo'|'production';
 export interface PlannerTask {timeBlock?:TimeBlock;}
 export interface Step {id:string;title:string;done:boolean;date:string;}
 export interface Material {id:string;title:string;done:boolean;}
-export interface PlannerTask {repeat?:'daily'|'weekdays'|'none';repeatOf?:string;transferUsed?:boolean;domain?:'학습'|'생활'|'업무';deadline?:string;practice?:CognitivePractice;id:string;title:string;subject:string;date:string;minutes:number;owner:string;dependsOn:string;waiting:boolean;steps:Step[];materials:Material[];status:'planned'|'active'|'paused'|'done';resumeNote:string;startedAt:string;completedAt:string;actualMinutes:number|null;help:'none'|'some';adjustment:string;}
+export interface PlannerTask {repeat?:'daily'|'weekdays'|'none';repeatOf?:string;transferUsed?:boolean;domain?:'학습'|'생활'|'업무';deadline?:string;practice?:CognitivePractice;goalEvidence?:Partial<Record<GoalAxis,GoalEvidence>>;id:string;title:string;subject:string;date:string;minutes:number;owner:string;dependsOn:string;waiting:boolean;steps:Step[];materials:Material[];status:'planned'|'active'|'paused'|'done';resumeNote:string;startedAt:string;completedAt:string;actualMinutes:number|null;help:'none'|'some';adjustment:string;}
 export type FocusRoute='picture_routine'|'step_card'|'subject_scope'|'deadline_triage'|'handoff';
 export type DeadlineDecision='continue'|'split'|'defer';
 export type TimeAdjustment='reduce'|'split'|'same';
 export type RescheduleChoice='today'|'tomorrow'|'week';
 export interface PlannerTask {focusRoute?:FocusRoute;routeConfirmed?:boolean;learningScope?:string;remainingScope?:string;nextTenAction?:string;deadlineDecision?:DeadlineDecision;handoffState?:'now'|'waiting'|'check';timeAdjustment?:TimeAdjustment;planningReference?:TimeAdjustment;rescheduleChoice?:RescheduleChoice;rescheduledAt?:string;}
-export interface Workspace {lastWeeklyReviewWeek?:string;elementaryLevel?:'lower'|'upper';demoExampleLoaded?:boolean;schemaVersion:'2.0';scope:string;tasks:PlannerTask[];records:TrainingRecord[];dailyCapacity:number;weeklyNote:string;}
+export interface Workspace {lastWeeklyReviewWeek?:string;elementaryLevel?:'lower'|'upper';demoExampleLoaded?:boolean;plannerRound?:number;schemaVersion:'2.0';scope:string;tasks:PlannerTask[];records:TrainingRecord[];dailyCapacity:number;weeklyNote:string;}
 export const uid=()=>globalThis.crypto?.randomUUID?.()??`${Date.now()}-${Math.random().toString(36).slice(2)}`;
 export function localDate(date=new Date()){return `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;}
 export function scopeFor(mode:Mode,a:Assessment,band:Band){return JSON.stringify([mode,profileKey(a),band,...(a.educationStage==='elementary_1_3'?['lower']:[])]);}
@@ -46,6 +46,7 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
  if(!Array.isArray(w.tasks)||w.tasks.length>500||!Array.isArray(w.records)||w.records.length>5000||!number(w.dailyCapacity,1,1440)||!text(w.weeklyNote,1000))throw new Error('저장 자료의 크기나 형식이 올바르지 않아요.');
  if(w.elementaryLevel!==undefined&&!['lower','upper'].includes(w.elementaryLevel))throw new Error('초등 단계 오류');
  if(w.demoExampleLoaded!==undefined&&typeof w.demoExampleLoaded!=='boolean')throw new Error('데모 예시 기록 상태 오류');
+  if(w.plannerRound!==undefined&&(!Number.isInteger(w.plannerRound)||w.plannerRound<0||w.plannerRound>1000000))throw new Error('지원 회차 기록 오류');
  if(w.lastWeeklyReviewWeek!==undefined&&!date(w.lastWeeklyReviewWeek))throw new Error('주간 리뷰 날짜 오류');
  const ids=new Set<string>();
  for(const t of w.tasks){
@@ -67,6 +68,7 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
   if(t.rescheduleChoice!==undefined&&!['today','tomorrow','week'].includes(t.rescheduleChoice))throw new Error('재배치 선택 오류');
   if(t.rescheduledAt!==undefined&&(!text(t.rescheduledAt,50)||!Number.isFinite(Date.parse(t.rescheduledAt))))throw new Error('재배치 시각 오류');
   if(t.practice){const p=t.practice;if(!text(p.firstId,160)||!['','dependency','deadline','startable'].includes(p.reason)||!['','notifications','materials','park'].includes(p.focusAction)||!text(p.parked,500)||!number(p.returns,0,100000))throw new Error('인지 활동 기록이 올바르지 않아요.');}
+   if(t.goalEvidence!==undefined){if(!t.goalEvidence||typeof t.goalEvidence!=='object')throw new Error('목표 행동 근거 형식 오류');for(const [axis,evidence] of Object.entries(t.goalEvidence)){if(!Object.hasOwn(GOAL_EVIDENCE_CHECKS,axis)||!evidence||!['performed','skipped','not_applicable','unobserved'].includes(evidence.status)||(evidence.status==='not_applicable'&&axis!=='attention')||!evidence.checks||typeof evidence.checks!=='object'||Object.keys(evidence.checks).some(key=>!GOAL_EVIDENCE_CHECKS[axis as GoalAxis].some(check=>check.id===key))||Object.values(evidence.checks).some(value=>typeof value!=='boolean'))throw new Error('목표 행동 근거 형식 오류');}}
   ids.add(t.id);const children=new Set<string>();
   for(const s of [...t.steps,...t.materials]){if(!s||!text(s.id,160)||!s.id||children.has(s.id)||!text(s.title,160)||!s.title.trim()||typeof s.done!=='boolean'||('date' in s&&!date(s.date)))throw new Error('단계·준비물 자료가 올바르지 않아요.');children.add(s.id);}
   if(t.steps.some(s=>!date(s.date)))throw new Error('단계 날짜가 올바르지 않아요.');
@@ -76,7 +78,7 @@ export function validateWorkspace(raw:unknown,scope:string):Workspace {
  let parsed:any;try{parsed=JSON.parse(scope);}catch{throw new Error('프로필 정보 오류');}
  const recordIds=new Set<string>();
  for(const r of w.records){
-  if(!r||!text(r.id,160)||!r.id||recordIds.has(r.id)||!text(r.createdAt,50)||!Number.isFinite(Date.parse(r.createdAt))||!['real_task','followup_task'].includes(r.kind)||r.source!=='self_report'||!r.context||r.context.mode!==parsed[0]||r.context.profileKey!==parsed[1]||r.context.band!==parsed[2]||r.context.rulesVersion!=='planner-2.0'||!r.measures||Object.values(r.measures).some(v=>!(typeof v==='boolean'||text(v,1000)||number(v,-100000,100000))))throw new Error('현재 프로필과 일치하지 않는 수행 기록이에요.');
+   if(!r||!text(r.id,160)||!r.id||recordIds.has(r.id)||!text(r.createdAt,50)||!Number.isFinite(Date.parse(r.createdAt))||!['real_task','followup_task'].includes(r.kind)||r.source!=='self_report'||!r.context||r.context.mode!==parsed[0]||r.context.profileKey!==parsed[1]||r.context.band!==parsed[2]||!['planner-2.0','planner-3.1'].includes(r.context.rulesVersion)||!r.measures||Object.values(r.measures).some(v=>!(typeof v==='boolean'||text(v,1000)||number(v,-100000,100000))))throw new Error('현재 프로필과 일치하지 않는 수행 기록이에요.');
   if(r.context.transfer){const tr=validateTransfer(r.context.transfer);if(tr.strategyId!==r.context.strategyId)throw new Error('전략 연결 오류');}
   if(r.kind==='followup_task'&&(!r.context.transfer||r.measures.taskContentStored!==false||!['학습','생활','업무'].includes(String(r.measures.taskDomain))||r.measures.taskDomain===r.measures.previousTaskDomain||!['yes','partial'].includes(String(r.measures.completed))||typeof r.measures.helpCount!=='number'||!Number.isInteger(r.measures.helpCount)||r.measures.helpCount<0||r.measures.helpCount>100))throw new Error('재적용 기록 형식 오류');
   recordIds.add(r.id);

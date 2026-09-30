@@ -16,6 +16,8 @@ export interface TimeBlock {
  availableUntil:string;
  handoffNote:string;
  budgetMinutes:number;
+ /** Student-confirmed real minutes; clock elapsed remains available separately in segments. */
+ confirmedActualMinutes?:number;
  continuationOf?:string;
 }
 export const newTimeBlock=(startTime='19:00',minutes=25):TimeBlock=>({startTime,phase:'ready',segments:[],runningSince:'',endedAt:'',completed:null,covered:'',nextStart:'',comparison:'',prepared:false,chosenStepId:'',availableUntil:'',handoffNote:'',budgetMinutes:minutes});
@@ -28,7 +30,7 @@ export function elapsedMilliseconds(t:PlannerTask,now=Date.now()){
  const b=t.timeBlock;if(!b)return 0;
  return b.segments.reduce((n,s)=>n+Math.max(0,Date.parse(s.end)-Date.parse(s.start)),0)+(b.runningSince?Math.max(0,now-Date.parse(b.runningSince)):0);
 }
-export const actualBlockMinutes=(t:PlannerTask)=>Math.round(elapsedMilliseconds(t)/600)/100;
+export const actualBlockMinutes=(t:PlannerTask)=>t.timeBlock?.confirmedActualMinutes??Math.round(elapsedMilliseconds(t)/600)/100;
 export const remainingSeconds=(t:PlannerTask,now=Date.now())=>Math.max(0,Math.ceil((t.timeBlock!.budgetMinutes*60000-elapsedMilliseconds(t,now))/1000));
 export function stepForBlockStart(t:PlannerTask){
  const remaining=t.steps.filter(s=>!s.done);
@@ -43,7 +45,9 @@ export function blockActivityReady(t:PlannerTask,band:Band,lower:boolean){
 }
 export function extendFiveMinutes(t:PlannerTask,tasks:PlannerTask[],now=new Date().toISOString()){
  const closed=closeTimeBlock(t,false);
- return startTimeBlock({...closed,timeBlock:{...closed.timeBlock!,budgetMinutes:actualBlockMinutes(closed)+5}},tasks,now);
+  // A self-reported correction must not make "five more minutes" longer than five clock minutes.
+  const clockMinutes=Math.round(elapsedMilliseconds(closed)/600)/100;
+  return startTimeBlock({...closed,timeBlock:{...closed.timeBlock!,budgetMinutes:clockMinutes+5}},tasks,now);
 }
 export function startTimeBlock(t:PlannerTask,tasks:PlannerTask[],now=new Date().toISOString()):PlannerTask{
  const b=t.timeBlock;
@@ -51,7 +55,7 @@ export function startTimeBlock(t:PlannerTask,tasks:PlannerTask[],now=new Date().
  const other=tasks.find(x=>x.id!==t.id&&(x.status==='active'||x.timeBlock?.phase==='review'));
  if(other)throw new Error(`“${other.title}”을 먼저 중단하거나 종료 기록을 마쳐 주세요.`);
  if(t.waiting||t.handoffState==='waiting'||t.handoffState==='check'||dependencyBlocked(t,tasks))throw new Error('답변·확인 또는 선행 작업을 기다리는 블록이에요. 시작할 수 있는 상태로 바꿔 주세요.');
- return {...t,status:'active',startedAt:t.startedAt||now,timeBlock:{...b,phase:'running',runningSince:now,completed:null}};
+ return {...t,status:'active',startedAt:t.startedAt||now,timeBlock:{...b,phase:'running',runningSince:now,completed:null,confirmedActualMinutes:undefined}};
 }
 export function stopTimeBlock(t:PlannerTask,phase:'paused'|'review',now=new Date().toISOString()):PlannerTask{
  const b=t.timeBlock;if(!b||!['running','paused'].includes(b.phase))throw new Error('시작한 블록을 먼저 선택해 주세요.');
@@ -62,6 +66,11 @@ export function stopTimeBlock(t:PlannerTask,phase:'paused'|'review',now=new Date
 export function closeTimeBlock(t:PlannerTask,complete:boolean):PlannerTask{
  if(t.timeBlock?.phase!=='review')throw new Error('종료 후 기록에서 완료 여부를 골라 주세요.');
  return {...t,resumeNote:t.timeBlock.nextStart,status:'paused',timeBlock:{...t.timeBlock,phase:'closed',completed:complete},...(complete?{steps:t.steps.map(s=>({...s,done:true})),materials:t.materials.map(m=>({...m,done:true}))}:{})};
+}
+/** True only after the user explicitly saves the post-execution outcome, never for pause/timer events. */
+export function isExecutionEnd(previous:PlannerTask,next:PlannerTask){
+ const before=previous.timeBlock,after=next.timeBlock;
+ return !!before&&before.phase==='review'&&!!after&&after.phase==='closed'&&after.completed!==null&&!!after.endedAt;
 }
 export function continueTimeBlock(t:PlannerTask,date=localDate()):PlannerTask{
  if(!t.timeBlock)throw new Error('시간 블록이 아니에요.');
@@ -74,7 +83,7 @@ const clock=(s:unknown)=>typeof s==='string'&&/^([01]\d|2[0-3]):[0-5]\d$/.test(s
 export function validateTimeBlock(t:PlannerTask){
  const b=t.timeBlock;if(b===undefined)return;if(!b||typeof b!=='object')throw new Error('시간 블록 자료 형식 오류');
  const short=(s:unknown,n=500)=>typeof s==='string'&&s.length<=n;
- if(!clock(b.startTime)||!['ready','running','paused','review','closed'].includes(b.phase)||!Array.isArray(b.segments)||b.segments.length>5000||!(b.runningSince===''||stamp(b.runningSince))||!(b.endedAt===''||stamp(b.endedAt))||![true,false,null].includes(b.completed)||!short(b.covered)||!short(b.nextStart)||!['','longer','similar','shorter'].includes(b.comparison)||typeof b.prepared!=='boolean'||!short(b.chosenStepId,160)||!(b.availableUntil===''||clock(b.availableUntil))||!short(b.handoffNote)||!Number.isFinite(b.budgetMinutes)||b.budgetMinutes<1||b.budgetMinutes>100000||!(b.continuationOf===undefined||short(b.continuationOf,160)))throw new Error('시간 블록 자료 형식 오류');
+ if(!clock(b.startTime)||!['ready','running','paused','review','closed'].includes(b.phase)||!Array.isArray(b.segments)||b.segments.length>5000||!(b.runningSince===''||stamp(b.runningSince))||!(b.endedAt===''||stamp(b.endedAt))||![true,false,null].includes(b.completed)||!short(b.covered)||!short(b.nextStart)||!['','longer','similar','shorter'].includes(b.comparison)||typeof b.prepared!=='boolean'||!short(b.chosenStepId,160)||!(b.availableUntil===''||clock(b.availableUntil))||!short(b.handoffNote)||!Number.isFinite(b.budgetMinutes)||b.budgetMinutes<1||b.budgetMinutes>100000||!(b.confirmedActualMinutes===undefined||(Number.isFinite(b.confirmedActualMinutes)&&b.confirmedActualMinutes>=0&&b.confirmedActualMinutes<=100000))||!(b.continuationOf===undefined||short(b.continuationOf,160)))throw new Error('시간 블록 자료 형식 오류');
  let end=0;
  for(const s of b.segments){if(!s||!stamp(s.start)||!stamp(s.end)||Date.parse(s.end)<Date.parse(s.start)||Date.parse(s.start)<end)throw new Error('시간 블록 시작·종료 연결 오류');end=Date.parse(s.end);}
  if((b.phase==='running')!==!!b.runningSince||(b.phase==='running')!==(t.status==='active')||(b.runningSince&&Date.parse(b.runningSince)<end)||(b.endedAt&&Date.parse(b.endedAt)<end&&b.phase!=='running'&&b.phase!=='paused')||(b.phase==='ready'&&(b.segments.length||t.startedAt))||(['review','closed'].includes(b.phase)&&(!b.endedAt||t.actualMinutes===null))||(t.status==='done'&&(b.phase!=='closed'||b.completed!==true))||(b.chosenStepId&&!t.steps.some(s=>s.id===b.chosenStepId)))throw new Error('시간 블록 상태·기록 연결 오류');

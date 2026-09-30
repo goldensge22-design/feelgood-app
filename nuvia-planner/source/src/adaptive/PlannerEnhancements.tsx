@@ -18,11 +18,12 @@ export function timeDifferenceText(predicted:number,actual:number|null){if(actua
 export function timeAdjustmentLabel(value:TimeAdjustment|undefined){return value==='reduce'?'시간을 줄여 보기':value==='split'?'일을 나누어 보기':value==='same'?'다음에도 같은 시간으로 하기':'';}
 
 export function CapacityShelf({tasks,capacity,onCapacity}:{tasks:PlannerTask[];capacity:number;onCapacity?:(n:number)=>void}){
- const activeTasks=tasks.filter(t=>t.status!=='done'),total=activeTasks.reduce((n,t)=>n+t.minutes,0),over=total>capacity;
- return <section className={`np-capacity-shelf ${over?'is-full':''}`} aria-label={`오늘 계획 ${total}분, 사용 가능 ${capacity}분`}>
-  <div className="np-shelf-head"><div><span>오늘 시간 선반</span><b>{total} / {capacity}분</b></div>{onCapacity&&<label>쓸 수 있는 시간<input aria-label="오늘 사용 가능 시간" type="number" min={1} max={1440} value={capacity} onChange={e=>{const n=Number(e.target.value);if(n>=1&&n<=1440)onCapacity(n);}}/>분</label>}</div>
-  <div className="np-time-shelf" role="img" aria-label={activeTasks.length?'영역과 예상 시간으로 나눈 오늘의 시간 블록':'비어 있는 오늘 시간 선반'}>{activeTasks.length?activeTasks.map(t=><div key={t.id} className={`np-time-block np-domain-block-${domainKey(t.domain)}`} style={{flexGrow:Math.max(1,Math.min(t.minutes,120))}} title={`${t.title} · ${t.minutes}분`}><DomainMark domain={t.domain} compact/><span>{t.title}</span><b>{t.minutes}분</b></div>):<div className="np-time-empty">오늘 할 일 한 가지를 놓아 보세요</div>}</div>
-  <p>{over?'오늘 공간이 거의 찼어요. 하나를 다른 날로 옮길까요?':`${capacity-total}분의 빈 공간이 있어요.`}</p>
+ const completed=tasks.filter(t=>t.status==='done').reduce((n,t)=>n+t.minutes,0),pending=tasks.filter(t=>t.status!=='done').reduce((n,t)=>n+t.minutes,0),total=completed+pending,free=Math.max(0,capacity-total),overflow=Math.max(0,total-capacity),over=overflow>0;
+ return <section className={`np-capacity-shelf ${over?'is-full':''}`} aria-label={`완료한 계획 ${completed}분, 아직 실행하지 않은 계획 ${pending}분, 빈 시간 ${free}분, 초과 ${overflow}분`}>
+  <div className="np-shelf-head"><div><span>오늘 시간 선반</span><b>계획 {total} / 가능 {capacity}분</b></div>{onCapacity&&<label>쓸 수 있는 시간<input aria-label="오늘 사용 가능 시간" type="number" min={1} max={1440} value={capacity} onChange={e=>{const n=Number(e.target.value);if(n>=1&&n<=1440)onCapacity(n);}}/>분</label>}</div>
+  <div className="np-time-shelf" role="img" aria-label={`완료 ${completed}분, 남은 계획 ${pending}분, 빈 시간 ${free}분${overflow?`, 초과 ${overflow}분`:''}`}>{tasks.length?tasks.map(t=><div key={t.id} className={`np-time-block np-domain-block-${domainKey(t.domain)} ${t.status==='done'?'is-complete':''}`} style={{flexGrow:Math.max(1,Math.min(t.minutes,120))}} title={`${t.title} · ${t.minutes}분 · ${t.status==='done'?'완료':'아직 실행하지 않음'}`}><DomainMark domain={t.domain} compact/><span>{t.title}</span><b>{t.minutes}분 {t.status==='done'?'완료':'계획'}</b></div>):<div className="np-time-empty">오늘 할 일 한 가지를 놓아 보세요</div>}{free>0&&<div className="np-time-block is-free" style={{flexGrow:Math.max(1,Math.min(free,120))}}><span>빈 시간</span><b>{free}분</b></div>}{overflow>0&&<div className="np-time-block is-overflow" style={{flexGrow:Math.max(1,Math.min(overflow,120))}}><span>초과</span><b>{overflow}분</b></div>}</div>
+  <div className="np-shelf-breakdown"><span>완료한 계획 <strong>{completed}분</strong></span><span>아직 실행하지 않은 계획 <strong>{pending}분</strong></span><span>빈 시간 <strong>{free}분</strong></span>{overflow>0&&<span>초과 <strong>{overflow}분</strong></span>}</div>
+  {over&&<p>계획이 가능한 시간을 넘었어요. 다른 날로 옮길 일을 골라 보세요.</p>}
  </section>;
 }
 
