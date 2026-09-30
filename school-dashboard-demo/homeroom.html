@@ -312,14 +312,14 @@ var TIERS = [
   {k:'support',n:'지원 필요', c:'var(--t-support)',rule:function(){return CFG.lo+' 이하인 영역이 있고, '+CFG.crisis+' 이하인 영역은 '+(CFG.crisisCount-1)+'개 이하';}, act:'PASS 기반 맞춤 인지 전략'},
   {k:'watch',  n:'관찰 유지', c:'var(--t-watch)',  rule:function(){return '가장 낮은 영역이 '+(CFG.lo+1)+'~'+CFG.watchMax+'이고 '+CFG.hi+' 이상인 영역이 없음';}, act:'강점 기반 접근과 편차 모니터링'},
   {k:'good',   n:'평균 이상', c:'var(--t-good)',   rule:function(){return '모든 영역이 '+(CFG.watchMax+1)+' 이상이고 '+CFG.hi+' 이상인 영역이 없음';}, act:'일반 수업 적합, 강점 확장'},
-  {k:'gifted', n:'영재 판별', c:'var(--t-gifted)', rule:function(){return '위기·지원 필요가 아니면서 한 영역이라도 '+CFG.hi+' 이상';}, act:'영역별 재능 계발과 심화 연계'}
+  {k:'gifted', n:'뚜렷한 강점', c:'var(--t-gifted)', rule:function(){return '위기·지원 필요가 아니면서 한 영역이라도 '+CFG.hi+' 이상';}, act:'영역별 강점 활용과 심화 활동'}
 ];
 var GT = [
   {k:'mix', n:'복합형 (전뇌 통합)', rule:function(){return '3개 영역 이상 '+CFG.giftedMix.each+' 이상, 4영역 평균 '+CFG.giftedMix.avg+' 이상, 한 영역 '+CFG.hi+' 이상';}},
-  {k:'PLAN',n:'계획력 영재 (전략·창의)', rule:function(){return '계획력 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
-  {k:'SIM', n:'동시처리 영재 (공간·통합)', rule:function(){return '동시처리 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
-  {k:'SUC', n:'순차처리 영재 (언어·논리)', rule:function(){return '순차처리 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
-  {k:'ATT', n:'주의력 영재 (집중·탐구, 보조)', rule:function(){return '주의력 '+CFG.hi+' 이상, 다른 영역 하나 이상 '+CFG.attMate+' 이상';}}
+  {k:'PLAN',n:'계획력 강점형 (전략·창의)', rule:function(){return '계획력 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
+  {k:'SIM', n:'동시처리 강점형 (공간·통합)', rule:function(){return '동시처리 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
+  {k:'SUC', n:'순차처리 강점형 (언어·논리)', rule:function(){return '순차처리 '+CFG.hi+' 이상, 4영역 평균 '+CFG.giftedAvg+' 이상';}},
+  {k:'ATT', n:'주의력 강점형 (집중·탐구, 보조)', rule:function(){return '주의력 '+CFG.hi+' 이상, 다른 영역 하나 이상 '+CFG.attMate+' 이상';}}
 ];
 var ACTIONS = ['확인 전','학부모 안내','상담 의뢰','재검사 예정','조치 완료'];
 
@@ -552,7 +552,7 @@ function ovHTML(){
   var kp=[
     ['위기 관리',cntTier.crisis,CFG.crisis+' 이하 영역이 '+CFG.crisisCount+'개 이상'],
     ['지원 필요',cntTier.support,CFG.lo+' 이하 영역이 있는 나머지'],
-    ['영역별 영재 후보',gCand,'영재 유형 기준 충족'],
+    ['영역별 강점 발현',gCand,'뚜렷한 강점 기준 해당'],
     ['2E 경보',twoE,CFG.hi+' 이상과 '+CFG.lo+' 이하가 함께 있음'],
     ['처리방식 우세(S/Q)',lrN,'동시·순차 차 '+CFG.lrGap+' 이상(5세 '+CFG.lrGap5+')'],
     ['경계선',edge,CFG.lo+' ±'+CFG.edge+'점 이내']
@@ -610,7 +610,7 @@ function tiersHTML(){
     var list=S.A.filter(function(o){return o.a.tier===t.k;});
     return '<div class="tier"><div class="tier-h" style="--c:'+t.c+'"><div class="tier-n"><span class="dotc" style="--c:'+t.c+'"></span>'+t.n+'</div>'
       +'<div class="bar"><b style="width:'+(list.length/n*100)+'%"></b></div><div class="tier-c">'+cntTxt(list.length,n)+'</div></div>'
-      +'<p class="rule">'+t.rule()+'. 권장 지원은 '+t.act+'이에요.</p>'
+      +'<p class="rule">'+t.rule()+'. '+(t.k==='gifted'?'권장 활동은 ':'권장 지원은 ')+t.act+'이에요.</p>'
       +(list.length?'<details><summary>학생 ID 보기</summary><div class="ids">'+list.map(function(o){return '<span class="id">'+esc(o.st.id)+'</span>';}).join('')+'</div></details>':'')
       +'</div>';
   }).join('');
@@ -721,7 +721,7 @@ function giftedHTML(){
   }).join('');
   var uniq=S.A.filter(function(o){return o.a.gt.length;}).length;
   return '<div class="panel">'+rows+'</div>'
-    +'<p class="small" style="margin-top:10px">한 학생이 여러 유형에 함께 나올 수 있어요. 학급에서 후보로 잡힌 학생은 모두 '+uniq+'명('+cntTxt(uniq,n)+')이에요. 이 목록은 일반 영재를 판정하는 것이 아니라 영역별 재능을 키울 대상을 고르는 것이에요. 2E 표시가 있는 학생은 강점과 함께 어려움도 살펴봐야 해요.</p>';
+    +'<p class="small" style="margin-top:10px">한 학생이 여러 강점 유형에 함께 나올 수 있어요. 학급에서 뚜렷한 강점이 나타난 학생은 모두 '+uniq+'명('+cntTxt(uniq,n)+')이에요. 이 목록은 학생의 능력을 서열화하거나 공식 판정하는 것이 아니라 영역별 강점을 이해하고 활용하기 위한 참고 자료예요. 2E 표시가 있는 학생은 강점과 함께 어려움도 살펴봐야 해요.</p>';
 }
 
 function strategyHTML(){
@@ -778,7 +778,7 @@ function schoolHTML(){
   }).join('');
   var tot='<tr><td><b>학교 전체</b><div class="small">'+allStudents.length+'명</div></td>'+SC.map(function(x){return heatCell(sch[x.k]);}).join('')+rateCells(allStudents,null,null)+'</tr>';
   return '<div class="tw panel heat" style="padding:8px 12px"><table style="min-width:820px"><thead><tr><th>학급</th>'+SC.map(function(x){return '<th>'+x.n+' 평균</th>';}).join('')
-    +'<th>하 영역이 있는 학생</th><th>영재 후보</th><th>처리방식 우세(S/Q)</th><th>검사 완료율</th><th>인지훈련 참여율</th></tr></thead><tbody>'+rows+tot+'</tbody></table></div>'
+    +'<th>하 영역이 있는 학생</th><th>강점 발현 학생</th><th>처리방식 우세(S/Q)</th><th>검사 완료율</th><th>인지훈련 참여율</th></tr></thead><tbody>'+rows+tot+'</tbody></table></div>'
     +'<div class="legend"><span>평균 칸은 규준 평균 '+CFG.mean+'보다 낮을수록 주황, 높을수록 파랑으로 진해져요.</span></div>'
     +'<p class="small" style="margin-top:8px">학급 이름을 누르면 위 화면이 그 학급으로 바뀌어요. 검사 완료율과 인지훈련 참여율은 재적 인원과 훈련 기록이 연결돼야 실제 값이 표시돼요(지금은 예시).</p>';
 }
@@ -806,7 +806,7 @@ function studentHTML(){
   if(!state.studentId||!c.students.some(function(s){return s.id===state.studentId;}))state.studentId=c.students[0].id;
   var st=c.students.filter(function(s){return s.id===state.studentId;})[0], a=analyze(st), S=stats(c);
   var opts=c.students.map(function(s){return '<option'+(s.id===st.id?' selected':'')+'>'+esc(s.id)+'</option>';}).join('');
-  var TIER={crisis:['위기 관리','var(--t-crisis)'],support:['지원 필요','var(--t-support)'],watch:['관찰 유지','var(--t-watch)'],good:['평균 이상','var(--t-good)'],gifted:['영재 판별','var(--t-gifted)']};
+  var TIER={crisis:['위기 관리','var(--t-crisis)'],support:['지원 필요','var(--t-support)'],watch:['관찰 유지','var(--t-watch)'],good:['평균 이상','var(--t-good)'],gifted:['뚜렷한 강점','var(--t-gifted)']};
   var tinfo=TIER[a.tier];
   var lrTxt=a.lr==='left'?'순차처리(Q) 우세형':(a.lr==='right'?'동시처리(S) 우세형':'균형형');
   // 간략 수치 도표: 4영역 SS + 하/중/상 막대
@@ -825,7 +825,7 @@ function studentHTML(){
   var flags=[];
   if(a.tier==='crisis')flags.push(['위기 관리','crisis']);
   else if(a.tier==='support')flags.push(['지원 필요','warn']);
-  if(a.tier==='gifted')flags.push(['영재 판별','gift']);
+  if(a.tier==='gifted')flags.push(['뚜렷한 강점','gift']);
   if(a.twoE)flags.push(['2E 경보 (강점·어려움 공존)','gift']);
   if(a.lowBoth)flags.push(['동시·순차 동반 저하','warn']);
   if(a.lr!=='bal')flags.push([lrTxt.indexOf('동시')>=0?'동시처리(S) 우세형':'순차처리(Q) 우세형','warn']);
@@ -887,7 +887,7 @@ function criteriaHTML(){
     ['지원 필요',CFG.lo+' 이하인 영역이 있고 위기 관리가 아님','한 영역만 '+CFG.crisis+' 이하이거나 '+(CFG.crisis+1)+'~'+CFG.lo+'인 경우'],
     ['관찰 유지','가장 낮은 영역 '+(CFG.lo+1)+'~'+CFG.watchMax,'백분위 약 '+pc(CFG.lo+1)+'~'+pc(CFG.watchMax)],
     ['평균 이상','모든 영역 '+(CFG.watchMax+1)+' 이상','120 이상이 없을 때'],
-    ['영재 판별',CFG.hi+' 이상인 영역이 있고 위기·지원 필요가 아님','2E는 별도 경보로 표시'],
+    ['뚜렷한 강점',CFG.hi+' 이상인 영역이 있고 위기·지원 필요가 아님','2E는 별도 경보로 표시'],
     ['2E 경보',CFG.hi+' 이상 영역과 '+CFG.lo+' 이하 영역이 함께 있음','강점과 어려움이 함께 있는 경우'],
     ['처리방식 우세(S/Q)','|동시처리 − 순차처리| '+CFG.lrGap+' 이상(5세 '+CFG.lrGap5+')','동시(S)가 높으면 동시처리 우세형, 순차(Q)가 높으면 순차처리 우세형. 0~'+(CFG.lrGap-1)+'점은 균형형'],
     ['좌우불균형','|동시처리 − 순차처리| '+CFG.lrImb+' 이상','처리방식 우세(11점)와 별개로, 두 처리방식 격차가 큰 경우'],
@@ -914,7 +914,7 @@ var SECTIONS=[
   {g:'우리 반',id:'mix',t:'강점과 보완 구성',lead:'학생 자신의 평균과 견줬을 때 뚜렷하게 높거나 낮은 영역이 어디에 몰려 있는지 봐요.',fn:mixHTML},
   {g:'학생·상담',id:'student',t:'학생 카드·상담 기록',lead:'학생을 선택하면 네 영역 수치와 판정을 도표로 보여주고, 바로 아래에서 상담·특이사항을 기록할 수 있어요.',fn:studentHTML},
   {g:'학생·상담',id:'queue',t:'주의 학생',lead:'먼저 살펴볼 학생을 사유별로 모았어요. 사유를 누르면 해당 학생만 볼 수 있어요.',fn:queueHTML},
-  {g:'학생·상담',id:'gifted',t:'영역별 영재 후보',lead:'영역별로 재능을 키울 후보를 모았어요.',fn:giftedHTML},
+  {g:'학생·상담',id:'gifted',t:'영역별 강점 발현',lead:'영역별로 뚜렷한 강점이 나타난 학생을 모았어요.',fn:giftedHTML},
   {g:'학생·상담',id:'parent',t:'학부모 상담 카드',lead:'학생을 고르면 상담에 쓸 한 줄 요약과 대화 예시가 나와요.',fn:parentHTML},
   {g:'학생·상담',id:'retest',t:'재검사와 변화 추적',lead:'다음 검사 시기와 조치 진행 상황을 확인해요.',fn:retestHTML},
   {g:'수업',id:'strategy',t:'우리 반 수업 전략',lead:'학급 평균이 가장 낮은 영역과 가장 높은 영역에 맞춘 수업 방법이에요.',fn:strategyHTML},
