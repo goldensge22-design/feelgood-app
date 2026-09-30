@@ -15,7 +15,7 @@ const ko={
   'profile.title':'PASS 네 영역 프로파일','profile.help':'규준 평균 100을 기준으로 집단의 상대적 경향을 봅니다.','profile.scoreLabel':'{domain} 평균 {score}','profile.baseline':'세로 기준선은 규준 평균 100입니다. 한 번의 점수만으로 개인을 판단하지 않습니다.',
   'domain.planning':'계획력','domain.attention':'주의력','domain.simultaneous':'동시처리','domain.sequential':'순차처리',
   'attention.title':'지원 검토 목록','attention.help':'우선순위와 현재 조치 상태를 함께 확인합니다. 필터는 진단이 아닌 검토 보조 기준입니다.',
-  'tier.all':'전체','tier.priority':'우선 검토','tier.support':'지원 필요','tier.watch':'관찰','tier.growth':'강점 확장',
+  'tier.all':'전체','tier.priority':'우선 검토','tier.support':'지원 필요','tier.watch':'관찰','tier.growth':'뚜렷한 강점',
   'table.student':'학생','table.reason':'검토 이유','table.action':'조치 상태','table.actionFor':'{student} 조치 상태',
   'action.unreviewed':'확인 전','action.parent':'보호자 안내','action.counselor':'상담 연계','action.retest':'재검사 예정','action.complete':'조치 완료',
   'student.title':'학생 카드와 상담 기록','student.help':'학생을 선택하면 강점·보완 영역과 저장된 기록을 확인합니다.','student.age':'{age}세','student.summary':'{student} 학생은 {best} {bestScore}점이 상대 강점이고 {low} {lowScore}점은 함께 지원할 영역입니다.','student.note':'상담·관찰 기록','student.notePlaceholder':'상담 내용, 수업 관찰, 가정 연계 사항을 기록하세요.','common.save':'저장','common.saved':'저장되었습니다.','common.skip':'본문으로 건너뛰기',
@@ -96,6 +96,12 @@ for(const [code,values] of Object.entries(core)){
   messages['mode.track.title']=departmentLabels[code][1];
   packs[code]=messages;
 }
+const distinctStrengthLabels={
+  ko:'뚜렷한 강점',en:'Distinct strengths',ja:'明確な強み','zh-CN':'突出优势','zh-TW':'明顯優勢',
+  es:'Fortalezas destacadas',fr:'Forces marquées',ru:'Выраженные сильные стороны',vi:'Điểm mạnh nổi bật',th:'จุดแข็งที่เด่นชัด',
+  ar:'نقاط قوة واضحة',it:'Punti di forza evidenti',az:'Aydın güclü tərəflər',mn:'Тод илэрсэн давуу тал',km:'ចំណុចខ្លាំងលេចធ្លោ'
+};
+for(const [code,label] of Object.entries(distinctStrengthLabels))packs[code]['tier.growth']=label;
 const extraKeys=['runtime.loading.class','runtime.loading.school','runtime.loading.track','runtime.error.title','runtime.error.help','runtime.error.missing_context','runtime.error.missing_endpoint','runtime.error.http_error','runtime.error.request_timeout','runtime.error.network_error','runtime.error.empty_results','runtime.error.adapter_error','runtime.error.unknown','runtime.empty','career.resultMissing','career.reportProvided','career.fitScore','career.aptitude.title','career.resultSource'];
 const extras={
   ko:['학급 데이터를 불러오는 중이에요…','학교 데이터를 불러오는 중이에요…','학과 데이터를 불러오는 중이에요…','데이터를 불러오지 못했어요.','페이지를 새로고침하거나 관리자에게 문의하세요.','필수 조회 식별자가 없습니다: {key}','대시보드 API 경로가 설정되지 않았습니다.','결과지 서버 응답 오류가 발생했습니다.','결과지 데이터를 불러오는 시간이 초과되었습니다.','결과지 서버에 연결하지 못했습니다.','조회된 결과지 데이터가 없습니다.','결과지 데이터를 처리하지 못했습니다.','알 수 없는 오류가 발생했습니다.','표시할 학급 데이터가 없어요.','이 학생의 결과지에 진로적성·직무 Top 5 데이터가 없어요. 결과지 연동 필드를 확인하세요.','결과지 진로적성 분석','적합도 {score}','결과지 진로적성','직무 Top 5와 진로적성은 학생 결과지에서 연동한 값입니다. 상담 시 흥미·가치관·경험·희망도 함께 확인하세요.'],
