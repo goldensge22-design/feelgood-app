@@ -55,6 +55,15 @@ K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScor
 
 직무 데이터, 부분 `report-i18n.json`, 과거 진단과 패치가 섞인 자료다. `report-i18n.json`은 전체 결과지 locale가 아니라 일부 페이지의 `ko/en/ja/zh-CN` 문구다. 전체 언어팩으로 적용하지 않는다.
 
+## D-CAS 81개 고유 노출 명칭 패치
+
+- 적용 대상: `dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/`, `dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/`
+- 패치 파일: 각 후보본의 `dcas-profile81-unique-names.js`
+- 상태: 81개 H/M/L 조합별 고유 명칭 적용, 기존 판정·추천 로직 유지
+- 언어: 15개 전체 결과지 locale 명칭 생성 지원
+- 검증: `dcas81/unpacked/TESTS/unique-profile81-names.test.js`
+- 상세 인계: `dcas81/DCAS_81_UNIQUE_NAMES_PATCH.md`
+
 ## 개발 시 사용 금지
 
 - 파일명이 더 최근처럼 보인다는 이유로 archive ZIP을 후보본 위에 덮어쓰기
