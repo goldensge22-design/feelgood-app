@@ -61,6 +61,20 @@ for (const [id, bank] of [['dcas-teen',teenBank],['dcas-adult',adultBank]]) {
   if (!bank.includes("status:'ai-draft'")) errors.push(`${id}: curated 81-layer Khmer provenance missing`);
 }
 
+for (const id of ['dcas-teen','dcas-adult']) {
+  const candidate = path.join(repo, manifest.reports[id].candidate);
+  const html = fs.readFileSync(path.join(repo, manifest.reports[id].entry), 'utf8');
+  const uniqueNamesFile = path.join(candidate, 'dcas-profile81-unique-names.js');
+  if (!fs.existsSync(uniqueNamesFile)) errors.push(`${id}: missing 81 unique-name patch`);
+  else {
+    const uniqueNames = fs.readFileSync(uniqueNamesFile, 'utf8');
+    if (!uniqueNames.includes("nameSchema = 'dcas81-unique-v1'")) errors.push(`${id}: unique-name schema marker missing`);
+  }
+  if (!html.includes('<script src="dcas-profile81-unique-names.js"></script>')) {
+    errors.push(`${id}: unique-name patch is not loaded by entry HTML`);
+  }
+}
+
 if (errors.length) {
   console.error(errors.map(x => `ERROR: ${x}`).join('\n'));
   process.exit(1);
