@@ -54,6 +54,18 @@ if (!kpassHtml.includes("mn: { status:'full'")) {
   errors.push('kpass-child: Mongolian full status is not explicit');
 }
 
+const kpassCandidate = path.join(repo, manifest.reports['kpass-child'].candidate);
+const kpassUniqueNamesFile = path.join(kpassCandidate, 'kpass-profile81-unique-names.js');
+if (!fs.existsSync(kpassUniqueNamesFile)) errors.push('kpass-child: missing 81 unique-name patch');
+else {
+  const kpassUniqueNames = fs.readFileSync(kpassUniqueNamesFile, 'utf8');
+  if (!kpassUniqueNames.includes("nameSchema: 'kpass81-unique-v1'")) errors.push('kpass-child: unique-name schema marker missing');
+}
+if (!kpassHtml.includes('<script src="kpass-profile81-unique-names.js"></script>')) {
+  errors.push('kpass-child: unique-name patch is not loaded by entry HTML');
+}
+if (!kpassHtml.includes('id="pf-profile81-name"')) errors.push('kpass-child: profile81 name target missing');
+
 const teenBank = fs.readFileSync(path.join(repo, manifest.reports['dcas-teen'].candidate, 'dcas-profile81-bank.js'), 'utf8');
 const adultBank = fs.readFileSync(path.join(repo, manifest.reports['dcas-adult'].candidate, 'dcas-profile81-bank.js'), 'utf8');
 for (const [id, bank] of [['dcas-teen',teenBank],['dcas-adult',adultBank]]) {
