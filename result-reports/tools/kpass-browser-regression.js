@@ -105,6 +105,14 @@ async function inspect(cdp) {
       teacher:document.getElementById('pf-teachermsg').textContent.trim(),
       brain:document.getElementById('pf-learntype-name').textContent.trim()
     },
+    profile81:{
+      cover:document.getElementById('pf-cover-type').textContent.trim(),
+      hero:document.getElementById('pf-herotype').textContent.trim(),
+      card:document.getElementById('pf-profile81-name').textContent.trim(),
+      lang:document.getElementById('pf-profile81-name').lang,
+      code:document.getElementById('pf-profile81-name').dataset.profile81Code,
+      schema:document.getElementById('pf-profile81-name').dataset.profile81Schema
+    },
     consistency:{
       legendS:document.getElementById('pf-legend-S').textContent.trim(),
       legendQ:document.getElementById('pf-legend-Q').textContent.trim(),
@@ -150,6 +158,10 @@ async function inspect(cdp) {
     assert.ok(!result.body.includes('송서우'), 'default preview name remains after personalization');
     assert.ok(!result.body.includes('2023.02.27'), 'default preview date remains after personalization');
     assert.strictEqual(result.errors.km.status, 'full');
+    assert.strictEqual(result.profile81.schema, 'kpass81-unique-v1');
+    assert.strictEqual(result.profile81.code, 'P-H / A-M / S-M / Q-M');
+    assert.strictEqual(result.profile81.lang, 'en');
+    assert.ok(result.profile81.cover && result.profile81.cover === result.profile81.hero && result.profile81.hero === result.profile81.card, '81-type name must match on cover, summary, and profile card');
     const residueBody = result.body.replaceAll(profile.name, '').replaceAll('한국어', '');
     const residue = [...residueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0, 8).map(match => match[0]);
     assert.deepStrictEqual(residue, [], `Korean residue remains in the English report: ${JSON.stringify(residue)}`);
@@ -164,6 +176,9 @@ async function inspect(cdp) {
     assert.ok(oppositeResult.title.includes(opposite.name));
     assert.deepStrictEqual(oppositeResult.scores, ['90','95','120','145']);
     assert.ok(!oppositeResult.body.includes(profile.name), 'previous profile name leaked after reload');
+    assert.strictEqual(oppositeResult.profile81.code, 'P-M / A-M / S-H / Q-H');
+    assert.ok(oppositeResult.profile81.cover === oppositeResult.profile81.hero && oppositeResult.profile81.hero === oppositeResult.profile81.card);
+    assert.notStrictEqual(oppositeResult.profile81.card, result.profile81.card, 'different H/M/L combinations must expose different names');
     for (const key of Object.keys(result.personalized)) {
       assert.ok(result.personalized[key], `missing personalized target ${key}`);
       assert.ok(oppositeResult.personalized[key], `missing opposite personalized target ${key}`);
@@ -176,7 +191,10 @@ async function inspect(cdp) {
       scores:{P:130,A:119,S:80,Q:71}
     };
     await navigate(cdp, consistencyProfile, 'ko');
-    const consistency = (await inspect(cdp)).consistency;
+    const consistencyResult = await inspect(cdp);
+    const consistency = consistencyResult.consistency;
+    assert.strictEqual(consistencyResult.profile81.code, 'P-H / A-M / S-L / Q-L');
+    assert.strictEqual(consistencyResult.profile81.card, '계획주도 · 구조표현 보완형 실행가');
     assert.ok(consistency.legendS.includes('하위 9.1%') && consistency.legendQ.includes('하위 2.7%'), 'low-score compass labels must use lower-tail percentiles');
     assert.ok(consistency.matrixS.includes('규준적 약') && consistency.matrixS.includes('하위 9.1%'), 'simultaneous matrix label must be low');
     assert.ok(consistency.matrixQ.includes('규준적 약') && consistency.matrixQ.includes('하위 2.7%'), 'sequential matrix label must be low');
@@ -193,7 +211,13 @@ async function inspect(cdp) {
     const translatedResidueBody = translatedConsistency.body.replaceAll('한국어', '');
     const translatedResidue = [...translatedResidueBody.matchAll(/.{0,45}[가-힣]+.{0,45}/g)].slice(0, 8).map(match => match[0]);
     assert.deepStrictEqual(translatedResidue, [], 'balanced-low English report contains Korean residue');
-    console.log('PASS: K-PASS personalization and 15-locale menu');
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width:390, height:844, deviceScaleFactor:1, mobile:true });
+    const mobile = await evaluate(cdp, `(() => ({viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,nameWidth:document.getElementById('pf-profile81-name').getBoundingClientRect().width}))()`);
+    assert.ok(mobile.scrollWidth <= mobile.viewport + 1, `mobile horizontal overflow: ${JSON.stringify(mobile)}`);
+    assert.ok(mobile.nameWidth > 0 && mobile.nameWidth <= mobile.viewport, `profile81 name overflow: ${JSON.stringify(mobile)}`);
+    const pdf = await cdp.send('Page.printToPDF', { printBackground:true, preferCSSPageSize:true });
+    assert.ok(Buffer.from(pdf.data, 'base64').length > 100000, 'print PDF was not generated');
+    console.log('PASS: K-PASS personalization, 81-type names, 15-locale menu, mobile, and print PDF');
   } finally {
     if (cdp) cdp.close();
     browser.kill();

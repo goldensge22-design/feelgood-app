@@ -11,8 +11,11 @@
 | 2026-09-07 `d85116f` | `files (26).zip` 안 `KPASS-STATUS.md`, `kpass-score-engine.js` | 진단/설계 참고. 09-12 최종본보다 오래되어 자동 덮어쓰기 금지 |
 | 2026-09-12 `f7e1752` | `KPASS_CHILD_FINAL_2026-09-12.zip` | 현재 K-PASS 코드 기준본 |
 | 현재 통합 브랜치 | `result-reports/kpass/candidate/` | 위 ZIP 압축 해제본 + 불완전 locale 사용자 노출 차단 |
+| 81개 고유 명칭 패치 | `kpass-profile81-unique-names.js` | 기존 81개 조합별 본문은 유지하고 반복되던 7종 표지 명칭을 81개 고유 명칭으로 확장 |
 
-K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScore`, 점수 그래프/표지 연동 코드를 포함한다. 그러나 상세 본문은 한국어이며 표지·메뉴만 번역된 locale가 혼재한다. 기존 locale 값은 삭제하지 않고, 전체 번역 전까지 언어 메뉴에는 `ko`만 노출한다.
+K-PASS의 09-12 결과지는 `window.__TEST_PROFILE__` 개인화, `fullScaleScore`, 점수 그래프/표지 연동 코드를 포함한다. 이후 통합 후보본에는 15개 언어 전체 번들과 개인화 보정이 반영됐다. 81개 고유 명칭 패치는 표준점수 `120/85` 경계와 기존 판정·본문을 변경하지 않고 표지·요약·81유형 카드의 명칭만 확장한다.
+
+상세 적용·검증 방법은 `result-reports/kpass/KPASS_81_UNIQUE_NAMES_PATCH.md`를 따른다.
 
 ## D-CAS 공통 기준본
 
