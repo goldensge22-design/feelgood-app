@@ -24,8 +24,8 @@
     const vals = [s.P, s.A, s.S, s.Q];
     const max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
     const levels = vals.map(function (v) { return v >= 75 ? 'HIGH' : (v <= 52 ? 'LOW' : 'MID'); });
-    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     if (max - min >= 20) return null;
+    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     const avg = (s.P + s.A + s.S + s.Q) / 4;
     if (avg <= 52) return 'LOW';
     if (avg < 75) return 'MID';
@@ -99,6 +99,7 @@
     ensureProfile81Note('learning', 'pf-profile81-learning-note' + sfx, p81.labels.learning, p81.recommendations.learning, p81.dir, p81.lang);
     ensureProfile81Note('dept', 'pf-profile81-career-note' + sfx, p81.labels.career, p81.recommendations.career, p81.dir, p81.lang);
     ensureProfile81Note('jobs', 'pf-profile81-job-note' + sfx, p81.labels.job, p81.recommendations.job, p81.dir, p81.lang);
+    if (global.FeelGoodGuidanceUI) global.FeelGoodGuidanceUI.apply('dcas-teen', PROFILE, lang);
     return p81;
   }
 

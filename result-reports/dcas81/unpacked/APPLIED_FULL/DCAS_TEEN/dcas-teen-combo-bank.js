@@ -8,9 +8,7 @@
   const BALANCE_THRESHOLD = 20;
 
   function pickComboKey(scores) {
-    // 81유형 예외: 네 축이 모두 같은 절대수준(H/M/L)이면 작은 내부 순위로 강·약축을 만들지 않는다.
-    const levels = [scores.P, scores.A, scores.S, scores.Q].map(function (v) { return v >= 75 ? 'H' : (v <= 52 ? 'L' : 'M'); });
-    if (levels.every(function (lv) { return lv === levels[0]; })) return 'BAL';
+    // Same H/M/L band does not imply a small four-axis score spread.
     const ranked = [
       { k: 'P', v: scores.P }, { k: 'A', v: scores.A },
       { k: 'S', v: scores.S }, { k: 'Q', v: scores.Q },

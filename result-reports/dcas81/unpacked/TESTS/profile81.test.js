@@ -106,8 +106,9 @@ const comboContext = vm.createContext({ console });
 comboContext.globalThis = comboContext;
 vm.runInContext(fs.readFileSync(path.join(root, 'DCAS_TEEN', 'dcas-teen-combo-bank.js'), 'utf8'), comboContext);
 vm.runInContext(fs.readFileSync(path.join(root, 'DCAS_ADULT', 'dcas-combo-bank.js'), 'utf8'), comboContext);
-assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:53,A:60,S:68,Q:74}), 'BAL');
-assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:30,A:40,S:45,Q:52}), 'BAL');
-assert.strictEqual(comboContext.DCasComboBank.pickComboKey({P:76,A:83,S:90,Q:99}), 'BAL');
+assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:53,A:60,S:68,Q:74}), 'Q_SOLO');
+assert.strictEqual(comboContext.DCasTeenComboBank.pickComboKey({P:30,A:40,S:45,Q:52}), 'Q_SOLO');
+assert.strictEqual(comboContext.DCasComboBank.pickComboKey({P:76,A:83,S:90,Q:99}), 'SQ');
+assert.strictEqual(comboContext.DCasComboBank.pickComboKey({P:80,A:80,S:80,Q:80}), 'BAL');
 
 console.log('PASS: teen/adult 81 profiles, H/M/L boundaries, S/Q 0/10/11, invalid scores, 12 locales including Khmer, special cases, and BAL routing');

@@ -34,12 +34,15 @@ const fileUrl = (locale) => `file:///${file.replace(/\\/g, '/').replace(/ /g, '%
       await page.goto(fileUrl(locale), {waitUntil:'load',timeout:30000});
       await page.waitForFunction(() => window.FeelGoodReportI18n && window.__REPORT_LOCALE_ACTIVE__);
       await page.waitForTimeout(300);
+      // Inspect the actual recommendation section, not incidental teaser text on the cover.
+      await page.evaluate(() => showSection(SECTION_IDS.indexOf('jobs')));
       const result = await page.evaluate(({scores}) => {
         const ranked = window.DCasJobEngine.rankJobsForMajor(scores, '항공보안학과', window.JOB_POOL);
         return {
           lang:document.documentElement.lang,
           body:document.body.innerText,
           ranked:ranked.map((item) => item.job.label_ko),
+          visibleJobs:document.querySelector('#pf-jobcards').innerText,
           width:[document.documentElement.scrollWidth, document.documentElement.clientWidth]
         };
       }, {scores:profile.scores});
@@ -52,7 +55,9 @@ const fileUrl = (locale) => `file:///${file.replace(/\\/g, '/').replace(/ /g, '%
       assert.ok(!/\uFFFD|Ã[\u0080-\u00BF]|â(?:€|€™|€œ)|(?:æœ|å­|ä¸|é—)/.test(result.body), `${locale}: encoding corruption marker`);
       if (locale === 'ko') {
         assert.ok(result.body.includes('항공보안학과'));
-        assert.ok(expectedJobs.some((job) => result.body.includes(job)), 'Korean job recommendation missing');
+        const shown=expectedJobs.filter((job)=>result.visibleJobs.includes(job));
+        assert.strictEqual(shown.length,5,'actual recommendation section must show the top five jobs');
+        assert.ok(result.ranked.slice(0,5).every(job=>shown.includes(job)),'displayed jobs must match ranking');
       } else {
         const residue = result.body.replaceAll('한국어', '').match(/[가-힣]+/g) || [];
         assert.deepStrictEqual(residue, [], `${locale}: Korean residue ${residue.slice(0,10)}`);

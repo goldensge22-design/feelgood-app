@@ -10,8 +10,7 @@
 
   function pickComboKey(scores) {
     // 81-type exception: if all four domains share one absolute band, do not invent a strongest/weakest axis.
-    const levels = [scores.P, scores.A, scores.S, scores.Q].map(function (v) { return v >= 75 ? 'H' : (v <= 52 ? 'L' : 'M'); });
-    if (levels.every(function (lv) { return lv === levels[0]; })) return 'BAL';
+    // Same H/M/L band does not imply a small four-axis score spread.
     const ranked = [
       { k: 'P', v: scores.P }, { k: 'A', v: scores.A },
       { k: 'S', v: scores.S }, { k: 'Q', v: scores.Q },

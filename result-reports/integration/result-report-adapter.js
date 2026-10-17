@@ -2,7 +2,7 @@
   'use strict';
 
   const KINDS = ['kpass-child', 'dcas-teen', 'dcas-adult'];
-  const LOCALES = ['ko','en','ja','zh','es','ru','vi','th','ar','it','az','km'];
+  const LOCALES = ['ko','en','ja','zh','zh-TW','es','fr','ru','vi','th','ar','it','az','km','mn'];
 
   function finiteNumber(value, field) {
     if (typeof value !== 'number' || !Number.isFinite(value)) {
@@ -77,7 +77,8 @@
         ageYears: integer(person.ageYears, 'person.ageYears', 0),
         ageMonths: ageMonths,
         gradeLabel: text(person.gradeLabel, 'person.gradeLabel', kind === 'kpass-child'),
-        majorName: text(person.majorName, 'person.majorName', kind !== 'dcas-adult')
+        majorName: text(person.majorName, 'person.majorName', kind !== 'dcas-adult'),
+        interestLabel: text(person.interestLabel, 'person.interestLabel', true)
       },
       test: { date: validateDate(payload.test && payload.test.date) },
       scores: validateScores(kind, payload.scores)
@@ -93,6 +94,7 @@
         genderKey: p.genderKey,
         ageYears: p.ageYears,
         ageMonths: p.ageMonths,
+        interestLabel: p.interestLabel,
         testDate: input.test.date,
         fullScaleScore: s.fullScale,
         scores: { P:s.P, A:s.A, S:s.S, Q:s.Q }
@@ -106,6 +108,7 @@
       ageYears: p.ageYears,
       gradeLabel: p.gradeLabel,
       majorName: p.majorName,
+      interestLabel: p.interestLabel,
       testDate: input.test.date,
       scores: { P:s.P, A:s.A, S:s.S, Q:s.Q }
     };
