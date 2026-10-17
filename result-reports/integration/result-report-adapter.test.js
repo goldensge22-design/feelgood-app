@@ -13,6 +13,14 @@ const dcas = adapter.install({
   scores: { P:75, A:53, S:64, Q:75 }
 });
 assert.strictEqual(dcas.locale, 'km-kh');
+for (const locale of adapter.LOCALES) {
+  const input=JSON.parse(JSON.stringify(dcas));input.locale=locale;
+  input.person.interestLabel='Robotics';
+  adapter.install(input);
+  assert.strictEqual(globalThis.__TEST_PROFILE__.interestLabel,'Robotics');
+  assert.strictEqual(globalThis.__REPORT_LOCALE__,locale.toLowerCase());
+}
+adapter.install(dcas);
 assert.deepStrictEqual(globalThis.__TEST_PROFILE__.scores, {P:75,A:53,S:64,Q:75});
 assert.strictEqual(globalThis.__TEST_PROFILE__.givenName, '사용자');
 assert.strictEqual(globalThis.__TEST_PROFILE__.majorName, '심리학과');
@@ -41,7 +49,7 @@ assert.throws(() => adapter.normalize({
 }), /scores.fullScale/);
 
 assert.throws(() => adapter.normalize({
-  schemaVersion:1, reportKind:'dcas-adult', locale:'fr',
+  schemaVersion:1, reportKind:'dcas-adult', locale:'xx',
   person:{fullName:'오류',givenName:'오류',genderKey:'M',ageYears:20,ageMonths:0,gradeLabel:'성인',majorName:'심리학과'},
   test:{date:{y:2026,m:9,d:21}}, scores:{P:50,A:50,S:50,Q:50}
 }), /unsupported locale/);

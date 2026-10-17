@@ -279,8 +279,15 @@ function buildDerived(profile){
   const fullScaleScore = (typeof profile.fullScaleScore === 'number')
     ? profile.fullScaleScore
     : Math.round((s.P+s.A+s.S+s.Q)/4);
-  const balancedTier = fullScaleScore <= 85 ? 'L' : (fullScaleScore >= 120 ? 'H' : 'M');
-  const combo = comboKey === 'BAL' ? BALANCED_CONTENT[balancedTier] : COMBO_CONTENT[comboKey];
+  const axisLevels = ['P','A','S','Q'].map(axis => classifyLevel(s[axis]));
+  const balancedTier = axisLevels.every(level => level === 'L') ? 'L' : axisLevels.every(level => level === 'H') ? 'H' : 'M';
+  const combo = Object.assign({}, comboKey === 'BAL' ? BALANCED_CONTENT[balancedTier] : COMBO_CONTENT[comboKey]);
+  if (global.FeelGoodPassGuidance && global.FeelGoodGuidanceResources) {
+    const advice = global.FeelGoodPassGuidance.describe('kpass-child', profile, 'ko');
+    combo.temperament = advice.reason;
+    combo.opinionLead = advice.summary;
+    combo.careerDesc = advice.career;
+  }
   const weakKey = pickWeakAxis(s);
   const ranked = [{k:'P',v:s.P},{k:'A',v:s.A},{k:'S',v:s.S},{k:'Q',v:s.Q}]
     .sort(function(a,b){ return b.v-a.v; });
@@ -1006,6 +1013,7 @@ function applyPersonalization(profile){
     ? '"안녕하세요 선생님, '+name+' K-PASS 검사 결과를 공유드려요. 네 가지 인지 영역이 서로 뚜렷한 차이 없이 고르게 나타났습니다. 특정 방식으로 단정하기보다 여러 학습 방법을 경험하게 하고, 수업 중 편안해하거나 어려워하는 활동을 관찰해주시면 도움이 될 것 같습니다. 감사합니다!"'
     : '"안녕하세요 선생님, '+name+' K-PASS 검사 결과를 공유드려요. '+top2Str+(hasBatchim(top2Str)?'이':'가')+' 상대적으로 두드러지고, '+d.weakAxis.name+' 관련 활동에는 추가적인 안내가 도움이 될 수 있다고 해요. 참고해주시면 감사하겠습니다."');
 
+  if (global.FeelGoodGuidanceUI) d.guidance = global.FeelGoodGuidanceUI.apply('kpass-child', profile);
   return d; // 검수 도구가 계산값을 직접 검증할 수 있도록 반환
 }
 

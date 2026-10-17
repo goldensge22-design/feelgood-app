@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "version": "2026-10-17.1",
+  "sourceLocale": "ko",
+  "locales": [
+    "ko",
+    "en",
+    "ja",
+    "zh",
+    "zh-TW",
+    "es",
+    "fr",
+    "ru",
+    "vi",
+    "th",
+    "ar",
+    "it",
+    "az",
+    "km",
+    "mn"
+  ],
+  "provider": "google-translate",
+  "status": "machine-translated",
+  "technicalQA": "../PASS_GUIDANCE_PATCH.md",
+  "programs": {
+    "kpass-child": {
+      "sourceHash": "5ba3f57f65a5e54ffd2ff1c88db5e7093b0bb0fa2b3eb62de3470162fd397182",
+      "keys": 56,
+      "bundle": "kpass-child.locales.js"
+    },
+    "dcas-teen": {
+      "sourceHash": "46a32741a33a9bd2c28e6cfd1f552d6ed96379a0e8def8e27443fdbfc7af2e02",
+      "keys": 55,
+      "bundle": "dcas-teen.locales.js"
+    },
+    "dcas-adult": {
+      "sourceHash": "fbd4fa1dc829167d712712682ddde3d11cddd412d89a39d874bc4116814ad0ba",
+      "keys": 53,
+      "bundle": "dcas-adult.locales.js"
+    }
+  }
+}

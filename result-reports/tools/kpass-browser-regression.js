@@ -135,7 +135,7 @@ async function inspect(cdp) {
   const browser = spawn(browserPath, [
     '--headless=new', '--disable-gpu', '--no-first-run', '--no-default-browser-check',
     '--allow-file-access-from-files', `--remote-debugging-port=${port}`, `--user-data-dir=${userDataDir}`, 'about:blank'
-  ], { stdio:'ignore' });
+  ], { stdio:'ignore', windowsHide:true });
   let cdp;
   try {
     cdp = new Cdp(await waitForDebugger(port));
@@ -201,9 +201,9 @@ async function inspect(cdp) {
     assert.deepStrictEqual(consistency.percentiles.map(text => text.match(/백분위 ([0-9.]+)/)?.[1]), ['97.7','89.7','9.1','2.7']);
     assert.deepStrictEqual(consistency.categories, ['규준적 강','평균 수준','규준적 약','규준적 약']);
     assert.ok(consistency.fullScale.includes('백분위 52.7'), 'full-scale percentile must use the same one-decimal calculation');
-    assert.strictEqual(consistency.learningName, '균형형 학습자(동반 저하)');
-    assert.ok(consistency.learningDesc.includes('균형–동반 저하형') && consistency.learningDesc.includes('단계적인 지원'), `balanced-low learning guidance missing: ${consistency.learningDesc}`);
-    assert.ok(consistency.careers.includes('계획력 강점') && consistency.careers.includes('동시처리·순차처리의 지원 필요성'), 'career guidance must reflect the full profile');
+    assert.strictEqual(consistency.learningName, '균형형 학습자 · 두 처리방식의 단계별 지원 권고');
+    assert.ok(consistency.learningDesc.includes('두 점수 사이의 차이') && consistency.learningDesc.includes('그림과 단계표'), `balanced-low learning guidance missing: ${consistency.learningDesc}`);
+    assert.ok(consistency.careers.includes('P 130') && consistency.careers.includes('S 80') && consistency.careers.includes('Q 71') && consistency.careers.includes('계획력'), 'career guidance must reflect the full profile');
 
     const translatedConsistencyProfile = { ...consistencyProfile, name:'QA Low Pair' };
     await navigate(cdp, translatedConsistencyProfile, 'en');
@@ -222,7 +222,10 @@ async function inspect(cdp) {
     if (cdp) cdp.close();
     browser.kill();
     await delay(300);
-    fs.rmSync(userDataDir, { recursive:true, force:true });
+    const resolvedTemp = path.resolve(userDataDir);
+    if (path.dirname(resolvedTemp) !== path.resolve(os.tmpdir()) || !path.basename(resolvedTemp).startsWith('kpass-report-chrome-')) throw new Error('Unsafe test cleanup path');
+    try { fs.rmSync(resolvedTemp, { recursive:true, force:true, maxRetries:8, retryDelay:250 }); }
+    catch (cleanupError) { console.warn('Test browser still holds temporary files:', resolvedTemp, cleanupError.code); }
   }
 })().catch(error => {
   console.error(error.stack || error);

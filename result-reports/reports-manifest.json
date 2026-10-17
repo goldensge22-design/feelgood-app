@@ -1,6 +1,13 @@
 {
   "schemaVersion": 1,
-  "updatedAt": "2026-09-22",
+  "updatedAt": "2026-10-17",
+  "guidancePatch": {
+    "version": "2026-10-17.1",
+    "branch": "codex/pass-guidance-patch",
+    "manifest": "result-reports/guidance/manifest.json",
+    "handoff": "result-reports/PASS_GUIDANCE_PATCH.md",
+    "status": "candidate-not-production"
+  },
   "policy": {
     "exposeOnlyFullReportLocales": true,
     "fallbackLocale": "ko",

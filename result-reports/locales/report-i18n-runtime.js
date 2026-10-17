@@ -69,6 +69,7 @@
     return output;
   }
   function rememberAttributes(element) {
+    if (element.closest('[data-fg-guidance]')) return;
     if (!attrOriginals.has(element)) attrOriginals.set(element, {});
     const originals = attrOriginals.get(element);
     for (const name of translatedAttributes) {
@@ -82,6 +83,7 @@
   function translateNode(node) {
     if (node.nodeType === Node.TEXT_NODE) {
       if (!node.parentElement || ignoredTags.has(node.parentElement.tagName)) return;
+      if (node.parentElement.closest('[data-fg-guidance]')) return;
       const localizedRoot = node.parentElement.closest('[lang]');
       if (activeLocale !== 'ko' && localizedRoot && localizedRoot !== document.documentElement && localizedRoot.lang === activeLocale) return;
       if (!textOriginals.has(node) || (/[가-힣]/.test(node.nodeValue) && !translating)) textOriginals.set(node, node.nodeValue);
@@ -98,9 +100,10 @@
   }
   function restoreOriginals() {
     translating = true;
-    for (const node of translatedNodes) if (node.isConnected && textOriginals.has(node)) node.nodeValue = textOriginals.get(node);
+    for (const node of translatedNodes) if (node.isConnected && textOriginals.has(node) && !node.parentElement?.closest('[data-fg-guidance]')) node.nodeValue = textOriginals.get(node);
     for (const element of translatedAttrs) {
       if (!element.isConnected) continue;
+      if (element.closest('[data-fg-guidance]')) continue;
       const originals = attrOriginals.get(element) || {};
       Object.keys(originals).forEach((name) => element.setAttribute(name, originals[name]));
     }

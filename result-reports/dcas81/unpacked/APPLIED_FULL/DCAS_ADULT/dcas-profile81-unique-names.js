@@ -96,6 +96,10 @@
 
   function getUniqueName(levels, lang) {
     const locale = normalizeNameLang(lang);
+    const sameBand = ORDER.every(function (axis) { return levels[axis] === levels.P; });
+    if (sameBand && global.FeelGoodPassGuidance && global.FeelGoodGuidanceResources) {
+      return global.FeelGoodPassGuidance.translator('dcas-adult', locale)('name.all' + levels.P);
+    }
     return locale === 'ko' ? buildKorean(levels) : buildLocalized(levels, locale);
   }
 
@@ -196,6 +200,16 @@
     profile.dir = nameLang === 'ar' ? 'rtl' : 'ltr';
     profile.title = getUniqueName(profile.levels, nameLang);
     profile.nameSchema = 'dcas81-unique-v1';
+    if (global.FeelGoodPassGuidance && global.FeelGoodGuidanceResources) {
+      const advice = global.FeelGoodPassGuidance.describe('dcas-adult', {scores:scores}, nameLang);
+      profile.summary = advice.summary;
+      profile.recommendations = {learning:advice.learning, career:advice.career, job:advice.job};
+      profile.fragments.forEach(function (fragment) {
+        const card = advice.cards.find(function (item) { return item.axis === fragment.axis; });
+        fragment.text = card.method;
+      });
+      profile.guidance = advice.model;
+    }
     return profile;
   };
 

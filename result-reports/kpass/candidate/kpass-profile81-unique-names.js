@@ -77,6 +77,9 @@
   }
 
   function buildKorean(levels) {
+    if (ORDER.every(axis => levels[axis] === levels.P) && global.FeelGoodPassGuidance && global.FeelGoodGuidanceResources) {
+      return global.FeelGoodPassGuidance.translator('kpass-child', 'ko')('name.all' + levels.P);
+    }
     const high = axisKey(levels, 'H');
     const medium = axisKey(levels, 'M');
     const low = axisKey(levels, 'L');
@@ -91,6 +94,9 @@
   }
 
   function buildLocalized(levels, lang) {
+    if (ORDER.every(axis => levels[axis] === levels.P) && global.FeelGoodPassGuidance && global.FeelGoodGuidanceResources) {
+      return global.FeelGoodPassGuidance.translator('kpass-child', lang)('name.all' + levels.P);
+    }
     const data = NAMES[lang] || NAMES.en;
     const high = axisKey(levels, 'H');
     const medium = axisKey(levels, 'M');

@@ -1,5 +1,7 @@
 # FeelGood 결과지 개발자 인계 지시서
 
+> **2026-10-17 추가 인계:** 현재 개인화 권고 패치는 `codex/pass-guidance-patch` 브랜치의 [PASS_GUIDANCE_PATCH.md](PASS_GUIDANCE_PATCH.md)를 우선 확인한다. 아래의 2026-09 문서와 브랜치 링크는 이전 기준선 기록이다. 신규 연동 브랜치는 현재 패치 브랜치에서 만들고, HTML만 가져오지 말고 `guidance/`, `locales/`, adapter 및 각 결과지 의존 파일을 함께 사용한다. main/운영 배포는 별도 승인 대상이다.
+
 작성일: 2026-09-21. 대상: K-PASS 아동, D-CAS 청소년, D-CAS 성인.
 
 > 최종 상태: 전공 전달, 절대/상대 수준 개인화 문장, K-PASS·D-CAS 청소년·D-CAS 성인 각 15개 locale까지 후보본에 반영했다. 번역 상태는 `Google machine-translated + technical QA`이며 원어민 검수 완료본은 아니다.

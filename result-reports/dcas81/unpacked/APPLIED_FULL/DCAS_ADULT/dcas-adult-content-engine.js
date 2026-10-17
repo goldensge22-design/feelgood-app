@@ -56,8 +56,8 @@
     const vals = [s.P, s.A, s.S, s.Q];
     const max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
     const levels = vals.map(function (v) { return v >= 75 ? 'HIGH' : (v <= 52 ? 'LOW' : 'MID'); });
-    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     if (max - min >= 20) return null;
+    if (levels.every(function (level) { return level === levels[0]; })) return levels[0];
     const avg = (s.P + s.A + s.S + s.Q) / 4;
     if (avg <= 52) return 'LOW';
     if (avg < 75) return 'MID';
@@ -146,6 +146,7 @@
       setText('pf-collabstyle', p81.recommendations.job);
       setText('pf-opinion', PROFILE.givenName + ' 님은 ' + p81.summary);
     }
+    if (global.FeelGoodGuidanceUI) global.FeelGoodGuidanceUI.apply('dcas-adult', PROFILE, lang);
     return p81;
   }
 
@@ -817,22 +818,27 @@
       setHTML('pf-eff-compare-caption', josa(AXIS_LABEL[top2Keys[0]], '이가') + ' ' + AXIS_LABEL[weakKey] + '보다 ' + gapVal + '%p 높아, "' +
         AXIS_LABEL[top2Keys[0]] + ' 중심으로 강점을 발휘하고 ' + josa(AXIS_LABEL[weakKey], '은는') + ' 의식적으로 보완"하는 전략이 효과적이에요.');
     }
-    if (ranked && ranked.length) {
+    {
       const cpRows = byId('pf-eff-preview');
       if (cpRows) {
-        const top1Job = ranked[0], lastJob = ranked[ranked.length - 1];
+        cpRows.dataset.unranked = String(!ranked || !ranked.length);
+        const top1Job = ranked && ranked[0], lastJob = ranked && ranked[ranked.length - 1];
         const rows = cpRows.querySelectorAll('.cp-row');
+        if (top1Job) rows.forEach(function (row) {
+          const note = row.querySelector('.cp-desc');
+          if (note) note.removeAttribute('data-fg-guidance');
+        });
         // 패치: cp-row의 두 번째 칸(축%×축% 텍스트)이 "순차처리 91%×계획력 84%"/"동시처리 66%"로
         // 고정돼 있어 실제 top2Keys/weakKey가 반영되지 않던 것을 동적으로 교체
         if (rows[0]) {
           const textDiv = rows[0].children[1];
           if (textDiv) textDiv.innerHTML = AXIS_LABEL[top2Keys[0]] + ' ' + s[top2Keys[0]] + '% <span class="cp-x">×</span> ' + AXIS_LABEL[top2Keys[1]] + ' ' + s[top2Keys[1]] + '%';
-          rows[0].querySelector('.cp-desc').textContent = '→ 07번 1순위(' + top1Job.job.label_ko + ') 근거';
+          rows[0].querySelector('.cp-desc').textContent = top1Job ? '→ 07번 1순위(' + top1Job.job.label_ko + ') 근거' : '';
         }
         if (rows[1]) {
           const textDiv2 = rows[1].children[1];
           if (textDiv2) textDiv2.textContent = AXIS_LABEL[weakKey] + ' ' + s[weakKey] + '%';
-          if (lastJob !== top1Job) rows[1].querySelector('.cp-desc').textContent = '→ 07번 ' + lastJob.job.label_ko + ' 후순위 이유';
+          rows[1].querySelector('.cp-desc').textContent = lastJob && lastJob !== top1Job ? '→ 07번 ' + lastJob.job.label_ko + ' 후순위 이유' : '';
         }
       }
     }

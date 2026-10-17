@@ -1178,6 +1178,10 @@
   </a>
 </div>
 
+<link rel="stylesheet" href="../../guidance/pass-guidance.css">
+<script src="../../guidance/kpass-child.locales.js"></script>
+<script src="../../guidance/pass-guidance-engine.js"></script>
+<script src="../../guidance/pass-guidance-ui.js"></script>
 <script src="kpass-content-engine.js"></script>
 <script src="kpass-profile81-unique-names.js"></script>
 <script src="kpass-figure-render.js"></script>
@@ -1548,7 +1552,7 @@ function render(){
 
   // 신원 정보 — 항상 PROFILE에서. 이름은 번역하지 않습니다(번역 대상이 아니라
   // 실제 값입니다). 성별·나이·날짜만 언어별 표현 방식(genderLabel/ageTpl/dateTpl)을 적용합니다.
-  const genderStr = d.genderLabel[PROFILE.genderKey];
+  const genderStr = d.genderLabel[PROFILE.genderKey] || '—';
   const ageStr = fillTpl(d.ageTpl, { y: PROFILE.ageYears, m: PROFILE.ageMonths });
   const dateStr = fillTpl(d.dateTpl, { yyyy: PROFILE.testDate.y, mm: pad2(PROFILE.testDate.m), dd: pad2(PROFILE.testDate.d) });
 
@@ -1563,6 +1567,7 @@ function render(){
       gender: genderStr,
       age: ageStr,
       ageYears: PROFILE.ageYears,
+      interestLabel: PROFILE.interestLabel,
       testDate: dateStr,
       fullScaleScore: PROFILE.fullScaleScore,
       scores: PROFILE.scores
@@ -1572,6 +1577,7 @@ function render(){
   const tagsHtml = (KPassEngine ? KPassEngine.buildDerived(PROFILE).combo.heroTags : d.heroTags).map(t=>`<span>${t}</span>`).join('');
   document.getElementById('heroTags').innerHTML = tagsHtml;
   document.getElementById('coverTags').innerHTML = tagsHtml;
+  if (window.FeelGoodGuidanceUI) window.FeelGoodGuidanceUI.apply('kpass-child', PROFILE, window.__REPORT_LOCALE__ || currentLang);
 
   document.querySelectorAll('[data-nav]').forEach(el=>{
     const key = el.dataset.nav;
