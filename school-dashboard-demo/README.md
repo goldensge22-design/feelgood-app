@@ -1,5 +1,7 @@
 # School Dashboard Demo
 
+공개 대표 주소는 `school-dashboard-demo/` 하나만 사용한다. `index.html`이 학급용 화면으로 연결하고, 상단 대시보드 전환 메뉴에서 학교 전체와 학과별 화면으로 이동한다. 언어와 기존 query parameter, hash는 화면 전환 시 유지한다.
+
 세 데모는 첨부된 독립형 원본 HTML 전체를 유지하고, `full-dashboard-shell.js`, `full-dashboard-shell.css`와 안정 key 기반 locale pack으로 공통 상단 탐색·언어 선택을 추가한다. 기존 `app.js`, `styles.css`는 초기 축약 시안 보존본이며 현재 세 HTML에서는 불러오지 않는다.
 
 - `homeroom.html`: 12개 섹션의 담임용 우리 반 성장·상담 화면
@@ -8,13 +10,29 @@
 
 세 화면 모두 사용자용 목차에서 판정 기준과 데이터 불러오기를 제외한다. 첨부 원본의 계산식, 예시 데이터, 표, 필터, 조치 상태, 반 편성과 인쇄 기능은 유지한다. `scripts/verify-original-content.mjs`는 승인된 섹션 계약 및 핵심 기능 보존을 검사한다.
 
+## 실사용 결과지 연동
+
+세 HTML은 데모와 실사용이 같은 UI를 사용한다. `dashboard-runtime-config.js`가 실행 모드와 API 경로를 관리하고 `result-data-adapter.js`가 서버 응답을 화면용 `classes → students → PASS scores` 구조로 정규화한다.
+
+- 공개 데모의 기본 설정은 기존 샘플 데이터이므로 현재 GitHub Pages 링크가 깨지지 않는다.
+- 실사용 배포에서는 `dashboard-runtime-config.js`의 `dataMode`를 `live`로 바꾸며, 실패를 샘플 데이터로 숨기지 않는다.
+- `?data=sample` 또는 `?data=live`로 개발 중 모드를 명시할 수 있다. query 값은 설정값보다 우선한다.
+- 서버·인증 방식이 다르면 `window.KPASSDashboardTransport.load(request)`만 구현해 교체할 수 있다.
+- `resultId`, `testId`, `userId`, IQ, 81유형과 원본 인지특성은 UI 사용 여부와 관계없이 정규화 객체에 보존한다.
+- 점수 요약의 PASS 네 표준점수와 검사일은 결과지 값을 사용한다. 같은 학생의 여러 결과가 오면 검사 시각 기준 최신 건만 집계한다.
+- 학과별 진로적성과 직무 Top 5는 결과지 산출값을 우선한다. 실사용 데이터에 해당 필드가 없으면 임의 추천을 계산하지 않고 연동 누락을 표시한다.
+
+소속관리·결과지·서버 개발자가 사용할 상세 요청/응답 계약은 `RESULT_DATA_CONTRACT.md`에 있다. 상담 메모와 조치 상태는 아직 브라우저 저장 방식이며, 서버 저장은 개발자 연동 범위로 남겨 둔다.
+
 ## Locale
 
 지원 locale은 `ko`, `en`, `ja`, `zh-CN`, `zh-TW`, `es`, `fr`, `ru`, `vi`, `th`, `ar`, `it`, `az`, `mn`, `km`이다. 한국어는 source locale이며 외국어는 `ai-draft` 상태다. 상태와 source hash는 locale resource와 QA에서만 관리하며 일반 사용자 DOM과 인쇄물에는 노출하지 않는다.
 
 locale 결정 순서는 URL `lang` → 저장 locale → 브라우저 locale → `ko`다. 언어 전환은 현재 페이지, 선택 학생·학급·계열, 상담 메모와 조치 상태를 유지한 채 resource 로딩 완료 후 한 번에 적용한다. 중국 본토는 `zh-CN`, 대만은 `zh-TW`로 분리한다.
 
-세 대시보드에서 실제로 렌더링되는 고정 문구와 동적 문구를 모두 수집해 안정 key 또는 placeholder가 포함된 패턴 key로 관리한다. 각 locale pack은 515개 key를 가지며, 화면 제목·목차·표·그래프·필터·상태·알림·상담·인쇄 문구와 동적으로 생성되는 설명까지 변환한다. 한국어는 `ready`, 14개 외국어는 `ai-draft` 상태이므로 데모 확인에는 사용할 수 있지만 정식 API 연동·배포 전에 교육 용어와 자연스러움에 대한 사람 검수가 필요하다. 공식 판정으로 오해될 수 있는 표현은 사용자 화면에서 `뚜렷한 강점`, `강점 발현 학생`, 영역별 `강점형`으로 통일한다.
+세 대시보드에서 실제로 렌더링되는 고정 문구와 동적 문구를 모두 수집해 안정 key 또는 placeholder가 포함된 패턴 key로 관리한다. 각 locale pack은 558개 key를 가지며, 화면 제목·목차·표·그래프·필터·상태·오류·상담·인쇄 문구와 동적으로 생성되는 설명까지 변환한다. 한국어는 `ready`, 14개 외국어는 `ai-draft` 상태이므로 데모 확인에는 사용할 수 있지만 정식 API 연동·배포 전에 교육 용어와 자연스러움에 대한 사람 검수가 필요하다. 공식 판정으로 오해될 수 있는 표현은 사용자 화면에서 `뚜렷한 강점`, `강점 발현 학생`, 영역별 `강점형`으로 통일한다.
+
+성인·대학생 모드는 `band=adult`로 구분하며, 네 PASS 영역이 모두 승인 기준 이하일 때만 종합 관리 권고와 우선 확인 목록에 포함한다. 1~3개 영역이 낮은 경우에는 해당 영역의 강화 제안으로 표시하고, 경계선과 2E·영역 편차는 관리 분류가 아니라 개인 결과지 참고 정보로 다룬다. 청소년 분류 규칙은 유지한다.
 
 언어 선택기는 세 화면 모두 상단 고정 영역의 드롭다운으로 제공한다. 데스크톱에서는 왼쪽 목차가 스크롤을 따라가며, 좁은 화면에서는 콘텐츠를 가리지 않도록 상단 가로 스크롤 목차로 전환한다.
 
@@ -29,6 +47,8 @@ node school-dashboard-demo/scripts/collect-dom-i18n.mjs
 node school-dashboard-demo/scripts/translate-dom-i18n.mjs
 node school-dashboard-demo/scripts/build-locales.mjs
 node school-dashboard-demo/scripts/verify-original-content.mjs
+node school-dashboard-demo/scripts/verify-result-adapter.mjs
+node school-dashboard-demo/scripts/verify-dashboard-syntax.mjs
 node school-dashboard-demo/scripts/verify-browser-i18n.mjs
 node scripts/check-i18n.mjs
 node scripts/check-i18n.mjs --changed --strict-hardcoded

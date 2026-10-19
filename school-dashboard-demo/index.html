@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>K-PASS Dashboard</title>
+</head>
+<body aria-busy="true">
+<script>
+(function(){
+  var destination=new URL('homeroom.html',location.href);
+  destination.search=location.search;
+  destination.hash=location.hash;
+  location.replace(destination.href);
+})();
+</script>
+<noscript><a href="homeroom.html">K-PASS Dashboard</a></noscript>
+</body>
+</html>

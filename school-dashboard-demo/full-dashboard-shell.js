@@ -2,8 +2,6 @@
 'use strict';
 var FALLBACK='ko';
 var STORAGE='fg.schoolDashboard.locale';
-var SCRIPT_VERSION=(function(){try{return new URL(document.currentScript.src,location.href).searchParams.get('v')||'';}catch(e){return'';}})();
-function assetUrl(path){return path+(SCRIPT_VERSION?'?v='+encodeURIComponent(SCRIPT_VERSION):'');}
 var MODE=document.body.getAttribute('data-mode')||location.pathname.split('/').pop().replace('.html','')||'homeroom';
 var UI_STATE_STORAGE='fg.schoolDashboard.localeState.'+MODE;
 var LOCALES=[
@@ -24,7 +22,7 @@ function resolveLocale(){
   return alias(navigator.language)||alias(String(navigator.language||'').split('-')[0])||FALLBACK;
 }
 function esc(v){return String(v).replace(/[&<>"']/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];});}
-function href(mode,locale){var name=mode==='homeroom'?'homeroom.html':mode==='school'?'school.html':'track.html';return name+'?lang='+encodeURIComponent(locale);}
+function href(mode,locale){var name=mode==='homeroom'?'homeroom.html':mode==='school'?'school.html':'track.html';var url=new URL(location.href);url.pathname=url.pathname.replace(/[^/]*$/,name);url.searchParams.set('lang',locale);return url.pathname+url.search+url.hash;}
 function captureUiState(){
   var saved={selects:{},fields:{}};
   document.querySelectorAll('select[id]:not(#language-select)').forEach(function(el){saved.selects[el.id]=el.value;});
@@ -104,7 +102,10 @@ function translateExact(ko,target){
       var raw=n.nodeValue,trim=raw.trim(),compact=trim.replace(/\s+/g,' '),value=translated(compact);
       if(value&&value!==compact)n.nodeValue=raw.slice(0,raw.indexOf(trim))+value+raw.slice(raw.indexOf(trim)+trim.length);
     });
-    root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(function(el){['aria-label','title','placeholder'].forEach(function(a){var v=el.getAttribute(a),value=translated(v);if(value)el.setAttribute(a,value);});});
+    var attributed=[];
+    if(root.nodeType===1&&root.matches('[aria-label],[title],[placeholder]'))attributed.push(root);
+    root.querySelectorAll('[aria-label],[title],[placeholder]').forEach(function(el){attributed.push(el);});
+    attributed.forEach(function(el){['aria-label','title','placeholder'].forEach(function(a){var v=el.getAttribute(a),value=translated(v);if(value)el.setAttribute(a,value);});});
   }
   run(document.body);
   var translatedTitle=translated(document.title.replace(/\s+/g,' ').trim());if(translatedTitle)document.title=translatedTitle;
@@ -117,7 +118,7 @@ function translateExact(ko,target){
 function interpolate(text,vars){return String(text||'').replace(/\{(\w+)\}/g,function(_,key){return vars&&vars[key]!=null?vars[key]:'';});}
 var locale=resolveLocale();var meta=LOCALES.filter(function(x){return x[0]===locale;})[0]||LOCALES[0];document.documentElement.lang=locale;document.documentElement.dir=meta[2];try{localStorage.setItem(STORAGE,locale);}catch(e){}
 if(MODE==='track'&&location.hash==='#s-school'){var migrated=new URL(location.href);migrated.hash='s-students';history.replaceState(null,'',migrated.pathname+migrated.search+migrated.hash);}
-Promise.all([fetch(assetUrl('locales/ko.json')).then(function(r){return r.json();}),fetch(assetUrl('locales/'+locale+'.json')).then(function(r){return r.json();})]).then(function(packs){
+Promise.all([fetch('locales/ko.json').then(function(r){return r.json();}),fetch('locales/'+locale+'.json').then(function(r){return r.json();})]).then(function(packs){
   var source=packs[0].messages||{},target=packs[1].messages||{};
   window.kpassT=function(key,vars){return interpolate(target[key]||source[key]||'',vars);};
   installShell(locale,target);if(locale!==FALLBACK)translateExact(source,target);
