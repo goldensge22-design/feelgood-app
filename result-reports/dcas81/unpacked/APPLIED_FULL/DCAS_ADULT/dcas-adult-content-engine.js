@@ -147,6 +147,7 @@
       setText('pf-opinion', PROFILE.givenName + ' 님은 ' + p81.summary);
     }
     if (global.FeelGoodGuidanceUI) global.FeelGoodGuidanceUI.apply('dcas-adult', PROFILE, lang);
+    if (global.DCasWorkContext) global.DCasWorkContext.afterRender(PROFILE, lang);
     return p81;
   }
 
@@ -924,6 +925,7 @@
   }
 
   function render(nextProfile) {
+    if (global.DCasWorkContext) global.DCasWorkContext.beforeRender();
     if (nextProfile && typeof nextProfile === 'object') {
       Object.assign(PROFILE, nextProfile);
       if (nextProfile.scores) PROFILE.scores = Object.assign({}, nextProfile.scores);
