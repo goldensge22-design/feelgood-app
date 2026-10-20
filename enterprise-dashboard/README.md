@@ -1,0 +1,49 @@
+# FeelGood 기업 인재전략 대시보드
+
+## 진입 파일
+
+- 공개 진입점: `FeelGood_HR_TalentAnalytics_Demo.html`
+- 제품 기획: `enterprise-dashboard/PRODUCT_PLAN.md`
+- 결과지/API 계약: `enterprise-dashboard/DATA_CONTRACT.md`
+- 운영 adapter 진입점: `enterprise-dashboard/data-adapter.js`
+- 데모 데이터: `enterprise-dashboard/mock-data.js`
+
+## 주요 기능
+
+- 경영 요약
+- 기업 인재상과 복수 성공 프로파일
+- 채용 후보자 직무·역할 분석
+- 기존 직원 기준 프로파일 비교
+- 개인 결과, PASS 네 영역과 추천 직무 Top 5
+- 신입사원의 리더·전문가·프로젝트 책임자·실무 수행 경로 검토
+- 30·60·90일 온보딩·성장계획
+- 조직 역량 공백과 실행계획
+- 역할 기반 접근 범위와 피검자 요청 경로 안내
+
+## 15개 언어
+
+`ko`, `en`, `ja`, `zh-CN`, `zh-TW`, `vi`, `th`, `km`, `mn`, `ru`, `ar`, `az`, `fr`, `es`, `it`
+
+한국어는 기준 원문 `ready`다. 신규 외국어 pack은 원어민 검수 전 `ai-draft`로 추적한다. 언어 선택은 상단 드롭다운이며 URL의 다른 query parameter와 현재 hash를 보존한다. 아랍어는 RTL을 적용한다.
+
+## 로컬 실행
+
+저장소 루트에서 정적 HTTP 서버를 실행한 후 다음 주소를 연다.
+
+```text
+http://127.0.0.1:<port>/FeelGood_HR_TalentAnalytics_Demo.html?lang=ko#overview
+```
+
+`file://`에서는 브라우저의 JSON fetch 제한 때문에 locale을 읽지 못할 수 있다.
+
+## 검증
+
+```bash
+node enterprise-dashboard/scripts/verify-i18n.mjs
+node enterprise-dashboard/scripts/verify-data.mjs
+node scripts/check-i18n.mjs
+node scripts/check-i18n.mjs --changed --strict-hardcoded
+```
+
+마지막 두 명령은 중앙 registry에 등록된 프로그램만 검사한다. 기업 대시보드는 전용 validator 결과를 함께 확인한다.
+
