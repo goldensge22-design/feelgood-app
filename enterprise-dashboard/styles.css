@@ -289,10 +289,20 @@ body:not(.is-loading) .loading-screen { opacity: 0; pointer-events: none; }
 
 .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; flex-wrap: wrap; }
 .toolbar-group { display: flex; gap: 8px; flex-wrap: wrap; }
-.candidate-filter-block { display: grid; gap: 8px; min-width: 0; }
-.candidate-filter-block > div:first-child strong, .candidate-filter-block > div:first-child span { display: block; overflow-wrap: anywhere; }
-.candidate-filter-block > div:first-child strong { font-size: 11px; }
-.candidate-filter-block > div:first-child span { margin-top: 2px; color: var(--text-muted); font-size: 9px; }
+.candidate-filter-block { display: grid; flex: 1 1 780px; gap: 10px; min-width: 0; }
+.candidate-filter-heading strong, .candidate-filter-heading span { display: block; overflow-wrap: anywhere; }
+.candidate-filter-heading strong { font-size: 12px; }
+.candidate-filter-heading span { margin-top: 3px; color: var(--text-muted); font-size: 10px; }
+.candidate-filter-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.filter-card { min-width: 0; min-height: 76px; padding: 10px 12px; text-align: start; white-space: normal; }
+.filter-card strong, .filter-card span { display: block; overflow-wrap: anywhere; }
+.filter-card strong { color: var(--text); font-size: 11px; line-height: 1.35; }
+.filter-card span { margin-top: 5px; color: var(--text-muted); font-size: 9px; line-height: 1.45; }
+.filter-card.active strong { color: var(--blue-600); }
+.candidate-data-guide { flex: 0 1 310px; align-self: stretch; min-width: 250px; padding: 12px 14px; background: #f8faff; border: 1px solid var(--border); border-radius: 12px; }
+.candidate-data-guide > strong, .candidate-data-guide > p { display: block; overflow-wrap: anywhere; }
+.candidate-data-guide > strong { margin-top: 8px; font-size: 11px; }
+.candidate-data-guide > p { margin: 4px 0 9px; color: var(--text-muted); font-size: 9px; line-height: 1.5; }
 .filter-button { min-height: 38px; padding: 7px 13px; border: 1px solid var(--border); border-radius: 10px; color: var(--text-muted); background: #fff; cursor: pointer; }
 .filter-button.active { color: var(--blue-600); border-color: #a9c4ff; background: var(--blue-100); font-weight: 800; }
 .toolbar select, .person-select { min-height: 40px; max-width: 100%; padding: 7px 34px 7px 11px; color: var(--text); background: #fff; border: 1px solid var(--border); border-radius: 10px; }
@@ -492,6 +502,8 @@ html[dir="rtl"] .bar-value, html[dir="rtl"] .hero-score { text-align: start; }
   .roster-summary, .roster-flow { grid-template-columns: 1fr; }
   .report-summary-grid, .resume-upload-row { grid-template-columns: 1fr; }
   .demo-rule-grid { grid-template-columns: 1fr; }
+  .candidate-filter-grid { grid-template-columns: 1fr; }
+  .candidate-data-guide { flex-basis: 100%; min-width: 0; }
   .upload-button { width: 100%; }
 }
 
