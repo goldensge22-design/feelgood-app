@@ -9,7 +9,12 @@ export async function loadDashboardData(context = {}) {
   const external = window.FeelGoodEnterpriseAdapter;
   if (external && typeof external.loadDashboardData === "function") {
     const data = await external.loadDashboardData(context);
-    const normalized = { ...data, competencyModel: data.competencyModel ?? structuredClone(MOCK_DASHBOARD_DATA.competencyModel) };
+    const normalized = {
+      ...data,
+      competencyModel: data.competencyModel ?? structuredClone(MOCK_DASHBOARD_DATA.competencyModel),
+      employeeProfileWeights: data.employeeProfileWeights ?? structuredClone(MOCK_DASHBOARD_DATA.employeeProfileWeights),
+      employeeSuccessProfiles: data.employeeSuccessProfiles ?? []
+    };
     validateDashboardData(normalized);
     return { ...normalized, meta: { ...normalized.meta, mode: "production" } };
   }
@@ -24,9 +29,16 @@ export function validateDashboardData(data) {
   if (!Array.isArray(data?.profiles)) errors.push("profiles");
   if (!Array.isArray(data?.candidates)) errors.push("candidates");
   if (!Array.isArray(data?.jobCoverage)) errors.push("jobCoverage");
+  if (!Array.isArray(data?.employeeSuccessProfiles)) errors.push("employeeSuccessProfiles");
+  if (!["dcas", "workPerformance", "roleEvidence"].every((key) => Number.isFinite(data?.employeeProfileWeights?.[key]))) {
+    errors.push("employeeProfileWeights");
+  }
   if (!Array.isArray(data?.competencyModel?.competencies)) errors.push("competencyModel.competencies");
-  if (data?.candidates?.some((candidate) => !candidate.id || !candidate.pass || !candidate.topJobs)) {
+  if (data?.candidates?.some((candidate) => !candidate.id || !candidate.pass || !Array.isArray(candidate.topJobs) || candidate.topJobs.length === 0)) {
     errors.push("candidates[].id/pass/topJobs");
+  }
+  if (data?.employeeSuccessProfiles?.some((item) => !item.job || !item.profile || !Number.isFinite(item.sampleSize))) {
+    errors.push("employeeSuccessProfiles[].job/profile/sampleSize");
   }
   if (errors.length) throw new Error(`Invalid enterprise dashboard data: ${errors.join(", ")}`);
   return true;

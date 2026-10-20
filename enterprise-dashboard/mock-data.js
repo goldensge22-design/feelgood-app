@@ -44,6 +44,18 @@ export const MOCK_DASHBOARD_DATA = {
     { key: "values", value: 20 },
     { key: "workSample", value: 20 }
   ],
+  employeeProfileWeights: {
+    dcas: 40,
+    workPerformance: 45,
+    roleEvidence: 15
+  },
+  employeeSuccessProfiles: [
+    { job: "productStrategy", sampleSize: 18, dcasScore: 82, workPerformanceScore: 91, roleEvidenceScore: 86, profile: "strategyLeader" },
+    { job: "dataAnalysis", sampleSize: 24, dcasScore: 84, workPerformanceScore: 89, roleEvidenceScore: 88, profile: "expert" },
+    { job: "projectManagement", sampleSize: 26, dcasScore: 80, workPerformanceScore: 90, roleEvidenceScore: 85, profile: "projectLead" },
+    { job: "salesOperations", sampleSize: 21, dcasScore: 76, workPerformanceScore: 87, roleEvidenceScore: 83, profile: "operator" },
+    { job: "peopleOperations", sampleSize: 17, dcasScore: 78, workPerformanceScore: 86, roleEvidenceScore: 89, profile: "projectLead" }
+  ],
   profiles: [
     {
       id: "strategy-leader",

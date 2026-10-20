@@ -114,6 +114,19 @@ candidate.source = {
     simultaneous: Number,
     sequential: Number
   },
+  employeeProfileWeights: {
+    dcas: Number,
+    workPerformance: Number,
+    roleEvidence: Number
+  },
+  employeeSuccessProfiles: [{
+    job: String,
+    sampleSize: Number,
+    dcasScore: Number,
+    workPerformanceScore: Number,
+    roleEvidenceScore: Number,
+    profile: String
+  }],
   roleReadiness: [
     { role: "leader|projectLead|specialist|practitioner", count: Number, percent: Number }
   ],
@@ -168,6 +181,34 @@ candidate.source = {
 4. 비교 집단이 `minimumCohortSize`보다 작으면 개인 식별이 가능한 집단 통계를 제공하지 않는다.
 5. 성별, 연령, 출신지역, 학교 등 비직무·보호 정보는 적합도 계산에서 제외한다.
 6. `leaderPotential`은 자동 선발 점수가 아니라 추가 검토 신호다.
+
+## 직무별 기업 인재상과 결과지 단독 신호
+
+기업 인재상은 동일 직무 기존 직원의 D-CAS 결과와 검증된 업무성과를 함께 사용한다. 업무성과가 없는 지원자에게 기존 직원의 성과점수를 복사하거나 추정하지 않는다.
+
+```js
+employeeProfileWeights = {
+  dcas: 40,
+  workPerformance: 45,
+  roleEvidence: 15
+};
+
+employeeSuccessProfiles = [{
+  job: "productStrategy",
+  sampleSize: 18,
+  dcasScore: 82,
+  workPerformanceScore: 91,
+  roleEvidenceScore: 86,
+  profile: "strategyLeader"
+}];
+```
+
+- `dcasScore`: 동일 직무 기존 직원 집단의 D-CAS 직무 관련 정규화 점수
+- `workPerformanceScore`: KPI 하나가 아니라 회사가 검증한 복수 업무성과 근거의 정규화 점수
+- `roleEvidenceScore`: 역할수준·행동평가·협업 등 검증된 직무 행동 근거
+- `sampleSize`: 프로파일 산출에 포함된 기존 직원 수이며 최소 집단 기준 이상이어야 한다.
+
+`candidate.topJobs`는 결과지만으로 계산된 직무 추천 신호다. 실제 업무성과가 없으므로 “직무 우수자” 확정값이나 `employeeSuccessProfiles`의 성과연계 점수로 표시하지 않는다. UI에서는 “직무 잠재부합 후보”로 분리하고 면접·업무과제·경력 확인을 요구한다.
 
 ## 판정 상태
 

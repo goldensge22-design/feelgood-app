@@ -183,6 +183,30 @@ function renderBenchmark() {
     ["✓", t("benchmark.outcomeTitle"), t("benchmark.outcomeText")],
     ["↻", t("benchmark.versionTitle"), t("benchmark.versionText", { version: state.data.meta.modelVersion })]
   ], "check"));
+  const employeeWeights = state.data.employeeProfileWeights;
+  setHTML("talentFormulaPanel", panelTitle(t("benchmark.talentFormulaTitle"), t("benchmark.talentFormulaHelp")) + bars([
+    { label: t("benchmark.formulaDcas"), value: employeeWeights.dcas },
+    { label: t("benchmark.formulaPerformance"), value: employeeWeights.workPerformance, tone: "orange" },
+    { label: t("benchmark.formulaRoleEvidence"), value: employeeWeights.roleEvidence, tone: "teal" }
+  ]) + `<div class="model-footnote"><strong>${t("benchmark.talentFormulaNoteTitle")}</strong><p>${t("benchmark.talentFormulaNote")}</p></div>`);
+  setHTML("resultOnlyRulePanel", panelTitle(t("benchmark.resultOnlyTitle"), t("benchmark.resultOnlyHelp")) + list([
+    ["1", t("benchmark.resultOnlyStep1Title"), t("benchmark.resultOnlyStep1Text")],
+    ["2", t("benchmark.resultOnlyStep2Title"), t("benchmark.resultOnlyStep2Text")]
+  ], "decision") + `<div class="privacy-callout compact-callout"><span class="bullet-icon">!</span><div><strong>${t("benchmark.resultOnlyDisclaimerTitle")}</strong><p>${t("benchmark.resultOnlyDisclaimer")}</p></div></div>`);
+  const successRows = state.data.employeeSuccessProfiles.map((item) => {
+    const combined = weightedEmployeeProfileScore(item, employeeWeights);
+    return `<tr><td><strong>${t(`job.${item.job}`)}</strong></td><td>${number(item.sampleSize)}</td><td>${fitScore(item.dcasScore)}</td><td>${fitScore(item.workPerformanceScore)}</td><td>${fitScore(item.roleEvidenceScore)}</td><td>${fitScore(combined)}</td><td>${t(`profile.${item.profile}`)}</td></tr>`;
+  }).join("") || `<tr><td colspan="7" class="empty-state">${t("common.noData")}</td></tr>`;
+  setHTML("performanceBenchmarkPanel", panelTitle(t("benchmark.performanceTableTitle"), t("benchmark.performanceTableHelp")) + table(
+    [t("table.jobFamily"), t("table.sample"), t("table.dcasJobMatch"), t("table.performanceScore"), t("table.roleEvidenceScore"), t("table.combinedTalentScore"), t("table.profile")], successRows
+  ));
+  const resultOnlyRows = state.data.candidates.map((candidate) => {
+    const [topJob, topScore] = candidate.topJobs[0];
+    return `<tr><td>${personCell(candidate)}</td><td><strong>${t(`job.${topJob}`)}</strong></td><td>${fitScore(topScore)}</td><td><span class="pill violet">${t("benchmark.potentialCandidate")}</span></td><td>${t("benchmark.resultOnlyVerification")}</td></tr>`;
+  }).join("");
+  setHTML("resultOnlyCandidatesPanel", panelTitle(t("benchmark.resultOnlyTableTitle"), t("benchmark.resultOnlyTableHelp")) + table(
+    [t("table.candidate"), t("table.topJob"), t("table.resultOnlySignal"), t("table.interpretation"), t("table.verification")], resultOnlyRows
+  ));
   const comparisonRows = state.data.candidates.map((candidate) => {
     const profileDelta = Math.round(state.data.passDomains.reduce((sum, domain) => sum + Math.abs(candidate.pass[domain] - profile.pass[domain]), 0) / state.data.passDomains.length);
     return `<tr><td>${personCell(candidate)}</td><td>${jobLabel(candidate.appliedJob)}</td><td>${number(candidate.fit)}%</td><td>${number(profileDelta)}</td><td>${t(`role.${candidate.recommendedPath}`)}</td><td><span class="tag ${candidate.status}">${t(`status.${candidate.status}`)}</span></td></tr>`;
@@ -196,6 +220,12 @@ function renderBenchmark() {
   setHTML("benchmarkTablePanel", panelTitle(t("benchmark.groupTable"), t("benchmark.coverage", { current: number(selectedCoverage.current), target: number(selectedCoverage.target) })) + table(
     [t("table.profile"), t("table.role"), t("table.keyPattern"), t("table.sample"), t("table.validation")], rows
   ));
+}
+
+function weightedEmployeeProfileScore(item, weights) {
+  const totalWeight = weights.dcas + weights.workPerformance + weights.roleEvidence;
+  if (!totalWeight) return 0;
+  return Math.round((item.dcasScore * weights.dcas + item.workPerformanceScore * weights.workPerformance + item.roleEvidenceScore * weights.roleEvidence) / totalWeight);
 }
 
 function renderIndividual() {

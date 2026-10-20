@@ -17,9 +17,17 @@ for (const candidate of MOCK_DASHBOARD_DATA.candidates) {
 for (const profile of MOCK_DASHBOARD_DATA.profiles) {
   if (profile.sampleSize < MOCK_DASHBOARD_DATA.meta.minimumCohortSize) errors.push(`${profile.id}: cohort below privacy threshold`);
 }
+const employeeWeightTotal = Object.values(MOCK_DASHBOARD_DATA.employeeProfileWeights).reduce((sum, value) => sum + value, 0);
+if (employeeWeightTotal !== 100) errors.push(`employeeProfileWeights: expected 100, got ${employeeWeightTotal}`);
+for (const item of MOCK_DASHBOARD_DATA.employeeSuccessProfiles) {
+  if (item.sampleSize < MOCK_DASHBOARD_DATA.meta.minimumCohortSize) errors.push(`${item.job}: employee cohort below privacy threshold`);
+  for (const key of ["dcasScore", "workPerformanceScore", "roleEvidenceScore"]) {
+    if (!Number.isFinite(item[key]) || item[key] < 0 || item[key] > 100) errors.push(`${item.job}.${key}: invalid score`);
+  }
+}
 
 if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`Enterprise data OK: ${MOCK_DASHBOARD_DATA.candidates.length} candidates, Top 5 jobs, score ranges and cohort threshold verified.`);
+console.log(`Enterprise data OK: ${MOCK_DASHBOARD_DATA.candidates.length} candidates, ${MOCK_DASHBOARD_DATA.employeeSuccessProfiles.length} employee job profiles, Top 5 jobs, weights, score ranges and cohort thresholds verified.`);
