@@ -96,6 +96,8 @@ candidate.source = {
 {
   meta: {
     mode: "production",
+    dataProvenance: "production|synthetic",
+    scoreScale: "normalized0to100|normalizedDemo0to100",
     organizationName: String,
     cycle: String,
     modelId: String,
@@ -181,6 +183,7 @@ candidate.source = {
   ],
   jobCoverage: [{ job: String, current: Number, target: Number }],
   actions: [{ id: String, type: String, subject: String, owner: String, due: ISODateString, status: String }],
+  reviewStageCompletion: [{ type: String, value: Number }],
   accessRoles: [{ role: String, access: String }]
 }
 ```
@@ -262,4 +265,8 @@ window.FeelGoodEnterpriseAdapter = {
 - 결과 버전이 다르면 adapter에서 단위를 확인한 후 정규화한다.
 - API 실패 시 이전 개인 데이터를 다른 사용자에게 재사용하지 않는다.
 - production adapter 오류를 mock 데이터로 조용히 대체하지 않는다. 데모 모드와 운영 모드를 명확히 구분한다.
+
+## 공개 데모 데이터 원칙
+
+공개 데모는 `meta.mode = "demo"`, `meta.dataProvenance = "synthetic"`로 표시한다. 인원수, 점수, 매칭률, 업무성과, 역할근거, 진행률, 날짜와 ID는 모두 기능 설명용 가상값을 사용한다. 화면의 퍼센트는 0–100 정규화 예시 신호이며 합격 확률·백분위·실제 성과율로 해석하지 않는다. 운영 adapter는 이 표시를 `production`으로 바꾸고 실제 API 데이터로 전체 필드를 교체해야 하며 데모값과 운영값을 혼합하지 않는다.
 

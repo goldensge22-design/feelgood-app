@@ -20,6 +20,8 @@ const EMPLOYEE_PERFORMANCE_RECORDS = [
 export const MOCK_DASHBOARD_DATA = {
   meta: {
     mode: "demo",
+    dataProvenance: "synthetic",
+    scoreScale: "normalizedDemo0to100",
     organizationName: "D-CAS Enterprise Labs",
     cycle: "2026 H2",
     modelId: "FG-TALENT-2026-02",
@@ -249,6 +251,12 @@ export const MOCK_DASHBOARD_DATA = {
     { id: "A-104", type: "workSample", subject: "C-2402", owner: "HR-03", due: "2026-10-25", status: "open" },
     { id: "A-105", type: "alternateRole", subject: "C-2403", owner: "HR-07", due: "2026-10-27", status: "open" },
     { id: "A-099", type: "humanReview", subject: "C-2398", owner: "HR-02", due: "2026-10-19", status: "done" }
+  ],
+  reviewStageCompletion: [
+    { type: "interview", value: 72 },
+    { type: "workSample", value: 58 },
+    { type: "alternateRole", value: 46 },
+    { type: "humanReview", value: 83 }
   ],
   accessRoles: [
     { role: "hrAdmin", access: "full" },

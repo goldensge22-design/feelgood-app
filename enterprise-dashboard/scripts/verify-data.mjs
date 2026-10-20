@@ -5,6 +5,9 @@ globalThis.window = {};
 validateDashboardData(MOCK_DASHBOARD_DATA);
 
 const errors = [];
+if (MOCK_DASHBOARD_DATA.meta.mode !== "demo" || MOCK_DASHBOARD_DATA.meta.dataProvenance !== "synthetic") {
+  errors.push("meta: demo data must be explicitly marked synthetic");
+}
 for (const candidate of MOCK_DASHBOARD_DATA.candidates) {
   if (candidate.topJobs.length !== 5) errors.push(`${candidate.id}: expected Top 5 jobs`);
   for (const [domain, score] of Object.entries(candidate.pass)) {
@@ -24,6 +27,10 @@ for (const item of MOCK_DASHBOARD_DATA.employeeSuccessProfiles) {
   for (const key of ["dcasScore", "workPerformanceScore", "roleEvidenceScore"]) {
     if (!Number.isFinite(item[key]) || item[key] < 0 || item[key] > 100) errors.push(`${item.job}.${key}: invalid score`);
   }
+}
+if (MOCK_DASHBOARD_DATA.reviewStageCompletion.length === 0) errors.push("reviewStageCompletion: expected synthetic demo values");
+for (const item of MOCK_DASHBOARD_DATA.reviewStageCompletion) {
+  if (!Number.isFinite(item.value) || item.value < 0 || item.value > 100) errors.push(`${item.type}: invalid review completion value`);
 }
 const approvedByJob = new Map();
 const employeeKeys = new Set();

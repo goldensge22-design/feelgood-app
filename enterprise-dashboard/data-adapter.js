@@ -14,7 +14,8 @@ export async function loadDashboardData(context = {}) {
       competencyModel: data.competencyModel ?? structuredClone(MOCK_DASHBOARD_DATA.competencyModel),
       employeeProfileWeights: data.employeeProfileWeights ?? structuredClone(MOCK_DASHBOARD_DATA.employeeProfileWeights),
       employeeSuccessProfiles: data.employeeSuccessProfiles ?? [],
-      employeePerformanceRecords: data.employeePerformanceRecords ?? []
+      employeePerformanceRecords: data.employeePerformanceRecords ?? [],
+      reviewStageCompletion: data.reviewStageCompletion ?? []
     };
     validateDashboardData(normalized);
     return { ...normalized, meta: { ...normalized.meta, mode: "production" } };
@@ -40,6 +41,7 @@ export function validateDashboardData(data) {
   if (!Array.isArray(data?.jobCoverage)) errors.push("jobCoverage");
   if (!Array.isArray(data?.employeeSuccessProfiles)) errors.push("employeeSuccessProfiles");
   if (!Array.isArray(data?.employeePerformanceRecords)) errors.push("employeePerformanceRecords");
+  if (!Array.isArray(data?.reviewStageCompletion)) errors.push("reviewStageCompletion");
   if (!["dcas", "workPerformance", "roleEvidence"].every((key) => Number.isFinite(data?.employeeProfileWeights?.[key]))) {
     errors.push("employeeProfileWeights");
   }
@@ -53,6 +55,9 @@ export function validateDashboardData(data) {
   if (data?.employeePerformanceRecords?.some((item) => !item.employeeId || !item.job || !item.reviewPeriod || !["draft", "approved"].includes(item.status)
     || !["dcasScore", "workPerformanceScore", "roleEvidenceScore"].every((key) => Number.isFinite(item[key]) && item[key] >= 0 && item[key] <= 100))) {
     errors.push("employeePerformanceRecords[]");
+  }
+  if (data?.reviewStageCompletion?.some((item) => !item.type || !Number.isFinite(item.value) || item.value < 0 || item.value > 100)) {
+    errors.push("reviewStageCompletion[]");
   }
   if (errors.length) throw new Error(`Invalid enterprise dashboard data: ${errors.join(", ")}`);
   return true;

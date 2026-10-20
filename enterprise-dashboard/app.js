@@ -30,6 +30,7 @@ document.body.classList.remove("is-loading");
 function renderAll() {
   applyTranslations(document);
   document.getElementById("organizationName").textContent = state.data.meta.organizationName;
+  renderDemoDisclosure();
   renderOverview();
   renderModel();
   renderHiring();
@@ -39,6 +40,19 @@ function renderAll() {
   renderOrganization();
   renderActions();
   renderCompetencies();
+}
+
+function renderDemoDisclosure() {
+  const weights = state.data.employeeProfileWeights;
+  setHTML("demoDisclosure", `
+    <div class="demo-disclosure-heading"><span class="demo-mark" aria-hidden="true">D</span><div><span class="pill orange">${t("demo.badge")}</span><h2>${t("demo.disclosureTitle")}</h2><p>${t("demo.disclosureText")}</p></div></div>
+    <div class="demo-rule-grid">
+      <div><strong>${t("demo.peopleTitle")}</strong><span>${t("demo.peopleText")}</span></div>
+      <div><strong>${t("demo.scoreTitle")}</strong><span>${t("demo.scoreText")}</span></div>
+      <div><strong>${t("demo.weightTitle")}</strong><span>${t("demo.weightText", { dcas: number(weights.dcas), performance: number(weights.workPerformance), role: number(weights.roleEvidence) })}</span></div>
+      <div><strong>${t("demo.productionTitle")}</strong><span>${t("demo.productionText")}</span></div>
+    </div>
+  `);
 }
 
 function renderOverview() {
@@ -117,7 +131,7 @@ function renderModel() {
 
 function renderHiring() {
   const statuses = ["all", "priority", "validate", "alternate", "hold"];
-  setHTML("hiringToolbar", `<div class="toolbar-group">${statuses.map((status) => `<button class="filter-button ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}">${t(`filter.${status}`)}</button>`).join("")}</div><div class="toolbar-group"><span class="pill gray">${t("hiring.noAuto")}</span><button class="filter-button" type="button" id="rosterConnectButton">${t("roster.connect")}</button></div>`);
+  setHTML("hiringToolbar", `<div class="candidate-filter-block"><div><strong>${t("hiring.filterLabel")}</strong><span>${t("hiring.filterHelp")}</span></div><div class="toolbar-group" role="group" aria-label="${esc(t("hiring.filterLabel"))}">${statuses.map((status) => `<button class="filter-button ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}">${t(`filter.${status}`)}</button>`).join("")}</div></div><div class="toolbar-group"><span class="pill gray">${t("hiring.noAuto")}</span><button class="filter-button" type="button" id="rosterConnectButton">${t(state.data.meta.mode === "demo" ? "roster.connectDemo" : "roster.connect")}</button></div>`);
   document.querySelectorAll("[data-candidate-filter]").forEach((button) => button.addEventListener("click", () => {
     state.candidateFilter = button.dataset.candidateFilter;
     renderHiring();
@@ -458,10 +472,7 @@ function renderActions() {
     [t("table.id"), t("table.action"), t("table.subject"), t("table.owner"), t("table.due"), t("table.status")], rows
   ));
   setHTML("actionStagePanel", panelTitle(t("actions.stageTitle"), t("actions.stageHelp")) + bars([
-    { label: t("actionType.interview"), value: 72 },
-    { label: t("actionType.workSample"), value: 58, tone: "orange" },
-    { label: t("actionType.alternateRole"), value: 46, tone: "teal" },
-    { label: t("actionType.humanReview"), value: 83 }
+    ...state.data.reviewStageCompletion.map((item, index) => ({ label: t(`actionType.${item.type}`), value: item.value, tone: index === 1 ? "orange" : index === 2 ? "teal" : "" }))
   ]));
   setHTML("actionPolicyPanel", panelTitle(t("actions.policyTitle"), t("actions.policyHelp")) + list([
     ["✓", t("actions.policy1Title"), t("actions.policy1Text")],
