@@ -5,14 +5,15 @@
 ## GitHub 위치와 적용 범위
 
 - 저장소: `goldensge22-design/feelgood-app`
-- 개발 브랜치: `codex/dcas-employed-job-context`
+- 개발자가 내려받을 브랜치: `main` ([main 작업 인계](../../MAIN_HANDOFF.md))
+- 원래 패치 보존 브랜치: `codex/dcas-employed-job-context`, 원래 패치 commit `be3259e9a23101a4914cbad8322d8981851c6321`
 - 기준 commit: `5a0e932ee7bfe82119f8ebddefe2ab98cd096563` (`codex/pass-guidance-patch`의 결과지 후보본)
 - 실행 HTML: `result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html`
 - 패치 모듈: `result-reports/dcas81/work-context/`
 - 공통 입력 adapter: `result-reports/integration/result-report-adapter.js`
 - QA: 이 폴더의 `VALIDATION.md`, `qa/unit.json`, `qa/browser.json`, `qa/pdf-export.json`
 
-main, 원본 복구 브랜치, K-PASS/청소년 소스, 기존 원본 ZIP 및 운영 URL은 변경하지 않습니다. 이 브랜치는 **개발 후보본**이며 운영 서버에 배포한 상태가 아닙니다.
+2026-10-21 사용자의 main 저장 요청에 따라, 기존에 main에 없던 결과지 작업 폴더와 이 패치를 main 전달 대상으로 통합했습니다. 원본 복구 브랜치와 원래 패치 브랜치는 그대로 보존합니다. K-PASS/청소년 코드는 검증된 기준본을 변경 없이 추가하며, 기존 main 파일·원본 ZIP·운영 URL은 교체하지 않습니다. **GitHub main의 개발 후보본**이며 운영 서버에 배포한 상태가 아닙니다.
 
 제공된 화면의 기존 상황 버튼은 보관 HTML `archive/dcas_adult_report_v2 (3).html`에서 확인했지만 최신 후보본에는 없었습니다. 이 패치는 최신 후보본에 상황 선택을 추가했습니다. 실제 운영 HTML의 목차·DOM·이벤트가 다르면 아래 연결 지점을 맞춰야 합니다. 운영 HTML 전체를 무조건 덮어쓰지 마세요.
 
@@ -125,4 +126,4 @@ DCasWorkContext.setMode('employed');
 2. 기존 상황 버튼과 신규 모듈의 상태를 하나로 연결합니다. 직무 적용 뒤 후속 렌더가 학과 결과를 덮어쓰지 않는지 확인합니다.
 3. 직무 적용 후 새로고침·다른 사용자 전환·재접속으로 개인별 저장/권한을 검증합니다.
 4. PC/모바일과 사용 언어, 실제 PDF 버튼, 기존 학과 기반 TOP5를 staging에서 확인합니다.
-5. 운영 데이터로 확인한 뒤 승인된 배포 절차를 사용합니다. 이 패치 작업에서는 main 병합이나 운영 URL 교체를 하지 않습니다.
+5. 운영 데이터로 확인한 뒤 승인된 배포 절차를 사용합니다. main 소스 인계는 사용자 승인 범위이며, 운영 URL 교체나 운영 서버 배포는 별도 작업입니다.
