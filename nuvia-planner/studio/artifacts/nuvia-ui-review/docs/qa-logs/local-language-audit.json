@@ -1,0 +1,122 @@
+{
+  "scope": "Studio only, not the legacy Planner",
+  "targetCount": 15,
+  "offered": [
+    "ko",
+    "en",
+    "km",
+    "ar"
+  ],
+  "rows": [
+    {
+      "locale": "ko",
+      "selectable": true,
+      "result": "partial_source_only",
+      "coverage": "not_certified",
+      "browserQA": "requires_recorded_ui_evidence"
+    },
+    {
+      "locale": "en",
+      "selectable": true,
+      "result": "fail_incomplete_translation",
+      "coverage": "not_certified",
+      "browserQA": "requires_recorded_ui_evidence"
+    },
+    {
+      "locale": "ja",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "zh-CN",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "zh-TW",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "mn",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "th",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "vi",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "ar",
+      "selectable": true,
+      "result": "fail_incomplete_translation",
+      "coverage": "not_certified",
+      "browserQA": "requires_recorded_ui_evidence"
+    },
+    {
+      "locale": "ru",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "km",
+      "selectable": true,
+      "result": "fail_incomplete_translation",
+      "coverage": "not_certified",
+      "browserQA": "requires_recorded_ui_evidence"
+    },
+    {
+      "locale": "es",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "fr",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "it",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    },
+    {
+      "locale": "az",
+      "selectable": false,
+      "result": "blocked_not_implemented",
+      "coverage": "not_certified",
+      "browserQA": "blocked_no_runtime_locale"
+    }
+  ],
+  "blockers": [
+    "UI strings remain hardcoded; no complete stable-key resource manifest",
+    "Only task-entry English is complete within its small dictionary; this is not app-wide coverage",
+    "Do not count Korean fallback as translated or use this audit as browser QA"
+  ]
+}

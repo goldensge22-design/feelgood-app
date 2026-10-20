@@ -1,0 +1,39 @@
+$ pnpm run typecheck && pnpm --filter @workspace/nuvia-ui-review build
+$ pnpm run typecheck:libs && pnpm --filter @workspace/nuvia-ui-review typecheck
+$ tsc --build lib/api-client-react
+$ tsc -p tsconfig.json --noEmit
+$ vite build --config vite.config.ts
+vite v7.3.6 building client environment for production...
+<script src="./compare-storage.js"> in "/index.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/before.html" can't be bundled without type="module" attribute
+transforming...
+<script src="./compare-storage.js"> in "/previous.html" can't be bundled without type="module" attribute
+✓ 1830 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/enhancement.html                       0.91 kB │ gzip:   0.51 kB
+dist/public/studio.html                            1.03 kB │ gzip:   0.66 kB
+dist/public/personal-monthly.html                  1.14 kB │ gzip:   0.69 kB
+dist/public/previous.html                          1.56 kB │ gzip:   0.89 kB
+dist/public/before.html                            2.07 kB │ gzip:   1.11 kB
+dist/public/index.html                             2.82 kB │ gzip:   1.30 kB
+dist/public/compare.html                           4.69 kB │ gzip:   2.17 kB
+dist/public/assets/review-D3r1S_gn.css             1.32 kB │ gzip:   0.62 kB
+dist/public/assets/personalMonthly-Bl439GC0.css   10.64 kB │ gzip:   2.97 kB
+dist/public/assets/enhancement-Dk5DME4I.css       12.88 kB │ gzip:   3.39 kB
+dist/public/assets/studio-BcCs_Ote.css            26.97 kB │ gzip:   6.40 kB
+dist/public/assets/before-2-cSqQXB.css            38.59 kB │ gzip:   9.36 kB
+dist/public/assets/previous-ipHr0yOS.css          62.96 kB │ gzip:  14.01 kB
+dist/public/assets/reviewed-CdtsNlVd.css          76.99 kB │ gzip:  16.93 kB
+dist/public/assets/Glyph-DAbvtcOT.js               1.28 kB │ gzip:   0.59 kB
+dist/public/assets/review-BLggbhBd.js              1.60 kB │ gzip:   0.92 kB
+dist/public/assets/enhancement-CyfF0jD6.js        66.85 kB │ gzip:  19.74 kB
+dist/public/assets/model-ODweFB9V.js              85.94 kB │ gzip:  24.26 kB
+dist/public/assets/personalMonthly-HXsrej2F.js   116.66 kB │ gzip:  36.29 kB
+dist/public/assets/reviewed-BT7e44FQ.js          147.34 kB │ gzip:  41.45 kB
+dist/public/assets/brandAssets-5cZAhQSG.js       161.15 kB │ gzip: 115.65 kB
+dist/public/assets/index-DzUQxLJ-.js             185.89 kB │ gzip:  58.62 kB
+dist/public/assets/studio-BqMFSpZp.js            188.51 kB │ gzip:  57.71 kB
+dist/public/assets/before-Bbx1wdsK.js            288.56 kB │ gzip: 152.30 kB
+dist/public/assets/previous-BxaXfCqZ.js          297.67 kB │ gzip: 154.91 kB
+✓ built in 2.88s

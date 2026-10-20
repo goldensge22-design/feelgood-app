@@ -1,0 +1,38 @@
+
+> @workspace/nuvia-ui-review@0.0.0 build /home/runner/workspace/artifacts/nuvia-ui-review
+> vite build --config vite.config.ts
+
+vite v7.3.6 building client environment for production...
+<script src="./compare-storage.js"> in "/index.html" can't be bundled without type="module" attribute
+transforming...
+<script src="./compare-storage.js"> in "/before.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/previous.html" can't be bundled without type="module" attribute
+✓ 1830 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/enhancement.html                       0.91 kB │ gzip:   0.51 kB
+dist/public/studio.html                            1.03 kB │ gzip:   0.65 kB
+dist/public/personal-monthly.html                  1.14 kB │ gzip:   0.68 kB
+dist/public/previous.html                          1.56 kB │ gzip:   0.89 kB
+dist/public/before.html                            2.07 kB │ gzip:   1.10 kB
+dist/public/index.html                             2.82 kB │ gzip:   1.29 kB
+dist/public/compare.html                           4.69 kB │ gzip:   2.13 kB
+dist/public/assets/review-D3r1S_gn.css             1.32 kB │ gzip:   0.63 kB
+dist/public/assets/personalMonthly-Bl439GC0.css   10.64 kB │ gzip:   2.98 kB
+dist/public/assets/enhancement-Dk5DME4I.css       12.88 kB │ gzip:   3.40 kB
+dist/public/assets/studio-BcCs_Ote.css            26.97 kB │ gzip:   6.42 kB
+dist/public/assets/before-2-cSqQXB.css            38.59 kB │ gzip:   9.42 kB
+dist/public/assets/previous-ipHr0yOS.css          62.96 kB │ gzip:  14.08 kB
+dist/public/assets/reviewed-CdtsNlVd.css          76.99 kB │ gzip:  17.02 kB
+dist/public/assets/Glyph-DAbvtcOT.js               1.28 kB │ gzip:   0.59 kB
+dist/public/assets/review-BLggbhBd.js              1.60 kB │ gzip:   0.92 kB
+dist/public/assets/enhancement-CyfF0jD6.js        66.85 kB │ gzip:  19.50 kB
+dist/public/assets/model-ODweFB9V.js              85.94 kB │ gzip:  24.00 kB
+dist/public/assets/personalMonthly-HXsrej2F.js   116.66 kB │ gzip:  35.95 kB
+dist/public/assets/reviewed-BT7e44FQ.js          147.34 kB │ gzip:  41.16 kB
+dist/public/assets/brandAssets-5cZAhQSG.js       161.15 kB │ gzip: 116.20 kB
+dist/public/assets/index-DzUQxLJ-.js             185.89 kB │ gzip:  58.57 kB
+dist/public/assets/studio-BqMFSpZp.js            188.51 kB │ gzip:  57.27 kB
+dist/public/assets/before-Bbx1wdsK.js            288.56 kB │ gzip: 152.57 kB
+dist/public/assets/previous-BxaXfCqZ.js          297.67 kB │ gzip: 155.45 kB
+✓ built in 11.62s

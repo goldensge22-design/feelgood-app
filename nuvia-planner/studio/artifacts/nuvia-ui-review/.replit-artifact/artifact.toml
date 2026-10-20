@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "NUVIA PLANNER UI 검토"
+description = "공식 NUVIA PLANNER 기준 소스를 보존하고 학생용 UI 변경을 독립적으로 검토하는 클릭 가능한 미리보기."
+version = "1.0.0"
+id = "artifacts/nuvia-ui-review"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24422
+
+[services.development]
+run = "pnpm --filter @workspace/nuvia-ui-review run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nuvia-ui-review", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nuvia-ui-review/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24422"
+BASE_PATH = "/"

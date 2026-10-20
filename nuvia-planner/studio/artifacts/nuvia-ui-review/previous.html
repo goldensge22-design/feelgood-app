@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>NUVIA PLANNER · 이전 UI 후보</title>
+  <script src="./compare-storage.js"></script>
+  <style>
+    #app-boot-help[hidden]{display:none}
+    #app-boot-help{max-width:640px;margin:28px auto;padding:22px;border:1px solid #c9d6dd;border-radius:12px;background:#fffdf7;color:#172c4e;font:16px/1.5 system-ui,sans-serif}
+    #app-boot-help button{min-height:44px;padding:8px 16px;border:0;border-radius:8px;background:#172c4e;color:white;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div id="root"><p style="padding:24px;font:16px system-ui,sans-serif">이전 후보를 불러오는 중…</p></div>
+  <div id="app-boot-help" role="alert" hidden><h2>이전 후보 연결이 지연되고 있어요</h2><p>잠시 후 다시 시도해 주세요.</p><button onclick="location.reload()">다시 시도</button></div>
+  <script>setTimeout(function(){if(document.documentElement.dataset.nuviaReady!=='true')document.getElementById('app-boot-help').hidden=false},12000)</script>
+  <script type="module" src="/src/previous-main.tsx"></script>
+</body>
+</html>

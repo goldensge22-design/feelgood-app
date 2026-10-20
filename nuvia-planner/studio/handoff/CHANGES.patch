@@ -1,0 +1,916 @@
+diff --git a/artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx b/artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx
+index 14bd664..1e84242 100644
+--- a/artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx
+@@ -18,9 +18,10 @@ export default function AssessmentPanel({state,act,review,running}:{state:Person
+   <b>검사 결과 · {MODE[v.mode]??v.mode}</b>
+   {v.mode!=='none'&&<span> · {v.kind||'종류 미기재'} · {v.date||'날짜 미기재'}</span>}
+   {v.mode==='none'&&<span> · 검사 종류·검사일 미연결</span>}
+-  <div className="pm-note">{v.notice||'실제 결과지 서버 연결은 없어요. 여기 보이는 내용은 실시간 검증된 점수가 아니에요.'}</div>
+   {!v.assessment&&<div className="pm-chips" data-testid="assessment-empty-values">{AX.map(([k,l])=><span key={k} className="pm-tag">{l} — <small>값·단위 미연결</small></span>)}</div>}
+   {v.assessment&&<div className="pm-chips" data-testid="assessment-values">{AX.map(([k,l])=>{const x=v.assessment!.axes[k];return <span key={k} className="pm-tag" style={{fontSize:13,padding:'6px 10px'}}>{l} {x?.value??'값 없음'}{x?.unit?` ${x.unit}`:''} · {LV[x?.level]??x?.level}</span>;})}{v.assessment.scoreSystem&&<span className="pm-note">{v.assessment.scoreSystem.label} · {{standard_score:'표준점수',accuracy_rate:'정답률',percentile:'백분위'}[v.assessment.scoreSystem.metric]}</span>}</div>}
++  <details className="st-source-details"><summary>검사 출처·연결 안내</summary>
++  <div className="pm-note">{v.notice||'실제 결과지 서버 연결은 없어요. 여기 보이는 내용은 실시간 검증된 점수가 아니에요.'}</div>
+   {review&&v.assessment!=null&&<details className="pm-fold"><summary>검토용 원본 계약 보기</summary><pre style={{whiteSpace:'pre-wrap',fontSize:12,overflowX:'auto'}}>{JSON.stringify(v.assessment,null,1)}</pre></details>}
+   {review&&<div>
+    <button type="button" aria-expanded={open} onClick={()=>setOpen(!open)} data-testid="assessment-review-toggle">{open?'검토 도구 닫기':'검토 도구 열기'}</button>
+@@ -38,5 +39,6 @@ export default function AssessmentPanel({state,act,review,running}:{state:Person
+    </div>}
+   </div>}
+   {err&&<p role="alert" className="pm-note" style={{color:'#8a3a10',fontWeight:700}}>{err}</p>}
++  </details>
+  </section>;
+ }
+diff --git a/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx b/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx
+index 6cd5ec8..e3bd0ec 100644
+--- a/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx
+@@ -15,7 +15,8 @@ export default function CardDetail({state,student,card,act}:{state:PersonalState
+  const cmd=(command:Record<string,unknown>)=>act({type:'legacy',command:command as never});
+  const route=routeFor(student);
+  const meta:Partial<Meta>=state.meta[card.id]??{};
+- const busy=student.runs.some(r=>r.phase!=='closed');
++ const open=student.runs.find(r=>r.phase!=='closed');
++ const busy=!!open,own=open?.cardId===card.id;
+  const [fa,setFa]=useState(card.firstAction);
+  const [scope,setScope]=useState(card.scope);
+  const [base,setBase]=useState({title:card.title,subject:card.subject,minutes:card.minutes?String(card.minutes):'',date:card.date,startTime:placement(state,card.id).timeSet===false?'':card.startTime,middleDeadline:card.middleDeadline,deadline:card.deadline});
+@@ -31,6 +32,9 @@ export default function CardDetail({state,student,card,act}:{state:PersonalState
+  const fillScope=(t:string)=>{if(scope.trim()&&scope!==t){setPrepNote(`이미 적은 분량이 있어요. 바꾸려면 지우고 다시 눌러 주세요: ${t}`);return;}setScope(t);setPrepNote('');};
+  const dirtyCore=fa!==card.firstAction||scope!==card.scope;
+  return <div className="pm-detail" data-testid={`detail-${card.id}`}>
++  {!own&&<div className="st-current-action"><small>지금 할 한 가지</small><p>{card.firstAction||'시작하면서 할 행동을 정해도 괜찮아요.'}</p></div>}
++  <button className="pm-primary pm-big st-start" data-testid="start" disabled={busy||card.status==='done'} onClick={()=>{if(dirtyCore&&!cmd({type:'card.update',cardId:card.id,changes:{firstAction:fa,scope}}))return;cmd({type:'run.start',cardId:card.id});}}>{card.status==='done'?'완료한 과제':own?(open!.phase==='paused'?'멈춘 실행 · 위에서 이어가기':open!.phase==='review'?'돌아보기 작성 중':'이 과제 실행 중'):busy?'다른 과제 실행 중':'바로 시작'}</button>
++  <details className="pm-fold st-editor" data-testid={`edit-panel-${card.id}`}><summary aria-label={`${card.title} 수정 · 방법과 세부 내용`}>수정</summary>
+   <div className="pm-grid2">
+    <label>첫 행동<input data-testid="first-action" value={fa} onChange={e=>setFa(e.target.value)} placeholder="예: 교과서 54쪽 펴기"/></label>
+    <details className="pm-fold"><summary>분량 수정 (선택) · {scope||'아직 미입력'}</summary><label>오늘 분량<input data-testid="scope" value={scope} onChange={e=>setScope(e.target.value)} placeholder="예: 문제 10개"/></label></details>
+@@ -40,14 +44,15 @@ export default function CardDetail({state,student,card,act}:{state:PersonalState
+   <button data-testid="core-save" disabled={!dirtyCore} onClick={()=>cmd({type:'card.update',cardId:card.id,changes:{firstAction:fa,scope}})}>첫 행동·분량 저장</button>
+   {dirtyCore&&<span className="pm-note"> 저장하지 않은 변경이 있어요.</span>}
+ 
+-  <button className="pm-primary pm-big" style={{marginTop:12}} data-testid="start" disabled={busy||card.status==='done'} onClick={()=>{if(dirtyCore&&!cmd({type:'card.update',cardId:card.id,changes:{firstAction:fa,scope}}))return;cmd({type:'run.start',cardId:card.id});}}>{card.status==='done'?'완료한 과제':busy?'다른 실행이 진행 중':'바로 시작'}</button>
+-
++  <details className="pm-fold st-help"><summary>활동·도움·종류 (필요할 때)</summary>
+   <Activity key={`${card.id}-${route.target}`} card={card} target={route.target} round={student.round} act={act}/>
+ 
+   <HelpView student={student} card={card} meta={meta} act={act}/>
+ 
+   {KINDS[stage]&&card.domain==='학습'&&<><h4>어떤 종류인가요 (선택)</h4><div className="pm-chips">{KINDS[stage].map(k=><button key={k} className="pm-chip" aria-pressed={meta.kind===k} onClick={()=>act({type:'meta',cardId:card.id,changes:{kind:meta.kind===k?'':k}})}>{k}</button>)}</div></>}
+ 
++  </details>
++
+   <details className="pm-fold"><summary>기본 정보 고치기</summary>
+    <div className="pm-grid2">
+     <label>제목<input value={base.title} onChange={e=>setBase({...base,title:e.target.value})}/></label>
+@@ -90,5 +95,6 @@ export default function CardDetail({state,student,card,act}:{state:PersonalState
+ 
+   {student.methods.length>0&&<details className="pm-fold"><summary>내 방법 붙이기</summary>
+    <div className="pm-chips">{student.methods.map(x=><button key={x.id} className="pm-chip" aria-pressed={card.method===x.name} onClick={()=>cmd({type:'method.choose',methodId:x.id,cardId:card.id})}>{x.name}</button>)}</div></details>}
++  </details>
+  </div>;
+ }
+diff --git a/artifacts/nuvia-ui-review/src/studio/ReviewPanel.tsx b/artifacts/nuvia-ui-review/src/studio/ReviewPanel.tsx
+index 3755d99..aae08f5 100644
+--- a/artifacts/nuvia-ui-review/src/studio/ReviewPanel.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/ReviewPanel.tsx
+@@ -5,7 +5,7 @@ import {stageNames} from './domain';
+ import ProfileControls from './ProfileControls';
+ 
+ export default function ReviewPanel({state,act,backup}:{state:PersonalState;act:(a:Action)=>boolean;backup:(s:'personal'|'workspace')=>void}){
+- const [confirm,setConfirm]=useState<''|'monthly'|'same-data'>('');
++ const [confirm,setConfirm]=useState<''|'monthly'|'same-data'|'board'|'empty'>('');
+  const s=state.lab.students['student-a'];
+  return <section className="pm-block p" aria-label="검토 관리" data-testid="review-panel">
+   <p className="pm-eye">검토 모드 전용</p><h2>검토 관리</h2>
+@@ -13,9 +13,9 @@ export default function ReviewPanel({state,act,backup}:{state:PersonalState;act:
+   <div className="pm-chips">{(['middle','high','adult'] as Stage[]).map(k=><button key={k} aria-pressed={s.stage===k} onClick={()=>act({type:'stage',stage:k})}>{stageNames[k]}</button>)}</div>
+   <ProfileControls act={act}/>
+   <h4>합성 예시 (이 후보 데이터만 바꿉니다)</h4>
+-  <div className="pm-row"><button onClick={()=>setConfirm('monthly')}>월간 예시 불러오기</button><button onClick={()=>setConfirm('same-data')}>이전 화면과 같은 데이터</button></div>
++  <div className="pm-row"><button data-testid="studio-board-fixture" onClick={()=>setConfirm('board')}>승인 이미지 작업대 예시</button><button data-testid="studio-empty-fixture" onClick={()=>setConfirm('empty')}>빈 작업대 확인</button><button onClick={()=>setConfirm('monthly')}>월간 예시 불러오기</button><button onClick={()=>setConfirm('same-data')}>이전 화면과 같은 데이터</button></div>
+   {confirm&&<div className="pm-banner warn" role="alertdialog">지금 후보 데이터가 합성 예시로 바뀝니다. 계속할까요?
+-   <div className="pm-row"><button className="pm-primary" onClick={()=>{act({type:'review.fixture',scenario:confirm});setConfirm('');}}>바꾸기</button><button onClick={()=>setConfirm('')}>취소</button></div></div>}
++   <div className="pm-row"><button className="pm-primary" data-testid="fixture-confirm" onClick={()=>{act({type:'review.fixture',scenario:confirm});setConfirm('');}}>바꾸기</button><button onClick={()=>setConfirm('')}>취소</button></div></div>}
+   <h4>언어 확인 (부분 번역 QA, 검수 전)</h4>
+   <details className="pm-fold"><summary>월간 비교 예시 (완료된 두 달)</summary><p>이 검토 공간만 합성 기록으로 교체합니다. 실제 학생의 변화가 아닙니다. 불러온 뒤 보고서의 달을 지난달로 선택하세요.</p><button data-testid="insights-fixture" onClick={()=>{if(window.confirm('현재 검토 공간을 합성 비교 예시로 교체할까요? 개인 기본 공간은 바뀌지 않습니다.'))act({type:'review.insights-example'});}}>비교 예시 불러오기</button></details>
+   <div className="pm-chips">{(['ko','en','km','ar'] as const).map(l=><button key={l} aria-pressed={state.lab.language===l} onClick={()=>act({type:'legacy',command:{type:'language',language:l}})}>{l}</button>)}</div>
+diff --git a/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx b/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx
+index 11c8ce9..fb471ff 100644
+--- a/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx
+@@ -5,16 +5,18 @@ import type {Action} from './model';
+ 
+ const fmt=(sec:number)=>`${Math.floor(sec/60)}분 ${String(sec%60).padStart(2,'0')}초`;
+ 
+-export default function RunPanel({student,act,recovery}:{student:Student;act:(a:Action)=>boolean;recovery:boolean}){
++export default function RunPanel({student,act,recovery,cardId}:{student:Student;act:(a:Action)=>boolean;recovery:boolean;cardId?:string}){
+  const run=student.runs.find(r=>r.phase!=='closed');
+  const [,tick]=useState(0);
+  useEffect(()=>{const t=setInterval(()=>tick(n=>n+1),1000);return()=>clearInterval(t);},[]);
+  if(!run)return null;
++ // Embedded in the desk card: only render when the open run belongs to this exact card.
++ if(cardId!==undefined&&run.cardId!==cardId)return null;
+  const card=student.cards.find(c=>c.id===run.cardId);
+  const cmd=(command:Record<string,unknown>)=>act({type:'legacy',command:command as never});
+  const sec=Math.floor(elapsed(run)/1000);
+- return <section className={`pm-now ${run.phase}`} aria-label="지금 실행" data-testid="run-panel">
+-  <p className="pm-eye">{run.phase==='running'?'지금 하는 중':run.phase==='paused'?'잠시 멈춤':'실행 돌아보기'}</p>
++ return <section className={`pm-now ${run.phase}${cardId?' st-run-in':''}`} aria-label="지금 실행" data-testid="run-panel">
++  <p className="pm-eye">{run.phase==='running'?'지금 하는 중':run.phase==='paused'?'이 과제를 잠시 멈췄어요':'실행 돌아보기'}</p>
+   <div className="pm-now-title">{card?.firstAction||card?.title||'지금 할 행동'}</div>
+   {card?.firstAction&&<p className="st-run-task">과제: {card.title}</p>}
+   {run.flag&&<p>이어서 볼 자리: <b>{run.flag}</b></p>}
+diff --git a/artifacts/nuvia-ui-review/src/studio/StudioApp.tsx b/artifacts/nuvia-ui-review/src/studio/StudioApp.tsx
+index f41b217..28a8a8b 100644
+--- a/artifacts/nuvia-ui-review/src/studio/StudioApp.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/StudioApp.tsx
+@@ -26,7 +26,7 @@ function readNav(k:string):{page?:string;month?:string}{try{return JSON.parse(se
+ 
+ function StudioApp(){
+  const p=usePersonal();
+- const {state,student,act}=p;
++ const {state,student,act:dispatch}=p;
+  const studio=studioOf(state);
+  const key=`nuvia-studio-nav:${state.workspaceId}:${REVIEW?'review':'personal'}`;
+  const [page,setPage]=useState<Page>(()=>{const v=readNav(key).page;return PAGES.includes(v as Page)?v as Page:'now';});
+@@ -37,6 +37,22 @@ function StudioApp(){
+  const notices=studio.archiveReminders?noticeCards(state):[];
+  const months=[...new Set([month,monthOf(localDate()),...state.entries.map(e=>monthOf(e.localDate)),...state.agreements.map(a=>a.month)])].sort().reverse();
+  const go=(k:Page)=>{setPage(k);setMenu(false);};
++ const [deskFocus,setDeskFocus]=useState<{id:string}|null>(null);
++ const act=(a:Action)=>{
++  const ok=dispatch(a);
++  if(ok&&(a.type==='studio.place'||a.type==='studio.take')){go('now');setDeskFocus({id:a.cardId});}
++  return ok;
++ };
++ useEffect(()=>{
++  if(!deskFocus||page!=='now'||studio.deskId!==deskFocus.id)return;
++  const frame=requestAnimationFrame(()=>{
++   const title=document.querySelector<HTMLElement>('[data-testid="text-desk-title"]');
++   if(!title)return;
++   title.focus({preventScroll:true});
++   title.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth'});
++  });
++  return()=>cancelAnimationFrame(frame);
++ },[deskFocus,studio.deskId,page]);
+  const running=student.runs.some(r=>r.phase!=='closed');
+  const needsSetup=!REVIEW&&!studio.stageChosen&&student.cards.length===0;
+  const copyPrevious=(p as {copyPrevious?:()=>unknown}).copyPrevious;
+@@ -51,7 +67,7 @@ function StudioApp(){
+  return <div className={`pm-root st-root ${studio.appearance}`} lang={state.lab.language} dir={state.lab.language==='ar'?'rtl':'ltr'} data-testid="studio-root">
+   {REVIEW&&<p className="pm-banner review">검토 모드 · 합성 데이터와 단계 전환은 이 모드에서만 보입니다.</p>}
+   <header className="st-head">
+-   <div className="st-brand"><img src={feelgoodLogo} alt="FeelGood"/><div><small>FeelGood</small><b>NUVIA PLANNER</b><span>내 하루 작업대</span></div></div>
++   <div className="st-title-group"><div className="st-brand"><img src={feelgoodLogo} alt=""/><small>FeelGood</small><b>NUVIA PLANNER</b></div><h1>내 하루 작업대</h1><p>지금 한 가지를 하고, 해낸 일을 모아요.</p></div>
+    <a className="st-link" data-testid="link-previous" href={`./personal-monthly.html${REVIEW?'?review=1':''}`}>이전 화면 보기</a>
+    {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
+   </header>
+@@ -75,7 +91,7 @@ function StudioApp(){
+   </section>:<>
+    <AssessmentPanel state={state} act={act} review={REVIEW} running={running}/>
+    {!state.onboarding&&<PersonalGuide state={state} done={v=>act({type:'onboarding',done:v})}/>}
+-   {REVIEW&&<ReviewPanel state={state} act={act} backup={p.backup}/>}
++   {REVIEW&&<details className="st-review-console" data-testid="review-console"><summary>합성 예시·검토 설정</summary><ReviewPanel state={state} act={act} backup={p.backup}/></details>}
+    {(page==='now'||page==='plan'||page==='reflect')&&<StudioPage view={page} state={state} student={student} act={act}/>}
+    {page==='reflect'&&<MonthPage state={state} month={month} act={act}/>}
+    {page==='report'&&<ReportPage month={month} report={p.report}/>}
+diff --git a/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx b/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx
+index 631b8b3..56a85db 100644
+--- a/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx
+@@ -6,9 +6,9 @@ import {activityOf,timeLabel} from './task-plan';
+ import type {Tone} from './studio-model';
+ import {localDate} from './domain';
+ import {studioOf,placement,studioCapacity,scheduleProposal} from './studio-logic';
+-import Glyph from '../enhancement/Glyph';
+ import CardDetail from './CardDetail';
+ import RunPanel from './RunPanel';
++import SubjectSymbol,{subjectVisual} from './SubjectSymbol';
+ 
+ type Act=(a:Action)=>boolean;
+ const TONES:[Tone,string][]=[['blue','파랑'],['purple','보라'],['orange','주황'],['sky','하늘']];
+@@ -25,9 +25,9 @@ export default function StudioPage({view,state,student,act}:{view:'now'|'plan'|'
+  const status=(c:Card)=>{if(run?.cardId===c.id)return run.phase==='running'?'실행 중':run.phase==='paused'?'멈춤':'돌아보기';const pl=of(c);if(c.status==='done')return '완료';if(pl.place==='archive')return pl.nextDate?`보관 · ${pl.nextDate}에 다시`:'보관';if(pl.place==='excluded')return '제외';if(c.waiting)return '기다리는 중';return pl.place==='desk'?'작업대':'할 일';};
+  const dupe=(c:Card)=>student.cards.filter(x=>x.title===c.title).length>1;
+  const tag=(c:Card,i?:number)=>{const pl=of(c);return <li key={c.id} className="st-tag" data-sel={studio.selectedId===c.id} data-testid={`tag-${c.id}`}>
+-  <span className={`bar ${pl.tone}`} aria-hidden="true"><span className="ico"><Glyph kind={c.status==='done'?'flag':student.stage==='adult'?'paper':c.subject?'book':'paper'}/></span></span>
++  <span className={`bar ${pl.tone}`} aria-hidden="true"><span className="ico"><SubjectSymbol subject={c.subject} domain={c.domain}/></span></span>
+   <button aria-pressed={studio.selectedId===c.id} data-testid={`button-select-${c.id}`} onClick={()=>act({type:'studio.select',cardId:c.id})}>
+-   <span className="ttl">{i!==undefined?`${i+1}. `:''}{c.title}</span>
++   <span className="ttl">{i!==undefined?`${i+1}. `:''}{c.subject?`${c.subject} · `:''}{c.title}</span>
+    <span className="sub"><span className="st-status" data-testid={`status-${c.id}`}>{status(c)}</span>{activityOf(state,c)}{c.subject?` · ${c.subject}`:''} · {timeLabel(c.minutes)}{of(c).timeSet!==false&&c.startTime?` · ${c.startTime}`:' · 시각 미정'} · {c.date||'날짜 없음'}{dupe(c)?` · #${c.id.slice(-4)}`:''}{c.repeat!=='none'?` · ${c.repeat==='daily'?'매일':'평일'} 반복`:''}</span>
+   </button></li>;};
+  const sel=student.cards.find(c=>c.id===studio.selectedId);
+@@ -43,54 +43,68 @@ export default function StudioPage({view,state,student,act}:{view:'now'|'plan'|'
+ 
+  const today_=shelf.filter(c=>!c.date||c.date<=today),later=shelf.filter(c=>c.date&&c.date>today);
+  const col=by('collection'),arc=by('archive'),exc=by('excluded');
++ const cap=studioCapacity(state,today);
++ const ownRun=desk&&run?.cardId===desk.id?run:undefined;
++ const otherRun=run&&run.cardId!==desk?.id?student.cards.find(c=>c.id===run.cardId):undefined;
++ const icon=(c:Card)=><span className={`st-ico3 ${subjectVisual(c.subject,c.domain).tone}`} aria-hidden="true"><SubjectSymbol subject={c.subject} domain={c.domain}/></span>;
+  return <div className="pm-page st-now">
+-  <RunPanel student={student} act={act} recovery={state.recovery}/>
+-  <TaskCreator state={state} act={act}/>
++  {otherRun&&<aside className="st-warn" role="status" data-testid="text-other-run">
++   <p>{desk&&desk.id!==otherRun.id?'다른 과제':placement(state,otherRun.id).place==='archive'?'보관된 과제':'잠시 멈춘 과제'} '{otherRun.title}'의 실행이 있어요. 작업대로 꺼내 이어갈 수 있어요.</p>
++   <button data-testid="button-return-open-run" onClick={()=>act({type:'studio.take',cardId:otherRun.id})}>{otherRun.title} · 작업대로 꺼내기</button>
++  </aside>}
++  {otherRun&&<RunPanel student={student} act={act} recovery={state.recovery}/>}
+   <div className="st-zones">
+    <section className="st-block st-desk desk" aria-label="작업대" data-testid="section-desk">
+-    <header className="st-desk-head"><p className="st-eye">작업대</p>
+-     <h2 data-testid="text-desk-title">{desk?`${desk.subject?`${desk.subject} · `:''}${desk.title}`:'작업대가 비어 있어요'}</h2>
+-     {desk&&<p className="st-desk-meta"><span className="st-status">{status(desk)}</span>{activityOf(state,desk)} · {timeLabel(desk.minutes)}{of(desk).timeSet!==false&&desk.startTime?` · ${desk.startTime} 시작 예정`:' · 시각 미정'}</p>}
+-    </header>
++    <header className="st-desk-head"><p className="st-eye">지금 하는 작업대</p>{desk&&<span className="st-status">{status(desk)}</span>}</header>
+     <div className="st-desk-body">
+-     {desk?<>
+-      <p className="st-note">작업대에 올려도 타이머는 '바로 시작'을 눌러야 움직여요.</p>
+-      <TagActions card={desk} state={state} act={act} running={!!run}/>
++     {desk?<article className="st-curfile" data-tone={of(desk).tone} data-run={ownRun?.phase??'none'}>
++      <div className="st-cur-top">{icon(desk)}<div>
++       <h2 data-testid="text-desk-title" tabIndex={-1}>{desk.subject&&<span className="st-subj">{desk.subject}</span>}{desk.title}</h2>
++       <p className="st-desk-meta">{activityOf(state,desk)} · {timeLabel(desk.minutes)}{of(desk).timeSet!==false&&desk.startTime?` · ${desk.startTime} 시작 예정`:' · 시각 미정'}{desk.scope?` · ${desk.scope}`:''}</p></div></div>
++      <RunPanel student={student} act={act} recovery={state.recovery} cardId={desk.id}/>
++      {!ownRun&&<p className="st-note">작업대에 올려도 타이머는 '바로 시작'을 눌러야 움직여요.</p>}
+       <CardDetail key={desk.id} state={state} student={student} card={desk} act={act}/>
+-     </>:<p className="st-note" data-testid="desk-empty">선반에서 네임택을 하나 골라 '작업대에 올리기'를 누르세요. 한 번에 하나만 올라가요.</p>}
++      <TagActions card={desk} state={state} act={act} running={!!run}/>
++     </article>:<div className="st-curfile empty" data-testid="desk-empty"><p className="st-note">선반에서 네임택을 하나 골라 '작업대에 올리기'를 누르세요. 한 번에 하나만 올라가요. 올려도 자동으로 시작하지 않아요.</p></div>}
+     </div>
+    </section>
+    <div className="st-left">
+     <section className="st-block st-shelf" aria-label="선반" data-testid="section-shelf">
+-     <details className="st-zone" open><summary><span className="st-eye">선반 · 오늘까지 {today_.length}개</span></summary>
+-      {today_.length?<ul className="st-tags">{today_.map((c,i)=>tag(c,i))}</ul>:<p className="pm-empty">선반이 비어 있어요. 위에 한 줄로 추가해 보세요.</p>}
++     <details className="st-zone" open><summary><span className="st-eye">할 일 선반 · 오늘까지 {today_.length}개</span></summary>
++      {today_.length?<ul className="st-tags st-stack">{today_.map((c,i)=>tag(c,i))}</ul>:<p className="pm-empty">선반이 비어 있어요. 아래에서 할 일을 추가해 보세요.</p>}
+       {later.length>0&&<details className="pm-fold" data-testid="details-later"><summary>다른 날 {later.length}개 전체 보기</summary><ul className="st-tags">{later.map(c=>tag(c))}</ul></details>}
+      </details>
++     <TaskCreator state={state} act={act}/>
+     </section>
+-    {sel&&sel.id!==desk?.id&&<section className="st-block" aria-label="고른 네임택" data-testid="section-selected">
++    {sel&&sel.id!==desk?.id&&<section className="st-block st-picked" aria-label="고른 네임택" data-testid="section-selected">
+      <p className="st-eye">고른 네임택 · {PLACE_NAMES[of(sel).place]}</p>
+      <h3>{sel.subject?`${sel.subject} · `:''}{sel.title}</h3>
+      <TagActions card={sel} state={state} act={act} running={!!run}/>
+      {of(sel).place!=='excluded'&&<details className="pm-fold"><summary>목표·분량·기본 정보 고치기</summary><CardDetail key={sel.id} state={state} student={student} card={sel} act={act}/></details>}
+     </section>}
+-    <details className="st-drawer" data-testid="drawer-excluded"><summary>제외 서랍 · {exc.length}개</summary>
++    <details className="st-drawer st-excl" data-testid="drawer-excluded"><summary>이번 계획에서 뺀 일 · {exc.length}개</summary>
+      <p className="st-note">제외한 과제는 오늘 분량에서 빠지고, 언제든 되돌릴 수 있어요.</p>
+      {exc.length?<ul className="st-tags">{exc.map(c=>tag(c))}</ul>:<p className="st-note">제외한 과제가 없어요.</p>}
+     </details>
+    </div>
+    <div className="st-right">
+     <section className="st-block st-col" aria-label="완료 모음" data-testid="section-collection-compact">
+-     <details className="st-zone" open><summary><span className="st-eye">완료 모음 · {col.length}개</span></summary>
+-      {col.length?<ul className="st-tags">{col.slice(-5).reverse().map(c=>tag(c))}</ul>:<p className="st-note">실행을 마치고 '마쳤어요'를 고르면 여기에 모여요.</p>}
++     <details className="st-zone" open><summary><span className="st-eye">해낸 일 · 내 컬렉션 · {col.length}개</span></summary>
++      <div className="st-bin">{col.length?<ul className="st-tags st-stack">{col.slice(-5).reverse().map(c=>tag(c))}</ul>:<p className="st-note">실행을 마치고 '마쳤어요'를 고르면 여기에 모여요.</p>}</div>
+       {col.length>5&&<p className="st-note">전체는 돌아보기 화면에서 볼 수 있어요.</p>}
+      </details>
+     </section>
+-    <details className="st-drawer st-archive" data-testid="drawer-archive"><summary>보관함 · {arc.length}개</summary>
++    <details className="st-drawer st-archive" data-testid="drawer-archive" open={arc.length>0||undefined}><summary>보관함 · 다음에 이어가기 · {arc.length}개</summary>
+      <p className="st-note">보관해도 목표·범위·단계·타이머 기록은 그대로 남아요.</p>
+-     {arc.length?<ul className="st-tags">{arc.map(c=>tag(c))}</ul>:<p className="st-note">보관한 과제가 없어요.</p>}
++     {arc.length?<ul className="st-tags st-stack">{arc.map(c=>tag(c))}</ul>:<p className="st-note">보관한 과제가 없어요.</p>}
+     </details>
+    </div>
+   </div>
++  <section className="st-capshelf" aria-label="오늘의 시간 선반" data-testid="section-capacity-shelf">
++   <p className="st-eye">오늘의 시간 선반 · 사용 가능 {cap.available}분</p>
++   <div className="st-cap" role="img" aria-label={`완료 ${cap.done}분, 예정 ${cap.pending}분, 빈 시간 ${cap.free}분`}><span className="d" style={{flex:cap.done}}/><span className="p" style={{flex:cap.pending}}/><span style={{flex:cap.free}}/>{cap.over>0&&<span className="o" style={{flex:cap.over}}/>}</div>
++   <p className="st-note" data-testid="text-capacity-shelf">완료 {cap.done}분 · 예정 {cap.pending}분 · 빈 시간 {cap.free}분{cap.over?` · ${cap.over}분 넘침`:''}{cap.unknown?` · 예상 미정 ${cap.unknown}개(합계 제외)`:''} · 기록은 나를 평가하지 않아요.</p>
++  </section>
+  </div>;
+ }
+ 
+@@ -100,12 +114,11 @@ function TagActions({card,state,act,running}:{card:Card;state:PersonalState;act:
+  const [f,setF]=useState({flag:'',nextDate:''});
+  const doArchive=()=>{if(act({type:'studio.archive',cardId:card.id,...(f.flag.trim()&&{flag:f.flag.trim()}),...(f.nextDate&&{nextDate:f.nextDate})})){setArch(false);setF({flag:'',nextDate:''});}};
+  return <div data-testid={`actions-${card.id}`}>
+-  <div className="st-row">
++  <div className="st-row st-acts">
+    {pl.place==='shelf'&&<button className="pm-primary" data-testid={`button-place-${card.id}`} onClick={()=>act({type:'studio.place',cardId:card.id})}>작업대에 올리기</button>}
+    {pl.place==='archive'&&<><button className="pm-primary" data-testid={`button-take-${card.id}`} onClick={()=>act({type:'studio.take',cardId:card.id})}>작업대로 꺼내기</button><button data-testid={`button-keep-${card.id}`} onClick={()=>act({type:'studio.keep',cardId:card.id})}>계속 보관</button></>}
+    {pl.place==='excluded'&&<button className="pm-primary" data-testid={`button-restore-${card.id}`} onClick={()=>act({type:'studio.restore',cardId:card.id})}>되돌리기</button>}
+    {(pl.place==='shelf'||pl.place==='desk')&&<button aria-expanded={arch} data-testid={`button-archive-open-${card.id}`} onClick={()=>setArch(!arch)}>보관하기</button>}
+-   {(pl.place==='shelf'||pl.place==='desk'||pl.place==='archive')&&<button data-testid={`button-exclude-${card.id}`} disabled={running&&pl.place==='desk'} title={running&&pl.place==='desk'?'실행을 먼저 마쳐 주세요':undefined} onClick={()=>act({type:'studio.exclude',cardId:card.id})}>제외 서랍으로</button>}
+   </div>
+   {arch&&<div className="st-src" data-testid={`form-archive-${card.id}`}>
+    {running&&pl.place==='desk'&&<p className="st-note">실행 중이면 잠시 멈춘 뒤 보관해요.</p>}
+@@ -115,7 +128,9 @@ function TagActions({card,state,act,running}:{card:Card;state:PersonalState;act:
+    </div>
+    <div className="st-row"><button className="pm-primary" data-testid={`button-archive-${card.id}`} onClick={doArchive}>보관함에 넣기</button><button data-testid={`button-archive-cancel-${card.id}`} onClick={()=>setArch(false)}>취소</button></div>
+   </div>}
+-  <div className="pm-chips" aria-label="네임택 색">{TONES.map(([t,l])=><button key={t} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className={`st-tag`} style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{l}</button>)}</div>
++  <details className="pm-fold st-moreactions" data-testid={`more-actions-${card.id}`}><summary>더 보기</summary>
++   {(pl.place==='shelf'||pl.place==='desk'||pl.place==='archive')&&<button data-testid={`button-exclude-${card.id}`} disabled={running&&pl.place==='desk'} title={running&&pl.place==='desk'?'실행을 먼저 마쳐 주세요':undefined} onClick={()=>act({type:'studio.exclude',cardId:card.id})}>제외 서랍으로</button>}
++   <p className="st-note">네임택 색 바꾸기</p><div className="pm-chips" aria-label={`${card.title} 네임택 색`}>{TONES.map(([t,l])=><button key={t} aria-label={`${card.title} ${l} 네임택`} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className="st-tag" style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{l}</button>)}</div></details>
+  </div>;
+ }
+ 
+diff --git a/artifacts/nuvia-ui-review/src/studio/model.ts b/artifacts/nuvia-ui-review/src/studio/model.ts
+index facbcdb..c07297f 100644
+--- a/artifacts/nuvia-ui-review/src/studio/model.ts
++++ b/artifacts/nuvia-ui-review/src/studio/model.ts
+@@ -22,4 +22,4 @@ export type Action = StudioAction|InsightsAction
+  |{type:'draft.defer';id:string}
+  |{type:'draft.accept';id:string;conflict?:'keep'|'separate'|'none'}
+  |{type:'split.accept';cardId:string;parts:{date:string;scope:string;minutes:number}[];reason:string}
+- |{type:'review.fixture';scenario:'monthly'|'same-data'};
++ |{type:'review.fixture';scenario:'monthly'|'same-data'|'board'|'empty'};
+diff --git a/artifacts/nuvia-ui-review/src/studio/studio-logic.ts b/artifacts/nuvia-ui-review/src/studio/studio-logic.ts
+index f19fe34..8e1dc80 100644
+--- a/artifacts/nuvia-ui-review/src/studio/studio-logic.ts
++++ b/artifacts/nuvia-ui-review/src/studio/studio-logic.ts
+@@ -31,6 +31,10 @@ export function scheduleProposal(s:PersonalState,day:string,start:string){
+  });
+ }
+ export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOString(),review=false):PersonalState{
++ if(a.type==='review.fixture'&&(a.scenario==='board'||a.scenario==='empty')){
++  if(!review||state.mode!=='review')throw Error('합성 예시는 분리된 검토 공간에서만 불러올 수 있습니다.');
++  return boardFixture(state,at,a.scenario==='empty');
++ }
+  if(a.type==='create'&&a.requestId&&state.studio?.creations?.[a.requestId])return state;
+  let n=structuredClone(state);n.studio??=freshStudio();const d=n.studio,p=student(n),now=Date.parse(at);n.lastSeen=at;
+  const card=(id:string)=>{const c=p.cards.find(c=>c.id===id);if(!c)throw Error('과제를 찾을 수 없습니다.');return c;};
+@@ -118,7 +122,7 @@ export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOStr
+     const cmd=a.command;
+     if(cmd.type==='card.update'&&cmd.changes?.minutes!==undefined)checkMinutes(cmd.changes.minutes);
+     if(cmd.type==='run.start'){
+-     const c=card(cmd.cardId);if(c.status==='done'||placement(n,c.id).place!=='desk')throw Error('먼저 이 과제를 작업대에 올려 주세요. 꺼내기만으로는 시작되지 않습니다.');
++     const c=card(cmd.cardId);if(c.status==='done'||placement(n,c.id).place!=='desk'||d.deskId!==c.id)throw Error('먼저 이 과제를 작업대에 올려 주세요. 꺼내기만으로는 시작되지 않습니다.');
+     }
+     if(cmd.type==='run.resume'){const r=p.runs.find(r=>r.id===cmd.runId);if(!r||placement(n,r.cardId).place!=='desk')throw Error('보관함에서 작업대로 꺼낸 뒤 이어가세요.');}
+     if(cmd.type==='card.update'&&cmd.changes?.startTime!==undefined&&cmd.changes.startTime!==''&&!validTime(cmd.changes.startTime))throw Error('시작 시각을 확인해 주세요.');
+@@ -175,3 +179,38 @@ export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOStr
+  for(const r of student(n).runs)if(r.budgetMinutes===0&&!(n.studio!.unknownRuns??=[]).includes(r.id))n.studio!.unknownRuns.push(r.id);
+  syncRoadmap(n,at);return n;
+ }
++/** Synthetic review-only scenario. Never loads or transforms personal storage. */
++function boardFixture(previous:PersonalState,at:string,empty:boolean):PersonalState{
++ let s=createStudio(at);s.mode='review';s.workspaceId=previous.workspaceId;s.lab.labId=previous.lab.labId;
++ s.onboarding=true;s.studio!.stageChosen=true;s.lab.students['student-a'].dailyCapacity=90;
++ if(empty)return s;
++ let clock=Date.parse(at)-16*60000;
++ const act=(a:Action)=>{s=updateStudio(s,a,new Date(clock+=1000).toISOString(),true);};
++ const day=localDate(new Date(at)),tomorrow=localDate(new Date(Date.parse(at)+86400000));
++ const make=(title:string,subject:string,minutes:number,date=day,scope='')=>{
++  act({type:'create',title,subject,minutes,date,scope,firstAction:scope?'1번부터 풀기':'자료 한 가지 확인하기',activity:'학습',activityExplicit:true,timeChosen:true,scopeChosen:!!scope});
++  return student(s).cards.at(-1)!.id;
++ };
++ const done=make('단어 복습','영어',15,day,'단어 1~10');
++ act({type:'studio.place',cardId:done});
++ act({type:'legacy',command:{type:'run.start',cardId:done}});
++ clock+=15*60000;
++ const run=student(s).runs.at(-1)!;
++ act({type:'legacy',command:{type:'run.review',runId:run.id}});
++ act({type:'legacy',command:{type:'run.close',runId:run.id,completion:'yes',next:'today'}});
++ const social=make('자료 읽기','사회',10);act({type:'studio.color',cardId:social,tone:'orange'});
++ make('읽을 자료 고르기','국어',20,tomorrow);
++ const science=make('개념 정리','과학',25,tomorrow);
++ act({type:'studio.color',cardId:science,tone:'orange'});
++ act({type:'studio.archive',cardId:science,flag:'3쪽부터'});
++ const history=make('발표 준비','역사',20,tomorrow);
++ act({type:'studio.color',cardId:history,tone:'sky'});
++ act({type:'studio.archive',cardId:history,flag:'자료 확인부터'});
++ const excluded=make('추가 문제 검토','수학',10);
++ act({type:'studio.exclude',cardId:excluded});
++ const desk=make('수학 문제집','수학',25,day,'문제 1~10');
++ act({type:'studio.color',cardId:desk,tone:'purple'});
++ act({type:'legacy',command:{type:'card.update',cardId:desk,changes:{startTime:'19:00'}}});
++ act({type:'studio.place',cardId:desk});
++ return s;
++}
+diff --git a/artifacts/nuvia-ui-review/src/studio/studio.css b/artifacts/nuvia-ui-review/src/studio/studio.css
+index 2849197..43958c0 100644
+--- a/artifacts/nuvia-ui-review/src/studio/studio.css
++++ b/artifacts/nuvia-ui-review/src/studio/studio.css
+@@ -91,3 +91,65 @@ body:has(.st-root){background:var(--ivory,#f7f2e6)}
+ .st-notice .st-tags{grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+ @media (max-width:1100px){.st-zones{grid-template-columns:minmax(240px,1fr) minmax(0,1.6fr);grid-template-areas:"desk desk" "left right"}}
+ @media (max-width:767px){.st-zones{grid-template-columns:1fr;grid-template-areas:"desk" "left" "right"}}
++/* === Final workbench: matte ivory/navy 2.5D === */
++.st-now .st-zones{grid-template-columns:minmax(250px,.9fr) minmax(0,1.6fr) minmax(250px,1fr)}
++.st-now button,.st-now summary,.st-now select,.st-now input{min-height:44px}
++.st-now .st-tag,.st-now .st-curfile,.st-now .st-block{transition:transform 180ms ease,box-shadow 180ms ease}
++.st-now .st-tag{background:var(--paper);border:1px solid var(--rule);border-bottom:4px solid #d9cfb8;box-shadow:3px 3px 0 #e6dcc4}
++.st-now .st-tag:hover,.st-now .st-tag:focus-within{transform:translateY(-3px)}
++.st-now .st-tag[data-sel=true]{transform:translate(-2px,-4px);box-shadow:5px 6px 0 #cfc3a6}
++.st-stack{gap:10px}
++.st-shelf{background:#efe5cc!important;border-bottom:8px solid #d3c39c!important}
++.st-desk.desk{background:#1b2c4f!important;border:1px solid #0e1c36!important;border-bottom:10px solid #0b1730!important;box-shadow:8px 8px 0 #c9bea4!important}
++.st-desk-head{display:flex;align-items:center;justify-content:space-between;background:transparent}
++.st-desk-body{background:transparent;padding:6px 22px 26px}
++.st-curfile{position:relative;background:var(--paper);border-radius:14px;padding:18px 20px;border:1px solid #d9cfb8;border-bottom:6px solid #e0d6bf;box-shadow:6px 6px 0 #e9e0cb,12px 12px 0 #0f1e3a}
++.st-curfile::before{content:'';position:absolute;inset:-8px 10px auto 10px;height:8px;border-radius:8px 8px 0 0;background:#efe7d3;border:1px solid #d9cfb8;border-bottom:0}
++.st-curfile.empty{min-height:220px;display:grid;place-items:center;text-align:center}
++.st-cur-top{display:flex;gap:16px;align-items:flex-start;margin-bottom:8px}
++.st-cur-top h2{font-size:28px;line-height:1.2;color:var(--ink);overflow-wrap:anywhere;margin:0}
++.st-curfile .st-desk-meta{color:var(--mute);font-size:15px;margin-top:4px}
++.st-subj{display:block;font-size:14px;font-weight:700;color:var(--ink2);letter-spacing:.02em}
++.st-ico3{flex:none;width:56px;height:64px;border-radius:6px 10px 10px 6px;display:grid;place-items:center;border-left:8px solid rgba(19,35,63,.28);box-shadow:4px 4px 0 rgba(19,35,63,.18)}
++.st-ico3 svg{width:30px;height:30px;color:var(--paper);stroke:var(--paper)}
++.st-ico3.blue{background:var(--t-blue)}.st-ico3.purple{background:var(--t-purple)}.st-ico3.orange{background:var(--t-orange)}.st-ico3.sky{background:var(--t-sky)}
++.st-run-in{background:#eef1f7!important;color:var(--ink)!important;border:1px solid #c5cee0;border-radius:12px;margin:10px 0;padding:12px 14px}
++.st-run-in .pm-now-title{color:var(--ink)!important;font-size:20px}.st-run-in .st-run-task{color:var(--mute)!important}
++.st-run-in .pm-timer{color:var(--ink)!important;font-size:30px;font-variant-numeric:tabular-nums}
++.st-run-in .pm-eye{color:var(--ink2)!important}
++.st-start{width:100%;margin-top:12px;background:#c86a1c!important;border-color:#a8560f!important;color:#fffaf0!important;box-shadow:0 4px 0 #8a4a10}
++.st-start:disabled{background:#d9d2c3!important;border-color:#c4bba8!important;color:var(--ink2)!important;box-shadow:none}
++.st-acts{margin-top:12px}
++.st-col{background:#fbf7ec!important}
++.st-bin{background:#1b2c4f;border-radius:10px;padding:10px 10px 4px;border-bottom:10px solid #0f1e3a}
++.st-bin .st-note{color:#dfe5f0}
++.st-archive{background:#e8e2f3!important;border:1px solid #c9bfe0!important;border-bottom:8px solid #b9add6!important;border-radius:14px!important;padding:10px 14px!important}
++.st-excl{background:#e4e1da!important;border-style:solid!important;border-bottom:6px solid #c9c3b6!important}
++.st-addfold>summary{border:2px solid var(--t-blue);border-radius:10px;justify-content:center;color:var(--t-blue);font-weight:800;display:flex;align-items:center;margin-top:12px}
++.st-capshelf{margin:18px 0 8px;background:var(--paper);border:1px solid var(--rule);border-bottom:8px solid #d3c39c;border-radius:14px;padding:12px 16px}
++.st-capshelf .st-cap{height:18px}.st-capshelf .st-cap .d{background:#d98a2b}.st-capshelf .st-cap .p{background:var(--t-blue)}
++@media (max-width:1100px){.st-now .st-zones{grid-template-columns:1fr 1fr}}
++@media (max-width:767px){.st-now .st-zones{grid-template-columns:1fr}.st-desk-body{padding:4px 10px 18px}.st-cur-top h2{font-size:24px}.st-curfile{box-shadow:4px 4px 0 #e9e0cb,8px 8px 0 #0f1e3a}}
++@media (prefers-reduced-motion:reduce){.st-now .st-tag,.st-now .st-tag[data-sel=true],.st-now .st-tag:hover{transform:none!important}}
++.st-current-action{margin:14px 0 6px;background:#eee8dc;border-radius:8px;padding:10px 14px}.st-current-action small{font-size:13px;color:#485770}.st-current-action p{font-weight:800;font-size:19px;margin:4px 0;overflow-wrap:anywhere}
++.st-review-console{margin:8px 0;font-size:14px}.st-review-console>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:700;color:#5d507c}.st-editor>summary{font-weight:800;cursor:pointer}
++.st-root [data-testid="assessment-status"]{padding:10px 14px;font-size:13px;margin:8px 0;background:#f4efe4}.st-root [data-testid="assessment-status"] .pm-chips{margin:5px 0;gap:6px}.st-root [data-testid="assessment-status"] .pm-note{font-size:12px;line-height:1.5}.st-root .pm-guide{padding:10px 14px;margin:8px 0}.st-root .st-head{padding-bottom:12px}
++.st-root{max-width:1400px}.st-title-group h1{font-size:40px;line-height:1.15;margin:16px 0 4px}.st-title-group>p{font-size:15px;margin:0;color:#455570}.st-brand b{font-size:22px}.st-brand small{font-size:14px;font-weight:800;letter-spacing:0}.st-brand img{width:22px;height:22px}.st-root>.review{padding:4px 10px;font-size:12px;margin:0 0 8px}.st-source-details>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-size:12px}.st-root .st-curfile .pm-detail{border:0;padding:0;box-shadow:none;background:transparent}.st-root .st-curfile .pm-detail:before{display:none}.st-curfile .st-acts{gap:8px}.st-curfile .st-acts>button{flex:1}.st-root .st-now{padding-top:0}
++@media(max-width:767px){.st-title-group h1{font-size:30px;margin:10px 0 3px}.st-brand b{font-size:19px}.st-brand small{font-size:12px}.st-head{gap:4px;align-items:center}.st-link{font-size:12px}.st-title-group>p{font-size:13px}.st-review-console{margin:0}.st-root [data-testid="assessment-status"]{padding:7px 10px}.st-root .st-curfile{padding:14px 12px}.st-desk.desk{padding:10px}.st-root .st-desk-head{padding:8px 4px 14px}.st-root .st-curfile .pm-detail{margin-top:10px}.st-cur-top{gap:10px}.st-ico3{width:44px;height:52px}.st-cur-top h2{font-size:24px}.st-root .st-source-details>summary{min-height:44px}.st-root .st-curfile .st-note{font-size:12px}}
++.st-curfile{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
++.st-curfile>.st-cur-top,.st-curfile>.st-run-in,.st-curfile>.st-note,.st-curfile .st-current-action{grid-column:1/-1}
++.st-root .st-curfile .pm-detail,.st-curfile>[data-testid^="actions-"]{display:contents}
++.st-curfile .st-start{grid-column:1;margin:0!important;min-height:44px;padding:10px 6px!important}
++.st-curfile .st-editor{grid-column:2;margin:0!important;padding:0 8px!important}
++.st-curfile .st-editor>summary{min-height:44px;display:flex;align-items:center;justify-content:center}
++.st-curfile .st-editor[open]{grid-column:1/-1;grid-row:auto}
++.st-curfile .st-acts{grid-column:3;margin:0}.st-curfile .st-acts button{width:100%;min-height:44px;padding:10px 5px!important}
++.st-curfile .st-src,.st-curfile .st-moreactions{grid-column:1/-1;margin:0!important}
++.st-moreactions>summary{min-height:44px;display:flex;align-items:center;cursor:pointer}
++[data-testid="text-desk-title"]{scroll-margin-block-start:88px;outline-offset:6px}
++[data-testid="text-desk-title"]:focus-visible{outline:3px solid #f5a02b;border-radius:4px}
++.st-subject-symbol{display:grid;place-items:center;width:100%;height:100%;color:#2f5fb8}
++.st-subject-symbol svg{width:22px;height:22px;stroke:currentColor}
++.st-subject-symbol.subject-math{color:#7049ad}.st-subject-symbol.subject-science{color:#c06424}.st-subject-symbol.subject-history{color:#287d76}
++.st-subject-symbol.subject-life{color:#ad5e1f}.st-subject-symbol.subject-work{color:#356587}
++.st-ico3 .st-subject-symbol{color:#fff9ed}.st-ico3 .st-subject-symbol svg{width:32px;height:32px;stroke:currentColor}
+diff --git a/tools/nuvia-studio/TRANSLATION_REVIEW.md b/tools/nuvia-studio/TRANSLATION_REVIEW.md
+index 71d1b22..ae7ec03 100644
+--- a/tools/nuvia-studio/TRANSLATION_REVIEW.md
++++ b/tools/nuvia-studio/TRANSLATION_REVIEW.md
+@@ -16,6 +16,9 @@
+ |근거 확인|최초는 미확인 / 원본이 바뀜 / 원본 연결 끊김 / 재확인 / 원본 과제 열기|미검수|
+ |문장·공유|이 문장의 근거 활동 보기 / 본인 확인 / 문장 선택 / 공유 전 미리보기|미검수|
+ |정리형 초안 한계|생성형 AI 미연결 / 외부 검증 아님 / 민감 메모 제외 / 사실 추정 안 함|미검수|
++|최종 작업대·편집|지금 할 한 가지 / 수정 · 방법과 세부 내용 / 검사 출처·연결 안내 / 잠시 멈춘 과제|미검수|
++|분리 예시|승인 이미지 작업대 예시 / 빈 작업대 확인 / 합성 예시·검토 설정|검토 화면 전용·미검수|
++|추가 직접 QA 반영|보관된 과제 / 작업대로 꺼내기 / 더 보기 / 과제명 포함 수정·색 선택 접근성 이름|미검수|
+ |인쇄|인쇄용 문서 열기 / 새 탭에서 브라우저 인쇄|미검수|
+ 
+ 실행한 범위: 360px·RTL 방향·긴 한국어 과제·언어 변경 후 저장 카드와 실행 유지, reduced-motion.
+diff --git a/tools/nuvia-studio/activity-browser.mjs b/tools/nuvia-studio/activity-browser.mjs
+index bdf9664..1ffd433 100644
+--- a/tools/nuvia-studio/activity-browser.mjs
++++ b/tools/nuvia-studio/activity-browser.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict';
+ import fs from 'node:fs';
+-import {browser,sleep} from '../nuvia-enhancement/browser-lib.mjs';
++import {browser,sleep} from './browser-lib.mjs';
+ const b=await browser(9462),origin=`https://${process.env.REPLIT_DEV_DOMAIN}`,key='nuvia:studio:v1:review';
+ let count=0;const ok=(x,l)=>{assert(x,l);count++;console.log('PASS',l);},t=id=>`[data-testid="${id}"]`;
+ const state=()=>b.run(`JSON.parse(localStorage.getItem(${JSON.stringify(key)}))`),person=s=>s.lab.students['student-a'];
+diff --git a/tools/nuvia-studio/browser.mjs b/tools/nuvia-studio/browser.mjs
+index e7945b6..abe4dd4 100644
+--- a/tools/nuvia-studio/browser.mjs
++++ b/tools/nuvia-studio/browser.mjs
+@@ -1,7 +1,7 @@
+ import assert from 'node:assert/strict';
+ import fs from 'node:fs';
+ import path from 'node:path';
+-import {browser} from '../nuvia-enhancement/browser-lib.mjs';
++import {browser} from './browser-lib.mjs';
+ const b=await browser(9461),origin=`https://${process.env.REPLIT_DEV_DOMAIN}`,key='nuvia:studio:v1:personal';
+ let checks=0;
+ const ok=(v,label)=>{assert(v,label);checks++;console.log('PASS',label);},t=id=>`[data-testid="${id}"]`;
+diff --git a/tools/nuvia-studio/task-add-browser.mjs b/tools/nuvia-studio/task-add-browser.mjs
+index 4cb3cbc..37cab61 100644
+--- a/tools/nuvia-studio/task-add-browser.mjs
++++ b/tools/nuvia-studio/task-add-browser.mjs
+@@ -1,6 +1,6 @@
+ import assert from 'node:assert/strict';
+ import fs from 'node:fs';
+-import {browser,sleep} from '../nuvia-enhancement/browser-lib.mjs';
++import {browser,sleep} from './browser-lib.mjs';
+ const b=await browser(9467),origin=`https://${process.env.REPLIT_DEV_DOMAIN}`,key='nuvia:studio:v1:personal';
+ let count=0;const t=id=>`[data-testid="${id}"]`;
+ const ok=(v,label)=>{assert(v,label);count++;console.log('PASS',label);};
+diff --git a/tools/nuvia-studio/task-add-check.ts b/tools/nuvia-studio/task-add-check.ts
+index 09beaae..b1d820a 100644
+--- a/tools/nuvia-studio/task-add-check.ts
++++ b/tools/nuvia-studio/task-add-check.ts
+@@ -1,7 +1,7 @@
+ import assert from 'node:assert/strict';
+ import fs from 'node:fs';
+ import {createStudio,updateStudio,studioCapacity,scheduleProposal} from '../../artifacts/nuvia-ui-review/src/studio/studio-logic';
+-import {student,localDate} from '../../artifacts/nuvia-ui-review/src/studio/domain';
++import {student,localDate,createState,update} from '../../artifacts/nuvia-ui-review/src/studio/domain';
+ import {validate,exportBackup,importBackup} from '../../artifacts/nuvia-ui-review/src/studio/persistence';
+ import {executionFacts} from '../../artifacts/nuvia-ui-review/src/studio/insights';
+ import {reportHTML} from '../../artifacts/nuvia-ui-review/src/studio/report';
+@@ -74,7 +74,7 @@ cmd({type:'card.move',cardId:b,direction:-1});
+ ok(p().cards.find(c=>c.id===a)!.startTime==='09:00'&&p().cards.find(c=>c.id===b)!.startTime==='10:00','reorder with unknown preserves explicit times');
+ ok(scheduleProposal(s,localDate(new Date(at())),'08:00').length===0,'no invented automatic schedule');
+ const before=JSON.stringify(s);assert.throws(()=>updateStudio(s,{type:'studio.editPlan',cardId:a,minutes:-1,changes:{title:'바뀌면 안 됨'}}));ok(before===JSON.stringify(s),'invalid compound edit atomic');
+-const old=JSON.parse(fs.readFileSync('generated-artifacts/nuvia-task-add/old-browser-state.json','utf8'));const saved=JSON.stringify(old.lab);validate(old);ok(saved===JSON.stringify(old.lab),'previous positive records not converted');
++const old=update(createState(at()),{type:'create',title:'이전 형식 합성 과제',minutes:25},at());const saved=JSON.stringify(old.lab);validate(old);ok(saved===JSON.stringify(old.lab),'legacy-shaped positive records without studio metadata not converted');
+ fs.mkdirSync('generated-artifacts/nuvia-task-add',{recursive:true});
+ console.log(`PASS task-add ${count} checks: four areas/unknown canonical/elapsed/pause/monthly/roadmap/backup/default proof/dedup/reuse/timed choices/repeat/order/previous records.`);
+ }
+diff --git a/artifacts/nuvia-ui-review/docs/FINAL_QA.md b/artifacts/nuvia-ui-review/docs/FINAL_QA.md
+new file mode 100644
+index 0000000..f939609
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/docs/FINAL_QA.md
+@@ -0,0 +1,47 @@
++# 최종 작업대 검수·시각 비교
++
++## 반영표
++|요구|반영/근거|상태|
++|---|---|---|
++|승인 이미지의 작업대|왼쪽 선반/제외 서랍, 가장 큰 네이비 중앙 받침·겹친 현재 파일, 오른쪽 컬렉션/라벤더 보관함, 아래 시간 선반|작동|
++|네임택|실제 과목·제목·상태·시간, 종이층/측면/앞턱, 긴 제목과 다수 항목 전체 읽기·선택|작동|
++|기본 작업과 수정 분리|현재 행동·시작·수정·보관 우선, 긴 입력/목표/도움/세부정보는 선택 펼침|작동|
++|타이머 통합|같은 과제 파일에 실행/멈춤/복귀/종료. 작업대 ID와 시작 카드 검증, run.cardId 연결|작동|
++|최소 입력·미정 시간|영역·선택 과목·10/25/45/직접/미정, 미정은 합계 제외·경과 실행, 일시정지 시간 제외|작동|
++|개인화|81조합을 5활동·4강점도움으로 연결, 실제 행동+종료에만 순환, 기본값/바로시작만으로 수행 인정 안 함|합성 검수|
++|월간/초안/로드맵|분모/근거/경계값/반복수락, 실제 기록의 근거 연결·재확인·선택 출력 유지|작동·개발검수|
++|7일 접속 안내|한 번 안내/묶음/미래 날짜/계속 보관/설정/새로고침 억제|로직+기존 브라우저 회귀|
++|합성 예시|검토 모드에서 확인 후 교체, 개인 저장 키 불변, 정상/실행/보관/완료/빈 화면 캡처|작동|
++|번역/접근성|기존 번역 보존, 언어 전환 상태 유지, 44px·키보드·reduced-motion·인쇄|한국어 검수, 새 번역 미완료|
++|결과지/인증/동기화|미연결 상태와 출처/단위 표시; 로컬 계약 입력만 제공|실제 서버 필요|
++
++## 실행한 검사
++- 핵심 로직: **1,392 assertions 통과**. 81조합의 목표/강점, 두 순환, 실제 행동근거, 한실행, 보관/복귀, 7일 경계, 시간 선반, 로드맵 근거/선택/백업 포함.
++- 최소 계획 로직: **48 checks 통과**. 미정 시간, 중복 생성, 기본값 증거 배제, 미정 반복/다음블록/예상비교 제외, 백업/복원. 이전 형식 양수시간 데이터는 테스트 안의 합성 fixture로 검증하며 실제 사용자 백업을 포함하지 않음.
++- 기존 작업대 실제 Chromium 클릭: **43 checks 통과**.
++- 최소 입력 실제 Chromium 클릭: **41 checks 통과**.
++- 5활동·중/고/성인·리포트·실제 PDF 인쇄: **29 checks 통과**.
++- 최종 승인 예시 실제 Chromium: **24 checks 통과**. 1440/768/360 넘침, 타이머 카드 통합, 자기 paused/보관 문구, 빈 보관 입력의 기존 깃발·시간 보존, 360px 클릭/키보드 배치·복귀 포커스/스크롤, 3주요 조작/더보기, 과목 아이콘, 개인 저장 분리, 시간합계, reduced-motion, 빈 화면/추가 폼.
++- 타입 검사 / Vite production build: 통과. 빌드는 배포가 아님.
++- 최종 전체 소스 ZIP을 별도 임시 폴더에 새로 풀어 **pnpm frozen-lockfile 오프라인 설치 → 루트 build(타입 검사 포함)**도 통과. ZIP CRC·금지 경로 제외·파일 SHA256 목록 검증 통과.
++- 별도 브라우저 검수: 합성 한 여정에서 실행→멈춤→보관→새로고침→꺼내기→복귀→수동완료, 미정 경과타이머, 360px 키보드/취소·가독성, 콘솔 오류 없음.
++- 그 검수에서 발견한 자기 보관 과제의 “다른 과제” 안내는 수정했고, 최종 Chromium의 전용 assertion으로 재확인. 두 번째 전체 검수는 실행하지 않음.
++- 사용자 추가 QA의 네 항목을 반영: 빈 작업대/같은 보관 과제는 보관 실행 안내와 직접 복귀 버튼, 실제 다른 desk만 “다른 과제”; 360px 배치/복귀 뒤 제목 포커스·스크롤(reduced-motion 존중); 시작/수정/보관 3조작과 더보기 안 제외·색; 과목별 퍼플 책/플라스크/건물 표찰. 추가 클릭·키보드·포커스·보관 깃발 유지 검사를 별도로 수행.
++- 보존 영역 `official`, 이전 개인 월간, enhancement 및 API 서버 소스는 시작 기준 대비 불변 확인.
++
++## 이미지와의 차이·한계
++- 승인 이미지의 큰 공간 구조, 무광 파일층/측면/받침, 전면 글자, 과목 네임택은 실제 DOM으로 구현. 이미지를 앱 배경으로 덮지 않음.
++- 점수 숫자는 이미지대로 복사하지 않음. 실제 서버가 없으므로 미연결 상태이며 합성 검사를 명시 선택해야만 예시값 표시.
++- 접근성/긴 제목과 상세 수정 때문에 원본 이미지보다 카드/버튼 간격이 넓고 세로 스크롤이 길다. 모바일은 현재 작업이 먼저이며 선반/컬렉션/보관함은 아래로 이어진다.
++- 임시 Replit 개발 배너와 검토 전용 안내가 캡처에 보일 수 있음. 운영 제품의 시각 요소가 아님.
++- 전문 3D 모델이 아니라 CSS의 얕은 책/종이/받침 표현. 실제 기능 UI이며 생성 이미지 대체가 아님.
++
++## 남은 사항 — 전체 통과로 해석 금지
++- 보존한 기준본의 과거 **4건 테스트 기대값 불일치**는 이번에 수정/재실행하지 않음. 기존 보고 분류: 점수 단위 혼합 1건, 계획/주의 시작 조건 기대 2건, 다단계 시작 비활성 기대 1건. 현 작업대에서 PASS 증거와 항상 시작 가능 정책을 별도로 검사했지만 이를 기준본 전체 통과로 바꾸지 않음.
++- **사용자 확인 결과:** GitHub `811609f`는 사용자가 직접 Vitest **262개**, tsc, build 통과를 확인했다고 전달함. 이는 위 Replit 구형 기준본 4건과 별개이며, 이 에이전트가 원격을 받아 재실행하거나 이번 패치와 통합검증한 결과는 아님.
++- 실제 서버/인증/학생 소유권/교사 권한/기기 동기화/공식 81유형별 해석표 미연결. 공식 통합 및 보안 QA 미실시.
++- 신규 한국어 문구의 영어/크메르어/아랍어 전문 번역·원어민 검수는 미완료. 언어 전환/RTL 및 기존 상태 보존 검사는 번역 완성을 뜻하지 않음.
++- 별도 `personal-monthly.html`은 별도 저장 공간. 작업대 리포트는 **작업대의 리포트 메뉴**로 확인하며 이전 화면과 자동 서버 동기화되지 않음.
++- 운영 OS 알림·실제 HISTORY 서버·독립 검사 검증은 이번 신규 구현/검수 범위가 아님.
++- 실제 학생 독립 사용성 시험·4주 추적·인지 향상 효과 연구 없음.
++- 마지막 수정 후 확인 범위에서 실행불가/데이터손실/핵심 P0·P1 오류는 발견되지 않음. 정식 제품 전체에 오류가 없다는 보장은 아님.
+diff --git a/artifacts/nuvia-ui-review/docs/RESULT_INTEGRATION.md b/artifacts/nuvia-ui-review/docs/RESULT_INTEGRATION.md
+new file mode 100644
+index 0000000..d17e462
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/docs/RESULT_INTEGRATION.md
+@@ -0,0 +1,76 @@
++# 결과지 연동 개발자 지시서
++
++## 현재 상태와 금지 사항
++- 이 ZIP은 **Replit의 분리된 검토 앱 전체 소스**입니다. GitHub 정식 플래너 전체 저장소의 최신 사본이라고 주장하지 않습니다.
++- 실제 결과지 서버, 로그인, 학생 소유권, 교사 권한, 기기 간 동기화는 **미연결**입니다. 검토용 JSON 입력은 인증된 서버 결과가 아닙니다.
++- 사용자 제시 원격 기준: `feelgood-app`의 `codex/recover-planner-dcas81`, `811609f`. 이 원격 코드 및 과거 `defa19d`와의 호환성을 이번 작업에서 확인하지 않았습니다.
++- 사용자는 `811609f`에서 Vitest262개/tsc/build 직접 통과를 확인했습니다. 이 결과를 Replit 구형 4건 불일치와 혼합하지 마세요. 이번 검토 패치와 원격의 결합 호환성은 별도 확인 대상입니다.
++- 공식 결과지/D-CAS/다른 프로그램/서버 계약을 변경하지 않았습니다. main 병합·push·운영 배포도 하지 않았습니다.
++
++## 실제 코드의 연결 지점
++1. 검토 UI: `src/studio/AssessmentPanel.tsx`. 명시적 검토 모드에서만 예시 또는 JSON을 선택합니다.
++2. 로컬 수신 어댑터: `src/studio/insights.ts`의 `installAssessment`, 명령 `assessment.input`. `testKind`, `testDate`, `assessment`를 받습니다.
++3. 형식 검증: 기존 `src/official/adaptive/engine.ts`의 `validateAssessment`. **이 파일을 임의 절단점/새 유형표로 교체하지 마세요.**
++4. 개인화 경로: `src/enhancement/domain.ts`의 `routeFor`와 기존 공식 엔진. 공식 수준과 지원/강점 순서를 사용하며 점수에서 수준을 다시 계산하지 않습니다.
++5. 로컬 저장: `src/studio/store.ts`, `persistence.ts`. `nuvia:studio:v1:personal`과 `nuvia:studio:v1:review`는 분리됩니다.
++
++실제 HTTP endpoint/URL, 요청 인증 헤더, 서버 DB 스키마와 서버 저장 API는 현재 없습니다. 아래 로컬 계약을 곧바로 운영 API라고 사용하지 마세요. 담당 개발자가 최신 서비스 계약을 확인한 후 별도 인증된 어댑터를 구현해야 합니다.
++
++## 합성 입력 예제 — 실제 검사 결과가 아님
++```json
++{
++  "testKind": "K-PASS 합성 계약 예시",
++  "testDate": "2026-10-01",
++  "assessment": {
++    "schemaVersion": "1.1",
++    "assessmentId": "synthetic-exam-001",
++    "subjectId": "synthetic-owner-001",
++    "profileVersion": "example-only-1",
++    "educationStage": "middle",
++    "scoreSystem": {
++      "instrument": "kpass",
++      "metric": "standard_score",
++      "label": "합성 예시 · 표준점수",
++      "interpretationVersion": "example-not-official-type-table"
++    },
++    "supportOrder": ["planning"],
++    "strengthOrder": ["simultaneous"],
++    "axes": {
++      "planning": {"level": "low", "value": 88, "unit": "표준점수"},
++      "attention": {"level": "mid", "value": 101, "unit": "표준점수"},
++      "simultaneous": {"level": "high", "value": 115, "unit": "표준점수"},
++      "successive": {"level": "mid", "value": 103, "unit": "표준점수"}
++    }
++  }
++}
++```
++검토 화면에서 이 JSON을 입력하면 **로컬 계약 입력·서버 검증 아님**으로 표시됩니다. 예시 버튼은 **합성 예시**로 구분합니다. 기본 화면은 점수 없이 **미연결**입니다.
++
++## 형식·단위·순서 검증
++- 네 축은 `planning`, `attention`, `simultaneous`, `successive`; 공식 수준은 `low/mid/high`입니다.
++- `assessmentId`, `subjectId`, `profileVersion`은 비어 있지 않은 문자열(최대 160자). 이것은 형식 검사일 뿐 **소유자 인증이 아닙니다**.
++- 신규 로컬 수신은 `1.1`과 네 영역 표시값/동일 단위 및 점수 체계를 요구합니다. 기존 `1.0` 계약은 그대로 보존합니다.
++- K-PASS는 `standard_score` 또는 `percentile`, D-CAS는 `accuracy_rate`입니다. D-CAS 1.1은 네 영역 `%`가 필요합니다. 표준점수를 정답률과 섞지 않습니다. 표준점수 로컬 수신 허용 단위는 `표준점수/SS/점/standard_score`, 백분위는 `백분위/PR/percentile/%`입니다.
++- `supportOrder`, `strengthOrder`는 축 이름 배열이며 중복/알 수 없는 축을 거절합니다. 여러 하 영역의 순서가 불충분하면 확정된 공식 순환 근거로 취급하지 않습니다. 누락 순서를 임의 점수순으로 보충하지 마세요.
++- `educationStage` 계약은 `elementary_1_3/elementary_4_6/middle/high/adult`; 이번 신규 진입/검수는 `middle/high/adult`입니다. 연령을 검사값으로 추측하지 않습니다.
++- 외부 81유형별 해석표와 매핑된 상태가 아닙니다. 네 영역 상중하의 `3^4=81` 조합에 5종 실제 목표활동과 4종 강점도움을 조합합니다. 외부 유형 코드/해석은 원본 계약과 대응표를 받은 뒤 검증하며 만들어 넣지 않습니다.
++- 현재 로컬 어댑터는 원본 식별정보를 `insights.source/sources`에 보존하되 **합성 실행 공간 내부**의 검사 ID/학생 ID를 정규화합니다. 이 시연용 정규화를 운영 사용자 ID 매핑으로 사용하면 안 됩니다. 재검 수신은 이전 출처/이력을 보존하고 진행 실행이 있으면 거절합니다.
++
++## 실제 서버 연결 전 합의해야 할 항목
++아래는 **필요 사항이며 현재 구현된 API 계약이 아닙니다**.
++1. 인증된 사용자↔학생 소유권↔검사 ID 연결, 검사기관/프로필/해석 버전과 데이터 출처.
++2. 결과 조회 endpoint 및 서버 검증, 권한 없는 검사 ID 조회 차단, 교사 공유 범위와 철회.
++3. 서버의 공식 분류/지원순서/강점순서와 전달값 불일치 시 저장 전 중단·안내. 점수에서 재분류하지 않기.
++4. 검사 수신과 활동 로그 저장의 버전 및 별도 이력; 검사값은 활동률로 변경 금지.
++5. 사용자별 저장 API, 안정적인 카드/실행/회차 ID와 멱등성 키, 중복 재전송 방지.
++6. 로컬-서버 충돌 시 선택/재시도와 버전 충돌 응답; 조용한 덮어쓰기 금지. 오프라인 실행은 마지막 확인 시각에서 멈추고 재확인.
++7. 미연결/401·403/유효하지 않은 결과/버전 충돌/타임아웃을 구분. 통신 실패를 0점·실패·0%로 바꾸지 않기.
++8. 개인 메모/생각 보관함/전체 검사값 자동 공유 금지. 개인 백업과 읽기용 선택 리포트 구분.
++
++## 통합 QA 체크리스트
++- 실제/합성/미연결/미확인 출처 표시, 검사종류·날짜·4값·단위·공식 수준 일치.
++- 상중하 81조합, 복수하 순서, 모두하/하없음/동률/순서없음/무효 입력; 실제 필수 행동+실행 종료에만 회차 순환.
++- 인증된 다른 학생 검사/백업 거절, 공유 전 미리보기·철회, 권한 우회 차단(현재 미검증).
++- 최신 공식 결과지와 유형 식별정보 불일치 시 중단. 지원 선택은 공식 검사값을 변경하지 않기.
++- 중단/복귀/시간미정/중복실행/재전송/월경계/목표정정/복원/중복 초안승인 및 다국어 상태 보존.
++- 정식 서버와 결합 후 별도 통합·보안 QA가 필요합니다. 이번 합성 브라우저 QA로 대신할 수 없습니다.
+diff --git a/artifacts/nuvia-ui-review/docs/RUN_AND_APPLY.md b/artifacts/nuvia-ui-review/docs/RUN_AND_APPLY.md
+new file mode 100644
+index 0000000..1368199
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/docs/RUN_AND_APPLY.md
+@@ -0,0 +1,46 @@
++# 전체 소스 실행·안전 적용·복구 안내
++
++## ZIP의 범위
++검토 앱의 모든 진입 화면(`studio`, `personal-monthly`, `enhancement`, 기존 비교/기준 화면), 소스, 브랜드 리소스, Vite/TypeScript 설정, package.json, pnpm workspace/lockfile, 필요한 API client 라이브러리, 검사용 도구, 승인 이미지 참고자료를 포함합니다. node_modules/.git/환경 비밀키/브라우저 사용자 저장내용/운영 DB/학생자료는 포함하지 않습니다. 정식 GitHub 전체 저장소를 대체하는 ZIP이 아닙니다.
++
++ZIP 최상위 package 스크립트와 TypeScript 참조만 독립 검토 앱 범위에 맞춰 구성합니다. Replit의 원래 루트 설정 파일은 변경하지 않습니다. 의존성 버전과 lockfile은 보존합니다.
++
++## 로컬 재현
++필요: Node.js 24 이상, pnpm 10 이상(이 환경의 lockfile을 사용), 브라우저.
++```sh
++pnpm install --frozen-lockfile
++pnpm --filter @workspace/api-client-react exec tsc --build
++pnpm --filter @workspace/nuvia-ui-review typecheck
++PORT=3000 BASE_PATH=/ pnpm --filter @workspace/nuvia-ui-review build
++PORT=3000 BASE_PATH=/ pnpm --filter @workspace/nuvia-ui-review dev
++```
++- 개인 화면: `http://localhost:3000/studio.html`
++- 합성 검토: `http://localhost:3000/studio.html?review=1`
++- 합성 예시: **합성 예시·검토 설정 → 승인 이미지 작업대 예시 → 바꾸기**. 이 경로는 개인 저장 키를 바꾸지 않습니다.
++- 세부 수정과 목표 연습: 작업대의 **수정 · 방법과 세부 내용**을 펼칩니다. 선택/이동은 시작이 아니며 **바로 시작**을 눌러야 실행됩니다.
++- `BASE_PATH`는 앱 마운트 경로입니다. 하위 경로에 호스팅할 경우 Vite와 프록시 경로를 일치시키세요. 임시 Replit 미리보기는 워크플로가 종료되면 열리지 않을 수 있습니다.
++- 도메인/서버/인증 환경변수를 임의로 만들어 넣지 마세요. 이 앱은 로컬 브라우저 저장 시연입니다.
++
++## 검수 도구
++- `tools/nuvia-studio/check.ts`: 81조합/근거/순환/7일안내/로드맵/백업 핵심 로직.
++- `task-add-check.ts`: 최소 입력/미정 시간/증거/반복·재사용.
++- `final-browser.mjs`, `browser.mjs`, `activity-browser.mjs`, `task-add-browser.mjs`: 실제 Chromium 클릭 회귀. Chromium 실행파일이 PATH에 필요합니다. `REPLIT_DEV_DOMAIN`을 지정하거나 해당 도구의 origin을 로컬 검토 서버로 맞추세요. 테스트는 새 임시 브라우저 프로필만 사용합니다.
++- `node tools/nuvia-studio/run-core.mjs`로 핵심 TypeScript 검사를 번들해 실행합니다.
++- 일부 기존 보관 fixture 의존 도구는 이전 산출물이 필요한 경우가 있으므로, 실행 결과와 보고서를 구분하세요. 일반 사용자 기록을 테스트 fixture로 쓰면 안 됩니다.
++
++## 적용 전 반드시 확인
++- 작업 시작 시 Replit 소스 기준: `59d2e9cf8b4318c5821ac74bc0973f098a804b6a`.
++- 사용자가 제시한 원격 `811609f` 및 이전 `defa19d`와 **호환성 미검증**. 원격 소스를 최신이라고 가정하지 않았고 가져오거나 push하지 않았습니다.
++- 사용자가 GitHub `811609f`에서 Vitest262개/tsc/build 통과를 직접 확인한 결과는 별도 기록입니다. Replit 구형 4건 불일치와 혼합하지 않으며 이번 변경의 원격 통합 검증을 대신하지 않습니다.
++- 전체 소스 ZIP은 검토/독립 실행용입니다. 정식 저장소에 통째로 덮어쓰지 마세요.
++1. 개발자가 작업 브랜치와 깨끗한 상태, 실제 기준 SHA를 확인하고 기존 코드/사용자 백업을 보존합니다.
++2. `CHANGES.patch`와 파일 해시 목록을 먼저 읽고 `git apply --check CHANGES.patch`로 검사합니다. 이는 위 Replit 기준의 차이이며 다른 원격 기준에 대한 안전 보장이 아닙니다.
++   ZIP에서는 `handoff/`에 있습니다. 대상 저장소를 바꾸기 전에 `python /ZIP경로/handoff/verify_preconditions.py /대상저장소경로`로 시작 기준 해시를 확인하세요. 불일치면 중단합니다.
++3. 충돌·기존 경로 중복·저장/결과지 계약 차이가 있으면 **중단**. 강제 덮어쓰기, 자동 재분류·초기화 금지. 개발자 최신 브랜치에서 수동 이식·검수합니다.
++4. 주 변경 범위는 `src/studio/*`의 표현/검토 fixture 및 도구·문서입니다. 정식 `official`, D-CAS, backend 및 이전 데모 소스는 수정하지 않았습니다.
++5. 기존 카드/회차/월간/로드맵 저장 왕복과 공식 결과지 통합 QA를 별도 수행한 후 사용자 승인으로 적용합니다.
++
++## 되돌리기
++검토 앱 독립 브랜치/폴더에 적용하고 적용 전 커밋/백업을 기록하세요. 아직 공식 서비스에 연결하지 않은 검토본은 그 폴더/라우트 변경만 되돌리면 됩니다. 검토용 상태를 개인 상태에 복원하지 마세요. 코드 되돌리기와 데이터 복원은 별개이며, 현재 기록 백업 후 정확한 본인 공간/범위를 확인해야 합니다. 데이터 삭제나 localStorage 전체 초기화로 복구하지 마세요.
++
++실제 서버 연동 및 운영 배포는 별도 승인 범위입니다. 이번 검수는 합성 개발검수이며 실제 학생 독립사용/4주 추적/인지 효과 연구가 아닙니다. 신규 문구의 영어·크메르어·아랍어 번역은 미완료이며 한국어 fallback을 완료 번역으로 표시하지 않습니다.
+diff --git a/tools/nuvia-studio/browser-lib.mjs b/tools/nuvia-studio/browser-lib.mjs
+new file mode 100644
+index 0000000..f8b1d74
+--- /dev/null
++++ b/tools/nuvia-studio/browser-lib.mjs
+@@ -0,0 +1,16 @@
++import {browser as base,sleep} from '../nuvia-enhancement/browser-lib.mjs';
++export {sleep};
++/** Follow the actual optional-disclosure path before driving its control. */
++export async function browser(port){
++ const b=await base(port);
++ const call=b.call;
++ b.call=async(method,args)=>{const r=await call(method,args);if(method==='Page.reload'||method==='Page.navigate')await sleep(350);return r;};
++ const reveal=async expression=>b.run(`(()=>{const e=${expression};if(!e)return;const a=[];for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS'&&!p.open)a.push(p);a.reverse().forEach(p=>p.querySelector(':scope > summary')?.click());})()`);
++ const click=b.click,fill=b.fill,input=b.inputExpr,text=b.clickText,label=b.fillLabel;
++ b.click=async s=>{await reveal(`document.querySelector(${JSON.stringify(s)})`);return click(s);};
++ b.fill=async(s,v)=>{await reveal(`document.querySelector(${JSON.stringify(s)})`);return fill(s,v);};
++ b.inputExpr=async(e,v)=>{await reveal(e);return input(e,v);};
++ b.clickText=async(t,scope='document')=>{await reveal(`Array.from(${scope}.querySelectorAll('button')).find(e=>e.textContent.trim()===${JSON.stringify(t)})`);return text(t,scope);};
++ b.fillLabel=async(t,v,scope='document')=>{await reveal(`Array.from(${scope}.querySelectorAll('label')).find(e=>e.textContent.trim().startsWith(${JSON.stringify(t)}))?.querySelector('input:not([type=checkbox]),textarea,select')`);return label(t,v,scope);};
++ return b;
++}
+diff --git a/tools/nuvia-studio/final-browser.mjs b/tools/nuvia-studio/final-browser.mjs
+new file mode 100644
+index 0000000..b810e53
+--- /dev/null
++++ b/tools/nuvia-studio/final-browser.mjs
+@@ -0,0 +1,71 @@
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import {browser,sleep} from './browser-lib.mjs';
++const b=await browser(9472),origin=`https://${process.env.REPLIT_DEV_DOMAIN}`;
++const out='screenshots/nuvia-final';fs.mkdirSync(out,{recursive:true});
++const t=id=>`[data-testid="${id}"]`,key='nuvia:studio:v1:review';
++let count=0;
++const ok=(x,l)=>{assert(x,l);count++;console.log('PASS',l);};
++const state=()=>b.run(`JSON.parse(localStorage.getItem('${key}'))`);
++const shot=async name=>{if(await b.run(`!!document.querySelector('${t('button-close-message')}')`))await b.click(t('button-close-message'));await b.run('window.scrollTo(0,0)');await sleep(120);const r=await b.call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(`${out}/${name}.png`,Buffer.from(r.data,'base64'));};
++const go=async()=>{await b.call('Page.navigate',{url:origin+'/studio.html?review=1'});await b.wait('!!document.querySelector("[data-testid=studio-root]")');await sleep(200);};
++const fixture=async kind=>{await b.click(t(kind));await b.click(t('fixture-confirm'));await sleep(120);};
++try{
++ await b.viewport(1440,1250);await go();
++ await b.run(`localStorage.setItem('nuvia:studio:v1:personal','DO-NOT-CHANGE-QA-SENTINEL')`);
++ await fixture('studio-board-fixture');
++ let s=await state(),p=s.lab.students['student-a'],id=s.studio.deskId;
++ ok(p.cards.length===7&&p.runs.filter(r=>r.phase!=='closed').length===0,'explicit isolated board fixture / no active run');
++ ok(await b.run(`localStorage.getItem('nuvia:studio:v1:personal')==='DO-NOT-CHANGE-QA-SENTINEL'`),'personal storage untouched');
++ ok(await b.run(`document.querySelector('${t('text-capacity-shelf')}').textContent.includes('완료 15분 · 예정 35분 · 빈 시간 40분')`),'capacity 15+35+40=90');
++ ok(await b.run(`['math','science','history'].every(k=>document.querySelector('[data-subject-icon='+k+']'))`),'math book/science flask/history landmark symbols');
++ ok(await b.run(`!document.querySelector('${t(`button-exclude-${id}`)}').checkVisibility()&&!document.querySelector('${t(`button-tone-purple-${id}`)}').checkVisibility()`),'exclude and color hidden under more, primary actions uncluttered');
++ await b.click(t('review-console')+' > summary');
++ await shot('desktop-1440');
++ ok(await b.run('document.documentElement.scrollWidth<=innerWidth+1'),'desktop no overflow');
++ await b.viewport(360,960);await shot('mobile-360');
++ {const metrics=await b.call('Page.getLayoutMetrics');const r=await b.call('Page.captureScreenshot',{format:'png',captureBeyondViewport:true,clip:{x:0,y:0,width:360,height:Math.min(7000,metrics.cssContentSize.height),scale:1}});fs.writeFileSync(`${out}/mobile-full.png`,Buffer.from(r.data,'base64'));}
++ ok(await b.run('document.documentElement.scrollWidth<=innerWidth+1'),'mobile no overflow');
++ const social=p.cards.find(c=>c.subject==='사회').id;
++ await b.click(t(`button-select-${social}`));await b.click(t(`button-place-${social}`));await sleep(500);
++ ok(await b.run(`document.activeElement===document.querySelector('${t('text-desk-title')}')&&document.activeElement.getBoundingClientRect().top>=0&&document.activeElement.getBoundingClientRect().top<innerHeight/2`),'360 placement scrolls and focuses current title');
++ ok((await state()).lab.students['student-a'].runs.filter(r=>r.phase!=='closed').length===0,'focus/placement never starts run');
++ await b.call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
++ await b.click(t(`button-select-${id}`));
++ await b.run(`(()=>{const e=document.querySelector('${t(`button-place-${id}`)}');for(let p=e.parentElement;p;p=p.parentElement)if(p.tagName==='DETAILS'&&!p.open)p.querySelector(':scope>summary')?.click();e.focus();})()`);
++ await b.call('Input.dispatchKeyEvent',{type:'keyDown',key:'Enter',code:'Enter',windowsVirtualKeyCode:13,text:'\r',unmodifiedText:'\r'});
++ await b.call('Input.dispatchKeyEvent',{type:'keyUp',key:'Enter',code:'Enter',windowsVirtualKeyCode:13});await sleep(350);
++ ok(await b.run(`document.activeElement===document.querySelector('${t('text-desk-title')}')&&document.activeElement.textContent.includes('수학')`),'keyboard placement and reduced-motion focus');
++ await b.call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'no-preference'}]});
++ await b.viewport(768,1100);ok(await b.run('document.documentElement.scrollWidth<=innerWidth+1'),'tablet no overflow');await shot('tablet-768');
++ await b.viewport(1440,1100);await b.click(t('start'));s=await state();
++ ok(s.lab.students['student-a'].runs.at(-1).cardId===id,'desk exact ID starts explicitly');
++ ok(await b.run(`document.querySelector('${t('run-panel')}').closest('${t('section-desk')}')!==null`),'timer embedded in same desk');
++ await shot('desktop-running');await sleep(8000);await b.click(t('pause'));
++ await b.fill('input[aria-label="멈춘 자리"]','QA 3번부터');await b.click(t('flag-save'));
++ ok(await b.run(`document.querySelector('${t('start')}').textContent.includes('멈춘 실행')`),'own paused run accurately labelled');
++ const pausedRun=(await state()).lab.students['student-a'].runs.at(-1);
++ await b.click(t(`button-archive-open-${id}`));await b.click(t(`button-archive-${id}`));
++ await go();s=await state();ok(s.studio.placements[id].place==='archive'&&s.lab.students['student-a'].runs.at(-1).phase==='paused','archive reload preserves paused exact run');
++ ok(await b.run(`!document.querySelector('${t('text-other-run')}').textContent.includes('다른 과제')`),'own archived run is not called another task');
++ ok(s.lab.students['student-a'].runs.at(-1).flag==='QA 3번부터'&&JSON.stringify(s.lab.students['student-a'].runs.at(-1).segments)===JSON.stringify(pausedRun.segments),'blank archive inputs preserve prior flag and paused time');
++ await b.viewport(360,960);await b.click(t('button-return-open-run'));await sleep(500);
++ ok(await b.run(`document.activeElement===document.querySelector('${t('text-desk-title')}')&&document.activeElement.getBoundingClientRect().top<innerHeight/2`),'360 archived return button focuses and scrolls title');
++ await b.viewport(1440,1100);await b.click(t('resume'));await b.click(t('review-run'));
++ ok((await state()).lab.students['student-a'].cards.find(c=>c.id===id).status!=='done','execution finish not task completion');
++ await b.clickText('마쳤어요');await b.click(t('close-run'));
++ s=await state();ok(s.studio.placements[id].place==='collection','manual completion reaches collection');
++ await shot('desktop-completed');
++ await fixture('studio-empty-fixture');await b.click(t('review-console')+' > summary');
++ ok((await state()).lab.students['student-a'].cards.length===0,'explicit review empty scenario');
++ await shot('desktop-empty');
++ await fixture('studio-board-fixture');await b.click(t('review-console')+' > summary');
++ await b.click(t('button-open-task'));await shot('desktop-add');
++ await b.viewport(360,960);await b.run(`document.querySelector('${t('task-form')}').scrollIntoView({block:'start'})`);
++ const r=await b.call('Page.captureScreenshot',{format:'png',captureBeyondViewport:false});fs.writeFileSync(`${out}/mobile-add.png`,Buffer.from(r.data,'base64'));
++ ok(await b.run('document.documentElement.scrollWidth<=innerWidth+1'),'mobile add form no overflow');
++ await b.call('Emulation.setEmulatedMedia',{features:[{name:'prefers-reduced-motion',value:'reduce'}]});
++ ok(await b.run(`getComputedStyle(document.querySelector('.st-tag')).transitionDuration.split(',').every(x=>parseFloat(x)<=0.001)`),'reduced motion disables tag transition');
++ ok(b.errors.length===0,'no browser runtime errors');
++ console.log(`PASS final board ${count} checks`);
++}finally{b.close();}
+diff --git a/tools/nuvia-studio/package-final.py b/tools/nuvia-studio/package-final.py
+new file mode 100644
+index 0000000..da43d00
+--- /dev/null
++++ b/tools/nuvia-studio/package-final.py
+@@ -0,0 +1,76 @@
++"""Build the self-contained review source delivery, never production files."""
++from pathlib import Path
++import subprocess, hashlib, json, zipfile, base64, html
++
++ROOT=Path(__file__).resolve().parents[2]
++OUT=ROOT/'generated-artifacts/nuvia-final'
++OUT.mkdir(parents=True,exist_ok=True)
++BASE='59d2e9cf8b4318c5821ac74bc0973f098a804b6a'
++APP=ROOT/'artifacts/nuvia-ui-review'
++def git(*args):
++    return subprocess.run(['git',*args],cwd=ROOT,stdout=subprocess.PIPE,check=True).stdout
++def uri(p):
++    return 'data:image/png;base64,'+base64.b64encode(p.read_bytes()).decode()
++approved=next((ROOT/'attached_assets').glob('ChatGPT_*1792498203160.png'),APP/'docs/approved-reference.png')
++shots=ROOT/'screenshots/nuvia-final'
++report='''<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>NUVIA 최종 작업대 검수</title><style>body{font:16px/1.65 system-ui,sans-serif;background:#f7f2e6;color:#13233f;margin:auto;max-width:1500px;padding:24px}h1,h2{line-height:1.3}section{background:#fffcf3;padding:20px;border-radius:16px;margin:20px 0;border:1px solid #d6cdb8}img{max-width:100%;height:auto;border:1px solid #ddd}.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit}.note{background:#e8e2f3;padding:14px}@media(max-width:700px){.grid{grid-template-columns:1fr}}@media print{body{background:white}}</style><h1>NUVIA PLANNER · 최종 작업대 검토</h1><p>승인 이미지와 실제 브라우저 캡처 비교. 합성 검토 데이터이며 운영 배포/실제 결과지 연동이 아닙니다.</p>'''
++report+='<section><h2>승인 이미지</h2><img alt="사용자가 제공한 승인 시각 기준" src="'+uri(approved)+'"></section>'
++report+='<section><h2>실제 구현 · 동일 합성 시나리오</h2><div class="grid">'
++for name,label in [('desktop-1440','1440px 데스크톱'),('mobile-full','360px 모바일 전체')]:
++    report+=f'<div><h3>{label}</h3><img alt="{label} 실제 브라우저 캡처" src="{uri(shots/(name+".png"))}"></div>'
++report+='</div></section><section><h2>실제 상태별 캡처</h2><div class="grid">'
++for name,label in [('desktop-running','같은 파일 안의 실행'),('desktop-completed','수동 완료 후 컬렉션'),('desktop-empty','실제 빈 상태'),('desktop-add','최소 계획 추가 폼')]:
++    report+=f'<div><h3>{label}</h3><img alt="{label}" src="{uri(shots/(name+".png"))}"></div>'
++report+='</div></section><section><h2>규칙별 검수·이미지 차이·남은 한계</h2><pre>'+html.escape((APP/'docs/FINAL_QA.md').read_text())+'</pre></section></html>'
++(OUT/'NUVIA_FINAL_VISUAL_QA.html').write_text(report)
++integration='<!doctype html><html lang="ko"><meta charset="utf-8"><title>NUVIA 결과지 연동 지시서</title><style>body{max-width:980px;margin:40px auto;padding:20px;font:16px/1.7 system-ui;color:#13233f;background:#fffcf3}pre{font:inherit;white-space:pre-wrap;overflow-wrap:anywhere}</style><pre>'+html.escape((APP/'docs/RESULT_INTEGRATION.md').read_text())+'</pre></html>'
++(OUT/'NUVIA_RESULT_INTEGRATION.html').write_text(integration)
++changed=git('diff','--name-only',BASE,'--','artifacts/nuvia-ui-review','tools/nuvia-studio').decode().splitlines()
++new=[x for x in git('ls-files','--others','--exclude-standard').decode().splitlines() if x.startswith(('artifacts/nuvia-ui-review/docs/','tools/nuvia-studio/'))]
++patch=git('diff','--binary',BASE,'--','artifacts/nuvia-ui-review','tools/nuvia-studio')
++for name in new:
++    patch+=subprocess.run(['git','diff','--no-index','--binary','--','/dev/null',name],cwd=ROOT,stdout=subprocess.PIPE).stdout
++(OUT/'CHANGES.patch').write_bytes(patch)
++pre={}
++for name in sorted(set(changed+new)):
++    old=subprocess.run(['git','show',BASE+':'+name],cwd=ROOT,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
++    pre[name]=hashlib.sha256(old.stdout).hexdigest() if old.returncode==0 else None
++(OUT/'PATCH_PRECONDITIONS.json').write_text(json.dumps({'localBaseline':BASE,'remoteReported':'811609f (not fetched/verified)','files':pre},indent=2))
++verify="""import json,hashlib,sys,pathlib
++root=pathlib.Path(sys.argv[1] if len(sys.argv)>1 else '.')
++m=json.loads(pathlib.Path(__file__).with_name('PATCH_PRECONDITIONS.json').read_text())
++errors=[]
++for name,expected in m['files'].items():
++ p=root/name
++ if expected is None:
++  if p.exists():errors.append(name+': new path already exists')
++ elif not p.is_file() or hashlib.sha256(p.read_bytes()).hexdigest()!=expected:errors.append(name+': baseline mismatch')
++print('\\n'.join(errors) if errors else 'Preconditions match; still run git apply --check and integration QA.')
++sys.exit(1 if errors else 0)
++"""
++(OUT/'verify_preconditions.py').write_text(verify)
++files={}
++for folder in [APP,ROOT/'lib/api-client-react',ROOT/'tools/nuvia-studio']:
++    for p in folder.rglob('*'):
++        if p.is_file() and not any(x in {'node_modules','.git','dist'} for x in p.relative_to(folder).parts) and not p.name.endswith(('.tsbuildinfo','.pyc')) and not p.name.startswith('.env'):
++            files[p.relative_to(ROOT).as_posix()]=p
++for name in ['package.json','pnpm-workspace.yaml','pnpm-lock.yaml','tsconfig.base.json','tsconfig.json','tools/nuvia-enhancement/browser-lib.mjs']:
++    files[name]=ROOT/name
++standalone=json.loads((ROOT/'package.json').read_text())
++standalone['scripts'].update({'dev':'pnpm --filter @workspace/nuvia-ui-review dev','typecheck:libs':'tsc --build lib/api-client-react','typecheck':'pnpm run typecheck:libs && pnpm --filter @workspace/nuvia-ui-review typecheck','build':'pnpm run typecheck && pnpm --filter @workspace/nuvia-ui-review build'})
++(OUT/'source-package.json').write_text(json.dumps(standalone,indent=2)+'\n')
++(OUT/'source-tsconfig.json').write_text(json.dumps({'files':[],'references':[{'path':'./lib/api-client-react'}]},indent=2)+'\n')
++files['package.json']=OUT/'source-package.json'
++files['tsconfig.json']=OUT/'source-tsconfig.json'
++for p in shots.glob('*.png'):files[p.relative_to(ROOT).as_posix()]=p
++files['artifacts/nuvia-ui-review/docs/approved-reference.png']=approved
++for p in OUT.glob('*.log'):files['artifacts/nuvia-ui-review/docs/qa-logs/'+p.name]=p
++for name in ['CHANGES.patch','PATCH_PRECONDITIONS.json','verify_preconditions.py']:
++    files['handoff/'+name]=OUT/name
++files['README.md']=APP/'docs/RUN_AND_APPLY.md'
++manifest={name:hashlib.sha256(p.read_bytes()).hexdigest() for name,p in sorted(files.items())}
++zip_path=OUT/'NUVIA_PLANNER_FINAL_FULL_SOURCE_20261020_QA_FIXED.zip'
++with zipfile.ZipFile(zip_path,'w',zipfile.ZIP_DEFLATED) as z:
++    for name,p in sorted(files.items()):z.write(p,'NUVIA-review-source/'+name)
++    z.writestr('NUVIA-review-source/SHA256SUMS.json',json.dumps(manifest,indent=2))
++print(json.dumps({'zip':str(zip_path.relative_to(ROOT)),'files':len(files),'bytes':zip_path.stat().st_size,'sha256':hashlib.sha256(zip_path.read_bytes()).hexdigest()},indent=2))
+diff --git a/tools/nuvia-studio/run-core.mjs b/tools/nuvia-studio/run-core.mjs
+new file mode 100644
+index 0000000..fb94050
+--- /dev/null
++++ b/tools/nuvia-studio/run-core.mjs
+@@ -0,0 +1,10 @@
++import {createRequire} from 'node:module';
++import {spawnSync} from 'node:child_process';
++import fs from 'node:fs';
++// See RUN_AND_APPLY: uses the esbuild already required by Vite, no new dependency.
++fs.mkdirSync('generated-artifacts/nuvia-final',{recursive:true});
++const appRequire=createRequire(new URL('../../artifacts/nuvia-ui-review/package.json',import.meta.url));
++const {build}=createRequire(appRequire.resolve('vite'))('esbuild');
++await build({entryPoints:['tools/nuvia-studio/check.ts'],bundle:true,platform:'node',format:'esm',outfile:'generated-artifacts/nuvia-final/core.mjs'});
++const r=spawnSync(process.execPath,['generated-artifacts/nuvia-final/core.mjs'],{stdio:'inherit'});
++process.exitCode=r.status??1;

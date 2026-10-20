@@ -1,0 +1,35 @@
+Scope: all 3 workspace projects
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +233
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 233, reused 173, downloaded 0, added 0
+Progress: resolved 233, reused 192, downloaded 0, added 0
+Progress: resolved 233, reused 233, downloaded 0, added 19
+Progress: resolved 233, reused 233, downloaded 0, added 91
+Progress: resolved 233, reused 233, downloaded 0, added 128
+Progress: resolved 233, reused 233, downloaded 0, added 166
+Progress: resolved 233, reused 233, downloaded 0, added 174
+Progress: resolved 233, reused 233, downloaded 0, added 180
+Progress: resolved 233, reused 233, downloaded 0, added 181
+Progress: resolved 233, reused 233, downloaded 0, added 182
+Progress: resolved 233, reused 233, downloaded 0, added 183
+Progress: resolved 233, reused 233, downloaded 0, added 184
+Progress: resolved 233, reused 233, downloaded 0, added 194
+Progress: resolved 233, reused 233, downloaded 0, added 205
+Progress: resolved 233, reused 233, downloaded 0, added 222
+Progress: resolved 233, reused 233, downloaded 0, added 230
+Progress: resolved 233, reused 233, downloaded 0, added 232
+Progress: resolved 233, reused 233, downloaded 0, added 233
+Progress: resolved 233, reused 233, downloaded 0, added 233, done
+
+dependencies:
++ @replit/connectors-sdk 0.4.3
+
+devDependencies:
++ prettier 3.9.6
++ typescript 5.9.3
+
+. preinstall$ sh -c 'rm -f package-lock.json yarn.lock; case "$npm_config_user_agent" in pnpm/*) ;; *) echo "Use pnpm instead" >&2; exit 1 ;; esac'
+. preinstall: Done
+Done in 24.3s using pnpm v10.26.1
