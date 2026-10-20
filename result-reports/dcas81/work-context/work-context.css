@@ -1,0 +1,28 @@
+.dcas-work-toolbar,.dcas-work-content{font:inherit;line-height:1.75;min-width:0;overflow-wrap:anywhere;word-break:normal;hyphens:auto}
+.dcas-work-toolbar{margin:18px 0;padding:20px;background:#fff;border:1px solid #dce4f6;border-radius:18px;scroll-margin-block-start:160px}
+.dcas-work-toolbar h3{font-size:1.05rem;margin:0 0 12px;color:#17345c}
+.dcas-work-modes{display:flex;flex-wrap:wrap;gap:8px}
+.dcas-work-toolbar button,.dcas-work-form button{font:inherit;white-space:normal;min-height:44px;border-radius:16px;border:1px solid #c9d5ee;padding:8px 16px;background:#fff;color:#193c81;cursor:pointer}
+.dcas-work-toolbar button[aria-pressed=true],.dcas-work-form .dcas-work-primary{background:#2245aa;color:white}
+.dcas-work-toolbar button:focus-visible,.dcas-work-form :focus-visible{outline:3px solid #f5820a;outline-offset:3px}
+.dcas-work-content h2{font-size:clamp(1.3rem,3vw,1.8rem);line-height:1.5;margin:0 0 18px}
+.dcas-work-content h3{font-size:1.05rem;line-height:1.65}
+.dcas-work-content p{white-space:pre-line;margin:10px 0}
+.dcas-work-form,.dcas-work-summary,.dcas-work-card{background:white;border:1px solid #dce4f6;border-radius:18px;padding:20px;margin-bottom:18px;min-width:0}
+.dcas-work-field{margin:14px 0;min-width:0}
+.dcas-work-field label{display:block;font-weight:700;margin-bottom:6px;color:#17345c}
+.dcas-work-field input,.dcas-work-field textarea,.dcas-work-field select{box-sizing:border-box;display:block;width:100%;max-width:100%;min-width:0;min-height:46px;border:1px solid #b8c8e7;border-radius:10px;padding:10px;font:inherit;color:#17345c;background:white}
+.dcas-work-field textarea{resize:vertical}
+.dcas-work-help{font-size:.9rem;color:#536787}
+.dcas-work-limit{padding:12px;border-inline-start:4px solid #f5820a;background:#fff8ed;color:#495a72}
+.dcas-work-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.dcas-work-content li{margin:12px 0}.dcas-work-content a{color:#204aad;text-decoration:underline}
+#dcas-work-error{color:#a32424}#dcas-work-error:empty,#dcas-work-applied:empty{display:none}
+.pdf-mode .dcas-work-toolbar,.pdf-mode .dcas-work-form{display:none!important}
+.pdf-mode .dcas-work-grid{display:block}.pdf-mode .dcas-work-card{break-inside:avoid}
+.pdf-mode .dcas-work-content p{break-inside:avoid;page-break-inside:avoid}
+[data-dcas-work-context]:lang(km){font-family:'Noto Sans Khmer','Khmer UI',sans-serif;line-height:1.9}
+[data-dcas-work-context]:lang(th){font-family:'Noto Sans Thai',Tahoma,sans-serif;line-height:1.85}
+[data-dcas-work-context]:lang(ar){font-family:'Noto Sans Arabic',Tahoma,sans-serif}
+@media(max-width:640px){.dcas-work-grid{grid-template-columns:1fr}.dcas-work-form,.dcas-work-summary,.dcas-work-card,.dcas-work-toolbar{padding:16px}.dcas-work-modes button{flex:1 1 44%}}
+@media print{.dcas-work-toolbar,.dcas-work-form{display:none!important}.dcas-work-content,.dcas-work-content p{overflow:visible!important;height:auto!important}.dcas-work-content h2,.dcas-work-content h3{break-after:avoid}.dcas-work-grid{display:block}.dcas-work-card{break-inside:avoid}.dcas-work-content a{color:inherit}}

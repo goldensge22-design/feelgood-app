@@ -547,6 +547,9 @@
     .concat(window.DCasJobsExtra ? window.DCasJobsExtra.JOB_POOL_EXTRA : [])
     .concat(window.DCasMajor47 ? window.DCasMajor47.JOB_POOL : []);
 </script>
+<link rel="stylesheet" href="../../../work-context/work-context.css">
+<script src="../../../work-context/catalog.js"></script>
+<script src="../../../work-context/locales.js"></script>
 <script src="dcas-adult-content-engine.js"></script>
 <script>
 const SECTION_IDS = ["temperament","strength","efficiency","opinion","emotional","major","jobs","jobskill","growth","roadmap","docs","expert","faq","about"];
@@ -1176,6 +1179,7 @@ function renderToc(){
   document.getElementById('tocList').innerHTML = html;
   document.getElementById('sidebarList').innerHTML = html;
   document.getElementById('tocTitle').textContent = TOC_TITLE;
+  if (window.DCasWorkContext) window.DCasWorkContext.refreshNavigation();
 }
 
 function render(){
@@ -1200,6 +1204,7 @@ function updateStepper(){
   document.getElementById('prevBtn').disabled = currentIndex===0;
   document.getElementById('nextBtn').disabled = currentIndex===SECTION_IDS.length-1;
   document.getElementById('stepperProgressFill').style.width = (((currentIndex+1)/SECTION_IDS.length)*100)+'%';
+  if (window.DCasWorkContext) window.DCasWorkContext.refreshNavigation();
 }
 
 /* Swipe left/right on the report body to move between sections (mobile) */
@@ -1294,6 +1299,10 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
   const customHint = document.getElementById('customMajorHint');
   const customFallback = document.getElementById('customMajorCategoryFallback');
   if (!majorSelect) return;
+  // Locale translation changes visible labels, never the academic data key.
+  Array.from(majorSelect.options).forEach(function (option) {
+    if (!option.hasAttribute('value')) option.value = option.textContent.trim();
+  });
 
   // 패치: "과(와)"/"을(를)" 표기 그대로 노출되던 것을 실제 조사로 치환
   function hasBatchimLocal(str) {
@@ -1329,6 +1338,8 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
     const isCustom = majorSelect.value === '__custom__';
     if (customWrap) customWrap.style.display = isCustom ? 'block' : 'none';
     if (!isCustom) {
+      // Keep a new academic choice after returning from an employed context.
+      if (window.DCasAdultEngine) window.DCasAdultEngine.PROFILE.majorName = majorSelect.value;
       if (customHint) customHint.textContent = '';
       if (customFallback) { customFallback.style.display = 'none'; customFallback.value = ''; }
       rerender();
@@ -1374,6 +1385,7 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
     // "기타" 옵션의 value·text를 입력한 학과명으로 임시 치환한 뒤 렌더를 돌리고 복원한다.
     let hiddenOpt = majorSelect.querySelector('option[value="__custom__"]');
     if (hiddenOpt) { hiddenOpt.value = typedName; hiddenOpt.text = typedName; }
+    if (window.DCasAdultEngine) window.DCasAdultEngine.PROFILE.majorName = typedName;
     rerender();
     if (hiddenOpt) { hiddenOpt.value = '__custom__'; hiddenOpt.text = '기타 (직접 입력)'; }
   }
@@ -1397,6 +1409,7 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
   }
 })();
 </script>
+<script src="../../../work-context/work-context.js"></script>
 <script src="../../../../locales/dcas-adult.locales.js"></script>
 <script src="../../../../locales/report-i18n-runtime.js"></script>
 </body>
