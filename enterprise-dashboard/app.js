@@ -1,5 +1,5 @@
 import { initializeI18n, setLocale, getLocale, getManifest, t, number, date, applyTranslations } from "./i18n.js";
-import { loadDashboardData } from "./data-adapter.js";
+import { loadDashboardData, saveEmployeePerformanceRecords } from "./data-adapter.js";
 
 const state = {
   data: null,
@@ -8,6 +8,8 @@ const state = {
   candidateFilter: "all",
   benchmarkJob: "productStrategy",
   competencyModel: null,
+  performanceRecords: [],
+  performanceNotice: null,
   resumeFiles: loadResumeMetadata()
 };
 
@@ -16,6 +18,7 @@ const PAGE_IDS = ["overview", "model", "hiring", "benchmark", "individual", "dev
 await initializeI18n();
 state.data = await loadDashboardData(readIntegrationContext());
 state.competencyModel = loadCompetencyModel(state.data.competencyModel);
+state.performanceRecords = loadPerformanceRecords(state.data.employeePerformanceRecords);
 state.candidateId = state.data.candidates[0]?.id || null;
 state.page = resolvePageFromHash();
 buildLanguageSelect();
@@ -172,7 +175,12 @@ function renderHiring() {
 function renderBenchmark() {
   const jobs = [...new Set(state.data.jobCoverage.map((item) => item.job))];
   setHTML("benchmarkToolbar", `<div class="toolbar-group"><label><span class="sr-only">${t("common.job")}</span><select id="benchmarkJobSelect">${jobs.map((job) => `<option value="${job}" ${job === state.benchmarkJob ? "selected" : ""}>${t(`job.${job}`)}</option>`).join("")}</select></label></div><span class="pill blue">${t("benchmark.multipleSuccess")}</span>`);
-  document.getElementById("benchmarkJobSelect").addEventListener("change", (event) => { state.benchmarkJob = event.target.value; renderBenchmark(); });
+  document.getElementById("benchmarkJobSelect").addEventListener("change", (event) => {
+    capturePerformanceInputs();
+    state.benchmarkJob = event.target.value;
+    state.performanceNotice = null;
+    renderBenchmark();
+  });
   const selectedCoverage = state.data.jobCoverage.find((item) => item.job === state.benchmarkJob) || state.data.jobCoverage[0];
   const profile = state.data.profiles.find((item) => item.role === "leader") || state.data.profiles[0];
   setHTML("benchmarkChartPanel", panelTitle(t("benchmark.profileTitle"), t("benchmark.profileHelp")) + bars(
@@ -193,7 +201,8 @@ function renderBenchmark() {
     ["1", t("benchmark.resultOnlyStep1Title"), t("benchmark.resultOnlyStep1Text")],
     ["2", t("benchmark.resultOnlyStep2Title"), t("benchmark.resultOnlyStep2Text")]
   ], "decision") + `<div class="privacy-callout compact-callout"><span class="bullet-icon">!</span><div><strong>${t("benchmark.resultOnlyDisclaimerTitle")}</strong><p>${t("benchmark.resultOnlyDisclaimer")}</p></div></div>`);
-  const successRows = state.data.employeeSuccessProfiles.map((item) => {
+  renderPerformanceEntryPanel(employeeWeights);
+  const successRows = derivedEmployeeSuccessProfiles().map((item) => {
     const combined = weightedEmployeeProfileScore(item, employeeWeights);
     return `<tr><td><strong>${t(`job.${item.job}`)}</strong></td><td>${number(item.sampleSize)}</td><td>${fitScore(item.dcasScore)}</td><td>${fitScore(item.workPerformanceScore)}</td><td>${fitScore(item.roleEvidenceScore)}</td><td>${fitScore(combined)}</td><td>${t(`profile.${item.profile}`)}</td></tr>`;
   }).join("") || `<tr><td colspan="7" class="empty-state">${t("common.noData")}</td></tr>`;
@@ -220,6 +229,99 @@ function renderBenchmark() {
   setHTML("benchmarkTablePanel", panelTitle(t("benchmark.groupTable"), t("benchmark.coverage", { current: number(selectedCoverage.current), target: number(selectedCoverage.target) })) + table(
     [t("table.profile"), t("table.role"), t("table.keyPattern"), t("table.sample"), t("table.validation")], rows
   ));
+}
+
+function renderPerformanceEntryPanel(weights) {
+  const records = state.performanceRecords.filter((item) => item.job === state.benchmarkJob);
+  const approvedCount = records.filter((item) => item.status === "approved").length;
+  const minimum = state.data.meta.minimumCohortSize;
+  const rows = records.map((item) => `<tr data-performance-record="${esc(item.employeeId)}">
+    <td><strong>${esc(item.employeeId)}</strong></td>
+    <td>${esc(item.reviewPeriod)}</td>
+    <td><span class="readonly-score" title="${esc(t("performance.dcasReadonlyNote"))}">${number(item.dcasScore)}</span></td>
+    <td><input class="score-input" type="number" min="0" max="100" step="1" inputmode="numeric" data-performance-field="workPerformanceScore" value="${number(item.workPerformanceScore)}" aria-label="${esc(t("performance.scoreAria", { employee: item.employeeId, score: t("table.performanceScore") }))}"></td>
+    <td><input class="score-input" type="number" min="0" max="100" step="1" inputmode="numeric" data-performance-field="roleEvidenceScore" value="${number(item.roleEvidenceScore)}" aria-label="${esc(t("performance.scoreAria", { employee: item.employeeId, score: t("table.roleEvidenceScore") }))}"></td>
+    <td><span class="tag ${item.status === "approved" ? "ready" : "hold"}">${t(`performance.status.${item.status}`)}</span></td>
+  </tr>`).join("");
+  const readinessKey = approvedCount >= minimum ? "performance.sampleReady" : "performance.sampleInsufficient";
+  const notice = state.performanceNotice ? `<div class="performance-notice ${state.performanceNotice.tone}" role="status">${t(state.performanceNotice.key)}</div>` : "";
+  setHTML("performanceEntryPanel", panelTitle(t("performance.entryTitle"), t("performance.entryHelp")) + `
+    <div class="performance-entry-summary">
+      <span class="pill blue">${t("performance.managerBadge")}</span>
+      <span>${t("performance.period", { period: esc(records[0]?.reviewPeriod || state.data.meta.cycle) })}</span>
+      <span class="${approvedCount >= minimum ? "ready-text" : "warning-text"}">${t(readinessKey, { current: number(approvedCount), minimum: number(minimum) })}</span>
+    </div>
+    <div class="performance-guidance"><strong>${t("performance.dcasReadonlyTitle")}</strong><p>${t("performance.dcasReadonlyNote")}</p></div>
+    ${table([t("performance.employeeId"), t("performance.reviewPeriod"), t("table.dcasJobMatch"), t("table.performanceScore"), t("table.roleEvidenceScore"), t("table.status")], rows || `<tr><td colspan="6" class="empty-state">${t("common.noData")}</td></tr>`)}
+    <div class="performance-actions"><p>${t("performance.analysisFormula", { dcas: number(weights.dcas), performance: number(weights.workPerformance), role: number(weights.roleEvidence) })}</p><div><button class="secondary-button" type="button" id="savePerformanceDraft">${t("performance.saveDraft")}</button><button class="primary-button" type="button" id="applyPerformanceAnalysis">${t("performance.applyAnalysis")}</button></div></div>
+    ${notice}
+  `);
+  document.getElementById("savePerformanceDraft")?.addEventListener("click", () => persistPerformanceRecords("draft"));
+  document.getElementById("applyPerformanceAnalysis")?.addEventListener("click", () => persistPerformanceRecords("approved"));
+}
+
+function capturePerformanceInputs(status = null) {
+  document.querySelectorAll("[data-performance-record]").forEach((row) => {
+    const record = state.performanceRecords.find((item) => item.employeeId === row.dataset.performanceRecord && item.job === state.benchmarkJob);
+    if (!record) return;
+    row.querySelectorAll("[data-performance-field]").forEach((input) => {
+      record[input.dataset.performanceField] = clamp(input.value);
+    });
+    if (status) record.status = status;
+    record.updatedAt = new Date().toISOString();
+  });
+}
+
+async function persistPerformanceRecords(status) {
+  capturePerformanceInputs(status);
+  try {
+    if (state.data.meta.mode === "demo") {
+      localStorage.setItem(performanceStorageKey(), JSON.stringify(state.performanceRecords));
+    } else {
+      await saveEmployeePerformanceRecords(state.performanceRecords.filter((item) => item.job === state.benchmarkJob), readIntegrationContext());
+    }
+    state.performanceNotice = { key: status === "approved" ? "performance.applied" : "performance.savedDraft", tone: "success" };
+  } catch (error) {
+    console.error(error);
+    state.performanceNotice = { key: "performance.saveFailed", tone: "error" };
+  }
+  renderBenchmark();
+}
+
+function derivedEmployeeSuccessProfiles() {
+  const minimum = state.data.meta.minimumCohortSize;
+  const fallbackByJob = new Map(state.data.employeeSuccessProfiles.map((item) => [item.job, item]));
+  const jobs = [...new Set([...fallbackByJob.keys(), ...state.performanceRecords.map((item) => item.job)])];
+  return jobs.map((job) => {
+    const records = state.performanceRecords.filter((item) => item.job === job && item.status === "approved");
+    const fallback = fallbackByJob.get(job);
+    if (records.length < minimum) return fallback;
+    return {
+      job,
+      sampleSize: records.length,
+      dcasScore: average(records, "dcasScore"),
+      workPerformanceScore: average(records, "workPerformanceScore"),
+      roleEvidenceScore: average(records, "roleEvidenceScore"),
+      profile: records[0]?.profile || fallback?.profile || "operator"
+    };
+  }).filter(Boolean);
+}
+
+function average(records, key) {
+  return Math.round(records.reduce((sum, item) => sum + Number(item[key]), 0) / records.length);
+}
+
+function performanceStorageKey() {
+  return `dcas.enterprise.performanceRecords.${state.data.meta.modelId}`;
+}
+
+function loadPerformanceRecords(fallback = []) {
+  if (state.data.meta.mode !== "demo") return structuredClone(fallback || []);
+  try {
+    const saved = JSON.parse(localStorage.getItem(performanceStorageKey()));
+    if (Array.isArray(saved)) return saved;
+  } catch {}
+  return structuredClone(fallback || []);
 }
 
 function weightedEmployeeProfileScore(item, weights) {
@@ -454,6 +556,7 @@ function buildLanguageSelect() {
   select.addEventListener("change", async (event) => {
     const currentPage = state.page;
     const candidateId = state.candidateId;
+    capturePerformanceInputs();
     select.disabled = true;
     try {
       await setLocale(event.target.value);

@@ -1,3 +1,22 @@
+const EMPLOYEE_PERFORMANCE_RECORDS = [
+  ["productStrategy", "strategyLeader", [80, 83, 78, 86, 82], [90, 94, 88, 92, 91], [84, 89, 82, 88, 87]],
+  ["dataAnalysis", "expert", [84, 87, 82, 85, 83], [90, 92, 86, 89, 88], [88, 90, 85, 89, 88]],
+  ["projectManagement", "projectLead", [79, 82, 77, 81, 80], [91, 88, 93, 89, 90], [86, 83, 88, 84, 85]],
+  ["salesOperations", "operator", [75, 78, 73, 79, 76], [86, 89, 84, 88, 87], [82, 85, 80, 84, 83]],
+  ["peopleOperations", "projectLead", [77, 80, 76, 79, 78], [85, 88, 84, 87, 86], [88, 91, 87, 90, 89]]
+].flatMap(([job, profile, dcas, performance, role]) => dcas.map((dcasScore, index) => ({
+  employeeId: `E-${job.slice(0, 3).toUpperCase()}-${String(index + 1).padStart(2, "0")}`,
+  job,
+  profile,
+  reviewPeriod: "2026-H1",
+  dcasScore,
+  workPerformanceScore: performance[index],
+  roleEvidenceScore: role[index],
+  evaluatorRole: "departmentManager",
+  status: "approved",
+  updatedAt: "2026-10-20T09:00:00+09:00"
+})));
+
 export const MOCK_DASHBOARD_DATA = {
   meta: {
     mode: "demo",
@@ -49,6 +68,7 @@ export const MOCK_DASHBOARD_DATA = {
     workPerformance: 45,
     roleEvidence: 15
   },
+  employeePerformanceRecords: EMPLOYEE_PERFORMANCE_RECORDS,
   employeeSuccessProfiles: [
     { job: "productStrategy", sampleSize: 18, dcasScore: 82, workPerformanceScore: 91, roleEvidenceScore: 86, profile: "strategyLeader" },
     { job: "dataAnalysis", sampleSize: 24, dcasScore: 84, workPerformanceScore: 89, roleEvidenceScore: 88, profile: "expert" },

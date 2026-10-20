@@ -4,7 +4,7 @@
   "direction": "ltr",
   "status": "ai-draft",
   "sourceVersion": 1,
-  "sourceHash": "142455c158fc90edf32c07c27e977378b661fda9b02f45d95828b42ef64958b3",
+  "sourceHash": "97f52ef735ce15f60d2ab55fc19f90f6ba477490f8c868c9660be12fa508d07b",
   "messages": {
     "meta.title": "D-CAS ENTERPRISE LABS",
     "brand.subtitle": "決策前請審查職務相關依據並進行補充驗證。",
@@ -536,6 +536,25 @@
     "competency.unnamed": "決策前請審查職務相關依據並進行補充驗證。",
     "competency.status.draft": "決策前請審查職務相關依據並進行補充驗證。",
     "competency.status.review": "決策前請審查職務相關依據並進行補充驗證。",
-    "competency.status.published": "決策前請審查職務相關依據並進行補充驗證。"
+    "competency.status.published": "決策前請審查職務相關依據並進行補充驗證。",
+    "performance.entryTitle": "管理者輸入工作績效",
+    "performance.entryHelp": "依職務輸入現有員工的工作績效及角色、行為依據。只有核准紀錄會用於企業人才樣貌分析。",
+    "performance.managerBadge": "管理者輸入",
+    "performance.period": "評估期間 {period}",
+    "performance.employeeId": "員工ID",
+    "performance.reviewPeriod": "評估期間",
+    "performance.dcasReadonlyTitle": "D-CAS結果為唯讀。",
+    "performance.dcasReadonlyNote": "D-CAS職務訊號來自已連結的結果報告，管理者無法修改。管理者只輸入工作績效及角色、行為依據。",
+    "performance.scoreAria": "輸入{employee}的{score}",
+    "performance.status.approved": "納入分析",
+    "performance.status.draft": "草稿",
+    "performance.sampleReady": "已核准{current}人・達到最低{minimum}人",
+    "performance.sampleInsufficient": "已核准{current}人・未達最低{minimum}人",
+    "performance.analysisFormula": "核准後，依D-CAS {dcas}%、工作績效 {performance}%、角色依據 {role}%重新計算職務平均與績效連結人才訊號。",
+    "performance.saveDraft": "儲存草稿",
+    "performance.applyAnalysis": "核准並套用分析",
+    "performance.savedDraft": "輸入值已儲存為草稿，尚未納入分析。",
+    "performance.applied": "輸入值已核准，並重新計算職務別企業人才樣貌分析。",
+    "performance.saveFailed": "無法儲存。請檢查伺服器連線與權限。"
   }
 }

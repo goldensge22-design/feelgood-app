@@ -127,6 +127,18 @@ candidate.source = {
     roleEvidenceScore: Number,
     profile: String
   }],
+  employeePerformanceRecords: [{
+    employeeId: String,
+    job: String,
+    profile: String,
+    reviewPeriod: String,
+    dcasScore: Number,
+    workPerformanceScore: Number,
+    roleEvidenceScore: Number,
+    evaluatorRole: String,
+    status: "draft|approved",
+    updatedAt: ISODateString
+  }],
   roleReadiness: [
     { role: "leader|projectLead|specialist|practitioner", count: Number, percent: Number }
   ],
@@ -209,6 +221,22 @@ employeeSuccessProfiles = [{
 - `sampleSize`: 프로파일 산출에 포함된 기존 직원 수이며 최소 집단 기준 이상이어야 한다.
 
 `candidate.topJobs`는 결과지만으로 계산된 직무 추천 신호다. 실제 업무성과가 없으므로 “직무 우수자” 확정값이나 `employeeSuccessProfiles`의 성과연계 점수로 표시하지 않는다. UI에서는 “직무 잠재부합 후보”로 분리하고 면접·업무과제·경력 확인을 요구한다.
+
+### 관리자 업무성과 입력과 분석 반영
+
+직원별 D-CAS 직무 신호는 결과지 adapter가 제공하는 읽기 전용 값이다. 관리자는 `workPerformanceScore`와 `roleEvidenceScore`만 입력하며, 평가기간·평가자 역할·상태·수정시각을 함께 저장한다. 임시저장(`draft`) 기록은 분석에서 제외하고 승인(`approved`)된 기록만 직무별 평균과 성과연계 기업 인재상 계산에 사용한다.
+
+```js
+window.FeelGoodEnterpriseAdapter = {
+  async loadDashboardData(context) { /* ... */ },
+  async saveEmployeePerformanceRecords({ records, context }) {
+    // 서버에서 관리자 권한, 0~100 범위, 평가기간, 동시수정 버전을 검증하고 감사 이력을 남긴다.
+    return api.savePerformanceRecords(records, context);
+  }
+};
+```
+
+운영 서버는 화면에서 전달된 `dcasScore`, `employeeId`, `job`을 신뢰하지 않고 결과지·인사 마스터와 다시 대조해야 한다. 동일 직원·직무·평가기간의 중복 레코드를 방지하고, 승인 취소와 변경 이력을 보존한다. 직무별 승인 표본이 `minimumCohortSize`보다 작으면 새 집계값을 공개하지 않고 마지막 승인 기준 또는 “표본 부족” 상태를 반환한다. 데모판만 브라우저 `localStorage`를 사용한다.
 
 ## 판정 상태
 

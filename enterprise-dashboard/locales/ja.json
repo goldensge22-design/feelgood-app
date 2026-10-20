@@ -4,7 +4,7 @@
   "direction": "ltr",
   "status": "ai-draft",
   "sourceVersion": 1,
-  "sourceHash": "142455c158fc90edf32c07c27e977378b661fda9b02f45d95828b42ef64958b3",
+  "sourceHash": "97f52ef735ce15f60d2ab55fc19f90f6ba477490f8c868c9660be12fa508d07b",
   "messages": {
     "meta.title": "D-CAS ENTERPRISE LABS",
     "brand.subtitle": "意思決定前に職務関連の根拠と追加確認を検討してください。",
@@ -536,6 +536,25 @@
     "competency.unnamed": "意思決定前に職務関連の根拠と追加確認を検討してください。",
     "competency.status.draft": "意思決定前に職務関連の根拠と追加確認を検討してください。",
     "competency.status.review": "意思決定前に職務関連の根拠と追加確認を検討してください。",
-    "competency.status.published": "意思決定前に職務関連の根拠と追加確認を検討してください。"
+    "competency.status.published": "意思決定前に職務関連の根拠と追加確認を検討してください。",
+    "performance.entryTitle": "管理者による業務成果入力",
+    "performance.entryHelp": "職務別に既存社員の業務成果と役割・行動根拠を入力します。承認済み記録のみ企業人材像の分析に反映されます。",
+    "performance.managerBadge": "管理者入力",
+    "performance.period": "評価期間 {period}",
+    "performance.employeeId": "社員ID",
+    "performance.reviewPeriod": "評価期間",
+    "performance.dcasReadonlyTitle": "D-CAS結果は読み取り専用です。",
+    "performance.dcasReadonlyNote": "D-CAS職務シグナルは連携済み結果レポートから取得され、管理者は変更できません。管理者は業務成果と役割・行動根拠のみ入力します。",
+    "performance.scoreAria": "{employee}の{score}を入力",
+    "performance.status.approved": "分析反映",
+    "performance.status.draft": "下書き",
+    "performance.sampleReady": "承認済み{current}名・最小{minimum}名を充足",
+    "performance.sampleInsufficient": "承認済み{current}名・最小{minimum}名に未達",
+    "performance.analysisFormula": "承認時にD-CAS {dcas}%・業務成果 {performance}%・役割根拠 {role}%で職務平均と成果連動型人材シグナルを再計算します。",
+    "performance.saveDraft": "下書き保存",
+    "performance.applyAnalysis": "承認して分析に反映",
+    "performance.savedDraft": "入力値を下書き保存しました。分析にはまだ反映されません。",
+    "performance.applied": "入力値を承認し、職務別の企業人材像分析を再計算しました。",
+    "performance.saveFailed": "保存できませんでした。サーバー接続と権限を確認してください。"
   }
 }

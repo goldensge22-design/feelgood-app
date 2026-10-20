@@ -13,13 +13,22 @@ export async function loadDashboardData(context = {}) {
       ...data,
       competencyModel: data.competencyModel ?? structuredClone(MOCK_DASHBOARD_DATA.competencyModel),
       employeeProfileWeights: data.employeeProfileWeights ?? structuredClone(MOCK_DASHBOARD_DATA.employeeProfileWeights),
-      employeeSuccessProfiles: data.employeeSuccessProfiles ?? []
+      employeeSuccessProfiles: data.employeeSuccessProfiles ?? [],
+      employeePerformanceRecords: data.employeePerformanceRecords ?? []
     };
     validateDashboardData(normalized);
     return { ...normalized, meta: { ...normalized.meta, mode: "production" } };
   }
   validateDashboardData(MOCK_DASHBOARD_DATA);
   return structuredClone(MOCK_DASHBOARD_DATA);
+}
+
+export async function saveEmployeePerformanceRecords(records, context = {}) {
+  const external = window.FeelGoodEnterpriseAdapter;
+  if (!external || typeof external.saveEmployeePerformanceRecords !== "function") {
+    throw new Error("FeelGoodEnterpriseAdapter.saveEmployeePerformanceRecords is required in production mode");
+  }
+  return external.saveEmployeePerformanceRecords({ records, context });
 }
 
 export function validateDashboardData(data) {
@@ -30,6 +39,7 @@ export function validateDashboardData(data) {
   if (!Array.isArray(data?.candidates)) errors.push("candidates");
   if (!Array.isArray(data?.jobCoverage)) errors.push("jobCoverage");
   if (!Array.isArray(data?.employeeSuccessProfiles)) errors.push("employeeSuccessProfiles");
+  if (!Array.isArray(data?.employeePerformanceRecords)) errors.push("employeePerformanceRecords");
   if (!["dcas", "workPerformance", "roleEvidence"].every((key) => Number.isFinite(data?.employeeProfileWeights?.[key]))) {
     errors.push("employeeProfileWeights");
   }
@@ -39,6 +49,10 @@ export function validateDashboardData(data) {
   }
   if (data?.employeeSuccessProfiles?.some((item) => !item.job || !item.profile || !Number.isFinite(item.sampleSize))) {
     errors.push("employeeSuccessProfiles[].job/profile/sampleSize");
+  }
+  if (data?.employeePerformanceRecords?.some((item) => !item.employeeId || !item.job || !item.reviewPeriod || !["draft", "approved"].includes(item.status)
+    || !["dcasScore", "workPerformanceScore", "roleEvidenceScore"].every((key) => Number.isFinite(item[key]) && item[key] >= 0 && item[key] <= 100))) {
+    errors.push("employeePerformanceRecords[]");
   }
   if (errors.length) throw new Error(`Invalid enterprise dashboard data: ${errors.join(", ")}`);
   return true;

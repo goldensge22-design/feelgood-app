@@ -4,7 +4,7 @@
   "direction": "ltr",
   "status": "ai-draft",
   "sourceVersion": 1,
-  "sourceHash": "142455c158fc90edf32c07c27e977378b661fda9b02f45d95828b42ef64958b3",
+  "sourceHash": "97f52ef735ce15f60d2ab55fc19f90f6ba477490f8c868c9660be12fa508d07b",
   "messages": {
     "meta.title": "D-CAS ENTERPRISE LABS",
     "brand.subtitle": "Review role-related evidence and additional validation before making a decision.",
@@ -536,6 +536,25 @@
     "competency.unnamed": "Review role-related evidence and additional validation before making a decision.",
     "competency.status.draft": "Review role-related evidence and additional validation before making a decision.",
     "competency.status.review": "Review role-related evidence and additional validation before making a decision.",
-    "competency.status.published": "Review role-related evidence and additional validation before making a decision."
+    "competency.status.published": "Review role-related evidence and additional validation before making a decision.",
+    "performance.entryTitle": "Manager performance entry",
+    "performance.entryHelp": "Enter existing employees’ work performance and role-behavior evidence by job. Only approved records are used in the company talent-profile analysis.",
+    "performance.managerBadge": "Manager entry",
+    "performance.period": "Review period {period}",
+    "performance.employeeId": "Employee ID",
+    "performance.reviewPeriod": "Review period",
+    "performance.dcasReadonlyTitle": "D-CAS results are read-only.",
+    "performance.dcasReadonlyNote": "The D-CAS job signal is loaded from the linked report and cannot be edited by a manager. Managers enter only work performance and role-behavior evidence.",
+    "performance.scoreAria": "Enter {score} for {employee}",
+    "performance.status.approved": "Included in analysis",
+    "performance.status.draft": "Draft",
+    "performance.sampleReady": "{current} approved records · minimum {minimum} met",
+    "performance.sampleInsufficient": "{current} approved records · minimum {minimum} not met",
+    "performance.analysisFormula": "On approval, job averages and the performance-linked talent signal are recalculated using D-CAS {dcas}%, performance {performance}%, and role evidence {role}%.",
+    "performance.saveDraft": "Save draft",
+    "performance.applyAnalysis": "Approve and apply",
+    "performance.savedDraft": "The values were saved as a draft and are not yet included in the analysis.",
+    "performance.applied": "The values were approved and the job-level company talent analysis was recalculated.",
+    "performance.saveFailed": "Could not save. Check the server connection and permissions."
   }
 }

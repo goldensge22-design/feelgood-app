@@ -17,6 +17,7 @@
 - 이력서 연결 및 이력서 기반 직무군 매칭(D-CAS 추천과 출처 분리)
 - 기존 직원 기준 프로파일 비교
 - 기존 직원 D-CAS 결과와 업무성과를 결합한 직무별 기업 인재상
+- 관리자 업무성과·역할근거 입력, 임시저장·승인 후 직무별 분석 재계산
 - 결과지만으로 산출한 직무 잠재부합 후보 분리 표시
 - 개인 결과지 요약, PASS 네 영역과 D-CAS 추천 직무 Top 5
 - 신입사원의 리더·전문가·프로젝트 책임자·실무 수행 경로 검토
@@ -50,4 +51,6 @@ node scripts/check-i18n.mjs --changed --strict-hardcoded
 ```
 
 마지막 두 명령은 중앙 registry에 등록된 프로그램만 검사한다. 기업 대시보드는 전용 validator 결과를 함께 확인한다.
+
+데모에서는 관리자 입력값을 브라우저 `localStorage`에 저장한다. 운영판에서는 `window.FeelGoodEnterpriseAdapter.saveEmployeePerformanceRecords()`를 구현해 서버 저장·권한·감사 이력과 연결해야 한다.
 

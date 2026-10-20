@@ -4,7 +4,7 @@
   "direction": "ltr",
   "status": "ai-draft",
   "sourceVersion": 1,
-  "sourceHash": "142455c158fc90edf32c07c27e977378b661fda9b02f45d95828b42ef64958b3",
+  "sourceHash": "97f52ef735ce15f60d2ab55fc19f90f6ba477490f8c868c9660be12fa508d07b",
   "messages": {
     "meta.title": "D-CAS ENTERPRISE LABS",
     "brand.subtitle": "决策前请审查岗位相关依据并进行补充验证。",
@@ -536,6 +536,25 @@
     "competency.unnamed": "决策前请审查岗位相关依据并进行补充验证。",
     "competency.status.draft": "决策前请审查岗位相关依据并进行补充验证。",
     "competency.status.review": "决策前请审查岗位相关依据并进行补充验证。",
-    "competency.status.published": "决策前请审查岗位相关依据并进行补充验证。"
+    "competency.status.published": "决策前请审查岗位相关依据并进行补充验证。",
+    "performance.entryTitle": "管理员录入工作绩效",
+    "performance.entryHelp": "按岗位录入现有员工的工作绩效及角色、行为依据。只有已批准记录会用于企业人才画像分析。",
+    "performance.managerBadge": "管理员录入",
+    "performance.period": "评估期间 {period}",
+    "performance.employeeId": "员工ID",
+    "performance.reviewPeriod": "评估期间",
+    "performance.dcasReadonlyTitle": "D-CAS结果为只读。",
+    "performance.dcasReadonlyNote": "D-CAS岗位信号来自已连接的结果报告，管理员不能修改。管理员仅录入工作绩效及角色、行为依据。",
+    "performance.scoreAria": "输入{employee}的{score}",
+    "performance.status.approved": "已纳入分析",
+    "performance.status.draft": "草稿",
+    "performance.sampleReady": "已批准{current}人·达到最低{minimum}人",
+    "performance.sampleInsufficient": "已批准{current}人·未达到最低{minimum}人",
+    "performance.analysisFormula": "批准后，将按D-CAS {dcas}%、工作绩效 {performance}%、角色依据 {role}%重新计算岗位平均值及绩效关联人才信号。",
+    "performance.saveDraft": "保存草稿",
+    "performance.applyAnalysis": "批准并纳入分析",
+    "performance.savedDraft": "输入值已保存为草稿，尚未纳入分析。",
+    "performance.applied": "输入值已批准，并重新计算了岗位企业人才画像分析。",
+    "performance.saveFailed": "保存失败。请检查服务器连接和权限。"
   }
 }
