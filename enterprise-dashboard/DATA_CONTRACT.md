@@ -47,7 +47,30 @@ candidate.topJobs = [
 ];
 ```
 
-첫 값은 회사 직무 taxonomy ID, 두 번째 값은 해당 결과지 또는 기업 모델에서 계산한 0–100 신호다. 결과지 직무명과 회사 직무명이 다르면 서버 또는 adapter에서 mapping한다.
+첫 값은 회사 직무 taxonomy ID, 두 번째 값은 D-CAS 결과지에서 제공하는 0–100 추천 신호다. 결과지 직무명과 회사 직무명이 다르면 서버 또는 adapter에서 mapping한다. 이 값은 이력서 기반 매칭과 합산하지 않는다.
+
+### 지원자 명단·이력서 연결
+
+채용시스템의 지원자 명단은 `candidate.id`를 기준으로 D-CAS 결과지와 연결한다. 실제 지원 직무는 검사에서 추정하지 않고 채용시스템 또는 담당자 입력값을 사용한다.
+
+```js
+candidate.appliedJob = "productStrategy";
+candidate.appliedJobSource = "recruitmentSystem"; // 또는 managerInput
+candidate.reportId = "DCR-2026-2401";
+candidate.assessedAt = ISODateString;
+candidate.resume = {
+  fileId: String,       // 운영 서버의 보안 저장소 ID
+  fileName: String,
+  updatedAt: ISODateString
+};
+candidate.resumeTopJobs = [
+  ["productStrategy", 84],
+  ["projectManagement", 81],
+  ["businessPlanning", 78]
+];
+```
+
+`resumeTopJobs`는 이력서의 경력·기술·프로젝트 근거로 별도 계산한다. `topJobs`(D-CAS), `resumeTopJobs`(이력서), `fit`(실제 지원 직무와 기업 모델)을 서로 다른 출처로 저장하고 UI에서도 분리해 표시한다. 데모는 개인정보 보호를 위해 파일 자체를 저장하거나 전송하지 않고 파일명 메타데이터만 브라우저에 보관한다. 운영판의 업로드·악성파일 검사·권한·보유기간·삭제는 서버에서 구현한다.
 
 ### 결과지의 인지특성과 81유형
 
@@ -109,7 +132,10 @@ candidate.source = {
     {
       id: String,
       name: String,
+      reportId: String,
+      assessedAt: ISODateString,
       appliedJob: String,
+      appliedJobSource: "recruitmentSystem|managerInput",
       status: "priority|validate|alternate|hold",
       fit: Number,
       readiness: Number,
@@ -118,6 +144,8 @@ candidate.source = {
       recommendedPath: "leader|projectLead|specialist|practitioner",
       pass: Object,
       topJobs: [[String, Number]],
+      resume: { fileId: String, fileName: String, updatedAt: ISODateString } | null,
+      resumeTopJobs: [[String, Number]],
       evidence: [TranslationKey],
       verify: [TranslationKey],
       workStyle: [TranslationKey],

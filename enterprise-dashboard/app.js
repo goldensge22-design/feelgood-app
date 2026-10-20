@@ -6,13 +6,16 @@ const state = {
   page: "overview",
   candidateId: null,
   candidateFilter: "all",
-  benchmarkJob: "productStrategy"
+  benchmarkJob: "productStrategy",
+  competencyModel: null,
+  resumeFiles: loadResumeMetadata()
 };
 
-const PAGE_IDS = ["overview", "model", "hiring", "benchmark", "individual", "development", "organization", "actions", "settings"];
+const PAGE_IDS = ["overview", "model", "hiring", "benchmark", "individual", "development", "organization", "actions", "competencies"];
 
 await initializeI18n();
 state.data = await loadDashboardData(readIntegrationContext());
+state.competencyModel = loadCompetencyModel(state.data.competencyModel);
 state.candidateId = state.data.candidates[0]?.id || null;
 state.page = resolvePageFromHash();
 buildLanguageSelect();
@@ -32,7 +35,7 @@ function renderAll() {
   renderDevelopment();
   renderOrganization();
   renderActions();
-  renderSettings();
+  renderCompetencies();
 }
 
 function renderOverview() {
@@ -64,6 +67,16 @@ function renderOverview() {
     ["◎", t("insight.specialistTitle"), t("insight.specialistText")],
     ["!", t("insight.gapTitle"), t("insight.gapText")]
   ], "insight"));
+
+  const pipelineRows = data.hiringPipeline.map((item) => `<tr><td><strong>${t(`job.${item.job}`)}</strong></td><td>${number(item.applicants)}</td><td>${number(item.complete)}</td><td>${number(item.verify)}</td><td>${number(item.finalReview)}</td></tr>`).join("");
+  setHTML("overviewPipelinePanel", panelTitle(t("overview.pipelineTitle"), t("overview.pipelineHelp")) + table(
+    [t("table.jobFamily"), t("table.applicants"), t("table.resultsConnected"), t("table.additionalReview"), t("table.finalReview")], pipelineRows
+  ));
+  setHTML("overviewTasksPanel", panelTitle(t("overview.tasksTitle"), t("overview.tasksHelp")) + list([
+    ["1", t("overview.task1Title"), t("overview.task1Text")],
+    ["2", t("overview.task2Title"), t("overview.task2Text")],
+    ["3", t("overview.task3Title"), t("overview.task3Text")]
+  ], "check"));
 }
 
 function renderModel() {
@@ -82,6 +95,15 @@ function renderModel() {
     </article>
   `).join(""));
 
+  setHTML("modelWeightsPanel", panelTitle(t("model.weightsTitle"), t("model.weightsHelp")) + bars(
+    data.talentModelWeights.map((item, index) => ({ label: t(`modelWeight.${item.key}`), value: item.value, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
+  ));
+  setHTML("modelValidationPanel", panelTitle(t("model.validationTitle"), t("model.validationHelp")) + list([
+    ["✓", t("model.validation1Title"), t("model.validation1Text")],
+    ["✓", t("model.validation2Title"), t("model.validation2Text")],
+    ["↻", t("model.validation3Title"), t("model.validation3Text")]
+  ], "check"));
+
   const rows = data.profiles.map((profile) => `
     <tr><td><strong>${t(`profile.${profile.type}`)}</strong></td><td>${t(`role.${profile.role}`)}</td><td>${profile.strengths.map((key) => t(`domain.${key}`)).join(" · ")}</td><td>${number(profile.sampleSize)}</td><td>${number(profile.confidence)}%</td></tr>
   `).join("");
@@ -92,31 +114,59 @@ function renderModel() {
 
 function renderHiring() {
   const statuses = ["all", "priority", "validate", "alternate", "hold"];
-  setHTML("hiringToolbar", `<div class="toolbar-group">${statuses.map((status) => `<button class="filter-button ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}">${t(`filter.${status}`)}</button>`).join("")}</div><span class="pill gray">${t("hiring.noAuto")}</span>`);
+  setHTML("hiringToolbar", `<div class="toolbar-group">${statuses.map((status) => `<button class="filter-button ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}">${t(`filter.${status}`)}</button>`).join("")}</div><div class="toolbar-group"><span class="pill gray">${t("hiring.noAuto")}</span><button class="filter-button" type="button" id="rosterConnectButton">${t("roster.connect")}</button></div>`);
   document.querySelectorAll("[data-candidate-filter]").forEach((button) => button.addEventListener("click", () => {
     state.candidateFilter = button.dataset.candidateFilter;
     renderHiring();
   }));
 
+  const matchRate = state.data.meta.rosterApplicantCount ? Math.round(state.data.meta.rosterMatchedCount / state.data.meta.rosterApplicantCount * 100) : 0;
+  setHTML("rosterPanel", panelTitle(t("roster.title"), t("roster.help")) + `
+    <div class="roster-summary">
+      <div><span>${t("roster.name")}</span><strong>${esc(state.data.meta.rosterName)}</strong></div>
+      <div><span>${t("roster.source")}</span><strong>${t(`roster.source.${state.data.meta.rosterSource}`)}</strong></div>
+      <div><span>${t("roster.matchKey")}</span><strong>${t("roster.matchKeyValue")}</strong></div>
+      <div><span>${t("roster.matchRate")}</span><strong>${number(matchRate)}%</strong></div>
+      <div><span>${t("roster.updated")}</span><strong>${date(state.data.meta.rosterUpdatedAt)}</strong></div>
+    </div>
+    <div class="roster-flow"><span><b>1</b>${t("roster.step1")}</span><span><b>2</b>${t("roster.step2")}</span><span><b>3</b>${t("roster.step3")}</span></div>
+  `);
+  document.getElementById("rosterConnectButton").addEventListener("click", () => document.getElementById("rosterPanel").scrollIntoView({ behavior: "smooth", block: "center" }));
+
   const candidates = state.data.candidates.filter((candidate) => state.candidateFilter === "all" || candidate.status === state.candidateFilter);
+  setHTML("hiringMetrics", [
+    metric(t("hiring.metricTotal"), state.data.meta.rosterApplicantCount, t("common.people"), t("hiring.metricTotalMeta"), "blue"),
+    metric(t("hiring.metricMatched"), state.data.meta.rosterMatchedCount, t("common.people"), t("hiring.metricMatchedMeta"), "teal"),
+    metric(t("hiring.metricUnmatched"), state.data.meta.rosterUnmatchedCount, t("common.people"), t("hiring.metricUnmatchedMeta"), "violet"),
+    metric(t("hiring.metricVerify"), state.data.hiringPipeline.reduce((sum, item) => sum + item.verify, 0), t("common.people"), t("hiring.metricVerifyMeta"), "orange")
+  ].join(""));
   const rows = candidates.map((candidate) => `
     <tr data-candidate-row="${esc(candidate.id)}" tabindex="0">
       <td>${personCell(candidate)}</td>
-      <td>${t(`job.${candidate.appliedJob}`)}</td>
+      <td>${jobLabel(candidate.appliedJob)}</td>
       <td>${fitScore(candidate.fit)}</td>
+      <td>${t(`job.${candidate.topJobs[0][0]}`)}</td>
+      <td>${fitScore(candidate.topJobs[0][1])}</td>
       <td>${t(`role.${candidate.recommendedPath}`)}</td>
       <td><span class="tag ${candidate.status}">${t(`status.${candidate.status}`)}</span></td>
-      <td>${t(`job.${candidate.topJobs[0][0]}`)}</td>
     </tr>
   `).join("");
   setHTML("candidateTablePanel", panelTitle(t("hiring.tableTitle"), t("hiring.tableHelp")) + table(
-    [t("table.candidate"), t("table.appliedJob"), t("table.fitSignal"), t("table.rolePath"), t("table.reviewStatus"), t("table.alternative")], rows || `<tr><td colspan="6" class="empty-state">${t("common.noData")}</td></tr>`
+    [t("table.candidate"), t("table.appliedJob"), t("table.appliedFit"), t("table.recommendedJob"), t("table.recommendedFit"), t("table.rolePath"), t("table.reviewStatus")], rows || `<tr><td colspan="7" class="empty-state">${t("common.noData")}</td></tr>`
   ));
   document.querySelectorAll("[data-candidate-row]").forEach((row) => {
     const open = () => { state.candidateId = row.dataset.candidateRow; renderIndividual(); renderDevelopment(); navigate("individual"); };
     row.addEventListener("click", open);
     row.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") open(); });
   });
+  setHTML("hiringPortfolioPanel", panelTitle(t("hiring.portfolioTitle"), t("hiring.portfolioHelp")) + bars(
+    state.data.roleReadiness.map((item, index) => ({ label: t(`role.${item.role}`), value: item.percent, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
+  ));
+  setHTML("hiringGuidePanel", panelTitle(t("hiring.guideTitle"), t("hiring.guideHelp")) + list([
+    ["A", t("hiring.guide1Title"), t("hiring.guide1Text")],
+    ["B", t("hiring.guide2Title"), t("hiring.guide2Text")],
+    ["C", t("hiring.guide3Title"), t("hiring.guide3Text")]
+  ], "decision"));
 }
 
 function renderBenchmark() {
@@ -133,6 +183,13 @@ function renderBenchmark() {
     ["✓", t("benchmark.outcomeTitle"), t("benchmark.outcomeText")],
     ["↻", t("benchmark.versionTitle"), t("benchmark.versionText", { version: state.data.meta.modelVersion })]
   ], "check"));
+  const comparisonRows = state.data.candidates.map((candidate) => {
+    const profileDelta = Math.round(state.data.passDomains.reduce((sum, domain) => sum + Math.abs(candidate.pass[domain] - profile.pass[domain]), 0) / state.data.passDomains.length);
+    return `<tr><td>${personCell(candidate)}</td><td>${jobLabel(candidate.appliedJob)}</td><td>${number(candidate.fit)}%</td><td>${number(profileDelta)}</td><td>${t(`role.${candidate.recommendedPath}`)}</td><td><span class="tag ${candidate.status}">${t(`status.${candidate.status}`)}</span></td></tr>`;
+  }).join("");
+  setHTML("benchmarkComparisonPanel", panelTitle(t("benchmark.comparisonTitle"), t("benchmark.comparisonHelp")) + table(
+    [t("table.candidate"), t("table.appliedJob"), t("table.fitSignal"), t("table.profileDistance"), t("table.rolePath"), t("table.reviewStatus")], comparisonRows
+  ));
   const rows = state.data.profiles.map((item) => `
     <tr><td>${t(`profile.${item.type}`)}</td><td>${t(`role.${item.role}`)}</td><td>${item.strengths.map((key) => t(`domain.${key}`)).join(" · ")}</td><td>${number(item.sampleSize)}</td><td><span class="tag ready">${t("common.validated")}</span></td></tr>
   `).join("");
@@ -144,23 +201,70 @@ function renderBenchmark() {
 function renderIndividual() {
   const candidate = selectedCandidate();
   if (!candidate) return;
-  setHTML("individualSelector", `<label><span class="sr-only">${t("table.candidate")}</span><select class="person-select" id="candidateSelect">${state.data.candidates.map((item) => `<option value="${esc(item.id)}" ${item.id === candidate.id ? "selected" : ""}>${esc(item.name)} · ${t(`job.${item.appliedJob}`)}</option>`).join("")}</select></label>`);
+  const resume = state.resumeFiles[candidate.id] || candidate.resume || null;
+  const rankedDomains = state.data.passDomains
+    .map((domain) => [domain, candidate.pass[domain]])
+    .sort((a, b) => b[1] - a[1]);
+  setHTML("individualSelector", `<label><span class="sr-only">${t("table.candidate")}</span><select class="person-select" id="candidateSelect">${state.data.candidates.map((item) => `<option value="${esc(item.id)}" ${item.id === candidate.id ? "selected" : ""}>${esc(item.name)} · ${jobLabel(item.appliedJob)}</option>`).join("")}</select></label>`);
   document.getElementById("candidateSelect").addEventListener("change", (event) => { state.candidateId = event.target.value; renderIndividual(); renderDevelopment(); });
   setHTML("personHero", `
     <div class="avatar">${esc(initials(candidate.name))}</div>
-    <div><h2>${esc(candidate.name)}</h2><p>${t(`job.${candidate.appliedJob}`)} · ${t(`status.${candidate.status}`)} · ${t("individual.source")}</p></div>
-    <div class="hero-score"><strong>${number(candidate.fit)}%</strong><small>${t("table.fitSignal")}</small></div>
+    <div><h2>${esc(candidate.name)}</h2><p>${t("individual.appliedJobLine", { job: jobLabel(candidate.appliedJob), source: t(`individual.jobSource.${candidate.appliedJobSource || "managerInput"}`) })}</p></div>
+    <div class="hero-score"><strong>${candidate.appliedJob ? `${number(candidate.fit)}%` : "—"}</strong><small>${candidate.appliedJob ? t("table.fitSignal") : t("individual.noJobFit")}</small></div>
   `);
+  setHTML("individualSourcePanel", `
+    <strong>${t("individual.dataSources")}</strong>
+    <span class="source-chip"><b>1</b>${t("individual.sourceDcas")}</span>
+    <span class="source-chip"><b>2</b>${t("individual.sourceApplication")}</span>
+    <span class="source-chip"><b>3</b>${t("individual.sourceCompanyModel", { version: state.data.meta.modelVersion })}</span>
+  `);
+  setHTML("resultSummaryPanel", panelTitle(t("individual.resultSummaryTitle"), t("individual.resultSummaryHelp")) + `
+    <div class="report-summary-grid">
+      <div><span>${t("individual.resultId")}</span><strong>${esc(candidate.reportId || candidate.id)}</strong></div>
+      <div><span>${t("individual.assessedAt")}</span><strong>${date(candidate.assessedAt || state.data.meta.updatedAt)}</strong></div>
+    </div>
+    <div class="summary-highlight">
+      <span class="bullet-icon">D</span>
+      <p>${t("individual.resultSummaryText", { first: t(`domain.${rankedDomains[0][0]}`), firstScore: number(rankedDomains[0][1]), second: t(`domain.${rankedDomains[1][0]}`), secondScore: number(rankedDomains[1][1]) })}</p>
+    </div>
+  `);
+  setHTML("resumePanel", panelTitle(t("individual.resumeTitle"), t("individual.resumeHelp")) + `
+    <div class="resume-upload-row">
+      <div class="resume-file-status">
+        <span>${t("individual.resumeStatus")}</span>
+        <strong>${resume ? esc(resume.fileName) : t("individual.resumeNotConnected")}</strong>
+        <small>${resume ? t("individual.resumeUpdated", { date: date(resume.updatedAt) }) : t("individual.resumePrivacy")}</small>
+      </div>
+      <label class="secondary-button upload-button" for="resumeUpload">${resume ? t("individual.resumeReplace") : t("individual.resumeUpload")}</label>
+      <input class="sr-only" id="resumeUpload" type="file" accept=".pdf,.doc,.docx" aria-label="${t("individual.resumeUploadAria")}">
+    </div>
+    <div class="resume-match-block">
+      <strong>${t("individual.resumeMatchTitle")}</strong>
+      <p>${t("individual.resumeMatchHelp")}</p>
+      ${resume ? `<div class="job-list compact">${(candidate.resumeTopJobs || candidate.topJobs.slice(0, 3)).map(([job, score], index) => `<div class="job-item"><span class="job-rank">${index + 1}</span><strong>${t(`job.${job}`)}</strong><span>${number(score)}%</span></div>`).join("")}</div>` : `<div class="empty-state compact">${t("individual.resumeMatchEmpty")}</div>`}
+    </div>
+  `);
+  document.getElementById("resumeUpload").addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    state.resumeFiles[candidate.id] = { fileName: file.name, updatedAt: new Date().toISOString() };
+    saveResumeMetadata(state.resumeFiles);
+    renderIndividual();
+  });
   setHTML("passPanel", panelTitle(t("individual.passTitle"), t("individual.passHelp")) + bars(
     state.data.passDomains.map((domain) => ({ label: t(`domain.${domain}`), value: candidate.pass[domain], tone: domain === "planning" ? "orange" : domain === "attention" ? "teal" : "" }))
   ));
-  setHTML("roleFitPanel", panelTitle(t("individual.roleTitle"), t("individual.roleHelp")) + bars([
+  setHTML("roleFitPanel", candidate.appliedJob ? panelTitle(t("individual.roleTitle"), t("individual.roleHelp")) + bars([
     { label: t("individual.readiness"), value: candidate.readiness },
     { label: t("individual.leaderPotential"), value: candidate.leaderPotential, tone: "orange" },
     { label: t("individual.expertPotential"), value: candidate.expertPotential, tone: "teal" }
-  ]));
-  setHTML("topJobsPanel", panelTitle(t("individual.topJobs"), t("individual.topJobsHelp")) + `<div class="job-list">${candidate.topJobs.map(([job, score], index) => `<div class="job-item"><span class="job-rank">${index + 1}</span><strong>${t(`job.${job}`)}</strong><span>${number(score)}%</span></div>`).join("")}</div>`);
+  ]) : panelTitle(t("individual.roleTitle"), t("individual.roleHelp")) + `<div class="empty-state">${t("individual.jobRequired")}</div>`);
+  setHTML("topJobsPanel", panelTitle(t("individual.topJobs"), t("individual.topJobsHelp")) + `<div class="source-caption">${t("individual.sourceDcas")}</div><div class="job-list">${candidate.topJobs.map(([job, score], index) => `<div class="job-item"><span class="job-rank">${index + 1}</span><strong>${t(`job.${job}`)}</strong><span>${number(score)}%</span></div>`).join("")}</div>`);
   setHTML("evidencePanel", panelTitle(t("individual.evidenceTitle"), t("individual.evidenceHelp")) + `<ul class="check-list">${candidate.evidence.map((key) => `<li class="check-item"><span class="bullet-icon">✓</span><p>${t(key)}</p></li>`).join("")}${candidate.verify.map((key) => `<li class="check-item"><span class="bullet-icon">?</span><p>${t(key)}</p></li>`).join("")}</ul>`);
+  const placementRows = Object.entries(candidate.roleScores).sort((a, b) => b[1] - a[1]).map(([role, score], index) => `<tr><td><strong>${number(index + 1)}</strong></td><td>${t(`role.${role}`)}</td><td>${fitScore(score)}</td><td>${t(index === 0 ? "individual.placementPrimary" : index === 1 ? "individual.placementSecondary" : "individual.placementExplore")}</td></tr>`).join("");
+  setHTML("rolePlacementPanel", panelTitle(t("individual.placementTitle"), t("individual.placementHelp")) + table(
+    [t("table.rank"), t("table.rolePath"), t("table.fitSignal"), t("table.recommendation")], placementRows
+  ));
   setHTML("interviewPanel", panelTitle(t("individual.interviewTitle"), t("individual.interviewHelp")) + list([
     ["1", t("interview.q1Title"), t("interview.q1")],
     ["2", t("interview.q2Title"), t("interview.q2")],
@@ -175,6 +279,16 @@ function renderDevelopment() {
   setHTML("timelineGrid", candidate.actions.map((key, index) => `<article class="timeline-card"><span class="day">${t("development.day", { day: days[index] })}</span><h2>${t(`development.phase${index + 1}`)}</h2><p>${t(key)}</p></article>`).join(""));
   setHTML("developmentPriorityPanel", panelTitle(t("development.priorityTitle"), t("development.priorityHelp")) + `<ul class="check-list">${candidate.priorities.map((key) => `<li class="check-item"><span class="bullet-icon">↗</span><p>${t(key)}</p></li>`).join("")}</ul>`);
   setHTML("workStylePanel", panelTitle(t("development.workStyleTitle"), t("development.workStyleHelp")) + `<ul class="check-list">${candidate.workStyle.map((key) => `<li class="check-item"><span class="bullet-icon">◎</span><p>${t(key)}</p></li>`).join("")}</ul>`);
+  setHTML("developmentGoalsPanel", panelTitle(t("development.goalsTitle"), t("development.goalsHelp")) + list([
+    ["30", t("development.goal1Title"), t("development.goal1Text")],
+    ["60", t("development.goal2Title"), t("development.goal2Text")],
+    ["90", t("development.goal3Title"), t("development.goal3Text")]
+  ], "check"));
+  setHTML("developmentOwnerPanel", panelTitle(t("development.reviewTitle"), t("development.reviewHelp")) + list([
+    ["M", t("development.managerTitle"), t("development.managerText")],
+    ["H", t("development.hrTitle"), t("development.hrText")],
+    ["S", t("development.selfTitle"), t("development.selfText")]
+  ], "decision"));
 }
 
 function renderOrganization() {
@@ -189,40 +303,119 @@ function renderOrganization() {
   ].join(""));
   setHTML("coveragePanel", panelTitle(t("organization.coverageTitle"), t("organization.coverageHelp")) + bars(coverage.map((item) => ({ label: t(`job.${item.job}`), value: item.current, tone: item.current >= item.target ? "teal" : "orange" }))));
   setHTML("balancePanel", panelTitle(t("organization.balanceTitle"), t("organization.balanceHelp")) + bars(state.data.roleReadiness.map((item) => ({ label: t(`role.${item.role}`), value: item.percent }))));
+  const departmentRows = state.data.departments.map((item) => `<tr><td><strong>${t(`department.${item.department}`)}</strong></td><td>${number(item.headcount)}</td><td>${number(item.leaderReady)}</td><td>${number(item.specialistReady)}</td><td>${number(item.coverage)}%</td><td>${t(`job.${item.gap}`)}</td></tr>`).join("");
+  setHTML("departmentPanel", panelTitle(t("organization.departmentTitle"), t("organization.departmentHelp")) + table(
+    [t("table.department"), t("table.headcount"), t("table.leaderPool"), t("table.specialistPool"), t("table.coverage"), t("table.priorityGap")], departmentRows
+  ));
+  setHTML("successionPanel", panelTitle(t("organization.successionTitle"), t("organization.successionHelp")) + `<div class="succession-list">${state.data.succession.map((item) => `<div class="succession-row"><strong>${t(`role.${item.role}`)}</strong><span>${t("organization.readyNow", { count: number(item.readyNow) })}</span><span>${t("organization.readyLater", { count: number(item.readyLater) })}</span><span class="pill ${item.gap > 2 ? "orange" : "teal"}">${t("organization.gap", { count: number(item.gap) })}</span></div>`).join("")}</div>`);
+  setHTML("mobilityPanel", panelTitle(t("organization.mobilityTitle"), t("organization.mobilityHelp")) + list(state.data.internalMobility.map((item) => ["↗", t(`job.${item.from}`), t("organization.mobilityPath", { to: t(`job.${item.to}`), count: number(item.count) })]), "insight"));
   setHTML("privacyCallout", `<span class="bullet-icon">!</span><div><strong>${t("organization.privacyTitle")}</strong><p>${t("organization.privacyText", { count: number(state.data.meta.minimumCohortSize) })}</p></div>`);
 }
 
 function renderActions() {
+  setHTML("actionMetrics", [
+    metric(t("actions.open"), state.data.actions.filter((item) => item.status === "open").length, t("common.items"), t("actions.openMeta"), "blue"),
+    metric(t("actions.progress"), state.data.actions.filter((item) => item.status === "inProgress").length, t("common.items"), t("actions.progressMeta"), "orange"),
+    metric(t("actions.done"), state.data.actions.filter((item) => item.status === "done").length, t("common.items"), t("actions.doneMeta"), "teal"),
+    metric(t("actions.overdue"), state.data.actions.filter((item) => item.status !== "done" && new Date(item.due) < new Date(state.data.meta.updatedAt)).length, t("common.items"), t("actions.overdueMeta"), "violet")
+  ].join(""));
   const rows = state.data.actions.map((action) => `
     <tr><td><strong>${esc(action.id)}</strong></td><td>${t(`actionType.${action.type}`)}</td><td>${esc(action.subject)}</td><td>${esc(action.owner)}</td><td>${date(action.due)}</td><td><span class="tag ${action.status === "done" ? "ready" : action.status === "inProgress" ? "validate" : "hold"}">${t(`actionStatus.${action.status}`)}</span></td></tr>
   `).join("");
   setHTML("actionTablePanel", panelTitle(t("actions.tableTitle"), t("actions.tableHelp")) + table(
     [t("table.id"), t("table.action"), t("table.subject"), t("table.owner"), t("table.due"), t("table.status")], rows
   ));
+  setHTML("actionStagePanel", panelTitle(t("actions.stageTitle"), t("actions.stageHelp")) + bars([
+    { label: t("actionType.interview"), value: 72 },
+    { label: t("actionType.workSample"), value: 58, tone: "orange" },
+    { label: t("actionType.alternateRole"), value: 46, tone: "teal" },
+    { label: t("actionType.humanReview"), value: 83 }
+  ]));
+  setHTML("actionPolicyPanel", panelTitle(t("actions.policyTitle"), t("actions.policyHelp")) + list([
+    ["✓", t("actions.policy1Title"), t("actions.policy1Text")],
+    ["✓", t("actions.policy2Title"), t("actions.policy2Text")],
+    ["!", t("actions.policy3Title"), t("actions.policy3Text")]
+  ], "check"));
 }
 
-function renderSettings() {
-  const data = state.data;
-  const accessRows = data.accessRoles.map((item) => `<div class="setting-row"><span>${t(`accessRole.${item.role}`)}</span><strong>${t(`access.${item.access}`)}</strong></div>`).join("");
-  setHTML("settingsGrid", `
-    ${settingCard(t("settings.integrationTitle"), t("settings.integrationHelp"), [
-      [t("settings.resultAdapter"), data.meta.mode === "demo" ? t("common.demoData") : t("common.connected")],
-      [t("settings.modelId"), data.meta.modelId],
-      [t("settings.updatedAt"), date(data.meta.updatedAt)]
-    ])}
-    <article class="setting-card"><h2>${t("settings.accessTitle")}</h2><p>${t("settings.accessHelp")}</p>${accessRows}</article>
-    ${settingCard(t("settings.governanceTitle"), t("settings.governanceHelp"), [
-      [t("settings.auditLog"), t("common.enabled")],
-      [t("settings.retention"), t("settings.retentionValue")],
-      [t("settings.humanReview"), t("common.required")]
-    ])}
-    ${settingCard(t("settings.i18nTitle"), t("settings.i18nHelp"), [
-      [t("settings.locales"), t("settings.localesValue")],
-      [t("settings.currentLocale"), getLocale()],
-      [t("settings.rtl"), t("common.supported")]
-    ])}
+function renderCompetencies() {
+  const model = state.competencyModel;
+  const totalWeight = model.competencies.reduce((sum, item) => sum + Number(item.weight || 0), 0);
+  setHTML("competencyMeta", `${tag(`${t("common.version")} ${esc(model.version)}`, "violet")} ${tag(t(`competency.status.${model.status}`), model.status === "published" ? "teal" : model.status === "review" ? "orange" : "gray")}`);
+  setHTML("competencyWorkflow", `<div><h2>${t("competency.workflowTitle")}</h2><p>${t("competency.workflowText")}</p></div><span class="pill blue">${t("competency.workflowSteps")}</span>`);
+  setHTML("competencyContext", panelTitle(t("competency.contextTitle"), t("competency.contextHelp")) + `
+    <div class="field-stack">
+      <label><span>${t("competency.department")}</span><select id="competencyDepartment">${state.data.departments.map((item) => `<option value="${item.department}" ${item.department === model.department ? "selected" : ""}>${t(`department.${item.department}`)}</option>`).join("")}</select></label>
+      <label><span>${t("competency.job")}</span><select id="competencyJob">${state.data.jobCoverage.map((item) => `<option value="${item.job}" ${item.job === model.job ? "selected" : ""}>${t(`job.${item.job}`)}</option>`).join("")}</select></label>
+    </div>
+    <div class="context-summary"><div><strong>${number(model.competencies.length)}</strong><span>${t("competency.count")}</span></div><div><strong class="${totalWeight === 100 ? "ok" : "warn"}">${number(totalWeight)}%</strong><span>${t("competency.totalWeight")}</span></div></div>
+    <div class="workflow-actions"><button class="secondary-button" type="button" id="saveCompetency">${t("competency.saveDraft")}</button><button class="primary-button" type="button" id="submitCompetency">${t("competency.submitReview")}</button><button class="secondary-button" type="button" id="publishCompetency">${t("competency.publish")}</button></div>
   `);
-  setHTML("settingsNotice", `<span class="bullet-icon">i</span><div><strong>${t("settings.requestTitle")}</strong><p>${t("settings.requestText")}</p></div>`);
+  setHTML("competencyEditor", panelTitle(t("competency.editorTitle"), t("competency.editorHelp")) + `
+    <div class="competency-list">${model.competencies.map(competencyEditorRow).join("")}</div>
+    <button class="add-button" type="button" id="addCompetency">＋ ${t("competency.add")}</button>
+  `);
+  renderCompetencyPreview();
+  bindCompetencyEvents();
+}
+
+function competencyEditorRow(item) {
+  return `<div class="competency-card" data-competency-id="${esc(item.id)}">
+    <div class="competency-card-head"><input class="competency-name" data-field="name" value="${esc(item.name)}" placeholder="${t("competency.namePlaceholder")}" aria-label="${t("competency.name")}"><button class="remove-button" type="button" data-remove-competency="${esc(item.id)}" aria-label="${t("competency.remove")}">×</button></div>
+    <div class="competency-fields">
+      <label><span>${t("competency.scope")}</span><select data-field="scope">${["common", "job", "role"].map((key) => `<option value="${key}" ${item.scope === key ? "selected" : ""}>${t(`competency.scope.${key}`)}</option>`).join("")}</select></label>
+      <label><span>${t("competency.targetLevel")}</span><select data-field="targetLevel">${[1,2,3,4].map((level) => `<option value="${level}" ${Number(item.targetLevel) === level ? "selected" : ""}>${t(`competency.level.${level}`)}</option>`).join("")}</select></label>
+      <label><span>${t("competency.weight")}</span><input type="number" min="0" max="100" step="5" data-field="weight" value="${number(item.weight)}"></label>
+      <label><span>${t("competency.evidence")}</span><select data-field="evidence">${["interview", "workSample", "portfolio", "performance"].map((key) => `<option value="${key}" ${item.evidence === key ? "selected" : ""}>${t(`competency.evidence.${key}`)}</option>`).join("")}</select></label>
+    </div>
+    <label class="behavior-field"><span>${t("competency.behavior")}</span><textarea data-field="behavior" rows="2" placeholder="${t("competency.behaviorPlaceholder")}">${esc(item.behavior)}</textarea></label>
+  </div>`;
+}
+
+function renderCompetencyPreview() {
+  const rows = state.competencyModel.competencies.map((item) => `<tr><td><strong>${esc(item.name || t("competency.unnamed"))}</strong></td><td>${t(`competency.scope.${item.scope}`)}</td><td>${t(`competency.level.${item.targetLevel}`)}</td><td>${number(item.weight)}%</td><td>${t(`competency.evidence.${item.evidence}`)}</td><td>${esc(item.behavior)}</td></tr>`).join("");
+  setHTML("competencyPreview", panelTitle(t("competency.previewTitle"), t("competency.previewHelp")) + table(
+    [t("competency.name"), t("competency.scope"), t("competency.targetLevel"), t("competency.weight"), t("competency.evidence"), t("competency.behavior")], rows
+  ));
+}
+
+function bindCompetencyEvents() {
+  document.getElementById("competencyDepartment").addEventListener("change", (event) => { state.competencyModel.department = event.target.value; renderCompetencies(); });
+  document.getElementById("competencyJob").addEventListener("change", (event) => { state.competencyModel.job = event.target.value; renderCompetencies(); });
+  document.querySelectorAll("[data-competency-id] [data-field]").forEach((control) => control.addEventListener("change", (event) => {
+    const card = event.target.closest("[data-competency-id]");
+    const item = state.competencyModel.competencies.find((entry) => entry.id === card.dataset.competencyId);
+    if (!item) return;
+    const field = event.target.dataset.field;
+    item[field] = ["targetLevel", "weight"].includes(field) ? Number(event.target.value) : event.target.value;
+    renderCompetencies();
+  }));
+  document.querySelectorAll("[data-remove-competency]").forEach((button) => button.addEventListener("click", () => {
+    state.competencyModel.competencies = state.competencyModel.competencies.filter((item) => item.id !== button.dataset.removeCompetency);
+    renderCompetencies();
+  }));
+  document.getElementById("addCompetency").addEventListener("click", () => {
+    state.competencyModel.competencies.push({ id: `CMP-${Date.now()}`, name: "", scope: "job", targetLevel: 2, weight: 0, evidence: "interview", behavior: "" });
+    renderCompetencies();
+  });
+  document.getElementById("saveCompetency").addEventListener("click", () => persistCompetencyModel("draft"));
+  document.getElementById("submitCompetency").addEventListener("click", () => persistCompetencyModel("review"));
+  document.getElementById("publishCompetency").addEventListener("click", () => persistCompetencyModel("published"));
+}
+
+function persistCompetencyModel(status) {
+  state.competencyModel.status = status;
+  state.competencyModel.updatedAt = new Date().toISOString();
+  try { localStorage.setItem("dcas.enterprise.competencyModel", JSON.stringify(state.competencyModel)); } catch {}
+  renderCompetencies();
+}
+
+function loadCompetencyModel(fallback) {
+  try {
+    const saved = JSON.parse(localStorage.getItem("dcas.enterprise.competencyModel"));
+    if (saved && Array.isArray(saved.competencies)) return saved;
+  } catch {}
+  return structuredClone(fallback);
 }
 
 function buildLanguageSelect() {
@@ -274,6 +467,7 @@ function navigate(page, options = {}) {
 
 function resolvePageFromHash() {
   const hash = location.hash.replace(/^#/, "");
+  if (hash === "settings") return "competencies";
   return PAGE_IDS.includes(hash) ? hash : "overview";
 }
 
@@ -313,15 +507,24 @@ function table(headers, rows) {
 }
 
 function personCell(candidate) {
-  return `<div class="person-cell"><div class="avatar">${esc(initials(candidate.name))}</div><div><strong>${esc(candidate.name)}</strong><small>${t("individual.source")}</small></div></div>`;
+  return `<div class="person-cell"><div class="avatar">${esc(initials(candidate.name))}</div><div><strong>${esc(candidate.name)}</strong><small>${t("individual.openDetail")}</small></div></div>`;
+}
+
+function loadResumeMetadata() {
+  try { return JSON.parse(localStorage.getItem("dcas-enterprise-resume-metadata") || "{}"); }
+  catch { return {}; }
+}
+
+function saveResumeMetadata(value) {
+  localStorage.setItem("dcas-enterprise-resume-metadata", JSON.stringify(value));
+}
+
+function jobLabel(job) {
+  return job ? t(`job.${job}`) : t("individual.noAppliedJob");
 }
 
 function fitScore(value) {
   return `<div class="fit-score"><div class="bar-track"><div class="bar-fill" style="width:${clamp(value)}%"></div></div><strong>${number(value)}%</strong></div>`;
-}
-
-function settingCard(title, help, rows) {
-  return `<article class="setting-card"><h2>${title}</h2><p>${help}</p>${rows.map(([label, value]) => `<div class="setting-row"><span>${label}</span><strong>${esc(value)}</strong></div>`).join("")}</article>`;
 }
 
 function tag(text, tone) {

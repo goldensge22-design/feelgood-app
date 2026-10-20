@@ -9,8 +9,9 @@ export async function loadDashboardData(context = {}) {
   const external = window.FeelGoodEnterpriseAdapter;
   if (external && typeof external.loadDashboardData === "function") {
     const data = await external.loadDashboardData(context);
-    validateDashboardData(data);
-    return { ...data, meta: { ...data.meta, mode: "production" } };
+    const normalized = { ...data, competencyModel: data.competencyModel ?? structuredClone(MOCK_DASHBOARD_DATA.competencyModel) };
+    validateDashboardData(normalized);
+    return { ...normalized, meta: { ...normalized.meta, mode: "production" } };
   }
   validateDashboardData(MOCK_DASHBOARD_DATA);
   return structuredClone(MOCK_DASHBOARD_DATA);
@@ -23,6 +24,7 @@ export function validateDashboardData(data) {
   if (!Array.isArray(data?.profiles)) errors.push("profiles");
   if (!Array.isArray(data?.candidates)) errors.push("candidates");
   if (!Array.isArray(data?.jobCoverage)) errors.push("jobCoverage");
+  if (!Array.isArray(data?.competencyModel?.competencies)) errors.push("competencyModel.competencies");
   if (data?.candidates?.some((candidate) => !candidate.id || !candidate.pass || !candidate.topJobs)) {
     errors.push("candidates[].id/pass/topJobs");
   }
