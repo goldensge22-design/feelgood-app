@@ -65,6 +65,12 @@ export const MOCK_DASHBOARD_DATA = {
     { key: "values", value: 20 },
     { key: "workSample", value: 20 }
   ],
+  candidateEvaluations: [
+    { candidateId: "C-2401", jobCompetencyEvidence: 84, coreValueBehavior: 81, workSampleScore: 79, evaluatorRole: "hiringManager", status: "approved", updatedAt: "2026-10-20T10:20:00+09:00" },
+    { candidateId: "C-2402", jobCompetencyEvidence: 88, coreValueBehavior: 76, workSampleScore: 86, evaluatorRole: "hiringManager", status: "approved", updatedAt: "2026-10-20T10:25:00+09:00" },
+    { candidateId: "C-2403", jobCompetencyEvidence: 72, coreValueBehavior: 80, workSampleScore: 74, evaluatorRole: "hiringManager", status: "approved", updatedAt: "2026-10-20T10:30:00+09:00" },
+    { candidateId: "C-2404", jobCompetencyEvidence: 64, coreValueBehavior: 73, workSampleScore: 61, evaluatorRole: "hiringManager", status: "draft", updatedAt: "2026-10-20T10:35:00+09:00" }
+  ],
   employeeProfileWeights: {
     dcas: 40,
     workPerformance: 45,

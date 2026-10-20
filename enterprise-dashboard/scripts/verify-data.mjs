@@ -17,6 +17,18 @@ for (const candidate of MOCK_DASHBOARD_DATA.candidates) {
     if (!Number.isFinite(candidate[key]) || candidate[key] < 0 || candidate[key] > 100) errors.push(`${candidate.id}.${key}: invalid signal`);
   }
 }
+const candidateIds = new Set(MOCK_DASHBOARD_DATA.candidates.map((candidate) => candidate.id));
+const evaluationIds = new Set();
+for (const evaluation of MOCK_DASHBOARD_DATA.candidateEvaluations) {
+  if (!candidateIds.has(evaluation.candidateId)) errors.push(`${evaluation.candidateId}: evaluation has no matching candidate`);
+  if (evaluationIds.has(evaluation.candidateId)) errors.push(`${evaluation.candidateId}: duplicate candidate evaluation`);
+  evaluationIds.add(evaluation.candidateId);
+  if (!evaluation.evaluatorRole) errors.push(`${evaluation.candidateId}: missing evaluator role`);
+  if (!["draft", "approved"].includes(evaluation.status)) errors.push(`${evaluation.candidateId}: invalid evaluation status`);
+  for (const key of ["jobCompetencyEvidence", "coreValueBehavior", "workSampleScore"]) {
+    if (!Number.isFinite(evaluation[key]) || evaluation[key] < 0 || evaluation[key] > 100) errors.push(`${evaluation.candidateId}.${key}: invalid score`);
+  }
+}
 for (const profile of MOCK_DASHBOARD_DATA.profiles) {
   if (profile.sampleSize < MOCK_DASHBOARD_DATA.meta.minimumCohortSize) errors.push(`${profile.id}: cohort below privacy threshold`);
 }
@@ -55,4 +67,4 @@ if (errors.length) {
   console.error(errors.join("\n"));
   process.exit(1);
 }
-console.log(`Enterprise data OK: ${MOCK_DASHBOARD_DATA.candidates.length} candidates, ${MOCK_DASHBOARD_DATA.employeePerformanceRecords.length} manager-entered performance records, ${MOCK_DASHBOARD_DATA.employeeSuccessProfiles.length} employee job profiles, Top 5 jobs, weights, score ranges and cohort thresholds verified.`);
+console.log(`Enterprise data OK: ${MOCK_DASHBOARD_DATA.candidates.length} candidates, ${MOCK_DASHBOARD_DATA.candidateEvaluations.length} evaluator-entered candidate records, ${MOCK_DASHBOARD_DATA.employeePerformanceRecords.length} manager-entered performance records, ${MOCK_DASHBOARD_DATA.employeeSuccessProfiles.length} employee job profiles, Top 5 jobs, score ranges and cohort thresholds verified.`);

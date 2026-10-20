@@ -12,6 +12,8 @@
 
 - 경영 요약
 - 기업 인재상과 복수 성공 프로파일
+- D-CAS/PASS 결과지 읽기 전용 신호와 기업 평가자 입력의 명확한 분리
+- 기업 평가 + D-CAS 인재상과 D-CAS/PASS 기반 잠재 인재상의 나란한 비교
 - 채용 후보자 직무·역할 분석
 - 지원자 명단과 D-CAS 결과 연결, 이름 선택 후 개인 상세 진입
 - 이력서 연결 및 이력서 기반 직무군 매칭(D-CAS 추천과 출처 분리)
@@ -54,5 +56,5 @@ node scripts/check-i18n.mjs --changed --strict-hardcoded
 
 마지막 두 명령은 중앙 registry에 등록된 프로그램만 검사한다. 기업 대시보드는 전용 validator 결과를 함께 확인한다.
 
-데모에서는 관리자 입력값을 브라우저 `localStorage`에 저장한다. 운영판에서는 `window.FeelGoodEnterpriseAdapter.saveEmployeePerformanceRecords()`를 구현해 서버 저장·권한·감사 이력과 연결해야 한다.
+데모에서는 관리자 입력값을 브라우저 `localStorage`에 저장한다. 운영판에서는 `window.FeelGoodEnterpriseAdapter.saveEmployeePerformanceRecords()`와 `window.FeelGoodEnterpriseAdapter.saveCandidateEvaluations()`를 구현해 서버 저장·권한·감사 이력과 연결해야 한다. 지원자 평가 화면의 PASS 인지특성과 추천 직무는 결과지 연동값이므로 읽기 전용으로 유지한다.
 

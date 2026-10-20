@@ -141,6 +141,15 @@ candidate.source = {
     status: "draft|approved",
     updatedAt: ISODateString
   }],
+  candidateEvaluations: [{
+    candidateId: String,
+    jobCompetencyEvidence: Number,
+    coreValueBehavior: Number,
+    workSampleScore: Number,
+    evaluatorRole: String,
+    status: "draft|approved",
+    updatedAt: ISODateString
+  }],
   roleReadiness: [
     { role: "leader|projectLead|specialist|practitioner", count: Number, percent: Number }
   ],
@@ -225,6 +234,32 @@ employeeSuccessProfiles = [{
 
 `candidate.topJobs`는 결과지만으로 계산된 직무 추천 신호다. 실제 업무성과가 없으므로 “직무 우수자” 확정값이나 `employeeSuccessProfiles`의 성과연계 점수로 표시하지 않는다. UI에서는 “직무 잠재부합 후보”로 분리하고 면접·업무과제·경력 확인을 요구한다.
 
+### 지원자 기업 평가와 두 인재상 비교
+
+지원자별 `candidate.pass`와 `candidate.topJobs`는 연결된 D-CAS 결과지에서만 읽으며 기업 평가자가 수정하지 못한다. 기업 평가자는 지원 직무에 대해 다음 세 항목만 입력한다.
+
+- `jobCompetencyEvidence`: 면접·경력·직무 수행 근거를 확인한 직무역량 점수
+- `coreValueBehavior`: 기업 핵심가치에 부합하는 관찰 행동 점수
+- `workSampleScore`: 업무 과제 또는 시뮬레이션 평가 점수
+
+대시보드는 다음 두 신호를 분리해 나란히 제공한다.
+
+1. **기업 평가 + D-CAS 인재상:** 지원 직무에 대한 기업 평가 3개 항목과 D-CAS/PASS 인지특성을 함께 반영한다.
+2. **D-CAS/PASS 기반 잠재 인재상:** 기업 평가를 섞지 않고 결과지의 추천 직무 Top 5와 잠재 신호를 그대로 사용한다.
+
+두 값의 방향이 다르면 오류로 덮어쓰지 않고 면접·업무과제·지원 직무 근거를 다시 확인하도록 표시한다. 운영 서버는 아래 저장 메서드를 구현하고 평가자 권한, 0~100 범위, 감사 이력, 동시수정 버전을 검증한다.
+
+UI는 두 신호의 공통 수준과 차이를 반영한 0~100 **기업 인재상 부합 신호**를 함께 산출한다. 기업 담당자는 이 값을 면접 우선순위와 직무군별 인재 발탁 기준에 활용하고, 조직별 운영 기준과 구간을 서버 정책으로 설정할 수 있다. 지원 직무와 D-CAS 추천 1순위가 같으면 공통 직무군으로, 다르면 두 직무를 교차 검토 직무군으로 표시한다.
+
+```js
+window.FeelGoodEnterpriseAdapter = {
+  async loadDashboardData(context) { /* ... */ },
+  async saveCandidateEvaluations({ records, context }) {
+    return api.saveCandidateEvaluations(records, context);
+  }
+};
+```
+
 ### 관리자 업무성과 입력과 분석 반영
 
 직원별 D-CAS 직무 신호는 결과지 adapter가 제공하는 읽기 전용 값이다. 관리자는 `workPerformanceScore`와 `roleEvidenceScore`만 입력하며, 평가기간·평가자 역할·상태·수정시각을 함께 저장한다. 임시저장(`draft`) 기록은 분석에서 제외하고 승인(`approved`)된 기록만 직무별 평균과 성과연계 기업 인재상 계산에 사용한다.
@@ -248,7 +283,7 @@ window.FeelGoodEnterpriseAdapter = {
 - `alternate`: 다른 직무에서 강점 활용 가능성 검토
 - `hold`: 데이터 부족 또는 결과 불일치로 판단 보류
 
-어떤 상태도 자동 합격·탈락을 의미하지 않는다.
+각 상태의 실제 활용 기준과 후속 절차는 기업 담당자가 운영 정책으로 정한다.
 
 ## 보안과 권한
 
@@ -268,5 +303,5 @@ window.FeelGoodEnterpriseAdapter = {
 
 ## 공개 데모 데이터 원칙
 
-공개 데모는 `meta.mode = "demo"`, `meta.dataProvenance = "synthetic"`로 표시한다. 인원수, 점수, 매칭률, 업무성과, 역할근거, 진행률, 날짜와 ID는 모두 기능 설명용 가상값을 사용한다. 화면의 퍼센트는 0–100 정규화 예시 신호이며 합격 확률·백분위·실제 성과율로 해석하지 않는다. 운영 adapter는 이 표시를 `production`으로 바꾸고 실제 API 데이터로 전체 필드를 교체해야 하며 데모값과 운영값을 혼합하지 않는다.
+공개 데모는 `meta.mode = "demo"`, `meta.dataProvenance = "synthetic"`로 표시한다. 인원수, 점수, 매칭률, 업무성과, 역할근거, 진행률, 날짜와 ID는 모두 기능 설명용 가상값을 사용한다. 화면의 퍼센트는 0–100 정규화 가상 예시 신호다. 운영 adapter는 이 표시를 `production`으로 바꾸고 실제 API 데이터로 전체 필드를 교체해야 하며 데모값과 운영값을 혼합하지 않는다.
 

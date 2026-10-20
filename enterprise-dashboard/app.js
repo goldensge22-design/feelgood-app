@@ -1,5 +1,5 @@
 import { initializeI18n, setLocale, getLocale, getManifest, t, number, date, applyTranslations } from "./i18n.js";
-import { loadDashboardData, saveEmployeePerformanceRecords } from "./data-adapter.js";
+import { loadDashboardData, saveEmployeePerformanceRecords, saveCandidateEvaluations } from "./data-adapter.js";
 
 const state = {
   data: null,
@@ -10,6 +10,8 @@ const state = {
   competencyModel: null,
   performanceRecords: [],
   performanceNotice: null,
+  candidateEvaluations: [],
+  modelEvaluationNotice: null,
   resumeFiles: loadResumeMetadata()
 };
 
@@ -19,6 +21,7 @@ await initializeI18n();
 state.data = await loadDashboardData(readIntegrationContext());
 state.competencyModel = loadCompetencyModel(state.data.competencyModel);
 state.performanceRecords = loadPerformanceRecords(state.data.employeePerformanceRecords);
+state.candidateEvaluations = loadCandidateEvaluations(state.data.candidateEvaluations);
 state.candidateId = state.data.candidates[0]?.id || null;
 state.page = resolvePageFromHash();
 buildLanguageSelect();
@@ -43,13 +46,12 @@ function renderAll() {
 }
 
 function renderDemoDisclosure() {
-  const weights = state.data.employeeProfileWeights;
   setHTML("demoDisclosure", `
     <div class="demo-disclosure-heading"><span class="demo-mark" aria-hidden="true">D</span><div><span class="pill orange">${t("demo.badge")}</span><h2>${t("demo.disclosureTitle")}</h2><p>${t("demo.disclosureText")}</p></div></div>
     <div class="demo-rule-grid">
       <div><strong>${t("demo.peopleTitle")}</strong><span>${t("demo.peopleText")}</span></div>
       <div><strong>${t("demo.scoreTitle")}</strong><span>${t("demo.scoreText")}</span></div>
-      <div><strong>${t("demo.weightTitle")}</strong><span>${t("demo.weightText", { dcas: number(weights.dcas), performance: number(weights.workPerformance), role: number(weights.roleEvidence) })}</span></div>
+      <div><strong>${t("demo.weightTitle")}</strong><span>${t("demo.weightText")}</span></div>
       <div><strong>${t("demo.productionTitle")}</strong><span>${t("demo.productionText")}</span></div>
     </div>
   `);
@@ -98,40 +100,112 @@ function renderOverview() {
 
 function renderModel() {
   const data = state.data;
-  setHTML("modelMeta", `${tag(`${t("common.version")} ${esc(data.meta.modelVersion)}`, "violet")} ${tag(t("common.validatedModel"), "teal")}`);
-  setHTML("modelBanner", `
-    <div><h2>${t("model.bannerTitle")}</h2><p>${t("model.bannerText")}</p></div>
-    <span class="pill orange">${t("model.multipleProfiles")}</span>
-  `);
+  setHTML("modelMeta", "");
   setHTML("profileGrid", data.profiles.map((profile) => `
     <article class="profile-card">
       <div class="profile-icon">${esc(profile.icon)}</div>
       <h3>${t(`profile.${profile.type}`)}</h3>
       <p>${t(`profile.${profile.type}Text`)}</p>
-      <div class="profile-meta"><span class="pill blue">${t("common.sample", { count: number(profile.sampleSize) })}</span><span class="pill teal">${t("common.confidence", { value: number(profile.confidence) })}</span></div>
     </article>
   `).join(""));
 
-  setHTML("modelWeightsPanel", panelTitle(t("model.weightsTitle"), t("model.weightsHelp")) + bars(
-    data.talentModelWeights.map((item, index) => ({ label: t(`modelWeight.${item.key}`), value: item.value, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
-  ));
-  setHTML("modelValidationPanel", panelTitle(t("model.validationTitle"), t("model.validationHelp")) + list([
-    ["✓", t("model.validation1Title"), t("model.validation1Text")],
-    ["✓", t("model.validation2Title"), t("model.validation2Text")],
-    ["↻", t("model.validation3Title"), t("model.validation3Text")]
-  ], "check"));
+  renderModelEvaluation();
 
   const rows = data.profiles.map((profile) => `
-    <tr><td><strong>${t(`profile.${profile.type}`)}</strong></td><td>${t(`role.${profile.role}`)}</td><td>${profile.strengths.map((key) => t(`domain.${key}`)).join(" · ")}</td><td>${number(profile.sampleSize)}</td><td>${number(profile.confidence)}%</td></tr>
+    <tr><td><strong>${t(`profile.${profile.type}`)}</strong></td><td>${t(`role.${profile.role}`)}</td><td>${profile.strengths.map((key) => t(`domain.${key}`)).join(" · ")}</td></tr>
   `).join("");
   setHTML("modelTablePanel", panelTitle(t("model.referenceTable"), t("model.referenceTableHelp")) + table(
-    [t("table.profile"), t("table.role"), t("table.keyPattern"), t("table.sample"), t("table.confidence")], rows
+    [t("table.profile"), t("table.role"), t("table.keyPattern")], rows
   ));
+}
+
+function renderModelEvaluation() {
+  const candidate = selectedCandidate();
+  const evaluation = selectedCandidateEvaluation(candidate.id);
+  const passScore = Math.round(Object.values(candidate.pass).reduce((sum, value) => sum + value, 0) / Object.keys(candidate.pass).length);
+  const notice = state.modelEvaluationNotice ? `<div class="performance-notice ${state.modelEvaluationNotice.tone}" role="status">${t(state.modelEvaluationNotice.key)}</div>` : "";
+  setHTML("modelEvaluationPanel", panelTitle(t("modelEvaluation.title"), t("modelEvaluation.help")) + `
+    <div class="model-evaluation-toolbar">
+      <label><span>${t("modelEvaluation.target")}</span><select id="modelCandidateSelect">${state.data.candidates.map((item) => `<option value="${esc(item.id)}" ${item.id === candidate.id ? "selected" : ""}>${esc(item.name)} · ${jobLabel(item.appliedJob)}</option>`).join("")}</select></label>
+      <span class="pill blue">${t("performance.managerBadge")}</span>
+    </div>
+    <div class="model-evaluation-grid">
+      <div class="model-score-card locked">
+        <span class="score-source">${t("modelEvaluation.reportLinked")}</span>
+        <strong>${t("modelWeight.pass")}</strong>
+        <b>${number(passScore)}</b>
+        <small>${t("modelEvaluation.passHelp")}</small>
+      </div>
+      ${modelEvaluationInput("jobCompetencyEvidence", "modelWeight.job", evaluation.jobCompetencyEvidence, candidate.id)}
+      ${modelEvaluationInput("coreValueBehavior", "modelWeight.values", evaluation.coreValueBehavior, candidate.id)}
+      ${modelEvaluationInput("workSampleScore", "modelWeight.workSample", evaluation.workSampleScore, candidate.id)}
+    </div>
+    <div class="model-evaluation-actions"><p>${t("modelEvaluation.evaluatorHelp")}</p><button class="primary-button" type="button" id="applyModelEvaluation">${t("modelEvaluation.apply")}</button></div>
+    ${notice}
+  `);
+  renderModelComparison(candidate, evaluation, passScore);
+  document.getElementById("modelCandidateSelect")?.addEventListener("change", (event) => {
+    state.candidateId = event.target.value;
+    state.modelEvaluationNotice = null;
+    renderModel();
+  });
+  document.getElementById("applyModelEvaluation")?.addEventListener("click", persistCandidateEvaluation);
+}
+
+function modelEvaluationInput(field, key, value, candidateId) {
+  return `<label class="model-score-card"><span class="score-source">${t("modelEvaluation.evaluatorInput")}</span><strong>${t(key)}</strong><input class="score-input" type="number" min="0" max="100" step="1" inputmode="numeric" data-model-evaluation-field="${field}" value="${clamp(value)}" aria-label="${esc(t("modelEvaluation.scoreAria", { candidate: candidateId, score: t(key) }))}"><small>${t("modelEvaluation.inputHelp")}</small></label>`;
+}
+
+function renderModelComparison(candidate, evaluation, passScore) {
+  const weights = Object.fromEntries(state.data.talentModelWeights.map((item) => [item.key, item.value / 100]));
+  const integratedScore = Math.round(passScore * weights.pass + evaluation.jobCompetencyEvidence * weights.job + evaluation.coreValueBehavior * weights.values + evaluation.workSampleScore * weights.workSample);
+  const [topJob, passOnlyScore] = candidate.topJobs[0];
+  const difference = Math.abs(integratedScore - passOnlyScore);
+  const lowerScore = Math.min(integratedScore, passOnlyScore);
+  const higherScore = Math.max(integratedScore, passOnlyScore);
+  const alignmentScore = Math.round(lowerScore * 0.75 + higherScore * 0.25);
+  const guidanceKey = alignmentScore >= 85 ? "modelComparison.priorityInterview" : alignmentScore >= 70 ? "modelComparison.roleReview" : "modelComparison.moreEvidence";
+  const roleRelationKey = candidate.appliedJob === topJob ? "modelComparison.sharedJob" : "modelComparison.crossJob";
+  const roleRelation = candidate.appliedJob === topJob ? jobLabel(topJob) : `${jobLabel(candidate.appliedJob)} · ${jobLabel(topJob)}`;
+  const summaryKey = difference <= 5 ? "modelComparison.aligned" : difference <= 12 ? "modelComparison.review" : "modelComparison.gap";
+  setHTML("modelComparisonPanel", panelTitle(t("modelComparison.title"), t("modelComparison.help")) + `
+    <div class="model-comparison-stack">
+      <article class="comparison-card integrated"><span>${t("modelComparison.integrated")}</span><strong>${jobLabel(candidate.appliedJob)}</strong><b>${number(integratedScore)}</b><small>${t("modelComparison.integratedHelp")}</small></article>
+      <article class="comparison-card pass-only"><span>${t("modelComparison.passOnly")}</span><strong>${jobLabel(topJob)}</strong><b>${number(passOnlyScore)}</b><small>${t("modelComparison.passOnlyHelp")}</small></article>
+    </div>
+    <div class="alignment-signal"><div><strong>${t("modelComparison.alignmentSignal")}</strong><span>${t("modelComparison.alignmentHelp")}</span></div><b>${number(alignmentScore)}</b><p><span>${t(roleRelationKey)}</span><strong>${roleRelation}</strong><em>${t(guidanceKey)}</em></p></div>
+    <div class="comparison-summary"><strong>${t("modelComparison.summary")}</strong><p>${t(summaryKey)}</p></div>
+  `);
+}
+
+function selectedCandidateEvaluation(candidateId) {
+  let evaluation = state.candidateEvaluations.find((item) => item.candidateId === candidateId);
+  if (!evaluation) {
+    evaluation = { candidateId, jobCompetencyEvidence: 0, coreValueBehavior: 0, workSampleScore: 0, evaluatorRole: "hiringManager", status: "draft", updatedAt: null };
+    state.candidateEvaluations.push(evaluation);
+  }
+  return evaluation;
+}
+
+async function persistCandidateEvaluation() {
+  const evaluation = selectedCandidateEvaluation(state.candidateId);
+  document.querySelectorAll("[data-model-evaluation-field]").forEach((input) => { evaluation[input.dataset.modelEvaluationField] = clamp(input.value); });
+  evaluation.status = "approved";
+  evaluation.updatedAt = new Date().toISOString();
+  try {
+    if (state.data.meta.mode === "demo") localStorage.setItem(candidateEvaluationStorageKey(), JSON.stringify(state.candidateEvaluations));
+    else await saveCandidateEvaluations([evaluation], readIntegrationContext());
+    state.modelEvaluationNotice = { key: "modelEvaluation.applied", tone: "success" };
+  } catch (error) {
+    console.error(error);
+    state.modelEvaluationNotice = { key: "modelEvaluation.saveFailed", tone: "error" };
+  }
+  renderModel();
 }
 
 function renderHiring() {
   const statuses = ["all", "priority", "validate", "alternate", "hold"];
-  setHTML("hiringToolbar", `<div class="candidate-filter-block"><div class="candidate-filter-heading"><strong>${t("hiring.filterLabel")}</strong><span>${t("hiring.filterHelp")}</span></div><div class="candidate-filter-grid" role="group" aria-label="${esc(t("hiring.filterLabel"))}">${statuses.map((status) => `<button class="filter-button filter-card ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}" aria-pressed="${state.candidateFilter === status}"><strong>${t(`filter.${status}`)}</strong><span>${t(`filterHelp.${status}`)}</span></button>`).join("")}</div></div><aside class="candidate-data-guide"><span class="pill gray">${t("hiring.noAuto")}</span><strong>${t(state.data.meta.mode === "demo" ? "roster.connectDemo" : "roster.connect")}</strong><p>${t(state.data.meta.mode === "demo" ? "roster.connectDemoHelp" : "roster.help")}</p><button class="filter-button" type="button" id="rosterConnectButton">${t("common.details")}</button></aside>`);
+  setHTML("hiringToolbar", `<div class="candidate-filter-block"><div class="candidate-filter-heading"><strong>${t("hiring.filterLabel")}</strong><span>${t("hiring.filterHelp")}</span></div><div class="candidate-filter-grid" role="group" aria-label="${esc(t("hiring.filterLabel"))}">${statuses.map((status) => `<button class="filter-button filter-card ${state.candidateFilter === status ? "active" : ""}" type="button" data-candidate-filter="${status}" aria-pressed="${state.candidateFilter === status}"><strong>${t(`filter.${status}`)}</strong><span>${t(`filterHelp.${status}`)}</span></button>`).join("")}</div></div><aside class="candidate-data-guide"><strong>${t(state.data.meta.mode === "demo" ? "roster.connectDemo" : "roster.connect")}</strong><p>${t(state.data.meta.mode === "demo" ? "roster.connectDemoHelp" : "roster.help")}</p><button class="filter-button" type="button" id="rosterConnectButton">${t("common.details")}</button></aside>`);
   document.querySelectorAll("[data-candidate-filter]").forEach((button) => button.addEventListener("click", () => {
     state.candidateFilter = button.dataset.candidateFilter;
     renderHiring();
@@ -327,6 +401,20 @@ function average(records, key) {
 
 function performanceStorageKey() {
   return `dcas.enterprise.performanceRecords.${state.data.meta.modelId}`;
+}
+
+function candidateEvaluationStorageKey() {
+  return `dcas.enterprise.candidateEvaluations.${state.data.meta.modelId}`;
+}
+
+function loadCandidateEvaluations(seed = []) {
+  if (state.data.meta.mode !== "demo") return structuredClone(seed);
+  try {
+    const stored = JSON.parse(localStorage.getItem(candidateEvaluationStorageKey()));
+    return Array.isArray(stored) ? stored : structuredClone(seed);
+  } catch {
+    return structuredClone(seed);
+  }
 }
 
 function loadPerformanceRecords(fallback = []) {
