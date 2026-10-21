@@ -62,7 +62,10 @@ body:has(.st-root){background:var(--ivory,#f7f2e6)}
  .st-brand b{font-size:22px}
  .st-grid,.st-fields{grid-template-columns:1fr}
  .st-nav{display:none}
- .st-bottom{display:grid;grid-template-columns:repeat(4,1fr);position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--paper);border-top:2px solid var(--ink);padding:6px;gap:4px}
+ .st-bottom{display:grid;grid-template-columns:repeat(20,minmax(0,1fr));position:fixed;left:0;right:0;bottom:0;z-index:25;background:var(--paper);border-top:2px solid var(--ink);padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px));gap:4px}
+ .st-bottom>button{grid-column:span 10}
+ .st-bottom>button:nth-child(3){grid-column:span 7}
+ .st-bottom>.st-more{grid-column:span 13}
  .st-bottom button{padding:6px 4px!important;font-size:14px}
  .st-bottom .st-menu{top:auto;bottom:calc(100% + 6px)}
  .st-notice{left:12px;right:12px;max-width:none}
@@ -150,10 +153,31 @@ body:has(.st-root){background:var(--ivory,#f7f2e6)}
 [data-testid="text-desk-title"]:focus-visible{outline:3px solid #f5a02b;border-radius:4px}
 .st-root{font-family:system-ui,"Noto Sans Khmer","Khmer OS System","Noto Sans Thai",sans-serif;overflow-wrap:anywhere}
 .st-root button,.st-root summary,.st-root label{white-space:normal;overflow-wrap:anywhere}
-.st-root:lang(ko),.st-root:lang(ko) *,
-.st-root:lang(mn),.st-root:lang(mn) *{word-break:keep-all;overflow-wrap:break-word}
 .st-root button,.st-root summary{min-height:44px;min-inline-size:44px}
 .st-root [data-st-user]{unicode-bidi:isolate;overflow-wrap:anywhere}
+/* Break at word/eojeol boundaries; shrink containers instead of splitting normal words. */
+.st-root:lang(ko),.st-root:lang(ko) :is(h1,h2,h3,h4,p,span,b,small,strong,button,summary,label,li,legend,blockquote,[data-st-user]){
+ word-break:keep-all;overflow-wrap:break-word;hyphens:none;
+}
+.st-root:lang(mn),.st-root:lang(mn) :is(h1,h2,h3,h4,p,span,b,small,strong,button,summary,label,li,legend,blockquote,[data-st-user]){
+ word-break:normal;overflow-wrap:break-word;hyphens:none;
+}
+.st-root :is(.st-grid,.st-fields,.st-zones,.pm-grid2,.pm-grid3)>*{min-inline-size:0}
+.st-root :is(.st-cur-top,.st-tag,.st-head,.pm-row)>*{min-inline-size:0}
+.st-root :is(button,summary,label){max-inline-size:100%}
+.st-root :is(.pm-grid2,.st-fields){grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:767px){
+ .st-root :is(.pm-grid2,.st-fields){grid-template-columns:minmax(0,1fr)}
+ /* Reserve two full navigation rows for every locale, including iPhone safe area.
+    Do not split words, shrink type, truncate labels, or clamp button heights. */
+ .st-root{padding-bottom:calc(160px + env(safe-area-inset-bottom,0px))}
+ .st-root .st-bottom :is(button,[role=menuitem]){width:100%;min-height:44px;line-height:1.35;word-break:keep-all;overflow-wrap:normal;hyphens:none}
+ .st-root .st-bottom>.st-more{min-inline-size:0;display:flex;align-items:stretch}
+ .st-root .st-bottom .st-menu{max-width:calc(100vw - 12px)}
+ .st-root[dir=rtl] .st-bottom .st-menu{right:auto;left:0}
+ .st-root:lang(ko) .st-curfile,.st-root:lang(mn) .st-curfile{grid-template-columns:minmax(0,1fr)}
+ .st-root:lang(ko) .st-curfile :is(.st-start,.st-editor),.st-root:lang(mn) .st-curfile :is(.st-start,.st-editor){grid-column:1/-1}
+}
 .st-root input,.st-root textarea,.st-root select{max-inline-size:100%}
 .st-root[dir=rtl] .st-row,.st-root[dir=rtl] .st-nav{direction:rtl}
 @media print{.st-root{overflow:visible}.st-root button,.st-root nav{display:none}.st-root [data-st-user]{white-space:normal}}

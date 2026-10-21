@@ -1,6 +1,7 @@
 // Studio-only source macro. Canonical record values are not translated.
 import ts from 'typescript';
 import {createHash} from 'node:crypto';
+import {fileURLToPath} from 'node:url';
 export const keyFor=s=>'s.'+createHash('sha256').update(s).digest('hex').slice(0,16);
 const korean=/[가-힣]/;
 const canonical=new Set('학습 생활 업무 기타 상 중 하 수학 국어 영어 과학 사회 역사 한국사 세계사 물리 화학 생물 생명 지구 숙제 복습 시험 수행평가 과제 프로젝트 진로 계획 주의 동시 순차'.split(' '));
@@ -119,10 +120,10 @@ export function transformStudio(code,file,collect,compile=true){
  if(!compile)return code;
  let result=code;
  for(const e of edits.sort((a,b)=>b.start-a.start))result=result.slice(0,e.start)+e.text+result.slice(e.end);
- return `import {t as __st_t,label as __st_label,intlDate as __st_date,rawText as __st_raw} from ${JSON.stringify(new URL('./runtime.ts',import.meta.url).pathname)};\n`+result;
+ return `import {t as __st_t,label as __st_label,intlDate as __st_date,rawText as __st_raw} from ${JSON.stringify(fileURLToPath(new URL('./runtime.ts',import.meta.url)).replace(/\\/g,'/'))};\n`+result;
 }
 export default function studioI18n(){return {name:'studio-keyed-i18n',enforce:'pre',transform(code,id){
- const file=id.split('?')[0];
+ const file=id.split('?')[0].replace(/\\/g,'/');
  if(!file.includes('/src/studio/')||file.includes('/i18n/')||file.endsWith('/task-copy.ts')||!/\.(tsx?|jsx?)$/.test(file))return;
  return {code:transformStudio(code,file),map:null};
 }};}

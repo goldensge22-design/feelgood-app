@@ -26,6 +26,7 @@ for(const locale of locales){
  if(JSON.stringify(Object.keys(r).sort())!==JSON.stringify(keys))errors.push('key set mismatch');
  for(const key of keys){
   const text=r[key];if(typeof text!=='string'||!text.trim()){errors.push(key+': missing/empty');continue;}
+  if(locale==='az'&&(/\[L\d+\]/.test(text)||/\b(Iltimos|saqlash|qoralama|Sherefu|Tafura|Lütfen|isteğe|çizelgesi|Përmbledhje|Mujore|workbench|Synthetic|Recommended support)\b/i.test(text)))errors.push(key+': known non-Azerbaijani contamination');
   if(locale!=='ko'&&/[가-힣]/.test(text))errors.push(key+': Hangul remains');
   if(scripts[locale]&&!scripts[locale].test(text))errors.push(key+': target language script missing');
   if(locale==='km'&&/[\u0e00-\u0e7f]/.test(text)||locale==='th'&&/[\u1780-\u17ff]/.test(text))errors.push(key+': wrong language script');
@@ -37,7 +38,14 @@ for(const locale of locales){
 }
 const uncovered=[];
 for(const file of fs.readdirSync(root).filter(f=>/\.tsx?$/.test(f))){
- transformStudio(fs.readFileSync(root+'/'+file,'utf8'),root+'/'+file,(key,text)=>{if(ko[key]!==text)uncovered.push({file,key,text});},false);
+ const text=fs.readFileSync(root+'/'+file,'utf8');
+ transformStudio(text,root+'/'+file,(key,text)=>{if(ko[key]!==text)uncovered.push({file,key,text});},false);
+ // Also validate emitted call sites, including nested report templates. A stale
+ // extraction must fail here, not interrupt a student's report in the browser.
+ const compiled=transformStudio(text,root+'/'+file);
+ for(const match of compiled.matchAll(/__st_t\("(s\.[a-f0-9]+)"/g)){
+  if(!Object.hasOwn(ko,match[1]))uncovered.push({file,key:match[1],text:'missing emitted translation key'});
+ }
 }
 const result={resourceKeys:keys.length,extensions:{dailyNote:{keys:notes.keys.length,locales:locales.length,status:notes.status}},locales:rows,uncoveredSource:uncovered};
 fs.mkdirSync('generated-artifacts/studio-i18n',{recursive:true});

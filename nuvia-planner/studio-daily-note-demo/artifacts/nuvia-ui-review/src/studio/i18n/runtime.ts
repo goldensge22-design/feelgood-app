@@ -37,7 +37,12 @@ export function t(key:string,values:Record<string,unknown>={},locale:Locale=acti
   if(!(name in values))throw new Error(`Missing Studio placeholder: ${key}/${name}`);
   const v=values[name];return typeof v==='number'?numberFormat(locale).format(v):String(v??'');
  });
- return result.startsWith('<!doctype html>')?result.replace(/<html lang="[^"]*">/,`<html lang="${locale}" dir="${locale==='ar'?'rtl':'ltr'}">`):result;
+ if(!result.startsWith('<!doctype html>'))return result;
+ const document=result.replace(/<html lang="[^"]*">/,`<html lang="${locale}" dir="${locale==='ar'?'rtl':'ltr'}">`);
+ // Keep words intact in Korean/Mongolian printed and downloaded documents too.
+ // Emergency wrapping is only for an otherwise unbreakable token (e.g. a URL).
+ return locale==='ko'||locale==='mn'?document.replace('</style>',
+  `body,p,li,h1,h2,h3,small,section{word-break:${locale==='ko'?'keep-all':'normal'};overflow-wrap:break-word;hyphens:none;min-width:0}body{box-sizing:border-box;max-width:100%}a,code,pre{overflow-wrap:anywhere}</style>`):document;
 }
 const sourceIndex=new Map(Object.entries(ko).map(([k,v])=>[v,k]));
 const translatedIndex=new Map(Object.values(resources).flatMap(r=>Object.entries(r).filter(([,v])=>!/\{[A-Za-z]\w*\}/.test(v)).map(([k,v])=>[v,k])));

@@ -2,7 +2,7 @@ import type {PersonalState} from './model';
 import {areas,stats,suggest,student,localDate} from './monthly';
 import {AXIS_NAMES} from '../enhancement/model';
 import {baselineHTML,changeHTML} from './insight-report';
-import {currentLocale} from './i18n/runtime';
+import {draftStatusLabel} from './i18n/assessment-labels';
 export interface ReportFields {summary:boolean;evidence:boolean;methods:boolean;outputs:boolean;assessment?:boolean}
 const esc=(s:unknown)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 export function reportHTML(s:PersonalState,month:string,fields:ReportFields):string{
@@ -23,8 +23,7 @@ export function reportHTML(s:PersonalState,month:string,fields:ReportFields):str
  if(fields.methods)body+=section('기존 개인 방법 메모 — 사용 횟수와 별개',p.methods.map(m=>`<p>${esc(m.name)} · ${m.helpful==='yes'?'도움 됨':m.helpful==='no'?'도움되지 않음':'모르겠음'}. 기존 단일 메모이며 응답 변경 이력을 추정하지 않습니다.</p>`).join('')||'<p>기존 방법 메모 없음</p>');
  if(fields.outputs)body+=section('실제 적용 결과와 선택적 자기보고',s.entries.filter(e=>e.localDate.startsWith(month)).map(e=>`<p>${esc(e.cardTitle)} · 본인이 적은 산출물: ${esc(e.output||'미입력')} · 느낌: ${esc(e.feeling||'미입력')}</p>`).join('')+'<p>과제 산출물은 자기기록이며 외부 확인이나 효과 입증이 아닙니다. 외부 수행 확인 서버는 미연결입니다.</p>');
  body+='</section>';
- body+=section('3. 다음 달 제안 — 수락 전 일정 반영 없음',fields.summary?(drafts.map(d=>`<h3>${esc(AXIS_NAMES[d.axis])} · ${esc(d.toMonth)} · ${esc(d.status)}</h3><p>목표 ${d.baseline.count} → ${d.count}회 · 분량 ${esc(d.baseline.chunk)} → ${esc(d.chunk)} · 방법 ${esc(d.method)} · 도움 ${esc(d.help)}</p><ul>${d.reasons.map(r=>'<li>'+esc(r)+'</li>').join('')}</ul>`).join('')||'<p>아직 만든 초안이 없습니다.</p>'):'다음 달 제안은 공유 항목으로 선택하지 않았습니다.');
+ body+=section('3. 다음 달 제안 — 수락 전 일정 반영 없음',fields.summary?(drafts.map(d=>`<h3>${esc(AXIS_NAMES[d.axis])} · ${esc(d.toMonth)} · ${esc(draftStatusLabel(d.status))}</h3><p>목표 ${d.baseline.count} → ${d.count}회 · 분량 ${esc(d.baseline.chunk)} → ${esc(d.chunk)} · 방법 ${esc(d.method)} · 도움 ${esc(d.help)}</p><ul>${d.reasons.map(r=>'<li>'+esc(r)+'</li>').join('')}</ul>`).join('')||'<p>아직 만든 초안이 없습니다.</p>'):'다음 달 제안은 공유 항목으로 선택하지 않았습니다.');
  if(!Object.values(fields).some(Boolean))body+='<p>공유할 항목을 선택하지 않았습니다.</p>';
- const locale=currentLocale();
- return `<!doctype html><html lang="${locale}" dir="${locale==='ar'?'rtl':'ltr'}"><meta charset="utf-8"><title>NUVIA ${esc(month)} 월간 요약</title><style>body{font:17px/1.7 system-ui;color:#172c4c;max-width:900px;margin:30px auto;padding:20px}section{border-top:2px solid #c6cbd2;margin:26px 0;break-inside:avoid}p,li{overflow-wrap:anywhere}h1{font-size:28px}@media print{body{margin:0;padding:0;font-size:11pt}section{break-inside:auto}}</style><body>${body}</body></html>`;
+ return `<!doctype html><html lang="ko"><meta charset="utf-8"><title>NUVIA ${esc(month)} 월간 요약</title><style>body{font:17px/1.7 system-ui;color:#172c4c;max-width:900px;margin:30px auto;padding:20px}section{border-top:2px solid #c6cbd2;margin:26px 0;break-inside:avoid}p,li{overflow-wrap:anywhere}h1{font-size:28px}@media print{body{margin:0;padding:0;font-size:11pt}section{break-inside:auto}}</style><body>${body}</body></html>`;
 }

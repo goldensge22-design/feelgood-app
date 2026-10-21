@@ -18,6 +18,7 @@ import {TaskForm} from './TaskCreator';
 import {locales,localeNames,localeOf,type Locale} from './i18n/config';
 import {demoAudience} from '../demo/session';
 import DemoNotice from '../demo/DemoNotice';
+import AzDemoNotice from './i18n/AzDemoNotice';
 
 type Page='now'|'plan'|'reflect'|'report'|'roadmap'|'growth'|'settings';
 const PAGES:Page[]=['now','plan','reflect','report','roadmap','growth','settings'];
@@ -68,7 +69,7 @@ function StudioApp(){
  </div>;};
 
  return <div className={`pm-root st-root ${studio.appearance}`} lang={localeOf(state)} dir={localeOf(state)==='ar'?'rtl':'ltr'} data-testid="studio-root">
-  {demoAudience&&<DemoNotice audience={demoAudience}/>}
+  {demoAudience&&(localeOf(state)==='az'?<AzDemoNotice audience={demoAudience}/>:<DemoNotice audience={demoAudience}/>)}
   {REVIEW&&<p className="pm-banner review">검토 모드 · 합성 데이터와 단계 전환은 이 모드에서만 보입니다.</p>}
   <header className="st-head">
    <div className="st-title-group"><div className="st-brand"><img src={feelgoodLogo} alt=""/><small>FeelGood</small><b>NUVIA PLANNER</b></div><h1>내 하루 작업대</h1><p>지금 한 가지를 하고, 해낸 일을 모아요.</p></div>

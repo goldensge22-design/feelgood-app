@@ -1,0 +1,121 @@
+ko PASS 1138 keys 0 errors
+en PASS 1138 keys 0 errors
+ja PASS 1138 keys 0 errors
+zh-CN PASS 1138 keys 0 errors
+zh-TW PASS 1138 keys 0 errors
+mn PASS 1138 keys 0 errors
+th PASS 1138 keys 0 errors
+vi PASS 1138 keys 0 errors
+ar PASS 1138 keys 0 errors
+ru PASS 1138 keys 0 errors
+km PASS 1138 keys 0 errors
+es PASS 1138 keys 0 errors
+fr PASS 1138 keys 0 errors
+it PASS 1138 keys 0 errors
+az PASS 1138 keys 0 errors
+Daily note extension: 20 keys × 15 locales; AI_DRAFT_NOT_HUMAN_REVIEWED
+PASS i18n 439 checks; 15 locale actions/data/legacy values/backup/compiled report/Intl/placeholders
+PASS studio 1392 assertions: 81 combinations/two rotations/actual proof; explicit movement/single run/archive flag/recovery/collection; 7day boundary/future/once/group/off/keep; capacity/reorder/time consent; roadmap sources/privacy/staleness/citations/selection/backup/missing; 5-minute continuation dedup.
+PASS notifications: 545 assertions; all 225 locale transitions (including az→ko), key-based current-language rendering, note/active-run/plan preservation, backup.
+Daily notes: 365 assertions PASS (including 15 locale resources, private report exclusion, personal/workspace and old backup compatibility).
+PASS external demo 68 checks: audiences, isolated namespaces, synthetic provenance, no auto execution/credit, backup roundtrip, original unchanged
+
+> @workspace/nuvia-ui-review@0.0.0 typecheck /home/runner/workspace/artifacts/nuvia-ui-review
+> tsc -p tsconfig.json --noEmit
+
+
+> @workspace/nuvia-ui-review@0.0.0 build /home/runner/workspace/artifacts/nuvia-ui-review
+> vite build --config vite.config.ts
+
+vite v7.3.6 building client environment for production...
+<script src="./compare-storage.js"> in "/previous.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/index.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/before.html" can't be bundled without type="module" attribute
+transforming...
+✓ 1861 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/enhancement.html                         0.90 kB │ gzip:   0.50 kB
+dist/public/demo.html                                1.07 kB │ gzip:   0.65 kB
+dist/public/studio.html                              1.10 kB │ gzip:   0.67 kB
+dist/public/personal-monthly.html                    1.13 kB │ gzip:   0.68 kB
+dist/public/previous.html                            1.56 kB │ gzip:   0.89 kB
+dist/public/before.html                              2.07 kB │ gzip:   1.10 kB
+dist/public/index.html                               2.82 kB │ gzip:   1.28 kB
+dist/public/compare.html                             4.69 kB │ gzip:   2.13 kB
+dist/public/assets/review-D3r1S_gn.css               1.32 kB │ gzip:   0.63 kB
+dist/public/assets/externalDemo-i29SdCiP.css         2.08 kB │ gzip:   0.81 kB
+dist/public/assets/personalMonthly-Bl439GC0.css     10.64 kB │ gzip:   2.98 kB
+dist/public/assets/enhancement-Dk5DME4I.css         12.88 kB │ gzip:   3.40 kB
+dist/public/assets/studio-DGplXxcN.css              30.86 kB │ gzip:   7.24 kB
+dist/public/assets/before-2-cSqQXB.css              38.59 kB │ gzip:   9.42 kB
+dist/public/assets/previous-ipHr0yOS.css            62.96 kB │ gzip:  14.08 kB
+dist/public/assets/reviewed-CdtsNlVd.css            76.99 kB │ gzip:  17.02 kB
+dist/public/assets/Glyph-DAbvtcOT.js                 1.28 kB │ gzip:   0.59 kB
+dist/public/assets/review-BLggbhBd.js                1.60 kB │ gzip:   0.92 kB
+dist/public/assets/assessment-BFpSSyHK.js            3.59 kB │ gzip:   1.73 kB
+dist/public/assets/externalDemo-BQbUqnii.js          3.99 kB │ gzip:   1.82 kB
+dist/public/assets/enhancement-CF3wv8qE.js          66.85 kB │ gzip:  19.50 kB
+dist/public/assets/model-Chi0aKHx.js                85.93 kB │ gzip:  24.00 kB
+dist/public/assets/personalMonthly-DCyBdEJH.js     116.66 kB │ gzip:  35.94 kB
+dist/public/assets/reviewed-CSGgvcAM.js            147.34 kB │ gzip:  41.15 kB
+dist/public/assets/engine-26CEK4lu.js              161.14 kB │ gzip: 116.07 kB
+dist/public/assets/index-DzUQxLJ-.js               185.89 kB │ gzip:  58.57 kB
+dist/public/assets/before-Bbx1wdsK.js              288.56 kB │ gzip: 152.57 kB
+dist/public/assets/previous-BxaXfCqZ.js            297.67 kB │ gzip: 155.45 kB
+dist/public/assets/studio-BoJq_yKb.js            1,655.66 kB │ gzip: 565.99 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 12.07s
+
+=== Final navigation-width refinement: current CSS build ===
+
+> @workspace/nuvia-ui-review@0.0.0 build /home/runner/workspace/artifacts/nuvia-ui-review
+> vite build --config vite.config.ts
+
+vite v7.3.6 building client environment for production...
+<script src="./compare-storage.js"> in "/index.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/before.html" can't be bundled without type="module" attribute
+<script src="./compare-storage.js"> in "/previous.html" can't be bundled without type="module" attribute
+transforming...
+✓ 1861 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/enhancement.html                         0.90 kB │ gzip:   0.50 kB
+dist/public/demo.html                                1.07 kB │ gzip:   0.65 kB
+dist/public/studio.html                              1.10 kB │ gzip:   0.66 kB
+dist/public/personal-monthly.html                    1.13 kB │ gzip:   0.68 kB
+dist/public/previous.html                            1.56 kB │ gzip:   0.89 kB
+dist/public/before.html                              2.07 kB │ gzip:   1.10 kB
+dist/public/index.html                               2.82 kB │ gzip:   1.28 kB
+dist/public/compare.html                             4.69 kB │ gzip:   2.13 kB
+dist/public/assets/review-D3r1S_gn.css               1.32 kB │ gzip:   0.63 kB
+dist/public/assets/externalDemo-i29SdCiP.css         2.08 kB │ gzip:   0.81 kB
+dist/public/assets/personalMonthly-Bl439GC0.css     10.64 kB │ gzip:   2.98 kB
+dist/public/assets/enhancement-Dk5DME4I.css         12.88 kB │ gzip:   3.40 kB
+dist/public/assets/studio-DsjyQmPj.css              30.98 kB │ gzip:   7.27 kB
+dist/public/assets/before-2-cSqQXB.css              38.59 kB │ gzip:   9.42 kB
+dist/public/assets/previous-ipHr0yOS.css            62.96 kB │ gzip:  14.08 kB
+dist/public/assets/reviewed-CdtsNlVd.css            76.99 kB │ gzip:  17.02 kB
+dist/public/assets/Glyph-DAbvtcOT.js                 1.28 kB │ gzip:   0.59 kB
+dist/public/assets/review-BLggbhBd.js                1.60 kB │ gzip:   0.92 kB
+dist/public/assets/assessment-BFpSSyHK.js            3.59 kB │ gzip:   1.73 kB
+dist/public/assets/externalDemo-BQbUqnii.js          3.99 kB │ gzip:   1.82 kB
+dist/public/assets/enhancement-CF3wv8qE.js          66.85 kB │ gzip:  19.50 kB
+dist/public/assets/model-Chi0aKHx.js                85.93 kB │ gzip:  24.00 kB
+dist/public/assets/personalMonthly-DCyBdEJH.js     116.66 kB │ gzip:  35.94 kB
+dist/public/assets/reviewed-CSGgvcAM.js            147.34 kB │ gzip:  41.15 kB
+dist/public/assets/engine-26CEK4lu.js              161.14 kB │ gzip: 116.07 kB
+dist/public/assets/index-DzUQxLJ-.js               185.89 kB │ gzip:  58.57 kB
+dist/public/assets/before-Bbx1wdsK.js              288.56 kB │ gzip: 152.57 kB
+dist/public/assets/previous-BxaXfCqZ.js            297.67 kB │ gzip: 155.45 kB
+dist/public/assets/studio-Bgez5qGi.js            1,655.66 kB │ gzip: 565.99 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 12.59s

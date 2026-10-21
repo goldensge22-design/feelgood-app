@@ -3,6 +3,8 @@ import {stats,student} from './monthly';
 import {assessmentView,executionFacts,insightsOf,methodFacts,previousMonth} from './insights';
 import type {Source} from './insights';
 import {SUPPORT_NAMES} from '../enhancement/model';
+import {label} from './i18n/runtime';
+import {assessmentLabel,levelLabel,metricLabel,responseLabel} from './i18n/assessment-labels';
 const esc=(x:unknown)=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
 const num=(n:number|null)=>n===null?'자료 부족':Number(n.toFixed(2)).toString();
 export function baselineHTML(s:PersonalState,month:string,selected:boolean){
@@ -10,7 +12,7 @@ export function baselineHTML(s:PersonalState,month:string,selected:boolean){
  const contexts=executionFacts(s,month).contexts;
  const sources=[...new Map(contexts.filter(c=>c.source).map(c=>[c.source!.id,c.source!])).values()];
  const current=assessmentView(s);
- const display=(src:Source)=>`<h3>${esc(src.kind)} · 검사일 ${esc(src.date||'미확인')}</h3><p>${src.mode==='example'?'명시적 합성 예시 · 실제 학생 결과 아님':'로컬 결과 계약 입력 · 실제 서버·소유자 검증 미연결'} · 고정된 입력값</p><ul>${Object.entries(src.assessment.axes).map(([axis,v])=>`<li>${esc(({planning:'계획',attention:'주의',simultaneous:'동시',successive:'순차'} as Record<string,string>)[axis])}: ${esc(v.value??'값 미확인')} ${esc(v.unit??'단위 미확인')} · ${esc(v.level)}</li>`).join('')}</ul><p>점수 체계: ${esc(src.assessment.scoreSystem?.label)} / ${esc(src.assessment.scoreSystem?.metric)}. 공식 상중하·순서는 입력을 보존하고 새 경계를 만들지 않습니다.</p>`;
+ const display=(src:Source)=>`<h3>${esc(assessmentLabel(src.kind,src.assessment.assessmentId))} · 검사일 ${esc(src.date||'미확인')}</h3><p>${src.mode==='example'?'명시적 합성 예시 · 실제 학생 결과 아님':'로컬 결과 계약 입력 · 실제 서버·소유자 검증 미연결'} · 고정된 입력값</p><ul>${Object.entries(src.assessment.axes).map(([axis,v])=>`<li>${esc(label(({planning:'계획',attention:'주의',simultaneous:'동시',successive:'순차'} as Record<string,string>)[axis]))}: ${esc(v.value??'값 미확인')} ${esc(v.unit??'단위 미확인')} · ${esc(levelLabel(v.level))}</li>`).join('')}</ul><p>점수 체계: ${esc(assessmentLabel(src.assessment.scoreSystem?.label,src.assessment.assessmentId))} / ${esc(metricLabel(src.assessment.scoreSystem?.metric))}. 공식 상중하·순서는 입력을 보존하고 새 경계를 만들지 않습니다.</p>`;
  if(sources.length)return sources.map(display).join('')+(contexts.some(c=>!c.source)?'<p>일부 실행에는 출발점 메타데이터가 없습니다. 현재 검사를 과거 실행에 덧붙이지 않습니다.</p>':'');
  const stored=insightsOf(s).source;
  return '<p>이 달 실행에 연결된 검사 출발점은 확인되지 않았습니다.</p>'+(stored&&current.mode!=='unverified'?'<p>아래는 현재 보관된 입력이며 이 달의 검사로 소급 연결하지 않습니다.</p>'+display(stored):`<p>${esc(current.notice)}</p>`);
@@ -41,10 +43,10 @@ export function changeHTML(s:PersonalState,month:string,axes:Target[],includeEvi
  if(includeMethods){
   html+='<h3>써 본 도움과 선택적 자기보고</h3>';
   const methods=methodFacts(s,month);
-  html+=methods.length?methods.map(m=>`<p>${esc(SUPPORT_NAMES[m.support])}: 실행에서 사용 ${m.uses}회 / 도움 여부에 응답 ${m.responses}회 / 도움 됨 ${m.yes} · 중립 ${m.neutral} · 도움 안 됨 ${m.no} · 모르겠음 ${m.unsure} · 미응답 ${m.unanswered}.</p><ul>${m.contexts.map(c=>`<li>${esc(c.cardTitle)} · ${esc(c.subject)} · 범위 ${esc(c.scope||'미입력')} · ${esc(c.feedback?.answer??'미응답')} · ${esc(c.feedback?.at??'응답 없음')}</li>`).join('')}</ul>`).join(''):'<p>확장 기록의 방법 사용 자료가 없습니다. 이전 단일 방법 메모를 새 사용 횟수로 추정하지 않습니다.</p>';
+  html+=methods.length?methods.map(m=>`<p>${esc(SUPPORT_NAMES[m.support])}: 실행에서 사용 ${m.uses}회 / 도움 여부에 응답 ${m.responses}회 / 도움 됨 ${m.yes} · 중립 ${m.neutral} · 도움 안 됨 ${m.no} · 모르겠음 ${m.unsure} · 미응답 ${m.unanswered}.</p><ul>${m.contexts.map(c=>`<li>${esc(c.cardTitle)} · ${esc(c.subject)} · 범위 ${esc(c.scope||'미입력')} · ${esc(responseLabel(c.feedback?.answer))} · ${esc(c.feedback?.at??'응답 없음')}</li>`).join('')}</ul>`).join(''):'<p>확장 기록의 방법 사용 자료가 없습니다. 이전 단일 방법 메모를 새 사용 횟수로 추정하지 않습니다.</p>';
   const responses=insightsOf(s).comparisons.filter(c=>{const d=new Date(c.at);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}`===month;});
   const latest=responses.filter(c=>!responses.some(n=>n.previousId===c.id));
-  html+=`<h3>설명과 내 경험의 응답 기록</h3><p>응답 사건 ${responses.length}건(변경 포함), 현재 응답 맥락 ${latest.length}건. 맞아요 ${latest.filter(c=>c.answer==='agree').length} · 달라요 ${latest.filter(c=>c.answer==='different').length} · 모르겠어요 ${latest.filter(c=>c.answer==='unsure').length}. 미응답한 설명은 동의로 보지 않습니다. 설명 응답 횟수와 방법 사용 횟수는 별개입니다.</p><ul>${responses.map(c=>`<li>${esc(c.at)} · ${c.previousId?'응답 변경':'최초 맥락 응답'} · ${esc(c.cardTitle)} · ${esc(c.text)} · ${esc(c.answer)}</li>`).join('')}</ul>`;
+  html+=`<h3>설명과 내 경험의 응답 기록</h3><p>응답 사건 ${responses.length}건(변경 포함), 현재 응답 맥락 ${latest.length}건. 맞아요 ${latest.filter(c=>c.answer==='agree').length} · 달라요 ${latest.filter(c=>c.answer==='different').length} · 모르겠어요 ${latest.filter(c=>c.answer==='unsure').length}. 미응답한 설명은 동의로 보지 않습니다. 설명 응답 횟수와 방법 사용 횟수는 별개입니다.</p><ul>${responses.map(c=>`<li>${esc(c.at)} · ${c.previousId?'응답 변경':'최초 맥락 응답'} · ${esc(c.cardTitle)} · ${esc(c.text)} · ${esc(responseLabel(c.answer))}</li>`).join('')}</ul>`;
   html+='<p>방법의 응답 수는 사용 건별 최신 응답이며 나중에 바꾸면 해당 사용월 보고서에 반영됩니다. 응답 시각을 함께 표시합니다. 설명 미응답 총수는 노출 기록이 없어 추정하지 않습니다. 앱의 안내를 받은 행동과 자기보고는 독립적인 검사 검증 자료가 아닙니다. 검사와 활동의 일치율·검사 정확성·역산 PASS 점수·인지능력 향상률을 만들지 않습니다. 미응답·중립·부정은 실패나 오답이 아닙니다. 과제·환경이 다른 비교는 효과 검증이 아닙니다.</p>';
  }
  return html;

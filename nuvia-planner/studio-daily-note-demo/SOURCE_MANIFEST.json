@@ -1,16 +1,11 @@
 {
-  "sourceGitHead": "fbffdc4f467b1dd84e58007f536e0e99e1891b7b",
+  "sourceGitHead": "63a6d19b136eb098d483ae3ad00c9be4fbd1b1dd",
   "sourceGitHeadIsBaselineNotFinalCommit": true,
-  "sourceSnapshotSHA256": "11808b428742223d9e13a92645797f74ecb4f6ecb09d37944364d6762b95dbde",
-  "sourceSnapshotDefinition": "SHA256 of UTF-8 canonical JSON of sorted source entries (path,bytes,sha256); excludes generated README, manifest and QA log attachments.",
+  "sourceSnapshotSHA256": "e284ece0a53137c52992687525fc3b6ffd1c8a60265fa04f7d738ec5c28f1d26",
   "workingTreeSourceChanges": [
-    "artifacts/nuvia-ui-review/src/studio/notices.ts",
-    "artifacts/nuvia-ui-review/src/studio/store.ts",
-    "docs/STUDIO_DAILY_NOTE.md",
-    "docs/STUDIO_DAILY_NOTE_FINAL.md",
-    "tools/nuvia-studio/notice-check.ts",
-    "tools/nuvia-studio/package-daily-note-final.py",
-    "tools/nuvia-studio/run-notice-check.mjs"
+    "artifacts/nuvia-ui-review/src/studio/studio.css",
+    "docs/STUDIO_NAVIGATION_15LOCALES.md",
+    "tools/nuvia-studio/package-navigation-final.py"
   ],
   "sourceEntries": [
     {
@@ -2360,8 +2355,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx",
-      "bytes": 4630,
-      "sha256": "78a6cd125a45c4ed34e6e299f666b1674e19f941bd2d0fe99026b2c62216dce2"
+      "bytes": 4775,
+      "sha256": "bd394d6e9265c64a08518b5b2a00a96e36a5c71c2de3ba123e5738e6a9206a83"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/CONTRACT.md",
@@ -2445,8 +2440,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/StudioApp.tsx",
-      "bytes": 11554,
-      "sha256": "a78821dccfa2f61546d0ae221c9ac15b5c1ac605cb1bf164a8bdc31f30dea688"
+      "bytes": 11667,
+      "sha256": "052cf7160b7f76def8f236f7dd98a216af19a7889f9ab4d266faf829e43b94fd"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/StudioPage.tsx",
@@ -2472,6 +2467,16 @@
       "path": "artifacts/nuvia-ui-review/src/studio/domain.ts",
       "bytes": 15271,
       "sha256": "0a4a007f8a020af62946bba7fbf2209d5a028abd968f77a8bb4f21c26dd3c483"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/AzDemoNotice.tsx",
+      "bytes": 4001,
+      "sha256": "f9312cdb64b81f8702414a4c4a862ee8882eaa6b4ac5aa909c020ecd8fea919e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/assessment-labels.ts",
+      "bytes": 2531,
+      "sha256": "c697472511f1b70f766548c322c812ba62ed222005d0b68006f88b7beea6ab8d"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/i18n/catalogue.json",
@@ -2500,8 +2505,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/az.json",
-      "bytes": 85736,
-      "sha256": "c5a11b68c14de25bca36414b831d7f33498438315d26ad9b4a2063ace4909b73"
+      "bytes": 89976,
+      "sha256": "96ea048fab4d64f418495a3951e06d1f64f018a8bbc186bec87a313b7ec979fd"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/en.json",
@@ -2575,8 +2580,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/i18n/runtime.ts",
-      "bytes": 3893,
-      "sha256": "dcd2bac314a6e70b3704d71c8bdd25f07e3a0671fa5539de3b4482181105904b"
+      "bytes": 4371,
+      "sha256": "ab8173c6e7a62aaca8fb42b7cbb9c4577dd654aa67963bbc4f5b36057a463c17"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/i18n/translation-status.json",
@@ -2585,8 +2590,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/insight-report.ts",
-      "bytes": 9274,
-      "sha256": "2b842e5ddcfa3af4fed1ff90e0130198d4d96231dcee58d8027363aad52b1c94"
+      "bytes": 9546,
+      "sha256": "5cadba21b49b6af87717787d572b4851317fd1df8e16afe7aa85d6f841c39020"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/insights.ts",
@@ -2620,8 +2625,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/report.ts",
-      "bytes": 5783,
-      "sha256": "753c239db7f644c07ae450314fd43e558a81f16f8c2071eaf5fa8316fbfe5906"
+      "bytes": 5860,
+      "sha256": "5e035df0d2fddf033a88ef88b2bcc9cde9e1ee2de62bd32c395460c698564259"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/roadmap.ts",
@@ -2630,8 +2635,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/store.ts",
-      "bytes": 7505,
-      "sha256": "c035f0ecb463dac6e212f9452c734e0df63e8044aefd5af89c9bf3a9b77b436c"
+      "bytes": 7610,
+      "sha256": "435276ecae0c0d97a9a76331911b7e212c162566db3140368ab33e797f3a08d2"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/studio-logic.ts",
@@ -2645,8 +2650,8 @@
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/studio.css",
-      "bytes": 17233,
-      "sha256": "aaff4b07e51de719bba313936db54adfeb705fd88442441afaa5413a6670f103"
+      "bytes": 19116,
+      "sha256": "6f0f39c2d6d15b88b221059ac740315605a0533e5371abc022191fed73a61220"
     },
     {
       "path": "artifacts/nuvia-ui-review/src/studio/task-copy.ts",
@@ -2674,6 +2679,11 @@
       "sha256": "eb08a37bc17183eb4c12e741512a70603612805a87a4b2a8f89464d5e9cae05d"
     },
     {
+      "path": "docs/STUDIO_AZERBAIJANI_WRAP_QA.md",
+      "bytes": 5149,
+      "sha256": "36b0e4369e757631c60540c47f82b46db0b079066674c82264df0a63bc913cc0"
+    },
+    {
       "path": "docs/STUDIO_DAILY_NOTE.md",
       "bytes": 7618,
       "sha256": "4e0bb1ec489717ea4bc72b66440f39e241f2840edd0cab45ae2bf9e79ee1498d"
@@ -2682,6 +2692,11 @@
       "path": "docs/STUDIO_DAILY_NOTE_FINAL.md",
       "bytes": 3260,
       "sha256": "0e5674c0c014f276005ff1e4107adc53a51d0438d026f4de0e92a7e7a9276e40"
+    },
+    {
+      "path": "docs/STUDIO_NAVIGATION_15LOCALES.md",
+      "bytes": 4632,
+      "sha256": "60dc09b6192b7ff7e61f9d3a4d9ce6066407490cc5b89a607f87c3aab3a87624"
     },
     {
       "path": "lib/api-client-react/package.json",
@@ -3035,8 +3050,8 @@
     },
     {
       "path": "tools/nuvia-studio/i18n-check.ts",
-      "bytes": 2449,
-      "sha256": "12a122fa9f6d76c906ce27892cf5011160c06981b226a668a6991230e487e6ea"
+      "bytes": 5305,
+      "sha256": "d421cc489a17811bf3397f330a5edb7a2d4fc18e8f0792e7b425854591817a70"
     },
     {
       "path": "tools/nuvia-studio/merge-i18n.py",
@@ -3062,6 +3077,11 @@
       "path": "tools/nuvia-studio/package-i18n.py",
       "bytes": 5809,
       "sha256": "5774aa322a2c26398444c0da3b8707b43c00854389eadc2992ebebec10575f1c"
+    },
+    {
+      "path": "tools/nuvia-studio/package-navigation-final.py",
+      "bytes": 9084,
+      "sha256": "b12705c6f5f0d97c71f99ace74c985b36ca36dbcc9a88703ec7752c5649826a6"
     },
     {
       "path": "tools/nuvia-studio/package-task-add.py",
@@ -3105,8 +3125,8 @@
     },
     {
       "path": "tools/nuvia-studio/validate-i18n.mjs",
-      "bytes": 3697,
-      "sha256": "9691c46c9f9957480ae4f5033ced11da0760e968e455ff1a3e6e266928202816"
+      "bytes": 4360,
+      "sha256": "7cc5f8504c04672723eda6d6b2247ced5af453a24140f6b3fa0da21612511c51"
     },
     {
       "path": "tsconfig.base.json",
@@ -3119,46 +3139,22 @@
       "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
     }
   ],
+  "sourceSnapshotDefinition": "SHA256 of UTF-8 canonical JSON sorted source entries; excludes generated README, manifest and QA attachments.",
   "qaEntries": [
     {
-      "path": "handoff/qa/build.log",
-      "bytes": 3287,
-      "sha256": "e6c5105be560b142cd060eb02d4c1c921979b8775e019c7e95c7467f17ab4c2c"
+      "path": "handoff/navigation-qa/QA_BROWSER.md",
+      "bytes": 6912,
+      "sha256": "14e5c9a3e8e595f17ecbaa540ef5f5c7d0cdacd312e2800dac58e340eb28ef51"
     },
     {
-      "path": "handoff/qa/core.log",
-      "bytes": 308,
-      "sha256": "91bbecfc0ab01a029129c19810a7b98bd816b15cd77363443f0267ee4ae74a5a"
+      "path": "handoff/navigation-qa/automatic.log",
+      "bytes": 8109,
+      "sha256": "9dc5042b18f70ff1c45870d035f5cefde73713423a4c009b5572fafe21596a68"
     },
     {
-      "path": "handoff/qa/daily-note.log",
-      "bytes": 141,
-      "sha256": "c748950779236c3cd5f91b1616d07e782ae22959737e4b7c63837521f5fa9abb"
-    },
-    {
-      "path": "handoff/qa/external-demo.log",
-      "bytes": 147,
-      "sha256": "55b6d148ce36fe356177e8f4e1105b479f30ae8f86b4485f2ccf6a75716544c9"
-    },
-    {
-      "path": "handoff/qa/i18n-actions.log",
-      "bytes": 100,
-      "sha256": "74cef50e888377d0bb2e6fda0633ef092f0b8370de8cabc54b0c6eda51e68874"
-    },
-    {
-      "path": "handoff/qa/notice.log",
-      "bytes": 165,
-      "sha256": "4da164d058499f7367bef1996211144c796d47757db96f48ad0823015cc18169"
-    },
-    {
-      "path": "handoff/qa/resources.log",
-      "bytes": 484,
-      "sha256": "2ed5770f0eedf8ac4a6573de0e914a030a050007fe459a97f8433e275ae17a5e"
-    },
-    {
-      "path": "handoff/qa/typecheck.log",
-      "bytes": 128,
-      "sha256": "7bdb98956e21076241646a3e869d1875167f8123ab2bf9deff7bd34cc7f37790"
+      "path": "handoff/navigation-qa/matrix.json",
+      "bytes": 498023,
+      "sha256": "fc3e11c9463f992a086db7d5016e4a5a7d6ac80ab0a2fa4069d20451d9c749cf"
     }
   ]
 }
