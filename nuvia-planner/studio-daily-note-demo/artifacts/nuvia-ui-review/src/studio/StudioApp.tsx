@@ -69,13 +69,16 @@ function StudioApp(){
  </div>;};
 
  return <div className={`pm-root st-root ${studio.appearance}`} lang={localeOf(state)} dir={localeOf(state)==='ar'?'rtl':'ltr'} data-testid="studio-root">
-  {demoAudience&&(localeOf(state)==='az'?<AzDemoNotice audience={demoAudience}/>:<DemoNotice audience={demoAudience}/>)}
-  {REVIEW&&<p className="pm-banner review">검토 모드 · 합성 데이터와 단계 전환은 이 모드에서만 보입니다.</p>}
   <header className="st-head">
    <div className="st-title-group"><div className="st-brand"><img src={feelgoodLogo} alt=""/><small>FeelGood</small><b>NUVIA PLANNER</b></div><h1>내 하루 작업대</h1><p>지금 한 가지를 하고, 해낸 일을 모아요.</p></div>
-   {!demoAudience&&<a className="st-link" data-testid="link-previous" href={`./personal-monthly.html${REVIEW?'?review=1':''}`}>이전 화면 보기</a>}
-   {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
+   <div className="st-head-actions">
+    <label className="st-language-control">화면 언어<select data-testid="select-language" aria-label="화면 언어" value={localeOf(state)} onChange={e=>act({type:'studio.locale',locale:e.target.value as Locale})}>{locales.map(l=><option key={l} value={l}>{localeNames[l]}</option>)}</select></label>
+    {!demoAudience&&<a className="st-link" data-testid="link-previous" href={`./personal-monthly.html${REVIEW?'?review=1':''}`}>이전 화면 보기</a>}
+    {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
+   </div>
   </header>
+  {REVIEW&&<p className="pm-banner review">검토 모드 · 합성 데이터와 단계 전환은 이 모드에서만 보입니다.</p>}
+  {demoAudience&&(localeOf(state)==='az'?<AzDemoNotice audience={demoAudience}/>:<DemoNotice audience={demoAudience}/>)}
   <nav className="st-nav" aria-label="화면">{MAIN.map(([k,l])=><button key={k} aria-current={page===k?'page':undefined} data-testid={`tab-${k}`} onClick={()=>go(k)}>{l}</button>)}{moreMenu('top',MORE)}</nav>
   {p.message&&<div className="pm-toast" role="status" data-testid="status-message"><span>{p.message}</span><button onClick={p.clearMessage} data-testid="button-close-message">닫기</button></div>}
   {p.error&&<div className="pm-toast err" role="alert" data-testid="status-error"><span>{p.error}</span><button onClick={p.clearMessage}>닫기</button></div>}
@@ -107,7 +110,6 @@ function StudioApp(){
     <label className="pm-check"><input type="checkbox" data-testid="checkbox-archive-reminders" checked={studio.archiveReminders} onChange={e=>act({type:'studio.settings',archiveReminders:e.target.checked})}/>보관한 지 7일 지난 과제를 작게 알려 주기</label>
     <h3>화면 색</h3>
     <div className="pm-chips">{([['ivory','아이보리'],['navy','차분한 네이비']] as const).map(([k,l])=><button key={k} aria-pressed={studio.appearance===k} data-testid={`button-appearance-${k}`} onClick={()=>act({type:'studio.settings',appearance:k})}>{l}</button>)}</div>
-    <label style={{maxWidth:300}}>화면 언어<select data-testid="select-language" value={localeOf(state)} onChange={e=>act({type:'studio.locale',locale:e.target.value as Locale})}>{locales.map(l=><option key={l} value={l}>{localeNames[l]}</option>)}</select></label>
     <p className="st-note">지난 공간 기록 가져오기는 지금 공간에 과제가 하나도 없을 때만 쓸 수 있어요. 기존 기록을 덮어쓰지 않기 위해서예요.</p>
     <p className="pm-banner" data-testid="text-privacy">이 브라우저에만 저장돼요. 로그인·서버·기기 간 동기화는 없습니다. 백업 파일은 평문이므로 직접 보관하세요.</p>
     <div className="st-row">

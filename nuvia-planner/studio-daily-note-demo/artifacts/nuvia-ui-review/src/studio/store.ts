@@ -1,4 +1,4 @@
-import {useEffect,useState} from 'react';
+import {useEffect,useMemo,useState} from 'react';
 import {student} from './domain';
 import {createStudio as createState,updateStudio as update,freshStudio} from './studio-logic';
 import {syncRoadmap} from './roadmap';
@@ -7,7 +7,8 @@ import {reportHTML,type ReportFields} from './report';
 import type {PersonalState,Action} from './model';
 import {setLocale,localeOf} from './i18n/runtime';
 import {demoAudience,demoStorageKey,createDemo} from '../demo/session';
-import {demoReportNotice} from '../demo/DemoNotice';
+import {localizedDemoState} from '../demo/sample-content';
+import {localizedDemoReportNotice} from '../demo/DemoNotice';
 import {azDemoReportNotice} from './i18n/AzDemoNotice';
 import {noticeFromText,noticeText,SAVED_NOTICE_KEY,type Notice} from './notices';
 export const KEY='nuvia:studio:v1';
@@ -31,6 +32,7 @@ export function usePersonal(){
  const setMessage=(text:string)=>setNotice(text?noticeFromText(text):null);
  const [holder]=useState(()=>({state:initial.state,blocked:!!initial.error}));
  setLocale(localeOf(state));
+ const displayState=useMemo(()=>demoAudience?localizedDemoState(state,demoAudience,localeOf(state)):state,[state]);
  function commit(n:PersonalState){const next=structuredClone(n);next.studio??=freshStudio();syncRoadmap(next);const clean=validate(next,holder.state.workspaceId);localStorage.setItem(initial.key,JSON.stringify(clean));holder.state=clean;setState(clean);}
  function act(a:Action){try{if(holder.blocked)throw Error(error);commit(update(holder.state,a,new Date().toISOString(),review));if(a.type!=='studio.note')setNotice({key:SAVED_NOTICE_KEY});return true;}catch(e){setMessage((e as Error).message);return false;}}
  useEffect(()=>{
@@ -56,7 +58,7 @@ export function usePersonal(){
   if(!window.confirm(scope==='personal'?'내 개인 기록을 백업 시점으로 교체합니다. 이후 수정은 사라질 수 있습니다. 다른 학생·교사 전체는 가져오지 않습니다. 현재 백업을 먼저 보관했나요?':'검토 공간 전체를 백업 시점으로 교체합니다. 이후 수정이 사라질 수 있습니다. 계속할까요?'))return;
   commit(next);holder.blocked=false;setError('');setMessage('검증 후 복원했습니다. 타이머는 멈춘 상태이며 본인이 시간 확인 후 재개하세요.');
  }catch(e){setMessage((e as Error).message);}}
- function report(month:string,fields:ReportFields,save=false){const raw=reportHTML(holder.state,month,fields),html=demoAudience?raw.replace(/<body([^>]*)>/i,`<body$1>${localeOf(holder.state)==='az'?azDemoReportNotice:demoReportNotice}`):raw;if(save)download(html,`NUVIA_monthly_${month}.html`,'text/html');return html;}
+ function report(month:string,fields:ReportFields,save=false){const raw=reportHTML(displayState,month,fields),html=demoAudience?raw.replace(/<body([^>]*)>/i,`<body$1>${localeOf(holder.state)==='az'?azDemoReportNotice:localizedDemoReportNotice()}`):raw;if(save)download(html,`NUVIA_monthly_${month}.html`,'text/html');return html;}
  function copyPrevious(){try{
   if(holder.blocked)throw Error(error);
   if(student(holder.state).cards.length||holder.state.entries.length)throw Error('빈 작업대 후보에만 복사할 수 있습니다. 현재 기록을 덮어쓰지 않았습니다.');
@@ -69,6 +71,6 @@ export function usePersonal(){
   const active=student(old).runs.find(r=>r.phase!=='closed');if(active){old.studio.placements[active.cardId].place='desk';old.studio.deskId=active.cardId;}
   commit(freezeTimers(old));setMessage('이전 기록은 그대로 두고 새 후보에 복사했습니다. 실행 중이던 시간은 멈춰 확인합니다.');
  }catch(e){setMessage((e as Error).message);}}
- return {state,student:student(state),act,message:noticeText(notice,localeOf(state)),error,clearMessage:()=>setNotice(null),backup,restore,report,copyPrevious};
+ return {state:displayState,student:student(displayState),act,message:noticeText(notice,localeOf(state)),error,clearMessage:()=>setNotice(null),backup,restore,report,copyPrevious};
 }
 export type Personal=ReturnType<typeof usePersonal>;

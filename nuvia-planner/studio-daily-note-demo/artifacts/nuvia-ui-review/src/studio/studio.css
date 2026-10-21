@@ -9,6 +9,13 @@
 body:has(.st-root){background:var(--ivory,#f7f2e6)}
 .st-root h1,.st-root h2,.st-root h3{letter-spacing:-.01em;margin:0 0 8px}
 .st-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:8px 0 12px;border-bottom:2px solid var(--ink)}
+.st-root .st-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(116px,auto);align-items:start}
+.st-head-actions{display:flex;flex-direction:column;align-items:flex-end;gap:6px;min-width:0}
+.st-language-control{display:grid;gap:3px;margin:0;color:var(--ink2);font-size:12px;font-weight:700;text-align:start;min-width:0}
+.st-language-control select{min-width:116px;max-width:min(42vw,180px);min-height:44px;white-space:normal;font-size:14px}
+.st-language-control select:focus-visible{outline:3px solid var(--t-orange);outline-offset:2px}
+.st-title-group{min-width:0}
+@media(max-width:767px){.st-root .st-head{grid-template-columns:minmax(0,1fr) minmax(116px,auto);gap:6px}.st-title-group h1{overflow-wrap:break-word}.st-language-control select{max-width:43vw}.st-brand{gap:5px}.st-brand small{display:none}.st-brand b{font-size:clamp(13px,4vw,17px);white-space:nowrap;letter-spacing:0}.st-brand img{width:20px;height:20px}}
 .st-brand{display:flex;gap:10px;align-items:center}.st-brand img{width:28px;height:28px}
 .st-brand small{display:block;font-size:11px;color:var(--mute);letter-spacing:.08em}
 .st-brand b{display:block;font-size:26px;font-weight:800;letter-spacing:.06em;line-height:1}
@@ -186,3 +193,4 @@ body:has(.st-root){background:var(--ivory,#f7f2e6)}
 .st-subject-symbol.subject-math{color:#7049ad}.st-subject-symbol.subject-science{color:#c06424}.st-subject-symbol.subject-history{color:#287d76}
 .st-subject-symbol.subject-life{color:#ad5e1f}.st-subject-symbol.subject-work{color:#356587}
 .st-ico3 .st-subject-symbol{color:#fff9ed}.st-ico3 .st-subject-symbol svg{width:32px;height:32px;stroke:currentColor}
+@media(max-width:767px){.st-root .st-head{grid-template-columns:minmax(0,1fr)}.st-root .st-head-actions{grid-column:1;grid-row:1;justify-self:end}.st-root .st-title-group{grid-column:1;grid-row:2}.st-root .st-brand small{display:none}.st-root .st-brand b{font-size:clamp(16px,5vw,19px);white-space:nowrap;letter-spacing:0}.st-root .st-brand img{width:20px;height:20px}}
