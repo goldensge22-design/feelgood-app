@@ -6,11 +6,11 @@ import type {Locale} from '../studio/i18n/config';
 
 type Sample={title:string;subject:string};
 const content=samples.content as Record<Locale,Record<Audience,Sample>>;
-const knownTitles=new Set(Object.values(content).flatMap(group=>Object.values(group).map(item=>item.title)));
 
 // Project only our synthetic fixture for display. Never rewrite stored student input.
 export function localizedDemoState(state:PersonalState,audience:Audience,locale:Locale):PersonalState{
  const card=student(state).cards[0];
+ const knownTitles=new Set(Object.values(content).map(group=>group[audience].title));
  if(!card||!knownTitles.has(card.title))return state;
  const target=content[locale]?.[audience];
  if(!target||card.title===target.title)return state;
