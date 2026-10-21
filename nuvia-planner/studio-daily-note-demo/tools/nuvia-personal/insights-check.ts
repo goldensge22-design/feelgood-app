@@ -1,0 +1,73 @@
+import assert from 'node:assert/strict';
+import {createState,update,student,routeFor,stats,suggest,localDate,monthOf} from '../../artifacts/nuvia-ui-review/src/personal/domain';
+import {exampleEnvelope,assessmentView,guideFor,insightsOf,statements,usedMethods,methodFacts,executionFacts,previousMonth} from '../../artifacts/nuvia-ui-review/src/personal/insights';
+import {monthlyComparison} from '../../artifacts/nuvia-ui-review/src/personal/insight-report';
+import {validate,exportBackup,importBackup,checksum} from '../../artifacts/nuvia-ui-review/src/personal/persistence';
+import {reportHTML} from '../../artifacts/nuvia-ui-review/src/personal/report';
+import type {PersonalState,Action} from '../../artifacts/nuvia-ui-review/src/personal/model';
+let checks=0,s=createState(),clock=Date.now()-900000;
+const ok=(fn:()=>void)=>{fn();checks++;};
+const act=(a:Action)=>{s=validate(update(s,a,new Date(clock+=1000).toISOString(),s.mode==='review'));};
+const cmd=(command:any)=>act({type:'legacy',command});
+const c=()=>student(s).cards.at(-1)!,r=()=>student(s).runs.at(-1)!;
+function run(title='과제',scope='문제 3개'){
+ act({type:'create',title,subject:'수학'});cmd({type:'card.update',cardId:c().id,changes:{scope,firstAction:'첫 문제 읽기'}});cmd({type:'card.plan',cardId:c().id});
+ cmd({type:'run.start',cardId:c().id});clock+=60000;cmd({type:'run.pause',runId:r().id});clock+=120000;cmd({type:'run.flag',runId:r().id,flag:'2번부터'});cmd({type:'run.resume',runId:r().id});clock+=60000;cmd({type:'run.review',runId:r().id});cmd({type:'run.close',runId:r().id,completion:'no',next:'today'});return r();
+}
+async function main(){
+ ok(()=>assert.equal(assessmentView(s).mode,'none'));ok(()=>assert.equal(assessmentView(s).assessment,null));
+ ok(()=>assert.throws(()=>update(s,{type:'assessment.example'},new Date(clock).toISOString(),false)));
+ s.mode='review';act({type:'assessment.example'});ok(()=>assert.equal(assessmentView(s).mode,'example'));ok(()=>assert.equal(assessmentView(s).assessment?.axes.planning.value,88));
+ const original=JSON.stringify(student(s).assessment),source=insightsOf(s).source!.id;
+ act({type:'assessment.example'});ok(()=>assert.equal(insightsOf(s).source?.id,source));
+ const q=statements(s)[0];act({type:'create',title:'응답 과제'});const cardId=c().id;
+ for(const answer of ['agree','different','unsure'] as const)act({type:'comparison.respond',statementId:q.id,text:q.text,answer,cardId,example:answer==='different'?'다른 환경에서는 달랐어요':''});
+ const hist=insightsOf(s).comparisons;ok(()=>assert.equal(hist.length,3));ok(()=>assert.equal(hist[1].previousId,hist[0].id));ok(()=>assert.equal(hist[2].previousId,hist[1].id));
+ act({type:'create',title:'다른 맥락'});act({type:'comparison.respond',statementId:q.id,text:q.text,answer:'agree',cardId:c().id,example:''});
+ ok(()=>assert.equal(insightsOf(s).comparisons.at(-1)?.previousId,undefined));ok(()=>assert.equal(JSON.stringify(student(s).assessment),original));
+ const ids:string[]=[];
+ for(let i=0;i<4;i++){const current=run('같은 과제','같은 분량');ids.push(current.id);if(i<3)act({type:'method.respond',runId:current.id,support:current.support,answer:i<2?'yes':'neutral'});}
+ const month=monthOf(localDate(new Date(clock))),f=methodFacts(s,month)[0];
+ ok(()=>assert.equal(f.uses,4));ok(()=>assert.equal(f.responses,3));ok(()=>assert.equal(f.yes,2));ok(()=>assert.equal(f.neutral,1));ok(()=>assert.equal(f.unanswered,1));
+ act({type:'method.respond',runId:ids[0],support:'simultaneous',answer:'no'});let facts=methodFacts(s,month)[0];
+ ok(()=>assert.equal(facts.responses,3));ok(()=>assert.equal(facts.yes,1));ok(()=>assert.equal(facts.no,1));ok(()=>assert.equal(insightsOf(s).feedback.length,4));
+ act({type:'method.respond',runId:ids[2],support:'simultaneous',answer:'unsure'});ok(()=>assert.equal(methodFacts(s,month)[0].unsure,1));
+ act({type:'method.respond',runId:ids[2],support:'simultaneous',answer:'neutral'});ok(()=>assert.equal(methodFacts(s,month)[0].neutral,1));
+ cmd({type:'student.settings',changes:{supportChoice:'attention'}});
+ const other=run('다른 도움 선택','다른 분량');act({type:'method.respond',runId:other.id,support:'attention',answer:'yes'});
+ ok(()=>assert.equal(routeFor(student(s)).target,'planning'));ok(()=>assert.equal(suggest(s,month,'planning').help,'attention'));ok(()=>assert.equal(JSON.stringify(student(s).assessment),original));
+ ok(()=>assert.equal(executionFacts(s,month).returns,5));ok(()=>assert.equal(executionFacts(s,month).contexts[0].actualMs,122000));
+ const all={summary:true,evidence:true,methods:true,outputs:true,assessment:true};
+ let html=reportHTML(s,month,all);ok(()=>assert(html.includes('1. 고정된 검사 출발점')&&html.includes('2. 나의 실행 변화')&&html.includes('3. 다음 달 제안')));
+ ok(()=>assert(html.includes('응답 3회')&&html.includes('미응답 1')));ok(()=>assert(html.includes('독립적인 검사 검증 자료가 아닙니다')));
+ const secret='생각 보관 원문은 비공개';cmd({type:'run.thought',runId:r().id,thought:secret});html=reportHTML(s,month,{...all,assessment:false});
+ ok(()=>assert(!html.includes('88 표준점수')&&!html.includes(secret)));
+ act({type:'assessment.input',payload:{...exampleEnvelope(),testKind:'로컬 연동 계약 검토 입력',testDate:'2026-09-12'}});
+ ok(()=>assert.equal(assessmentView(s).mode,'input'));ok(()=>assert.equal(insightsOf(s).comparisons.length,4));
+ act({type:'comparison.respond',statementId:q.id,text:statements(s)[0].text,answer:'different',cardId,example:''});
+ ok(()=>assert.equal(insightsOf(s).comparisons.at(-1)?.previousId,undefined));
+ const bad=exampleEnvelope();bad.assessment.axes.planning.unit='%';
+ ok(()=>assert.throws(()=>update(s,{type:'assessment.input',payload:bad},new Date(clock).toISOString(),true)));
+ const badAll=exampleEnvelope();for(const a of Object.values(badAll.assessment.axes))a.unit='%';
+ ok(()=>assert.throws(()=>update(s,{type:'assessment.input',payload:badAll},new Date(clock).toISOString(),true)));
+ act({type:'create',title:'진행 보호'});cmd({type:'run.start',cardId:c().id});ok(()=>assert.throws(()=>update(s,{type:'assessment.clear'},new Date(clock).toISOString(),true)));
+ const live=await exportBackup(s,'personal');const restored=await importBackup(live,s);
+ ok(()=>assert.equal(student(restored).runs.at(-1)?.phase,'paused'));ok(()=>assert.deepEqual(restored.insights?.comparisons,s.insights?.comparisons));
+ const badLink=JSON.parse(await exportBackup(restored,'personal'));badLink.data.insights.feedback[0].previousId=badLink.data.insights.feedback[0].id;badLink.checksum=await checksum(badLink.data);
+ try{await importBackup(JSON.stringify(badLink),s);assert.fail('bad link accepted');}catch(e){ok(()=>assert.match(String(e),/연결/));}
+ const old=createState();ok(()=>assert.equal(validate(old).insights,undefined));const oldBackup=await exportBackup(old,'personal'),oldRestored=await importBackup(oldBackup,old);ok(()=>assert.equal(oldRestored.insights,undefined));
+ s=createState();s.mode='review';act({type:'review.insights-example'});
+ const endMonth=previousMonth(monthOf(localDate(new Date(clock)))),v=monthlyComparison(s,endMonth,'planning');
+ ok(()=>assert.equal(v.comparable,true));ok(()=>assert.equal(v.delta,20));ok(()=>assert.equal(v.before.displayRate,'60%'));ok(()=>assert.equal(v.now.displayRate,'80%'));
+ ok(()=>assert.equal(executionFacts(s,endMonth).groups[0].before,5));ok(()=>assert.equal(executionFacts(s,endMonth).groups[0].now,1));ok(()=>assert.equal(executionFacts(s,endMonth).returns,1));
+ html=reportHTML(s,endMonth,all);ok(()=>assert(html.includes('20퍼센트포인트 증가')));ok(()=>assert(!html.includes('계획 능력20% 향상')));
+ const beforeRaw=JSON.stringify(student(s).assessment);
+ s.agreements.find(g=>g.month===endMonth)!.count=11;ok(()=>assert.equal(monthlyComparison(s,endMonth,'planning').comparable,false));s.agreements.find(g=>g.month===endMonth)!.count=10;
+ const e=executionFacts(s,endMonth).contexts[0];s.insights!.contexts[e.runId].scope='다른 분량';ok(()=>assert.equal(monthlyComparison(s,endMonth,'planning').comparable,false));s.insights!.contexts[e.runId].scope=e.finalScope;
+ ok(()=>assert.equal(monthlyComparison(s,monthOf(localDate(new Date(clock))),'planning').delta,null));
+ act({type:'draft.make',month:endMonth,axis:'planning'});const d=s.drafts[0];act({type:'draft.edit',id:d.id,changes:{count:6,chunk:'학생이 수정한 분량'}});
+ const n=student(s).cards.length;act({type:'draft.accept',id:d.id});act({type:'draft.accept',id:d.id});ok(()=>assert.equal(student(s).cards.length,n+1));ok(()=>assert.equal(JSON.stringify(student(s).assessment),beforeRaw));
+ const backup=await exportBackup(s,'personal'),roundTrip=await importBackup(backup,s);ok(()=>assert.deepEqual(roundTrip.insights,s.insights));
+ console.log(`PASS insights ${checks} checks: explicit sources/units, append-only contextual responses, 4 uses vs 3 answers, all feedback states, preference without score/target change, pause-excluded times, comparison limits/20pp, three-part report privacy, legacy/new backup, approval dedup.`);
+}
+main().catch(e=>{console.error(e);process.exit(1);});

@@ -1,0 +1,3164 @@
+{
+  "sourceGitHead": "fbffdc4f467b1dd84e58007f536e0e99e1891b7b",
+  "sourceGitHeadIsBaselineNotFinalCommit": true,
+  "sourceSnapshotSHA256": "11808b428742223d9e13a92645797f74ecb4f6ecb09d37944364d6762b95dbde",
+  "sourceSnapshotDefinition": "SHA256 of UTF-8 canonical JSON of sorted source entries (path,bytes,sha256); excludes generated README, manifest and QA log attachments.",
+  "workingTreeSourceChanges": [
+    "artifacts/nuvia-ui-review/src/studio/notices.ts",
+    "artifacts/nuvia-ui-review/src/studio/store.ts",
+    "docs/STUDIO_DAILY_NOTE.md",
+    "docs/STUDIO_DAILY_NOTE_FINAL.md",
+    "tools/nuvia-studio/notice-check.ts",
+    "tools/nuvia-studio/package-daily-note-final.py",
+    "tools/nuvia-studio/run-notice-check.mjs"
+  ],
+  "sourceEntries": [
+    {
+      "path": ".gitignore",
+      "bytes": 704,
+      "sha256": "04e2b7aed6b23f7e32d7f6e8034965ddb69d4f1f518b29844f008f92086f5680"
+    },
+    {
+      "path": ".npmrc",
+      "bytes": 56,
+      "sha256": "1ded4f26f4851b35dae702edd5719d1be5ff31db6983858d088d5e6593ea7c99"
+    },
+    {
+      "path": ".replit",
+      "bytes": 375,
+      "sha256": "f17bce42064e7aadb31f21c0d24463b1b35ca366ba4039b062221a9a6a1cd14e"
+    },
+    {
+      "path": ".replitignore",
+      "bytes": 237,
+      "sha256": "c9b58f5d1c02686bf84359f89ae49744c880676ee3b02466cb20d0588bf7426b"
+    },
+    {
+      "path": "artifacts/api-server/.replit-artifact/artifact.toml",
+      "bytes": 784,
+      "sha256": "e461708bfe50f6eb964fa755cf0c6ba813c19392be055d5ef96c729aa0173539"
+    },
+    {
+      "path": "artifacts/api-server/build.mjs",
+      "bytes": 3455,
+      "sha256": "a268757bc319f2ccaf2f2661d6616ea9cab3c8d8bc45b46b0ebfdb2bc6180267"
+    },
+    {
+      "path": "artifacts/api-server/package.json",
+      "bytes": 880,
+      "sha256": "069d632c9b9affea6c9e0c58af56ccf6dbe716b7ed2f2554d0255654cef6981f"
+    },
+    {
+      "path": "artifacts/api-server/src/app.ts",
+      "bytes": 656,
+      "sha256": "72f19250d5ea5e836225d357338a0ff9459e813eb48f1a2ac7e60fa5335ca878"
+    },
+    {
+      "path": "artifacts/api-server/src/index.ts",
+      "bytes": 511,
+      "sha256": "9c1f296e0008006b40d766ee436697e43ef99cf907f2c7afe9a6cd2d6c118d3c"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/logger.ts",
+      "bytes": 421,
+      "sha256": "29e1ca75036fe917595a3a74fd450857d845836fe0625c30b9caa02df4acba62"
+    },
+    {
+      "path": "artifacts/api-server/src/middlewares/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/health.ts",
+      "bytes": 288,
+      "sha256": "0386ceddb4ff4bff220af72ca38a62191ad95a2f41fd619df3bb9ceffce03db2"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/index.ts",
+      "bytes": 171,
+      "sha256": "957c7d2e44a720dc48ffc511a738c57bb7659a3ab273c8b64b919a9d2a06b232"
+    },
+    {
+      "path": "artifacts/api-server/tsconfig.json",
+      "bytes": 335,
+      "sha256": "aa300909ccd1d4282761b5d6549a174717b663bb56cb0f59d107d4b3d96cb009"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/.replit-artifact/artifact.toml",
+      "bytes": 327,
+      "sha256": "e259a07aa72cd0a1d06c141f4aa00c16aa6942443ddf17b7cb59e88a9882f4f9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/components.json",
+      "bytes": 426,
+      "sha256": "aa1b56411ed0e8fc2ac14315f211c7059406e03d68666e1921f640186b8c096f"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/index.html",
+      "bytes": 4325,
+      "sha256": "fa4111c44a19ea399d44d7c6486387ffd49d9f21459ac87906ded4dd5c2bcb6c"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/mockupPreviewPlugin.ts",
+      "bytes": 4639,
+      "sha256": "4d579d37f3d3d12ec8d8d78571b651c606ed44b07fb04a53aff02bcc75621cfd"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/package.json",
+      "bytes": 2516,
+      "sha256": "4b1279fc2746617e4a19dcd4dc8ca99b1e4888b5f1f1ab5bdc03357851adaa02"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/.generated/mockup-components.ts",
+      "bytes": 171,
+      "sha256": "2c23d71ff9b2704c9db9aff8a414a728b810b10abc508e3bd75acf5718651cec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/App.tsx",
+      "bytes": 3654,
+      "sha256": "0e0e60da88a64ef68a930565bb5c5d326896aaa0f9cea62702eef4c02db2462a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/accordion.tsx",
+      "bytes": 2001,
+      "sha256": "dcbfb3243a26096fc3e5f54039ccb5c4c23d9bb79a4d5846b4be75bf912f07d9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/alert-dialog.tsx",
+      "bytes": 4419,
+      "sha256": "311bede35f785d7b1ecd7398986757e26409d1049352a94ccf83586b8603c92d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/alert.tsx",
+      "bytes": 1598,
+      "sha256": "5950ac01377e7eedc94b00eb3fee678745e4cc1a72b5343867f0733d07db6660"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/aspect-ratio.tsx",
+      "bytes": 140,
+      "sha256": "08b0aa0b05efc573c7d63363c03e83d4b101bfeb54140764e96ddea30659cfcc"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/avatar.tsx",
+      "bytes": 1419,
+      "sha256": "e78b35ed76c67d8ff50603fbe0dfa4fe600097bd860d89e65beea3e16683dad8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/badge.tsx",
+      "bytes": 1163,
+      "sha256": "0564174ab513773e924dda521ce205535b05c7df9842e331ebbb59dd8b86022d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/breadcrumb.tsx",
+      "bytes": 2712,
+      "sha256": "c3d3dcb0d82fc5e91d8830bac7fead905686fe876f1f42c3ed872bb0a6b6584e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/button-group.tsx",
+      "bytes": 2209,
+      "sha256": "e3716d270e9ef6457b5cd29464ae00194abc8093c08ebf726c9204d7a69231d9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/button.tsx",
+      "bytes": 1925,
+      "sha256": "4ea01d60fddbf1a0e66aa8234807d010378786b9bc5a934ed76a09edfa671040"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/calendar.tsx",
+      "bytes": 7569,
+      "sha256": "787a19c855cf2b826942d25440b63150c45094154c6a40e95abdb4109298b8b4"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/card.tsx",
+      "bytes": 1828,
+      "sha256": "525c4bb2c051987be64df0e92e1d90174912b219bf541e24ffbc4a3406de49e8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/carousel.tsx",
+      "bytes": 6210,
+      "sha256": "5a4ff73c804e86c873382da80c453f1399006326ef042fb984c24162ec86666e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/chart.tsx",
+      "bytes": 10674,
+      "sha256": "74005899ffa62cff5cc71ddd72a727bdc84a9bd9b7e26901e1f10d2ca8d90b62"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/checkbox.tsx",
+      "bytes": 1031,
+      "sha256": "ac389a574651c8bedffc10f80674c5fc2f02ab81291a5f4ad9c587d1f775fdce"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/collapsible.tsx",
+      "bytes": 329,
+      "sha256": "f4cdd104de29928bfcd40b865c7d08eed9157a537fbb8b5e6d0921f02b63cc04"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/command.tsx",
+      "bytes": 4887,
+      "sha256": "5a57ebc119f2357b097098d22865d45de8fda623ee88fe98b99999838c13633b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/context-menu.tsx",
+      "bytes": 7406,
+      "sha256": "5369fc82c51df067aec2934f5e711aaf9e3f745ed7baadd7ba4b77397dee2a1b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/dialog.tsx",
+      "bytes": 3835,
+      "sha256": "f9c982ed8114c253c6ca738043d3f455e89c6d65569e90c9415776d6b4d6be14"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/drawer.tsx",
+      "bytes": 3007,
+      "sha256": "47ff6248307a4ac09bf7e00181a2a29f9f846691092e04cad03e15d749bc249b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7606,
+      "sha256": "dc109123ecd59af01d07aa9f3a8e8a7085bd3f337388c5369799ab1ce6c2d45f"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/empty.tsx",
+      "bytes": 2396,
+      "sha256": "9f975582a0290dbc7ce6efa3b36b376a4c3f07863026c3b74c1e73cb0023acb8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/field.tsx",
+      "bytes": 6044,
+      "sha256": "e463611ab049c5e9b1c61691d239e05970ead7b577a191b3f80aa6f8ffccada9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/form.tsx",
+      "bytes": 4175,
+      "sha256": "d50adf86568f76246f0f319c9e1e858627475563f6c1e38f5df7d4ee23958559"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/hover-card.tsx",
+      "bytes": 1237,
+      "sha256": "00f9086b1412843e04e01d31d2fab00a25d65d789d1a382e41f01b1f3c167c3b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input-group.tsx",
+      "bytes": 4883,
+      "sha256": "131052098fa8b16b423192ec7dcc8c8506f0e7e81355134aae4c9044e1d3ef95"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input-otp.tsx",
+      "bytes": 2143,
+      "sha256": "7c4799e3597f2780c09a39a1391b921fa16eaedd0476457492af734f58e2ec98"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input.tsx",
+      "bytes": 768,
+      "sha256": "6299a6a387dc55e528aec4342deaea0b83f1ea3a365c135a31a18ee55334f441"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/item.tsx",
+      "bytes": 4494,
+      "sha256": "90983640aa7cfef8217422347d8e14825cf55137c76369decacf440767f03188"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/kbd.tsx",
+      "bytes": 862,
+      "sha256": "0c025e7736d435f563bfb44105e562629672799eb1f35cbf194148d06cd1a9f7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/label.tsx",
+      "bytes": 724,
+      "sha256": "2eac8fbb04002c42b0fbc4062d20d131e421796eaf65c37d2049e29e42ecbc5a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/menubar.tsx",
+      "bytes": 8608,
+      "sha256": "def61eb2c47c9ec319423471f4ca20045e99549958211cacf832e4ede769e484"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/navigation-menu.tsx",
+      "bytes": 5124,
+      "sha256": "a06d96a582ac207ffcd38445d773c05e841d646efb185b5e9b65f73e5bd388c7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/pagination.tsx",
+      "bytes": 2751,
+      "sha256": "9506dbd19ddd0c2810d1c9668a3f01606e39d9bf33ddc43329523c03bf629012"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/popover.tsx",
+      "bytes": 1342,
+      "sha256": "04cf38bf94abd3fe1b51e90227e6e235ca74776f6fc6af718bfc149e7424f582"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/progress.tsx",
+      "bytes": 792,
+      "sha256": "6b3b4b69a1cb361076174892e9a96e1a09020307616965ef89f2f7e2495b57a9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/radio-group.tsx",
+      "bytes": 1410,
+      "sha256": "9ba7808b7404cdf2159c81883a39290033bc4308f2978eb80797c92b87421301"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/resizable.tsx",
+      "bytes": 1723,
+      "sha256": "70d1e35a5fb0897af7063cdd841d8ed636e1c332ef7ea6469f0f175a5a93dddf"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/scroll-area.tsx",
+      "bytes": 1642,
+      "sha256": "d7d02600effca55d0dcadce8c09c97ebddda3a19c5fa1d52dc9f6f727b26c6b1"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/select.tsx",
+      "bytes": 5745,
+      "sha256": "3d93ae07a8f3fe121ba60f4439e26bd7859f247eb8bfcafcf4b4a8a069888eec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/separator.tsx",
+      "bytes": 756,
+      "sha256": "c956c4cca4b8442fa9314d6079b9f975e1ee39d5804aaf2966990f6258ac342a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sheet.tsx",
+      "bytes": 4280,
+      "sha256": "363f8e06aa5b53c6475f445117f60fa9294be79e9e4f1f5bf70886800188124e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sidebar.tsx",
+      "bytes": 21056,
+      "sha256": "53c5391594a46de2c3161de40eb56953ff6ddb09a9c64b877ea98af810b0ed35"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/skeleton.tsx",
+      "bytes": 266,
+      "sha256": "87608e7cc815ad3d88e0b9de6c402bb37b58ea1b38636cf69709da1baff6e334"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/slider.tsx",
+      "bytes": 1037,
+      "sha256": "234e38fef59169bd02d8f5b56ca02e5ec13a0bd6846c328927b924e1299f7fb0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sonner.tsx",
+      "bytes": 894,
+      "sha256": "771ab8637d27384c3ed030ba3be01a07b90c791c294eae06646250f8e81bc49e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/spinner.tsx",
+      "bytes": 331,
+      "sha256": "3e6e6e8d37fb4069f8e43e55318f8db06fbc36e6c8be0096da3c9337c1c798b9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/switch.tsx",
+      "bytes": 1148,
+      "sha256": "ba5867cd3145af1290edd80bb56d4b6d61c6331aa8ef96ae0b85487f4499feaf"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/table.tsx",
+      "bytes": 2859,
+      "sha256": "a4a6972c2d47d465d7f02c1dc4a6cbfeda7a97e46479c1b0cebdaf26bf9b497a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/tabs.tsx",
+      "bytes": 1877,
+      "sha256": "6f74706bc6b53f9e4bcebb5e7ab8743b616aef181edc7758b8ee905f9b2fdcd7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/textarea.tsx",
+      "bytes": 649,
+      "sha256": "ec7c92aaed80f6923a7caa4bfe4eead395b50a7001504fd7fbb0b9381804dae9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toast.tsx",
+      "bytes": 4845,
+      "sha256": "99f9f4a3e897f71d89b01c6772b2f5db51b888cecb2c8214fb2c2dbb2b3e6356"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toaster.tsx",
+      "bytes": 772,
+      "sha256": "1348f1a1f9820e2f1394b93cecc156a7e22f03636ab9270753985549aae2be74"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toggle-group.tsx",
+      "bytes": 1753,
+      "sha256": "dba95ead40d163af6959198ded9853a2cc9282b2cb534980f99937a65edf4e2d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toggle.tsx",
+      "bytes": 1486,
+      "sha256": "955fa1bb97505b7a8bba3f7cff1991035a9afa0e1113f5d598147e6369dbf44b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/tooltip.tsx",
+      "bytes": 1267,
+      "sha256": "ce6afa34fb9dae51053a863b4c3f7c6e55f3da23b00149f31a8e4402bc963be0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/hooks/use-mobile.tsx",
+      "bytes": 565,
+      "sha256": "ad0936f84f1df79d3697bfbff9c18f8ad58431c1cbaf2359c6a853b0fcc9f28b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/hooks/use-toast.ts",
+      "bytes": 3767,
+      "sha256": "eb23d01c5e502ae1e0772f4303147170811b11f498c7e8f0dc8424c0f3463c94"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/index.css",
+      "bytes": 5760,
+      "sha256": "3935d982402c0101e55b60039685383ade4fd25227d2f4149ba356e6c2932aa3"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/lib/utils.ts",
+      "bytes": 166,
+      "sha256": "7c8c3dfc0cdd370d44932828eb067ef771c8fe7996693221d5d4b90af6d54f2d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/main.tsx",
+      "bytes": 157,
+      "sha256": "29946f51942fba11605c7595fd82b50b0d7e50148e0194fd356dacbc958f18ec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/tsconfig.json",
+      "bytes": 513,
+      "sha256": "bd0a1d0c1afa46c590350664a29d7848f6ccb91cfbd76426c40798437369fbf0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/vite.config.ts",
+      "bytes": 1592,
+      "sha256": "7de0f52b190e4d8f0854ed852e7a0d24420b4242e22423c6dd2712e7b0497cc7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/.replit-artifact/artifact.toml",
+      "bytes": 705,
+      "sha256": "f1985edcd8b9cc80f3f80bfe609cdaa6488f301751f408dfab8d27c9d0ae19b8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/before.html",
+      "bytes": 1752,
+      "sha256": "75a5eaf6de69d961c784b835348d698f725eee2cfe38e3f5adec66507bae713a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/compare.html",
+      "bytes": 4686,
+      "sha256": "3f6a2fa109e9705c77e6e86722df5f7a25fb50e3862acbfa55e6e38d20d57467"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/components.json",
+      "bytes": 434,
+      "sha256": "3a5d5af62f05e6e3de6c5085f31ed4f49273d57cfeae4d69d00a2568c91f54f9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/demo.html",
+      "bytes": 736,
+      "sha256": "954d3ec2d07f872d44c0f988f2b4ad1c04c49bd526c30c80508c552276892e28"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/FINAL_QA.md",
+      "bytes": 6598,
+      "sha256": "7157b67497eb62b62f06cac5f692f5b2d74322126e5343fab7ba09d41a80b85d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/RESULT_INTEGRATION.md",
+      "bytes": 7202,
+      "sha256": "1489d902766afaf203d38f26e37e8ce584a3d58939bca2fd56535f53f43ec4d6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/RUN_AND_APPLY.md",
+      "bytes": 5512,
+      "sha256": "c9d3377ea2692c86616bee9b8775a303695b24660523d33b6390ffca4dd841df"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/STUDIO_EXTERNAL_DCAS_FIX.md",
+      "bytes": 6081,
+      "sha256": "3e3826d6d722c81736db16fd6bfd726994dfd017e507d320e4a32d39d49b0d52"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/STUDIO_EXTERNAL_DEMO.md",
+      "bytes": 6087,
+      "sha256": "8fa5c3c94dbdafea91136747378966f27818b5402149ead307aba07ee27568ed"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/STUDIO_I18N_HANDOFF.md",
+      "bytes": 5299,
+      "sha256": "3a12813a7327b38479bbf6dd52ae14570ec8161619f037f49b1b6eac72808c28"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/docs/STUDIO_I18N_QA.md",
+      "bytes": 6927,
+      "sha256": "f664699385fbcdaeadfeb6ec6d2b618ea19ee7ea9c547d364c1289afd1944eab"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/enhancement.html",
+      "bytes": 508,
+      "sha256": "dcbdb8fe3d6b00d90b5eb81f00afa0f0093599da08ffe6cb4ffb91bf8c21ee59"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/index.html",
+      "bytes": 2409,
+      "sha256": "6cab650cd04e54bef84259bdf066ac62d8b47a0b344177072c991b5cc4a198ad"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/package.json",
+      "bytes": 2739,
+      "sha256": "808cf01c357d8454a803b6734f04cf0d9f59da54bf9579b2584c5d09dad997d8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/personal-monthly.html",
+      "bytes": 727,
+      "sha256": "4624f1194b0e46f654bd8412f03791efc3d0d5256ec50fc22123fded34a536d0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/previous.html",
+      "bytes": 1244,
+      "sha256": "480fb4f8c9f5f976a16ad8e7157c5695575d96c1e536b3e2e84ac1bcc850de45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/public/compare-storage.js",
+      "bytes": 5642,
+      "sha256": "41002d64ccb9a5fab4605fdb9fa35899ba2bca7bdbefa5eb0ec5988994375740"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/public/favicon.svg",
+      "bytes": 163,
+      "sha256": "8ffbde9092b1fa4de97c9481b76f518b131268c82e7c555041925225b1dab6e0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/public/robots.txt",
+      "bytes": 23,
+      "sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/App.tsx",
+      "bytes": 1986,
+      "sha256": "d2d3d3a0a93de78bf6fdb9797e9fdd24b501424b602d0894a00cd5719e4db2ab"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before-main.tsx",
+      "bytes": 316,
+      "sha256": "9cad2e47cefdbd84baa5e1357e67e179c327044aed9ac1d092577629a2b9788b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/App.tsx",
+      "bytes": 155,
+      "sha256": "24fcb2a518f6a74074e96586815820228332e69240fc7ed8edba3086a54639d5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/ActivityDesks.tsx",
+      "bytes": 16138,
+      "sha256": "8a73d0f0b4f873e04057b3754c034c72e001b4bc07d385177d8ad14cd778e579"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/AdaptivePlanner.tsx",
+      "bytes": 45153,
+      "sha256": "f7eab98a344696e5e3cdbbb1a0147db2dac75ce94bc9328f6a85578babe32b5b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/AgePlanning.tsx",
+      "bytes": 11108,
+      "sha256": "c2a9151c75cb04d01e4fd846012bb93c17365a06253456fb9df7c4a5b64c9582"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/CognitiveActivity.tsx",
+      "bytes": 3607,
+      "sha256": "7e590d4bdae39f60904b7eb72e5b14fb960817ab893841df82c67c3460846c93"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/FocusAgeTools.tsx",
+      "bytes": 7810,
+      "sha256": "96bd7a078d2b947b7242943b12f1c88926b404136dfbfb15232646bed17c6c2c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/LifeTools.tsx",
+      "bytes": 2706,
+      "sha256": "dae1686c03d4c57ede9a40b7f685bf4f72802f55d22e77875acf771d439382fc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/PlannerEnhancements.tsx",
+      "bytes": 8525,
+      "sha256": "1a361b7b3f0a7c0d87de86aac4924011b51b69894bc6f8c7c56802e288651343"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/ProjectMission.tsx",
+      "bytes": 12473,
+      "sha256": "3afa4439a516ce0a0345435142d7688d91c127dce362b4c5b8e98b089e872cd5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/TaskIcon.tsx",
+      "bytes": 899,
+      "sha256": "0f4ab0bf787eacdca3b3aabd5d6572504bbbe62224e8b6ee52906828af74a44d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/TimeBlockBoard.tsx",
+      "bytes": 22587,
+      "sha256": "69e7bf97366ce91a165158e34a520a365b569e1021afeb4fa57fb890ceb5b9fc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/TransferBridge.tsx",
+      "bytes": 7902,
+      "sha256": "295384219ebe787ebdf1bc2a489355452fcb7b8d5e140604f8b18e8d742926e4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/adaptive.css",
+      "bytes": 20146,
+      "sha256": "a063453817df5843bcf78f4b9e89a613046c9212b4138fdd7fdf5d4c80e2fc81"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/age-planning.css",
+      "bytes": 3810,
+      "sha256": "486aeaa774490b696e9839dee7e3396a9b5d03ad6b241ad7661ff6026802e8a0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/brandAssets.ts",
+      "bytes": 165015,
+      "sha256": "5d00732c38d2b3584604ad4b999949778f66be8b00b03694fc25958657d62e5a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/dailyMission.ts",
+      "bytes": 3206,
+      "sha256": "7f10865a8973c7d0d456c8c8ada34b13c772b15653af3a43b54f9dd0a7298278"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/engine.ts",
+      "bytes": 15441,
+      "sha256": "a8468feff6e5f6daa21d39c67202d499369af35658a16c6c0158e34ce9ed86c0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/focusRoutes.ts",
+      "bytes": 2080,
+      "sha256": "8623636d6d9b4a32c2cbb847828e676cb84594420783acfecf39412e3e53300d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/personal-planner.css",
+      "bytes": 22372,
+      "sha256": "10708a8ae106cfca7977f50b5814c150414ac306f4ec1bf704fc61a438c08876"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/planner-2-5.css",
+      "bytes": 7801,
+      "sha256": "626add4ffee30fcd42f4f86b9cabf41eee86fe29d0b93f0d3fd9609aeb7ce7cf"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/project-mission.css",
+      "bytes": 5610,
+      "sha256": "08fede66e2f3d3f0cc78e92c90770d70182faf7eaec35da0156120ac00474f39"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/time-blocks.css",
+      "bytes": 5046,
+      "sha256": "bd99d76555fca70f157a5de9231357b1fd096a21583827d80f405ac331f48351"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/timeBlocks.ts",
+      "bytes": 7827,
+      "sha256": "69ce44a9ef50edca3004c333c00648be0bb09c021c5e4b19e82c35cbeb67b68e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/adaptive/workspace.ts",
+      "bytes": 11048,
+      "sha256": "b424d695b99720dc41b562bb454bd5a84b6a9f3723a06c86ed4b45b067329742"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/config/ageUXProfiles.ts",
+      "bytes": 2839,
+      "sha256": "80db7f9d003368e90a754c0326c8e357f5e2352b726774655a37cc35bc59ab45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/config/copyPacks.ts",
+      "bytes": 5908,
+      "sha256": "ad9938472ed740e2863ebffd83edad9997489a0b1e126da776e60b927b1fc636"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/aiCoachGuardrail.ts",
+      "bytes": 4054,
+      "sha256": "aad6e4655dbe89fe74a18931b3a00c6f20fc2e2fc6a4510c053fec26f6c809e1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/autonomyRatio.ts",
+      "bytes": 3559,
+      "sha256": "0d295c6f3c32e71b0b9dd948833b71e94f680fd718855aa12dcfbdebcd88311c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/complexityEngine.ts",
+      "bytes": 5969,
+      "sha256": "ba223852f3213f2faa82e5f910f33aa96c8e46cfe168e6eb9fd7ef7d623bbff6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/dailyMetricAggregation.ts",
+      "bytes": 7418,
+      "sha256": "70b04e10ecb1df7964e352aaa88100eed479f7a412f0a1988a99c044a3b4fbc7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/dailyStateMachine.ts",
+      "bytes": 2837,
+      "sha256": "e03fb4bb4e20bea35c0549d64402ea970ae50bf3d01e1abafbbca403b2471f1f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/discoveryEngine.ts",
+      "bytes": 7667,
+      "sha256": "95aea19967405fd4c121a86c08822499110869f4d8cef60068bde411480f6df8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/events.ts",
+      "bytes": 4951,
+      "sha256": "4dcf3c7431f3b069143a6b96f6b9c9b84bbfa919ff51a730d42f3c78bf694761"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/levelProgression.ts",
+      "bytes": 8872,
+      "sha256": "ea1cf0a9f41563d1170fff5931b545f1a315cc093541a01d156371d74edb5f24"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/metrics.ts",
+      "bytes": 5446,
+      "sha256": "b57c33ed93a32b051da677fb1dbd419e309fa347fd45bce527ae893fba4ab735"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/modules.ts",
+      "bytes": 11723,
+      "sha256": "268d8d6f2e008d8383adc9298a0ec14021e6045ef30072227aae1cc84c3aae68"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/myNuviaAdapter.ts",
+      "bytes": 3424,
+      "sha256": "2ae7c781e3f37dca211a0e4d4d3cccde3fdd5517d08a1232188d3011cfa958ac"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/patternEngine.ts",
+      "bytes": 5238,
+      "sha256": "d8f1dc46778e8aa3d7df95efed2da9fdb01823bd89d475f647d36435ab953ca6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/personalization.ts",
+      "bytes": 4175,
+      "sha256": "719e12c43a69b86a149944cb8169fe3143974a3e857b9997dad26c2086a3725c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/scaffoldFading.ts",
+      "bytes": 6518,
+      "sha256": "a2c354f572e7dedf33fa3e0946f3c0e8989ce43b77fae11e1d124d921a950320"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/selfDirectionNarrative.ts",
+      "bytes": 3371,
+      "sha256": "55f5c84e6fa6dfe1a6cd866369fdc04d59c0052e4ffcba72a83fe13ca50a4851"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/store.ts",
+      "bytes": 19794,
+      "sha256": "14a1e2b76abe111553152a2d072149247a2cb76fa3a95d08b12aee807dd242ed"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/strategyEngine.ts",
+      "bytes": 3548,
+      "sha256": "efb109ebf3c483520a471db2a1d64015c7a7397c7edcd72b953d7d7cdcf22a59"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/strategyTransfer.ts",
+      "bytes": 701,
+      "sha256": "415b9c9f2529336880ce70b47fd8529252038960a3d22ebb7fb1a18f512dc28b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/types.ts",
+      "bytes": 8113,
+      "sha256": "6bf3badbaf6b832c387e6c52d785dfcb5a784d0e2c3db95be508a82d8b1a07f8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/domain/weeklyBoss.ts",
+      "bytes": 7267,
+      "sha256": "a211bd78edce3b1924d59bc8733e7008d0395be50c6759f8ebe5a59f5c629e84"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/main.tsx",
+      "bytes": 199,
+      "sha256": "49396923c9ff41d8be464a0b8e95c51060f383d970c8fbe16e7d635468a09c73"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/mock/mockData.ts",
+      "bytes": 7385,
+      "sha256": "81e107c4fb06bb19871db22489517f87c76052e84454089be8f8b4cd0db7f07b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/mock/scenarios.ts",
+      "bytes": 6442,
+      "sha256": "d2e0477645841e8991263967672fefd318721b1b7f1afdee01fe4c94e0100736"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/ChallengeCard.tsx",
+      "bytes": 1534,
+      "sha256": "9458c3df0a2e43f0c193a04950dc6d68e168e4e5f34fb91176a47571e81d9c64"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/DiscoveryCard.tsx",
+      "bytes": 1239,
+      "sha256": "b8d15548298fdcc160e656859e14ca4a420302d1d2fff04b8cf41ad8cc0552db"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/GrowthMap.tsx",
+      "bytes": 755,
+      "sha256": "0fd9d76ac136fe617e2c903ce229d8a6afe68d8202d7edf1634371527e168b45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/LevelJourney.tsx",
+      "bytes": 953,
+      "sha256": "c68f43e92089e8c46e55a38e72e629df59a37cccb7aab84e4bacfc78b3c9c36f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/MissionCard.tsx",
+      "bytes": 1666,
+      "sha256": "01463d72a29e0f0eeddeb0bc06eea35a35967628779e238915f9fae4da21d883"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/MissionWorld.tsx",
+      "bytes": 8658,
+      "sha256": "7db55257dc7046ba0fb8886ef157f21479be371e8c0a978e5fc5324dc4ebfa45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/ProgressIndicator.tsx",
+      "bytes": 861,
+      "sha256": "599f4a578631e49b6efcc4ec63e93e4ca797d59c63b25d5dcc5c0d04788d9afe"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/RewardAnimation.tsx",
+      "bytes": 1373,
+      "sha256": "e932a7520784e5a5e4c1bfb94147425e6448d13a734f2deebcb5c26ad7d59483"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/StrategyCard.tsx",
+      "bytes": 1178,
+      "sha256": "17d0922c53797d6adf6cdb699581536d0546fcb8495374b547baf145a84fab2a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/WeeklyBossCard.tsx",
+      "bytes": 1821,
+      "sha256": "b2dbca4c0baa7e8299c06691ca069802e7e7bece2aeb06c0442775b7ff1df570"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/index.ts",
+      "bytes": 565,
+      "sha256": "daa949cb256099f93a40f6d1a55b41382ba3e450c20f33a0add588784ab06d11"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/primitives.tsx",
+      "bytes": 3132,
+      "sha256": "20199e798505dc2f0ecf726c220372b20dbba22f2364550c09b046a0eced306d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/presentation/viewModels.ts",
+      "bytes": 2314,
+      "sha256": "f06d1de485a2644be5fd84ee66cf6eda3a4741b2d33d24bac9cd5e509302e37a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/screens/screens.tsx",
+      "bytes": 37073,
+      "sha256": "08e411e3fa6758fe6b031908c8aafb3d526ccad2a2ca0de7929e64bb89a20d95"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/screens/viewModelAdapters.ts",
+      "bytes": 5182,
+      "sha256": "93119432d3452244b405280b37b76181a7b4727d94dea9defefa0d4496038228"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/styles/app.css",
+      "bytes": 12522,
+      "sha256": "81776391b579668a745818e1980c143defb11906384b2fc282861a7206394c69"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/styles/game.css",
+      "bytes": 11495,
+      "sha256": "3436d897c0d6c545534b712d292f53a380f34ea04b1f9413d3f7f1336a4cb2d3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/adaptiveTraining.test.ts",
+      "bytes": 5815,
+      "sha256": "af5cad7210979e00207b9a940c54db1a436c35e98cbb06723a70e64c2dc84d5b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/backupRestore.test.ts",
+      "bytes": 2674,
+      "sha256": "2f438d8346d0f1cf1805671121ea8284c13199559037dc09f07b5f7abbc3b498"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/cognitiveActivity.test.ts",
+      "bytes": 1265,
+      "sha256": "f4c5fae9ea1b07cd3d887cc6db381df7fc4ae41b154574ed119c7352cff4ad90"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/dailyMission.test.ts",
+      "bytes": 1335,
+      "sha256": "51cd9eacbb38ddc1790201f1521c509da9d1b2ff7017ea6459904df8705ae31c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/focusRoutes.test.ts",
+      "bytes": 2754,
+      "sha256": "018d1449773f1be06e1fac94ac8f5f818f6ecaf8e102378930d7005e1d594605"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/guardrails.test.ts",
+      "bytes": 17930,
+      "sha256": "6c0627e72483e2a8f4788d56604c600c27cb5e47828016fa5b5d8ebf11abdb16"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/integration.test.ts",
+      "bytes": 8888,
+      "sha256": "2bcd72a88261b7e6af06c2fe2acb5f4801791a1d815cc44c5a97b69ed8646031"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/lifeTools.test.ts",
+      "bytes": 1948,
+      "sha256": "ad8a532ad1707d372911cc9f1297bd6c5f16d4c430d60f2b5500c45c39cce4a3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/plannerEnhancements.test.ts",
+      "bytes": 1747,
+      "sha256": "e9880c566ac1ac3b8bc69c9c00cb79c873b5468fab1d13bfa5540cb23dad6c21"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/timeBlockUX.test.ts",
+      "bytes": 1784,
+      "sha256": "8c50f8134037ece9f015f6b14316a18bfc38b39cc8f0610c403611ecb586cc47"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/timeBlocks.test.ts",
+      "bytes": 8374,
+      "sha256": "c5ad3051e036d1bb1c64ba298316223c7711a05479257e2b48285ce7e0f5ead1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/v13FormulasPatch.test.ts",
+      "bytes": 35353,
+      "sha256": "aff37da4c4aa755f9e7eb56d0d4f0c611394fc63786d13122b41594e67858f23"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/v15PatternCore.test.ts",
+      "bytes": 6320,
+      "sha256": "90074ad821c93d2bd39e494b986502883db74d075a30a2da0ec4054fc538d265"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tests/workspace.test.ts",
+      "bytes": 2817,
+      "sha256": "d67beb7d8b75280c5b6b7d9a6534c2d27275c3799e4636a76a1fbc02ab1eb8c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/before/tokens/designTokens.ts",
+      "bytes": 2219,
+      "sha256": "dba427431c62447777d724fb8dd4375e75c08ac716863ce548f9b5931ad9b45b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/error-boundary.tsx",
+      "bytes": 2735,
+      "sha256": "c1ea4d88be8cd206a46bd87f19edf025b2504a70a2b65cd9c438e4a0e62dafe0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/accordion.tsx",
+      "bytes": 2013,
+      "sha256": "8e4230a3e6d38bfab7b02f00f9e948c8c4038432c5b1bf2d0ea44dc8b5ce09cc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/alert-dialog.tsx",
+      "bytes": 4447,
+      "sha256": "d76901a06e6881e94aa3847fde2602ee6f6ddc9f4cace9fa238627a5572bd24e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/alert.tsx",
+      "bytes": 1609,
+      "sha256": "695369ea4d1ba4438dcedacaa8059b08b6463ac93170360f3bd42b983b7608e9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/aspect-ratio.tsx",
+      "bytes": 143,
+      "sha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/avatar.tsx",
+      "bytes": 1431,
+      "sha256": "429f5e82fc3dcf265625650176f16ff9b35e55826183e1f1b2d4dc2a338f9b15"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/badge.tsx",
+      "bytes": 1528,
+      "sha256": "ba6f51e428a520f54e600fded4ea030a8099fa6a9a7b7110af8dca34795415d1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/breadcrumb.tsx",
+      "bytes": 2735,
+      "sha256": "44b4de47f806eec0e3de5130f0399e83700eaf0bc8deb47af5ffda2bb11eb3f1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/button-group.tsx",
+      "bytes": 2222,
+      "sha256": "b89025c11d08652597cb46b097d3e04658ad2c383bf81ed445c8182c0ed1b260"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/button.tsx",
+      "bytes": 2370,
+      "sha256": "9c20a340ca0c948d0164158eff44fca2e26343c8ee387ffc22f9cd677c59d27d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/calendar.tsx",
+      "bytes": 7607,
+      "sha256": "1cdd1e62797356fe62f61f5521fcf0da8e3570b1120868ccca2b48370157fe46"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/card.tsx",
+      "bytes": 1856,
+      "sha256": "9fed39a53303c12fa6ac6f5f8813c1683e2198df9ee067cffbdfe69044cf3e4f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/carousel.tsx",
+      "bytes": 6288,
+      "sha256": "4ae2f69bc2c1ce33c60b23ddc5382f4b93882dac07c2d18cce32fb148ff52c48"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/chart.tsx",
+      "bytes": 10846,
+      "sha256": "ac747c83483d742e207426a193ba5e2cf639fa18cd819c1f12d12329520c6c12"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/checkbox.tsx",
+      "bytes": 1038,
+      "sha256": "6b9e336fa42475bbb2ad4d76478afb8d2555e6e26bac245b9ccde62a9a033adc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/collapsible.tsx",
+      "bytes": 335,
+      "sha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/command.tsx",
+      "bytes": 4918,
+      "sha256": "d8fb66e44f9f8de558f6a94c781f3d890871d76dbabcda64e6fab3c917b3237d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/context-menu.tsx",
+      "bytes": 7446,
+      "sha256": "bdff38b45a6010e3db808c099c799bd61e6aca619378074e7b14b63c1291e4c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/dialog.tsx",
+      "bytes": 3889,
+      "sha256": "e0d3fa53f4cb7d8011ab09f2d198c24234062d24638fabf5142f5fbce57d2ba5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/drawer.tsx",
+      "bytes": 3029,
+      "sha256": "152bc340ad982e84f851e3bc1a6b8e7ffd0151a7445c6ecf1b1e3e13cbc19210"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7646,
+      "sha256": "a79d5419ee174de35880340aef44d67847cee54846c058e02ac4a846b603c60f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/empty.tsx",
+      "bytes": 2410,
+      "sha256": "48824b1b37bd406fa74f48db726a4f1d70cf88db5b3432f7b1d59f584f1c5dad"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/field.tsx",
+      "bytes": 6079,
+      "sha256": "c3787ffb045354e9f18e70d94890627caea94939a226e49c1e6cedee84a1e9e1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/form.tsx",
+      "bytes": 4232,
+      "sha256": "1960463b09152760fdd99ca3eb16187408d064c7599ed66384b42d1613d3a3a3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/hover-card.tsx",
+      "bytes": 1245,
+      "sha256": "e0b4e3f0126757a8eb5c6e436c8c041c049430abe9a2eb84b10154144b31c29c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/input-group.tsx",
+      "bytes": 4993,
+      "sha256": "f4befbf9bf8ebd755b267c4db2b396be296adb95acca5c3fba54f6495bdedebd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/input-otp.tsx",
+      "bytes": 2160,
+      "sha256": "b4891335e70920518cfbdef2aeb399f61477fbc4b3ffe3b8a2938f19074164cc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/input.tsx",
+      "bytes": 775,
+      "sha256": "03ac1648171bd5ad90dbc03e9ebff9a9cc77708bcc53bdac914b80eeebfe3032"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/item.tsx",
+      "bytes": 4519,
+      "sha256": "4a84cda22d692ee176f5128517a4003a63d11f907df445e7586ef034c88e8772"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/kbd.tsx",
+      "bytes": 867,
+      "sha256": "4348a7a06a715e9e9673602cbb9ed89a6a4c6cbdd457d4c03db0f23a139d19eb"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/label.tsx",
+      "bytes": 733,
+      "sha256": "fbc0c7db4221227941271a004bf71db5067aee9d8668f3351d91113cd5934c8c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/menubar.tsx",
+      "bytes": 8655,
+      "sha256": "26dbbf36e4ffd87aab74e61dd1e3613f0c640988479679d53bacd8dbd15cc891"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/navigation-menu.tsx",
+      "bytes": 5150,
+      "sha256": "222020e1ac703ce01700d6e8822c6263932bc71c481d724b8ef53ccaae8ad63f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/pagination.tsx",
+      "bytes": 2772,
+      "sha256": "dd65d2e59226a3f384014b596ae701aef50f130cb3061f4657e81c588587b8da"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/popover.tsx",
+      "bytes": 1351,
+      "sha256": "dc574442536873c8aa88733c348503c4599ad6ed0fc9898fd25406d94e095cca"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/progress.tsx",
+      "bytes": 799,
+      "sha256": "74223bcccf7ca2ed026d197476abbe3d48fbc531c40f4252445f56954a270c75"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/radio-group.tsx",
+      "bytes": 1421,
+      "sha256": "8155d32dea5d4ddea2048b6d12f83fe4805d9bc87c97b994dbb0d040981334f2"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/resizable.tsx",
+      "bytes": 1733,
+      "sha256": "8e73dfb8b582944364d73b64ed03378016f20f7251f15f880dcf0fb140e1ad41"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/scroll-area.tsx",
+      "bytes": 1650,
+      "sha256": "73f5dedda781e5285092ea269f747378dbad8d95631eab638e15b3c31595dc59"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/select.tsx",
+      "bytes": 5773,
+      "sha256": "c64c9c1574c91f1eff922f3557e7609ba6c1d5e39959dbdecf8d386d7ae41990"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/separator.tsx",
+      "bytes": 764,
+      "sha256": "2b129347f918742bf006099f7f56a9be373250de2ecc3ad201297563e3d1f807"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/sheet.tsx",
+      "bytes": 4307,
+      "sha256": "ef2ae35ccab1252c4eee56e67e9f1b2499b5bbfb3ae39037d8d4be39915c272f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/sidebar.tsx",
+      "bytes": 21969,
+      "sha256": "de7566e708ba8bf34cb4a78fc018c784315c9d7a16d70e66255f8c72caf9d1db"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/skeleton.tsx",
+      "bytes": 269,
+      "sha256": "d78130b2e311a750e7bb524e66e3af4c04e2ab02b04fd68539c1afd0bbb47152"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/slider.tsx",
+      "bytes": 1043,
+      "sha256": "ecac74b8f3a044ba7a9e4eb0bdbfdf48be92483a32d2c414c5078c9f38e1f369"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/sonner.tsx",
+      "bytes": 902,
+      "sha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/spinner.tsx",
+      "bytes": 334,
+      "sha256": "4458ea392b32f439cd4c64b9593846f339370fa1295c04f9003f05c1f3386689"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/switch.tsx",
+      "bytes": 1155,
+      "sha256": "f81bc9b5ce2d6a92b6b2f1f3376c0489f30f7073081a1d9d6c56553880f44c58"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/table.tsx",
+      "bytes": 2881,
+      "sha256": "dd29f5ef260af67ed09c84505495e3fddbad14009e3b3ce689d0c354ffaf55d3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/tabs.tsx",
+      "bytes": 1890,
+      "sha256": "320609101fbaa6cccda0b899154cb510fa322926cfdbaf07e33b79c00c83fcd6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/textarea.tsx",
+      "bytes": 655,
+      "sha256": "63fb699771afe60c5073ed50e1a042d7d7f21eefd12d15bcb750cf3230985011"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/toast.tsx",
+      "bytes": 4871,
+      "sha256": "04d4ef720079342e2f4380c22683f1544bd8e93a581fb55e447458f04a6127d5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/toaster.tsx",
+      "bytes": 777,
+      "sha256": "d34c7cd51482ddd5703a13378d9ac69b3459a304581e42f56ac2c696e53163ac"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/toggle-group.tsx",
+      "bytes": 1767,
+      "sha256": "6d7aca86245edf5d0a8f6f3ed73bd19316f4865425891eabccd6f3e37e59519e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/toggle.tsx",
+      "bytes": 1494,
+      "sha256": "5800d2099224ef90892e8c1d972d2a0964391c33cd43d7f5c6abf5cd42e023e1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/components/ui/tooltip.tsx",
+      "bytes": 1277,
+      "sha256": "e3c6ea9d4ecd62881af33564e25be013d35a8a7fa78475a6dcc98a06c7f894eb"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/DemoNotice.tsx",
+      "bytes": 2824,
+      "sha256": "fb510391ada447cea7b5ec9e477dddebc07a11611724408b7decf404834b56c7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/assessment.ts",
+      "bytes": 1111,
+      "sha256": "93bdf0fce26ebb2b53cc55c5423d5b10dde7b7f02595347e72e9df845eac2a8e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/audiences.ts",
+      "bytes": 3453,
+      "sha256": "eeea54da33715c8b7e6309572e550ef00daceaa4eff452507e63f7c5372f78ba"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/entry.css",
+      "bytes": 2106,
+      "sha256": "859a4c60674ef2fbb4c9df1d17a07a98da0efbad44bfaf9f3314eb818537cf75"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/entry.tsx",
+      "bytes": 3799,
+      "sha256": "c3131e178ca55c997d9d672e572cb5c3edd0c37f4d68e624188f2e4d70c212df"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/notice.css",
+      "bytes": 833,
+      "sha256": "7cf559c71fd26891dbf11ebc6151bf2f53d279dc64ce8a16e266563a0c6bf188"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/demo/session.ts",
+      "bytes": 1462,
+      "sha256": "2ca90c7562751bdb53d7e9ad2fc33c2992ada0d1f6131ff6a6fe3fa4ea0cc3c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement-main.tsx",
+      "bytes": 241,
+      "sha256": "07a535a41a00c9290db95c0197c9ab78188a19c4bc1b8ca2fd1bec81e87159fa"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/App.tsx",
+      "bytes": 5150,
+      "sha256": "a6202b77d2595e9f6b0e8e2e72ad73f5910b88c5b76d9ab20e43398f4da027c3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/CONTRACT.md",
+      "bytes": 4762,
+      "sha256": "d6f3e18c6feebdc8aaa8e61910ca7fab120bec8804206371dceac3ba5ef9143b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/ClassPage.tsx",
+      "bytes": 9289,
+      "sha256": "245dca152fa3ac97aaa031c40c63bc31c073478cc5ec720a1822a0ce225300b4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/EverydayPage.tsx",
+      "bytes": 7501,
+      "sha256": "cb2bfced8e7dca67df40cd4681c5d30f588ee6fe5c29d1a0a6b6123ab282e8fa"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/Glyph.tsx",
+      "bytes": 1142,
+      "sha256": "c812b74749e2bb8f048f3a95e5f63123456d13449a52eaf18a5b925e1acd9070"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/NowPage.tsx",
+      "bytes": 5668,
+      "sha256": "b36284f55f6b833b755ae8e351a66a41b472b73cb5a9f156504a31edaea8690d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/PlanPage.tsx",
+      "bytes": 10682,
+      "sha256": "25edffa70b65687376e15198f3cda9c2b7a7954e2c22923a2ab6d68ec83dde7a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/Profile.tsx",
+      "bytes": 1926,
+      "sha256": "94c2c1ceb794fb03b35ac9bef76a06a1bf462eebb2595b1c47ea96cc2aed4aab"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/QABoard.tsx",
+      "bytes": 2467,
+      "sha256": "7aa1eb7e9cb64cbab5811306550a42bd341ec6827b2d4c26ea5ce616fe3f912d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/ReflectPage.tsx",
+      "bytes": 3951,
+      "sha256": "2be197b9e64bce4d819dc4a4a8a257ccca6d2ac1186f97a297ba1b89b25b9587"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/TargetPanels.tsx",
+      "bytes": 8498,
+      "sha256": "0ddcdb4b1115acdba717e6f3cece0bbeda277252befe33e0419890f7b1a70f9e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/TeacherPage.tsx",
+      "bytes": 5766,
+      "sha256": "83e14194b284d362691eabd8102772df5cd83c46b38ed06e5ad187b665cb367d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/copy.ts",
+      "bytes": 7875,
+      "sha256": "2ad099682757476dae1ba8dabaea647a30747ecf33fa9e49483711f6c960da30"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/domain.ts",
+      "bytes": 26633,
+      "sha256": "c6d386828a455c9cec3ed794117168d5a0e7a53c8bf33d6ac96ec78aeaf151dc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/enhancement.css",
+      "bytes": 13011,
+      "sha256": "4a73c8213f4619eb994ad0b46f929bd6e2f11b78379d584429720fc6c9e07f23"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/lab.ts",
+      "bytes": 285,
+      "sha256": "9f3f82a80619d0ad1a4e7fee3a6a56690b64f0cd4fd9fd1723a553b7d7ba1844"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/model.ts",
+      "bytes": 5191,
+      "sha256": "52e4c4a4ba0bee2f4cc3a29a6cc8c5f07ee4989bc31f295e29b06e0327d52c1b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/persistence.ts",
+      "bytes": 10948,
+      "sha256": "125311be09c09f2f3ec0fdbd97ede8e9224255265ae4ea419bcd688ba4f3fc63"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/enhancement/store.ts",
+      "bytes": 4121,
+      "sha256": "3001a6f57f5dace5e1c5dea25a75e2f0e6f34801b19663fc7adbb36cdc5e3040"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/hooks/use-mobile.tsx",
+      "bytes": 585,
+      "sha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/hooks/use-toast.ts",
+      "bytes": 3952,
+      "sha256": "12cce940e597e1d597f7063131acd19658d25e924904308bf719bde17b67e351"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/index.css",
+      "bytes": 14163,
+      "sha256": "58ff8d2ae6bd9625404bc4cbab4d4ac22968fd1f1793d739a69e089ec70520cf"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/lib/utils.ts",
+      "bytes": 170,
+      "sha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/main.tsx",
+      "bytes": 410,
+      "sha256": "28b6850b673ab9470eb95d88e9274a47a62f0b5b5703d71e839ef91cc49a6b7b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/App.tsx",
+      "bytes": 155,
+      "sha256": "24fcb2a518f6a74074e96586815820228332e69240fc7ed8edba3086a54639d5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/ActivityDesks.tsx",
+      "bytes": 16138,
+      "sha256": "8a73d0f0b4f873e04057b3754c034c72e001b4bc07d385177d8ad14cd778e579"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/AdaptivePlanner.tsx",
+      "bytes": 56083,
+      "sha256": "3e98a6a9110f02224f42b7b4005218c1a0caa60a42a385ef7ffcf7ff0e56cb73"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/AgePlanning.tsx",
+      "bytes": 11108,
+      "sha256": "c2a9151c75cb04d01e4fd846012bb93c17365a06253456fb9df7c4a5b64c9582"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/CognitiveActivity.tsx",
+      "bytes": 3735,
+      "sha256": "3cbe4729c415eb9d36346b096abdae02960fcd91f8aff23d464373218bf6bfb7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/FocusAgeTools.tsx",
+      "bytes": 7810,
+      "sha256": "96bd7a078d2b947b7242943b12f1c88926b404136dfbfb15232646bed17c6c2c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/LifeTools.tsx",
+      "bytes": 2706,
+      "sha256": "dae1686c03d4c57ede9a40b7f685bf4f72802f55d22e77875acf771d439382fc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/PlannerEnhancements.tsx",
+      "bytes": 9436,
+      "sha256": "fb98ac763c1ba9059b163cd43582266740b2b19629e4cb055d46db4560c54f06"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/ProjectMission.tsx",
+      "bytes": 12473,
+      "sha256": "3afa4439a516ce0a0345435142d7688d91c127dce362b4c5b8e98b089e872cd5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/TaskIcon.tsx",
+      "bytes": 899,
+      "sha256": "0f4ab0bf787eacdca3b3aabd5d6572504bbbe62224e8b6ee52906828af74a44d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/TimeBlockBoard.tsx",
+      "bytes": 32737,
+      "sha256": "b2520d05251401391860e4cd5a7b91561eb6d83aac08ac14f2474be58837d1f7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/TransferBridge.tsx",
+      "bytes": 7902,
+      "sha256": "295384219ebe787ebdf1bc2a489355452fcb7b8d5e140604f8b18e8d742926e4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/adaptive.css",
+      "bytes": 20146,
+      "sha256": "a063453817df5843bcf78f4b9e89a613046c9212b4138fdd7fdf5d4c80e2fc81"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/age-planning.css",
+      "bytes": 3810,
+      "sha256": "486aeaa774490b696e9839dee7e3396a9b5d03ad6b241ad7661ff6026802e8a0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/brandAssets.ts",
+      "bytes": 165015,
+      "sha256": "5d00732c38d2b3584604ad4b999949778f66be8b00b03694fc25958657d62e5a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/dailyMission.ts",
+      "bytes": 3206,
+      "sha256": "7f10865a8973c7d0d456c8c8ada34b13c772b15653af3a43b54f9dd0a7298278"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/engine.ts",
+      "bytes": 17836,
+      "sha256": "60e4f655f5606deb590dc8eaae485d7ebf1dfc5c5405e8dfca0ea480e7cc75bc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/focusRoutes.ts",
+      "bytes": 2080,
+      "sha256": "8623636d6d9b4a32c2cbb847828e676cb84594420783acfecf39412e3e53300d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/personal-planner.css",
+      "bytes": 22372,
+      "sha256": "10708a8ae106cfca7977f50b5814c150414ac306f4ec1bf704fc61a438c08876"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/planner-2-5.css",
+      "bytes": 18531,
+      "sha256": "8a553a04919fdd2ce5a0f0b2571f9b7e698a3960cbecf65339f7af0399be9cad"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/project-mission.css",
+      "bytes": 5610,
+      "sha256": "08fede66e2f3d3f0cc78e92c90770d70182faf7eaec35da0156120ac00474f39"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/time-blocks.css",
+      "bytes": 34621,
+      "sha256": "1336e358c4e53826abe40baf652e8c36826922e2f66c526c93a258b2c3885932"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/timeBlocks.ts",
+      "bytes": 8682,
+      "sha256": "ed220027b118698425deca08317bd52b482b0776ec77b1fac839041bd0ba6801"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/adaptive/workspace.ts",
+      "bytes": 12047,
+      "sha256": "3666d72c2cefc705f358394fbce0117ceb0dba6b7fe25d2372a70bb5c5841dd3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/config/ageUXProfiles.ts",
+      "bytes": 2839,
+      "sha256": "80db7f9d003368e90a754c0326c8e357f5e2352b726774655a37cc35bc59ab45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/config/copyPacks.ts",
+      "bytes": 5908,
+      "sha256": "ad9938472ed740e2863ebffd83edad9997489a0b1e126da776e60b927b1fc636"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/aiCoachGuardrail.ts",
+      "bytes": 4054,
+      "sha256": "aad6e4655dbe89fe74a18931b3a00c6f20fc2e2fc6a4510c053fec26f6c809e1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/autonomyRatio.ts",
+      "bytes": 3559,
+      "sha256": "0d295c6f3c32e71b0b9dd948833b71e94f680fd718855aa12dcfbdebcd88311c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/complexityEngine.ts",
+      "bytes": 5969,
+      "sha256": "ba223852f3213f2faa82e5f910f33aa96c8e46cfe168e6eb9fd7ef7d623bbff6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/dailyMetricAggregation.ts",
+      "bytes": 7418,
+      "sha256": "70b04e10ecb1df7964e352aaa88100eed479f7a412f0a1988a99c044a3b4fbc7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/dailyStateMachine.ts",
+      "bytes": 2837,
+      "sha256": "e03fb4bb4e20bea35c0549d64402ea970ae50bf3d01e1abafbbca403b2471f1f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/discoveryEngine.ts",
+      "bytes": 7667,
+      "sha256": "95aea19967405fd4c121a86c08822499110869f4d8cef60068bde411480f6df8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/events.ts",
+      "bytes": 4951,
+      "sha256": "4dcf3c7431f3b069143a6b96f6b9c9b84bbfa919ff51a730d42f3c78bf694761"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/levelProgression.ts",
+      "bytes": 8872,
+      "sha256": "ea1cf0a9f41563d1170fff5931b545f1a315cc093541a01d156371d74edb5f24"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/metrics.ts",
+      "bytes": 5446,
+      "sha256": "b57c33ed93a32b051da677fb1dbd419e309fa347fd45bce527ae893fba4ab735"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/modules.ts",
+      "bytes": 11723,
+      "sha256": "268d8d6f2e008d8383adc9298a0ec14021e6045ef30072227aae1cc84c3aae68"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/myNuviaAdapter.ts",
+      "bytes": 3424,
+      "sha256": "2ae7c781e3f37dca211a0e4d4d3cccde3fdd5517d08a1232188d3011cfa958ac"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/patternEngine.ts",
+      "bytes": 5238,
+      "sha256": "d8f1dc46778e8aa3d7df95efed2da9fdb01823bd89d475f647d36435ab953ca6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/personalization.ts",
+      "bytes": 4175,
+      "sha256": "719e12c43a69b86a149944cb8169fe3143974a3e857b9997dad26c2086a3725c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/scaffoldFading.ts",
+      "bytes": 6518,
+      "sha256": "a2c354f572e7dedf33fa3e0946f3c0e8989ce43b77fae11e1d124d921a950320"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/selfDirectionNarrative.ts",
+      "bytes": 3371,
+      "sha256": "55f5c84e6fa6dfe1a6cd866369fdc04d59c0052e4ffcba72a83fe13ca50a4851"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/store.ts",
+      "bytes": 19794,
+      "sha256": "14a1e2b76abe111553152a2d072149247a2cb76fa3a95d08b12aee807dd242ed"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/strategyEngine.ts",
+      "bytes": 3548,
+      "sha256": "efb109ebf3c483520a471db2a1d64015c7a7397c7edcd72b953d7d7cdcf22a59"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/strategyTransfer.ts",
+      "bytes": 701,
+      "sha256": "415b9c9f2529336880ce70b47fd8529252038960a3d22ebb7fb1a18f512dc28b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/types.ts",
+      "bytes": 8113,
+      "sha256": "6bf3badbaf6b832c387e6c52d785dfcb5a784d0e2c3db95be508a82d8b1a07f8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/domain/weeklyBoss.ts",
+      "bytes": 7267,
+      "sha256": "a211bd78edce3b1924d59bc8733e7008d0395be50c6759f8ebe5a59f5c629e84"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/main.tsx",
+      "bytes": 199,
+      "sha256": "49396923c9ff41d8be464a0b8e95c51060f383d970c8fbe16e7d635468a09c73"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/mock/mockData.ts",
+      "bytes": 7385,
+      "sha256": "81e107c4fb06bb19871db22489517f87c76052e84454089be8f8b4cd0db7f07b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/mock/scenarios.ts",
+      "bytes": 6442,
+      "sha256": "d2e0477645841e8991263967672fefd318721b1b7f1afdee01fe4c94e0100736"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/ChallengeCard.tsx",
+      "bytes": 1534,
+      "sha256": "9458c3df0a2e43f0c193a04950dc6d68e168e4e5f34fb91176a47571e81d9c64"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/DiscoveryCard.tsx",
+      "bytes": 1239,
+      "sha256": "b8d15548298fdcc160e656859e14ca4a420302d1d2fff04b8cf41ad8cc0552db"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/GrowthMap.tsx",
+      "bytes": 755,
+      "sha256": "0fd9d76ac136fe617e2c903ce229d8a6afe68d8202d7edf1634371527e168b45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/LevelJourney.tsx",
+      "bytes": 953,
+      "sha256": "c68f43e92089e8c46e55a38e72e629df59a37cccb7aab84e4bacfc78b3c9c36f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/MissionCard.tsx",
+      "bytes": 1666,
+      "sha256": "01463d72a29e0f0eeddeb0bc06eea35a35967628779e238915f9fae4da21d883"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/MissionWorld.tsx",
+      "bytes": 8658,
+      "sha256": "7db55257dc7046ba0fb8886ef157f21479be371e8c0a978e5fc5324dc4ebfa45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/ProgressIndicator.tsx",
+      "bytes": 861,
+      "sha256": "599f4a578631e49b6efcc4ec63e93e4ca797d59c63b25d5dcc5c0d04788d9afe"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/RewardAnimation.tsx",
+      "bytes": 1373,
+      "sha256": "e932a7520784e5a5e4c1bfb94147425e6448d13a734f2deebcb5c26ad7d59483"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/StrategyCard.tsx",
+      "bytes": 1178,
+      "sha256": "17d0922c53797d6adf6cdb699581536d0546fcb8495374b547baf145a84fab2a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/WeeklyBossCard.tsx",
+      "bytes": 1821,
+      "sha256": "b2dbca4c0baa7e8299c06691ca069802e7e7bece2aeb06c0442775b7ff1df570"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/index.ts",
+      "bytes": 565,
+      "sha256": "daa949cb256099f93a40f6d1a55b41382ba3e450c20f33a0add588784ab06d11"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/primitives.tsx",
+      "bytes": 3132,
+      "sha256": "20199e798505dc2f0ecf726c220372b20dbba22f2364550c09b046a0eced306d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/presentation/viewModels.ts",
+      "bytes": 2314,
+      "sha256": "f06d1de485a2644be5fd84ee66cf6eda3a4741b2d33d24bac9cd5e509302e37a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/screens/screens.tsx",
+      "bytes": 37073,
+      "sha256": "08e411e3fa6758fe6b031908c8aafb3d526ccad2a2ca0de7929e64bb89a20d95"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/screens/viewModelAdapters.ts",
+      "bytes": 5182,
+      "sha256": "93119432d3452244b405280b37b76181a7b4727d94dea9defefa0d4496038228"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/styles/app.css",
+      "bytes": 12522,
+      "sha256": "81776391b579668a745818e1980c143defb11906384b2fc282861a7206394c69"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/styles/game.css",
+      "bytes": 11495,
+      "sha256": "3436d897c0d6c545534b712d292f53a380f34ea04b1f9413d3f7f1336a4cb2d3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/adaptiveTraining.test.ts",
+      "bytes": 5815,
+      "sha256": "af5cad7210979e00207b9a940c54db1a436c35e98cbb06723a70e64c2dc84d5b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/backupRestore.test.ts",
+      "bytes": 2674,
+      "sha256": "2f438d8346d0f1cf1805671121ea8284c13199559037dc09f07b5f7abbc3b498"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts",
+      "bytes": 1265,
+      "sha256": "f4c5fae9ea1b07cd3d887cc6db381df7fc4ae41b154574ed119c7352cff4ad90"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/dailyMission.test.ts",
+      "bytes": 1335,
+      "sha256": "51cd9eacbb38ddc1790201f1521c509da9d1b2ff7017ea6459904df8705ae31c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/focusRoutes.test.ts",
+      "bytes": 2754,
+      "sha256": "018d1449773f1be06e1fac94ac8f5f818f6ecaf8e102378930d7005e1d594605"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/guardrails.test.ts",
+      "bytes": 17930,
+      "sha256": "6c0627e72483e2a8f4788d56604c600c27cb5e47828016fa5b5d8ebf11abdb16"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/integration.test.ts",
+      "bytes": 8888,
+      "sha256": "2bcd72a88261b7e6af06c2fe2acb5f4801791a1d815cc44c5a97b69ed8646031"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/lifeTools.test.ts",
+      "bytes": 1948,
+      "sha256": "ad8a532ad1707d372911cc9f1297bd6c5f16d4c430d60f2b5500c45c39cce4a3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/plannerEnhancements.test.ts",
+      "bytes": 1747,
+      "sha256": "e9880c566ac1ac3b8bc69c9c00cb79c873b5468fab1d13bfa5540cb23dad6c21"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/timeBlockUX.test.ts",
+      "bytes": 1784,
+      "sha256": "8c50f8134037ece9f015f6b14316a18bfc38b39cc8f0610c403611ecb586cc47"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/timeBlocks.test.ts",
+      "bytes": 8374,
+      "sha256": "c5ad3051e036d1bb1c64ba298316223c7711a05479257e2b48285ce7e0f5ead1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/v13FormulasPatch.test.ts",
+      "bytes": 35353,
+      "sha256": "aff37da4c4aa755f9e7eb56d0d4f0c611394fc63786d13122b41594e67858f23"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/v15PatternCore.test.ts",
+      "bytes": 6320,
+      "sha256": "90074ad821c93d2bd39e494b986502883db74d075a30a2da0ec4054fc538d265"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tests/workspace.test.ts",
+      "bytes": 2817,
+      "sha256": "d67beb7d8b75280c5b6b7d9a6534c2d27275c3799e4636a76a1fbc02ab1eb8c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/official/tokens/designTokens.ts",
+      "bytes": 2219,
+      "sha256": "dba427431c62447777d724fb8dd4375e75c08ac716863ce548f9b5931ad9b45b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/pages/not-found.tsx",
+      "bytes": 739,
+      "sha256": "6aaea7a7125024440020566f3a14fde4f65149b1fd21f68c6a437b193e88c642"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal-main.tsx",
+      "bytes": 140,
+      "sha256": "b34fd3c3823d07a980f2076cef41c236a2714eec8b4ea1be52225103dd7d5364"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/Activity.tsx",
+      "bytes": 4897,
+      "sha256": "2dd6df7bd6bf463aa97fa19797c46548df761fbf6207c1dc038c58397b1f819f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/App.tsx",
+      "bytes": 4313,
+      "sha256": "9ed8a32b80d1eb6d9a7b5541803e9a9b013f187cb24573f44ba15d32b5f5cecf"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/AssessmentPanel.tsx",
+      "bytes": 4262,
+      "sha256": "be15a5df44c66f86aba8cbac6874bb81863c9b08955cea9f3d6762aa9aadc65e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/CONTRACT.md",
+      "bytes": 5777,
+      "sha256": "78adb35800130ee18d48fb864a8407bbd02aac6844f3456735cd8ef0e81aa1ec"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/CardDetail.tsx",
+      "bytes": 7931,
+      "sha256": "01bdbbec23c989987c11b14d698a965b643464c107f2436e50a5b6567d4d1423"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/ExperienceReview.tsx",
+      "bytes": 4926,
+      "sha256": "0e275ab25cd0f895484ec8e5e8ba870da560517b49a421b8347498ee378e89fd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/GrowthPage.tsx",
+      "bytes": 6271,
+      "sha256": "045e530197abfae34b09dee98efc81d2ace36cee912d41b33752254937cf509e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/HelpView.tsx",
+      "bytes": 3909,
+      "sha256": "74cf20fb59c33f5f260ba2d3a2d43b872e6971db62277c59b292fba5f9035acd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/INSIGHTS_CONTRACT.md",
+      "bytes": 2461,
+      "sha256": "dd4b24effce9a8849467a7625683aaa19c3c82d8e6d8aa47d5e36867d0785c45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/MonthPage.tsx",
+      "bytes": 9326,
+      "sha256": "22b7213fe31cdcb69e0c52c1bd821398814ca2f4822aeedcb745b561d212de18"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/PersonalGuide.tsx",
+      "bytes": 1264,
+      "sha256": "2167748be5d556579551608a939a9182c3b5a9b4389a116360dc7e1922f5c3bd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/ProfileControls.tsx",
+      "bytes": 2659,
+      "sha256": "c7686afa2cea5aef5d63e63676f6855691fd8c5b805fdecd5b4681162a05611f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/ReportPage.tsx",
+      "bytes": 2914,
+      "sha256": "aa98029ec932a11142e468aaae53e15762bdce35374196b76a78b670cde9bb76"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/ReviewPanel.tsx",
+      "bytes": 2692,
+      "sha256": "e33a009e051564806454caf4e98f8e548f9c193559e768aa467eb841e5523772"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/RunPanel.tsx",
+      "bytes": 5757,
+      "sha256": "a068925d72dfd7d364cd8385ce7efa972c69d48463606fec8fd30987245dc3f6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/SplitPlanner.tsx",
+      "bytes": 3317,
+      "sha256": "45d7216ce5f0878e3ff16a0ff83a815d6d1af1d8eff5f994b5d08ae686b29351"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/TodayPage.tsx",
+      "bytes": 6076,
+      "sha256": "77fa140787db3b16dd02fb02bf9d1328cfdf48a07589edefd823b3629a7e592f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/domain.ts",
+      "bytes": 14071,
+      "sha256": "dfec7ca7a49f95aa1fd662aa54da801803600e3fd76be9dcffa4660d42f4f586"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/insight-report.ts",
+      "bytes": 9166,
+      "sha256": "195655375adcba17ec952b79863dfcaae57e6d372fed8a720eb4a16a802085a7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/insights.ts",
+      "bytes": 17682,
+      "sha256": "654b06a7375c8bb25c45f07df830f1fb7f457b465b6b218b47580fda93a23e22"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/model.ts",
+      "bytes": 2417,
+      "sha256": "c35ddc9fa83c5d76dc0ebdadb6a304222f4f2ed174cd0d2c0305f92fe4b2a0a9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/monthly.ts",
+      "bytes": 6612,
+      "sha256": "384c973e87273800817466e354462c009bc9a0c80c5fc3883d1fd350f4b670f4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/persistence.ts",
+      "bytes": 7698,
+      "sha256": "d1da79c754d64546856e214093f83c512817a5d1b355da6b7c2a37a28efdb01a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/personal.css",
+      "bytes": 10750,
+      "sha256": "0652c071b222669c4ece5535acf7dee879d371ff9eef946a037c627d7b04f300"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/report.ts",
+      "bytes": 5783,
+      "sha256": "753c239db7f644c07ae450314fd43e558a81f16f8c2071eaf5fa8316fbfe5906"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/personal/store.ts",
+      "bytes": 5163,
+      "sha256": "b392a6046aa6fe82352bf64e05e27c1ee5ad5d363dfd0e8d371f4335cab61860"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous-main.tsx",
+      "bytes": 318,
+      "sha256": "287e608b80619507af47a07602eee81d5ae6e5b2292b3c16dc0a8667d3ef8f36"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/App.tsx",
+      "bytes": 155,
+      "sha256": "24fcb2a518f6a74074e96586815820228332e69240fc7ed8edba3086a54639d5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/ActivityDesks.tsx",
+      "bytes": 16138,
+      "sha256": "8a73d0f0b4f873e04057b3754c034c72e001b4bc07d385177d8ad14cd778e579"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/AdaptivePlanner.tsx",
+      "bytes": 46607,
+      "sha256": "2f2bba84a98cfef92c6e351cb9f816290993aedea0e07f2b4a76d935cdee79b5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/AgePlanning.tsx",
+      "bytes": 11108,
+      "sha256": "c2a9151c75cb04d01e4fd846012bb93c17365a06253456fb9df7c4a5b64c9582"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/CognitiveActivity.tsx",
+      "bytes": 3607,
+      "sha256": "7e590d4bdae39f60904b7eb72e5b14fb960817ab893841df82c67c3460846c93"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/FocusAgeTools.tsx",
+      "bytes": 7810,
+      "sha256": "96bd7a078d2b947b7242943b12f1c88926b404136dfbfb15232646bed17c6c2c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/LifeTools.tsx",
+      "bytes": 2706,
+      "sha256": "dae1686c03d4c57ede9a40b7f685bf4f72802f55d22e77875acf771d439382fc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/PlannerEnhancements.tsx",
+      "bytes": 9436,
+      "sha256": "fb98ac763c1ba9059b163cd43582266740b2b19629e4cb055d46db4560c54f06"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/ProjectMission.tsx",
+      "bytes": 12473,
+      "sha256": "3afa4439a516ce0a0345435142d7688d91c127dce362b4c5b8e98b089e872cd5"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/TaskIcon.tsx",
+      "bytes": 899,
+      "sha256": "0f4ab0bf787eacdca3b3aabd5d6572504bbbe62224e8b6ee52906828af74a44d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/TimeBlockBoard.tsx",
+      "bytes": 31293,
+      "sha256": "9fb5f471b4b3966ff3e078ea70de3137cf3534d5484b83a64ab68e3381437bdc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/TransferBridge.tsx",
+      "bytes": 7902,
+      "sha256": "295384219ebe787ebdf1bc2a489355452fcb7b8d5e140604f8b18e8d742926e4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/adaptive.css",
+      "bytes": 20146,
+      "sha256": "a063453817df5843bcf78f4b9e89a613046c9212b4138fdd7fdf5d4c80e2fc81"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/age-planning.css",
+      "bytes": 3810,
+      "sha256": "486aeaa774490b696e9839dee7e3396a9b5d03ad6b241ad7661ff6026802e8a0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/brandAssets.ts",
+      "bytes": 165015,
+      "sha256": "5d00732c38d2b3584604ad4b999949778f66be8b00b03694fc25958657d62e5a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/dailyMission.ts",
+      "bytes": 3206,
+      "sha256": "7f10865a8973c7d0d456c8c8ada34b13c772b15653af3a43b54f9dd0a7298278"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/engine.ts",
+      "bytes": 15441,
+      "sha256": "a8468feff6e5f6daa21d39c67202d499369af35658a16c6c0158e34ce9ed86c0"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/focusRoutes.ts",
+      "bytes": 2080,
+      "sha256": "8623636d6d9b4a32c2cbb847828e676cb84594420783acfecf39412e3e53300d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/personal-planner.css",
+      "bytes": 22372,
+      "sha256": "10708a8ae106cfca7977f50b5814c150414ac306f4ec1bf704fc61a438c08876"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/planner-2-5.css",
+      "bytes": 18531,
+      "sha256": "8a553a04919fdd2ce5a0f0b2571f9b7e698a3960cbecf65339f7af0399be9cad"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/project-mission.css",
+      "bytes": 5610,
+      "sha256": "08fede66e2f3d3f0cc78e92c90770d70182faf7eaec35da0156120ac00474f39"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/time-blocks.css",
+      "bytes": 19888,
+      "sha256": "8e405319a7a13178c575ecc443ea3406fca052604263a910aae4ee2619fef37e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/timeBlocks.ts",
+      "bytes": 7827,
+      "sha256": "69ce44a9ef50edca3004c333c00648be0bb09c021c5e4b19e82c35cbeb67b68e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/adaptive/workspace.ts",
+      "bytes": 11048,
+      "sha256": "b424d695b99720dc41b562bb454bd5a84b6a9f3723a06c86ed4b45b067329742"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/config/ageUXProfiles.ts",
+      "bytes": 2839,
+      "sha256": "80db7f9d003368e90a754c0326c8e357f5e2352b726774655a37cc35bc59ab45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/config/copyPacks.ts",
+      "bytes": 5908,
+      "sha256": "ad9938472ed740e2863ebffd83edad9997489a0b1e126da776e60b927b1fc636"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/aiCoachGuardrail.ts",
+      "bytes": 4054,
+      "sha256": "aad6e4655dbe89fe74a18931b3a00c6f20fc2e2fc6a4510c053fec26f6c809e1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/autonomyRatio.ts",
+      "bytes": 3559,
+      "sha256": "0d295c6f3c32e71b0b9dd948833b71e94f680fd718855aa12dcfbdebcd88311c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/complexityEngine.ts",
+      "bytes": 5969,
+      "sha256": "ba223852f3213f2faa82e5f910f33aa96c8e46cfe168e6eb9fd7ef7d623bbff6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/dailyMetricAggregation.ts",
+      "bytes": 7418,
+      "sha256": "70b04e10ecb1df7964e352aaa88100eed479f7a412f0a1988a99c044a3b4fbc7"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/dailyStateMachine.ts",
+      "bytes": 2837,
+      "sha256": "e03fb4bb4e20bea35c0549d64402ea970ae50bf3d01e1abafbbca403b2471f1f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/discoveryEngine.ts",
+      "bytes": 7667,
+      "sha256": "95aea19967405fd4c121a86c08822499110869f4d8cef60068bde411480f6df8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/events.ts",
+      "bytes": 4951,
+      "sha256": "4dcf3c7431f3b069143a6b96f6b9c9b84bbfa919ff51a730d42f3c78bf694761"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/levelProgression.ts",
+      "bytes": 8872,
+      "sha256": "ea1cf0a9f41563d1170fff5931b545f1a315cc093541a01d156371d74edb5f24"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/metrics.ts",
+      "bytes": 5446,
+      "sha256": "b57c33ed93a32b051da677fb1dbd419e309fa347fd45bce527ae893fba4ab735"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/modules.ts",
+      "bytes": 11723,
+      "sha256": "268d8d6f2e008d8383adc9298a0ec14021e6045ef30072227aae1cc84c3aae68"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/myNuviaAdapter.ts",
+      "bytes": 3424,
+      "sha256": "2ae7c781e3f37dca211a0e4d4d3cccde3fdd5517d08a1232188d3011cfa958ac"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/patternEngine.ts",
+      "bytes": 5238,
+      "sha256": "d8f1dc46778e8aa3d7df95efed2da9fdb01823bd89d475f647d36435ab953ca6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/personalization.ts",
+      "bytes": 4175,
+      "sha256": "719e12c43a69b86a149944cb8169fe3143974a3e857b9997dad26c2086a3725c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/scaffoldFading.ts",
+      "bytes": 6518,
+      "sha256": "a2c354f572e7dedf33fa3e0946f3c0e8989ce43b77fae11e1d124d921a950320"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/selfDirectionNarrative.ts",
+      "bytes": 3371,
+      "sha256": "55f5c84e6fa6dfe1a6cd866369fdc04d59c0052e4ffcba72a83fe13ca50a4851"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/store.ts",
+      "bytes": 19794,
+      "sha256": "14a1e2b76abe111553152a2d072149247a2cb76fa3a95d08b12aee807dd242ed"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/strategyEngine.ts",
+      "bytes": 3548,
+      "sha256": "efb109ebf3c483520a471db2a1d64015c7a7397c7edcd72b953d7d7cdcf22a59"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/strategyTransfer.ts",
+      "bytes": 701,
+      "sha256": "415b9c9f2529336880ce70b47fd8529252038960a3d22ebb7fb1a18f512dc28b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/types.ts",
+      "bytes": 8113,
+      "sha256": "6bf3badbaf6b832c387e6c52d785dfcb5a784d0e2c3db95be508a82d8b1a07f8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/domain/weeklyBoss.ts",
+      "bytes": 7267,
+      "sha256": "a211bd78edce3b1924d59bc8733e7008d0395be50c6759f8ebe5a59f5c629e84"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/main.tsx",
+      "bytes": 199,
+      "sha256": "49396923c9ff41d8be464a0b8e95c51060f383d970c8fbe16e7d635468a09c73"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/mock/mockData.ts",
+      "bytes": 7385,
+      "sha256": "81e107c4fb06bb19871db22489517f87c76052e84454089be8f8b4cd0db7f07b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/mock/scenarios.ts",
+      "bytes": 6442,
+      "sha256": "d2e0477645841e8991263967672fefd318721b1b7f1afdee01fe4c94e0100736"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/ChallengeCard.tsx",
+      "bytes": 1534,
+      "sha256": "9458c3df0a2e43f0c193a04950dc6d68e168e4e5f34fb91176a47571e81d9c64"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/DiscoveryCard.tsx",
+      "bytes": 1239,
+      "sha256": "b8d15548298fdcc160e656859e14ca4a420302d1d2fff04b8cf41ad8cc0552db"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/GrowthMap.tsx",
+      "bytes": 755,
+      "sha256": "0fd9d76ac136fe617e2c903ce229d8a6afe68d8202d7edf1634371527e168b45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/LevelJourney.tsx",
+      "bytes": 953,
+      "sha256": "c68f43e92089e8c46e55a38e72e629df59a37cccb7aab84e4bacfc78b3c9c36f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/MissionCard.tsx",
+      "bytes": 1666,
+      "sha256": "01463d72a29e0f0eeddeb0bc06eea35a35967628779e238915f9fae4da21d883"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/MissionWorld.tsx",
+      "bytes": 8658,
+      "sha256": "7db55257dc7046ba0fb8886ef157f21479be371e8c0a978e5fc5324dc4ebfa45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/ProgressIndicator.tsx",
+      "bytes": 861,
+      "sha256": "599f4a578631e49b6efcc4ec63e93e4ca797d59c63b25d5dcc5c0d04788d9afe"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/RewardAnimation.tsx",
+      "bytes": 1373,
+      "sha256": "e932a7520784e5a5e4c1bfb94147425e6448d13a734f2deebcb5c26ad7d59483"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/StrategyCard.tsx",
+      "bytes": 1178,
+      "sha256": "17d0922c53797d6adf6cdb699581536d0546fcb8495374b547baf145a84fab2a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/WeeklyBossCard.tsx",
+      "bytes": 1821,
+      "sha256": "b2dbca4c0baa7e8299c06691ca069802e7e7bece2aeb06c0442775b7ff1df570"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/index.ts",
+      "bytes": 565,
+      "sha256": "daa949cb256099f93a40f6d1a55b41382ba3e450c20f33a0add588784ab06d11"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/primitives.tsx",
+      "bytes": 3132,
+      "sha256": "20199e798505dc2f0ecf726c220372b20dbba22f2364550c09b046a0eced306d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/presentation/viewModels.ts",
+      "bytes": 2314,
+      "sha256": "f06d1de485a2644be5fd84ee66cf6eda3a4741b2d33d24bac9cd5e509302e37a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/screens/screens.tsx",
+      "bytes": 37073,
+      "sha256": "08e411e3fa6758fe6b031908c8aafb3d526ccad2a2ca0de7929e64bb89a20d95"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/screens/viewModelAdapters.ts",
+      "bytes": 5182,
+      "sha256": "93119432d3452244b405280b37b76181a7b4727d94dea9defefa0d4496038228"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/styles/app.css",
+      "bytes": 12522,
+      "sha256": "81776391b579668a745818e1980c143defb11906384b2fc282861a7206394c69"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/styles/game.css",
+      "bytes": 11495,
+      "sha256": "3436d897c0d6c545534b712d292f53a380f34ea04b1f9413d3f7f1336a4cb2d3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/adaptiveTraining.test.ts",
+      "bytes": 5815,
+      "sha256": "af5cad7210979e00207b9a940c54db1a436c35e98cbb06723a70e64c2dc84d5b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/backupRestore.test.ts",
+      "bytes": 2674,
+      "sha256": "2f438d8346d0f1cf1805671121ea8284c13199559037dc09f07b5f7abbc3b498"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/cognitiveActivity.test.ts",
+      "bytes": 1265,
+      "sha256": "f4c5fae9ea1b07cd3d887cc6db381df7fc4ae41b154574ed119c7352cff4ad90"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/dailyMission.test.ts",
+      "bytes": 1335,
+      "sha256": "51cd9eacbb38ddc1790201f1521c509da9d1b2ff7017ea6459904df8705ae31c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/focusRoutes.test.ts",
+      "bytes": 2754,
+      "sha256": "018d1449773f1be06e1fac94ac8f5f818f6ecaf8e102378930d7005e1d594605"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/guardrails.test.ts",
+      "bytes": 17930,
+      "sha256": "6c0627e72483e2a8f4788d56604c600c27cb5e47828016fa5b5d8ebf11abdb16"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/integration.test.ts",
+      "bytes": 8888,
+      "sha256": "2bcd72a88261b7e6af06c2fe2acb5f4801791a1d815cc44c5a97b69ed8646031"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/lifeTools.test.ts",
+      "bytes": 1948,
+      "sha256": "ad8a532ad1707d372911cc9f1297bd6c5f16d4c430d60f2b5500c45c39cce4a3"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/plannerEnhancements.test.ts",
+      "bytes": 1747,
+      "sha256": "e9880c566ac1ac3b8bc69c9c00cb79c873b5468fab1d13bfa5540cb23dad6c21"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/timeBlockUX.test.ts",
+      "bytes": 1784,
+      "sha256": "8c50f8134037ece9f015f6b14316a18bfc38b39cc8f0610c403611ecb586cc47"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/timeBlocks.test.ts",
+      "bytes": 8374,
+      "sha256": "c5ad3051e036d1bb1c64ba298316223c7711a05479257e2b48285ce7e0f5ead1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/v13FormulasPatch.test.ts",
+      "bytes": 35353,
+      "sha256": "aff37da4c4aa755f9e7eb56d0d4f0c611394fc63786d13122b41594e67858f23"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/v15PatternCore.test.ts",
+      "bytes": 6320,
+      "sha256": "90074ad821c93d2bd39e494b986502883db74d075a30a2da0ec4054fc538d265"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tests/workspace.test.ts",
+      "bytes": 2817,
+      "sha256": "d67beb7d8b75280c5b6b7d9a6534c2d27275c3799e4636a76a1fbc02ab1eb8c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/previous/tokens/designTokens.ts",
+      "bytes": 2219,
+      "sha256": "dba427431c62447777d724fb8dd4375e75c08ac716863ce548f9b5931ad9b45b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/review.css",
+      "bytes": 1564,
+      "sha256": "f41015ffb075a60409a6ddcdc57a8091abdccef264b234d2703bd591bfdc12a1"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio-main.tsx",
+      "bytes": 156,
+      "sha256": "ce4edb27798494fd732c72fddf30e36e0d81dcd15da9c84100727dae1f85e161"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/Activity.tsx",
+      "bytes": 5229,
+      "sha256": "f8bc0638007ef904084364db837423753f975ace23334abc508bee5970805237"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/AssessmentPanel.tsx",
+      "bytes": 4630,
+      "sha256": "78a6cd125a45c4ed34e6e299f666b1674e19f941bd2d0fe99026b2c62216dce2"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/CONTRACT.md",
+      "bytes": 5777,
+      "sha256": "78adb35800130ee18d48fb864a8407bbd02aac6844f3456735cd8ef0e81aa1ec"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/CardDetail.tsx",
+      "bytes": 9439,
+      "sha256": "5166c4764a737ec09fadc492f496efa8442b55fda9957dadd23328ba8a415b27"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/DailyNote.tsx",
+      "bytes": 3355,
+      "sha256": "277ee0279823e8e4562d6d01b03fec8e9445c1a967c8f04b5f88cc4b95808f2b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/ExperienceReview.tsx",
+      "bytes": 4926,
+      "sha256": "0e275ab25cd0f895484ec8e5e8ba870da560517b49a421b8347498ee378e89fd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/GrowthPage.tsx",
+      "bytes": 6271,
+      "sha256": "045e530197abfae34b09dee98efc81d2ace36cee912d41b33752254937cf509e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/HelpView.tsx",
+      "bytes": 3909,
+      "sha256": "74cf20fb59c33f5f260ba2d3a2d43b872e6971db62277c59b292fba5f9035acd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/INSIGHTS_CONTRACT.md",
+      "bytes": 2461,
+      "sha256": "dd4b24effce9a8849467a7625683aaa19c3c82d8e6d8aa47d5e36867d0785c45"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/MonthPage.tsx",
+      "bytes": 9326,
+      "sha256": "22b7213fe31cdcb69e0c52c1bd821398814ca2f4822aeedcb745b561d212de18"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/PersonalGuide.tsx",
+      "bytes": 1264,
+      "sha256": "2167748be5d556579551608a939a9182c3b5a9b4389a116360dc7e1922f5c3bd"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/ProfileControls.tsx",
+      "bytes": 2659,
+      "sha256": "c7686afa2cea5aef5d63e63676f6855691fd8c5b805fdecd5b4681162a05611f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/ReportPage.tsx",
+      "bytes": 3292,
+      "sha256": "c48a671e8428dd9c8ade575e73dd15d66db81b0ae1fc39f4b8a60df07ff86d64"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/ReviewPanel.tsx",
+      "bytes": 2978,
+      "sha256": "6f538161eb8319b30a81d6bb6b1c887d496a0c0950c7ccd9983e11d0d24a943d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/RoadmapPage.tsx",
+      "bytes": 10974,
+      "sha256": "abbfdcef1ee37ca295c2a423f7fb04c44a032905a222f71ecd200ba5286862ba"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/RunPanel.tsx",
+      "bytes": 6093,
+      "sha256": "e798f580af74656ce7deee502b120e08f52f6d92efb8167015237c9f9edbedc6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/STUDIO_CONTRACT.md",
+      "bytes": 5357,
+      "sha256": "e9ed763cddd52820a9e305679d413f390747e8a1bd8f2f33fb121756f29ade2f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/SplitPlanner.tsx",
+      "bytes": 3317,
+      "sha256": "45d7216ce5f0878e3ff16a0ff83a815d6d1af1d8eff5f994b5d08ae686b29351"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/StudioApp.tsx",
+      "bytes": 11554,
+      "sha256": "a78821dccfa2f61546d0ae221c9ac15b5c1ac605cb1bf164a8bdc31f30dea688"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/StudioPage.tsx",
+      "bytes": 18851,
+      "sha256": "1d4ff4e76e3a6d588fc1fb149fd0771ea1d0660afa67f578680f3f879c62acef"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/SubjectSymbol.tsx",
+      "bytes": 1055,
+      "sha256": "082abd2d30e8cabac44d71fe88adc876f3de5db22e0fa0861eafd8c3a3393ba8"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/TaskCreator.tsx",
+      "bytes": 7903,
+      "sha256": "d792462e29d85cd69c0c0205cb3778cb1f97878c9b1fa143dfdaaa3800dd7d14"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/daily-note.css",
+      "bytes": 952,
+      "sha256": "e93027869000af8aaf47197e11248541e01f4014b475c8d75421fab44aceedaa"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/domain.ts",
+      "bytes": 15271,
+      "sha256": "0a4a007f8a020af62946bba7fbf2209d5a028abd968f77a8bb4f21c26dd3c483"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/catalogue.json",
+      "bytes": 162901,
+      "sha256": "82c4f3446147a333c3f0646a864497450df7fb2d5da186fb5746e3be55409180"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/compiler.d.mts",
+      "bytes": 251,
+      "sha256": "062c9f81767a4b89dc92b993cc31441e54933cf446413acd4271d9c29e5ff5f2"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/compiler.mjs",
+      "bytes": 7669,
+      "sha256": "109b7cefb83ff17e9f734c416bb608ba308f1d741830c7aabfb919d74829761d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/config.ts",
+      "bytes": 768,
+      "sha256": "f41fc2620d47e2476e75d6118ccf43103832b0bf992fc25184e59470eaf66c87"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/ar.json",
+      "bytes": 103957,
+      "sha256": "ebe9e4969b94f1ff850af73cf2d02d738dce1a4d7d3614007852ed874ba6624f"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/az.json",
+      "bytes": 85736,
+      "sha256": "c5a11b68c14de25bca36414b831d7f33498438315d26ad9b4a2063ace4909b73"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/en.json",
+      "bytes": 79151,
+      "sha256": "65f35d966b92aae58dfd850d03151e5ff6636899cb3a1b0a912cd15b2b56014b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/es.json",
+      "bytes": 87055,
+      "sha256": "4c1c36793f96cf65ebb34c26695c2ed08b979d595d8569325a0d13a726dbf18e"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/fr.json",
+      "bytes": 90031,
+      "sha256": "440bf296922a775c26ca56d06b0c9beca1b739e17cbbeeb506e886def26ffb5a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/it.json",
+      "bytes": 86837,
+      "sha256": "13b63db4cc711dfa642279545eebae3d3a7e12424f04c2e5b1bb6efa113a163a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/ja.json",
+      "bytes": 87079,
+      "sha256": "99ce18ab855c8a3776a2dd7d18742487340bb201eb35e46b70002db5aa4b38cb"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/km.json",
+      "bytes": 171757,
+      "sha256": "bd66da847688edd612ca0410b8abc9c6fc4fd0b9abb74cc2f9ed0df6b1fe7e00"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/ko.json",
+      "bytes": 79475,
+      "sha256": "a52c1a64da7e55ef07da2872b8964de3cf9e9e9a38041cb3d6c72897c3ae7972"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/mn.json",
+      "bytes": 120112,
+      "sha256": "f8bdf37cc0d2d477802107cd4b4ea395ea5fea52ac1a32f91cc7c8e6402eb353"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/ru.json",
+      "bytes": 124570,
+      "sha256": "5a00e8e28be02313e01ad3035ab78d588965c5626e1e1662bec4fde67d4d59e6"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/th.json",
+      "bytes": 155263,
+      "sha256": "ba7c70c51c54de45749ceeb97d79ffd6d55d0755d2a040993d0f0fe7ca5f0e02"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/vi.json",
+      "bytes": 97316,
+      "sha256": "9088a127b56c394d72dd5267e5f76110849004bef885d1144b7508a7be9fb64a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/zh-CN.json",
+      "bytes": 72467,
+      "sha256": "eb5aad3ad7d044c703cc18601e3e1c4a2030487c338727982456607465360e87"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/locales/zh-TW.json",
+      "bytes": 72613,
+      "sha256": "878966df7e15a9627a76bca854f6d1a3066a5c6a0a4c246ce7b31ba7bffe344c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/note-resources.json",
+      "bytes": 19089,
+      "sha256": "7eb483cd7b8f451a2e4a2c942612fc18682b506255d1d5002d48cf348b91fbda"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/runtime.ts",
+      "bytes": 3893,
+      "sha256": "dcd2bac314a6e70b3704d71c8bdd25f07e3a0671fa5539de3b4482181105904b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/i18n/translation-status.json",
+      "bytes": 1625,
+      "sha256": "269bcc68b7ba2a0f83dc4e6421993a3d26543cd8d311f12d24f8b1f9191cb5cc"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/insight-report.ts",
+      "bytes": 9274,
+      "sha256": "2b842e5ddcfa3af4fed1ff90e0130198d4d96231dcee58d8027363aad52b1c94"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/insights.ts",
+      "bytes": 17680,
+      "sha256": "dad702530e994aa0afd4969df122d5a0f01274b186ee978504dedaeae218d367"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/model.ts",
+      "bytes": 2524,
+      "sha256": "6364c671f88a400bbc607ec8c460f0ed5e6415132097a1019f937451a01c3891"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/monthly.ts",
+      "bytes": 6612,
+      "sha256": "384c973e87273800817466e354462c009bc9a0c80c5fc3883d1fd350f4b670f4"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/notices.ts",
+      "bytes": 769,
+      "sha256": "0a289cc3edb751e0788ed49e527a7015d8deafc60119badfec5d9887ed514a98"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/persistence.ts",
+      "bytes": 7912,
+      "sha256": "8fcc8255b96fea30fe1cb7dddfc81b0494e08b22bc4a5fd854ce0779c5fd142d"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/personal.css",
+      "bytes": 10750,
+      "sha256": "0652c071b222669c4ece5535acf7dee879d371ff9eef946a037c627d7b04f300"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/report.ts",
+      "bytes": 5783,
+      "sha256": "753c239db7f644c07ae450314fd43e558a81f16f8c2071eaf5fa8316fbfe5906"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/roadmap.ts",
+      "bytes": 11599,
+      "sha256": "f789ea1d00da3ffbe325bcab83027f9aa18aff6e7966f9cc183f02779453a65a"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/store.ts",
+      "bytes": 7505,
+      "sha256": "c035f0ecb463dac6e212f9452c734e0df63e8044aefd5af89c9bf3a9b77b436c"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/studio-logic.ts",
+      "bytes": 17193,
+      "sha256": "d1a0b557bd5a8a02971f98674f8ff46f65d9358c57e6b98073a0b225288f0010"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/studio-model.ts",
+      "bytes": 5863,
+      "sha256": "855889e1df5528afd4146b77a1f6a3277e38cd800f360b31953b9182522d1b37"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/studio.css",
+      "bytes": 17233,
+      "sha256": "aaff4b07e51de719bba313936db54adfeb705fd88442441afaa5413a6670f103"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/task-copy.ts",
+      "bytes": 2245,
+      "sha256": "6cfceb415ae7b7c204854183adafb214af47b4935856e6de236742e421c0dbd9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/task-plan.ts",
+      "bytes": 3091,
+      "sha256": "b0e71cdecbbd9b200d352aa53be419d7ba41657ed5200619f385f6b66a0c1afb"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/studio.html",
+      "bytes": 708,
+      "sha256": "872bd170ee69c119d97a8a2f66244fbb5e9bda44d10cd49da8aa8230375d391b"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/tsconfig.json",
+      "bytes": 520,
+      "sha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9"
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/vite.config.ts",
+      "bytes": 2498,
+      "sha256": "eb08a37bc17183eb4c12e741512a70603612805a87a4b2a8f89464d5e9cae05d"
+    },
+    {
+      "path": "docs/STUDIO_DAILY_NOTE.md",
+      "bytes": 7618,
+      "sha256": "4e0bb1ec489717ea4bc72b66440f39e241f2840edd0cab45ae2bf9e79ee1498d"
+    },
+    {
+      "path": "docs/STUDIO_DAILY_NOTE_FINAL.md",
+      "bytes": 3260,
+      "sha256": "0e5674c0c014f276005ff1e4107adc53a51d0438d026f4de0e92a7e7a9276e40"
+    },
+    {
+      "path": "lib/api-client-react/package.json",
+      "bytes": 265,
+      "sha256": "ae70f97a12d1f7e7cbb291b5ffd1d6893f0d7a0ff7721a21e615d47bccfad789"
+    },
+    {
+      "path": "lib/api-client-react/src/custom-fetch.ts",
+      "bytes": 11377,
+      "sha256": "3a5605ea89571cca7ea9412a230a40954e3a3f1d94d7a566271480165bf5e03c"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "bytes": 178,
+      "sha256": "a52ae133825c10e00d9b695aecc789b6636e774d4097ff810acfd19e83969a4e"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "bytes": 2544,
+      "sha256": "9d7cf1d5de5bdaac99b9587f788e2c506a5617a99a0447d0f5649fc34635f194"
+    },
+    {
+      "path": "lib/api-client-react/src/index.ts",
+      "bytes": 194,
+      "sha256": "7974b36e3973a8d0c403589bcf8d8aca7547c5c42c4b73924d05f49de18809e5"
+    },
+    {
+      "path": "lib/api-client-react/tsconfig.json",
+      "bytes": 251,
+      "sha256": "7e9d09ae244912d5d1add40373fc8dfb98200e903c0994aba4faee4a5afc3489"
+    },
+    {
+      "path": "lib/api-spec/openapi.yaml",
+      "bytes": 778,
+      "sha256": "f9ab7c42c1b0ac5c937994943e70ffce6bb728d22ccb7fe7af963939264a82be"
+    },
+    {
+      "path": "lib/api-spec/orval.config.ts",
+      "bytes": 2051,
+      "sha256": "17bbe15ed439c69c5a900398b2a146e4c8d8c79365479cb0ca9adc4dd4058776"
+    },
+    {
+      "path": "lib/api-spec/package.json",
+      "bytes": 228,
+      "sha256": "2c0f6e86a51350d26ad83e057f0ae4a886b1d8fd484965b34a6a762c0495f088"
+    },
+    {
+      "path": "lib/api-zod/package.json",
+      "bytes": 189,
+      "sha256": "07009861b2ba8decccb4e9d78d743cb7273bd91915231b5eb1463b296efca13e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/api.ts",
+      "bytes": 296,
+      "sha256": "4696b75da77dd165611a2028629bf55e23b00318b4fcde83d7cd54bc75b8c8ea"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/healthStatus.ts",
+      "bytes": 179,
+      "sha256": "ca592aaa48679661e10b65327a0f9f6c6dd42ecb8172a2efe1c8231d56009f4f"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/index.ts",
+      "bytes": 159,
+      "sha256": "7cbe6a236b9ffe48267955aa52bda2bf776a8cda224da13d63a7ba372651b845"
+    },
+    {
+      "path": "lib/api-zod/src/index.ts",
+      "bytes": 68,
+      "sha256": "effb7d33b5df99004c9b1a840944516ca3ad65cbcd3ae2fcc717c505814ce039"
+    },
+    {
+      "path": "lib/api-zod/tsconfig.json",
+      "bytes": 221,
+      "sha256": "bb52c0e8b13e658570a208d946cb874fdf2b8d990f7c228f96fb24254c9c5a95"
+    },
+    {
+      "path": "lib/db/drizzle.config.ts",
+      "bytes": 352,
+      "sha256": "57862221556f24a1accd28b283876930c403ad7c86b79d87cfb5c9c200ba6258"
+    },
+    {
+      "path": "lib/db/package.json",
+      "bytes": 578,
+      "sha256": "9c4e93f8f9f9fa57b581a4230c184d56a130a79ae36e377c2d4720edcbcbf15c"
+    },
+    {
+      "path": "lib/db/src/index.ts",
+      "bytes": 416,
+      "sha256": "fc285bc83108137ba57c4c2774a35053e3c25fda1292c3d7a16a57d43dd9679c"
+    },
+    {
+      "path": "lib/db/src/schema/index.ts",
+      "bytes": 743,
+      "sha256": "459c09e0be1c1e28c794ee70e838f55d0c3d225fa6614fe2d4182a86fbf5e115"
+    },
+    {
+      "path": "lib/db/tsconfig.json",
+      "bytes": 244,
+      "sha256": "69c976d11de35f0ac391934625beeccdd1b2689ba5d0f14c54b5384d4c30a9c9"
+    },
+    {
+      "path": "package.json",
+      "bytes": 649,
+      "sha256": "0eee75b762d97c72cbe42fafdb2229dcfccb8bd11f4b4cdd01803eb8b52e9686"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 210607,
+      "sha256": "2440611a338017ed050d61f5fca6955eb871eb58828045f76120753492f65d79"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "bytes": 6674,
+      "sha256": "eca3f132f1e94e1062b3c05d5b662cd00fea5d0d4f2c4ef61f6753711df233b5"
+    },
+    {
+      "path": "replit.md",
+      "bytes": 1521,
+      "sha256": "21a531207c7ccc9ee881f8e0ce7e83ddd0c1b6e8fc2547bc563e648b56348f3e"
+    },
+    {
+      "path": "scripts/package.json",
+      "bytes": 281,
+      "sha256": "e321044da26540ad84f56fcbe985013f369c3b18ba06c233f1db99f488df0f8b"
+    },
+    {
+      "path": "scripts/post-merge.sh",
+      "bytes": 72,
+      "sha256": "b9e43e43dcbacd4bd26b84d68dd616270a6aacbd51ab25a2f6b1b81484eadc37"
+    },
+    {
+      "path": "scripts/src/hello.ts",
+      "bytes": 46,
+      "sha256": "9a865c3de9900891e697e1ee8632dd565ce69bd7cb6b610e48b26bc0ee9e81e9"
+    },
+    {
+      "path": "scripts/tsconfig.json",
+      "bytes": 157,
+      "sha256": "636dea76ed898c62e56d6657ed97bb3edc85feb0ea8256b5198849d5c6cf462a"
+    },
+    {
+      "path": "tools/nuvia-enhancement/APPLY_GUIDE.md",
+      "bytes": 4843,
+      "sha256": "bc5fae82037f62564e1916ecd14c435692d60b99c12100d16e583ea6f50e3dfa"
+    },
+    {
+      "path": "tools/nuvia-enhancement/QA_REPORT.md",
+      "bytes": 16349,
+      "sha256": "16dbebb42e0ee71366529c86db5adcc5f345dc681304ad3438cf0f82827a2f70"
+    },
+    {
+      "path": "tools/nuvia-enhancement/backup-browser.mjs",
+      "bytes": 2341,
+      "sha256": "62a3a376622ab69a80c5a6ce274efcb2c8d1afa1dda73657d15811feb35048ff"
+    },
+    {
+      "path": "tools/nuvia-enhancement/browser-lib.mjs",
+      "bytes": 4550,
+      "sha256": "d05eaa0526ff07191f250ac405cf7359dedde99addfa7dc067952e2a7b9677a9"
+    },
+    {
+      "path": "tools/nuvia-enhancement/browser.mjs",
+      "bytes": 10066,
+      "sha256": "ef7901f75c0ea7c9b1f02020197be84edece688b0644dd5b2078c97623d4c115"
+    },
+    {
+      "path": "tools/nuvia-enhancement/build_delivery.py",
+      "bytes": 4362,
+      "sha256": "8a73127c17411f454e75182f94bf137b151f4494d57fcbf5c9405f47fa030b93"
+    },
+    {
+      "path": "tools/nuvia-enhancement/check.ts",
+      "bytes": 14067,
+      "sha256": "fd511611d03a5ed736605c9a4efb98e7b82bfd2b04a0eb3381c374234f6303ad"
+    },
+    {
+      "path": "tools/nuvia-enhancement/check_package.py",
+      "bytes": 3048,
+      "sha256": "59e9ce44aa698d36d97ee321e4b09f5d0029b0589eaaa07e3ba25a36f271faa4"
+    },
+    {
+      "path": "tools/nuvia-enhancement/comparison-capture.mjs",
+      "bytes": 2070,
+      "sha256": "665309f1665e47ec9f493c5f37d553630a6ec99cc5ce088233f1b72883b99aa7"
+    },
+    {
+      "path": "tools/nuvia-enhancement/install.py",
+      "bytes": 4604,
+      "sha256": "63f9bc4b69d59e2972b4fd4b70e2f16cf4b5114c1283b46d25ad1a495936fbe7"
+    },
+    {
+      "path": "tools/nuvia-enhancement/representatives.mjs",
+      "bytes": 7167,
+      "sha256": "b01b54706eaf05d377c5c2a7c4162db78d24230e3a767633c7e6219fa2e58713"
+    },
+    {
+      "path": "tools/nuvia-enhancement/vitest.config.mjs",
+      "bytes": 410,
+      "sha256": "b7951af2fac253754d38d08a679a430e6e6cf8ea7e2f3f822194fd25a4ed3303"
+    },
+    {
+      "path": "tools/nuvia-patch/QA_REPORT.md",
+      "bytes": 11259,
+      "sha256": "b5b6b3ba188751e40338b5dd5c612efdbd42ae6ec8c88444676e52d6109980fd"
+    },
+    {
+      "path": "tools/nuvia-patch/QA_REPORT_v2.md",
+      "bytes": 6662,
+      "sha256": "e395e822a0efd8b042b1b00cb56a7eb10083ccbeb3758744737afd712d06388c"
+    },
+    {
+      "path": "tools/nuvia-patch/README.md",
+      "bytes": 3008,
+      "sha256": "ac8d1478e0121aca1c1670252561c124121b5a0fd559227aed8656cc77af720f"
+    },
+    {
+      "path": "tools/nuvia-patch/apply.py",
+      "bytes": 4953,
+      "sha256": "2a2760cf7d1e4358b61c62567cfc277293aefbf2fe5801c07a74d6de84de1ba3"
+    },
+    {
+      "path": "tools/nuvia-patch/build_delivery.py",
+      "bytes": 2836,
+      "sha256": "38433cfd5abcc83a41a2b31228d946fd9deed176f1b4888dd6c1a5b65d032be7"
+    },
+    {
+      "path": "tools/nuvia-patch/qa-browser.mjs",
+      "bytes": 17175,
+      "sha256": "3e903a978c709fb7aadb94bdb32fd586bf61efbe9bc455cf741f87e297b10de4"
+    },
+    {
+      "path": "tools/nuvia-personal/APPLY_GUIDE.md",
+      "bytes": 4016,
+      "sha256": "41d65a3e4b95cd3aa4084d62cfa3388d1fa7884a1d75aaa0046f0ab746711030"
+    },
+    {
+      "path": "tools/nuvia-personal/QA_REPORT.md",
+      "bytes": 12380,
+      "sha256": "0125cd5894ccc1f19300bde62a2d701146e57bdd6d646476914f1f42cfe23c59"
+    },
+    {
+      "path": "tools/nuvia-personal/browser.mjs",
+      "bytes": 10911,
+      "sha256": "15b43c867489ca071e6bc787fc628191e8277cc6c91f42847b76a17939ad1015"
+    },
+    {
+      "path": "tools/nuvia-personal/build_delivery.py",
+      "bytes": 4994,
+      "sha256": "aa2a6778f1ff68a2a01ed80978690c79f5a9570f0933afbea51547b6c10405e6"
+    },
+    {
+      "path": "tools/nuvia-personal/check.ts",
+      "bytes": 13418,
+      "sha256": "a8acd9113d971953e639f9b65c47c7e1e15ccee7abd582d19657b728edef15c9"
+    },
+    {
+      "path": "tools/nuvia-personal/check_package.py",
+      "bytes": 3560,
+      "sha256": "b2b5f68c4d7f0fa2071646c74f012bd84f4703ece1ce788825a23e1330b132a0"
+    },
+    {
+      "path": "tools/nuvia-personal/insights-browser.mjs",
+      "bytes": 11702,
+      "sha256": "b4c6681b174577da731236c7accd0ce51b84c2cbd35d5892f0acff7c870e83ae"
+    },
+    {
+      "path": "tools/nuvia-personal/insights-check.ts",
+      "bytes": 9172,
+      "sha256": "e931bf9a54445d69e9a25d94a1a9ae778f3980be9eec4d78d1b1ce6163759f3e"
+    },
+    {
+      "path": "tools/nuvia-personal/insights-delivery.py",
+      "bytes": 11843,
+      "sha256": "b56393cc28185332be20a1809274323a7f39a308225fa0f8276b729f513ed40d"
+    },
+    {
+      "path": "tools/nuvia-personal/insights-report-smoke.mjs",
+      "bytes": 3300,
+      "sha256": "3301edd4aba9ee012d3b61bc9a352914d3b5fcb8c717dad2f809944539619e6f"
+    },
+    {
+      "path": "tools/nuvia-personal/supplemental.mjs",
+      "bytes": 7296,
+      "sha256": "ef17b214ae6d45f7e74d76474699d45d3f968141c949b8644d3045f41ec7a366"
+    },
+    {
+      "path": "tools/nuvia-studio/APPLY_GUIDE.md",
+      "bytes": 4740,
+      "sha256": "cb448bbe5e1d448b15939a73d19fcead6a02d8d5e2f9af0c11bbc03624197298"
+    },
+    {
+      "path": "tools/nuvia-studio/QA_REPORT.md",
+      "bytes": 10209,
+      "sha256": "b979161857541a6cc40f0778d8825420a7e86d7ead3a78084aa8c914a3ae3d44"
+    },
+    {
+      "path": "tools/nuvia-studio/TRANSLATION_REVIEW.md",
+      "bytes": 2500,
+      "sha256": "626775ff4bf16861735b44c167e26083a6410cafac7170a809bf470e04b175c3"
+    },
+    {
+      "path": "tools/nuvia-studio/activity-browser.mjs",
+      "bytes": 8690,
+      "sha256": "1c81d3161882d7bbde661e2f232f27751230e5136c24a8caa92c80816e35aaee"
+    },
+    {
+      "path": "tools/nuvia-studio/browser-lib.mjs",
+      "bytes": 1457,
+      "sha256": "2cbfadca7d86229d66a50909c14e9e47898731b863e012329ec337236597ba06"
+    },
+    {
+      "path": "tools/nuvia-studio/browser.mjs",
+      "bytes": 16326,
+      "sha256": "61996be969cadb8a51b602fa314a7e03a45b2084cde00b2d5ee8f28e8787dcce"
+    },
+    {
+      "path": "tools/nuvia-studio/build_delivery.py",
+      "bytes": 10799,
+      "sha256": "512e9e8b96791c2160270c88dde7f892ccadcd8972a8a0c0c3ac6845c6ae461a"
+    },
+    {
+      "path": "tools/nuvia-studio/check.ts",
+      "bytes": 13612,
+      "sha256": "3252f19463fec42f9e5e714a1c02c7e97b977177b745196ee46d410ed182917d"
+    },
+    {
+      "path": "tools/nuvia-studio/daily-note-check.ts",
+      "bytes": 4077,
+      "sha256": "5c01ad1b489371e65fc27b1f0fa21885bd7a30f1ec7cc8d7b322eecef0508c71"
+    },
+    {
+      "path": "tools/nuvia-studio/external-demo-check.ts",
+      "bytes": 4855,
+      "sha256": "3bb81410c1a07f4db15f430de2cdc1dc1b5713fc6da0f4673dda7b42ce6162f9"
+    },
+    {
+      "path": "tools/nuvia-studio/extract-i18n.mjs",
+      "bytes": 1260,
+      "sha256": "bca8745c8fe5983a9d0b1b8a78e238821d95be6b142c6574420f5a6da2d53456"
+    },
+    {
+      "path": "tools/nuvia-studio/final-browser.mjs",
+      "bytes": 7672,
+      "sha256": "8f48a657b9b85c72c437cc47832a12defd35a7f9632d7e5e2b49514b6d63537a"
+    },
+    {
+      "path": "tools/nuvia-studio/i18n-browser.mjs",
+      "bytes": 6078,
+      "sha256": "0f4603130319cda8efbd4f6d97de89f17ba0315b81ba797ab6614c9017bf0015"
+    },
+    {
+      "path": "tools/nuvia-studio/i18n-check.ts",
+      "bytes": 2449,
+      "sha256": "12a122fa9f6d76c906ce27892cf5011160c06981b226a668a6991230e487e6ea"
+    },
+    {
+      "path": "tools/nuvia-studio/merge-i18n.py",
+      "bytes": 1964,
+      "sha256": "cee339f45cba3470ef3d75efb3692f0b04077668059739b5d9b4284f76f6efe7"
+    },
+    {
+      "path": "tools/nuvia-studio/notice-check.ts",
+      "bytes": 3040,
+      "sha256": "4cf8a5d68f50cba7670afdc4f7aedbfc5fcabf14a89b05fadf84626c71b1cb80"
+    },
+    {
+      "path": "tools/nuvia-studio/package-daily-note-final.py",
+      "bytes": 14060,
+      "sha256": "e10da5d8f2716c159fb4fe0d6fd896ea9dc24dd06e0c3474628cc93c4d8682d0"
+    },
+    {
+      "path": "tools/nuvia-studio/package-final.py",
+      "bytes": 6884,
+      "sha256": "6571abe347660152198890f3c9a1664b112378ba6bda6496ec1653143f64f049"
+    },
+    {
+      "path": "tools/nuvia-studio/package-i18n.py",
+      "bytes": 5809,
+      "sha256": "5774aa322a2c26398444c0da3b8707b43c00854389eadc2992ebebec10575f1c"
+    },
+    {
+      "path": "tools/nuvia-studio/package-task-add.py",
+      "bytes": 12390,
+      "sha256": "6974a7e7998e4823a21ad9d66d9d12575db192aabd37a30c974a2e29e268e1b9"
+    },
+    {
+      "path": "tools/nuvia-studio/run-core.mjs",
+      "bytes": 1141,
+      "sha256": "74b5ac48b1f04d5b64d5cc1d70e012a375986b7a2534af27bce968add1f4209d"
+    },
+    {
+      "path": "tools/nuvia-studio/run-daily-note-check.mjs",
+      "bytes": 625,
+      "sha256": "a59c011b956c6dea31ca4f356dd29a732a6a812e267f2bbe306cb4a6fc79aa9c"
+    },
+    {
+      "path": "tools/nuvia-studio/run-external-demo-check.mjs",
+      "bytes": 644,
+      "sha256": "0548c2a6c71202d6a1af67ba1ae9d873bd3777d780de3139ba44a5ea48153e98"
+    },
+    {
+      "path": "tools/nuvia-studio/run-i18n-check.mjs",
+      "bytes": 1013,
+      "sha256": "fb34f18d0f6a92363c65a4fc517e4651faea4ee81b201c11d0cd925fb6f322ee"
+    },
+    {
+      "path": "tools/nuvia-studio/run-notice-check.mjs",
+      "bytes": 604,
+      "sha256": "19bd7fd7877080d4ee5c3ec9c2863844c8f73fc20399521c851762bd18053b78"
+    },
+    {
+      "path": "tools/nuvia-studio/task-add-browser.mjs",
+      "bytes": 11552,
+      "sha256": "e31aa8cbdfc44289af4d20703a082ac2f90263eba46700252b2f6949cb71e484"
+    },
+    {
+      "path": "tools/nuvia-studio/task-add-check.ts",
+      "bytes": 7901,
+      "sha256": "13a1014d819f3accdb3cd00a38cf2ff99fa3f026ee94697cca2da41454cdb666"
+    },
+    {
+      "path": "tools/nuvia-studio/validate-i18n.mjs",
+      "bytes": 3697,
+      "sha256": "9691c46c9f9957480ae4f5033ced11da0760e968e455ff1a3e6e266928202816"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "bytes": 692,
+      "sha256": "2dfaa6f6168f618e0e6deff048c17e4f5f73d59325bd935d471905ae6773585c"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 236,
+      "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
+    }
+  ],
+  "qaEntries": [
+    {
+      "path": "handoff/qa/build.log",
+      "bytes": 3287,
+      "sha256": "e6c5105be560b142cd060eb02d4c1c921979b8775e019c7e95c7467f17ab4c2c"
+    },
+    {
+      "path": "handoff/qa/core.log",
+      "bytes": 308,
+      "sha256": "91bbecfc0ab01a029129c19810a7b98bd816b15cd77363443f0267ee4ae74a5a"
+    },
+    {
+      "path": "handoff/qa/daily-note.log",
+      "bytes": 141,
+      "sha256": "c748950779236c3cd5f91b1616d07e782ae22959737e4b7c63837521f5fa9abb"
+    },
+    {
+      "path": "handoff/qa/external-demo.log",
+      "bytes": 147,
+      "sha256": "55b6d148ce36fe356177e8f4e1105b479f30ae8f86b4485f2ccf6a75716544c9"
+    },
+    {
+      "path": "handoff/qa/i18n-actions.log",
+      "bytes": 100,
+      "sha256": "74cef50e888377d0bb2e6fda0633ef092f0b8370de8cabc54b0c6eda51e68874"
+    },
+    {
+      "path": "handoff/qa/notice.log",
+      "bytes": 165,
+      "sha256": "4da164d058499f7367bef1996211144c796d47757db96f48ad0823015cc18169"
+    },
+    {
+      "path": "handoff/qa/resources.log",
+      "bytes": 484,
+      "sha256": "2ed5770f0eedf8ac4a6573de0e914a030a050007fe459a97f8433e275ae17a5e"
+    },
+    {
+      "path": "handoff/qa/typecheck.log",
+      "bytes": 128,
+      "sha256": "7bdb98956e21076241646a3e869d1875167f8123ab2bf9deff7bd34cc7f37790"
+    }
+  ]
+}

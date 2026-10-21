@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="robots" content="noindex,nofollow"/>
+  <title>NUVIA PLANNER · 이전 후보와 새 후보 비교</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#e8eeed;color:#172c4e;font:16px/1.45 system-ui,sans-serif}
+    header{padding:18px max(18px,3vw);background:#172c4e;color:#fff;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    h1{font-size:20px;margin:0 16px 0 0}header a{color:#fff}header select,header button{font:inherit;min-height:44px;border-radius:7px;border:1px solid #fff;background:#fff;color:#172c4e;padding:5px 12px}
+    .info{margin:14px 3vw;color:#314560}.compare-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;padding:0 3vw 25px}
+    .frame{min-width:0;background:white;border:1px solid #bbcbd0;border-radius:12px;overflow:hidden}.frame h2{font-size:17px;margin:0;padding:10px 16px;background:#f6f8f6}
+    .viewport{position:relative;width:100%;overflow:hidden;background:#fff}.viewport iframe{border:0;position:absolute;top:0;left:0;transform-origin:top left;background:#fff}
+    .frame a{display:block;margin:8px 16px 12px;color:#164d89}
+    @media(max-width:800px){.compare-grid{grid-template-columns:1fr}header{position:static}}
+  </style>
+</head>
+<body>
+  <header><h1>NUVIA PLANNER · 이전 후보와 새 후보 비교</h1>
+    <label>동일 장면 <select id="scene">
+      <option value="entry">첫 진입 / 선택 펼침</option><option value="reordered">순서 변경 후</option>
+      <option value="running">실제 실행</option><option value="paused">잠시 보관함</option>
+      <option value="return">깃발 복귀</option><option value="review">종료 조정</option>
+      <option value="report">리포트</option><option value="color">작업대 색</option><option value="empty">빈 계획</option>
+      <option value="long">긴 과제 이름</option><option value="over">시간 초과</option>
+    </select></label>
+    <button id="size">모바일 360px로 보기</button>
+    <a href="./" target="_blank" rel="noopener">새 후보 직접 사용 ↗</a>
+    <a href="./before.html" target="_blank" rel="noopener">공식 기준본 보기 ↗</a>
+  </header>
+  <p class="info">과제·날짜·시작 시각·가용 시간·분량·상태가 같은 독립 샘플입니다. 실제 저장된 기록은 읽거나 초기화하지 않습니다. 모바일 모드는 양쪽을 각각 실제 360px 뷰포트로 렌더합니다.</p>
+  <div class="compare-grid">
+    <section class="frame"><h2>이전 후보 · 평면 목록</h2><div class="viewport"><iframe title="이전 후보"></iframe></div><a class="direct" target="_blank" rel="noopener">이전 후보 독립 샘플 열기</a></section>
+    <section class="frame"><h2>새 B형 통합 후보</h2><div class="viewport"><iframe title="새 후보"></iframe></div><a class="direct" target="_blank" rel="noopener">새 후보 독립 샘플 열기</a></section>
+  </div>
+  <script>
+    const scene = document.querySelector('#scene'), size = document.querySelector('#size');
+    let mobile = false;
+    const frames = [...document.querySelectorAll('.frame')];
+    function render() {
+      frames.forEach((card, i) => {
+        const viewport = card.querySelector('.viewport'), frame = card.querySelector('iframe');
+        const width = mobile ? 360 : 1440, height = mobile ? 800 : 900;
+        const scale = mobile ? 1 : Math.min(1, viewport.clientWidth / width);
+        frame.style.width = width + 'px'; frame.style.height = height + 'px';
+        frame.style.transform = `scale(${scale})`;
+        viewport.style.height = height * scale + 'px';
+        const url = `./${i ? '' : 'previous.html'}?compare=1&scene=${scene.value}`;
+        if (frame.getAttribute('src') !== url) {
+          frame.onload = () => {
+            if (scene.value !== 'report') return;
+            let attempts = 0;
+            const timer = setInterval(() => {
+              const button = frame.contentDocument?.querySelector('[data-testid="tab-report"]');
+              if (button) { button.click(); clearInterval(timer); }
+              else if (++attempts > 30) clearInterval(timer);
+            }, 250);
+          };
+          frame.src = url;
+        }
+        card.querySelector('.direct').href = url;
+      });
+    }
+    size.onclick = () => { mobile = !mobile; size.textContent = mobile ? '데스크톱 1440px로 보기' : '모바일 360px로 보기'; render(); };
+    scene.onchange = render;
+    new ResizeObserver(render).observe(document.querySelector('.compare-grid'));
+    render();
+  </script>
+</body></html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <title>NUVIA PLANNER 기존 기준본 비교</title>
+    <meta name="description" content="NUVIA PLANNER 공식 기준 소스 비교 미리보기" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script src="./compare-storage.js"></script>
+    <style>
+      #app-boot-help[hidden] { display: none; }
+      #app-boot-help { max-width: 640px; margin: 28px auto; padding: 22px; border: 1px solid #c9d6dd; border-radius: 12px; background: #fffdf7; color: #172c4e; font: 16px/1.5 system-ui, sans-serif; }
+      #app-boot-help h2 { margin: 0 0 8px; font-size: 21px; }
+      #app-boot-help button { min-height: 44px; padding: 8px 16px; border: 0; border-radius: 8px; background: #172c4e; color: #fff; cursor: pointer; }
+    </style>
+  </head>
+  <body>
+    <div id="root"><p style="padding:24px;font:16px system-ui,sans-serif">기존 기준본을 불러오는 중…</p></div>
+    <div id="app-boot-help" role="alert" hidden>
+      <h2>기준본 연결이 지연되고 있어요</h2>
+      <p>서버가 다시 연결되는 중일 수 있습니다. 새로고침해도 같다면 잠시 후 다시 시도해 주세요.</p>
+      <button type="button" onclick="location.reload()">다시 시도</button>
+    </div>
+    <script>
+      setTimeout(function () {
+        if (document.documentElement.dataset.nuviaReady !== 'true') {
+          document.getElementById('app-boot-help').hidden = false;
+        }
+      }, 12000);
+    </script>
+    <script type="module" src="/src/before-main.tsx"></script>
+  </body>
+</html>

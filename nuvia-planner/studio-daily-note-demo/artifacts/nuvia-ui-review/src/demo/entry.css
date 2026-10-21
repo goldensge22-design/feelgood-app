@@ -1,0 +1,20 @@
+body{margin:0;background:#f7f2e6}
+.dm-root{max-width:960px;margin:0 auto;padding:16px 16px 64px;color:#13233f;font-family:system-ui,"Noto Sans KR",sans-serif;overflow-wrap:anywhere;line-height:1.6;box-sizing:border-box}
+.dm-root *{box-sizing:border-box}
+.dm-head{display:flex;gap:10px;align-items:center;border-bottom:2px solid #13233f;padding:8px 0 12px}
+.dm-head img{width:22px;height:22px}.dm-head small{font-weight:800;font-size:14px;color:#55657a}.dm-head b{font-size:22px;font-weight:800}
+.dm-badge{display:inline-block;margin:16px 0 4px;font-size:13px;font-weight:800;border:1px solid #13233f;border-radius:999px;padding:2px 12px;background:#fffcf3}
+.dm-root h1{font-size:36px;line-height:1.2;margin:8px 0;letter-spacing:-.01em}
+.dm-lead{font-size:17px;color:#2b3d5c;margin:0 0 8px}
+.dm-block{background:#fffcf3;border:1px solid #d6cdb8;border-bottom:6px solid #d3c39c;border-radius:14px;padding:16px 18px;margin:16px 0}
+.dm-block h2{font-size:20px;margin:0 0 8px}
+.dm-block ol,.dm-block ul{margin:0;padding-left:22px}.dm-block li{margin:4px 0}
+.dm-warn{border-left:4px solid #8a4a10;background:#fbefdc;border-bottom-color:#e6c99c;color:#4a2a08}
+.dm-desk{background:#1b2c4f;color:#f7f2e6;border-radius:14px;padding:18px;border-bottom:10px solid #0b1730;margin:16px 0}
+.dm-desk p{margin:4px 0;color:#dfe5f0}.dm-desk b{color:#fffaf0;font-size:20px}
+.dm-cta{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 20px;border-radius:12px;background:#c86a1c;color:#fffaf0;font-weight:800;text-decoration:none;box-shadow:0 4px 0 #8a4a10;margin-top:12px;max-width:100%}
+.dm-nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.dm-nav a{display:inline-flex;align-items:center;min-height:44px;min-width:44px;padding:8px 16px;border:1px solid #13233f;border-radius:10px;color:#13233f;text-decoration:none;font-weight:700;background:#fffcf3}
+.dm-nav a[aria-current=page]{background:#13233f;color:#fffcf3}
+.dm-root a:focus-visible{outline:3px solid #f5a02b;outline-offset:3px}
+@media(max-width:767px){.dm-root h1{font-size:27px}.dm-block{padding:14px}.dm-cta{width:100%}}
