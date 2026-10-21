@@ -10,6 +10,7 @@ import CardDetail from './CardDetail';
 import RunPanel from './RunPanel';
 import SubjectSymbol,{subjectVisual} from './SubjectSymbol';
 import DailyNote from './DailyNote';
+import {label} from './i18n/runtime';
 
 type Act=(a:Action)=>boolean;
 const TONES:[Tone,string][]=[['blue','파랑'],['purple','보라'],['orange','주황'],['sky','하늘']];
@@ -133,7 +134,7 @@ function TagActions({card,state,act,running}:{card:Card;state:PersonalState;act:
   </div>}
   <details className="pm-fold st-moreactions" data-testid={`more-actions-${card.id}`}><summary>더 보기</summary>
    {(pl.place==='shelf'||pl.place==='desk'||pl.place==='archive')&&<button data-testid={`button-exclude-${card.id}`} disabled={running&&pl.place==='desk'} title={running&&pl.place==='desk'?'실행을 먼저 마쳐 주세요':undefined} onClick={()=>act({type:'studio.exclude',cardId:card.id})}>제외 서랍으로</button>}
-   <p className="st-note">네임택 색 바꾸기</p><div className="pm-chips" aria-label={`${card.title} 네임택 색`}>{TONES.map(([t,l])=><button key={t} aria-label={`${card.title} ${l} 네임택`} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className="st-tag" style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{l}</button>)}</div></details>
+   <p className="st-note">네임택 색 바꾸기</p><div className="pm-chips" aria-label={`${card.title} 네임택 색`}>{TONES.map(([t,l])=><button key={t} aria-label={`${card.title} ${label(l)} 네임택`} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className="st-tag" style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{label(l)}</button>)}</div></details>
  </div>;
 }
 

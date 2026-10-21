@@ -29,6 +29,9 @@ try{
   const select=page.locator('[data-testid="select-language"]');
   if(await select.count()!==1||!await select.isVisible())errors.push(`${width}: selector not visible`);
   if(await select.locator('option').count()!==locales.length)errors.push(`${width}: locale count mismatch`);
+  // Exercise the card detail, including its accessible editing controls.
+  await page.locator('[data-testid^="button-select-"]').first().click();
+  await page.locator('[data-testid^="button-place-"]').first().click();
   for(const locale of locales){
    await select.selectOption(locale);
    await page.waitForTimeout(40);
@@ -39,6 +42,7 @@ try{
     selector:document.querySelector('[data-testid="select-language"]')?.getBoundingClientRect().toJSON(),
     brand:document.querySelector('.st-brand')?.getBoundingClientRect().toJSON(),
     overflow:document.documentElement.scrollWidth-window.innerWidth,
+    accessibility:[...document.querySelectorAll('[aria-label],[title],[placeholder]')].flatMap(el=>['aria-label','title','placeholder'].map(name=>el.getAttribute(name)||'')).join(' | '),
     raw:localStorage.getItem(`nuvia:studio:external-demo:dcas:v1:${new URLSearchParams(location.search).get('demo')}`),
    }));
    const tag=`${width}/${audience}/${locale}`;
@@ -48,6 +52,7 @@ try{
    if(!state.text.includes(sample[locale][audience].subject))errors.push(`${tag}: sample subject missing`);
    const withoutLocaleOption=state.text.replace('한국어','');
    if(locale!=='ko'&&/[가-힣]/.test(withoutLocaleOption))errors.push(`${tag}: Korean text leaked ${withoutLocaleOption.match(/.{0,20}[가-힣].{0,25}/g)?.slice(0,3).join(' | ')}`);
+   if(locale!=='ko'&&/[가-힣]/.test(state.accessibility))errors.push(`${tag}: Korean accessibility text leaked ${state.accessibility.match(/.{0,20}[가-힣].{0,25}/g)?.slice(0,3).join(' | ')}`);
    if(state.overflow>1)errors.push(`${tag}: horizontal overflow ${state.overflow}px`);
    if(state.selector?.right>width+1)errors.push(`${tag}: selector outside viewport`);
    if(state.selector&&state.brand&&state.selector.top<state.brand.bottom&&state.selector.bottom>state.brand.top&&state.selector.left<state.brand.right&&state.selector.right>state.brand.left)errors.push(`${tag}: selector overlaps brand`);
