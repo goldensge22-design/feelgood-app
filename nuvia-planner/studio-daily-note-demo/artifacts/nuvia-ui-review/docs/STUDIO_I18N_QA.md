@@ -1,5 +1,13 @@
 # Studio i18n QA — 2026-10-21
 
+## 2026-10-22 header selector and synthetic-demo follow-up
+
+The Studio candidate now puts its 15-language selector in the upper-right header on every tab, including 360px mobile. For the three external-demo audiences, only known synthetic sample task/subject/result labels are projected into the selected locale for display; stored canonical task text and real/user-authored content are not translated or rewritten. The demo safety notice uses the selected locale. AZ/MN synthetic-result wording and the Korean source wording remain unchanged.
+
+After the last source change: TypeScript and production Vite build PASS; 15 × 1,138 resource keys PASS; core 1,392, daily notes 365, dedicated i18n 439, external-demo 68, and notice/language-transition 545 assertions PASS. Headless Chrome checked 15 locales × three demo audiences × two widths (1440/360) plus 15 regular-Studio locales × two widths: **120 combinations, zero recorded errors**. It checked selector visibility, `lang`/`dir`, sample title and subject, selected-tab and report-preview Hangul leakage, horizontal overflow, header overlap, refresh persistence, canonical stored sample, and page errors. These are candidate-build results, not evidence that the public Replit deployment has been updated.
+
+The 14 foreign Studio resources and new synthetic sample strings remain AI drafts requiring human linguistic review. These checks demonstrate key/placeholder structure and sampled browser behavior, not a native-speaker-certified translation or every optional dialog. The separate Korean-only 2.5 standalone source and the developer's server-integrated production version are not certified by this follow-up. Do not describe either as 15-language complete.
+
 ## Status and provenance
 Studio-only implementation and AI-draft resources. Original approved workbench and official/enhancement/personal/result/D-CAS sources are preserved. No publish/push/main merge, server, billing or identity-provider setup.
 
