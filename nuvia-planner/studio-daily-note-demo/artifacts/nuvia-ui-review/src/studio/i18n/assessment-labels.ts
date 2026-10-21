@@ -10,12 +10,28 @@ export const draftStatusLabel=(status:string)=>String(label(({pending:'검토 �
 // Real report labels, user input, and identifiers remain unchanged.
 export function assessmentLabel(value:string|undefined,sourceId:string|undefined){
  if(!sourceId?.startsWith('external-dcas-synthetic-')||!value)return value;
+ const locale=currentLocale();
+ if(locale==='ko')return value;
+ // Preserve the already reviewed AZ/MN synthetic wording byte-for-byte.
+ if(locale==='az'||locale==='mn'){
+  const names:Record<string,string>=locale==='mn'?{
+   'D-CAS 청소년용 합성 예시':'D-CAS · Өсвөр насныханд зориулсан зохиомол жишээ',
+   'D-CAS 성인용 합성 예시':'D-CAS · Насанд хүрэгчдэд зориулсан зохиомол жишээ',
+   'D-CAS 청소년용 합성 예시 · 영역별 정답률':'D-CAS · Өсвөр насныханд зориулсан зохиомол жишээ · Чиглэл тус бүрийн зөв хариултын хувь',
+   'D-CAS 성인용 합성 예시 · 영역별 정답률':'D-CAS · Насанд хүрэгчдэд зориулсан зохиомол жишээ · Чиглэл тус бүрийн зөв хариултын хувь',
+  }:{
+   'D-CAS 청소년용 합성 예시':'D-CAS · Yeniyetmələr üçün süni nümunə',
+   'D-CAS 성인용 합성 예시':'D-CAS · Böyüklər üçün süni nümunə',
+   'D-CAS 청소년용 합성 예시 · 영역별 정답률':'D-CAS · Yeniyetmələr üçün süni nümunə · Sahələr üzrə düzgün cavab faizi',
+   'D-CAS 성인용 합성 예시 · 영역별 정답률':'D-CAS · Böyüklər üçün süni nümunə · Sahələr üzrə düzgün cavab faizi',
+  };
+  return names[value]??value;
+ }
  const suffix=' · 영역별 정답률';
  const hasMetric=value.endsWith(suffix);
  const base=hasMetric?value.slice(0,-suffix.length):value;
  const stage=base==='D-CAS 청소년용 합성 예시'?'s.5754dff27ff8ebca':base==='D-CAS 성인용 합성 예시'?'s.ebc05d8e9b29fbf7':null;
  if(!stage)return value;
- const locale=currentLocale();
  const name=`D-CAS · ${t(stage,{},locale)} · ${t('s.f75c653dc3c3fdf3',{},locale)}`;
  return hasMetric?`${name} · ${metricLabel('accuracy_rate')}`:name;
 }
