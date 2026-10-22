@@ -2,13 +2,33 @@ import {createRequire} from 'node:module';
 import {readFile} from 'node:fs/promises';
 import path from 'node:path';
 import {fileURLToPath} from 'node:url';
+import ts from 'typescript';
 
 const here=path.dirname(fileURLToPath(import.meta.url));
 const root=path.resolve(here,'../dist/public');
 const require=createRequire(import.meta.url);
 const {chromium}=require(process.env.PLAYWRIGHT_MODULE??'C:/Users/golde/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/playwright');
 const sample=JSON.parse(await readFile(path.resolve(here,'../src/demo/sample-content.json'),'utf8')).content;
-const locales=Object.keys(sample);
+const demoSource=ts.createSourceFile('demo-resources.ts',await readFile(path.resolve(here,'../src/studio/i18n/demo-resources.ts'),'utf8'),ts.ScriptTarget.Latest,true);
+function arrayDeclaration(name){
+ for(const statement of demoSource.statements){
+  if(!ts.isVariableStatement(statement))continue;
+  const declaration=statement.declarationList.declarations.find(item=>item.name.getText(demoSource)===name);
+  if(!declaration?.initializer)continue;
+  const value=ts.isAsExpression(declaration.initializer)?declaration.initializer.expression:declaration.initializer;
+  if(value&&(ts.isArrayLiteralExpression(value)||ts.isObjectLiteralExpression(value)))return value;
+ }
+ throw Error(`Missing demo resource declaration: ${name}`);
+}
+const keys=arrayDeclaration('demoKeys').elements.map(item=>item.text);
+const resources=Object.fromEntries(arrayDeclaration('demoResources').properties.map(property=>[
+ property.name.text,Object.fromEntries(property.initializer.elements.map((value,index)=>[keys[index],value.text]))
+]));
+const locales=Object.keys(resources);
+for(const locale of locales)for(const audience of ['school','university','enterprise']){
+ sample[locale][audience].title=resources[locale][`${audience}Title`];
+ sample[locale][audience].subject=resources[locale][`${audience}Subject`];
+}
 const errors=[];
 const browser=await chromium.launch({headless:true,executablePath:process.env.CHROME_PATH??'C:/Program Files/Google/Chrome/Application/chrome.exe'});
 try{

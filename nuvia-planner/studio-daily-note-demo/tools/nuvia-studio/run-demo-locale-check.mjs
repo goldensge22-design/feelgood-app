@@ -1,0 +1,10 @@
+import {createRequire} from 'node:module';
+import {spawnSync} from 'node:child_process';
+import fs from 'node:fs';
+import {transformStudio} from '../../artifacts/nuvia-ui-review/src/studio/i18n/compiler.mjs';
+const appRequire=createRequire(new URL('../../artifacts/nuvia-ui-review/package.json',import.meta.url));
+const {build}=createRequire(appRequire.resolve('vite'))('esbuild');
+fs.mkdirSync('generated-artifacts/studio-demo-locale',{recursive:true});
+await build({entryPoints:['tools/nuvia-studio/demo-locale-check.ts'],bundle:true,platform:'node',format:'esm',outfile:'generated-artifacts/studio-demo-locale/check.mjs',plugins:[{name:'studio-source-macro',setup(b){b.onLoad({filter:/[\\/]src[\\/]studio[\\/].*\.tsx?$/},a=>{const path=a.path.replace(/\\/g,'/');return path.includes('/i18n/')||path.endsWith('/task-copy.ts')?undefined:{contents:transformStudio(fs.readFileSync(a.path,'utf8'),path),loader:path.endsWith('.tsx')?'tsx':'ts'};});}}]});
+const result=spawnSync(process.execPath,['generated-artifacts/studio-demo-locale/check.mjs'],{stdio:'inherit'});
+process.exitCode=result.status??1;

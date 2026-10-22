@@ -1,11 +1,12 @@
 import {useEffect,useState} from 'react';
 import {elapsed,remaining} from '../enhancement/domain';
 import type {Run,Student} from '../enhancement/model';
-import type {Action} from './model';
+import type {Action,PersonalState} from './model';
+import {demoCardText} from './i18n/demo-copy';
 
 const fmt=(sec:number)=>`${Math.floor(sec/60)}분 ${String(sec%60).padStart(2,'0')}초`;
 
-export default function RunPanel({student,act,recovery,cardId}:{student:Student;act:(a:Action)=>boolean;recovery:boolean;cardId?:string}){
+export default function RunPanel({student,act,recovery,cardId,state}:{student:Student;act:(a:Action)=>boolean;recovery:boolean;cardId?:string;state?:PersonalState}){
  const run=student.runs.find(r=>r.phase!=='closed');
  const [,tick]=useState(0);
  useEffect(()=>{const t=setInterval(()=>tick(n=>n+1),1000);return()=>clearInterval(t);},[]);
@@ -17,8 +18,8 @@ export default function RunPanel({student,act,recovery,cardId}:{student:Student;
  const sec=Math.floor(elapsed(run)/1000);
  return <section className={`pm-now ${run.phase}${cardId?' st-run-in':''}`} aria-label="지금 실행" data-testid="run-panel">
   <p className="pm-eye">{run.phase==='running'?'지금 하는 중':run.phase==='paused'?'이 과제를 잠시 멈췄어요':'실행 돌아보기'}</p>
-  <div className="pm-now-title">{card?.firstAction||card?.title||'지금 할 행동'}</div>
-  {card?.firstAction&&<p className="st-run-task">과제: {card.title}</p>}
+  <div className="pm-now-title">{card?.firstAction||(card&&state?demoCardText(state,card,'title'):card?.title)||'지금 할 행동'}</div>
+  {card?.firstAction&&<p className="st-run-task">과제: {state?demoCardText(state,card,'title'):card.title}</p>}
   {run.flag&&<p>이어서 볼 자리: <b>{run.flag}</b></p>}
   {run.budgetMinutes>0&&run.phase==='running'&&remaining(run)===0&&<p className="pm-banner warn">예정한 시간이 지났어요. 계속하거나 끝내고 돌아볼 수 있어요. 자동으로 완료 처리하지 않습니다.</p>}
   {recovery&&run.phase!=='review'&&<p className="pm-banner warn" role="status">다시 돌아왔어요. 자리를 비운 시간은 실행 시간으로 넣지 않아요. 지금 시간을 확인하고 이어가거나 돌아보기로 넘어가세요.</p>}

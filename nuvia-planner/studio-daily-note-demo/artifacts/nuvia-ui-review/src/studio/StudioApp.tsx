@@ -17,8 +17,8 @@ import PersonalGuide from './PersonalGuide';
 import {TaskForm} from './TaskCreator';
 import {locales,localeNames,localeOf,type Locale} from './i18n/config';
 import {demoAudience} from '../demo/session';
-import DemoNotice from '../demo/DemoNotice';
-import AzDemoNotice from './i18n/AzDemoNotice';
+import StudioDemoNotice from './i18n/StudioDemoNotice';
+import {demoCardText} from './i18n/demo-copy';
 
 type Page='now'|'plan'|'reflect'|'report'|'roadmap'|'growth'|'settings';
 const PAGES:Page[]=['now','plan','reflect','report','roadmap','growth','settings'];
@@ -69,23 +69,21 @@ function StudioApp(){
  </div>;};
 
  return <div className={`pm-root st-root ${studio.appearance}`} lang={localeOf(state)} dir={localeOf(state)==='ar'?'rtl':'ltr'} data-testid="studio-root">
-  <header className="st-head">
-   <div className="st-title-group"><div className="st-brand"><img src={feelgoodLogo} alt=""/><small>FeelGood</small><b>NUVIA PLANNER</b></div><h1>내 하루 작업대</h1><p>지금 한 가지를 하고, 해낸 일을 모아요.</p></div>
-   <div className="st-head-actions">
-    <label className="st-language-control">화면 언어<select data-testid="select-language" aria-label="화면 언어" value={localeOf(state)} onChange={e=>act({type:'studio.locale',locale:e.target.value as Locale})}>{locales.map(l=><option key={l} value={l}>{localeNames[l]}</option>)}</select></label>
-    {!demoAudience&&<a className="st-link" data-testid="link-previous" href={`./personal-monthly.html${REVIEW?'?review=1':''}`}>이전 화면 보기</a>}
-    {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
-   </div>
-  </header>
   {REVIEW&&<p className="pm-banner review">검토 모드 · 합성 데이터와 단계 전환은 이 모드에서만 보입니다.</p>}
-  {demoAudience&&(localeOf(state)==='az'?<AzDemoNotice audience={demoAudience}/>:<DemoNotice audience={demoAudience}/>)}
+  <header className="st-head">
+   <label className="st-language">화면 언어<select data-testid="select-language" value={localeOf(state)} onChange={e=>act({type:'studio.locale',locale:e.target.value as Locale})}>{locales.map(l=><option key={l} value={l}>{localeNames[l]}</option>)}</select></label>
+   <div className="st-title-group"><div className="st-brand"><img src={feelgoodLogo} alt=""/><small>FeelGood</small><b>NUVIA PLANNER</b></div><h1>내 하루 작업대</h1><p>지금 한 가지를 하고, 해낸 일을 모아요.</p></div>
+   {!demoAudience&&<a className="st-link" data-testid="link-previous" href={`./personal-monthly.html${REVIEW?'?review=1':''}`}>이전 화면 보기</a>}
+   {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
+  </header>
+  {demoAudience&&<StudioDemoNotice audience={demoAudience}/>}
   <nav className="st-nav" aria-label="화면">{MAIN.map(([k,l])=><button key={k} aria-current={page===k?'page':undefined} data-testid={`tab-${k}`} onClick={()=>go(k)}>{l}</button>)}{moreMenu('top',MORE)}</nav>
   {p.message&&<div className="pm-toast" role="status" data-testid="status-message"><span>{p.message}</span><button onClick={p.clearMessage} data-testid="button-close-message">닫기</button></div>}
   {p.error&&<div className="pm-toast err" role="alert" data-testid="status-error"><span>{p.error}</span><button onClick={p.clearMessage}>닫기</button></div>}
 
   {notices.length>0&&!hideNotice&&!needsSetup&&<aside className="st-notice" aria-label="보관함 알림" data-testid="archive-notice">
    <p className="st-eye">보관한 지 7일이 지났어요</p>{running&&<p className="st-note" data-testid="text-notice-running">실행 중인 과제가 있으면 빼기 전에 그 실행을 먼저 마쳐야 해요.</p>}
-   <ul className="st-tags">{notices.slice(0,3).map(c=><li key={c.id} data-testid={`notice-${c.id}`}><b>{c.subject?`${c.subject} · `:''}{c.title}</b>
+   <ul className="st-tags">{notices.slice(0,3).map(c=><li key={c.id} data-testid={`notice-${c.id}`}><b>{c.subject?`${demoCardText(state,c,'subject')} · `:''}{demoCardText(state,c,'title')}</b>
     <div className="st-row"><button data-testid={`button-notice-take-${c.id}`} onClick={()=>act({type:'studio.take',cardId:c.id})}>작업대로</button><button data-testid={`button-notice-keep-${c.id}`} onClick={()=>act({type:'studio.keep',cardId:c.id})}>계속 보관</button><button data-testid={`button-notice-exclude-${c.id}`} onClick={()=>act({type:'studio.exclude',cardId:c.id})}>이번 계획에서 빼기</button></div></li>)}</ul>
    {notices.length>3&&<p className="st-note">외 {notices.length-3}개는 보관함에서 볼 수 있어요.</p>}
    <div className="st-row"><button data-testid="button-notice-hide" onClick={()=>setHideNotice(true)}>닫기</button><button data-testid="button-notice-settings" onClick={()=>{setHideNotice(true);go('settings');}}>알림 설정</button></div>

@@ -1,4 +1,5 @@
 import {useState,type ReactNode} from 'react';
+import {demoCardText,demoCardLabels} from './i18n/demo-copy';
 import type {Card,Student} from '../enhancement/model';
 import type {Action,PersonalState} from './model';
 import TaskCreator from './TaskCreator';
@@ -10,7 +11,6 @@ import CardDetail from './CardDetail';
 import RunPanel from './RunPanel';
 import SubjectSymbol,{subjectVisual} from './SubjectSymbol';
 import DailyNote from './DailyNote';
-import {label} from './i18n/runtime';
 
 type Act=(a:Action)=>boolean;
 const TONES:[Tone,string][]=[['blue','파랑'],['purple','보라'],['orange','주황'],['sky','하늘']];
@@ -29,8 +29,8 @@ export default function StudioPage({view,state,student,act}:{view:'now'|'plan'|'
  const tag=(c:Card,i?:number)=>{const pl=of(c);return <li key={c.id} className="st-tag" data-sel={studio.selectedId===c.id} data-testid={`tag-${c.id}`}>
   <span className={`bar ${pl.tone}`} aria-hidden="true"><span className="ico"><SubjectSymbol subject={c.subject} domain={c.domain}/></span></span>
   <button aria-pressed={studio.selectedId===c.id} data-testid={`button-select-${c.id}`} onClick={()=>act({type:'studio.select',cardId:c.id})}>
-   <span className="ttl">{i!==undefined?`${i+1}. `:''}{c.subject?`${c.subject} · `:''}{c.title}</span>
-   <span className="sub"><span className="st-status" data-testid={`status-${c.id}`}>{status(c)}</span>{activityOf(state,c)}{c.subject?` · ${c.subject}`:''} · {timeLabel(c.minutes)}{of(c).timeSet!==false&&c.startTime?` · ${c.startTime}`:' · 시각 미정'} · {c.date||'날짜 없음'}{dupe(c)?` · #${c.id.slice(-4)}`:''}{c.repeat!=='none'?` · ${c.repeat==='daily'?'매일':'평일'} 반복`:''}</span>
+   <span className="ttl">{i!==undefined?`${i+1}. `:''}{c.subject?`${demoCardText(state,c,'subject')} · `:''}{demoCardText(state,c,'title')}</span>
+   <span className="sub"><span className="st-status" data-testid={`status-${c.id}`}>{status(c)}</span>{activityOf(state,c)}{c.subject?` · ${demoCardText(state,c,'subject')}`:''} · {timeLabel(c.minutes)}{of(c).timeSet!==false&&c.startTime?` · ${c.startTime}`:' · 시각 미정'} · {c.date||'날짜 없음'}{dupe(c)?` · #${c.id.slice(-4)}`:''}{c.repeat!=='none'?` · ${c.repeat==='daily'?'매일':'평일'} 반복`:''}</span>
   </button></li>;};
  const sel=student.cards.find(c=>c.id===studio.selectedId);
 
@@ -52,19 +52,19 @@ export default function StudioPage({view,state,student,act}:{view:'now'|'plan'|'
  const icon=(c:Card)=><span className={`st-ico3 ${subjectVisual(c.subject,c.domain).tone}`} aria-hidden="true"><SubjectSymbol subject={c.subject} domain={c.domain}/></span>;
  return <div className="pm-page st-now">
   {otherRun&&<aside className="st-warn" role="status" data-testid="text-other-run">
-   <p>{desk&&desk.id!==otherRun.id?'다른 과제':placement(state,otherRun.id).place==='archive'?'보관된 과제':'잠시 멈춘 과제'} '{otherRun.title}'의 실행이 있어요. 작업대로 꺼내 이어갈 수 있어요.</p>
-   <button data-testid="button-return-open-run" onClick={()=>act({type:'studio.take',cardId:otherRun.id})}>{otherRun.title} · 작업대로 꺼내기</button>
+   <p>{desk&&desk.id!==otherRun.id?'다른 과제':placement(state,otherRun.id).place==='archive'?'보관된 과제':'잠시 멈춘 과제'} '{demoCardText(state,otherRun,'title')}'의 실행이 있어요. 작업대로 꺼내 이어갈 수 있어요.</p>
+   <button data-testid="button-return-open-run" onClick={()=>act({type:'studio.take',cardId:otherRun.id})}>{demoCardText(state,otherRun,'title')} · 작업대로 꺼내기</button>
   </aside>}
-  {otherRun&&<RunPanel student={student} act={act} recovery={state.recovery}/>}
+  {otherRun&&<RunPanel student={student} state={state} act={act} recovery={state.recovery}/>}
   <div className="st-zones">
    <section className="st-block st-desk desk" aria-label="작업대" data-testid="section-desk">
     <header className="st-desk-head"><p className="st-eye">지금 하는 작업대</p>{desk&&<span className="st-status">{status(desk)}</span>}</header>
     <div className="st-desk-body">
      {desk?<article className="st-curfile" data-tone={of(desk).tone} data-run={ownRun?.phase??'none'}>
       <div className="st-cur-top">{icon(desk)}<div>
-       <h2 data-testid="text-desk-title" tabIndex={-1}>{desk.subject&&<span className="st-subj">{desk.subject}</span>}{desk.title}</h2>
+       <h2 data-testid="text-desk-title" tabIndex={-1}>{desk.subject&&<span className="st-subj">{demoCardText(state,desk,'subject')}</span>}{demoCardText(state,desk,'title')}</h2>
        <p className="st-desk-meta">{activityOf(state,desk)} · {timeLabel(desk.minutes)}{of(desk).timeSet!==false&&desk.startTime?` · ${desk.startTime} 시작 예정`:' · 시각 미정'}{desk.scope?` · ${desk.scope}`:''}</p></div></div>
-      <RunPanel student={student} act={act} recovery={state.recovery} cardId={desk.id}/>
+      <RunPanel student={student} state={state} act={act} recovery={state.recovery} cardId={desk.id}/>
       {!ownRun&&<p className="st-note">작업대에 올려도 타이머는 '바로 시작'을 눌러야 움직여요.</p>}
       <CardDetail key={desk.id} state={state} student={student} card={desk} act={act}/>
       <TagActions card={desk} state={state} act={act} running={!!run}/>
@@ -81,7 +81,7 @@ export default function StudioPage({view,state,student,act}:{view:'now'|'plan'|'
     </section>
     {sel&&sel.id!==desk?.id&&<section className="st-block st-picked" aria-label="고른 네임택" data-testid="section-selected">
      <p className="st-eye">고른 네임택 · {PLACE_NAMES[of(sel).place]}</p>
-     <h3>{sel.subject?`${sel.subject} · `:''}{sel.title}</h3>
+     <h3>{sel.subject?`${demoCardText(state,sel,'subject')} · `:''}{demoCardText(state,sel,'title')}</h3>
      <TagActions card={sel} state={state} act={act} running={!!run}/>
      {of(sel).place!=='excluded'&&<details className="pm-fold"><summary>목표·분량·기본 정보 고치기</summary><CardDetail key={sel.id} state={state} student={student} card={sel} act={act}/></details>}
     </section>}
@@ -134,7 +134,7 @@ function TagActions({card,state,act,running}:{card:Card;state:PersonalState;act:
   </div>}
   <details className="pm-fold st-moreactions" data-testid={`more-actions-${card.id}`}><summary>더 보기</summary>
    {(pl.place==='shelf'||pl.place==='desk'||pl.place==='archive')&&<button data-testid={`button-exclude-${card.id}`} disabled={running&&pl.place==='desk'} title={running&&pl.place==='desk'?'실행을 먼저 마쳐 주세요':undefined} onClick={()=>act({type:'studio.exclude',cardId:card.id})}>제외 서랍으로</button>}
-   <p className="st-note">네임택 색 바꾸기</p><div className="pm-chips" aria-label={`${card.title} 네임택 색`}>{TONES.map(([t,l])=><button key={t} aria-label={`${card.title} ${label(l)} 네임택`} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className="st-tag" style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{label(l)}</button>)}</div></details>
+   <p className="st-note">네임택 색 바꾸기</p><div className="pm-chips" aria-label={demoCardLabels(state,card).colorGroup}>{TONES.map(([t,l])=><button key={t} aria-label={demoCardLabels(state,card).color(l)} aria-pressed={pl.tone===t} data-testid={`button-tone-${t}-${card.id}`} onClick={()=>act({type:'studio.color',cardId:card.id,tone:t})}><span className="st-tag" style={{display:'inline-block',width:10,height:14,border:0,marginRight:6,background:`var(--t-${t})`,verticalAlign:'middle'}} aria-hidden="true"/>{l}</button>)}</div></details>
  </div>;
 }
 
@@ -149,7 +149,7 @@ function PlanView({state,student,act,today,tag}:{state:PersonalState;student:Stu
  const [day,setDay]=useState(today);
  const [start,setStart]=useState('16:00');
  const cap=studioCapacity(state,day);
- const proposal=scheduleProposal(state,day,start);
+ const proposal=scheduleProposal(state,day,start).map(x=>({...x,title:demoCardText(state,student.cards.find(c=>c.id===x.cardId)!,'title')}));
  const week=Array.from({length:7},(_,i)=>{const d=new Date(today+'T12:00:00');d.setDate(d.getDate()+i);return localDate(d);});
  const dayName=(d:string)=>['일','월','화','수','목','금','토'][new Date(d+'T12:00:00').getDay()];
  const dayCards=student.cards.filter(c=>(c.date||today)===day&&placement(state,c.id).place!=='excluded');
@@ -166,7 +166,7 @@ function PlanView({state,student,act,today,tag}:{state:PersonalState;student:Stu
    <div className="st-cap" role="img" aria-label={`한 일 ${cap.done}분, 할 일 ${cap.pending}분, 빈 시간 ${cap.free}분`}><span className="d" style={{flex:cap.done}}/><span className="p" style={{flex:cap.pending}}/><span style={{flex:cap.free}}/>{cap.over>0&&<span className="o" style={{flex:cap.over}}/>}</div>
    <p className="st-note" data-testid="text-capacity">한 일 {cap.done}분 · 할 일 {cap.pending}분 · 빈 시간 {cap.free}분{cap.over?` · ${cap.over}분 넘침`:''} (가능 {cap.available}분) · 예상 미정 {cap.unknown}개{cap.unknown?' (시간 합계 제외, 시각 자동 제안 보류)':''}</p>
    {dayCards.length?<ul className="st-tags">{dayCards.map((c,i)=><li key={c.id} style={{display:'grid',gap:4}}><ul className="st-tags">{tag(c,i)}</ul>
-    <div className="st-row"><button aria-label={`${c.title} 앞으로`} data-testid={`button-up-${c.id}`} onClick={()=>act({type:'legacy',command:{type:'card.move',cardId:c.id,direction:-1}} as Action)}>앞으로</button><button aria-label={`${c.title} 뒤로`} data-testid={`button-down-${c.id}`} onClick={()=>act({type:'legacy',command:{type:'card.move',cardId:c.id,direction:1}} as Action)}>뒤로</button>
+    <div className="st-row"><button aria-label={demoCardLabels(state,c).moveUp} data-testid={`button-up-${c.id}`} onClick={()=>act({type:'legacy',command:{type:'card.move',cardId:c.id,direction:-1}} as Action)}>앞으로</button><button aria-label={demoCardLabels(state,c).moveDown} data-testid={`button-down-${c.id}`} onClick={()=>act({type:'legacy',command:{type:'card.move',cardId:c.id,direction:1}} as Action)}>뒤로</button>
      <label style={{maxWidth:150,margin:0}}>시작 시각 (선택)<input type="time" data-testid={`input-time-${c.id}`} value={placement(state,c.id).timeSet===false?'':c.startTime} onChange={e=>act({type:'legacy',command:{type:'card.update',cardId:c.id,changes:{startTime:e.target.value}}} as Action)}/></label>
      <label style={{maxWidth:150,margin:0}}>반복<select data-testid={`select-repeat-${c.id}`} value={c.repeat} onChange={e=>act({type:'legacy',command:{type:'card.repeat',cardId:c.id,repeat:e.target.value}} as Action)}><option value="none">반복 없음</option><option value="daily">매일</option><option value="weekdays">평일</option></select></label></div></li>)}</ul>:<p className="pm-empty">이 날에 잡힌 할 일이 없어요.</p>}
   </section>
@@ -179,7 +179,7 @@ function PlanView({state,student,act,today,tag}:{state:PersonalState;student:Stu
   </section>
   <section className="st-block" aria-label="앞으로 7일" data-testid="section-week">
    <h2>앞으로 7일</h2>
-   <div className="st-week" tabIndex={0}>{week.map(d=>{const cs=student.cards.filter(c=>c.date===d&&placement(state,c.id).place!=='excluded');return <div key={d} className={`st-day${d===today?' today':''}`} data-testid={`day-${d}`}><b>{d.slice(5)} ({dayName(d)})</b><div className="st-note">{cs.length}개 · {cs.reduce((n,c)=>n+c.minutes,0)}분 · 미정 {cs.filter(c=>c.minutes===0).length}개</div>{cs.length?<ul>{cs.slice(0,4).map(c=><li key={c.id}>{c.title}{c.status==='done'?' (완료)':''}</li>)}{cs.length>4&&<li>외 {cs.length-4}개</li>}</ul>:<div className="st-note">비어 있음</div>}
+   <div className="st-week" tabIndex={0}>{week.map(d=>{const cs=student.cards.filter(c=>c.date===d&&placement(state,c.id).place!=='excluded');return <div key={d} className={`st-day${d===today?' today':''}`} data-testid={`day-${d}`}><b>{d.slice(5)} ({dayName(d)})</b><div className="st-note">{cs.length}개 · {cs.reduce((n,c)=>n+c.minutes,0)}분 · 미정 {cs.filter(c=>c.minutes===0).length}개</div>{cs.length?<ul>{cs.slice(0,4).map(c=><li key={c.id}>{demoCardText(state,c,'title')}{c.status==='done'?' (완료)':''}</li>)}{cs.length>4&&<li>외 {cs.length-4}개</li>}</ul>:<div className="st-note">비어 있음</div>}
     <button data-testid={`button-day-${d}`} onClick={()=>setDay(d)}>이 날 보기</button></div>;})}</div>
   </section>
  </div>;
