@@ -1,4 +1,5 @@
 import {useEffect,useState} from 'react';
+import {PracticeContext} from '../planner-library/LibraryUI';
 import type {Action,PersonalState} from './model';
 import type {RoadExperience,RoadSource,Sentence,ExperienceField} from './studio-model';
 import {experienceFields} from './studio-model';
@@ -40,7 +41,7 @@ export default function RoadmapPage({state,month,act,onMonth,onOpenCard}:{state:
    {sources.map(s=>{const exp=exps.find(e=>e.sourceId===s.id);const st=exp?experienceState(state,exp):null;return <div key={s.id} id={`source-${s.id}`} tabIndex={-1} className="st-src st-file" data-testid={`source-${s.id}`}>
     <span className="st-filetab" data-testid={`tab-source-${s.id}`}>{s.snapshot.subject||'과목 없음'} · {s.snapshot.title}</span>
     <div className="st-row" style={{justifyContent:'space-between'}}>
-     <b>{s.snapshot.subject?`${s.snapshot.subject} · `:''}{s.snapshot.title}</b>
+      <b>{s.snapshot.subject?`${s.snapshot.subject} · `:''}{s.snapshot.title}</b><PracticeContext state={state} kind={s.snapshot.practiceContext}/>
      <span className="st-status" data-testid={`status-source-${s.id}`}>{!s.available?'원본 연결 끊김':st?STATE_TEXT[st]:'경험카드 없음'}</span>
     </div>
     <details className="pm-fold" data-testid={`details-facts-${s.id}`}><summary>근거 사실 보기</summary><ul>{sourceFacts(s).map((f,i)=><li key={i}>{f}</li>)}</ul></details>

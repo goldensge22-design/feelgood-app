@@ -1,5 +1,9 @@
 # NUVIA PLANNER Studio — 개발자 연동 시작점 (2026-10-22)
 
+## 라이브러리 연결 추가 패치
+
+직무·진로 상황 및 일상 카드의 기존 플래너 연결은 [라이브러리 연결 패치 인계](PLANNER_LIBRARY_INTEGRATION_HANDOFF_2026-10-23.md)를 먼저 확인한다. 브랜치는 `codex/nuvia-planner-library-integration`이다. 한국어 검토 모드에서 과제·실행·개인 기록·백업·로드맵 연결을 검증하는 추가 패치이며, 실제 결과지 서버 연결이나 카드의 15언어 출시 완료를 뜻하지 않는다. 아래 기존 제품 인계 기준과 구분해서 적용한다.
+
 ## 현재 기준
 
 - 저장소: `goldensge22-design/feelgood-app`

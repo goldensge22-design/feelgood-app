@@ -2,6 +2,7 @@ import type {LabState,Target,Axis,Stage,Command as LegacyCommand} from '../enhan
 import type {Insights,InsightsAction} from './insights';
 import type {StudioData,StudioAction} from './studio-model';
 import type {TaskInput} from './task-plan';
+import type {LibraryAction} from '../planner-library/model';
 export type {Target,Axis,Stage,LegacyCommand};
 export type Status='performed'|'skipped'|'unobserved';
 export interface Meta {kind:string;examDate:string;weeklyScope:string;materials:string;nextPosition:string;output:string;difficulty:string;proposal?:string;originDraft?:string;helpPreference?:string}
@@ -9,7 +10,7 @@ export interface Agreement {id:string;month:string;axis:Target;count:number;at:s
 export interface Entry {id:string;practiceId:string;runId:string;axis:Target;status:Status;localDate:string;originalDate:string;enteredAt:string;cardTitle:string;proof:string[];optionalAttention:string;output:string;feeling:string;difficulty:string;assessment:unknown;corrections:{at:string;from:string;to:string;reason:string}[]}
 export interface Draft {id:string;fromMonth:string;toMonth:string;axis:Target;count:number;chunk:string;method:string;help:string;date:string;reasons:string[];baseline:{count:number;chunk:string;method:string;help:string};status:'pending'|'accepted'|'deferred';createdAt:string;acceptedAt?:string;cardIds:string[]}
 export interface PersonalState {schema:'nuvia-personal-monthly-1';mode:'personal'|'review';workspaceId:string;studentId:'student-a';lab:LabState;meta:Record<string,Meta>;agreements:Agreement[];entries:Entry[];drafts:Draft[];onboarding:boolean;lastSeen:string;recovery:boolean;assessmentHistory:{at:string;source:string;assessment:unknown}[];insights?:Insights;studio?:StudioData}
-export type Action = StudioAction|InsightsAction
+export type Action = StudioAction|InsightsAction|LibraryAction
  |{type:'legacy';command:LegacyCommand}
  |({type:'create';kind?:string}&TaskInput)
  |{type:'meta';cardId:string;changes:Partial<Meta>}

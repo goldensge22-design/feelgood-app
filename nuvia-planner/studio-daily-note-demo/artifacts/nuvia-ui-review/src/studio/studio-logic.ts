@@ -4,8 +4,10 @@ import {createState,update as baseUpdate,student,localDate} from './domain';
 import {planSnapshot,freshEvidence} from '../enhancement/domain';
 import {ACTIVITIES,checkMinutes} from './task-plan';
 import {syncRoadmap,applyRoadmap} from './roadmap';
-import {isLocale} from './i18n/config';
+import {isLocale,localeOf} from './i18n/config';
 import {t} from './i18n/runtime';
+import {applyLibrary} from '../planner-library/domain';
+import {libText} from '../planner-library/i18n';
 export const freshStudio=():StudioData=>({placements:{},selectedId:'',deskId:'',archiveReminders:true,appearance:'ivory',lastNoticeSession:'',sources:{},experiences:[]});
 export const studioOf=(s:PersonalState):StudioData=>s.studio??freshStudio();
 export const placement=(s:PersonalState,id:string):Placement=>studioOf(s).placements[id]??{place:student(s).cards.find(c=>c.id===id)?.status==='done'?'collection':'shelf',tone:'blue'};
@@ -33,6 +35,12 @@ export function scheduleProposal(s:PersonalState,day:string,start:string){
  });
 }
 export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOString(),review=false):PersonalState{
+ if(a.type==='library.create'){
+  const n=updateStudio(state,{...a.task,type:'create'},at,review);
+  const id=a.task.requestId?n.studio?.creations?.[a.task.requestId]:student(n).cards.at(-1)?.id;
+  if(!id)throw Error(libText(localeOf(state),'error'));
+  return updateStudio(n,{type:'library.attach',cardId:id,bindingId:a.bindingId,templateId:a.templateId},at,review);
+ }
  if(a.type==='review.fixture'&&(a.scenario==='board'||a.scenario==='empty')){
   if(!review||state.mode!=='review')throw Error('합성 예시는 분리된 검토 공간에서만 불러올 수 있습니다.');
   return boardFixture(state,at,a.scenario==='empty');
@@ -44,7 +52,8 @@ export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOStr
  const open=()=>p.runs.find(r=>r.phase!=='closed');
  const movable=(id:string)=>{card(id);const r=open();if(r&&r.cardId!==id)throw Error('현재 실행을 중단·종료한 뒤 다른 과제로 바꿔 주세요.');};
  if(a.type==='legacy'&&a.command.type==='language'&&isLocale(a.command.language))d.locale=a.command.language;
- if(a.type.startsWith('roadmap.'))applyRoadmap(n,a as never,at);
+ if(a.type.startsWith('library.'))applyLibrary(n,a as Parameters<typeof applyLibrary>[1],at,review);
+ else if(a.type.startsWith('roadmap.'))applyRoadmap(n,a as never,at);
  else switch(a.type){
   case 'studio.note':
    if(!validDate(a.date)||typeof a.text!=='string'||a.text.length>20000)throw Error(t('note.failed'));

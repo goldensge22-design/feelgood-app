@@ -6,6 +6,7 @@ import type {PersonalState} from './model';
 import {insightsSchema,validateInsights} from './insights';
 import {studioSchema} from './studio-model';
 import {validateStudioLinks} from './roadmap';
+import {validateLibrary} from '../planner-library/domain';
 const id=z.string().min(1).max(160),text=z.string().max(3000),stamp=z.string().refine(s=>Number.isFinite(Date.parse(s)));
 const date=z.string().refine(s=>{try{return /^\d{4}-\d{2}-\d{2}$/.test(s)&&new Date(s+'T12:00:00Z').toISOString().slice(0,10)===s;}catch{return false;}});
 const axis=z.enum(['planning','attention','simultaneous','successive','integrated']),count=z.number().int().min(0).max(10000),month=z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/);
@@ -32,7 +33,7 @@ export function validate(raw:unknown,workspaceId?:string):PersonalState{
  for(const g of n.agreements)if(g.previousId&&!n.agreements.some(old=>old.id===g.previousId&&old.axis===g.axis&&old.month===g.month))throw Error('목표 변경의 이전 기준이 없습니다.');
  for(const d of n.drafts)if(d.cardIds.some(id=>!p.cards.some(c=>c.id===id)))throw Error('초안 일정 연결이 맞지 않습니다.');
  for(const cid of Object.keys(n.meta))if(!p.cards.some(c=>c.id===cid))throw Error('내 과제 연결이 맞지 않습니다.');
- validateInsights(n);validateStudioLinks(n);return structuredClone(n);
+ validateInsights(n);validateStudioLinks(n);validateLibrary(n);return structuredClone(n);
 }
 export function freezeTimers(state:PersonalState,at=state.lastSeen){
  const n=structuredClone(state);let recovery=false;

@@ -1,0 +1,53 @@
+[
+  {
+    "id": "sequence",
+    "labelKey": "library.behavior.sequence",
+    "evidenceFields": [
+      "ordered_steps",
+      "progress_mark"
+    ]
+  },
+  {
+    "id": "adapt",
+    "labelKey": "library.behavior.adapt",
+    "evidenceFields": [
+      "observed_change",
+      "alternative_options",
+      "chosen_action"
+    ]
+  },
+  {
+    "id": "verify",
+    "labelKey": "library.behavior.verify",
+    "evidenceFields": [
+      "known_facts",
+      "unknown_facts",
+      "verification_action"
+    ]
+  },
+  {
+    "id": "compare",
+    "labelKey": "library.behavior.compare",
+    "evidenceFields": [
+      "criteria",
+      "comparison",
+      "choice_reason"
+    ]
+  },
+  {
+    "id": "communicate",
+    "labelKey": "library.behavior.communicate",
+    "evidenceFields": [
+      "message",
+      "confirmation_question"
+    ]
+  },
+  {
+    "id": "resume",
+    "labelKey": "library.behavior.resume",
+    "evidenceFields": [
+      "return_location",
+      "next_action"
+    ]
+  }
+]

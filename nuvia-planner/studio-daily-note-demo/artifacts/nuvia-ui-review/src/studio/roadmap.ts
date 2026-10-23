@@ -3,6 +3,9 @@ import {student,localDate,monthOf} from './domain';
 import {elapsed} from '../enhancement/domain';
 import type {StudioAction,RoadSource,RoadExperience,SourceSnapshot,ExperienceField} from './studio-model';
 import {experienceFields} from './studio-model';
+import {contextOf} from '../planner-library/domain';
+import {libText} from '../planner-library/i18n';
+import {localeOf} from './i18n/config';
 export const fieldNames:Record<ExperienceField,string>={situation:'목표·상황',difficulty:'어려움',action:'직접 한 행동',adjustment:'조정한 방법',result:'결과·근거',learning:'배운 점'};
 const same=(a:unknown,b:unknown)=>JSON.stringify(a)===JSON.stringify(b);
 export function syncRoadmap(s:PersonalState,at=new Date().toISOString()){
@@ -15,7 +18,7 @@ export function syncRoadmap(s:PersonalState,at=new Date().toISOString()){
   if(!months.size)months.add(monthOf(c.date||localDate(new Date(at))));
   for(const month of months){
    const id=`${month}:${c.id}`;seen.add(id);const m=s.meta[c.id];
-   const snapshot:SourceSnapshot={title:c.title,subject:c.subject,kind:m?.kind??'',goal:c.goal,scope:c.scope,firstAction:c.firstAction,minutes:c.minutes,date:c.date,startTime:d.placements[c.id]?.timeSet===false?'':c.startTime,output:m?.output??'',materials:m?.materials??'',
+   const snapshot:SourceSnapshot={...(contextOf(s,c.id)?{practiceContext:contextOf(s,c.id)}:{}),title:c.title,subject:c.subject,kind:m?.kind??'',goal:c.goal,scope:c.scope,firstAction:c.firstAction,minutes:c.minutes,date:c.date,startTime:d.placements[c.id]?.timeSet===false?'':c.startTime,output:m?.output??'',materials:m?.materials??'',
     changes:changes.filter(h=>monthOf(localDate(new Date(h.at)))===month),
     runs:runs.filter(r=>runMonth(r)===month).map(r=>({id:r.id,practiceId:r.practiceId,at:r.startedAt,closed:r.phase==='closed',completed:r.completion==='yes',returns:r.returns,reflection:r.reflection,actualMs:r.phase==='closed'?elapsed(r):0,nextPosition:r.flag}))};
    const old=d.sources[id];
@@ -84,7 +87,7 @@ export function roadmapExport(s:PersonalState){
  if(!lines.length)throw Error('내보낼 문장을 직접 선택하세요.');
  for(const line of lines){const e=s.studio!.experiences.find(e=>e.id===line.experienceId);if(!line.confirmed||!e||!e.selected||experienceState(s,e)!=='ready'||line.sourceVersion!==e.sourceVersion)throw Error('선택 문장·경험의 확인 또는 원본 재확인이 필요합니다.');}
  const disclaimer='기록 정리형 초안 · 생성형 AI 서버 미연결. 앱 관찰과 본인 서술이며 외부 수행 검증·검사 정확성·인지 향상의 증거가 아닙니다.';
- const items=lines.map((line,i)=>{const src=s.studio!.sources[line.sourceId];return {text:line.text,citation:`[${i+1}] ${src.month} · ${src.snapshot.subject||'과목 없음'} · ${src.snapshot.title} · 활동기록 ${src.cardId} · ${fieldNames[line.field]} · 본인 확인 서술${line.edited?' (직접 수정)':''}`};});
+ const items=lines.map((line,i)=>{const src=s.studio!.sources[line.sourceId];return {text:(src.snapshot.practiceContext?libText(localeOf(s),src.snapshot.practiceContext==='simulation'?'simulation':'daily')+'\n':'')+line.text,citation:`[${i+1}] ${src.month} · ${src.snapshot.subject||'과목 없음'} · ${src.snapshot.title} · 활동기록 ${src.cardId} · ${fieldNames[line.field]} · 본인 확인 서술${line.edited?' (직접 수정)':''}`};});
  return {text:disclaimer+'\n\n'+items.map(x=>x.text+'\n근거: '+x.citation).join('\n\n'),
  html:`<!doctype html><html lang="ko"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>나의 로드맵 · 선택 초안</title><style>body{max-width:850px;margin:24px auto;padding:20px;font:17px/1.8 system-ui;color:#172c4c;overflow-wrap:anywhere}section{border-bottom:1px solid #ddd;padding:14px 0}</style><body><h1>나의 로드맵 · 선택한 경험</h1><p>${esc(disclaimer)}</p>${items.map(x=>`<section><p>${esc(x.text)}</p><small>근거: ${esc(x.citation)}</small></section>`).join('')}<p>자동 외부 전송 없음 · 공유 전 내용을 확인하세요.</p></body></html>`};
 }

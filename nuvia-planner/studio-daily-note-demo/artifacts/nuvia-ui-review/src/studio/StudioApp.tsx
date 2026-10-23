@@ -19,9 +19,11 @@ import {locales,localeNames,localeOf,type Locale} from './i18n/config';
 import {demoAudience} from '../demo/session';
 import StudioDemoNotice from './i18n/StudioDemoNotice';
 import {demoCardText} from './i18n/demo-copy';
+import {LibraryPage,LibraryReport} from '../planner-library/LibraryUI';
+import {libText} from '../planner-library/i18n';
 
-type Page='now'|'plan'|'reflect'|'report'|'roadmap'|'growth'|'settings';
-const PAGES:Page[]=['now','plan','reflect','report','roadmap','growth','settings'];
+type Page='now'|'plan'|'reflect'|'report'|'roadmap'|'growth'|'settings'|'library';
+const PAGES:Page[]=['now','plan','reflect','report','roadmap','growth','settings','library'];
 const MAIN:[Page,string][]=[['now','지금'],['plan','계획'],['reflect','돌아보기'],['report','리포트']];
 const MORE:[Page,string][]=[['roadmap','나의 로드맵'],['growth','방법·목표'],['settings','설정·백업']];
 const REVIEW=!demoAudience&&new URLSearchParams(location.search).get('review')==='1';
@@ -61,7 +63,9 @@ function StudioApp(){
  const needsSetup=!REVIEW&&!studio.stageChosen&&student.cards.length===0;
  const copyPrevious=(p as {copyPrevious?:()=>unknown}).copyPrevious;
  const MOBILE:[Page,string][]=[['now','지금'],['plan','계획'],['reflect','돌아보기']];
- const MMORE:[Page,string][]=[['report','리포트'],...MORE];
+ const moreItems:[Page,string][]=[...MORE,['library',libText(localeOf(state),'nav')]];
+ const MMORE:[Page,string][]=[['report','리포트'],...moreItems];
+ const openLibraryTask=(id:string)=>{act({type:'studio.select',cardId:id});go('now');};
  const [setup,setSetup]=useState({stage:'',title:''});
  const moreMenu=(id:string,items:[Page,string][])=>{const moreActive=items.some(([k])=>k===page);return <div className="st-more">
   <button aria-expanded={menu} aria-haspopup="true" aria-current={moreActive?'page':undefined} data-testid={`button-more-${id}`} onClick={()=>setMenu(!menu)}>{moreActive?items.find(([k])=>k===page)?.[1]:'더보기'}</button>
@@ -77,7 +81,7 @@ function StudioApp(){
    {(page==='reflect'||page==='report'||page==='roadmap')&&<label style={{margin:0,minWidth:160}}>달 고르기<select data-testid="select-month" value={month} onChange={e=>setMonth(e.target.value)}>{months.map(m=><option key={m} value={m}>{m}</option>)}</select></label>}
   </header>
   {demoAudience&&<StudioDemoNotice audience={demoAudience}/>}
-  <nav className="st-nav" aria-label="화면">{MAIN.map(([k,l])=><button key={k} aria-current={page===k?'page':undefined} data-testid={`tab-${k}`} onClick={()=>go(k)}>{l}</button>)}{moreMenu('top',MORE)}</nav>
+  <nav className="st-nav" aria-label="화면">{MAIN.map(([k,l])=><button key={k} aria-current={page===k?'page':undefined} data-testid={`tab-${k}`} onClick={()=>go(k)}>{l}</button>)}{moreMenu('top',moreItems)}</nav>
   {p.message&&<div className="pm-toast" role="status" data-testid="status-message"><span>{p.message}</span><button onClick={p.clearMessage} data-testid="button-close-message">닫기</button></div>}
   {p.error&&<div className="pm-toast err" role="alert" data-testid="status-error"><span>{p.error}</span><button onClick={p.clearMessage}>닫기</button></div>}
 
@@ -101,6 +105,8 @@ function StudioApp(){
    {(page==='now'||page==='plan'||page==='reflect')&&<StudioPage view={page} state={state} student={student} act={act}/>}
    {page==='reflect'&&<MonthPage state={state} month={month} act={act}/>}
    {page==='report'&&<ReportPage month={month} report={p.report}/>}
+   {page==='report'&&<LibraryReport state={state} month={month} onOpen={openLibraryTask}/>}
+   {page==='library'&&<LibraryPage state={state} act={act} review={REVIEW} onOpen={openLibraryTask}/>}
    {page==='roadmap'&&<RoadmapPage state={state} month={month} act={act} onMonth={setMonth} onOpenCard={id=>{act({type:'studio.select',cardId:id});go('now');}}/>}
    {page==='growth'&&<GrowthPage state={state} student={student} act={act}/>}
    {page==='settings'&&<section className="st-block" aria-label="설정" data-testid="section-settings">

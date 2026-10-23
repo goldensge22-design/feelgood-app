@@ -1,0 +1,4003 @@
+{
+  "schema": "feelgood.planner.catalog-snapshot/v1",
+  "sourceCommit": "35a3216e980bd4dd0c0391e5c6790508bb9e72f7",
+  "sourceHashes": {
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/dcas-job-engine.js": "1c45222ca6877a1217ff6df2968f918dbf617b2fe816c5d23abeeb3998b2fe06",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/dcas-major-requirements.js": "cafeb0bc72e7a78f7acc7604d9199b06f1f843bd992777b0a3ffae9aca9d7504",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/dcas-jobs-major47.js": "1f3b91650ce8586180573def3dd044f1ec520fdf989990699f93fa361f99edf5",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/dcas-jobs-extra.js": "56172634d9634ed6a8c7c6a6a5745eacbe49d4f3769c15c097e1fc82f24c6f77",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html": "fcb453a6fe9ebfb8121362c57bcc8735a44315b521aa7ca58be14b5089e530dd",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/dcas-major-requirements.js": "3e2e28fad106aa48757e6dc0151182c57e923060420c9cec7cf4d58d6ea2d185",
+    "result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/dcas-teen-dept-engine.js": "8343a93e7360f5175fc0581e07bca366e784c0b4c7036ee773407b6a38d7ad4b"
+  },
+  "adult": {
+    "majorJobs": [
+      {
+        "name": "국어국문학과",
+        "jobIds": [
+          "2001",
+          "2002",
+          "2003",
+          "2004",
+          "2005"
+        ]
+      },
+      {
+        "name": "영어영문학과",
+        "jobIds": [
+          "2006",
+          "2007",
+          "2008",
+          "2009",
+          "2010"
+        ]
+      },
+      {
+        "name": "사학과",
+        "jobIds": [
+          "2011",
+          "2012",
+          "2013",
+          "2014",
+          "2015"
+        ]
+      },
+      {
+        "name": "철학과",
+        "jobIds": [
+          "2016",
+          "2017",
+          "2018",
+          "2019",
+          "2020"
+        ]
+      },
+      {
+        "name": "문헌정보학과",
+        "jobIds": [
+          "2021",
+          "2022",
+          "2023",
+          "2024",
+          "2025"
+        ]
+      },
+      {
+        "name": "중어중문학과",
+        "jobIds": [
+          "2026",
+          "2027",
+          "2028",
+          "2029",
+          "2030"
+        ]
+      },
+      {
+        "name": "일어일문학과",
+        "jobIds": [
+          "2031",
+          "2032",
+          "2033",
+          "2034",
+          "2035"
+        ]
+      },
+      {
+        "name": "문예창작학과",
+        "jobIds": [
+          "2036",
+          "2037",
+          "2038",
+          "2039",
+          "2040"
+        ]
+      },
+      {
+        "name": "경영학과",
+        "jobIds": [
+          "2041",
+          "2042",
+          "2043",
+          "2044",
+          "2045"
+        ]
+      },
+      {
+        "name": "경제학과",
+        "jobIds": [
+          "2046",
+          "2047",
+          "2048",
+          "2049",
+          "2050"
+        ]
+      },
+      {
+        "name": "행정학과",
+        "jobIds": [
+          "2051",
+          "2052",
+          "2053",
+          "2054",
+          "2055"
+        ]
+      },
+      {
+        "name": "사회학과",
+        "jobIds": [
+          "2056",
+          "2057",
+          "2058",
+          "2059",
+          "2060"
+        ]
+      },
+      {
+        "name": "심리학과",
+        "jobIds": [
+          "2061",
+          "2062",
+          "2063",
+          "2064",
+          "2065"
+        ]
+      },
+      {
+        "name": "정치외교학과",
+        "jobIds": [
+          "2066",
+          "2067",
+          "2068",
+          "2069",
+          "2070"
+        ]
+      },
+      {
+        "name": "법학과",
+        "jobIds": [
+          "2071",
+          "2072",
+          "2073",
+          "2074",
+          "2075"
+        ]
+      },
+      {
+        "name": "사회복지학과",
+        "jobIds": [
+          "2076",
+          "2077",
+          "2078",
+          "2079",
+          "2080"
+        ]
+      },
+      {
+        "name": "수학과",
+        "jobIds": [
+          "2081",
+          "2082",
+          "2083",
+          "2084",
+          "2085"
+        ]
+      },
+      {
+        "name": "물리학과",
+        "jobIds": [
+          "2086",
+          "2087",
+          "2088",
+          "2089",
+          "2090"
+        ]
+      },
+      {
+        "name": "화학과",
+        "jobIds": [
+          "2091",
+          "2092",
+          "2093",
+          "2094",
+          "2095"
+        ]
+      },
+      {
+        "name": "생명과학과",
+        "jobIds": [
+          "2096",
+          "2097",
+          "2098",
+          "2099",
+          "2100"
+        ]
+      },
+      {
+        "name": "통계학과",
+        "jobIds": [
+          "2101",
+          "2102",
+          "2103",
+          "2104",
+          "2105"
+        ]
+      },
+      {
+        "name": "지구환경과학과",
+        "jobIds": [
+          "2106",
+          "2107",
+          "2108",
+          "2109",
+          "2110"
+        ]
+      },
+      {
+        "name": "식품영양학과",
+        "jobIds": [
+          "2111",
+          "2112",
+          "2113",
+          "2114",
+          "2115"
+        ]
+      },
+      {
+        "name": "컴퓨터공학과",
+        "jobIds": [
+          "534",
+          "535",
+          "536",
+          "537",
+          "538",
+          "539",
+          "540",
+          "541",
+          "542",
+          "666"
+        ]
+      },
+      {
+        "name": "전자공학과",
+        "jobIds": [
+          "2116",
+          "2117",
+          "2118",
+          "2119",
+          "2120"
+        ]
+      },
+      {
+        "name": "기계공학과",
+        "jobIds": [
+          "2121",
+          "2122",
+          "2123",
+          "2124",
+          "2125"
+        ]
+      },
+      {
+        "name": "화학공학과",
+        "jobIds": [
+          "2126",
+          "2127",
+          "2128",
+          "2129",
+          "2130"
+        ]
+      },
+      {
+        "name": "산업공학과",
+        "jobIds": [
+          "2131",
+          "2132",
+          "2133",
+          "2134",
+          "2135"
+        ]
+      },
+      {
+        "name": "건축학과",
+        "jobIds": [
+          "2136",
+          "2137",
+          "2138",
+          "2139",
+          "2140"
+        ]
+      },
+      {
+        "name": "토목공학과",
+        "jobIds": [
+          "2141",
+          "2142",
+          "2143",
+          "2144",
+          "2145"
+        ]
+      },
+      {
+        "name": "신소재공학과",
+        "jobIds": [
+          "2146",
+          "2147",
+          "2148",
+          "2149",
+          "2150"
+        ]
+      },
+      {
+        "name": "환경공학과",
+        "jobIds": [
+          "2151",
+          "2152",
+          "2153",
+          "2154",
+          "2155"
+        ]
+      },
+      {
+        "name": "시각디자인학과",
+        "jobIds": [
+          "2156",
+          "2157",
+          "2158",
+          "2159",
+          "2160"
+        ]
+      },
+      {
+        "name": "산업디자인학과",
+        "jobIds": [
+          "2161",
+          "2162",
+          "2163",
+          "2164",
+          "2165"
+        ]
+      },
+      {
+        "name": "음악학과",
+        "jobIds": [
+          "2166",
+          "2167",
+          "2168",
+          "2169",
+          "2170"
+        ]
+      },
+      {
+        "name": "체육학과",
+        "jobIds": [
+          "2171",
+          "2172",
+          "2173",
+          "2174",
+          "2175"
+        ]
+      },
+      {
+        "name": "영화영상학과",
+        "jobIds": [
+          "2176",
+          "2177",
+          "2178",
+          "2179",
+          "2180"
+        ]
+      },
+      {
+        "name": "실용음악학과",
+        "jobIds": [
+          "2181",
+          "2182",
+          "2183",
+          "2184",
+          "2185"
+        ]
+      },
+      {
+        "name": "무용학과",
+        "jobIds": [
+          "2186",
+          "2187",
+          "2188",
+          "2189",
+          "2190"
+        ]
+      },
+      {
+        "name": "공예학과",
+        "jobIds": [
+          "2191",
+          "2192",
+          "2193",
+          "2194",
+          "2195"
+        ]
+      },
+      {
+        "name": "간호학과",
+        "jobIds": [
+          "2196",
+          "2197",
+          "2198",
+          "2199",
+          "2200"
+        ]
+      },
+      {
+        "name": "약학과",
+        "jobIds": [
+          "2201",
+          "2202",
+          "2203",
+          "2204",
+          "2205"
+        ]
+      },
+      {
+        "name": "의예과",
+        "jobIds": [
+          "2206",
+          "2207",
+          "2208",
+          "2209",
+          "2210"
+        ]
+      },
+      {
+        "name": "치의예과",
+        "jobIds": [
+          "2211",
+          "2212",
+          "2213",
+          "2214",
+          "2215"
+        ]
+      },
+      {
+        "name": "한의예과",
+        "jobIds": [
+          "2216",
+          "2217",
+          "2218",
+          "2219",
+          "2220"
+        ]
+      },
+      {
+        "name": "물리치료학과",
+        "jobIds": [
+          "2221",
+          "2222",
+          "2223",
+          "2224",
+          "2225"
+        ]
+      },
+      {
+        "name": "임상병리학과",
+        "jobIds": [
+          "2226",
+          "2227",
+          "2228",
+          "2229",
+          "2230"
+        ]
+      },
+      {
+        "name": "보건행정학과",
+        "jobIds": [
+          "2231",
+          "2232",
+          "2233",
+          "2234",
+          "2235"
+        ]
+      },
+      {
+        "name": "경찰행정과",
+        "jobIds": [
+          "2236",
+          "901",
+          "902",
+          "903",
+          "904"
+        ]
+      },
+      {
+        "name": "항공보안학과",
+        "jobIds": [
+          "9101",
+          "9102",
+          "9103",
+          "9104",
+          "9105",
+          "9106",
+          "9107",
+          "9108",
+          "9109",
+          "9110"
+        ]
+      },
+      {
+        "name": "사회복지과",
+        "jobIds": [
+          "2238",
+          "921",
+          "922",
+          "923",
+          "924"
+        ]
+      },
+      {
+        "name": "유아교육과",
+        "jobIds": [
+          "2239",
+          "2241",
+          "931",
+          "932",
+          "933",
+          "934"
+        ]
+      },
+      {
+        "name": "평생교육융합학부",
+        "jobIds": [
+          "2240",
+          "941",
+          "942",
+          "943",
+          "944"
+        ]
+      },
+      {
+        "name": "유아교육",
+        "jobIds": [
+          "2239",
+          "2241",
+          "931",
+          "932",
+          "933",
+          "934"
+        ]
+      },
+      {
+        "name": "초등교육",
+        "jobIds": [
+          "2242",
+          "951",
+          "952",
+          "953",
+          "954"
+        ]
+      },
+      {
+        "name": "특수교육",
+        "jobIds": [
+          "2243",
+          "961",
+          "962",
+          "963",
+          "964"
+        ]
+      },
+      {
+        "name": "언어교육",
+        "jobIds": [
+          "2244",
+          "971",
+          "972",
+          "973",
+          "974"
+        ]
+      },
+      {
+        "name": "사회인문교육",
+        "jobIds": [
+          "2245",
+          "981",
+          "982",
+          "983",
+          "984"
+        ]
+      },
+      {
+        "name": "수학과학교육",
+        "jobIds": [
+          "2246",
+          "991",
+          "992",
+          "993",
+          "994"
+        ]
+      },
+      {
+        "name": "기술생활교육",
+        "jobIds": [
+          "1001",
+          "1002",
+          "1003",
+          "1004",
+          "2247"
+        ]
+      },
+      {
+        "name": "예술체육교육",
+        "jobIds": [
+          "1011",
+          "1012",
+          "1013",
+          "1014",
+          "2248"
+        ]
+      }
+    ],
+    "jobs": [
+      {
+        "id": "1001",
+        "label": "기술·가정교사",
+        "sourceGroup": "기술·생활교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "기술생활교육"
+        ]
+      },
+      {
+        "id": "1002",
+        "label": "진로직업교사",
+        "sourceGroup": "기술·생활교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "기술생활교육"
+        ]
+      },
+      {
+        "id": "1003",
+        "label": "창업교육강사",
+        "sourceGroup": "기술·생활교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "기술생활교육"
+        ]
+      },
+      {
+        "id": "1004",
+        "label": "메이커교육지도사",
+        "sourceGroup": "기술·생활교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "기술생활교육"
+        ]
+      },
+      {
+        "id": "1011",
+        "label": "음악교사",
+        "sourceGroup": "예술·체육교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "예술체육교육"
+        ]
+      },
+      {
+        "id": "1012",
+        "label": "체육교사",
+        "sourceGroup": "예술·체육교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "예술체육교육"
+        ]
+      },
+      {
+        "id": "1013",
+        "label": "예술강사",
+        "sourceGroup": "예술·체육교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "예술체육교육"
+        ]
+      },
+      {
+        "id": "1014",
+        "label": "문화예술교육기획자",
+        "sourceGroup": "예술·체육교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "예술체육교육"
+        ]
+      },
+      {
+        "id": "2001",
+        "label": "출판편집자",
+        "sourceGroup": "전공진로::국어국문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "국어국문학과"
+        ]
+      },
+      {
+        "id": "2002",
+        "label": "콘텐츠기획자",
+        "sourceGroup": "전공진로::국어국문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "국어국문학과"
+        ]
+      },
+      {
+        "id": "2003",
+        "label": "카피라이터",
+        "sourceGroup": "전공진로::국어국문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "국어국문학과"
+        ]
+      },
+      {
+        "id": "2004",
+        "label": "한국어교원",
+        "sourceGroup": "전공진로::국어국문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "국어국문학과"
+        ]
+      },
+      {
+        "id": "2005",
+        "label": "문학·문화연구원",
+        "sourceGroup": "전공진로::국어국문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "국어국문학과"
+        ]
+      },
+      {
+        "id": "2006",
+        "label": "번역가",
+        "sourceGroup": "전공진로::영어영문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "영어영문학과"
+        ]
+      },
+      {
+        "id": "2007",
+        "label": "통역가",
+        "sourceGroup": "전공진로::영어영문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "영어영문학과"
+        ]
+      },
+      {
+        "id": "2008",
+        "label": "해외영업기획자",
+        "sourceGroup": "전공진로::영어영문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "영어영문학과"
+        ]
+      },
+      {
+        "id": "2009",
+        "label": "영문콘텐츠에디터",
+        "sourceGroup": "전공진로::영어영문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "영어영문학과"
+        ]
+      },
+      {
+        "id": "2010",
+        "label": "영어교육콘텐츠개발자",
+        "sourceGroup": "전공진로::영어영문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "영어영문학과"
+        ]
+      },
+      {
+        "id": "2011",
+        "label": "학예연구사(큐레이터)",
+        "sourceGroup": "전공진로::사학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "사학과"
+        ]
+      },
+      {
+        "id": "2012",
+        "label": "기록물관리전문요원",
+        "sourceGroup": "전공진로::사학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "사학과"
+        ]
+      },
+      {
+        "id": "2013",
+        "label": "역사연구원",
+        "sourceGroup": "전공진로::사학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "사학과"
+        ]
+      },
+      {
+        "id": "2014",
+        "label": "문화유산교육기획자",
+        "sourceGroup": "전공진로::사학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "사학과"
+        ]
+      },
+      {
+        "id": "2015",
+        "label": "아카이브콘텐츠기획자",
+        "sourceGroup": "전공진로::사학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "사학과"
+        ]
+      },
+      {
+        "id": "2016",
+        "label": "인문사회연구원",
+        "sourceGroup": "전공진로::철학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "철학과"
+        ]
+      },
+      {
+        "id": "2017",
+        "label": "윤리·컴플라이언스 담당자",
+        "sourceGroup": "전공진로::철학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "철학과"
+        ]
+      },
+      {
+        "id": "2018",
+        "label": "논술·교육콘텐츠개발자",
+        "sourceGroup": "전공진로::철학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "철학과"
+        ]
+      },
+      {
+        "id": "2019",
+        "label": "출판기획자",
+        "sourceGroup": "전공진로::철학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "철학과"
+        ]
+      },
+      {
+        "id": "2020",
+        "label": "정책·리서치분석가",
+        "sourceGroup": "전공진로::철학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "철학과"
+        ]
+      },
+      {
+        "id": "2021",
+        "label": "사서",
+        "sourceGroup": "전공진로::문헌정보학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문헌정보학과"
+        ]
+      },
+      {
+        "id": "2022",
+        "label": "기록물관리전문요원",
+        "sourceGroup": "전공진로::문헌정보학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문헌정보학과"
+        ]
+      },
+      {
+        "id": "2023",
+        "label": "지식정보관리자",
+        "sourceGroup": "전공진로::문헌정보학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문헌정보학과"
+        ]
+      },
+      {
+        "id": "2024",
+        "label": "데이터큐레이터",
+        "sourceGroup": "전공진로::문헌정보학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문헌정보학과"
+        ]
+      },
+      {
+        "id": "2025",
+        "label": "디지털아카이브기획자",
+        "sourceGroup": "전공진로::문헌정보학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문헌정보학과"
+        ]
+      },
+      {
+        "id": "2026",
+        "label": "중국어통번역가",
+        "sourceGroup": "전공진로::중어중문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "중어중문학과"
+        ]
+      },
+      {
+        "id": "2027",
+        "label": "중국지역전문가",
+        "sourceGroup": "전공진로::중어중문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "중어중문학과"
+        ]
+      },
+      {
+        "id": "2028",
+        "label": "해외영업담당자",
+        "sourceGroup": "전공진로::중어중문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "중어중문학과"
+        ]
+      },
+      {
+        "id": "2029",
+        "label": "중국어콘텐츠기획자",
+        "sourceGroup": "전공진로::중어중문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "중어중문학과"
+        ]
+      },
+      {
+        "id": "2030",
+        "label": "국제교류담당자",
+        "sourceGroup": "전공진로::중어중문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "중어중문학과"
+        ]
+      },
+      {
+        "id": "2031",
+        "label": "일본어통번역가",
+        "sourceGroup": "전공진로::일어일문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "일어일문학과"
+        ]
+      },
+      {
+        "id": "2032",
+        "label": "일본지역전문가",
+        "sourceGroup": "전공진로::일어일문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "일어일문학과"
+        ]
+      },
+      {
+        "id": "2033",
+        "label": "해외영업담당자",
+        "sourceGroup": "전공진로::일어일문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "일어일문학과"
+        ]
+      },
+      {
+        "id": "2034",
+        "label": "일본어콘텐츠기획자",
+        "sourceGroup": "전공진로::일어일문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "일어일문학과"
+        ]
+      },
+      {
+        "id": "2035",
+        "label": "국제교류담당자",
+        "sourceGroup": "전공진로::일어일문학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "일어일문학과"
+        ]
+      },
+      {
+        "id": "2036",
+        "label": "작가·시나리오작가",
+        "sourceGroup": "전공진로::문예창작학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문예창작학과"
+        ]
+      },
+      {
+        "id": "2037",
+        "label": "웹소설작가",
+        "sourceGroup": "전공진로::문예창작학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문예창작학과"
+        ]
+      },
+      {
+        "id": "2038",
+        "label": "콘텐츠에디터",
+        "sourceGroup": "전공진로::문예창작학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문예창작학과"
+        ]
+      },
+      {
+        "id": "2039",
+        "label": "출판기획자",
+        "sourceGroup": "전공진로::문예창작학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문예창작학과"
+        ]
+      },
+      {
+        "id": "2040",
+        "label": "방송작가",
+        "sourceGroup": "전공진로::문예창작학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "문예창작학과"
+        ]
+      },
+      {
+        "id": "2041",
+        "label": "경영기획자",
+        "sourceGroup": "전공진로::경영학과",
+        "sourceMajorGroup": "경영·회계·사무",
+        "majorNames": [
+          "경영학과"
+        ]
+      },
+      {
+        "id": "2042",
+        "label": "마케팅전문가",
+        "sourceGroup": "전공진로::경영학과",
+        "sourceMajorGroup": "경영·회계·사무",
+        "majorNames": [
+          "경영학과"
+        ]
+      },
+      {
+        "id": "2043",
+        "label": "인사·조직담당자",
+        "sourceGroup": "전공진로::경영학과",
+        "sourceMajorGroup": "경영·회계·사무",
+        "majorNames": [
+          "경영학과"
+        ]
+      },
+      {
+        "id": "2044",
+        "label": "재무·회계담당자",
+        "sourceGroup": "전공진로::경영학과",
+        "sourceMajorGroup": "경영·회계·사무",
+        "majorNames": [
+          "경영학과"
+        ]
+      },
+      {
+        "id": "2045",
+        "label": "사업개발담당자",
+        "sourceGroup": "전공진로::경영학과",
+        "sourceMajorGroup": "경영·회계·사무",
+        "majorNames": [
+          "경영학과"
+        ]
+      },
+      {
+        "id": "2046",
+        "label": "경제연구원",
+        "sourceGroup": "전공진로::경제학과",
+        "sourceMajorGroup": "금융·보험",
+        "majorNames": [
+          "경제학과"
+        ]
+      },
+      {
+        "id": "2047",
+        "label": "금융분석가",
+        "sourceGroup": "전공진로::경제학과",
+        "sourceMajorGroup": "금융·보험",
+        "majorNames": [
+          "경제학과"
+        ]
+      },
+      {
+        "id": "2048",
+        "label": "데이터분석가",
+        "sourceGroup": "전공진로::경제학과",
+        "sourceMajorGroup": "금융·보험",
+        "majorNames": [
+          "경제학과"
+        ]
+      },
+      {
+        "id": "2049",
+        "label": "정책분석가",
+        "sourceGroup": "전공진로::경제학과",
+        "sourceMajorGroup": "금융·보험",
+        "majorNames": [
+          "경제학과"
+        ]
+      },
+      {
+        "id": "2050",
+        "label": "시장조사분석가",
+        "sourceGroup": "전공진로::경제학과",
+        "sourceMajorGroup": "금융·보험",
+        "majorNames": [
+          "경제학과"
+        ]
+      },
+      {
+        "id": "2051",
+        "label": "일반행정공무원",
+        "sourceGroup": "전공진로::행정학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "행정학과"
+        ]
+      },
+      {
+        "id": "2052",
+        "label": "정책분석가",
+        "sourceGroup": "전공진로::행정학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "행정학과"
+        ]
+      },
+      {
+        "id": "2053",
+        "label": "공공기관기획담당자",
+        "sourceGroup": "전공진로::행정학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "행정학과"
+        ]
+      },
+      {
+        "id": "2054",
+        "label": "예산·재정담당자",
+        "sourceGroup": "전공진로::행정학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "행정학과"
+        ]
+      },
+      {
+        "id": "2055",
+        "label": "지역개발기획자",
+        "sourceGroup": "전공진로::행정학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "행정학과"
+        ]
+      },
+      {
+        "id": "2056",
+        "label": "사회조사분석가",
+        "sourceGroup": "전공진로::사회학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회학과"
+        ]
+      },
+      {
+        "id": "2057",
+        "label": "정책연구원",
+        "sourceGroup": "전공진로::사회학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회학과"
+        ]
+      },
+      {
+        "id": "2058",
+        "label": "여론조사전문가",
+        "sourceGroup": "전공진로::사회학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회학과"
+        ]
+      },
+      {
+        "id": "2059",
+        "label": "지역사회기획자",
+        "sourceGroup": "전공진로::사회학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회학과"
+        ]
+      },
+      {
+        "id": "2060",
+        "label": "ESG·사회가치담당자",
+        "sourceGroup": "전공진로::사회학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회학과"
+        ]
+      },
+      {
+        "id": "2061",
+        "label": "상담심리사",
+        "sourceGroup": "전공진로::심리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "심리학과"
+        ]
+      },
+      {
+        "id": "2062",
+        "label": "임상심리전문가",
+        "sourceGroup": "전공진로::심리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "심리학과"
+        ]
+      },
+      {
+        "id": "2063",
+        "label": "산업·조직심리담당자",
+        "sourceGroup": "전공진로::심리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "심리학과"
+        ]
+      },
+      {
+        "id": "2064",
+        "label": "사용자경험리서처",
+        "sourceGroup": "전공진로::심리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "심리학과"
+        ]
+      },
+      {
+        "id": "2065",
+        "label": "심리검사·연구원",
+        "sourceGroup": "전공진로::심리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "심리학과"
+        ]
+      },
+      {
+        "id": "2066",
+        "label": "국제관계연구원",
+        "sourceGroup": "전공진로::정치외교학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "정치외교학과"
+        ]
+      },
+      {
+        "id": "2067",
+        "label": "외교·국제협력담당자",
+        "sourceGroup": "전공진로::정치외교학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "정치외교학과"
+        ]
+      },
+      {
+        "id": "2068",
+        "label": "정책보좌·분석가",
+        "sourceGroup": "전공진로::정치외교학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "정치외교학과"
+        ]
+      },
+      {
+        "id": "2069",
+        "label": "국제기구프로젝트담당자",
+        "sourceGroup": "전공진로::정치외교학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "정치외교학과"
+        ]
+      },
+      {
+        "id": "2070",
+        "label": "정치·여론조사분석가",
+        "sourceGroup": "전공진로::정치외교학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "정치외교학과"
+        ]
+      },
+      {
+        "id": "2071",
+        "label": "변호사",
+        "sourceGroup": "전공진로::법학과",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "법학과"
+        ]
+      },
+      {
+        "id": "2072",
+        "label": "법무담당자",
+        "sourceGroup": "전공진로::법학과",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "법학과"
+        ]
+      },
+      {
+        "id": "2073",
+        "label": "준법감시·컴플라이언스담당자",
+        "sourceGroup": "전공진로::법학과",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "법학과"
+        ]
+      },
+      {
+        "id": "2074",
+        "label": "노무·인사법무담당자",
+        "sourceGroup": "전공진로::법학과",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "법학과"
+        ]
+      },
+      {
+        "id": "2075",
+        "label": "법률·정책연구원",
+        "sourceGroup": "전공진로::법학과",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "법학과"
+        ]
+      },
+      {
+        "id": "2076",
+        "label": "사회복지사",
+        "sourceGroup": "전공진로::사회복지학과",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지학과"
+        ]
+      },
+      {
+        "id": "2077",
+        "label": "정신건강사회복지사",
+        "sourceGroup": "전공진로::사회복지학과",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지학과"
+        ]
+      },
+      {
+        "id": "2078",
+        "label": "복지정책연구원",
+        "sourceGroup": "전공진로::사회복지학과",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지학과"
+        ]
+      },
+      {
+        "id": "2079",
+        "label": "사례관리자",
+        "sourceGroup": "전공진로::사회복지학과",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지학과"
+        ]
+      },
+      {
+        "id": "2080",
+        "label": "사회서비스기획자",
+        "sourceGroup": "전공진로::사회복지학과",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지학과"
+        ]
+      },
+      {
+        "id": "2081",
+        "label": "수학연구원",
+        "sourceGroup": "전공진로::수학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과"
+        ]
+      },
+      {
+        "id": "2082",
+        "label": "데이터사이언티스트",
+        "sourceGroup": "전공진로::수학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과"
+        ]
+      },
+      {
+        "id": "2083",
+        "label": "보험계리사",
+        "sourceGroup": "전공진로::수학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과"
+        ]
+      },
+      {
+        "id": "2084",
+        "label": "금융퀀트분석가",
+        "sourceGroup": "전공진로::수학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과"
+        ]
+      },
+      {
+        "id": "2085",
+        "label": "수학교육콘텐츠개발자",
+        "sourceGroup": "전공진로::수학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과"
+        ]
+      },
+      {
+        "id": "2086",
+        "label": "물리학연구원",
+        "sourceGroup": "전공진로::물리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "물리학과"
+        ]
+      },
+      {
+        "id": "2087",
+        "label": "반도체공정·소자연구원",
+        "sourceGroup": "전공진로::물리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "물리학과"
+        ]
+      },
+      {
+        "id": "2088",
+        "label": "광학·레이저엔지니어",
+        "sourceGroup": "전공진로::물리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "물리학과"
+        ]
+      },
+      {
+        "id": "2089",
+        "label": "데이터분석가",
+        "sourceGroup": "전공진로::물리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "물리학과"
+        ]
+      },
+      {
+        "id": "2090",
+        "label": "계측·시험연구원",
+        "sourceGroup": "전공진로::물리학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "물리학과"
+        ]
+      },
+      {
+        "id": "2091",
+        "label": "화학연구원",
+        "sourceGroup": "전공진로::화학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학과"
+        ]
+      },
+      {
+        "id": "2092",
+        "label": "분석화학시험원",
+        "sourceGroup": "전공진로::화학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학과"
+        ]
+      },
+      {
+        "id": "2093",
+        "label": "의약품품질관리자",
+        "sourceGroup": "전공진로::화학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학과"
+        ]
+      },
+      {
+        "id": "2094",
+        "label": "화장품연구원",
+        "sourceGroup": "전공진로::화학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학과"
+        ]
+      },
+      {
+        "id": "2095",
+        "label": "소재연구원",
+        "sourceGroup": "전공진로::화학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학과"
+        ]
+      },
+      {
+        "id": "2096",
+        "label": "생명과학연구원",
+        "sourceGroup": "전공진로::생명과학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "생명과학과"
+        ]
+      },
+      {
+        "id": "2097",
+        "label": "바이오인포매틱스분석가",
+        "sourceGroup": "전공진로::생명과학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "생명과학과"
+        ]
+      },
+      {
+        "id": "2098",
+        "label": "임상시험코디네이터",
+        "sourceGroup": "전공진로::생명과학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "생명과학과"
+        ]
+      },
+      {
+        "id": "2099",
+        "label": "바이오품질관리자",
+        "sourceGroup": "전공진로::생명과학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "생명과학과"
+        ]
+      },
+      {
+        "id": "2100",
+        "label": "환경생물연구원",
+        "sourceGroup": "전공진로::생명과학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "생명과학과"
+        ]
+      },
+      {
+        "id": "2101",
+        "label": "통계연구원",
+        "sourceGroup": "전공진로::통계학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "통계학과"
+        ]
+      },
+      {
+        "id": "2102",
+        "label": "데이터분석가",
+        "sourceGroup": "전공진로::통계학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "통계학과"
+        ]
+      },
+      {
+        "id": "2103",
+        "label": "데이터사이언티스트",
+        "sourceGroup": "전공진로::통계학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "통계학과"
+        ]
+      },
+      {
+        "id": "2104",
+        "label": "리스크분석가",
+        "sourceGroup": "전공진로::통계학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "통계학과"
+        ]
+      },
+      {
+        "id": "2105",
+        "label": "시장조사분석가",
+        "sourceGroup": "전공진로::통계학과",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "통계학과"
+        ]
+      },
+      {
+        "id": "2106",
+        "label": "지질학연구원",
+        "sourceGroup": "전공진로::지구환경과학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "지구환경과학과"
+        ]
+      },
+      {
+        "id": "2107",
+        "label": "기후데이터분석가",
+        "sourceGroup": "전공진로::지구환경과학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "지구환경과학과"
+        ]
+      },
+      {
+        "id": "2108",
+        "label": "환경영향평가원",
+        "sourceGroup": "전공진로::지구환경과학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "지구환경과학과"
+        ]
+      },
+      {
+        "id": "2109",
+        "label": "GIS공간정보분석가",
+        "sourceGroup": "전공진로::지구환경과학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "지구환경과학과"
+        ]
+      },
+      {
+        "id": "2110",
+        "label": "자원탐사연구원",
+        "sourceGroup": "전공진로::지구환경과학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "지구환경과학과"
+        ]
+      },
+      {
+        "id": "2111",
+        "label": "영양사",
+        "sourceGroup": "전공진로::식품영양학과",
+        "sourceMajorGroup": "식품가공",
+        "majorNames": [
+          "식품영양학과"
+        ]
+      },
+      {
+        "id": "2112",
+        "label": "임상영양사",
+        "sourceGroup": "전공진로::식품영양학과",
+        "sourceMajorGroup": "식품가공",
+        "majorNames": [
+          "식품영양학과"
+        ]
+      },
+      {
+        "id": "2113",
+        "label": "식품개발연구원",
+        "sourceGroup": "전공진로::식품영양학과",
+        "sourceMajorGroup": "식품가공",
+        "majorNames": [
+          "식품영양학과"
+        ]
+      },
+      {
+        "id": "2114",
+        "label": "식품품질관리자",
+        "sourceGroup": "전공진로::식품영양학과",
+        "sourceMajorGroup": "식품가공",
+        "majorNames": [
+          "식품영양학과"
+        ]
+      },
+      {
+        "id": "2115",
+        "label": "식생활교육·정책담당자",
+        "sourceGroup": "전공진로::식품영양학과",
+        "sourceMajorGroup": "식품가공",
+        "majorNames": [
+          "식품영양학과"
+        ]
+      },
+      {
+        "id": "2116",
+        "label": "전자회로설계엔지니어",
+        "sourceGroup": "전공진로::전자공학과",
+        "sourceMajorGroup": "전기·전자",
+        "majorNames": [
+          "전자공학과"
+        ]
+      },
+      {
+        "id": "2117",
+        "label": "반도체설계엔지니어",
+        "sourceGroup": "전공진로::전자공학과",
+        "sourceMajorGroup": "전기·전자",
+        "majorNames": [
+          "전자공학과"
+        ]
+      },
+      {
+        "id": "2118",
+        "label": "임베디드시스템엔지니어",
+        "sourceGroup": "전공진로::전자공학과",
+        "sourceMajorGroup": "전기·전자",
+        "majorNames": [
+          "전자공학과"
+        ]
+      },
+      {
+        "id": "2119",
+        "label": "통신장비개발자",
+        "sourceGroup": "전공진로::전자공학과",
+        "sourceMajorGroup": "전기·전자",
+        "majorNames": [
+          "전자공학과"
+        ]
+      },
+      {
+        "id": "2120",
+        "label": "전자제품시험·품질엔지니어",
+        "sourceGroup": "전공진로::전자공학과",
+        "sourceMajorGroup": "전기·전자",
+        "majorNames": [
+          "전자공학과"
+        ]
+      },
+      {
+        "id": "2121",
+        "label": "기계설계엔지니어",
+        "sourceGroup": "전공진로::기계공학과",
+        "sourceMajorGroup": "기계",
+        "majorNames": [
+          "기계공학과"
+        ]
+      },
+      {
+        "id": "2122",
+        "label": "자동차연구개발엔지니어",
+        "sourceGroup": "전공진로::기계공학과",
+        "sourceMajorGroup": "기계",
+        "majorNames": [
+          "기계공학과"
+        ]
+      },
+      {
+        "id": "2123",
+        "label": "생산기술엔지니어",
+        "sourceGroup": "전공진로::기계공학과",
+        "sourceMajorGroup": "기계",
+        "majorNames": [
+          "기계공학과"
+        ]
+      },
+      {
+        "id": "2124",
+        "label": "로봇기구설계엔지니어",
+        "sourceGroup": "전공진로::기계공학과",
+        "sourceMajorGroup": "기계",
+        "majorNames": [
+          "기계공학과"
+        ]
+      },
+      {
+        "id": "2125",
+        "label": "설비보전엔지니어",
+        "sourceGroup": "전공진로::기계공학과",
+        "sourceMajorGroup": "기계",
+        "majorNames": [
+          "기계공학과"
+        ]
+      },
+      {
+        "id": "2126",
+        "label": "공정설계엔지니어",
+        "sourceGroup": "전공진로::화학공학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학공학과"
+        ]
+      },
+      {
+        "id": "2127",
+        "label": "화학플랜트운전·관리자",
+        "sourceGroup": "전공진로::화학공학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학공학과"
+        ]
+      },
+      {
+        "id": "2128",
+        "label": "배터리소재연구원",
+        "sourceGroup": "전공진로::화학공학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학공학과"
+        ]
+      },
+      {
+        "id": "2129",
+        "label": "품질관리엔지니어",
+        "sourceGroup": "전공진로::화학공학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학공학과"
+        ]
+      },
+      {
+        "id": "2130",
+        "label": "안전환경엔지니어",
+        "sourceGroup": "전공진로::화학공학과",
+        "sourceMajorGroup": "화학·바이오",
+        "majorNames": [
+          "화학공학과"
+        ]
+      },
+      {
+        "id": "2131",
+        "label": "생산관리자",
+        "sourceGroup": "전공진로::산업공학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "산업공학과"
+        ]
+      },
+      {
+        "id": "2132",
+        "label": "품질경영전문가",
+        "sourceGroup": "전공진로::산업공학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "산업공학과"
+        ]
+      },
+      {
+        "id": "2133",
+        "label": "물류·공급망분석가",
+        "sourceGroup": "전공진로::산업공학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "산업공학과"
+        ]
+      },
+      {
+        "id": "2134",
+        "label": "데이터기반프로세스혁신가",
+        "sourceGroup": "전공진로::산업공학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "산업공학과"
+        ]
+      },
+      {
+        "id": "2135",
+        "label": "경영컨설턴트",
+        "sourceGroup": "전공진로::산업공학과",
+        "sourceMajorGroup": "사업관리",
+        "majorNames": [
+          "산업공학과"
+        ]
+      },
+      {
+        "id": "2136",
+        "label": "건축설계사",
+        "sourceGroup": "전공진로::건축학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "건축학과"
+        ]
+      },
+      {
+        "id": "2137",
+        "label": "도시·공간기획자",
+        "sourceGroup": "전공진로::건축학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "건축학과"
+        ]
+      },
+      {
+        "id": "2138",
+        "label": "BIM매니저",
+        "sourceGroup": "전공진로::건축학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "건축학과"
+        ]
+      },
+      {
+        "id": "2139",
+        "label": "건축시공관리자",
+        "sourceGroup": "전공진로::건축학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "건축학과"
+        ]
+      },
+      {
+        "id": "2140",
+        "label": "건축환경·에너지컨설턴트",
+        "sourceGroup": "전공진로::건축학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "건축학과"
+        ]
+      },
+      {
+        "id": "2141",
+        "label": "토목설계엔지니어",
+        "sourceGroup": "전공진로::토목공학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "토목공학과"
+        ]
+      },
+      {
+        "id": "2142",
+        "label": "구조엔지니어",
+        "sourceGroup": "전공진로::토목공학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "토목공학과"
+        ]
+      },
+      {
+        "id": "2143",
+        "label": "건설사업관리자",
+        "sourceGroup": "전공진로::토목공학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "토목공학과"
+        ]
+      },
+      {
+        "id": "2144",
+        "label": "측량·공간정보기술자",
+        "sourceGroup": "전공진로::토목공학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "토목공학과"
+        ]
+      },
+      {
+        "id": "2145",
+        "label": "수자원·교통시설엔지니어",
+        "sourceGroup": "전공진로::토목공학과",
+        "sourceMajorGroup": "건설",
+        "majorNames": [
+          "토목공학과"
+        ]
+      },
+      {
+        "id": "2146",
+        "label": "소재연구원",
+        "sourceGroup": "전공진로::신소재공학과",
+        "sourceMajorGroup": "재료",
+        "majorNames": [
+          "신소재공학과"
+        ]
+      },
+      {
+        "id": "2147",
+        "label": "반도체소재엔지니어",
+        "sourceGroup": "전공진로::신소재공학과",
+        "sourceMajorGroup": "재료",
+        "majorNames": [
+          "신소재공학과"
+        ]
+      },
+      {
+        "id": "2148",
+        "label": "금속재료엔지니어",
+        "sourceGroup": "전공진로::신소재공학과",
+        "sourceMajorGroup": "재료",
+        "majorNames": [
+          "신소재공학과"
+        ]
+      },
+      {
+        "id": "2149",
+        "label": "세라믹·고분자연구원",
+        "sourceGroup": "전공진로::신소재공학과",
+        "sourceMajorGroup": "재료",
+        "majorNames": [
+          "신소재공학과"
+        ]
+      },
+      {
+        "id": "2150",
+        "label": "재료시험·품질엔지니어",
+        "sourceGroup": "전공진로::신소재공학과",
+        "sourceMajorGroup": "재료",
+        "majorNames": [
+          "신소재공학과"
+        ]
+      },
+      {
+        "id": "2151",
+        "label": "환경공학기술자",
+        "sourceGroup": "전공진로::환경공학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "환경공학과"
+        ]
+      },
+      {
+        "id": "2152",
+        "label": "수질관리전문가",
+        "sourceGroup": "전공진로::환경공학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "환경공학과"
+        ]
+      },
+      {
+        "id": "2153",
+        "label": "대기환경전문가",
+        "sourceGroup": "전공진로::환경공학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "환경공학과"
+        ]
+      },
+      {
+        "id": "2154",
+        "label": "폐기물자원화엔지니어",
+        "sourceGroup": "전공진로::환경공학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "환경공학과"
+        ]
+      },
+      {
+        "id": "2155",
+        "label": "환경안전·ESG담당자",
+        "sourceGroup": "전공진로::환경공학과",
+        "sourceMajorGroup": "환경·에너지·안전",
+        "majorNames": [
+          "환경공학과"
+        ]
+      },
+      {
+        "id": "2156",
+        "label": "그래픽디자이너",
+        "sourceGroup": "전공진로::시각디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "시각디자인학과"
+        ]
+      },
+      {
+        "id": "2157",
+        "label": "브랜드디자이너",
+        "sourceGroup": "전공진로::시각디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "시각디자인학과"
+        ]
+      },
+      {
+        "id": "2158",
+        "label": "UI·UX디자이너",
+        "sourceGroup": "전공진로::시각디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "시각디자인학과"
+        ]
+      },
+      {
+        "id": "2159",
+        "label": "모션그래픽디자이너",
+        "sourceGroup": "전공진로::시각디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "시각디자인학과"
+        ]
+      },
+      {
+        "id": "2160",
+        "label": "편집디자이너",
+        "sourceGroup": "전공진로::시각디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "시각디자인학과"
+        ]
+      },
+      {
+        "id": "2161",
+        "label": "제품디자이너",
+        "sourceGroup": "전공진로::산업디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "산업디자인학과"
+        ]
+      },
+      {
+        "id": "2162",
+        "label": "UX디자이너",
+        "sourceGroup": "전공진로::산업디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "산업디자인학과"
+        ]
+      },
+      {
+        "id": "2163",
+        "label": "서비스디자이너",
+        "sourceGroup": "전공진로::산업디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "산업디자인학과"
+        ]
+      },
+      {
+        "id": "2164",
+        "label": "CMF디자이너",
+        "sourceGroup": "전공진로::산업디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "산업디자인학과"
+        ]
+      },
+      {
+        "id": "2165",
+        "label": "디자인리서처",
+        "sourceGroup": "전공진로::산업디자인학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "산업디자인학과"
+        ]
+      },
+      {
+        "id": "2166",
+        "label": "연주자",
+        "sourceGroup": "전공진로::음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "음악학과"
+        ]
+      },
+      {
+        "id": "2167",
+        "label": "작곡가",
+        "sourceGroup": "전공진로::음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "음악학과"
+        ]
+      },
+      {
+        "id": "2168",
+        "label": "음악감독",
+        "sourceGroup": "전공진로::음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "음악학과"
+        ]
+      },
+      {
+        "id": "2169",
+        "label": "음향엔지니어",
+        "sourceGroup": "전공진로::음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "음악학과"
+        ]
+      },
+      {
+        "id": "2170",
+        "label": "음악교육·콘텐츠기획자",
+        "sourceGroup": "전공진로::음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "음악학과"
+        ]
+      },
+      {
+        "id": "2171",
+        "label": "생활스포츠지도사",
+        "sourceGroup": "전공진로::체육학과",
+        "sourceMajorGroup": "이용·숙박·여행·오락·스포츠",
+        "majorNames": [
+          "체육학과"
+        ]
+      },
+      {
+        "id": "2172",
+        "label": "운동처방사",
+        "sourceGroup": "전공진로::체육학과",
+        "sourceMajorGroup": "이용·숙박·여행·오락·스포츠",
+        "majorNames": [
+          "체육학과"
+        ]
+      },
+      {
+        "id": "2173",
+        "label": "스포츠마케팅기획자",
+        "sourceGroup": "전공진로::체육학과",
+        "sourceMajorGroup": "이용·숙박·여행·오락·스포츠",
+        "majorNames": [
+          "체육학과"
+        ]
+      },
+      {
+        "id": "2174",
+        "label": "경기분석가",
+        "sourceGroup": "전공진로::체육학과",
+        "sourceMajorGroup": "이용·숙박·여행·오락·스포츠",
+        "majorNames": [
+          "체육학과"
+        ]
+      },
+      {
+        "id": "2175",
+        "label": "체육교육기획자",
+        "sourceGroup": "전공진로::체육학과",
+        "sourceMajorGroup": "이용·숙박·여행·오락·스포츠",
+        "majorNames": [
+          "체육학과"
+        ]
+      },
+      {
+        "id": "2176",
+        "label": "영화감독·연출가",
+        "sourceGroup": "전공진로::영화영상학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "영화영상학과"
+        ]
+      },
+      {
+        "id": "2177",
+        "label": "영상촬영감독",
+        "sourceGroup": "전공진로::영화영상학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "영화영상학과"
+        ]
+      },
+      {
+        "id": "2178",
+        "label": "영상편집자",
+        "sourceGroup": "전공진로::영화영상학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "영화영상학과"
+        ]
+      },
+      {
+        "id": "2179",
+        "label": "콘텐츠프로듀서",
+        "sourceGroup": "전공진로::영화영상학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "영화영상학과"
+        ]
+      },
+      {
+        "id": "2180",
+        "label": "시나리오작가",
+        "sourceGroup": "전공진로::영화영상학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "영화영상학과"
+        ]
+      },
+      {
+        "id": "2181",
+        "label": "보컬·연주자",
+        "sourceGroup": "전공진로::실용음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "실용음악학과"
+        ]
+      },
+      {
+        "id": "2182",
+        "label": "작곡·편곡가",
+        "sourceGroup": "전공진로::실용음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "실용음악학과"
+        ]
+      },
+      {
+        "id": "2183",
+        "label": "음악프로듀서",
+        "sourceGroup": "전공진로::실용음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "실용음악학과"
+        ]
+      },
+      {
+        "id": "2184",
+        "label": "공연기획자",
+        "sourceGroup": "전공진로::실용음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "실용음악학과"
+        ]
+      },
+      {
+        "id": "2185",
+        "label": "음향엔지니어",
+        "sourceGroup": "전공진로::실용음악학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "실용음악학과"
+        ]
+      },
+      {
+        "id": "2186",
+        "label": "무용수",
+        "sourceGroup": "전공진로::무용학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "무용학과"
+        ]
+      },
+      {
+        "id": "2187",
+        "label": "안무가",
+        "sourceGroup": "전공진로::무용학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "무용학과"
+        ]
+      },
+      {
+        "id": "2188",
+        "label": "무용교육자",
+        "sourceGroup": "전공진로::무용학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "무용학과"
+        ]
+      },
+      {
+        "id": "2189",
+        "label": "공연기획자",
+        "sourceGroup": "전공진로::무용학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "무용학과"
+        ]
+      },
+      {
+        "id": "2190",
+        "label": "움직임·문화예술 프로그램기획자",
+        "sourceGroup": "전공진로::무용학과",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "무용학과"
+        ]
+      },
+      {
+        "id": "2191",
+        "label": "공예작가",
+        "sourceGroup": "전공진로::공예학과",
+        "sourceMajorGroup": "인쇄·목재·가구·공예",
+        "majorNames": [
+          "공예학과"
+        ]
+      },
+      {
+        "id": "2192",
+        "label": "제품·소품디자이너",
+        "sourceGroup": "전공진로::공예학과",
+        "sourceMajorGroup": "인쇄·목재·가구·공예",
+        "majorNames": [
+          "공예학과"
+        ]
+      },
+      {
+        "id": "2193",
+        "label": "문화상품개발자",
+        "sourceGroup": "전공진로::공예학과",
+        "sourceMajorGroup": "인쇄·목재·가구·공예",
+        "majorNames": [
+          "공예학과"
+        ]
+      },
+      {
+        "id": "2194",
+        "label": "공방운영자",
+        "sourceGroup": "전공진로::공예학과",
+        "sourceMajorGroup": "인쇄·목재·가구·공예",
+        "majorNames": [
+          "공예학과"
+        ]
+      },
+      {
+        "id": "2195",
+        "label": "전시·공예교육기획자",
+        "sourceGroup": "전공진로::공예학과",
+        "sourceMajorGroup": "인쇄·목재·가구·공예",
+        "majorNames": [
+          "공예학과"
+        ]
+      },
+      {
+        "id": "2196",
+        "label": "임상간호사",
+        "sourceGroup": "전공진로::간호학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "간호학과"
+        ]
+      },
+      {
+        "id": "2197",
+        "label": "전문간호사",
+        "sourceGroup": "전공진로::간호학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "간호학과"
+        ]
+      },
+      {
+        "id": "2198",
+        "label": "보건간호사",
+        "sourceGroup": "전공진로::간호학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "간호학과"
+        ]
+      },
+      {
+        "id": "2199",
+        "label": "임상연구간호사",
+        "sourceGroup": "전공진로::간호학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "간호학과"
+        ]
+      },
+      {
+        "id": "2200",
+        "label": "간호교육·QI담당자",
+        "sourceGroup": "전공진로::간호학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "간호학과"
+        ]
+      },
+      {
+        "id": "2201",
+        "label": "약사",
+        "sourceGroup": "전공진로::약학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "약학과"
+        ]
+      },
+      {
+        "id": "2202",
+        "label": "병원약사",
+        "sourceGroup": "전공진로::약학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "약학과"
+        ]
+      },
+      {
+        "id": "2203",
+        "label": "제약연구원",
+        "sourceGroup": "전공진로::약학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "약학과"
+        ]
+      },
+      {
+        "id": "2204",
+        "label": "의약품인허가담당자",
+        "sourceGroup": "전공진로::약학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "약학과"
+        ]
+      },
+      {
+        "id": "2205",
+        "label": "약물안전관리자",
+        "sourceGroup": "전공진로::약학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "약학과"
+        ]
+      },
+      {
+        "id": "2206",
+        "label": "의사",
+        "sourceGroup": "전공진로::의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "의예과"
+        ]
+      },
+      {
+        "id": "2207",
+        "label": "임상연구자",
+        "sourceGroup": "전공진로::의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "의예과"
+        ]
+      },
+      {
+        "id": "2208",
+        "label": "공중보건의료전문가",
+        "sourceGroup": "전공진로::의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "의예과"
+        ]
+      },
+      {
+        "id": "2209",
+        "label": "의료데이터연구자",
+        "sourceGroup": "전공진로::의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "의예과"
+        ]
+      },
+      {
+        "id": "2210",
+        "label": "의료정책·병원관리전문가",
+        "sourceGroup": "전공진로::의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "의예과"
+        ]
+      },
+      {
+        "id": "2211",
+        "label": "치과의사",
+        "sourceGroup": "전공진로::치의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "치의예과"
+        ]
+      },
+      {
+        "id": "2212",
+        "label": "구강악안면외과전문의",
+        "sourceGroup": "전공진로::치의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "치의예과"
+        ]
+      },
+      {
+        "id": "2213",
+        "label": "치과교정전문의",
+        "sourceGroup": "전공진로::치의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "치의예과"
+        ]
+      },
+      {
+        "id": "2214",
+        "label": "치의학연구원",
+        "sourceGroup": "전공진로::치의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "치의예과"
+        ]
+      },
+      {
+        "id": "2215",
+        "label": "구강보건정책전문가",
+        "sourceGroup": "전공진로::치의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "치의예과"
+        ]
+      },
+      {
+        "id": "2216",
+        "label": "한의사",
+        "sourceGroup": "전공진로::한의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "한의예과"
+        ]
+      },
+      {
+        "id": "2217",
+        "label": "한방임상연구자",
+        "sourceGroup": "전공진로::한의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "한의예과"
+        ]
+      },
+      {
+        "id": "2218",
+        "label": "한약·천연물연구원",
+        "sourceGroup": "전공진로::한의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "한의예과"
+        ]
+      },
+      {
+        "id": "2219",
+        "label": "한방병원운영·기획자",
+        "sourceGroup": "전공진로::한의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "한의예과"
+        ]
+      },
+      {
+        "id": "2220",
+        "label": "보건정책전문가",
+        "sourceGroup": "전공진로::한의예과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "한의예과"
+        ]
+      },
+      {
+        "id": "2221",
+        "label": "물리치료사",
+        "sourceGroup": "전공진로::물리치료학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "물리치료학과"
+        ]
+      },
+      {
+        "id": "2222",
+        "label": "스포츠재활전문가",
+        "sourceGroup": "전공진로::물리치료학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "물리치료학과"
+        ]
+      },
+      {
+        "id": "2223",
+        "label": "신경계재활전문가",
+        "sourceGroup": "전공진로::물리치료학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "물리치료학과"
+        ]
+      },
+      {
+        "id": "2224",
+        "label": "근골격계재활전문가",
+        "sourceGroup": "전공진로::물리치료학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "물리치료학과"
+        ]
+      },
+      {
+        "id": "2225",
+        "label": "재활프로그램기획자",
+        "sourceGroup": "전공진로::물리치료학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "물리치료학과"
+        ]
+      },
+      {
+        "id": "2226",
+        "label": "임상병리사",
+        "sourceGroup": "전공진로::임상병리학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "임상병리학과"
+        ]
+      },
+      {
+        "id": "2227",
+        "label": "분자진단검사전문가",
+        "sourceGroup": "전공진로::임상병리학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "임상병리학과"
+        ]
+      },
+      {
+        "id": "2228",
+        "label": "병리검사품질관리자",
+        "sourceGroup": "전공진로::임상병리학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "임상병리학과"
+        ]
+      },
+      {
+        "id": "2229",
+        "label": "임상시험검체관리자",
+        "sourceGroup": "전공진로::임상병리학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "임상병리학과"
+        ]
+      },
+      {
+        "id": "2230",
+        "label": "바이오진단연구원",
+        "sourceGroup": "전공진로::임상병리학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "임상병리학과"
+        ]
+      },
+      {
+        "id": "2231",
+        "label": "보건의료정보관리사",
+        "sourceGroup": "전공진로::보건행정학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "보건행정학과"
+        ]
+      },
+      {
+        "id": "2232",
+        "label": "병원행정담당자",
+        "sourceGroup": "전공진로::보건행정학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "보건행정학과"
+        ]
+      },
+      {
+        "id": "2233",
+        "label": "건강보험심사담당자",
+        "sourceGroup": "전공진로::보건행정학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "보건행정학과"
+        ]
+      },
+      {
+        "id": "2234",
+        "label": "보건정책분석가",
+        "sourceGroup": "전공진로::보건행정학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "보건행정학과"
+        ]
+      },
+      {
+        "id": "2235",
+        "label": "의료서비스기획자",
+        "sourceGroup": "전공진로::보건행정학과",
+        "sourceMajorGroup": "보건·의료",
+        "majorNames": [
+          "보건행정학과"
+        ]
+      },
+      {
+        "id": "2236",
+        "label": "범죄예방기획담당자",
+        "sourceGroup": "공공행정·치안(경찰행정)",
+        "sourceMajorGroup": "법률·경찰·소방·교도·국방",
+        "majorNames": [
+          "경찰행정과"
+        ]
+      },
+      {
+        "id": "2238",
+        "label": "사회복지행정담당자",
+        "sourceGroup": "사회복지·상담",
+        "sourceMajorGroup": "사회복지·종교",
+        "majorNames": [
+          "사회복지과"
+        ]
+      },
+      {
+        "id": "2239",
+        "label": "유아교육콘텐츠개발자",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "2240",
+        "label": "성인학습상담가",
+        "sourceGroup": "평생교육·인재개발",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "평생교육융합학부"
+        ]
+      },
+      {
+        "id": "2241",
+        "label": "유아교육연구·기획자",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "2242",
+        "label": "초등교육콘텐츠개발자",
+        "sourceGroup": "초등교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "초등교육"
+        ]
+      },
+      {
+        "id": "2243",
+        "label": "보조공학·특수교육콘텐츠개발자",
+        "sourceGroup": "특수교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "특수교육"
+        ]
+      },
+      {
+        "id": "2244",
+        "label": "언어평가·교재개발자",
+        "sourceGroup": "언어교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "언어교육"
+        ]
+      },
+      {
+        "id": "2245",
+        "label": "사회교육콘텐츠개발자",
+        "sourceGroup": "사회·인문교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "사회인문교육"
+        ]
+      },
+      {
+        "id": "2246",
+        "label": "STEM교육프로그램개발자",
+        "sourceGroup": "수학·과학교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "수학과학교육"
+        ]
+      },
+      {
+        "id": "2247",
+        "label": "에듀테크·메이커교육기획자",
+        "sourceGroup": "기술·생활교육",
+        "sourceMajorGroup": "교육·자연·사회과학",
+        "majorNames": [
+          "기술생활교육"
+        ]
+      },
+      {
+        "id": "2248",
+        "label": "예술체육교육프로그램기획자",
+        "sourceGroup": "예술·체육교육",
+        "sourceMajorGroup": "문화·예술·디자인·방송",
+        "majorNames": [
+          "예술체육교육"
+        ]
+      },
+      {
+        "id": "534",
+        "label": "백엔드 개발자",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "535",
+        "label": "프론트엔드 개발자",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "536",
+        "label": "모바일 앱 개발자",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "537",
+        "label": "데이터 엔지니어",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "538",
+        "label": "AI·머신러닝 엔지니어",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "539",
+        "label": "DevOps 엔지니어",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "540",
+        "label": "QA·테스트 엔지니어",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "541",
+        "label": "IT 서비스기획자",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "542",
+        "label": "시스템·클라우드 운영",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "666",
+        "label": "주니어 웹퍼블리셔",
+        "sourceGroup": "정보기술(SW)",
+        "sourceMajorGroup": "정보통신",
+        "majorNames": [
+          "컴퓨터공학과"
+        ]
+      },
+      {
+        "id": "901",
+        "label": "경찰공무원",
+        "sourceGroup": "공공행정·치안(경찰행정)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "경찰행정과"
+        ]
+      },
+      {
+        "id": "902",
+        "label": "교정직 공무원",
+        "sourceGroup": "공공행정·치안(경찰행정)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "경찰행정과"
+        ]
+      },
+      {
+        "id": "903",
+        "label": "범죄분석관",
+        "sourceGroup": "공공행정·치안(경찰행정)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "경찰행정과"
+        ]
+      },
+      {
+        "id": "904",
+        "label": "보호관찰관",
+        "sourceGroup": "공공행정·치안(경찰행정)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "경찰행정과"
+        ]
+      },
+      {
+        "id": "9101",
+        "label": "공항보안 사무직",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9102",
+        "label": "항공사보안 사무직",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9103",
+        "label": "항공보안검색요원",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9104",
+        "label": "항공경비요원",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9105",
+        "label": "대테러보안요원",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9106",
+        "label": "항공사보안요원",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9107",
+        "label": "항공화물보안요원",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9108",
+        "label": "산업보안 사무직",
+        "sourceGroup": "공공행정·치안(산업보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9109",
+        "label": "산업보안 경비요원",
+        "sourceGroup": "공공행정·치안(산업보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "9110",
+        "label": "산업보안검색요원",
+        "sourceGroup": "공공행정·치안(산업보안)",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "항공보안학과"
+        ]
+      },
+      {
+        "id": "921",
+        "label": "사회복지사",
+        "sourceGroup": "사회복지·상담",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "사회복지과"
+        ]
+      },
+      {
+        "id": "922",
+        "label": "지역사회복지사",
+        "sourceGroup": "사회복지·상담",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "사회복지과"
+        ]
+      },
+      {
+        "id": "923",
+        "label": "정신건강사회복지사",
+        "sourceGroup": "사회복지·상담",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "사회복지과"
+        ]
+      },
+      {
+        "id": "924",
+        "label": "의료사회복지사",
+        "sourceGroup": "사회복지·상담",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "사회복지과"
+        ]
+      },
+      {
+        "id": "931",
+        "label": "유치원교사",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "932",
+        "label": "보육교사",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "933",
+        "label": "유아교육프로그램개발자",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "934",
+        "label": "어린이집 원장 · 기관운영자",
+        "sourceGroup": "영유아교육·보육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "유아교육과",
+          "유아교육"
+        ]
+      },
+      {
+        "id": "941",
+        "label": "평생교육사",
+        "sourceGroup": "평생교육·인재개발",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "평생교육융합학부"
+        ]
+      },
+      {
+        "id": "942",
+        "label": "기업교육담당자(HRD)",
+        "sourceGroup": "평생교육·인재개발",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "평생교육융합학부"
+        ]
+      },
+      {
+        "id": "943",
+        "label": "교육프로그램기획자",
+        "sourceGroup": "평생교육·인재개발",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "평생교육융합학부"
+        ]
+      },
+      {
+        "id": "944",
+        "label": "학습컨설턴트",
+        "sourceGroup": "평생교육·인재개발",
+        "sourceMajorGroup": "공공서비스계열(임시분류)",
+        "majorNames": [
+          "평생교육융합학부"
+        ]
+      },
+      {
+        "id": "951",
+        "label": "초등학교교사",
+        "sourceGroup": "초등교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "초등교육"
+        ]
+      },
+      {
+        "id": "952",
+        "label": "초등돌봄전담사",
+        "sourceGroup": "초등교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "초등교육"
+        ]
+      },
+      {
+        "id": "953",
+        "label": "방과후프로그램기획자",
+        "sourceGroup": "초등교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "초등교육"
+        ]
+      },
+      {
+        "id": "954",
+        "label": "교육과정개발자",
+        "sourceGroup": "초등교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "초등교육"
+        ]
+      },
+      {
+        "id": "961",
+        "label": "특수학교교사",
+        "sourceGroup": "특수교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "특수교육"
+        ]
+      },
+      {
+        "id": "962",
+        "label": "통합교육지원교사",
+        "sourceGroup": "특수교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "특수교육"
+        ]
+      },
+      {
+        "id": "963",
+        "label": "특수교육 치료지원사",
+        "sourceGroup": "특수교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "특수교육"
+        ]
+      },
+      {
+        "id": "964",
+        "label": "특수교육행정가",
+        "sourceGroup": "특수교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "특수교육"
+        ]
+      },
+      {
+        "id": "971",
+        "label": "국어교사",
+        "sourceGroup": "언어교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "언어교육"
+        ]
+      },
+      {
+        "id": "972",
+        "label": "외국어교사",
+        "sourceGroup": "언어교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "언어교육"
+        ]
+      },
+      {
+        "id": "973",
+        "label": "언어재활사",
+        "sourceGroup": "언어교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "언어교육"
+        ]
+      },
+      {
+        "id": "974",
+        "label": "언어교재·콘텐츠개발자",
+        "sourceGroup": "언어교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "언어교육"
+        ]
+      },
+      {
+        "id": "981",
+        "label": "사회교사",
+        "sourceGroup": "사회·인문교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "사회인문교육"
+        ]
+      },
+      {
+        "id": "982",
+        "label": "역사교사",
+        "sourceGroup": "사회·인문교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "사회인문교육"
+        ]
+      },
+      {
+        "id": "983",
+        "label": "시민교육강사",
+        "sourceGroup": "사회·인문교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "사회인문교육"
+        ]
+      },
+      {
+        "id": "984",
+        "label": "사회·인문 교육콘텐츠기획자",
+        "sourceGroup": "사회·인문교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "사회인문교육"
+        ]
+      },
+      {
+        "id": "991",
+        "label": "수학교사",
+        "sourceGroup": "수학·과학교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "수학과학교육"
+        ]
+      },
+      {
+        "id": "992",
+        "label": "과학교사",
+        "sourceGroup": "수학·과학교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "수학과학교육"
+        ]
+      },
+      {
+        "id": "993",
+        "label": "STEM 교육콘텐츠개발자",
+        "sourceGroup": "수학·과학교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "수학과학교육"
+        ]
+      },
+      {
+        "id": "994",
+        "label": "과학관 교육사",
+        "sourceGroup": "수학·과학교육",
+        "sourceMajorGroup": "교육계열(임시분류)",
+        "majorNames": [
+          "수학과학교육"
+        ]
+      }
+    ],
+    "excludedJobs": [
+      {
+        "id": "2237",
+        "label": "항공보안교육담당자",
+        "sourceGroup": "공공행정·치안(항공보안)",
+        "sourceMajorGroup": "경비·청소",
+        "majorNames": []
+      }
+    ],
+    "duplicateLabels": [
+      {
+        "label": "기록물관리전문요원",
+        "ids": [
+          "2012",
+          "2022"
+        ]
+      },
+      {
+        "label": "출판기획자",
+        "ids": [
+          "2019",
+          "2039"
+        ]
+      },
+      {
+        "label": "해외영업담당자",
+        "ids": [
+          "2028",
+          "2033"
+        ]
+      },
+      {
+        "label": "국제교류담당자",
+        "ids": [
+          "2030",
+          "2035"
+        ]
+      },
+      {
+        "label": "데이터분석가",
+        "ids": [
+          "2048",
+          "2089",
+          "2102"
+        ]
+      },
+      {
+        "label": "정책분석가",
+        "ids": [
+          "2049",
+          "2052"
+        ]
+      },
+      {
+        "label": "시장조사분석가",
+        "ids": [
+          "2050",
+          "2105"
+        ]
+      },
+      {
+        "label": "사회복지사",
+        "ids": [
+          "2076",
+          "921"
+        ]
+      },
+      {
+        "label": "정신건강사회복지사",
+        "ids": [
+          "2077",
+          "923"
+        ]
+      },
+      {
+        "label": "데이터사이언티스트",
+        "ids": [
+          "2082",
+          "2103"
+        ]
+      },
+      {
+        "label": "소재연구원",
+        "ids": [
+          "2095",
+          "2146"
+        ]
+      },
+      {
+        "label": "음향엔지니어",
+        "ids": [
+          "2169",
+          "2185"
+        ]
+      },
+      {
+        "label": "공연기획자",
+        "ids": [
+          "2184",
+          "2189"
+        ]
+      }
+    ]
+  },
+  "teen": {
+    "categoryMajors": {
+      "인문": [
+        "국어국문학과",
+        "영어영문학과",
+        "사학과",
+        "철학과",
+        "문헌정보학과",
+        "중어중문학과",
+        "일어일문학과",
+        "문예창작학과"
+      ],
+      "사회": [
+        "경영학과",
+        "경제학과",
+        "행정학과",
+        "사회학과",
+        "심리학과",
+        "정치외교학과",
+        "법학과",
+        "사회복지학과"
+      ],
+      "자연": [
+        "수학과",
+        "물리학과",
+        "화학과",
+        "생명과학과",
+        "통계학과",
+        "지구환경과학과",
+        "식품영양학과"
+      ],
+      "공학": [
+        "컴퓨터공학과",
+        "전자공학과",
+        "기계공학과",
+        "화학공학과",
+        "산업공학과",
+        "건축학과",
+        "토목공학과",
+        "신소재공학과",
+        "환경공학과"
+      ],
+      "예체능": [
+        "시각디자인학과",
+        "산업디자인학과",
+        "음악학과",
+        "체육학과",
+        "영화영상학과",
+        "실용음악학과",
+        "무용학과",
+        "공예학과"
+      ],
+      "의약": [
+        "간호학과",
+        "약학과",
+        "의예과",
+        "치의예과",
+        "한의예과",
+        "물리치료학과",
+        "임상병리학과",
+        "보건행정학과"
+      ],
+      "공공서비스": [
+        "경찰행정과",
+        "항공보안과",
+        "사회복지과",
+        "유아교육과",
+        "평생교육융합학부"
+      ],
+      "사범교육": [
+        "유아교육",
+        "초등교육",
+        "특수교육",
+        "언어교육",
+        "사회인문교육",
+        "수학과학교육",
+        "기술생활교육",
+        "예술체육교육"
+      ]
+    },
+    "jobs": [
+      {
+        "id": "teen-b24de045e6c5",
+        "label": "제품 디자이너",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-2437a97cd999",
+        "label": "UX/UI 엔지니어",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-29859430df8b",
+        "label": "3D프린팅운영전문가",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-2a1b7f4ee44d",
+        "label": "메타버스크리에이터",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 0,
+            "pillIndex": 3
+          }
+        ]
+      },
+      {
+        "id": "teen-f6533101a293",
+        "label": "신사업아이디어컨설턴트",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 1,
+            "pillIndex": 0
+          },
+          {
+            "category": "사회",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-528cdff9eabc",
+        "label": "데이터시각화디자이너",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공학",
+            "groupIndex": 1,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-fbd1e4909d54",
+        "label": "연구원",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "자연",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-4e009ea224c8",
+        "label": "데이터 분석가",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "자연",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-46af65ddae7b",
+        "label": "환경컨설턴트",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "자연",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-c1c9b7767ed2",
+        "label": "임상연구코디네이터",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "의약",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-b6e72992709e",
+        "label": "보건정보관리사",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "의약",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-08d95400e079",
+        "label": "재활치료사",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "의약",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-75ee94495872",
+        "label": "콘텐츠 크리에이터",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "예체능",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-be02d7ef9bc4",
+        "label": "전시기획자",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "예체능",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-ab8f4636930b",
+        "label": "공간디자이너",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "예체능",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-7a1965f712a6",
+        "label": "정책분석가",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "사회",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-b07179d7c592",
+        "label": "마케팅기획자",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "사회",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-129d32777614",
+        "label": "출판편집자",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "인문",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-4daa5fe2b2b2",
+        "label": "문화콘텐츠기획자",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "인문",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-42ba0a3f582e",
+        "label": "번역가",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "인문",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-4922e9e7a8d8",
+        "label": "경찰관",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공공서비스",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-5521762b0e09",
+        "label": "항공보안요원",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공공서비스",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-29af6a0257b9",
+        "label": "사회복지사",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "공공서비스",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      },
+      {
+        "id": "teen-45fb14aea94e",
+        "label": "초등교사",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "사범교육",
+            "groupIndex": 0,
+            "pillIndex": 0
+          }
+        ]
+      },
+      {
+        "id": "teen-3697c32733fa",
+        "label": "특수교사",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "사범교육",
+            "groupIndex": 0,
+            "pillIndex": 1
+          }
+        ]
+      },
+      {
+        "id": "teen-45fa67ca7ac2",
+        "label": "교육콘텐츠기획자",
+        "sourceIdentity": "internal-label-snapshot-not-official-job-code",
+        "occurrences": [
+          {
+            "category": "사범교육",
+            "groupIndex": 0,
+            "pillIndex": 2
+          }
+        ]
+      }
+    ]
+  },
+  "exactNameLinks": [
+    {
+      "teenId": "teen-b24de045e6c5",
+      "label": "제품 디자이너",
+      "adultIds": [
+        "2161"
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "teenId": "teen-4e009ea224c8",
+      "label": "데이터 분석가",
+      "adultIds": [
+        "2048",
+        "2089",
+        "2102"
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "teenId": "teen-7a1965f712a6",
+      "label": "정책분석가",
+      "adultIds": [
+        "2049",
+        "2052"
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "teenId": "teen-129d32777614",
+      "label": "출판편집자",
+      "adultIds": [
+        "2001"
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "teenId": "teen-42ba0a3f582e",
+      "label": "번역가",
+      "adultIds": [
+        "2006"
+      ],
+      "identityConfirmed": false
+    },
+    {
+      "teenId": "teen-29af6a0257b9",
+      "label": "사회복지사",
+      "adultIds": [
+        "2076",
+        "921"
+      ],
+      "identityConfirmed": false
+    }
+  ]
+}

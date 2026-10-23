@@ -8,6 +8,7 @@ import HelpView from './HelpView';
 import Activity from './Activity';
 import SplitPlanner from './SplitPlanner';
 import {demoCardLabels} from './i18n/demo-copy';
+import {LibraryAttachmentPanel} from '../planner-library/LibraryUI';
 
 const KINDS:Record<string,string[]>={middle:['숙제','복습','시험 준비','수행평가'],high:['내신 시험','수행평가','모의고사','복습'],adult:['과제','프로젝트','진로','업무','생활']};
 const PREP:Record<string,string[]>={middle:['수학 문제 10개','영어 단어 한 묶음','국어 교과서 2쪽','내일 준비물 챙기기']};
@@ -33,6 +34,7 @@ export default function CardDetail({state,student,card,act}:{state:PersonalState
  const fillScope=(t:string)=>{if(scope.trim()&&scope!==t){setPrepNote(`이미 적은 분량이 있어요. 바꾸려면 지우고 다시 눌러 주세요: ${t}`);return;}setScope(t);setPrepNote('');};
  const dirtyCore=fa!==card.firstAction||scope!==card.scope;
  return <div className="pm-detail" data-testid={`detail-${card.id}`}>
+  <LibraryAttachmentPanel key={card.id} state={state} cardId={card.id} act={act}/>
   {!own&&<div className="st-current-action"><small>지금 할 한 가지</small><p>{card.firstAction||'시작하면서 할 행동을 정해도 괜찮아요.'}</p></div>}
   <button className="pm-primary pm-big st-start" data-testid="start" disabled={busy||card.status==='done'} onClick={()=>{if(dirtyCore&&!cmd({type:'card.update',cardId:card.id,changes:{firstAction:fa,scope}}))return;cmd({type:'run.start',cardId:card.id});}}>{card.status==='done'?'완료한 과제':own?(open!.phase==='paused'?'멈춘 실행 · 위에서 이어가기':open!.phase==='review'?'돌아보기 작성 중':'이 과제 실행 중'):busy?'다른 과제 실행 중':'바로 시작'}</button>
   <details className="pm-fold st-editor" data-testid={`edit-panel-${card.id}`}><summary aria-label={demoCardLabels(state,card).edit}>수정</summary>
