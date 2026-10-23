@@ -1,0 +1,110 @@
+[
+  {
+    "id": "aviation-security",
+    "labelKey": "library.context.aviation-security",
+    "behaviorIds": [
+      "verify",
+      "communicate",
+      "adapt"
+    ],
+    "dailyCardIds": [
+      "daily-verify",
+      "daily-communicate",
+      "daily-adapt"
+    ],
+    "risk": "safety-sensitive",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  },
+  {
+    "id": "office-project",
+    "labelKey": "library.context.office-project",
+    "behaviorIds": [
+      "sequence",
+      "compare",
+      "resume"
+    ],
+    "dailyCardIds": [
+      "daily-sequence",
+      "daily-compare",
+      "daily-resume"
+    ],
+    "risk": "general",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  },
+  {
+    "id": "it-service",
+    "labelKey": "library.context.it-service",
+    "behaviorIds": [
+      "adapt",
+      "verify",
+      "resume"
+    ],
+    "dailyCardIds": [
+      "daily-adapt",
+      "daily-verify",
+      "daily-resume"
+    ],
+    "risk": "general",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  },
+  {
+    "id": "customer-service",
+    "labelKey": "library.context.customer-service",
+    "behaviorIds": [
+      "communicate",
+      "verify",
+      "adapt"
+    ],
+    "dailyCardIds": [
+      "daily-communicate",
+      "daily-verify",
+      "daily-adapt"
+    ],
+    "risk": "general",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  },
+  {
+    "id": "logistics-operations",
+    "labelKey": "library.context.logistics-operations",
+    "behaviorIds": [
+      "resume",
+      "sequence",
+      "verify"
+    ],
+    "dailyCardIds": [
+      "daily-resume",
+      "daily-sequence",
+      "daily-verify"
+    ],
+    "risk": "general",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  },
+  {
+    "id": "media-planning",
+    "labelKey": "library.context.media-planning",
+    "behaviorIds": [
+      "compare",
+      "communicate",
+      "sequence"
+    ],
+    "dailyCardIds": [
+      "daily-compare",
+      "daily-communicate",
+      "daily-sequence"
+    ],
+    "risk": "general",
+    "mappingStatus": "draft",
+    "officialJobRefs": [],
+    "reviewedBy": null
+  }
+]

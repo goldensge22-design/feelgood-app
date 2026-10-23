@@ -1,0 +1,138 @@
+{
+  "schema": "feelgood.planner-library/v1",
+  "namespace": "feelgood.planner",
+  "version": "1.0.0",
+  "date": "2026-10-23",
+  "status": "design-draft",
+  "runtimeConnected": false,
+  "sourceBaseline": {
+    "rulesBranch": "codex/feelgood-common-master-rules",
+    "rulesHead": "efba534ffeead74bcfde0c6d450e118067649855",
+    "plannerHead": "07414f18197082b4249f0d252a2e75fb99c61a81"
+  },
+  "storage": {
+    "logicalPath": [
+      "feelgood-common-library",
+      "planner"
+    ],
+    "content": "versioned-public-template-candidates",
+    "personalRecords": "separate-private-store-not-git",
+    "productionEndpoint": null
+  },
+  "requiredLocales": [
+    "ko",
+    "en",
+    "ja",
+    "zh-CN",
+    "zh-TW",
+    "mn",
+    "th",
+    "vi",
+    "ar",
+    "ru",
+    "km",
+    "es",
+    "fr",
+    "it",
+    "az"
+  ],
+  "sourceLocale": "ko",
+  "localeState": {
+    "ko": {
+      "status": "draft",
+      "availableForProduction": false,
+      "resource": "locales/ko.json"
+    },
+    "en": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ja": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "zh-CN": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "zh-TW": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "mn": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "th": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "vi": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ar": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ru": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "km": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "es": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "fr": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "it": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "az": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    }
+  },
+  "counts": {
+    "dailyTemplates": 6,
+    "jobSituationTemplates": 6,
+    "totalTemplates": 12,
+    "jobContexts": 6,
+    "productionReleased": 0
+  },
+  "catalogStatus": "representative-contexts-not-complete-official-job-catalog",
+  "ai": {
+    "automaticGeneration": false,
+    "lookupFirst": true,
+    "explicitRequestRequired": true,
+    "autoPublish": false,
+    "rawPersonalRecordsInSharedCache": false
+  },
+  "files": [
+    "behaviors.json",
+    "job-contexts.json",
+    "cards.json",
+    "locales/ko.json"
+  ]
+}
