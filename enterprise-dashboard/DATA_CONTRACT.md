@@ -1,5 +1,7 @@
 # 기업 인재전략 대시보드 데이터 계약
 
+판정 상태, 현재 직무 준비도, 역할 잠재력과 추천 경로의 공식 산출 기준은 [`TALENT_SCORING_RULES.md`](./TALENT_SCORING_RULES.md)를 따른다. 이 문서의 후보자 예시 필드는 adapter 데이터 형식이며, 데모의 고정값을 운영 계산식으로 사용하지 않는다.
+
 ## 연결 위치
 
 대시보드는 [`data-adapter.js`](./data-adapter.js)의 `loadDashboardData(context)`만 호출한다. 운영 시스템은 페이지 로드 전에 다음 전역 adapter를 제공하면 된다.
@@ -146,6 +148,16 @@ candidate.source = {
     jobCompetencyEvidence: Number,
     coreValueBehavior: Number,
     workSampleScore: Number,
+    workSampleSubscores: {
+      collaborationCoordination: Number | null,
+      specialistTask: Number | null
+    },
+    roleEvidence: {
+      leader: Number | null,
+      projectLead: Number | null,
+      specialist: Number | null,
+      practitioner: Number | null
+    },
     evaluatorRole: String,
     status: "draft|approved",
     updatedAt: ISODateString
@@ -178,10 +190,12 @@ candidate.source = {
       leaderPotential: Number,
       expertPotential: Number,
       recommendedPath: "leader|projectLead|specialist|practitioner",
+      calculation: Object,
       pass: Object,
       topJobs: [[String, Number]],
       resume: { fileId: String, fileName: String, updatedAt: ISODateString } | null,
       resumeTopJobs: [[String, Number]],
+      resumeAppliedJobEvidence: Number | null,
       evidence: [TranslationKey],
       verify: [TranslationKey],
       workStyle: [TranslationKey],
@@ -284,6 +298,8 @@ window.FeelGoodEnterpriseAdapter = {
 - `hold`: 데이터 부족 또는 결과 불일치로 판단 보류
 
 각 상태의 실제 활용 기준과 후속 절차는 기업 담당자가 운영 정책으로 정한다.
+
+기본 라우팅 순서와 임계값은 [`TALENT_SCORING_RULES.md`](./TALENT_SCORING_RULES.md)에 정의한다. 조직·직무별 정책으로 값을 조정할 때는 `ruleVersion`을 변경하고 산출 구성요소, 사유 코드, 누락 근거를 함께 반환한다. 운영 프런트엔드에서 판정값을 임의 계산하거나 데모값으로 대체하지 않는다.
 
 ## 보안과 권한
 

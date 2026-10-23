@@ -5,6 +5,8 @@
 - 공개 진입점: `FeelGood_HR_TalentAnalytics_Demo.html`
 - 제품 기획: `enterprise-dashboard/PRODUCT_PLAN.md`
 - 결과지/API 계약: `enterprise-dashboard/DATA_CONTRACT.md`
+- 인재 산출 기본 규칙: `enterprise-dashboard/TALENT_SCORING_RULES.md`
+- 개발자 전달서: `enterprise-dashboard/DEVELOPER_HANDOFF.md`
 - 운영 adapter 진입점: `enterprise-dashboard/data-adapter.js`
 - 데모 데이터: `enterprise-dashboard/mock-data.js`
 
@@ -28,6 +30,8 @@
 - 기업·직무별 업무역량 모델 편집
 
 공개 데모의 기업, 지원자, 직원, 인원수, 점수, 매칭률, 성과, 진행률과 일정은 모두 가상 데이터다. 화면 상단의 안내에서 인원·점수·가중치 해석과 운영 API 교체 기준을 항상 확인할 수 있다.
+
+데모의 판정 상태, 현재 직무 준비도, 리더·전문가 잠재력, 추천 경로와 역할 점수는 합성 고정값이며 프런트엔드 산출 결과가 아니다. 운영판은 [`TALENT_SCORING_RULES.md`](./TALENT_SCORING_RULES.md)에 따라 서버에서 산출한 값과 근거·규칙 버전을 adapter로 전달해야 한다.
 
 ## 15개 언어
 
