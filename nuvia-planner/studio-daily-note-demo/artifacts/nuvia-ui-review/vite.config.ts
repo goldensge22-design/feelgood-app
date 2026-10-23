@@ -74,6 +74,7 @@ export default defineConfig({
         enhancement: path.resolve(import.meta.dirname, 'enhancement.html'),
         personalMonthly: path.resolve(import.meta.dirname, 'personal-monthly.html'),
         studio: path.resolve(import.meta.dirname, 'studio.html'),
+        careerReview: path.resolve(import.meta.dirname, 'career-review.html'),
         externalDemo: path.resolve(import.meta.dirname, 'demo.html'),
       },
     },
