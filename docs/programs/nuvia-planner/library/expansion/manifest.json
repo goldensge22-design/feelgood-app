@@ -1,0 +1,133 @@
+{
+  "schema": "feelgood.planner.library-expansion/v1",
+  "namespace": "feelgood.planner",
+  "version": "1.1.0-draft",
+  "createdAt": "2026-10-23",
+  "status": "editorial-draft",
+  "sourceCommit": "35a3216e980bd4dd0c0391e5c6790508bb9e72f7",
+  "baseLibraryCommit": "1d0f17bc178c203dac019953c8dc59179010eae8",
+  "runtimeConnected": false,
+  "productionEndpoint": null,
+  "aiCallsMade": 0,
+  "automaticAiFallback": false,
+  "requiredLocales": [
+    "ko",
+    "en",
+    "ja",
+    "zh-CN",
+    "zh-TW",
+    "mn",
+    "th",
+    "vi",
+    "ar",
+    "ru",
+    "km",
+    "es",
+    "fr",
+    "it",
+    "az"
+  ],
+  "counts": {
+    "dailyOriginals": 18,
+    "adultSharedScenarioOriginals": 60,
+    "teenSchoolScenarioOriginals": 78,
+    "legacyJobOriginals": 6,
+    "newOriginals": 150,
+    "totalStoredOriginals": 162,
+    "adultJobs": 311,
+    "adultScenarioConnections": 933,
+    "teenCareers": 26,
+    "teenScenarioConnections": 78,
+    "dailyConnections": 1011,
+    "adultFamilies": 20,
+    "productionReleased": 0,
+    "targetAvailabilityUnits": 1029
+  },
+  "sourceHash": "16ede422566c6f4c592fd2f04d8e61e5930dbbd4503c725d6e37294dbc006296",
+  "localeState": {
+    "ko": {
+      "status": "draft",
+      "availableForProduction": false,
+      "resource": "locales/ko.json"
+    },
+    "en": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ja": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "zh-CN": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "zh-TW": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "mn": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "th": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "vi": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ar": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "ru": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "km": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "es": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "fr": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "it": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    },
+    "az": {
+      "status": "needs-review",
+      "availableForProduction": false,
+      "resource": null
+    }
+  },
+  "preservedFiles": {
+    "manifest.json": "7770e1ccd128a59f74e03da0a9ad43bfa16434c555a7e5bc32b319d84560588d",
+    "behaviors.json": "3da3dff07b107dedf1e0c8b1117a95d2047588cda0ec1a96963dcd608adc270e",
+    "job-contexts.json": "604b5dbcab4470f598c36c670d33a9c11704f5a937bb08c7f479be150eb8b4ae",
+    "cards.json": "bdcd89874fa57539f1573f44f82ad1e295590bbd4c49f24a46914b71941d3e87",
+    "locales/ko.json": "38a6d9886e50873b60dc43bf9864d708c2d83b34e2737eb4e286608458c880c7",
+    "contracts.ts": "7f81d84fe2f347c48eee8b4b325d6a288d2c91e61eac6a48dc71864a89085ed4",
+    "validate.mjs": "1c40f9f46ea38b8fcffac2c3495bb7c93d1a7a0edbfcadfdb12c373328e03258"
+  }
+}

@@ -2,6 +2,17 @@
 
 필굿 공통규칙 저장소의 플래너 전용 설계 패키지다. 기존 플래너 실행 코드, 검사 결과지, 점수 산식과 공개 배포본은 변경하지 않는다.
 
+## 최신 확장판 시작 위치
+
+- [확장 수량과 개발자 인계](LIBRARY_EXPANSION_HANDOFF.md)
+- [성인 311개와 청소년 26개 전체 연결표](library/expansion/CATALOG.md)
+- [추가 카드 150개의 실제 한국어 내용](library/expansion/CARD_TEXTS.md)
+- 확장 검사: `node docs/programs/nuvia-planner/library/expansion/validate.mjs`
+
+최신 합계는 **생활·학습 원본 18개 + 성인 공유 상황 원본 60개 + 청소년 학교 상황 원본 78개 + 보존한 기존 직무 예시 6개 = 162개**다. 성인 상황은 직무 ID 311개에 각 3개씩 933건 연결한다. 933개를 서로 다른 원본으로 세지 않는다. 성인 20개 편집 맥락별 공유 방식이며, 직무별 전문성이 검증된 독립 훈련 933종을 뜻하지 않는다. 전량 검토 전 초안이며 운영 제공은 0개다.
+
+아래 v1 데이터와 12개 원본은 수정하지 않은 기준선이다. 확장판은 `library/expansion/`에 추가되며 실행 코드에 자동 합쳐지지 않는다.
+
 - [플래너 라이브러리 설계](PLANNER_LIBRARY_DESIGN.md)
 - [대표 상황카드 전체 목록과 수량](SCENARIO_CATALOG.md)
 - 데이터: `library/manifest.json`, `behaviors.json`, `job-contexts.json`, `cards.json`, `locales/ko.json`
