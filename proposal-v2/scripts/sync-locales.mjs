@@ -46,12 +46,12 @@ function chunks(entries, maxLength = 2800) {
 const protectedTerms = [
   'K-PASS', 'D-CAS', 'NUVIA KIDS', 'NUVIA HISTORY', 'NUVIA PLANNER',
   'NUVIA CAREER LAB', 'MY NUVIA', 'NUVIA', 'PASS', 'FeelGood', 'MindCompass',
-  'Planning', 'Attention', 'Simultaneous', 'Successive', '2E'
+  'Planning', 'Attention', 'Simultaneous', 'Successive', 'AI', '2E'
 ];
 
 function protect(source) {
   const values = [];
-  const protectValue = value => `<x id="FG${values.push(value) - 1}"></x>`;
+  const protectValue = value => `ZXQFG${String(values.push(value) - 1).padStart(3, '0')}ZXQ`;
   let text = source.replace(/<[^>]+>/g, protectValue);
   for (const term of protectedTerms) text = text.replaceAll(term, protectValue(term));
   text = text.replace(/\{[^{}]+\}|__V\d+__/g, protectValue);
@@ -61,7 +61,7 @@ function protect(source) {
 function restore(text, values) {
   let restored = text;
   values.forEach((value, index) => {
-    const expression = new RegExp(`<x\\s+id\\s*=\\s*["']?FG${index}["']?\\s*>\\s*<\\/x\\s*>`, 'gi');
+    const expression = new RegExp(`ZXQFG${String(index).padStart(3, '0')}ZXQ`, 'gi');
     restored = restored.replace(expression, value);
   });
   return restored.trim();
@@ -75,16 +75,17 @@ async function translateBatch(locale, batch) {
     try {
       const call = spawnSync('curl.exe', [
         '-sS', '--max-time', '60', '--get',
-        '--data-urlencode', 'client=gtx',
+        '--data-urlencode', 'client=dict-chrome-ex',
         '--data-urlencode', 'sl=en',
-        '--data-urlencode', `tl=${locale}`,
-        '--data-urlencode', 'dt=t',
+        '--data-urlencode', `tl=${locale === 'zh' ? 'zh-CN' : locale}`,
         '--data-urlencode', `q=${query}`,
-        'https://translate.googleapis.com/translate_a/single'
+        'https://clients5.google.com/translate_a/t'
       ], {encoding: 'utf8', maxBuffer: 8 * 1024 * 1024});
       if (call.status !== 0) throw new Error(call.stderr || `curl exited ${call.status}`);
       const data = JSON.parse(call.stdout);
-      const translatedText = (data[0] || []).map(part => part[0] || '').join('');
+      const translatedText = Array.isArray(data) && typeof data[0] === 'string'
+        ? data[0]
+        : (data[0] || []).map(part => part[0] || '').join('');
       const translated = {};
       let cursor = 0;
       prepared.forEach((entry, index) => {
