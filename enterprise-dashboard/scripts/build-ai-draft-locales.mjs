@@ -109,6 +109,16 @@ const individualDetailKeys = [
   "individual.topJobs", "individual.topJobsHelp"
 ];
 
+// These legacy keys are preserved in existing packs for migration history only.
+// The current dashboard no longer renders standalone resume analysis, and the
+// current detail/top-job copy is maintained directly in the locale packs.
+const retiredIndividualDetailKeys = new Set([
+  "individual.openDetail", "individual.topJobsHelp",
+  "individual.resumeTitle", "individual.resumeHelp", "individual.resumeStatus", "individual.resumeNotConnected",
+  "individual.resumeUpdated", "individual.resumePrivacy", "individual.resumeUpload", "individual.resumeReplace",
+  "individual.resumeUploadAria", "individual.resumeMatchTitle", "individual.resumeMatchHelp", "individual.resumeMatchEmpty"
+]);
+
 const benchmarkExtraKeys = [
   "benchmark.talentFormulaTitle", "benchmark.talentFormulaHelp", "benchmark.formulaDcas", "benchmark.formulaPerformance", "benchmark.formulaRoleEvidence",
   "benchmark.talentFormulaNoteTitle", "benchmark.talentFormulaNote", "benchmark.performanceTableTitle", "benchmark.performanceTableHelp",
@@ -352,7 +362,8 @@ for (const [locale, values] of Object.entries(locales)) {
   const existing = fs.existsSync(localePath) ? JSON.parse(fs.readFileSync(localePath, "utf8")) : { messages: {} };
   const messages = { ...(existing.messages || {}) };
   const map = Object.fromEntries(keys.map((key, index) => [key, values[index]]));
-  const individualMap = Object.fromEntries(individualDetailKeys.map((key, index) => [key, individualDetails[locale][index]]));
+  const individualMap = Object.fromEntries(individualDetailKeys.map((key, index) => [key, individualDetails[locale][index]])
+    .filter(([key]) => !retiredIndividualDetailKeys.has(key)));
   const benchmarkExtraMap = Object.fromEntries(benchmarkExtraKeys.map((key, index) => [key, benchmarkExtras[locale][index]]));
   const performanceEntryMap = Object.fromEntries(performanceEntryKeys.map((key, index) => [key, performanceEntries[locale][index]]));
   const demoGuideMap = Object.fromEntries(demoGuideKeys.map((key, index) => [key, demoGuides[locale][index]]));

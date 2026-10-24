@@ -1,4 +1,4 @@
-# 기업 인재전략 산출 기본 규칙 v1.0
+# 기업 인재전략 산출 기본 규칙 v1.1
 
 이 문서는 기업 인재전략 대시보드의 판정 상태, 현재 직무 준비도, 역할 잠재력과 추천 경로를 운영 서버에서 산출하기 위한 기본 계약이다. 조직·직무별 검증을 거쳐 가중치와 임계값을 조정할 수 있지만, 입력 출처 분리, 누락값 처리, 산출 근거와 규칙 버전 반환은 변경하지 않는다.
 
@@ -6,7 +6,7 @@
 
 공개 데모의 `status`, `fit`, `readiness`, `leaderPotential`, `expertPotential`, `recommendedPath`, `roleScores`는 기능을 설명하기 위한 합성 고정값이다. 현재 프런트엔드는 이 값을 계산하지 않고 adapter가 전달한 값을 표시한다.
 
-운영판에서는 데모 고정값을 복사하지 않는다. 결과지·채용시스템·이력서 분석·기업 평가 입력을 서버가 검증한 뒤 이 문서의 규칙 버전에 따라 산출하고, 프런트엔드는 서버 결과를 표시한다.
+운영판에서는 데모 고정값을 복사하지 않는다. 결과지·채용시스템·기업 평가 입력을 서버가 검증한 뒤 이 문서의 규칙 버전에 따라 산출하고, 프런트엔드는 서버 결과를 표시한다. 조직·팀 집계 산식은 [`ORGANIZATION_SCORING_RULES.md`](./ORGANIZATION_SCORING_RULES.md)를 따른다.
 
 ## 2. 데이터 계층과 책임
 
@@ -19,13 +19,14 @@
 
 기업 평가자는 이 값을 수정할 수 없다. 운영 서버는 결과지 서비스에서 다시 확인하고 0–100 정규화 기준과 결과 버전을 기록한다.
 
-### 2.2 채용·이력서 데이터
+### 2.2 채용·통합 근거 데이터
 
 - 실제 지원 직무: 채용시스템 또는 담당자 입력
-- 이력서 기반 직무 Top 3 이상
-- 지원 직무에 대한 이력서 근거 점수 `resumeAppliedJobEvidence`
+- 플래너 경험카드: 지원자가 직접 기록하고 확인한 경험·행동·결과
+- AI 자소서 근거: 플래너 경험을 바탕으로 작성되고 지원자가 최종 확인한 근거
+- 공유 동의: 채용 담당자에게 해당 근거를 제공하는 활성 동의
 
-D-CAS 추천 직무와 이력서 기반 직무는 출처가 다르므로 하나의 원본 점수로 합치거나 서로 덮어쓰지 않는다.
+일반 이력서 파일을 독립 AI 분석 대상으로 사용하지 않는다. 플래너와 AI 자소서가 모두 연결되고 본인 확인과 공유 동의가 유효할 때만 `evidenceProfile`을 별도 근거로 표시한다. 이 조건을 충족하지 않으면 관련 패널과 점수를 생성하지 않으며, 준비도나 직무 추천에서 불이익을 주지 않는다.
 
 ### 2.3 기업 평가자 입력
 
@@ -57,14 +58,13 @@ D-CAS 추천 직무와 이력서 기반 직무는 출처가 다르므로 하나�
 
 ```text
 readiness =
-  jobCompetencyEvidence       × 0.35
-+ workSampleScore             × 0.40
+  jobCompetencyEvidence       × 0.40
++ workSampleScore             × 0.45
 + coreValueBehavior           × 0.15
-+ resumeAppliedJobEvidence    × 0.10
 ```
 
 - 최종값은 반올림한 0–100 정수로 반환한다.
-- 네 항목 중 하나라도 없거나 승인되지 않았으면 공식 준비도를 확정하지 않는다.
+- 세 항목 중 하나라도 없거나 승인되지 않았으면 공식 준비도를 확정하지 않는다.
 - 누락 항목의 가중치를 다른 항목에 자동 재배분하지 않는다.
 - 부분값이 필요하면 `provisionalScore`로 분리하고 `status: "incomplete"`와 누락 항목을 함께 반환한다.
 
@@ -159,7 +159,7 @@ alignmentScore = min(integratedScore, passOnlyScore) × 0.75
 
 ```js
 candidate.calculation = {
-  ruleVersion: "enterprise-talent-v1.0",
+  ruleVersion: "enterprise-talent-v1.1",
   calculatedAt: "2026-10-23T00:00:00Z",
   readiness: {
     score: 82,
@@ -168,8 +168,7 @@ candidate.calculation = {
     components: {
       jobCompetencyEvidence: 84,
       workSampleScore: 86,
-      coreValueBehavior: 76,
-      resumeAppliedJobEvidence: 80
+      coreValueBehavior: 76
     }
   },
   roleCognitiveFit: {
@@ -195,6 +194,8 @@ candidate.calculation = {
   missingEvidence: []
 };
 ```
+
+플래너·AI 자소서의 통합 근거는 `candidate.evidenceProfile`로 별도 반환한다. 이는 준비도 가중치에 자동 포함하지 않고 면접 질문과 근거 확인에 사용한다.
 
 `reasons`와 `missingEvidence`는 화면 문장을 직접 저장하지 않고 안정적인 코드나 translation key로 반환한다. 모든 사용자 표시 문구는 locale resource에서 번역한다.
 

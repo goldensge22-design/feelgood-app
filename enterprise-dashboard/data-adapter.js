@@ -16,7 +16,10 @@ export async function loadDashboardData(context = {}) {
       employeeSuccessProfiles: data.employeeSuccessProfiles ?? [],
       employeePerformanceRecords: data.employeePerformanceRecords ?? [],
       candidateEvaluations: data.candidateEvaluations ?? [],
-      reviewStageCompletion: data.reviewStageCompletion ?? []
+      reviewStageCompletion: data.reviewStageCompletion ?? [],
+      organizationWorkforcePlan: data.organizationWorkforcePlan ?? data.jobCoverage ?? [],
+      organizationRoleTargets: data.organizationRoleTargets ?? {},
+      organizationAnalysis: data.organizationAnalysis ?? null
     };
     validateDashboardData(normalized);
     return { ...normalized, meta: { ...normalized.meta, mode: "production" } };
@@ -52,6 +55,10 @@ export function validateDashboardData(data) {
   if (!Array.isArray(data?.employeePerformanceRecords)) errors.push("employeePerformanceRecords");
   if (!Array.isArray(data?.candidateEvaluations)) errors.push("candidateEvaluations");
   if (!Array.isArray(data?.reviewStageCompletion)) errors.push("reviewStageCompletion");
+  if (!Array.isArray(data?.organizationWorkforcePlan)) errors.push("organizationWorkforcePlan");
+  if (data?.organizationAnalysis && !["roleReadiness", "jobCoverage", "departments", "succession", "internalMobility"].every((key) => Array.isArray(data.organizationAnalysis[key]))) {
+    errors.push("organizationAnalysis");
+  }
   if (!["dcas", "workPerformance", "roleEvidence"].every((key) => Number.isFinite(data?.employeeProfileWeights?.[key]))) {
     errors.push("employeeProfileWeights");
   }
@@ -59,6 +66,18 @@ export function validateDashboardData(data) {
   if (data?.candidates?.some((candidate) => !candidate.id || !candidate.pass || !Array.isArray(candidate.topJobs) || candidate.topJobs.length === 0)) {
     errors.push("candidates[].id/pass/topJobs");
   }
+  if (data?.candidates?.some((candidate) => candidate.evidenceProfile && (
+    typeof candidate.evidenceProfile?.planner?.linked !== "boolean"
+    || typeof candidate.evidenceProfile?.aiCoverLetter?.linked !== "boolean"
+    || typeof candidate.evidenceProfile?.aiCoverLetter?.candidateConfirmed !== "boolean"
+    || typeof candidate.evidenceProfile?.sharingConsent?.active !== "boolean"
+  ))) errors.push("candidates[].evidenceProfile");
+  if (data?.candidates?.some((candidate) => {
+    const profile = candidate.evidenceProfile;
+    const eligible = profile?.planner?.linked && profile?.aiCoverLetter?.linked && profile?.aiCoverLetter?.candidateConfirmed && profile?.sharingConsent?.active;
+    return eligible && (!Number.isFinite(profile.planner.experienceCount) || !Number.isFinite(profile.competencyCount)
+      || !Number.isFinite(profile.consistencyScore) || !Array.isArray(profile.confirmedEvidence) || !Array.isArray(profile.verifyEvidence));
+  })) errors.push("candidates[].evidenceProfile.eligibleFields");
   if (data?.employeeSuccessProfiles?.some((item) => !item.job || !item.profile || !Number.isFinite(item.sampleSize))) {
     errors.push("employeeSuccessProfiles[].job/profile/sampleSize");
   }

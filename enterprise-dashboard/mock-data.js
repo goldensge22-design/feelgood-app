@@ -1,21 +1,60 @@
+const JOB_DEPARTMENTS = {
+  productStrategy: "product",
+  dataAnalysis: "data",
+  projectManagement: "operations",
+  salesOperations: "sales",
+  peopleOperations: "operations"
+};
+
+const TARGET_JOBS = {
+  productStrategy: "projectManagement",
+  dataAnalysis: "dataPlanning",
+  projectManagement: "productStrategy",
+  salesOperations: "customerSuccess",
+  peopleOperations: "projectManagement"
+};
+
+const PROFILE_ROLE_SCORES = {
+  strategyLeader: { leader: 86, projectLead: 79, specialist: 74, practitioner: 72 },
+  expert: { leader: 70, projectLead: 77, specialist: 90, practitioner: 82 },
+  projectLead: { leader: 76, projectLead: 88, specialist: 78, practitioner: 82 },
+  operator: { leader: 68, projectLead: 76, specialist: 75, practitioner: 88 }
+};
+
 const EMPLOYEE_PERFORMANCE_RECORDS = [
   ["productStrategy", "strategyLeader", [80, 83, 78, 86, 82], [90, 94, 88, 92, 91], [84, 89, 82, 88, 87]],
   ["dataAnalysis", "expert", [84, 87, 82, 85, 83], [90, 92, 86, 89, 88], [88, 90, 85, 89, 88]],
   ["projectManagement", "projectLead", [79, 82, 77, 81, 80], [91, 88, 93, 89, 90], [86, 83, 88, 84, 85]],
   ["salesOperations", "operator", [75, 78, 73, 79, 76], [86, 89, 84, 88, 87], [82, 85, 80, 84, 83]],
   ["peopleOperations", "projectLead", [77, 80, 76, 79, 78], [85, 88, 84, 87, 86], [88, 91, 87, 90, 89]]
-].flatMap(([job, profile, dcas, performance, role]) => dcas.map((dcasScore, index) => ({
-  employeeId: `E-${job.slice(0, 3).toUpperCase()}-${String(index + 1).padStart(2, "0")}`,
-  job,
-  profile,
-  reviewPeriod: "2026-H1",
-  dcasScore,
-  workPerformanceScore: performance[index],
-  roleEvidenceScore: role[index],
-  evaluatorRole: "departmentManager",
-  status: "approved",
-  updatedAt: "2026-10-20T09:00:00+09:00"
-})));
+].flatMap(([job, profile, dcas, performance, role]) => dcas.map((dcasScore, index) => {
+  const capabilityScore = Math.round(dcasScore * 0.4 + performance[index] * 0.45 + role[index] * 0.15);
+  const roleScores = Object.fromEntries(Object.entries(PROFILE_ROLE_SCORES[profile]).map(([key, value]) => [key, Math.max(0, Math.min(100, value + index - 2))]));
+  return {
+    employeeId: `E-${job.slice(0, 3).toUpperCase()}-${String(index + 1).padStart(2, "0")}`,
+    job,
+    department: JOB_DEPARTMENTS[job],
+    profile,
+    reviewPeriod: "2026-H1",
+    dcasScore,
+    workPerformanceScore: performance[index],
+    roleEvidenceScore: role[index],
+    pass: {
+      planning: Math.min(100, dcasScore + (profile === "strategyLeader" ? 5 : 0)),
+      attention: Math.min(100, dcasScore + (profile === "expert" ? 5 : 1)),
+      simultaneous: Math.min(100, dcasScore + (profile === "strategyLeader" ? 3 : 0)),
+      sequential: Math.min(100, dcasScore + (profile === "operator" ? 5 : 1))
+    },
+    roleScores,
+    targetJob: TARGET_JOBS[job],
+    targetJobScore: Math.min(100, capabilityScore + 10),
+    dcasTopJobs: [job, TARGET_JOBS[job]],
+    dataComplete: true,
+    evaluatorRole: "departmentManager",
+    status: "approved",
+    updatedAt: "2026-10-20T09:00:00+09:00"
+  };
+}));
 
 export const MOCK_DASHBOARD_DATA = {
   meta: {
@@ -76,6 +115,14 @@ export const MOCK_DASHBOARD_DATA = {
     workPerformance: 45,
     roleEvidence: 15
   },
+  organizationWorkforcePlan: [
+    { job: "productStrategy", department: "product", requiredHeadcount: 6, target: 90 },
+    { job: "dataAnalysis", department: "data", requiredHeadcount: 6, target: 85 },
+    { job: "projectManagement", department: "operations", requiredHeadcount: 6, target: 85 },
+    { job: "salesOperations", department: "sales", requiredHeadcount: 6, target: 82 },
+    { job: "peopleOperations", department: "operations", requiredHeadcount: 6, target: 80 }
+  ],
+  organizationRoleTargets: { leader: 14, projectLead: 20, specialist: 18 },
   employeePerformanceRecords: EMPLOYEE_PERFORMANCE_RECORDS,
   employeeSuccessProfiles: [
     { job: "productStrategy", sampleSize: 18, dcasScore: 82, workPerformanceScore: 91, roleEvidenceScore: 86, profile: "strategyLeader" },
@@ -132,7 +179,6 @@ export const MOCK_DASHBOARD_DATA = {
       name: "C-2401",
       reportId: "DCR-2026-2401",
       assessedAt: "2026-10-14T10:30:00+09:00",
-      resume: { fileName: "C-2401_resume.pdf", updatedAt: "2026-10-18T14:20:00+09:00" },
       appliedJob: "productStrategy",
       appliedJobSource: "recruitmentSystem",
       status: "priority",
@@ -146,7 +192,15 @@ export const MOCK_DASHBOARD_DATA = {
       topJobs: [
         ["productStrategy", 88], ["businessPlanning", 86], ["projectManagement", 82], ["servicePlanning", 79], ["dataPlanning", 75]
       ],
-      resumeTopJobs: [["productStrategy", 84], ["projectManagement", 81], ["businessPlanning", 78]],
+      evidenceProfile: {
+        planner: { linked: true, experienceCount: 4 },
+        aiCoverLetter: { linked: true, candidateConfirmed: true },
+        sharingConsent: { active: true, updatedAt: "2026-10-18T14:20:00+09:00" },
+        competencyCount: 5,
+        consistencyScore: 86,
+        confirmedEvidence: ["evidence.planning", "evidence.integration", "evidence.valueFit"],
+        verifyEvidence: ["verify.conflict", "verify.peopleLeadership"]
+      },
       evidence: ["evidence.planning", "evidence.integration", "evidence.valueFit"],
       verify: ["verify.conflict", "verify.peopleLeadership"],
       workStyle: ["workStyle.autonomy", "workStyle.bigPicture"],
@@ -171,7 +225,15 @@ export const MOCK_DASHBOARD_DATA = {
       topJobs: [
         ["dataAnalysis", 91], ["research", 87], ["quality", 83], ["dataPlanning", 81], ["productStrategy", 74]
       ],
-      resumeTopJobs: [["dataAnalysis", 89], ["research", 85], ["quality", 79]],
+      evidenceProfile: {
+        planner: { linked: true, experienceCount: 5 },
+        aiCoverLetter: { linked: true, candidateConfirmed: true },
+        sharingConsent: { active: true, updatedAt: "2026-10-19T10:10:00+09:00" },
+        competencyCount: 6,
+        consistencyScore: 91,
+        confirmedEvidence: ["evidence.focus", "evidence.analysis", "evidence.consistency"],
+        verifyEvidence: ["verify.communication", "verify.ambiguity"]
+      },
       evidence: ["evidence.focus", "evidence.analysis", "evidence.consistency"],
       verify: ["verify.communication", "verify.ambiguity"],
       workStyle: ["workStyle.deepWork", "workStyle.evidence"],
@@ -196,7 +258,11 @@ export const MOCK_DASHBOARD_DATA = {
       topJobs: [
         ["projectManagement", 82], ["operations", 80], ["salesOperations", 74], ["customerSuccess", 73], ["businessPlanning", 71]
       ],
-      resumeTopJobs: [["salesOperations", 83], ["projectManagement", 79], ["customerSuccess", 76]],
+      evidenceProfile: {
+        planner: { linked: true, experienceCount: 3 },
+        aiCoverLetter: { linked: false, candidateConfirmed: false },
+        sharingConsent: { active: true, updatedAt: "2026-10-18T09:00:00+09:00" }
+      },
       evidence: ["evidence.execution", "evidence.sequence", "evidence.coordination"],
       verify: ["verify.sales", "verify.priority"],
       workStyle: ["workStyle.structure", "workStyle.collaboration"],
@@ -221,7 +287,11 @@ export const MOCK_DASHBOARD_DATA = {
       topJobs: [
         ["customerSuccess", 77], ["peopleOperations", 72], ["servicePlanning", 71], ["projectManagement", 69], ["operations", 66]
       ],
-      resumeTopJobs: [["peopleOperations", 80], ["customerSuccess", 76], ["servicePlanning", 73]],
+      evidenceProfile: {
+        planner: { linked: true, experienceCount: 4 },
+        aiCoverLetter: { linked: true, candidateConfirmed: true },
+        sharingConsent: { active: false, updatedAt: "2026-10-18T09:00:00+09:00" }
+      },
       evidence: ["evidence.empathy", "evidence.integration"],
       verify: ["verify.dataMissing", "verify.execution"],
       workStyle: ["workStyle.people", "workStyle.bigPicture"],

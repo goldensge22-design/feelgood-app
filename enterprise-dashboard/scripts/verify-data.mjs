@@ -1,5 +1,6 @@
 import { MOCK_DASHBOARD_DATA } from "../mock-data.js";
 import { validateDashboardData } from "../data-adapter.js";
+import { deriveOrganizationAnalysis } from "../organization-scoring.js";
 
 globalThis.window = {};
 validateDashboardData(MOCK_DASHBOARD_DATA);
@@ -16,6 +17,14 @@ for (const candidate of MOCK_DASHBOARD_DATA.candidates) {
   for (const key of ["fit", "readiness", "leaderPotential", "expertPotential"]) {
     if (!Number.isFinite(candidate[key]) || candidate[key] < 0 || candidate[key] > 100) errors.push(`${candidate.id}.${key}: invalid signal`);
   }
+}
+const eligibleEvidenceProfiles = MOCK_DASHBOARD_DATA.candidates.filter((candidate) => candidate.evidenceProfile?.planner?.linked
+  && candidate.evidenceProfile?.aiCoverLetter?.linked
+  && candidate.evidenceProfile?.aiCoverLetter?.candidateConfirmed
+  && candidate.evidenceProfile?.sharingConsent?.active);
+if (eligibleEvidenceProfiles.length !== 2) errors.push(`evidenceProfile: expected 2 eligible demo profiles, got ${eligibleEvidenceProfiles.length}`);
+if (MOCK_DASHBOARD_DATA.candidates.some((candidate) => Object.hasOwn(candidate, "resume") || Object.hasOwn(candidate, "resumeTopJobs"))) {
+  errors.push("candidates: legacy standalone resume analysis fields must not be present");
 }
 const candidateIds = new Set(MOCK_DASHBOARD_DATA.candidates.map((candidate) => candidate.id));
 const evaluationIds = new Set();
@@ -40,6 +49,13 @@ for (const item of MOCK_DASHBOARD_DATA.employeeSuccessProfiles) {
     if (!Number.isFinite(item[key]) || item[key] < 0 || item[key] > 100) errors.push(`${item.job}.${key}: invalid score`);
   }
 }
+
+const organization = deriveOrganizationAnalysis(MOCK_DASHBOARD_DATA, MOCK_DASHBOARD_DATA.employeePerformanceRecords);
+if (organization.jobCoverage.length !== MOCK_DASHBOARD_DATA.organizationWorkforcePlan.length) errors.push("organization: job coverage plan mismatch");
+if (organization.roleReadiness.reduce((sum, item) => sum + item.count, 0) !== MOCK_DASHBOARD_DATA.employeePerformanceRecords.length) errors.push("organization: role counts do not reconcile");
+if (organization.departments.some((item) => item.headcount < MOCK_DASHBOARD_DATA.meta.minimumCohortSize)) errors.push("organization: department below privacy threshold");
+if (organization.internalMobility.some((item) => item.count < MOCK_DASHBOARD_DATA.meta.minimumCohortSize)) errors.push("organization: mobility path below privacy threshold");
+if (organization.jobCoverage.some((item) => !Number.isFinite(item.current) || item.current < 0 || item.current > 100)) errors.push("organization: invalid coverage score");
 if (MOCK_DASHBOARD_DATA.reviewStageCompletion.length === 0) errors.push("reviewStageCompletion: expected synthetic demo values");
 for (const item of MOCK_DASHBOARD_DATA.reviewStageCompletion) {
   if (!Number.isFinite(item.value) || item.value < 0 || item.value > 100) errors.push(`${item.type}: invalid review completion value`);

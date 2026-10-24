@@ -1,5 +1,6 @@
 import { initializeI18n, setLocale, getLocale, getManifest, t, number, date, applyTranslations } from "./i18n.js";
 import { loadDashboardData, saveEmployeePerformanceRecords, saveCandidateEvaluations } from "./data-adapter.js";
+import { deriveOrganizationAnalysis } from "./organization-scoring.js";
 
 const state = {
   data: null,
@@ -12,7 +13,7 @@ const state = {
   performanceNotice: null,
   candidateEvaluations: [],
   modelEvaluationNotice: null,
-  resumeFiles: loadResumeMetadata()
+  organizationAnalysis: null
 };
 
 const PAGE_IDS = ["overview", "model", "hiring", "benchmark", "individual", "development", "organization", "actions", "competencies"];
@@ -22,6 +23,9 @@ state.data = await loadDashboardData(readIntegrationContext());
 state.competencyModel = loadCompetencyModel(state.data.competencyModel);
 state.performanceRecords = loadPerformanceRecords(state.data.employeePerformanceRecords);
 state.candidateEvaluations = loadCandidateEvaluations(state.data.candidateEvaluations);
+state.organizationAnalysis = state.data.meta.mode === "production" && state.data.organizationAnalysis
+  ? state.data.organizationAnalysis
+  : deriveOrganizationAnalysis(state.data, state.performanceRecords);
 state.candidateId = state.data.candidates[0]?.id || null;
 state.page = resolvePageFromHash();
 buildLanguageSelect();
@@ -59,6 +63,7 @@ function renderDemoDisclosure() {
 
 function renderOverview() {
   const data = state.data;
+  const organization = state.organizationAnalysis;
   setHTML("overviewMeta", `${tag(data.meta.mode === "demo" ? t("common.demoData") : t("common.liveData"), "blue")} ${tag(t("common.updated", { date: date(data.meta.updatedAt) }), "gray")}`);
   setHTML("overviewMetrics", [
     metric(t("metric.analyzed"), data.meta.analyzedCount, t("common.people"), t("metric.analyzedMeta"), "blue"),
@@ -68,7 +73,7 @@ function renderOverview() {
   ].join(""));
 
   setHTML("roleReadinessPanel", panelTitle(t("panel.roleReadiness"), t("panel.roleReadinessHelp")) + bars(
-    data.roleReadiness.map((item, index) => ({ label: t(`role.${item.role}`), value: item.percent, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
+    organization.roleReadiness.map((item, index) => ({ label: t(`role.${item.role}`), value: item.percent, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
   ));
 
   setHTML("decisionPanel", panelTitle(t("panel.reviewFlow"), t("panel.reviewFlowHelp")) + list([
@@ -78,7 +83,7 @@ function renderOverview() {
   ], "decision"));
 
   setHTML("capabilityPanel", panelTitle(t("panel.capability"), t("panel.capabilityHelp")) + bars(
-    data.passDomains.map((domain) => ({ label: t(`domain.${domain}`), value: data.organizationAverage[domain], tone: domain === "attention" ? "teal" : domain === "planning" ? "orange" : "" }))
+    data.passDomains.map((domain) => ({ label: t(`domain.${domain}`), value: organization.organizationAverage[domain], tone: domain === "attention" ? "teal" : domain === "planning" ? "orange" : "" }))
   ));
 
   setHTML("insightPanel", panelTitle(t("panel.insights"), t("panel.insightsHelp")) + list([
@@ -251,7 +256,7 @@ function renderHiring() {
     row.addEventListener("keydown", (event) => { if (event.key === "Enter" || event.key === " ") open(); });
   });
   setHTML("hiringPortfolioPanel", panelTitle(t("hiring.portfolioTitle"), t("hiring.portfolioHelp")) + bars(
-    state.data.roleReadiness.map((item, index) => ({ label: t(`role.${item.role}`), value: item.percent, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
+    state.organizationAnalysis.roleReadiness.map((item, index) => ({ label: t(`role.${item.role}`), value: item.percent, tone: index === 0 ? "orange" : index === 2 ? "teal" : "" }))
   ));
   setHTML("hiringGuidePanel", panelTitle(t("hiring.guideTitle"), t("hiring.guideHelp")) + list([
     ["A", t("hiring.guide1Title"), t("hiring.guide1Text")],
@@ -261,7 +266,7 @@ function renderHiring() {
 }
 
 function renderBenchmark() {
-  const jobs = [...new Set(state.data.jobCoverage.map((item) => item.job))];
+  const jobs = [...new Set(state.organizationAnalysis.jobCoverage.map((item) => item.job))];
   setHTML("benchmarkToolbar", `<div class="toolbar-group"><label><span class="sr-only">${t("common.job")}</span><select id="benchmarkJobSelect">${jobs.map((job) => `<option value="${job}" ${job === state.benchmarkJob ? "selected" : ""}>${t(`job.${job}`)}</option>`).join("")}</select></label></div><span class="pill blue">${t("benchmark.multipleSuccess")}</span>`);
   document.getElementById("benchmarkJobSelect").addEventListener("change", (event) => {
     capturePerformanceInputs();
@@ -269,7 +274,7 @@ function renderBenchmark() {
     state.performanceNotice = null;
     renderBenchmark();
   });
-  const selectedCoverage = state.data.jobCoverage.find((item) => item.job === state.benchmarkJob) || state.data.jobCoverage[0];
+  const selectedCoverage = state.organizationAnalysis.jobCoverage.find((item) => item.job === state.benchmarkJob) || state.organizationAnalysis.jobCoverage[0];
   const profile = state.data.profiles.find((item) => item.role === "leader") || state.data.profiles[0];
   setHTML("benchmarkChartPanel", panelTitle(t("benchmark.profileTitle"), t("benchmark.profileHelp")) + bars(
     state.data.passDomains.map((domain) => ({ label: t(`domain.${domain}`), value: profile.pass[domain], tone: domain === "planning" ? "orange" : domain === "simultaneous" ? "teal" : "" }))
@@ -366,14 +371,21 @@ async function persistPerformanceRecords(status) {
     if (state.data.meta.mode === "demo") {
       localStorage.setItem(performanceStorageKey(), JSON.stringify(state.performanceRecords));
     } else {
-      await saveEmployeePerformanceRecords(state.performanceRecords.filter((item) => item.job === state.benchmarkJob), readIntegrationContext());
+      const response = await saveEmployeePerformanceRecords(state.performanceRecords.filter((item) => item.job === state.benchmarkJob), readIntegrationContext());
+      if (response?.organizationAnalysis) state.data.organizationAnalysis = response.organizationAnalysis;
     }
     state.performanceNotice = { key: status === "approved" ? "performance.applied" : "performance.savedDraft", tone: "success" };
   } catch (error) {
     console.error(error);
     state.performanceNotice = { key: "performance.saveFailed", tone: "error" };
   }
+  state.organizationAnalysis = state.data.meta.mode === "production" && state.data.organizationAnalysis
+    ? state.data.organizationAnalysis
+    : deriveOrganizationAnalysis(state.data, state.performanceRecords);
   renderBenchmark();
+  renderOverview();
+  renderHiring();
+  renderOrganization();
 }
 
 function derivedEmployeeSuccessProfiles() {
@@ -421,7 +433,23 @@ function loadPerformanceRecords(fallback = []) {
   if (state.data.meta.mode !== "demo") return structuredClone(fallback || []);
   try {
     const saved = JSON.parse(localStorage.getItem(performanceStorageKey()));
-    if (Array.isArray(saved)) return saved;
+    if (Array.isArray(saved)) {
+      const savedByKey = new Map(saved.map((item) => [`${item.employeeId}:${item.job}:${item.reviewPeriod}`, item]));
+      const merged = (fallback || []).map((base) => {
+        const stored = savedByKey.get(`${base.employeeId}:${base.job}:${base.reviewPeriod}`);
+        return stored ? {
+          ...structuredClone(base),
+          ...stored,
+          department: stored.department ?? base.department,
+          pass: stored.pass ?? structuredClone(base.pass),
+          roleScores: stored.roleScores ?? structuredClone(base.roleScores),
+          targetJob: stored.targetJob ?? base.targetJob,
+          targetJobScore: stored.targetJobScore ?? base.targetJobScore,
+          dcasTopJobs: stored.dcasTopJobs ?? structuredClone(base.dcasTopJobs)
+        } : structuredClone(base);
+      });
+      return merged;
+    }
   } catch {}
   return structuredClone(fallback || []);
 }
@@ -435,7 +463,7 @@ function weightedEmployeeProfileScore(item, weights) {
 function renderIndividual() {
   const candidate = selectedCandidate();
   if (!candidate) return;
-  const resume = state.resumeFiles[candidate.id] || candidate.resume || null;
+  const evidenceProfile = eligibleEvidenceProfile(candidate);
   const rankedDomains = state.data.passDomains
     .map((domain) => [domain, candidate.pass[domain]])
     .sort((a, b) => b[1] - a[1]);
@@ -451,6 +479,7 @@ function renderIndividual() {
     <span class="source-chip"><b>1</b>${t("individual.sourceDcas")}</span>
     <span class="source-chip"><b>2</b>${t("individual.sourceApplication")}</span>
     <span class="source-chip"><b>3</b>${t("individual.sourceCompanyModel", { version: state.data.meta.modelVersion })}</span>
+    ${evidenceProfile ? `<span class="source-chip"><b>4</b>${t("individual.sourcePlanner")}</span><span class="source-chip"><b>5</b>${t("individual.sourceCoverLetter")}</span>` : ""}
   `);
   setHTML("resultSummaryPanel", panelTitle(t("individual.resultSummaryTitle"), t("individual.resultSummaryHelp")) + `
     <div class="report-summary-grid">
@@ -462,29 +491,7 @@ function renderIndividual() {
       <p>${t("individual.resultSummaryText", { first: t(`domain.${rankedDomains[0][0]}`), firstScore: number(rankedDomains[0][1]), second: t(`domain.${rankedDomains[1][0]}`), secondScore: number(rankedDomains[1][1]) })}</p>
     </div>
   `);
-  setHTML("resumePanel", panelTitle(t("individual.resumeTitle"), t("individual.resumeHelp")) + `
-    <div class="resume-upload-row">
-      <div class="resume-file-status">
-        <span>${t("individual.resumeStatus")}</span>
-        <strong>${resume ? esc(resume.fileName) : t("individual.resumeNotConnected")}</strong>
-        <small>${resume ? t("individual.resumeUpdated", { date: date(resume.updatedAt) }) : t("individual.resumePrivacy")}</small>
-      </div>
-      <label class="secondary-button upload-button" for="resumeUpload">${resume ? t("individual.resumeReplace") : t("individual.resumeUpload")}</label>
-      <input class="sr-only" id="resumeUpload" type="file" accept=".pdf,.doc,.docx" aria-label="${t("individual.resumeUploadAria")}">
-    </div>
-    <div class="resume-match-block">
-      <strong>${t("individual.resumeMatchTitle")}</strong>
-      <p>${t("individual.resumeMatchHelp")}</p>
-      ${resume ? `<div class="job-list compact">${(candidate.resumeTopJobs || candidate.topJobs.slice(0, 3)).map(([job, score], index) => `<div class="job-item"><span class="job-rank">${index + 1}</span><strong>${t(`job.${job}`)}</strong><span>${number(score)}%</span></div>`).join("")}</div>` : `<div class="empty-state compact">${t("individual.resumeMatchEmpty")}</div>`}
-    </div>
-  `);
-  document.getElementById("resumeUpload").addEventListener("change", (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
-    state.resumeFiles[candidate.id] = { fileName: file.name, updatedAt: new Date().toISOString() };
-    saveResumeMetadata(state.resumeFiles);
-    renderIndividual();
-  });
+  renderEvidenceProfile(evidenceProfile);
   setHTML("passPanel", panelTitle(t("individual.passTitle"), t("individual.passHelp")) + bars(
     state.data.passDomains.map((domain) => ({ label: t(`domain.${domain}`), value: candidate.pass[domain], tone: domain === "planning" ? "orange" : domain === "attention" ? "teal" : "" }))
   ));
@@ -504,6 +511,39 @@ function renderIndividual() {
     ["2", t("interview.q2Title"), t("interview.q2")],
     ["3", t("interview.q3Title"), t("interview.q3")]
   ], "insight") + `<div class="privacy-callout" style="margin-top:14px"><span class="bullet-icon">!</span><div><strong>${t("individual.disclaimerTitle")}</strong><p>${t("individual.disclaimer")}</p></div></div>`);
+}
+
+function eligibleEvidenceProfile(candidate) {
+  const profile = candidate?.evidenceProfile;
+  if (!profile?.planner?.linked || !profile?.aiCoverLetter?.linked) return null;
+  if (!profile.aiCoverLetter.candidateConfirmed || !profile?.sharingConsent?.active) return null;
+  return profile;
+}
+
+function renderEvidenceProfile(profile) {
+  const grid = document.getElementById("individualSummaryGrid");
+  grid.querySelector("#evidenceProfilePanel")?.remove();
+  grid.classList.toggle("single-column", !profile);
+  if (!profile) return;
+  grid.insertAdjacentHTML("beforeend", `
+    <article class="panel evidence-profile-panel" id="evidenceProfilePanel">
+      ${panelTitle(t("individual.profileTitle"), t("individual.profileHelp"))}
+      <div class="evidence-source-row">
+        <span class="pill blue">${t("individual.sourcePlanner")}</span>
+        <span class="pill teal">${t("individual.sourceCoverLetter")}</span>
+        <span class="pill gray">${t("individual.candidateConfirmed")}</span>
+      </div>
+      <div class="report-summary-grid evidence-profile-metrics">
+        <div><span>${t("individual.experienceCards")}</span><strong>${number(profile.planner.experienceCount)}</strong></div>
+        <div><span>${t("individual.competenciesConfirmed")}</span><strong>${number(profile.competencyCount)}</strong></div>
+        <div><span>${t("individual.consistency")}</span><strong>${number(profile.consistencyScore)}%</strong></div>
+      </div>
+      <div class="evidence-columns">
+        <div><strong>${t("individual.confirmedEvidenceTitle")}</strong><ul>${profile.confirmedEvidence.map((key) => `<li>${t(key)}</li>`).join("")}</ul></div>
+        <div><strong>${t("individual.verifyEvidenceTitle")}</strong><ul>${profile.verifyEvidence.map((key) => `<li>${t(key)}</li>`).join("")}</ul></div>
+      </div>
+    </article>
+  `);
 }
 
 function renderDevelopment() {
@@ -526,7 +566,8 @@ function renderDevelopment() {
 }
 
 function renderOrganization() {
-  const coverage = state.data.jobCoverage;
+  const organization = state.organizationAnalysis;
+  const coverage = organization.jobCoverage;
   const aboveTarget = coverage.filter((item) => item.current >= item.target).length;
   const largestGap = Math.max(...coverage.map((item) => item.target - item.current));
   setHTML("organizationMetrics", [
@@ -536,13 +577,13 @@ function renderOrganization() {
     metric(t("organization.minCohort"), state.data.meta.minimumCohortSize, t("common.people"), t("organization.minCohortMeta"), "violet")
   ].join(""));
   setHTML("coveragePanel", panelTitle(t("organization.coverageTitle"), t("organization.coverageHelp")) + bars(coverage.map((item) => ({ label: t(`job.${item.job}`), value: item.current, tone: item.current >= item.target ? "teal" : "orange" }))));
-  setHTML("balancePanel", panelTitle(t("organization.balanceTitle"), t("organization.balanceHelp")) + bars(state.data.roleReadiness.map((item) => ({ label: t(`role.${item.role}`), value: item.percent }))));
-  const departmentRows = state.data.departments.map((item) => `<tr><td><strong>${t(`department.${item.department}`)}</strong></td><td>${number(item.headcount)}</td><td>${number(item.leaderReady)}</td><td>${number(item.specialistReady)}</td><td>${number(item.coverage)}%</td><td>${t(`job.${item.gap}`)}</td></tr>`).join("");
+  setHTML("balancePanel", panelTitle(t("organization.balanceTitle"), t("organization.balanceHelp")) + bars(organization.roleReadiness.map((item) => ({ label: t(`role.${item.role}`), value: item.percent }))));
+  const departmentRows = organization.departments.map((item) => `<tr><td><strong>${t(`department.${item.department}`)}</strong></td><td>${number(item.headcount)}</td><td>${number(item.leaderReady)}</td><td>${number(item.specialistReady)}</td><td>${number(item.coverage)}%</td><td>${t(`job.${item.gap}`)}</td></tr>`).join("");
   setHTML("departmentPanel", panelTitle(t("organization.departmentTitle"), t("organization.departmentHelp")) + table(
     [t("table.department"), t("table.headcount"), t("table.leaderPool"), t("table.specialistPool"), t("table.coverage"), t("table.priorityGap")], departmentRows
   ));
-  setHTML("successionPanel", panelTitle(t("organization.successionTitle"), t("organization.successionHelp")) + `<div class="succession-list">${state.data.succession.map((item) => `<div class="succession-row"><strong>${t(`role.${item.role}`)}</strong><span>${t("organization.readyNow", { count: number(item.readyNow) })}</span><span>${t("organization.readyLater", { count: number(item.readyLater) })}</span><span class="pill ${item.gap > 2 ? "orange" : "teal"}">${t("organization.gap", { count: number(item.gap) })}</span></div>`).join("")}</div>`);
-  setHTML("mobilityPanel", panelTitle(t("organization.mobilityTitle"), t("organization.mobilityHelp")) + list(state.data.internalMobility.map((item) => ["↗", t(`job.${item.from}`), t("organization.mobilityPath", { to: t(`job.${item.to}`), count: number(item.count) })]), "insight"));
+  setHTML("successionPanel", panelTitle(t("organization.successionTitle"), t("organization.successionHelp")) + `<div class="succession-list">${organization.succession.map((item) => `<div class="succession-row"><strong>${t(`role.${item.role}`)}</strong><span>${t("organization.readyNow", { count: number(item.readyNow) })}</span><span>${t("organization.readyLater", { count: number(item.readyLater) })}</span><span class="pill ${item.gap > 2 ? "orange" : "teal"}">${t("organization.gap", { count: number(item.gap) })}</span></div>`).join("")}</div>`);
+  setHTML("mobilityPanel", panelTitle(t("organization.mobilityTitle"), t("organization.mobilityHelp")) + (organization.internalMobility.length ? list(organization.internalMobility.map((item) => ["↗", t(`job.${item.from}`), t("organization.mobilityPath", { to: t(`job.${item.to}`), count: number(item.count) })]), "insight") : `<div class="empty-state">${t("common.noData")}</div>`));
   setHTML("privacyCallout", `<span class="bullet-icon">!</span><div><strong>${t("organization.privacyTitle")}</strong><p>${t("organization.privacyText", { count: number(state.data.meta.minimumCohortSize) })}</p></div>`);
 }
 
@@ -740,15 +781,6 @@ function table(headers, rows) {
 
 function personCell(candidate) {
   return `<div class="person-cell"><div class="avatar">${esc(initials(candidate.name))}</div><div><strong>${esc(candidate.name)}</strong><small>${t("individual.openDetail")}</small></div></div>`;
-}
-
-function loadResumeMetadata() {
-  try { return JSON.parse(localStorage.getItem("dcas-enterprise-resume-metadata") || "{}"); }
-  catch { return {}; }
-}
-
-function saveResumeMetadata(value) {
-  localStorage.setItem("dcas-enterprise-resume-metadata", JSON.stringify(value));
 }
 
 function jobLabel(job) {

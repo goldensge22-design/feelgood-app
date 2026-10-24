@@ -6,6 +6,7 @@
 - 제품 기획: `enterprise-dashboard/PRODUCT_PLAN.md`
 - 결과지/API 계약: `enterprise-dashboard/DATA_CONTRACT.md`
 - 인재 산출 기본 규칙: `enterprise-dashboard/TALENT_SCORING_RULES.md`
+- 조직·팀 산출 규칙: `enterprise-dashboard/ORGANIZATION_SCORING_RULES.md`
 - 개발자 전달서: `enterprise-dashboard/DEVELOPER_HANDOFF.md`
 - 운영 adapter 진입점: `enterprise-dashboard/data-adapter.js`
 - 데모 데이터: `enterprise-dashboard/mock-data.js`
@@ -18,7 +19,7 @@
 - 기업 평가 + D-CAS 인재상과 D-CAS/PASS 기반 잠재 인재상의 나란한 비교
 - 채용 후보자 직무·역할 분석
 - 지원자 명단과 D-CAS 결과 연결, 이름 선택 후 개인 상세 진입
-- 이력서 연결 및 이력서 기반 직무군 매칭(D-CAS 추천과 출처 분리)
+- 플래너 경험과 AI 자소서가 모두 연결되고 본인 확인·공유 동의가 유효할 때만 통합 근거 표시
 - 기존 직원 기준 프로파일 비교
 - 기존 직원 D-CAS 결과와 업무성과를 결합한 직무별 기업 인재상
 - 관리자 업무성과·역할근거 입력, 임시저장·승인 후 직무별 분석 재계산
@@ -26,7 +27,7 @@
 - 개인 결과지 요약, PASS 네 영역과 D-CAS 추천 직무 Top 5
 - 신입사원의 리더·전문가·프로젝트 책임자·실무 수행 경로 검토
 - 30·60·90일 온보딩·성장계획
-- 조직 역량 공백과 실행계획
+- 승인된 직원 평가와 인력계획을 이용해 계산하는 조직 역량 공백·역할 구성·승계·이동 경로
 - 기업·직무별 업무역량 모델 편집
 
 공개 데모의 기업, 지원자, 직원, 인원수, 점수, 매칭률, 성과, 진행률과 일정은 모두 가상 데이터다. 화면 상단의 안내에서 인원·점수·가중치 해석과 운영 API 교체 기준을 항상 확인할 수 있다.

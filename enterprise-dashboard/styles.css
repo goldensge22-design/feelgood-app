@@ -351,18 +351,14 @@ body:not(.is-loading) .loading-screen { opacity: 0; pointer-events: none; }
 .report-summary-grid strong { margin-top: 4px; font-size: 12px; }
 .summary-highlight { display: flex; gap: 10px; align-items: flex-start; padding: 12px; border-radius: 12px; background: var(--blue-100); }
 .summary-highlight p { margin: 2px 0 0; color: var(--text-muted); font-size: 11px; line-height: 1.55; overflow-wrap: anywhere; }
-.resume-upload-row { display: grid; grid-template-columns: minmax(0,1fr) auto; gap: 12px; align-items: center; padding-bottom: 13px; border-bottom: 1px solid var(--border); }
-.resume-file-status span, .resume-file-status strong, .resume-file-status small { display: block; overflow-wrap: anywhere; }
-.resume-file-status span { color: var(--text-soft); font-size: 9px; font-weight: 700; }
-.resume-file-status strong { margin: 3px 0; font-size: 12px; }
-.resume-file-status small { color: var(--text-muted); font-size: 9px; }
-.upload-button { display: inline-flex; align-items: center; justify-content: center; padding: 7px 12px; font-size: 10px; }
-.resume-match-block { margin-top: 13px; }
-.resume-match-block > strong { display: block; font-size: 12px; }
-.resume-match-block > p { margin: 4px 0 10px; color: var(--text-muted); font-size: 10px; line-height: 1.5; }
-.job-list.compact { gap: 6px; }
-.job-list.compact .job-item { padding: 7px 9px; }
-.empty-state.compact { padding: 18px 10px; font-size: 10px; }
+.individual-summary-grid.single-column { grid-template-columns: 1fr; }
+.evidence-source-row { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 12px; }
+.evidence-profile-metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.evidence-columns { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.evidence-columns > div { min-width: 0; padding: 12px; border: 1px solid var(--border); border-radius: 11px; background: #fbfcfe; }
+.evidence-columns strong { display: block; font-size: 11px; overflow-wrap: anywhere; }
+.evidence-columns ul { margin: 7px 0 0; padding-inline-start: 17px; color: var(--text-muted); font-size: 10px; line-height: 1.55; }
+.evidence-columns li { overflow-wrap: anywhere; }
 .source-caption { display: inline-flex; margin-bottom: 9px; padding: 5px 8px; color: var(--blue-600); background: var(--blue-100); border-radius: 999px; font-size: 9px; font-weight: 800; }
 .model-footnote { margin-top: 14px; padding: 12px 13px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-soft); }
 .model-footnote strong { display: block; font-size: 11px; }
@@ -541,7 +537,7 @@ html[dir="rtl"] .bar-value, html[dir="rtl"] .hero-score { text-align: start; }
   .succession-row { grid-template-columns: 1fr 1fr; }
   .competency-fields { grid-template-columns: 1fr 1fr; }
   .roster-summary, .roster-flow { grid-template-columns: 1fr; }
-  .report-summary-grid, .resume-upload-row { grid-template-columns: 1fr; }
+  .report-summary-grid, .evidence-profile-metrics, .evidence-columns { grid-template-columns: 1fr; }
   .demo-rule-grid { grid-template-columns: 1fr; }
   .candidate-filter-grid { grid-template-columns: 1fr; }
   .candidate-data-guide { flex-basis: 100%; min-width: 0; }

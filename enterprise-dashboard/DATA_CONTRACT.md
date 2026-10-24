@@ -49,9 +49,9 @@ candidate.topJobs = [
 ];
 ```
 
-첫 값은 회사 직무 taxonomy ID, 두 번째 값은 D-CAS 결과지에서 제공하는 0–100 추천 신호다. 결과지 직무명과 회사 직무명이 다르면 서버 또는 adapter에서 mapping한다. 이 값은 이력서 기반 매칭과 합산하지 않는다.
+첫 값은 회사 직무 taxonomy ID, 두 번째 값은 D-CAS 결과지에서 제공하는 0–100 추천 신호다. 결과지 직무명과 회사 직무명이 다르면 서버 또는 adapter에서 mapping한다. 이 값은 플래너·AI 자소서 통합 근거와 합산하지 않는다.
 
-### 지원자 명단·이력서 연결
+### 지원자 명단·플래너·AI 자소서 연결
 
 채용시스템의 지원자 명단은 `candidate.id`를 기준으로 D-CAS 결과지와 연결한다. 실제 지원 직무는 검사에서 추정하지 않고 채용시스템 또는 담당자 입력값을 사용한다.
 
@@ -60,19 +60,18 @@ candidate.appliedJob = "productStrategy";
 candidate.appliedJobSource = "recruitmentSystem"; // 또는 managerInput
 candidate.reportId = "DCR-2026-2401";
 candidate.assessedAt = ISODateString;
-candidate.resume = {
-  fileId: String,       // 운영 서버의 보안 저장소 ID
-  fileName: String,
-  updatedAt: ISODateString
+candidate.evidenceProfile = {
+  planner: { linked: Boolean, experienceCount: Number },
+  aiCoverLetter: { linked: Boolean, candidateConfirmed: Boolean },
+  sharingConsent: { active: Boolean, updatedAt: ISODateString },
+  competencyCount: Number,
+  consistencyScore: Number,
+  confirmedEvidence: [TranslationKey],
+  verifyEvidence: [TranslationKey]
 };
-candidate.resumeTopJobs = [
-  ["productStrategy", 84],
-  ["projectManagement", 81],
-  ["businessPlanning", 78]
-];
 ```
 
-`resumeTopJobs`는 이력서의 경력·기술·프로젝트 근거로 별도 계산한다. `topJobs`(D-CAS), `resumeTopJobs`(이력서), `fit`(실제 지원 직무와 기업 모델)을 서로 다른 출처로 저장하고 UI에서도 분리해 표시한다. 데모는 개인정보 보호를 위해 파일 자체를 저장하거나 전송하지 않고 파일명 메타데이터만 브라우저에 보관한다. 운영판의 업로드·악성파일 검사·권한·보유기간·삭제는 서버에서 구현한다.
+일반 이력서 파일은 대시보드에서 업로드하거나 독립 AI 분석하지 않는다. `planner.linked`, `aiCoverLetter.linked`, `candidateConfirmed`, `sharingConsent.active`가 모두 `true`일 때만 통합 근거 패널을 생성한다. 하나라도 충족하지 않으면 패널을 만들지 않으며 준비도·추천 직무 계산에도 0점으로 넣지 않는다. 공유 동의 철회 시 즉시 응답에서 제외한다.
 
 ### 결과지의 인지특성과 81유형
 
@@ -134,11 +133,17 @@ candidate.source = {
   employeePerformanceRecords: [{
     employeeId: String,
     job: String,
+    department: String,
     profile: String,
     reviewPeriod: String,
     dcasScore: Number,
     workPerformanceScore: Number,
     roleEvidenceScore: Number,
+    pass: { planning: Number, attention: Number, simultaneous: Number, sequential: Number },
+    roleScores: { leader: Number, projectLead: Number, specialist: Number, practitioner: Number },
+    targetJob: String | null,
+    targetJobScore: Number | null,
+    dcasTopJobs: [String],
     evaluatorRole: String,
     status: "draft|approved",
     updatedAt: ISODateString
@@ -193,9 +198,7 @@ candidate.source = {
       calculation: Object,
       pass: Object,
       topJobs: [[String, Number]],
-      resume: { fileId: String, fileName: String, updatedAt: ISODateString } | null,
-      resumeTopJobs: [[String, Number]],
-      resumeAppliedJobEvidence: Number | null,
+      evidenceProfile: Object | null,
       evidence: [TranslationKey],
       verify: [TranslationKey],
       workStyle: [TranslationKey],
@@ -205,6 +208,18 @@ candidate.source = {
     }
   ],
   jobCoverage: [{ job: String, current: Number, target: Number }],
+  organizationWorkforcePlan: [{ job: String, department: String, requiredHeadcount: Number, target: Number }],
+  organizationRoleTargets: { leader: Number, projectLead: Number, specialist: Number },
+  organizationAnalysis: {
+    ruleVersion: String,
+    calculatedAt: ISODateString,
+    organizationAverage: Object,
+    roleReadiness: [Object],
+    jobCoverage: [Object],
+    departments: [Object],
+    succession: [Object],
+    internalMobility: [Object]
+  },
   actions: [{ id: String, type: String, subject: String, owner: String, due: ISODateString, status: String }],
   reviewStageCompletion: [{ type: String, value: Number }],
   accessRoles: [{ role: String, access: String }]
