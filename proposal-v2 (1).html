@@ -240,7 +240,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   color:#fff;font-size:.76rem;font-weight:600;padding:5px 13px;border-radius:20px;}
 .paxes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:28px 0;}
 @media(max-width:700px){.paxes{grid-template-columns:1fr 1fr;}}
-.axc{background:#fff;border-radius:14px;padding:20px 16px;text-align:center;
+.axc{min-width:0;background:#fff;border-radius:14px;padding:20px 16px;text-align:center;overflow-wrap:anywhere;
   box-shadow:var(--sh);border-top:4px solid var(--gold);}
 .axl{font-family:'Montserrat',sans-serif;font-size:2rem;font-weight:900;color:var(--navy);line-height:1;margin-bottom:6px;}
 .axn{font-size:.88rem;font-weight:700;color:var(--navy);margin-bottom:4px;}
@@ -559,6 +559,10 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 .act-img{width:100%;aspect-ratio:4/3;overflow:hidden;background:#e2e8f0;}
 .act-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
 .act-card:hover .act-img img{transform:scale(1.05);}
+.act-record-visual{aspect-ratio:4/3;padding:24px;display:flex;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,#132f55,#284f86 58%,#7065a8);color:#fff;}
+.act-record-visual .record-mark{font-family:'Montserrat',sans-serif;font-size:11px;font-weight:800;letter-spacing:1.4px;color:#ffb02e;}
+.act-record-visual strong{font-size:22px;line-height:1.3;}
+.act-record-visual span{font-size:12px;color:rgba(255,255,255,.78);}
 .act-info{padding:14px 16px 16px;}
 .act-title{font-size:13.5px;font-weight:800;color:var(--text,#0f172a);margin-bottom:5px;line-height:1.4;}
 .act-desc{font-size:12px;color:var(--textl,#64748b);line-height:1.6;}
@@ -1150,6 +1154,25 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .cl-steps .row .task{color:var(--ink);}
   .cl-steps .row .out{color:var(--sub);}
 
+  .evidence-bridge{border:1px solid rgba(46,102,190,.18);background:linear-gradient(145deg,#f8fbff,#f7f4ff);border-radius:20px;padding:24px;box-shadow:0 12px 30px rgba(29,53,92,.08);}
+  .evidence-bridge .flow-tag{display:inline-flex;padding:5px 10px;border-radius:999px;background:#fff3df;color:#a85c00;font-size:11px;font-weight:800;letter-spacing:.8px;margin-bottom:10px;}
+  .evidence-flow{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin:20px 0;}
+  .evidence-step{position:relative;min-width:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 14px;}
+  .evidence-step:not(:last-child)::after{content:'›';position:absolute;right:-9px;top:50%;transform:translateY(-50%);z-index:2;color:#7065a8;font-size:22px;font-weight:800;}
+  .evidence-step .n{font-size:11px;font-weight:800;color:#7065a8;margin-bottom:6px;}
+  .evidence-step b{display:block;font-size:14px;color:var(--ink);margin-bottom:6px;overflow-wrap:anywhere;}
+  .evidence-step p{font-size:12px;line-height:1.55;color:var(--sub);margin:0;overflow-wrap:anywhere;}
+  .evidence-outcomes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+  .evidence-outcome{min-width:0;border-radius:14px;padding:16px 18px;background:#172f55;color:#fff;}
+  .evidence-outcome.company{background:#f39a18;color:#172f55;}
+  .evidence-outcome b{display:block;font-size:14px;margin-bottom:6px;}
+  .evidence-outcome p{font-size:12.5px;line-height:1.6;margin:0;color:inherit;opacity:.9;overflow-wrap:anywhere;}
+  .evidence-note{font-size:11.5px;line-height:1.6;color:var(--sub);margin:14px 0 0;}
+  .biz-evidence{margin:18px 0 0;}
+  .biz-evidence .evidence-flow{grid-template-columns:repeat(5,minmax(0,1fr));}
+  .evidence-output-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px;}
+  .evidence-output-list div{min-width:0;background:#fff;border:1px solid var(--line);border-left:4px solid var(--am);border-radius:12px;padding:13px 14px;font-size:12.5px;line-height:1.55;color:var(--text);overflow-wrap:anywhere;}
+
   /* CTA */
   .ct-cta{background:linear-gradient(135deg,var(--blue) 0%,var(--blue-dark) 100%);border-radius:20px;padding:40px 32px;color:#fff;}
   .ct-cta h3{font-size:22px;margin:0 0 8px;}
@@ -1161,7 +1184,8 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .cta-card a{color:#fff;text-decoration:underline;font-size:12.5px;}
 
   @media(max-width:760px){
-    .steps3, .why-grid, .p-facts, .cta-grid, .cl-intro-grid{grid-template-columns:1fr;}
+    .steps3, .why-grid, .p-facts, .cta-grid, .cl-intro-grid, .evidence-flow, .evidence-outcomes, .biz-evidence .evidence-flow, .evidence-output-list{grid-template-columns:1fr;}
+    .evidence-step:not(:last-child)::after{content:'⌄';right:50%;top:auto;bottom:-18px;transform:translateX(50%);}
     .bridge-row, .transfer-row{grid-template-columns:1fr;text-align:left;}
     .bridge-row .to, .transfer-row .arrow-mid{transform:rotate(90deg);padding:4px 0;}
     .cl-timeline .row, .cl-steps .row{grid-template-columns:1fr;}
@@ -1520,6 +1544,17 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         <div class="act-info">
           <div class="act-title" data-i18n="track_u6_title">부산외대 대규모 특강</div>
           <div class="act-desc" data-i18n="track_u6_desc">아이디어 박스 세션 — 뇌유형별 팀 프로젝트</div>
+        </div>
+      </div>
+      <div class="act-card">
+        <div class="act-record-visual" role="img" aria-label="한서대학교 항공보안학과 진로·직무 검사 및 특강" data-i18n-aria-label="track_u7_title">
+          <span class="record-mark" data-i18n="track_u7_date">2026 · OCTOBER</span>
+          <strong>D-CAS<br>CAREER &amp; JOB</strong>
+          <span>FeelGood × University</span>
+        </div>
+        <div class="act-info">
+          <div class="act-title" data-i18n="track_u7_title">한서대학교 항공보안학과 진로·직무 검사 및 특강</div>
+          <div class="act-desc" data-i18n="track_u7_desc">2026년 10월 · D-CAS 기반 인지특성 검사와 진로·직무 결과 활용 특강 진행</div>
         </div>
       </div>
     </div>
@@ -1965,6 +2000,24 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <p class="p-footnote" style="margin-top:14px;" data-i18n="nv_cl_pc_foot">중학생은 관찰 경험, 고등학생은 분야 비교, 대학생은 직무 보완과 포트폴리오로 후속 실천이 이어집니다.</p>
     </div>
 
+    <div class="cl-sub-block evidence-bridge" id="career-evidence-flow">
+      <span class="flow-tag" data-i18n="nv_cl_flow_tag">CAREER EVIDENCE FLOW</span>
+      <h4 class="sub-title" data-i18n="nv_cl_flow_h">검사 결과를 취업 준비의 연결된 기록으로 만듭니다</h4>
+      <p class="sub-desc" data-i18n="nv_cl_flow_p">학생이 이해한 강점을 실제 행동으로 사용하고, 확인 가능한 경험과 자기소개서 문장으로 정리합니다.</p>
+      <div class="evidence-flow" aria-label="진로캠프 취업 준비 흐름" data-i18n-aria-label="nv_cl_flow_aria">
+        <div class="evidence-step"><div class="n">01</div><b data-i18n="nv_cl_flow_s1_h">D-CAS 결과지</b><p data-i18n="nv_cl_flow_s1_p">강점과 지원 포인트, 직무 탐색 후보 확인</p></div>
+        <div class="evidence-step"><div class="n">02</div><b data-i18n="nv_cl_flow_s2_h">NUVIA PLANNER</b><p data-i18n="nv_cl_flow_s2_p">첫 행동과 완료 기준을 정하고 실행·수정 기록</p></div>
+        <div class="evidence-step"><div class="n">03</div><b data-i18n="nv_cl_flow_s3_h">기업 LAB</b><p data-i18n="nv_cl_flow_s3_p">직무역량을 관찰 행동과 확인 방법으로 이해</p></div>
+        <div class="evidence-step"><div class="n">04</div><b data-i18n="nv_cl_flow_s4_h">경험카드</b><p data-i18n="nv_cl_flow_s4_p">상황·행동·조정·결과의 사실 근거 정리</p></div>
+        <div class="evidence-step"><div class="n">05</div><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></div>
+      </div>
+      <div class="evidence-outcomes">
+        <div class="evidence-outcome"><b data-i18n="nv_cl_flow_uni_h">대학에 남는 결과</b><p data-i18n="nv_cl_flow_uni_p">학생별 결과지, 활동 산출물, 자기소개서 수정본과 7일·30일 후속 계획</p></div>
+        <div class="evidence-outcome company"><b data-i18n="nv_cl_flow_company_h">기업과 연결되는 근거</b><p data-i18n="nv_cl_flow_company_p">직무 행동 기준에 맞춘 경험 근거와 구조화 면접의 확인 질문</p></div>
+      </div>
+      <p class="evidence-note" data-i18n="nv_cl_flow_note">AI는 학생이 확인한 사실을 정리하고 질문을 제안합니다. 모의 활동과 실제 경험을 구분하며, 검사 결과만으로 채용 적합성이나 합격을 결정하지 않습니다.</p>
+    </div>
+
   </div>
   <!-- ============ /CAREER LAB ============ -->
 
@@ -2230,6 +2283,29 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod4_h">👑 리더십 잠재력</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod4_d">계획력(P) + 동시처리(Sim) 고점<br>= 전략적 리더십 프로파일<br>임원 후보군 객관적 발굴</div></div>
       <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod5_h">🤝 협업 시너지</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod5_d">팀원 PASS 조합 분석<br>상호보완 구성 추천<br>갈등 취약 구성 사전 경고</div></div>
       <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod6_h">📈 고잠재 인재</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod6_d">성과 대비 인지능력 잠재력 갭<br>숨겨진 고성과자 발굴<br>HiPo 트랙 객관적 선발</div></div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="evidence-bridge biz-evidence">
+      <span class="flow-tag" data-i18n="biz_ev_tag">TALENT EVIDENCE MATCHING</span>
+      <div class="sec-title am" data-i18n="biz_ev_h">결과지·실행기록·자소서를 연결한 핀셋 인재 추천</div>
+      <p class="sec-sub" data-i18n="biz_ev_p">인지 프로파일만으로 사람을 판단하지 않습니다. 대학 진로·직무 캠프에서 학생이 남긴 계획, 수행 과정, 산출물과 자기소개서의 사실 근거를 기업의 직무 행동 기준과 함께 검토합니다.</p>
+      <div class="evidence-flow" aria-label="기업 인재 추천 근거 흐름" data-i18n-aria-label="biz_ev_aria">
+        <div class="evidence-step"><div class="n">01</div><b data-i18n="nv_cl_flow_s1_h">D-CAS 결과지</b><p data-i18n="nv_cl_flow_s1_p">강점과 지원 포인트, 직무 탐색 후보 확인</p></div>
+        <div class="evidence-step"><div class="n">02</div><b data-i18n="nv_cl_flow_s2_h">NUVIA PLANNER</b><p data-i18n="nv_cl_flow_s2_p">첫 행동과 완료 기준을 정하고 실행·수정 기록</p></div>
+        <div class="evidence-step"><div class="n">03</div><b data-i18n="nv_cl_flow_s3_h">기업 LAB</b><p data-i18n="nv_cl_flow_s3_p">직무역량을 관찰 행동과 확인 방법으로 이해</p></div>
+        <div class="evidence-step"><div class="n">04</div><b data-i18n="nv_cl_flow_s4_h">경험카드</b><p data-i18n="nv_cl_flow_s4_p">상황·행동·조정·결과의 사실 근거 정리</p></div>
+        <div class="evidence-step"><div class="n">05</div><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></div>
+      </div>
+      <div class="sec-title am" style="font-size:14px;margin-top:18px;" data-i18n="biz_ev_out_h">기업이 받는 검토 자료</div>
+      <div class="evidence-output-list">
+        <div data-i18n="biz_ev_out1">추천 직무와 추천 사유, 대안 직무</div>
+        <div data-i18n="biz_ev_out2">직무 행동 기준별 수행 근거 지도</div>
+        <div data-i18n="biz_ev_out3">자기소개서 근거와 추가 확인이 필요한 항목</div>
+        <div data-i18n="biz_ev_out4">구조화 면접 질문과 입사 후 육성 포인트</div>
+      </div>
+      <p class="evidence-note" data-i18n="biz_ev_note">추천 결과는 후보 검토를 돕는 참고정보입니다. 직무 관련성 검토, 지원자 동의와 기업 담당자의 사람 중심 판단을 거쳐 최종 채용을 결정합니다.</p>
     </div>
   </div>
 
