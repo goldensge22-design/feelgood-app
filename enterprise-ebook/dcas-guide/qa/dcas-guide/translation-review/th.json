@@ -1,0 +1,27 @@
+{
+  "corrections": [
+    {
+      "old": "หลักฐานประสบการณ์จะแสดงเฉพาะเมื่อทั้งแพลนเนอร์และจดหมายแนะนำตัวด้วย AI เชื่อมโยงแล้ว และการยืนยันตัวตนกับความยินยอมในการแบ่งปันยังมีผล มิฉะนั้นจะแสดงเพียงผลแบบทดสอบและไม่มีผลเสียใด",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing required deployment caveat regarding operational dashboard/identity/consent integration requirements.",
+      "replacement": "ข้อมูลแผนผังและจดหมายแนะนำตัว AI จะแสดงก็ต่อเมื่อเชื่อมต่อระบบแล้ว มีการยืนยันตัวตน และได้รับความยินยอม หากไม่ครบถ้วนให้สอบถามผู้ดูแลการเชื่อมต่อ และใช้เพียงผลแบบทดสอบโดยไม่มีผลเสียต่อการประเมิน",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 160,
+  "limits": [
+    "No native certification claimed.",
+    "Unreviewed: UI/Accessibility/Print labels and technical meta tags were reviewed for content accuracy but not for functional behavior in specific TH regional browsers.",
+    "Uncertain: 'Deployment caveat' terminology in Thai aims for clarity; professional verification recommended for corporate dashboard UI."
+  ],
+  "locale": "th",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "th-0.json",
+    "th-1.json",
+    "th-2.json",
+    "th-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

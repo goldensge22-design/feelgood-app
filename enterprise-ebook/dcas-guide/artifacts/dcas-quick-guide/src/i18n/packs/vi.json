@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "title": "D-CAS ENTERPRISE LABS | Hướng dẫn tuyển dụng thực tế cho nhân sự"
+  },
+  "ui": {
+    "skip": "Chuyển đến nội dung",
+    "language": "Ngôn ngữ",
+    "languageAria": "Chọn ngôn ngữ",
+    "print": "In",
+    "printAria": "In toàn bộ hướng dẫn bằng ngôn ngữ hiện tại",
+    "toc": "Mục lục",
+    "tocAria": "Mục lục hướng dẫn",
+    "chapterSelect": "Đi đến chương",
+    "pagerAria": "Điều hướng chương",
+    "cover": "Bìa",
+    "prev": "Trước",
+    "next": "Tiếp",
+    "backToCover": "Về trang bìa",
+    "chapterLabel": "Chương {n}",
+    "open": "Màn hình cần mở",
+    "steps": "Thực hiện",
+    "example": "Ví dụ giả định",
+    "notes": "Cần biết",
+    "flowExample": "Ví dụ luồng sử dụng",
+    "demoLink": "Xem màn hình trong bản demo",
+    "newTab": "mở trong thẻ mới",
+    "readTime": "Khoảng 8 phút đọc",
+    "loading": "Đang tải",
+    "startNew": "Mới làm? Bắt đầu từ chương 1",
+    "startExisting": "Bắt đầu từ chương 3",
+    "workflowLabel": "Quy trình tuyển dụng",
+    "who": "Ai",
+    "prepare": "Cần chuẩn bị",
+    "done": "Kiểm tra đã xong",
+    "actionsLabel": "Khi → bước tiếp theo",
+    "when": "Khi",
+    "nextAction": "Bước tiếp theo"
+  },
+  "cover": {
+    "brandLine": "Hướng dẫn thực tế cho nhân viên nhân sự và tuyển dụng",
+    "title": "Hướng dẫn tuyển dụng thực tế cho nhân sự",
+    "subtitle": "Từ tiêu chí công ty đến so sánh và quyết định: sáu chương theo một ca tuyển dụng",
+    "caseLine": "Tình huống: công ty hư cấu Hangyeol Logistics tuyển một chuyên viên phân tích dữ liệu (cấp thực thi).",
+    "workflow": [
+      "Chuẩn bị tiêu chí công ty",
+      "Đưa đánh giá nhân viên hiện tại vào",
+      "Liên kết ứng viên",
+      "Chuẩn bị phỏng vấn",
+      "Nhập đánh giá phỏng vấn và bài tập",
+      "So sánh và quyết định"
+    ],
+    "newLead": "Nếu bạn mới phụ trách tuyển dụng",
+    "existingLead": "Nếu công ty đã có tiêu chí",
+    "contents": "Mục lục"
+  },
+  "disclaimer": "Mọi công ty, con người và con số trong hướng dẫn này đều là ví dụ hư cấu; màn hình demo cũng dùng dữ liệu hư cấu.",
+  "compare": {
+    "title": "Hai loại nhập đánh giá này tách biệt",
+    "left": "Đánh giá nhân viên hiện tại",
+    "leftBody": "Nhập ở Chuẩn nội bộ · bằng chứng công việc trong cùng kỳ · dùng để hoàn thiện tiêu chí công ty",
+    "right": "Đánh giá ứng viên",
+    "rightBody": "Nhập ở Mô hình nhân tài · sau phỏng vấn và bài tập · dùng để so sánh ứng viên (chương 5)"
+  },
+  "chapters": [
+    {
+      "kicker": "Bước 1 · Chuẩn bị tiêu chí công ty",
+      "title": "Xác định tiêu chí nhân tài công ty cần",
+      "lead": "Trước khi xem ứng viên, hãy thống nhất vị trí này cần làm được gì.",
+      "who": "Nhân sự và trưởng bộ phận nghiệp vụ",
+      "prepare": "Phòng ban và vị trí, vai trò thực thi, danh sách công việc chính",
+      "open": "Mô hình năng lực công việc / Mô hình nhân tài",
+      "steps": [
+        "Thống nhất trước với bộ phận nghiệp vụ về phòng ban, vị trí (chuyên viên phân tích dữ liệu), vai trò thực thi và công việc chính.",
+        "Với mỗi năng lực, ghi tên năng lực, phạm vi áp dụng (toàn công ty / vị trí / vai trò, chức danh), mức mục tiêu, trọng số và cách xác nhận.",
+        "Viết một tiêu chuẩn hành vi quan sát được trong một câu.",
+        "Thực hiện theo thứ tự: 'Lưu bản nháp' → 'Yêu cầu bộ phận xem xét' → 'Chốt phiên bản hiện tại'."
+      ],
+      "done": "Vị trí, vai trò và tiêu chí năng lực đã thống nhất với bộ phận nghiệp vụ, phiên bản hiện tại đã được chốt.",
+      "example": {
+        "title": "Hangyeol Logistics · tiêu chí chuyên viên phân tích dữ liệu",
+        "lines": [
+          "Phòng ban và vị trí: Nhóm dữ liệu · chuyên viên phân tích dữ liệu (thực thi)",
+          "Năng lực: Giải quyết vấn đề · phạm vi: vị trí",
+          "Tiêu chuẩn hành vi quan sát được: giải thích nguyên nhân lỗi phân tích và đề xuất cách ngăn tái diễn."
+        ]
+      },
+      "notes": [
+        "Phải có tiêu chí công ty trước thì mới so sánh ứng viên với tiêu chí đó được.",
+        "Đừng mặc định có thông báo tự động cho yêu cầu xem xét hay việc chốt phiên bản; hãy phối hợp trực tiếp với người xem xét để xác nhận."
+      ],
+      "flow": [
+        "Lưu bản nháp",
+        "Yêu cầu bộ phận xem xét",
+        "Chốt phiên bản hiện tại"
+      ],
+      "links": [
+        "Mô hình năng lực công việc",
+        "Mô hình nhân tài"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Bước 2 · Đưa đánh giá nhân viên hiện tại vào",
+      "title": "Hoàn thiện tiêu chí công ty bằng kết quả và đánh giá công việc của nhân viên hiện tại",
+      "lead": "Dùng bằng chứng công việc thật của nhân viên cùng vị trí để hoàn thiện tiêu chí.",
+      "who": "Nhân sự (kiểm tra liên kết) và người đánh giá của từng nhân viên (nhập liệu)",
+      "prepare": "Tình trạng liên kết bài kiểm tra của nhân viên cùng vị trí, thành tích và bằng chứng vai trò, hành vi trong cùng kỳ",
+      "open": "Chuẩn nội bộ › Nhập hiệu suất bởi quản lý, sau đó Mô hình nhân tài",
+      "steps": [
+        "Kiểm tra nhân viên được liên kết là đối tượng kiểm tra cùng vị trí và cùng kỳ đánh giá.",
+        "Người đánh giá nhập thành tích công việc và bằng chứng vai trò, hành vi.",
+        "Nếu còn đang kiểm tra, chọn 'Lưu nháp'. Lưu tạm không được đưa vào phân tích.",
+        "Kiểm tra xong, nhấn 'Phê duyệt và áp dụng', rồi xem song song 'đánh giá công ty + D-CAS' và 'tín hiệu tiềm năng chỉ từ bài kiểm tra' ở Mô hình nhân tài."
+      ],
+      "done": "Đánh giá có bằng chứng đã được đưa vào và phần so sánh hiện ở Mô hình nhân tài.",
+      "example": {
+        "title": "Hangyeol Logistics · 3 chuyên viên phân tích hiện tại",
+        "lines": [
+          "Đưa vào 3 chuyên viên phân tích dữ liệu có đánh giá cùng kỳ (nửa đầu năm trước).",
+          "Không sao chép một người lý tưởng, mà dùng bằng chứng của nhiều nhân viên.",
+          "Một người không có bằng chứng hành vi nên lần này chưa đưa vào."
+        ]
+      },
+      "notes": [
+        "D-CAS/PASS được lấy từ báo cáo và chỉ đọc, không chỉnh sửa. Xác định điểm mạnh chung của hai tín hiệu để dùng làm tiêu chí công ty.",
+        "Khi thiếu bằng chứng, đừng tự đặt điểm. Lúc đó chỉ khám phá bằng kết quả kiểm tra, và chờ có bằng chứng rồi mới so sánh với tiêu chí công ty."
+      ],
+      "flow": [
+        "Nhập thành tích",
+        "Lưu nháp",
+        "Phê duyệt và áp dụng"
+      ],
+      "links": [
+        "Chuẩn nội bộ",
+        "Mô hình nhân tài"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Bước 3 · Liên kết ứng viên",
+      "title": "Kiểm tra liên kết giữa ứng viên đợt này và kết quả kiểm tra",
+      "lead": "Trước tiên xác nhận ứng viên trong danh sách và báo cáo kết quả là cùng một người.",
+      "who": "Người phụ trách tuyển dụng",
+      "prepare": "Danh sách tuyển dụng có vị trí, vai trò ứng tuyển thực tế, thông tin đối tượng kiểm tra đã liên kết",
+      "open": "Phân tích tuyển dụng",
+      "steps": [
+        "Kiểm tra họ tên, vị trí ứng tuyển và đối tượng kiểm tra là cùng một người.",
+        "Chọn ứng viên và nhấn 'Xem phân tích chi tiết'.",
+        "Ứng viên chưa liên kết thì nhờ người phụ trách liên kết xử lý, xong rồi kiểm tra lại."
+      ],
+      "done": "Đã xác nhận đối tượng báo cáo kết quả của mọi ứng viên cần xem.",
+      "example": {
+        "title": "Hangyeol Logistics · ứng viên Yun Seoa",
+        "lines": [
+          "Vị trí ứng tuyển: chuyên viên phân tích dữ liệu (theo danh sách tuyển dụng)",
+          "Vị trí đề xuất số 1: phân tích tài chính (theo kết quả kiểm tra)",
+          "Hai giá trị khác nhau là bình thường. Vị trí ứng tuyển xem theo danh sách."
+        ]
+      },
+      "notes": [
+        "Vị trí đề xuất lấy từ kết quả kiểm tra. Bài kiểm tra không biết ai ứng tuyển vị trí nào.",
+        "'Hướng dẫn liên kết dữ liệu ứng viên' chỉ là hướng dẫn; màn hình này không hoàn tất việc tải lên hay liên kết.",
+        "Xác nhận tình trạng liên kết với người phụ trách kết nối vận hành, và chưa coi là đã liên kết cho đến khi được xác nhận."
+      ],
+      "flow": [
+        "Kiểm tra danh sách",
+        "Xác nhận cùng một người",
+        "Xem phân tích chi tiết"
+      ],
+      "links": [
+        "Phân tích tuyển dụng"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Bước 4 · Chuẩn bị phỏng vấn",
+      "title": "Chuẩn bị câu hỏi phỏng vấn từ kết quả cá nhân",
+      "lead": "Đặt kết quả cạnh tiêu chí công ty và biến chúng thành câu hỏi về kinh nghiệm.",
+      "who": "Người phụ trách tuyển dụng và người phỏng vấn",
+      "prepare": "Tiêu chí công ty ở chương 1, kết quả cá nhân của ứng viên",
+      "open": "Phân tích cá nhân",
+      "steps": [
+        "Xem PASS, Top5 vị trí đề xuất, mức sẵn sàng cho vị trí hiện tại và tín hiệu lãnh đạo, chuyên gia.",
+        "So với tiêu chí công ty, chọn 1 điểm mạnh chung và 1 điểm khác biệt.",
+        "Biến mỗi điểm thành câu hỏi về kinh nghiệm thực tế."
+      ],
+      "done": "Câu hỏi dùng chung cho các người phỏng vấn đã sẵn sàng.",
+      "example": {
+        "title": "Câu hỏi phỏng vấn cho Yun Seoa",
+        "lines": [
+          "Điểm mạnh chung (giải quyết vấn đề): Kinh nghiệm lập kế hoạch phân tích: hãy mô tả hành động của chính bạn và kết quả",
+          "Khác biệt (điều chỉnh ưu tiên): Khi các hạn chót trùng nhau, bạn đã thay đổi thứ tự ưu tiên thế nào?"
+        ]
+      },
+      "notes": [
+        "Phần trăm phù hợp và đề xuất không phải xác suất trúng tuyển.",
+        "Chỉ tham khảo bằng chứng kinh nghiệm tổng hợp trong môi trường hỗ trợ tích hợp, khi cả planner và thư tự giới thiệu AI đều đã liên kết, danh tính được xác minh và có sự đồng ý chia sẻ. Nếu không thấy các mục này, hãy hỏi người phụ trách kết nối. Với ứng viên chưa liên kết, chỉ dùng kết quả kiểm tra và không trừ điểm.",
+        "Đừng điền điểm chưa được xác nhận.",
+        "Các mục hiển thị có thể khác nhau tùy dịch vụ được liên kết."
+      ],
+      "flow": [
+        "Đọc kết quả",
+        "Chọn điểm chung và khác biệt",
+        "Câu hỏi kinh nghiệm"
+      ],
+      "links": [
+        "Phân tích cá nhân"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Bước 5 · Nhập đánh giá phỏng vấn và bài tập",
+      "title": "Nhập đánh giá doanh nghiệp sau phỏng vấn, bài tập và so sánh",
+      "lead": "Chỉ nhập đánh giá công ty sau khi phỏng vấn và bài tập đã cho bằng chứng.",
+      "who": "Người phỏng vấn thực tế và người đánh giá của công ty",
+      "prepare": "Ghi chép phỏng vấn, kết quả bài tập, cùng tiêu chí và thang đo như chương 1",
+      "open": "Mô hình nhân tài › Nhập đánh giá doanh nghiệp",
+      "steps": [
+        "Xác nhận người được đánh giá và vị trí ứng tuyển, kiểm tra đúng cùng vị trí, cùng tiêu chí và thang đo.",
+        "Chỉ nhập mục có bằng chứng: bằng chứng năng lực công việc, hành vi giá trị cốt lõi, đánh giá bài tập công việc.",
+        "Nhấn 'Lưu và phân tích so sánh'.",
+        "Xem lại song song 'đánh giá công ty + D-CAS' và 'tín hiệu tiềm năng chỉ từ bài kiểm tra'."
+      ],
+      "done": "Đã xác nhận đánh giá có bằng chứng thực sự được lưu và đưa vào, và đã so sánh lại hai tín hiệu. Chỉ nhấn nút thì chưa phải là xong.",
+      "example": {
+        "title": "Nhập đánh giá cho Yun Seoa",
+        "lines": [
+          "Đánh giá bài tập công việc: có bằng chứng từ sản phẩm bài tập → nhập",
+          "Hành vi giá trị cốt lõi: thiếu bằng chứng phỏng vấn → chưa nhập (chờ đánh giá); kiểm tra lại trước khi đưa vào"
+        ]
+      },
+      "notes": [
+        "PASS được cố định theo giá trị liên kết và chỉ đọc.",
+        "Mục chưa đánh giá không phải 0 điểm mà là 'chờ đánh giá'. Trước hết hãy kiểm tra dịch vụ vận hành có giữ nguyên các mục chưa đánh giá không. Nếu khi lưu giá trị trống có thể thành 0, đừng lưu cho đến khi bổ sung đánh giá và hãy trao đổi với người phụ trách kết nối.",
+        "Việc lưu thật lên máy chủ phụ thuộc kết nối vận hành của công ty. Hướng dẫn này không gửi hay tính toán gì.",
+        "Tên nút dựa trên bản nguồn đã xác minh. Một số màn hình trong bản demo công khai (v14) có thể khác."
+      ],
+      "flow": [
+        "Kiểm tra bằng chứng",
+        "Lưu và phân tích so sánh",
+        "So sánh lại"
+      ],
+      "links": [
+        "Mô hình nhân tài"
+      ],
+      "actions": [
+        {
+          "when": "Hai tín hiệu tương tự",
+          "next": "Kiểm tra bằng chứng kinh nghiệm"
+        },
+        {
+          "when": "Khác biệt lớn",
+          "next": "Kiểm tra lại người, vị trí và bằng chứng"
+        }
+      ]
+    },
+    {
+      "kicker": "Bước 6 · So sánh và quyết định",
+      "title": "So sánh ứng viên rồi quyết định bước tiếp sau phỏng vấn, bố trí và phát triển",
+      "lead": "So sánh ứng viên cùng vị trí theo cùng tiêu chí công ty và quyết định bước tiếp theo.",
+      "who": "Người phụ trách tuyển dụng và trưởng bộ phận nghiệp vụ",
+      "prepare": "Đánh giá đã nhập đến chương 5, quy trình tuyển dụng của công ty",
+      "open": "Phân tích tuyển dụng",
+      "steps": [
+        "Chỉ so sánh các ứng viên cùng vị trí, cùng tiêu chí công ty.",
+        "Bộ lọc Ưu tiên xem xét, Kiểm tra thêm, Vị trí khác, Tạm hoãn chỉ dùng để thu hẹp danh sách.",
+        "Dùng các thẻ bên dưới để quyết định bước tiếp theo cho từng ứng viên.",
+        "Ghi quyết định vào quy trình tuyển dụng của công ty."
+      ],
+      "done": "Mỗi ứng viên đã có bước tiếp theo và được ghi vào quy trình công ty.",
+      "example": {
+        "title": "Bước tiếp theo cho Yun Seoa",
+        "lines": [
+          "Bằng chứng bài tập đủ; bằng chứng hành vi giá trị cốt lõi còn thiếu.",
+          "Bước tiếp theo: kiểm tra kinh nghiệm phối hợp ở vòng phỏng vấn thứ hai."
+        ]
+      },
+      "notes": [
+        "Bộ lọc chỉ thu hẹp danh sách, không phải quyết định. Bảng điều khiển không gửi thông báo trúng tuyển hay lưu quyết định.",
+        "Sau tuyển dụng, nếu cần, nhân sự liên quan có thể xem Phân tích tổ chức (khoảng trống vai trò), Phát triển năng lực (lộ trình 30/60/90 ngày) và Kế hoạch hành động (việc tiếp theo)."
+      ],
+      "flow": [
+        "So sánh cùng tiêu chí",
+        "Thu hẹp bằng bộ lọc",
+        "Ghi vào quy trình công ty"
+      ],
+      "links": [
+        "Phân tích tuyển dụng",
+        "Phân tích tổ chức",
+        "Phát triển năng lực",
+        "Kế hoạch hành động"
+      ],
+      "actions": [
+        {
+          "when": "Thiếu bằng chứng",
+          "next": "Kiểm tra ở vòng phỏng vấn tiếp theo"
+        },
+        {
+          "when": "Vai trò không phù hợp",
+          "next": "Cân nhắc vị trí công việc khác"
+        },
+        {
+          "when": "Khác biệt chưa được làm rõ",
+          "next": "Tạm hoãn và kiểm tra thêm"
+        },
+        {
+          "when": "Bằng chứng đủ",
+          "next": "Quyết định theo quy trình tuyển dụng của công ty"
+        }
+      ]
+    }
+  ],
+  "checklist": {
+    "title": "Danh sách kiểm tra của tôi",
+    "intro": "Đọc xong, hãy đánh dấu những mục bạn đã tự thử.",
+    "items": [
+      "Chốt tiêu chí vị trí, vai trò của công ty",
+      "Xác nhận đã đưa đánh giá nhân viên hiện tại vào",
+      "Xác nhận ứng viên khớp báo cáo kết quả",
+      "Chuẩn bị câu hỏi phỏng vấn",
+      "Nhập đánh giá phỏng vấn và bài tập",
+      "Sắp xếp bước tiếp theo"
+    ],
+    "note": "Trạng thái đánh dấu chỉ được lưu trên thiết bị này.",
+    "done": "Đã xong {done}/{total}",
+    "allDone": "Đã hoàn thành tất cả các mục.",
+    "reset": "Xóa đánh dấu"
+  }
+}

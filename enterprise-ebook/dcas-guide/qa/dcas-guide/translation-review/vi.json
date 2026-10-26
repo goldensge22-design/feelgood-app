@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "old": "Bằng chứng kinh nghiệm chỉ hiện khi cả planner và thư tự giới thiệu AI đều được liên kết và xác minh danh tính, đồng ý chia sẻ còn hiệu lực. Nếu không, chỉ hiện kết quả kiểm tra và không gây bất lợi.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing environment/connection-owner caveat; clarification that integration is not operational by default.",
+      "replacement": "Dữ liệu trình lập kế hoạch và thư tự giới thiệu AI không được kết nối mặc định trong bảng điều khiển. Thông tin này chỉ khả dụng trong các môi trường có tích hợp, đã xác minh danh tính và có đồng ý chia sẻ. Nếu không thấy, hãy hỏi người phụ trách kết nối; bạn có thể sử dụng kết quả kiểm tra đơn thuần mà không bị bất lợi.",
+      "severity": "P1"
+    }
+  ],
+  "fieldsReviewed": 105,
+  "limits": [
+    "Native language certification not performed",
+    "No claim of native review"
+  ],
+  "locale": "vi",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "vi-0.json",
+    "vi-1.json",
+    "vi-2.json",
+    "vi-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

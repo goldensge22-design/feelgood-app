@@ -1,0 +1,28 @@
+{
+  "corrections": [
+    {
+      "old": "Туршлагын нотолгоо нь төлөвлөгч ба AI өөрийн танилцуулга хоёулаа холбогдож, хувийн баталгаажуулалт, хуваалцах зөвшөөрөл хүчинтэй үед л харагдана. Үгүй бол зөвхөн тестийн үр дүн харагдах бөгөөд ямар ч сөрөг нөлөөгүй.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Must include deployment caveat regarding integration environment and owner check without implying operational status.",
+      "replacement": "Туршлагын нотолгоо нь нэгдсэн төлөвлөгч болон AI хувийн танилцуулгын мэдээлэл нэгдсэн, хувийн баталгаажуулалт болон хуваалцах зөвшөөрөл хүчинтэй орчинд л харагдана. Хэрэв холболт үүсээгүй бол холболт хариуцагчтай зөвлөлдөнө үү; энэ тохиолдолд зөвхөн тестийн үр дүнг ашиглахад ямар ч сөрөг нөлөөгүй.",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 12,
+  "limits": [
+    "Native verification not performed.",
+    "Terminology checked for 'applicant' vs 'employee' consistency.",
+    "Language tone consistency checked.",
+    "No claim of native certification."
+  ],
+  "locale": "mn",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "mn-0.json",
+    "mn-1.json",
+    "mn-2.json",
+    "mn-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

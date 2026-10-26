@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "old": "Təcrübə sübutları yalnız planlayıcı və süni intellektli özünütəqdimat hər ikisi əlaqələndirildikdə, şəxsiyyət təsdiqi və paylaşma razılığı etibarlı olduqda görünür. Əks halda yalnız test nəticələri görünür və heç bir mənfi təsiri yoxdur.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Source requires a specific deployment caveat regarding data integration, identity, and owner consultation, while ensuring no penalty for missing integrations.",
+      "replacement": "Təcrübə sübutları inteqrasiya edilmiş planlayıcı və AI özünütəqdimat məlumatı, şəxsiyyət təsdiqi və paylaşma razılığı təmin edildikdə görünür; əgər görünmürsə, əlaqə məsulundan soruşun və yalnız test nəticələrindən istifadə edin (bu, heç bir mənfi təsir yaratmır).",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 12,
+  "limits": [
+    "No claim of native certification; AI audit only.",
+    "Unreviewed: UI layout constraints, non-text elements, and potential cross-referencing logic errors outside the specified strings."
+  ],
+  "locale": "az",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "az-0.json",
+    "az-1.json",
+    "az-2.json",
+    "az-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

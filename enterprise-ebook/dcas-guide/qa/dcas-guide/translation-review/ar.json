@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "old": "تظهر أدلة الخبرة فقط عند ربط المخطِّط والتعريف الذاتي بالذكاء الاصطناعي معًا مع صلاحية التحقق من الهوية وموافقة المشاركة. وإلا تظهر نتائج الاختبار فقط دون أي ضرر.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing environment/connection-owner caveat as per instructions.",
+      "replacement": "تظهر أدلة الخبرة فقط عند دمج بيانات المخطط والتعريف الذاتي بالذكاء الاصطناعي في بيئة عمل مدعومة، مع التحقق من الهوية والموافقة على المشاركة. إذا لم تتوفر هذه البيئة، تواصل مع مسؤول الربط؛ وفي غيابه استخدم نتائج الاختبار فقط دون أي ضرر.",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 128,
+  "limits": [
+    "Native certification not claimed.",
+    "Unreviewed/uncertain issues: Specific terminology nuances for 'D-CAS/PASS' and 'Corporate Talent Profile' (기업 인재상) in Arabic context may require internal business domain expert verification."
+  ],
+  "locale": "ar",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "ar-0.json",
+    "ar-1.json",
+    "ar-2.json",
+    "ar-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

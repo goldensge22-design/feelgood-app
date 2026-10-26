@@ -1,0 +1,27 @@
+{
+  "corrections": [
+    {
+      "old": "Подтверждения опыта видны, только если планировщик и ИИ-самопрезентация связаны, а подтверждение личности и согласие на передачу действуют. Иначе показываются только результаты теста, без каких-либо минусов.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Source requires a specific caveat regarding integration status, consent, and contacting the connection owner for missing data, ensuring no penalty is implied.",
+      "replacement": "Данные планировщика и ИИ-самопрезентации доступны только в интегрированных средах при наличии подтверждения личности и согласия на обмен данными. Если они недоступны, свяжитесь с владельцем подключения; до тех пор используйте только результаты теста без штрафных санкций.",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 12,
+  "limits": [
+    "Native review not claimed",
+    "Terminology check (Job vs Role vs Applicant) performed",
+    "UI/UX consistency check performed"
+  ],
+  "locale": "ru",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "ru-0.json",
+    "ru-1.json",
+    "ru-2.json",
+    "ru-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

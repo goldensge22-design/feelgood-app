@@ -1,0 +1,78 @@
+{
+  "type": "AI-assisted targeted recheck, not native certification",
+  "results": [
+    {
+      "code": "en",
+      "paths": [
+        "chapters.3.steps.0"
+      ],
+      "defects": [],
+      "uncertainties": []
+    },
+    {
+      "code": "it",
+      "paths": [
+        "chapters.0.steps.0"
+      ],
+      "defects": [
+        {
+          "path": "chapters.0.steps.0",
+          "reason": "The term '실무자 역할' is incorrectly translated as 'mansioni operative' (operational tasks/duties), whereas '실무자' refers specifically to the 'staff member' or 'practitioner'.",
+          "replacement": "Concordate prima con la funzione il reparto, il ruolo (data analyst), il ruolo dello staff e le attività chiave."
+        }
+      ],
+      "uncertainties": []
+    },
+    {
+      "code": "ru",
+      "paths": [
+        "compare.title"
+      ],
+      "defects": [
+        {
+          "path": "compare.title",
+          "reason": "The translation 'Различия между типами оценок' (Differences between evaluation types) incorrectly reflects the original Korean '두 평가 입력은 서로 다릅니다' (The two evaluation inputs are different).",
+          "replacement": "Два ввода оценки различаются"
+        }
+      ],
+      "uncertainties": []
+    },
+    {
+      "code": "zh-CN",
+      "paths": [
+        "chapters.2.example.title",
+        "chapters.3.example.title",
+        "chapters.4.example.title",
+        "chapters.5.example.title"
+      ],
+      "defects": [
+        {
+          "path": "chapters.2.example.title",
+          "reason": "The transliteration of '한결' (Han-Gyeol) is a proper noun/brand name and should be transliterated phonetically as '汉洁' or '韩洁' depending on the brand's official register, rather than a literal semantic translation.",
+          "replacement": "韩洁物流 · 应聘者尹书雅"
+        }
+      ],
+      "uncertainties": []
+    },
+    {
+      "code": "zh-TW",
+      "paths": [
+        "chapters.2.steps.2",
+        "chapters.3.example.lines.1",
+        "chapters.4.steps.2",
+        "chapters.4.flow.1",
+        "chapters.5.steps.1",
+        "chapters.5.notes.0",
+        "chapters.5.flow.1"
+      ],
+      "defects": [
+        {
+          "path": "chapters.5.steps.1",
+          "reason": "The term '篩選' used as a noun here is grammatically awkward; '篩選器' (filter) should be used to match the Korean noun '필터'.",
+          "replacement": "優先審查·追加確認·其他職務·暫緩篩選器只用於縮小列表。"
+        }
+      ],
+      "uncertainties": []
+    }
+  ]
+}

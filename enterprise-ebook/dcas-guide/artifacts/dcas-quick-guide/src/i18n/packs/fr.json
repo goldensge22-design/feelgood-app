@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "title": "D-CAS ENTERPRISE LABS | Guide pratique du recrutement pour les RH"
+  },
+  "ui": {
+    "skip": "Aller au contenu",
+    "language": "Langue",
+    "languageAria": "Choisir la langue",
+    "print": "Imprimer",
+    "printAria": "Imprimer tout le guide dans la langue actuelle",
+    "toc": "Sommaire",
+    "tocAria": "Sommaire du guide",
+    "chapterSelect": "Aller au chapitre",
+    "pagerAria": "Navigation entre chapitres",
+    "cover": "Couverture",
+    "prev": "Précédent",
+    "next": "Suivant",
+    "backToCover": "Retour à la couverture",
+    "chapterLabel": "Chapitre {n}",
+    "open": "Écran à ouvrir",
+    "steps": "À faire",
+    "example": "Exemple fictif",
+    "notes": "Bon à savoir",
+    "flowExample": "Exemple de parcours d’utilisation",
+    "demoLink": "Voir l’écran dans la démo",
+    "newTab": "s’ouvre dans un nouvel onglet",
+    "readTime": "Environ 8 minutes de lecture",
+    "loading": "Chargement",
+    "startNew": "Débutant ? Commencez au chapitre 1",
+    "startExisting": "Commencer au chapitre 3",
+    "workflowLabel": "Parcours de recrutement",
+    "who": "Qui",
+    "prepare": "À préparer",
+    "done": "Comment savoir que c’est fait",
+    "actionsLabel": "Quand → action suivante",
+    "when": "Quand",
+    "nextAction": "Action suivante"
+  },
+  "cover": {
+    "brandLine": "Un guide pratique pour les équipes RH et recrutement",
+    "title": "Guide pratique du recrutement pour les RH",
+    "subtitle": "Des critères de l’entreprise à la comparaison et à la décision : six chapitres autour d’un même cas",
+    "caseLine": "Cas : l’entreprise fictive Hangyeol Logistics recrute un analyste de données (opérationnel).",
+    "workflow": [
+      "Préparer les critères de l’entreprise",
+      "Intégrer les évaluations des salariés actuels",
+      "Relier les candidats",
+      "Préparer les entretiens",
+      "Saisir les évaluations d’entretien et d’exercice",
+      "Comparer et décider"
+    ],
+    "newLead": "Si vous débutez en recrutement",
+    "existingLead": "Si les critères de l’entreprise existent déjà",
+    "contents": "Sommaire"
+  },
+  "disclaimer": "Toutes les entreprises, personnes et données de ce guide sont fictives, et les écrans de la démo utilisent des données fictives.",
+  "compare": {
+    "title": "Ces deux saisies d’évaluation sont distinctes",
+    "left": "Évaluation des salariés actuels",
+    "leftBody": "Saisie dans Référentiel interne · preuves de travail sur la même période · sert à compléter les critères de l’entreprise",
+    "right": "Évaluation des candidats",
+    "rightBody": "Saisie dans Modèle de talents · après entretiens et exercices · sert à comparer les candidats (chapitre 5)"
+  },
+  "chapters": [
+    {
+      "kicker": "Étape 1 · Préparer les critères de l’entreprise",
+      "title": "Définir les critères de talent recherchés par votre entreprise",
+      "lead": "Avant de regarder les candidats, mettez-vous d’accord sur ce qui est attendu de ce poste.",
+      "who": "Les RH et le responsable métier",
+      "prepare": "Service et poste, rôle opérationnel, liste des missions clés",
+      "open": "Modèle de compétences métier / Modèle de talents",
+      "steps": [
+        "Convenez d’abord avec le métier du service et du poste (analyste de données), du rôle opérationnel et des missions clés.",
+        "Pour chaque compétence, indiquez le nom, le périmètre (toute l’entreprise / poste / rôle ou niveau), le niveau cible, le poids et la méthode de vérification.",
+        "Rédigez un critère de comportement observable en une phrase.",
+        "Procédez dans l’ordre : « Enregistrer le brouillon » → « Demander une revue métier » → « Valider la version actuelle »."
+      ],
+      "done": "Poste, rôle et critères de compétence sont convenus avec le métier, et la version actuelle est validée.",
+      "example": {
+        "title": "Hangyeol Logistics · critères d’analyste de données",
+        "lines": [
+          "Service et poste : équipe Données · analyste de données (opérationnel)",
+          "Compétence : résolution de problèmes · périmètre : poste",
+          "Critère de comportement observable : explique la cause d’une erreur d’analyse et propose un moyen d’éviter qu’elle se reproduise."
+        ]
+      },
+      "notes": [
+        "Les critères de l’entreprise doivent exister avant de pouvoir y comparer les candidats.",
+        "Ne supposez pas de notification automatique pour la demande de revue ou la validation de version ; coordonnez-vous directement avec le relecteur pour le confirmer."
+      ],
+      "flow": [
+        "Enregistrer le brouillon",
+        "Demander une revue métier",
+        "Valider la version actuelle"
+      ],
+      "links": [
+        "Modèle de compétences métier",
+        "Modèle de talents"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Étape 2 · Intégrer les évaluations des salariés actuels",
+      "title": "Compléter les critères avec les résultats et évaluations des salariés actuels",
+      "lead": "Complétez les critères avec des preuves de travail réelles de salariés du même poste.",
+      "who": "Les RH (vérifient les liens) et l’évaluateur de chaque salarié (saisit)",
+      "prepare": "État des liens de tests des salariés du même poste, performance et preuves de rôle et de comportement sur la même période",
+      "open": "Référentiel interne › Saisie de la performance par le responsable, puis Modèle de talents",
+      "steps": [
+        "Vérifiez que les salariés reliés sont des personnes testées du même poste et de la même période d’évaluation.",
+        "L’évaluateur saisit la performance et les preuves de rôle et de comportement.",
+        "Si la vérification est en cours, utilisez « Enregistrer le brouillon ». Il n’est pas pris en compte dans l’analyse.",
+        "Une fois vérifié, cliquez sur « Approuver et appliquer », puis comparez côte à côte « évaluation de l’entreprise + D-CAS » et « signal de potentiel issu du seul test » dans Modèle de talents."
+      ],
+      "done": "Les évaluations étayées sont intégrées et la comparaison apparaît dans Modèle de talents.",
+      "example": {
+        "title": "Hangyeol Logistics · 3 analystes de données actuels",
+        "lines": [
+          "Trois analystes de données évalués sur la même période (le dernier premier semestre) sont intégrés.",
+          "Les critères reposent sur les preuves de plusieurs salariés, pas sur le clonage d’une personne idéale.",
+          "Un salarié n’avait pas de preuve de comportement et n’a pas été intégré cette fois."
+        ]
+      },
+      "notes": [
+        "Les résultats D-CAS/PASS proviennent du rapport et sont en lecture seule. Ne les modifiez pas ; retenez les forces communes aux deux signaux pour les critères de l’entreprise.",
+        "Sans preuve, n’inventez pas de note. Explorez alors avec les seuls résultats du test et attendez d’avoir des preuves pour comparer aux critères de l’entreprise."
+      ],
+      "flow": [
+        "Saisir la performance",
+        "Enregistrer le brouillon",
+        "Approuver et appliquer"
+      ],
+      "links": [
+        "Référentiel interne",
+        "Modèle de talents"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Étape 3 · Relier les candidats",
+      "title": "Vérifier le lien entre les candidats de cette campagne et leurs résultats",
+      "lead": "Vérifiez d’abord que le candidat de la liste et le rapport de résultats sont la même personne.",
+      "who": "Le chargé de recrutement",
+      "prepare": "Liste de recrutement avec le poste et le rôle réellement visés, informations sur la personne testée reliée",
+      "open": "Analyse du recrutement",
+      "steps": [
+        "Vérifiez que le nom, le poste visé et la personne testée correspondent à la même personne.",
+        "Sélectionnez le candidat et cliquez sur « Voir l’analyse détaillée ».",
+        "Pour un candidat non relié, demandez le lien au responsable de connexion, puis revérifiez."
+      ],
+      "done": "La personne du rapport est confirmée pour chaque candidat à examiner.",
+      "example": {
+        "title": "Hangyeol Logistics · candidate Seoa Yun",
+        "lines": [
+          "Poste visé : analyste de données (selon la liste de recrutement)",
+          "Premier poste recommandé : analyse financière (selon le test)",
+          "Il est normal que les deux diffèrent. Le poste visé se lit dans la liste."
+        ]
+      },
+      "notes": [
+        "Les postes recommandés viennent des résultats du test. Le test ne sait pas qui a postulé à quel poste.",
+        "« Guide de connexion des données candidats » n’est qu’un guide ; aucun envoi ni lien n’est réalisé sur cet écran.",
+        "Vérifiez l’état du lien auprès du responsable de la connexion opérationnelle, et ne considérez pas le candidat comme relié avant confirmation."
+      ],
+      "flow": [
+        "Vérifier la liste",
+        "Confirmer la même personne",
+        "Voir l’analyse détaillée"
+      ],
+      "links": [
+        "Analyse du recrutement"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Étape 4 · Préparer les entretiens",
+      "title": "Préparer les questions d’entretien à partir des résultats individuels",
+      "lead": "Confrontez les résultats aux critères de l’entreprise et transformez-les en questions sur l’expérience.",
+      "who": "Le chargé de recrutement et les intervieweurs",
+      "prepare": "Critères de l’entreprise du chapitre 1, résultats individuels du candidat",
+      "open": "Analyse individuelle",
+      "steps": [
+        "Regardez PASS, le Top5 des postes recommandés, la préparation au poste actuel et les signaux de leader et d’expert.",
+        "Par rapport aux critères de l’entreprise, choisissez une force commune et une différence.",
+        "Transformez chacune en question sur une expérience réelle."
+      ],
+      "done": "Les questions partagées par les intervieweurs sont prêtes.",
+      "example": {
+        "title": "Questions d’entretien pour Seoa Yun",
+        "lines": [
+          "Force commune (résolution de problèmes) : Expérience de planification d’une analyse : décrivez vos propres actions et les résultats",
+          "Différence (changer les priorités) : Quand des échéances se chevauchaient, comment avez-vous changé vos priorités ?"
+        ]
+      },
+      "notes": [
+        "Les pourcentages d’adéquation et de recommandation ne sont pas des probabilités d’embauche.",
+        "Les preuves d’expérience intégrées ne sont consultables que dans un environnement offrant cette intégration, lorsque le planificateur et l’auto-présentation IA sont tous deux reliés, l’identité vérifiée et le consentement au partage obtenu. Si ces rubriques sont absentes, contactez le responsable de la connexion. Pour les candidats non reliés, utilisez uniquement les résultats du test, sans pénalité.",
+        "Ne complétez pas de notes non vérifiées.",
+        "Les éléments affichés peuvent varier selon les services connectés."
+      ],
+      "flow": [
+        "Lire les résultats",
+        "Choisir point commun et différence",
+        "Questions d’expérience"
+      ],
+      "links": [
+        "Analyse individuelle"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Étape 5 · Saisir les évaluations d’entretien et d’exercice",
+      "title": "Saisir l’évaluation de l’entreprise après entretiens et exercices, puis comparer",
+      "lead": "Ne saisissez l’évaluation de l’entreprise qu’une fois que les entretiens et exercices ont fourni des preuves.",
+      "who": "Les intervieweurs réels et les évaluateurs de l’entreprise",
+      "prepare": "Notes d’entretien, résultats d’exercice, mêmes critères et échelle qu’au chapitre 1",
+      "open": "Modèle de talents › Saisir l’évaluation de l’entreprise",
+      "steps": [
+        "Confirmez la personne et le poste visé, et vérifiez qu’il s’agit du même poste avec les mêmes critères et la même échelle.",
+        "Saisissez uniquement les champs étayés : preuves de compétences métier, comportement lié aux valeurs clés, évaluation d’exercice professionnel.",
+        "Cliquez sur « Enregistrer et comparer ».",
+        "Comparez de nouveau côte à côte « évaluation de l’entreprise + D-CAS » et « signal de potentiel issu du seul test »."
+      ],
+      "done": "Vous avez vérifié que les évaluations étayées ont réellement été enregistrées et intégrées, et comparé de nouveau les deux signaux. Cliquer sur le bouton ne suffit pas.",
+      "example": {
+        "title": "Saisie de l’évaluation de Seoa Yun",
+        "lines": [
+          "Évaluation d’exercice professionnel : preuve confirmée par le livrable → saisie",
+          "Comportement lié aux valeurs clés : preuves d’entretien insuffisantes → pas encore saisi (en attente) ; revérifier avant intégration"
+        ]
+      },
+      "notes": [
+        "PASS est figé sur les valeurs reliées et en lecture seule.",
+        "Un champ non évalué n’est pas un zéro : considérez-le comme en attente. Vérifiez d’abord que votre service opérationnel conserve les champs non évalués. Si l’enregistrement risque de transformer une valeur vide en 0, n’enregistrez pas avant d’avoir complété l’évaluation et consultez le responsable de la connexion.",
+        "L’enregistrement réel sur le serveur dépend de la connexion opérationnelle de votre entreprise. Ce guide n’envoie et ne calcule rien.",
+        "Les noms des boutons suivent la source vérifiée. Certains écrans de la démo publique (v14) peuvent différer."
+      ],
+      "flow": [
+        "Vérifier les preuves",
+        "Enregistrer et comparer",
+        "Comparer de nouveau"
+      ],
+      "links": [
+        "Modèle de talents"
+      ],
+      "actions": [
+        {
+          "when": "Les deux signaux sont proches",
+          "next": "Vérifiez les preuves d’expérience"
+        },
+        {
+          "when": "L’écart est important",
+          "next": "Revérifiez la personne, le poste et les preuves"
+        }
+      ]
+    },
+    {
+      "kicker": "Étape 6 · Comparer et décider",
+      "title": "Comparer les candidats et décider des suites d’entretien, de l’affectation et du développement",
+      "lead": "Comparez les candidats d’un même poste selon les mêmes critères et décidez de l’action suivante.",
+      "who": "Le chargé de recrutement et le responsable métier",
+      "prepare": "Évaluations saisies jusqu’au chapitre 5, processus de recrutement de votre entreprise",
+      "open": "Analyse du recrutement",
+      "steps": [
+        "Ne comparez que des candidats du même poste selon les mêmes critères de l’entreprise.",
+        "Utilisez les filtres Examen prioritaire, Vérification complémentaire, Autre poste et En attente uniquement pour réduire la liste.",
+        "À l’aide des cartes ci-dessous, fixez l’action suivante de chaque candidat.",
+        "Consignez les décisions dans le processus de recrutement de votre entreprise."
+      ],
+      "done": "Chaque candidat a une action suivante, consignée dans le processus de l’entreprise.",
+      "example": {
+        "title": "Action suivante pour Seoa Yun",
+        "lines": [
+          "Les preuves de l’exercice sont suffisantes ; celles sur les valeurs clés manquent.",
+          "Action suivante : vérifier l’expérience de collaboration lors du second entretien."
+        ]
+      },
+      "notes": [
+        "Les filtres réduisent seulement la liste ; ce ne sont pas des décisions. Le tableau de bord n’envoie pas d’avis d’embauche et n’enregistre pas de décision.",
+        "Après l’embauche, si besoin, les RH concernées peuvent consulter Analyse de l’organisation (rôles manquants), Développement des compétences (plan 30/60/90 jours) et Plan d’action (suites)."
+      ],
+      "flow": [
+        "Comparer sur les mêmes critères",
+        "Réduire avec les filtres",
+        "Consigner dans le processus"
+      ],
+      "links": [
+        "Analyse du recrutement",
+        "Analyse de l’organisation",
+        "Développement des compétences",
+        "Plan d’action"
+      ],
+      "actions": [
+        {
+          "when": "Les preuves manquent",
+          "next": "Vérifiez lors du prochain entretien"
+        },
+        {
+          "when": "Le rôle ne correspond pas",
+          "next": "Envisagez un autre poste"
+        },
+        {
+          "when": "Un écart reste non résolu",
+          "next": "Mettez en attente et vérifiez davantage"
+        },
+        {
+          "when": "Les preuves suffisent",
+          "next": "Décidez selon le processus de recrutement de l’entreprise"
+        }
+      ]
+    }
+  ],
+  "checklist": {
+    "title": "Ma liste de contrôle",
+    "intro": "Une fois la lecture terminée, cochez ce que vous avez essayé vous-même.",
+    "items": [
+      "Valider les critères de poste et de rôle",
+      "Vérifier l’intégration des évaluations des salariés",
+      "Vérifier la correspondance candidat-rapport",
+      "Préparer les questions d’entretien",
+      "Saisir les évaluations d’entretien et d’exercice",
+      "Organiser l’action suivante"
+    ],
+    "note": "Les coches sont enregistrées uniquement sur cet appareil.",
+    "done": "{done} sur {total} terminées",
+    "allDone": "Tous les éléments sont terminés.",
+    "reset": "Effacer les coches"
+  }
+}

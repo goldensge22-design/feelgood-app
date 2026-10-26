@@ -1,0 +1,551 @@
+{
+  "method": "Manual agent review of all 65 screen contact sheets showing every expanded section (with individual original screenshots retained), all 15 full printed page contact sheets (210 individually rendered pages retained), plus zoomed problematic original and corrected print pages.",
+  "browser": "Headless Chromium 138, actual UI interactions and print lifecycle; not other browsers or physical printer",
+  "firstRun": {
+    "started": "2026-10-26T13:22:06.646Z",
+    "finished": "2026-10-26T13:31:13.203Z",
+    "screens": 520,
+    "externalLinkClicks": 165,
+    "pdfs": 15,
+    "errors": 0,
+    "failedScreens": 0
+  },
+  "targetedRerun": {
+    "started": "2026-10-26T13:43:14.988Z",
+    "finished": "2026-10-26T13:44:21.565Z",
+    "screens": 80,
+    "externalLinkClicks": 22,
+    "pdfs": 2,
+    "errors": 0,
+    "failedScreens": 0,
+    "locales": [
+      "th",
+      "km"
+    ]
+  },
+  "screenSheetExplanation": "A full-page screenshot of an expanded example may show the sticky header in the middle of the stitched image because the browser had scrolled to the clicked example. Page layout/clipping is checked by actual browser geometry; this is not a screenshot editing or an extra banner.",
+  "inspections": [
+    {
+      "locale": "ko",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/ko/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/ko/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/ko/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/ko/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/ko/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "en",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/en/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/en/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/en/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/en/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/en/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "ja",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/ja/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/ja/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/ja/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/ja/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/ja/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "zh-CN",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/zh-CN/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/zh-CN/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/zh-CN/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/zh-CN/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/zh-CN/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "zh-TW",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/zh-TW/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/zh-TW/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/zh-TW/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/zh-TW/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/zh-TW/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "mn",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/mn/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/mn/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/mn/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/mn/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/mn/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "th",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360,
+        740
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/th/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/th/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/th/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/th/screen-contact-360.png",
+        "generated-artifacts/dcas-qa/th/screen-contact-740.png"
+      ],
+      "screensInspected": 40,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/th/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "P1 title glyph boxes detected on original capture; inspected new captures and every PDF page after localized heading-font correction."
+    },
+    {
+      "locale": "vi",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/vi/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/vi/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/vi/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/vi/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/vi/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "ar",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360,
+        740
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/ar/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/ar/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/ar/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/ar/screen-contact-360.png",
+        "generated-artifacts/dcas-qa/ar/screen-contact-740.png"
+      ],
+      "screensInspected": 40,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/ar/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "ru",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360,
+        740
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/ru/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/ru/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/ru/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/ru/screen-contact-360.png",
+        "generated-artifacts/dcas-qa/ru/screen-contact-740.png"
+      ],
+      "screensInspected": 40,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/ru/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "km",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360,
+        740
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/km/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/km/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/km/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/km/screen-contact-360.png",
+        "generated-artifacts/dcas-qa/km/screen-contact-740.png"
+      ],
+      "screensInspected": 40,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/km/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "P1 title glyph boxes detected on original capture; inspected new captures and every PDF page after localized heading-font correction."
+    },
+    {
+      "locale": "es",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/es/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/es/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/es/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/es/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/es/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "fr",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360,
+        740
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/fr/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/fr/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/fr/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/fr/screen-contact-360.png",
+        "generated-artifacts/dcas-qa/fr/screen-contact-740.png"
+      ],
+      "screensInspected": 40,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/fr/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "it",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/it/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/it/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/it/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/it/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/it/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    },
+    {
+      "locale": "az",
+      "viewportWidths": [
+        1440,
+        1024,
+        768,
+        360
+      ],
+      "visualScreenEvidence": [
+        "generated-artifacts/dcas-qa/az/screen-contact-1440.png",
+        "generated-artifacts/dcas-qa/az/screen-contact-1024.png",
+        "generated-artifacts/dcas-qa/az/screen-contact-768.png",
+        "generated-artifacts/dcas-qa/az/screen-contact-360.png"
+      ],
+      "screensInspected": 32,
+      "chaptersInspected": [
+        "cover",
+        "ch1",
+        "ch2",
+        "ch3",
+        "ch4",
+        "ch5",
+        "ch6",
+        "checklist"
+      ],
+      "expandedExamples": "actually clicked shut then open on every chapter and screen width",
+      "visualOutcome": "pass: layout and readable script headings in contact sheets; no observed clipping or overflow",
+      "printPages": 14,
+      "renderedAndInspectedAllPrintPages": true,
+      "visualPrintEvidence": "generated-artifacts/dcas-qa/az/print-contact.png",
+      "printPageOutcome": "pass",
+      "actualPrintButton": true,
+      "notes": "No visual blocking defect found after changes."
+    }
+  ],
+  "nativeReview": false,
+  "operationalDashboardSaveOrConnectionVerified": false
+}

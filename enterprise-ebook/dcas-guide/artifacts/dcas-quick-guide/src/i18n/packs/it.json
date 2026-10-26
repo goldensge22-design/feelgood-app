@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "title": "D-CAS ENTERPRISE LABS | Guida pratica alla selezione per le risorse umane"
+  },
+  "ui": {
+    "skip": "Vai al contenuto",
+    "language": "Lingua",
+    "languageAria": "Scegli la lingua",
+    "print": "Stampa",
+    "printAria": "Stampa l’intera guida nella lingua corrente",
+    "toc": "Indice",
+    "tocAria": "Indice della guida",
+    "chapterSelect": "Vai al capitolo",
+    "pagerAria": "Navigazione tra capitoli",
+    "cover": "Copertina",
+    "prev": "Precedente",
+    "next": "Successivo",
+    "backToCover": "Torna alla copertina",
+    "chapterLabel": "Capitolo {n}",
+    "open": "Schermata da aprire",
+    "steps": "Cosa fare",
+    "example": "Esempio fittizio",
+    "notes": "Da sapere",
+    "flowExample": "Esempio di flusso d’uso",
+    "demoLink": "Vedi la schermata nella demo",
+    "newTab": "si apre in una nuova scheda",
+    "readTime": "Circa 8 minuti di lettura",
+    "loading": "Caricamento",
+    "startNew": "Alle prime armi? Inizia dal capitolo 1",
+    "startExisting": "Inizia dal capitolo 3",
+    "workflowLabel": "Flusso di selezione",
+    "who": "Chi",
+    "prepare": "Da preparare",
+    "done": "Come capire che è fatto",
+    "actionsLabel": "Quando → azione successiva",
+    "when": "Quando",
+    "nextAction": "Azione successiva"
+  },
+  "cover": {
+    "brandLine": "Una guida pratica per chi lavora in HR e selezione",
+    "title": "Guida pratica alla selezione per le risorse umane",
+    "subtitle": "Dai criteri aziendali al confronto e alla decisione: sei capitoli con un unico caso",
+    "caseLine": "Caso: l’azienda fittizia Hangyeol Logistics assume un data analyst (ruolo operativo).",
+    "workflow": [
+      "Preparare i criteri aziendali",
+      "Integrare le valutazioni dei dipendenti attuali",
+      "Collegare i candidati",
+      "Preparare i colloqui",
+      "Inserire le valutazioni di colloquio e prova",
+      "Confrontare e decidere"
+    ],
+    "newLead": "Se sei nuovo nella selezione",
+    "existingLead": "Se i criteri aziendali esistono già",
+    "contents": "Indice"
+  },
+  "disclaimer": "Aziende, persone e numeri in questa guida sono tutti fittizi, e anche le schermate della demo usano dati fittizi.",
+  "compare": {
+    "title": "Questi due inserimenti di valutazione sono separati",
+    "left": "Valutazione dei dipendenti attuali",
+    "leftBody": "Inserita in Riferimento interno · evidenze di lavoro dello stesso periodo · serve a completare i criteri aziendali",
+    "right": "Valutazione dei candidati",
+    "rightBody": "Inserita in Modello dei talenti · dopo colloqui e prove · serve a confrontare i candidati (capitolo 5)"
+  },
+  "chapters": [
+    {
+      "kicker": "Fase 1 · Preparare i criteri aziendali",
+      "title": "Definire i criteri di talento che la tua azienda cerca",
+      "lead": "Prima di guardare i candidati, concordate cosa ci si aspetta da questo ruolo.",
+      "who": "HR e il responsabile di funzione",
+      "prepare": "Reparto e ruolo, ruolo operativo, elenco delle attività chiave",
+      "open": "Modello delle competenze professionali / Modello dei talenti",
+      "steps": [
+        "Concordate prima con la funzione il reparto, la posizione (data analyst), il ruolo operativo e le attività chiave.",
+        "Per ogni competenza scrivete nome, ambito (tutta l’azienda / ruolo / posizione o livello), livello obiettivo, peso e modalità di verifica.",
+        "Scrivete in una frase un criterio di comportamento osservabile.",
+        "Procedete in ordine: 'Salva bozza' → 'Richiedi revisione alla funzione' → 'Conferma versione corrente'."
+      ],
+      "done": "Ruolo e criteri di competenza sono concordati con la funzione e la versione corrente è confermata.",
+      "example": {
+        "title": "Hangyeol Logistics · criteri per data analyst",
+        "lines": [
+          "Reparto e ruolo: team Dati · data analyst (operativo)",
+          "Competenza: problem solving · ambito: ruolo",
+          "Criterio di comportamento osservabile: spiega la causa di un errore di analisi e propone come evitare che si ripeta."
+        ]
+      },
+      "notes": [
+        "I criteri aziendali devono esistere prima di poter confrontare i candidati con essi.",
+        "Non date per scontate notifiche automatiche per la richiesta di revisione o la conferma della versione; coordinatevi direttamente con il revisore per verificarlo."
+      ],
+      "flow": [
+        "Salva bozza",
+        "Richiedi revisione",
+        "Conferma versione corrente"
+      ],
+      "links": [
+        "Modello delle competenze professionali",
+        "Modello dei talenti"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Fase 2 · Integrare le valutazioni dei dipendenti attuali",
+      "title": "Completare i criteri con risultati e valutazioni dei dipendenti attuali",
+      "lead": "Completate i criteri con evidenze di lavoro reali dei dipendenti nello stesso ruolo.",
+      "who": "HR (verifica i collegamenti) e il valutatore di ciascun dipendente (inserisce)",
+      "prepare": "Stato di collegamento dei test dei dipendenti nello stesso ruolo, prestazioni ed evidenze di ruolo e comportamento dello stesso periodo",
+      "open": "Riferimento interno › Inserimento performance da parte del responsabile, poi Modello dei talenti",
+      "steps": [
+        "Verificate che i dipendenti collegati siano soggetti del test nello stesso ruolo e nello stesso periodo di valutazione.",
+        "Il valutatore inserisce prestazioni ed evidenze di ruolo e comportamento.",
+        "Se state ancora verificando, usate 'Salva bozza'. Non viene incluso nell’analisi.",
+        "Terminata la verifica, premete 'Approva e applica' e confrontate fianco a fianco 'valutazione aziendale + D-CAS' e 'segnale di potenziale solo dal test' in Modello dei talenti."
+      ],
+      "done": "Le valutazioni con evidenze sono applicate e il confronto compare in Modello dei talenti.",
+      "example": {
+        "title": "Hangyeol Logistics · 3 data analyst attuali",
+        "lines": [
+          "Si integrano 3 data analyst con valutazioni dello stesso periodo (l’ultimo primo semestre).",
+          "I criteri si basano sulle evidenze di più dipendenti, non sulla copia di una persona ideale.",
+          "Un dipendente non aveva evidenze di comportamento e questa volta non è stato integrato."
+        ]
+      },
+      "notes": [
+        "D-CAS/PASS sono importati dal rapporto in sola lettura. Non modificateli; individuate i punti di forza comuni ai due segnali da usare nei criteri aziendali.",
+        "Se mancano evidenze, non inventate punteggi. Esplorate solo con i risultati del test e attendete le evidenze prima di confrontare con i criteri aziendali."
+      ],
+      "flow": [
+        "Inserisci prestazioni",
+        "Salva bozza",
+        "Approva e applica"
+      ],
+      "links": [
+        "Riferimento interno",
+        "Modello dei talenti"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Fase 3 · Collegare i candidati",
+      "title": "Verificare il collegamento tra i candidati di questa selezione e i risultati",
+      "lead": "Verificate prima che il candidato in elenco e il report dei risultati siano la stessa persona.",
+      "who": "Il recruiter",
+      "prepare": "Elenco di selezione con ruolo e posizione realmente richiesti, dati del soggetto del test collegato",
+      "open": "Analisi delle assunzioni",
+      "steps": [
+        "Verificate che nome, ruolo richiesto e soggetto del test siano la stessa persona.",
+        "Selezionate il candidato e premete 'Vedi analisi dettagliata'.",
+        "Per i candidati non collegati, chiedete il collegamento al responsabile e poi ricontrollate."
+      ],
+      "done": "Il soggetto del report è confermato per ogni candidato da esaminare.",
+      "example": {
+        "title": "Hangyeol Logistics · candidata Seoa Yun",
+        "lines": [
+          "Ruolo richiesto: data analyst (dall’elenco di selezione)",
+          "Primo ruolo consigliato: analisi finanziaria (dal test)",
+          "È normale che differiscano. Il ruolo richiesto si legge dall’elenco."
+        ]
+      },
+      "notes": [
+        "I ruoli consigliati derivano dai risultati del test. Il test non sa chi si è candidato a quale ruolo.",
+        "'Guida al collegamento dei dati dei candidati' è solo una guida; in questa schermata non si completa alcun caricamento o collegamento.",
+        "Verificate lo stato del collegamento con il responsabile del collegamento operativo e non considerate il candidato collegato finché non è confermato."
+      ],
+      "flow": [
+        "Controlla l’elenco",
+        "Conferma la stessa persona",
+        "Vedi analisi dettagliata"
+      ],
+      "links": [
+        "Analisi delle assunzioni"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Fase 4 · Preparare i colloqui",
+      "title": "Preparare le domande di colloquio dai risultati individuali",
+      "lead": "Mettete i risultati a confronto con i criteri aziendali e trasformateli in domande sull’esperienza.",
+      "who": "Il recruiter e gli intervistatori",
+      "prepare": "Criteri aziendali del capitolo 1, risultati individuali del candidato",
+      "open": "Analisi individuale",
+      "steps": [
+        "Guardate PASS, il Top5 dei ruoli consigliati, la prontezza per il ruolo attuale e i segnali di leader ed esperto.",
+        "Rispetto ai criteri aziendali, scegliete un punto di forza comune e una differenza.",
+        "Trasformate ciascuno in una domanda su un’esperienza reale."
+      ],
+      "done": "Le domande condivise dagli intervistatori sono pronte.",
+      "example": {
+        "title": "Domande di colloquio per Seoa Yun",
+        "lines": [
+          "Punto di forza comune (problem solving): Esperienza nel pianificare un’analisi: descriva le sue azioni e i risultati",
+          "Differenza (cambio di priorità): Quando le scadenze si sovrapponevano, come ha cambiato le priorità?"
+        ]
+      },
+      "notes": [
+        "Le percentuali di corrispondenza e raccomandazione non sono probabilità di assunzione.",
+        "Le evidenze integrate di esperienza si consultano solo in ambienti che supportano l’integrazione, quando planner e autopresentazione IA sono entrambi collegati, l’identità è verificata ed è presente il consenso alla condivisione. Se le voci non compaiono, chiedete al responsabile del collegamento. Per i candidati non collegati, usate solo i risultati del test, senza penalità.",
+        "Non inserite punteggi non verificati.",
+        "Gli elementi visualizzati possono variare in base ai servizi collegati."
+      ],
+      "flow": [
+        "Leggi i risultati",
+        "Scegli punto comune e differenza",
+        "Domande sull’esperienza"
+      ],
+      "links": [
+        "Analisi individuale"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Fase 5 · Inserire le valutazioni di colloquio e prova",
+      "title": "Inserire la valutazione aziendale dopo colloqui e prove, poi confrontare",
+      "lead": "Inserite la valutazione aziendale solo dopo che colloqui e prove hanno fornito evidenze.",
+      "who": "Gli intervistatori effettivi e i valutatori aziendali",
+      "prepare": "Note del colloquio, risultati della prova, stessi criteri e scala del capitolo 1",
+      "open": "Modello dei talenti › Inserire la valutazione aziendale",
+      "steps": [
+        "Confermate persona e ruolo richiesto, e che si tratti dello stesso ruolo con gli stessi criteri e la stessa scala.",
+        "Inserite solo i campi con evidenze: evidenze di competenza di ruolo, comportamento sui valori chiave, valutazione della prova di lavoro.",
+        "Premete 'Salva e confronta'.",
+        "Confrontate di nuovo fianco a fianco 'valutazione aziendale + D-CAS' e 'segnale di potenziale solo dal test'."
+      ],
+      "done": "Avete verificato che le valutazioni con evidenze sono state davvero salvate e applicate, e avete confrontato di nuovo i due segnali. Premere il pulsante da solo non basta.",
+      "example": {
+        "title": "Inserimento valutazione di Seoa Yun",
+        "lines": [
+          "Valutazione della prova di lavoro: evidenza confermata dall’elaborato → inserita",
+          "Comportamento sui valori chiave: evidenze del colloquio insufficienti → non ancora inserito (in attesa); ricontrollare prima di applicare"
+        ]
+      },
+      "notes": [
+        "PASS è fissato ai valori collegati ed è di sola lettura.",
+        "Un campo non valutato non è uno zero: trattatelo come in attesa. Verificate prima che il servizio operativo conservi i campi non valutati. Se il salvataggio potesse trasformare un valore vuoto in 0, non salvate finché la valutazione non è completata e consultate il responsabile del collegamento.",
+        "Il salvataggio reale sul server dipende dal collegamento operativo della vostra azienda. Questa guida non invia né calcola nulla.",
+        "I nomi dei pulsanti seguono la fonte verificata. Alcune schermate della demo pubblica (v14) possono differire."
+      ],
+      "flow": [
+        "Verifica le evidenze",
+        "Salva e confronta",
+        "Confronta di nuovo"
+      ],
+      "links": [
+        "Modello dei talenti"
+      ],
+      "actions": [
+        {
+          "when": "I due segnali sono simili",
+          "next": "Verificate le evidenze di esperienza"
+        },
+        {
+          "when": "La differenza è ampia",
+          "next": "Ricontrollate persona, ruolo ed evidenze"
+        }
+      ]
+    },
+    {
+      "kicker": "Fase 6 · Confrontare e decidere",
+      "title": "Confrontare i candidati e definire seguito dei colloqui, collocazione e sviluppo",
+      "lead": "Confrontate i candidati dello stesso ruolo con gli stessi criteri aziendali e decidete l’azione successiva.",
+      "who": "Il recruiter e il responsabile di funzione",
+      "prepare": "Valutazioni inserite fino al capitolo 5, il processo di selezione aziendale",
+      "open": "Analisi delle assunzioni",
+      "steps": [
+        "Confrontate solo candidati dello stesso ruolo con gli stessi criteri aziendali.",
+        "Usate i filtri Revisione prioritaria, Verifica aggiuntiva, Altro ruolo e In sospeso solo per restringere l’elenco.",
+        "Con le schede qui sotto decidete l’azione successiva per ogni candidato.",
+        "Registrate le decisioni nel processo di selezione aziendale."
+      ],
+      "done": "Ogni candidato ha un’azione successiva registrata nel processo aziendale.",
+      "example": {
+        "title": "Azione successiva per Seoa Yun",
+        "lines": [
+          "Le evidenze della prova sono sufficienti; mancano evidenze sui valori chiave.",
+          "Azione successiva: verificare l’esperienza di collaborazione nel secondo colloquio."
+        ]
+      },
+      "notes": [
+        "I filtri restringono solo l’elenco; non sono decisioni. La dashboard non invia comunicazioni di assunzione né salva decisioni.",
+        "Dopo l’assunzione, se serve, l’HR competente può consultare Analisi dell’organizzazione (ruoli scoperti), Sviluppo delle competenze (piano 30/60/90 giorni) e Piano d’azione (seguiti)."
+      ],
+      "flow": [
+        "Confronta con gli stessi criteri",
+        "Restringi con i filtri",
+        "Registra nel processo aziendale"
+      ],
+      "links": [
+        "Analisi delle assunzioni",
+        "Analisi dell’organizzazione",
+        "Sviluppo delle competenze",
+        "Piano d’azione"
+      ],
+      "actions": [
+        {
+          "when": "Mancano evidenze",
+          "next": "Verificate nel prossimo colloquio"
+        },
+        {
+          "when": "Il ruolo non è adatto",
+          "next": "Valutate un'altra posizione"
+        },
+        {
+          "when": "Una differenza resta irrisolta",
+          "next": "Mettete in sospeso e verificate ancora"
+        },
+        {
+          "when": "Le evidenze sono sufficienti",
+          "next": "Decidete secondo il processo di selezione aziendale"
+        }
+      ]
+    }
+  ],
+  "checklist": {
+    "title": "La mia checklist",
+    "intro": "Finita la lettura, spunta ciò che hai provato tu stesso.",
+    "items": [
+      "Confermare i criteri di ruolo aziendali",
+      "Verificare le valutazioni dei dipendenti integrate",
+      "Verificare corrispondenza candidato-report",
+      "Preparare le domande di colloquio",
+      "Inserire le valutazioni di colloquio e prova",
+      "Organizzare l’azione successiva"
+    ],
+    "note": "Le spunte sono salvate solo su questo dispositivo.",
+    "done": "{done} su {total} completate",
+    "allDone": "Tutti gli elementi sono completati.",
+    "reset": "Cancella spunte"
+  }
+}

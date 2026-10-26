@@ -1,0 +1,27 @@
+{
+  "corrections": [
+    {
+      "old": "Les preuves d’expérience n’apparaissent que si le planificateur et l’auto-présentation IA sont tous deux reliés, avec vérification d’identité et consentement au partage valides. Sinon, seuls les résultats du test apparaissent, sans aucun désavantage.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing required caveat regarding environment integration and connection owner protocol.",
+      "replacement": "Les données de l'IA personnelle et du planificateur intégré ne sont pas accessibles par défaut. Elles requièrent une intégration environnementale active, une identité vérifiée et un consentement au partage. En cas d'absence, contactez le responsable de la connexion ; utilisez les résultats de test seuls, sans pénalité.",
+      "severity": "P1"
+    }
+  ],
+  "fieldsReviewed": 139,
+  "limits": [
+    "Native language certification is not provided.",
+    "Unreviewed: UI/UX layout responsiveness in target language.",
+    "Unreviewed: Consistency of HR domain terminology in regional variants beyond standard French."
+  ],
+  "locale": "fr",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "fr-0.json",
+    "fr-1.json",
+    "fr-2.json",
+    "fr-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

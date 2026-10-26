@@ -1,0 +1,42 @@
+{
+  "nativeReviewed": false,
+  "decisions": [
+    {
+      "after": "核对完成后点击“批准并纳入分析”，再在企业人才模型中并排查看“公司评价 + D-CAS”和“仅检查的潜力信号”。",
+      "before": "核对完成后点击“批准并纳入分析”，再在企业人才模型中并排查看“公司评价 + D-CAS”和“仅测评的潜力信号”。",
+      "path": "chapters.1.steps.3",
+      "reason": "The source Korean text '검사만의' refers specifically to the 'test/assessment' context rather than a general 'evaluation'. '检查' (as a noun for assessment/test) is more accurate to the technical terminology.",
+      "locale": "zh-CN",
+      "decision": "Rejected: 测评 is correct assessment terminology; 检查 is not an improvement."
+    },
+    {
+      "after": "Đánh giá hiệu suất nhân viên đã được đưa vào và phần so sánh hiện ở Mô hình nhân tài.",
+      "before": "Đánh giá có bằng chứng đã được đưa vào và phần so sánh hiện ở Mô hình nhân tài.",
+      "path": "chapters.1.done",
+      "reason": "The original translation 'Đánh giá có bằng chứng' (Evidence-based evaluation) confuses the source (work evidence) with the evaluation process itself. Using 'Đánh giá hiệu suất nhân viên' better distinguishes employee work evidence from the evaluation.",
+      "locale": "vi",
+      "decision": "Rejected: existing evidence-based wording accurately preserves Korean meaning; proposed change would drop evidence emphasis."
+    },
+    {
+      "after": "Pulse '입력값 저장 및 비교 분석'.",
+      "before": "Pulse 'Guardar y comparar'.",
+      "path": "chapters.4.steps.2",
+      "reason": "The button label is a hard-coded UI element that must remain unchanged for source consistency per instructions.",
+      "locale": "es",
+      "decision": "Rejected: would reintroduce Korean into Spanish and contradict the Spanish source label."
+    },
+    {
+      "after": "Yoxlama bitəndə 'Təsdiqlə və tətbiq et' düyməsini basın və Korporativ istedad modelində 'şirkət qiymətləndirməsi + D-CAS' ilə 'yalnız testə əsaslanan potensial siqnal'ı yan-yana baxın.",
+      "before": "Yoxlama bitəndə 'Təsdiqlə və tətbiq et' düyməsini basın və Korporativ istedad modelində 'şirkət qiyməti + D-CAS' ilə 'yalnız testə əsaslanan potensial siqnalı' yan-yana baxın.",
+      "path": "chapters.1.steps.3",
+      "reason": "Grammar correction: changed 'şirkət qiyməti' (price) to 'şirkət qiymətləndirməsi' (evaluation) to match source context and fixed the object marker for 'potensial siqnal'.",
+      "locale": "az",
+      "decision": "Applied clarified evaluation wording and corrected the object construction in both comparison steps."
+    }
+  ],
+  "sourceLabelVerification": {
+    "menus": 165,
+    "evaluationButtons": 45,
+    "foreignCompetencyButtons": "Not certified: all 14 external source locale dictionaries repeat generic explanatory text in the three competency lifecycle button keys. Verified Korean labels are faithfully translated, not replaced with invalid placeholders."
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "corrections": [
+    {
+      "old": "只有當規劃工具與AI自我介紹都已串接、且本人確認和共享同意有效時，才顯示經歷依據。否則只顯示測驗結果，不會因此不利。",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "補充環境與權限前提，同時澄清整合並非預設運作，且避開特定術語。",
+      "replacement": "整合規劃工具與AI個人陳述數據並非當前營運儀表板的預設功能，僅在已串接且完成身份驗證與共享同意的環境中可用。若未串接，請洽詢營運負責人，在此之前請僅參考測驗結果，不會因此產生不當評分。",
+      "severity": "P0"
+    },
+    {
+      "old": "請向營運串接負責人確認串接狀態，確認前不要視為已串接。",
+      "path": "translation.chapters.2.notes.1",
+      "reason": "術語「串接」改為「連接」以與上下文保持一致，並調整語氣增加自然度。",
+      "replacement": "請向營運連接負責人確認連接狀態，在確認前請勿將其視為已連接。",
+      "severity": "P2"
+    }
+  ],
+  "fieldsReviewed": 329,
+  "limits": [
+    "Native certification not claimed.",
+    "Review is based on provided Korean source text.",
+    "Only concrete defects reported; semantic taste-based choices preserved.",
+    "Dates and names localized as per provided mapping."
+  ],
+  "locale": "zh-TW",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "zh-TW-0.json",
+    "zh-TW-1.json",
+    "zh-TW-2.json",
+    "zh-TW-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

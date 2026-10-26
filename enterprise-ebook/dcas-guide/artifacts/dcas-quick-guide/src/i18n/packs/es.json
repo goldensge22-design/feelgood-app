@@ -1,0 +1,329 @@
+{
+  "meta": {
+    "title": "D-CAS ENTERPRISE LABS | Guía práctica de selección para RR. HH."
+  },
+  "ui": {
+    "skip": "Saltar al contenido",
+    "language": "Idioma",
+    "languageAria": "Elegir idioma",
+    "print": "Imprimir",
+    "printAria": "Imprimir toda la guía en el idioma actual",
+    "toc": "Índice",
+    "tocAria": "Índice de la guía",
+    "chapterSelect": "Ir al capítulo",
+    "pagerAria": "Navegación entre capítulos",
+    "cover": "Portada",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "backToCover": "Volver a la portada",
+    "chapterLabel": "Capítulo {n}",
+    "open": "Pantalla que abrir",
+    "steps": "Qué hacer",
+    "example": "Ejemplo ficticio",
+    "notes": "Conviene saber",
+    "flowExample": "Ejemplo de flujo de uso",
+    "demoLink": "Ver la pantalla en la demo",
+    "newTab": "se abre en una pestaña nueva",
+    "readTime": "Unos 8 minutos de lectura",
+    "loading": "Cargando",
+    "startNew": "¿Es nuevo? Empiece en el capítulo 1",
+    "startExisting": "Empezar en el capítulo 3",
+    "workflowLabel": "Flujo de selección",
+    "who": "Quién",
+    "prepare": "Qué preparar",
+    "done": "Cómo saber que terminó",
+    "actionsLabel": "Cuando → siguiente acción",
+    "when": "Cuando",
+    "nextAction": "Siguiente acción"
+  },
+  "cover": {
+    "brandLine": "Una guía práctica para personal de RR. HH. y selección",
+    "title": "Guía práctica de selección para RR. HH.",
+    "subtitle": "De los criterios de la empresa a la comparación y la decisión: seis capítulos con un mismo caso",
+    "caseLine": "Caso: la empresa ficticia Hangyeol Logistics contrata a un analista de datos (perfil técnico).",
+    "workflow": [
+      "Preparar criterios de la empresa",
+      "Incorporar evaluaciones de empleados actuales",
+      "Vincular candidatos",
+      "Preparar entrevistas",
+      "Registrar evaluaciones de entrevista y tarea",
+      "Comparar y decidir"
+    ],
+    "newLead": "Si es nuevo en selección",
+    "existingLead": "Si la empresa ya tiene criterios",
+    "contents": "Índice"
+  },
+  "disclaimer": "Todas las empresas, personas y cifras de esta guía son ficticias, y las pantallas de la demo usan datos ficticios.",
+  "compare": {
+    "title": "Estas dos entradas de evaluación son distintas",
+    "left": "Evaluación de empleados actuales",
+    "leftBody": "Se introduce en Referencia interna · evidencia laboral del mismo periodo · sirve para completar los criterios de la empresa",
+    "right": "Evaluación de candidatos",
+    "rightBody": "Se introduce en Modelo de talento · tras entrevistas y tareas · sirve para comparar candidatos (capítulo 5)"
+  },
+  "chapters": [
+    {
+      "kicker": "Etapa 1 · Preparar criterios de la empresa",
+      "title": "Definir los criterios de talento que busca su empresa",
+      "lead": "Antes de ver candidatos, acuerde qué se espera de este puesto.",
+      "who": "RR. HH. y el responsable del área",
+      "prepare": "Departamento y puesto, rol técnico, lista de tareas clave",
+      "open": "Modelo de competencias laborales / Modelo de talento",
+      "steps": [
+        "Acuerde primero con el área el departamento y puesto (analista de datos), el rol técnico y las tareas clave.",
+        "Para cada competencia, anote nombre, alcance (toda la empresa / puesto / rol o nivel), nivel objetivo, peso y forma de verificación.",
+        "Escriba un criterio de conducta observable en una frase.",
+        "Siga el orden: 'Guardar borrador' → 'Solicitar revisión del área' → 'Confirmar versión actual'."
+      ],
+      "done": "Puesto, rol y criterios de competencia están acordados con el área y la versión actual está confirmada.",
+      "example": {
+        "title": "Hangyeol Logistics · criterios de analista de datos",
+        "lines": [
+          "Departamento y puesto: Equipo de datos · analista de datos (técnico)",
+          "Competencia: Resolución de problemas · alcance: puesto",
+          "Criterio de conducta observable: explica la causa de un error de análisis y propone cómo evitar que se repita."
+        ]
+      },
+      "notes": [
+        "Primero deben existir criterios de la empresa para poder comparar candidatos con ellos.",
+        "No dé por supuestas notificaciones automáticas de la solicitud de revisión ni de la confirmación de versión; coordínelo directamente con el revisor para confirmarlo."
+      ],
+      "flow": [
+        "Guardar borrador",
+        "Solicitar revisión del área",
+        "Confirmar versión actual"
+      ],
+      "links": [
+        "Modelo de competencias laborales",
+        "Modelo de talento"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Etapa 2 · Incorporar evaluaciones de empleados actuales",
+      "title": "Completar los criterios con resultados y evaluaciones de empleados actuales",
+      "lead": "Complete los criterios con evidencia laboral real de empleados del mismo puesto.",
+      "who": "RR. HH. (verifica vínculos) y el evaluador de cada empleado (introduce datos)",
+      "prepare": "Estado de vínculo de pruebas de empleados del mismo puesto, desempeño y evidencia de rol y conducta del mismo periodo",
+      "open": "Referencia interna › Registro del desempeño por el responsable, luego Modelo de talento",
+      "steps": [
+        "Compruebe que los empleados vinculados son evaluados del mismo puesto y del mismo periodo.",
+        "El evaluador introduce el desempeño y la evidencia de rol y conducta.",
+        "Si aún lo está revisando, use 'Guardar borrador'. Esto no se aplica al análisis.",
+        "Al terminar, pulse 'Aprobar y aplicar' y vea lado a lado 'evaluación de la empresa + D-CAS' y 'señal de potencial solo de la prueba' en Modelo de talento."
+      ],
+      "done": "Las evaluaciones con evidencia están aplicadas y la comparación aparece en Modelo de talento.",
+      "example": {
+        "title": "Hangyeol Logistics · 3 analistas de datos actuales",
+        "lines": [
+          "Se incorporan 3 analistas de datos con evaluaciones del mismo periodo (el primer semestre pasado).",
+          "Los criterios se completan con evidencia de varios empleados, no clonando a una persona ideal.",
+          "Un empleado no tenía evidencia de conducta y esta vez no se incorporó."
+        ]
+      },
+      "notes": [
+        "D-CAS/PASS se importan del informe en modo de solo lectura. No los edite; identifique fortalezas comunes de ambas señales para los criterios de la empresa.",
+        "Si falta evidencia, no invente puntuaciones. Explore solo con los resultados de la prueba y espere a tener evidencia para comparar con los criterios de la empresa."
+      ],
+      "flow": [
+        "Registrar desempeño",
+        "Guardar borrador",
+        "Aprobar y aplicar"
+      ],
+      "links": [
+        "Referencia interna",
+        "Modelo de talento"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Etapa 3 · Vincular candidatos",
+      "title": "Comprobar que los candidatos de esta convocatoria están vinculados a sus resultados",
+      "lead": "Confirme primero que el candidato de la lista y el informe de resultados son la misma persona.",
+      "who": "Responsable de selección",
+      "prepare": "Lista de selección con el puesto y rol reales, datos del evaluado vinculado",
+      "open": "Análisis de contratación",
+      "steps": [
+        "Compruebe que nombre, puesto solicitado y evaluado son la misma persona.",
+        "Seleccione al candidato y pulse 'Ver análisis detallado'.",
+        "Para candidatos sin vincular, pida el vínculo al responsable de conexión y vuelva a comprobar después."
+      ],
+      "done": "Está confirmado el evaluado del informe de cada candidato que revisará.",
+      "example": {
+        "title": "Hangyeol Logistics · candidata Seoa Yun",
+        "lines": [
+          "Puesto solicitado: analista de datos (según la lista de selección)",
+          "Primer puesto recomendado: análisis financiero (según la prueba)",
+          "Es normal que difieran. El puesto solicitado se toma de la lista."
+        ]
+      },
+      "notes": [
+        "Los puestos recomendados salen de los resultados de la prueba. La prueba no sabe quién solicitó qué puesto.",
+        "'Guía de conexión de datos de candidatos' es solo una guía; en esta pantalla no se completa ninguna carga ni conexión.",
+        "Confirme el estado del vínculo con el responsable de la conexión operativa y no lo considere vinculado hasta que esté confirmado."
+      ],
+      "flow": [
+        "Revisar la lista",
+        "Confirmar la misma persona",
+        "Ver análisis detallado"
+      ],
+      "links": [
+        "Análisis de contratación"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Etapa 4 · Preparar entrevistas",
+      "title": "Preparar preguntas de entrevista a partir de los resultados individuales",
+      "lead": "Contraste los resultados con los criterios de la empresa y conviértalos en preguntas sobre experiencia.",
+      "who": "Responsable de selección y entrevistadores",
+      "prepare": "Criterios de la empresa del capítulo 1, resultados individuales del candidato",
+      "open": "Análisis individual",
+      "steps": [
+        "Revise PASS, el Top5 de puestos recomendados, la preparación para el puesto actual y las señales de líder y experto.",
+        "Frente a los criterios de la empresa, elija una fortaleza común y una diferencia.",
+        "Convierta cada una en una pregunta sobre experiencia real."
+      ],
+      "done": "Las preguntas compartidas por los entrevistadores están listas.",
+      "example": {
+        "title": "Preguntas de entrevista para Seoa Yun",
+        "lines": [
+          "Fortaleza común (resolución de problemas): Experiencia planificando un análisis: describa sus propias acciones y los resultados",
+          "Diferencia (cambio de prioridades): Cuando se solaparon plazos, ¿cómo cambió sus prioridades?"
+        ]
+      },
+      "notes": [
+        "Los porcentajes de ajuste y recomendación no son probabilidades de contratación.",
+        "La evidencia integrada de experiencia solo se consulta en entornos que ofrecen integración, cuando tanto el planificador como la autopresentación con IA están vinculados, la identidad está verificada y existe consentimiento para compartir. Si no aparecen estos apartados, consulte al responsable de la conexión. Para candidatos no vinculados, use solo los resultados de la prueba, sin penalización.",
+        "No complete puntuaciones no verificadas.",
+        "Los elementos mostrados pueden variar según los servicios conectados."
+      ],
+      "flow": [
+        "Leer resultados",
+        "Elegir punto común y diferencia",
+        "Preguntas de experiencia"
+      ],
+      "links": [
+        "Análisis individual"
+      ],
+      "actions": []
+    },
+    {
+      "kicker": "Etapa 5 · Registrar evaluaciones de entrevista y tarea",
+      "title": "Registrar la evaluación de la empresa tras entrevistas y tareas, y comparar",
+      "lead": "Registre la evaluación de la empresa solo cuando entrevistas y tareas hayan aportado evidencia.",
+      "who": "Los entrevistadores reales y evaluadores de la empresa",
+      "prepare": "Notas de entrevista, resultados de la tarea, mismos criterios y escala que en el capítulo 1",
+      "open": "Modelo de talento › Introducir evaluación de la empresa",
+      "steps": [
+        "Confirme la persona y el puesto solicitado, y que sea el mismo puesto con los mismos criterios y escala.",
+        "Introduzca solo campos con evidencia: evidencia de competencias del puesto, conducta de valores clave, evaluación de tarea laboral.",
+        "Pulse 'Guardar y comparar'.",
+        "Vuelva a ver lado a lado 'evaluación de la empresa + D-CAS' y 'señal de potencial solo de la prueba'."
+      ],
+      "done": "Confirmó que las evaluaciones con evidencia se guardaron y aplicaron de verdad, y volvió a comparar las dos señales. Pulsar el botón no basta para darlo por terminado.",
+      "example": {
+        "title": "Registro de evaluación de Seoa Yun",
+        "lines": [
+          "Evaluación de tarea laboral: evidencia confirmada en el resultado de la tarea → registrada",
+          "Conducta de valores clave: falta evidencia de la entrevista → aún sin registrar (pendiente); volver a comprobar antes de aplicar"
+        ]
+      },
+      "notes": [
+        "PASS queda fijado a los valores vinculados y es de solo lectura.",
+        "Un campo sin evaluar no es un cero: trátelo como pendiente. Primero compruebe que su servicio operativo conserva los campos sin evaluar. Si al guardar un valor vacío pudiera convertirse en 0, no guarde hasta completar la evaluación y consulte al responsable de la conexión.",
+        "El guardado real en el servidor depende de la conexión operativa de su empresa. Esta guía no envía ni calcula nada.",
+        "Los nombres de los botones siguen la fuente verificada. Algunas pantallas de la demo pública (v14) pueden diferir."
+      ],
+      "flow": [
+        "Comprobar evidencia",
+        "Guardar y comparar",
+        "Comparar de nuevo"
+      ],
+      "links": [
+        "Modelo de talento"
+      ],
+      "actions": [
+        {
+          "when": "Las dos señales son similares",
+          "next": "Compruebe la evidencia de experiencia"
+        },
+        {
+          "when": "La diferencia es grande",
+          "next": "Revise de nuevo persona, puesto y evidencia"
+        }
+      ]
+    },
+    {
+      "kicker": "Etapa 6 · Comparar y decidir",
+      "title": "Comparar candidatos y definir seguimiento de entrevistas, ubicación y desarrollo",
+      "lead": "Compare candidatos del mismo puesto con los mismos criterios y defina la siguiente acción.",
+      "who": "Responsable de selección y responsable del área",
+      "prepare": "Evaluaciones registradas hasta el capítulo 5, el proceso de selección de su empresa",
+      "open": "Análisis de contratación",
+      "steps": [
+        "Compare solo candidatos del mismo puesto con los mismos criterios de la empresa.",
+        "Use los filtros Revisión prioritaria, Verificación adicional, Otro puesto y En espera solo para acotar la lista.",
+        "Con las tarjetas de abajo, defina la siguiente acción de cada candidato.",
+        "Registre las decisiones en el proceso de selección de su empresa."
+      ],
+      "done": "Cada candidato tiene una siguiente acción registrada en el proceso de la empresa.",
+      "example": {
+        "title": "Siguiente acción para Seoa Yun",
+        "lines": [
+          "La evidencia de la tarea es suficiente; falta evidencia de conducta de valores clave.",
+          "Siguiente acción: comprobar la experiencia de colaboración en la segunda entrevista."
+        ]
+      },
+      "notes": [
+        "Los filtros solo acotan la lista; no son decisiones. El panel no envía avisos de contratación ni guarda decisiones.",
+        "Tras la contratación, si hace falta, el personal de RR. HH. correspondiente puede ver Análisis de la organización (huecos de rol), Desarrollo de competencias (plan de 30/60/90 días) y Plan de acción (seguimiento)."
+      ],
+      "flow": [
+        "Comparar con los mismos criterios",
+        "Acotar con filtros",
+        "Registrar en el proceso de la empresa"
+      ],
+      "links": [
+        "Análisis de contratación",
+        "Análisis de la organización",
+        "Desarrollo de competencias",
+        "Plan de acción"
+      ],
+      "actions": [
+        {
+          "when": "Falta evidencia",
+          "next": "Compruébelo en la siguiente entrevista"
+        },
+        {
+          "when": "El rol no encaja",
+          "next": "Considere otro puesto"
+        },
+        {
+          "when": "Una diferencia sigue sin aclararse",
+          "next": "Deje en espera y compruebe más"
+        },
+        {
+          "when": "La evidencia es suficiente",
+          "next": "Decida según el proceso de selección de la empresa"
+        }
+      ]
+    }
+  ],
+  "checklist": {
+    "title": "Mi lista de control",
+    "intro": "Al terminar, marque lo que haya probado usted mismo.",
+    "items": [
+      "Confirmar criterios de puesto y rol",
+      "Confirmar evaluaciones de empleados aplicadas",
+      "Confirmar que candidato e informe coinciden",
+      "Preparar preguntas de entrevista",
+      "Registrar evaluaciones de entrevista y tarea",
+      "Organizar la siguiente acción"
+    ],
+    "note": "Las marcas se guardan solo en este dispositivo.",
+    "done": "{done} de {total} completadas",
+    "allDone": "Todos los elementos están completos.",
+    "reset": "Borrar marcas"
+  }
+}

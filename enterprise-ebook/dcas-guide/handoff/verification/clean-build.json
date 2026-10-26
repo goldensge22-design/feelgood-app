@@ -1,0 +1,143 @@
+{
+  "isolation": "New /tmp source copy, initially empty HOME and pnpm store; no workspace node_modules, cookies, credentials, Git or cache copied. Same Linux x64 host and system tool executables, not an independent OS/container.",
+  "install": {
+    "command": "pnpm install --frozen-lockfile --store-dir <fresh-empty-store>",
+    "exitCode": 0,
+    "log": "install.log",
+    "note": "Executed before this runner under env -i; successful completion recorded by background shell."
+  },
+  "commands": [
+    {
+      "label": "node-version",
+      "command": [
+        "node",
+        "--version"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.02,
+      "log": "node-version.log"
+    },
+    {
+      "label": "pnpm-version",
+      "command": [
+        "pnpm",
+        "--version"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.31,
+      "log": "pnpm-version.log"
+    },
+    {
+      "label": "shared-types",
+      "command": [
+        "pnpm",
+        "exec",
+        "tsc",
+        "-b",
+        "lib/api-client-react"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 1.49,
+      "log": "shared-types.log"
+    },
+    {
+      "label": "i18n",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@workspace/dcas-quick-guide",
+        "validate:i18n"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 0.49,
+      "log": "i18n.log"
+    },
+    {
+      "label": "typecheck",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@workspace/dcas-quick-guide",
+        "typecheck"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 5.55,
+      "log": "typecheck.log"
+    },
+    {
+      "label": "root-build",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@workspace/dcas-quick-guide",
+        "run",
+        "build"
+      ],
+      "environment": {
+        "PORT": "21888",
+        "BASE_PATH": "/",
+        "NODE_ENV": "production"
+      },
+      "exitCode": 0,
+      "seconds": 3.03,
+      "log": "root-build.log"
+    },
+    {
+      "label": "root-browser",
+      "command": [
+        "node",
+        "handoff/verify-browser.mjs",
+        "static",
+        "/tmp/dcas-clean-9jor90j5/workspace/artifacts/dcas-quick-guide/dist/public",
+        "/",
+        "21991",
+        "/home/runner/workspace/generated-artifacts/dcas-handoff/verification/root-browser.json"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 13.31,
+      "log": "root-browser.log"
+    },
+    {
+      "label": "subpath-build",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@workspace/dcas-quick-guide",
+        "run",
+        "build"
+      ],
+      "environment": {
+        "PORT": "21888",
+        "BASE_PATH": "/dcas-guide/",
+        "NODE_ENV": "production"
+      },
+      "exitCode": 0,
+      "seconds": 2.99,
+      "log": "subpath-build.log"
+    },
+    {
+      "label": "subpath-browser",
+      "command": [
+        "node",
+        "handoff/verify-browser.mjs",
+        "static",
+        "/tmp/dcas-clean-9jor90j5/workspace/artifacts/dcas-quick-guide/dist/public",
+        "/dcas-guide/",
+        "21992",
+        "/home/runner/workspace/generated-artifacts/dcas-handoff/verification/subpath-browser.json"
+      ],
+      "environment": {},
+      "exitCode": 0,
+      "seconds": 13.12,
+      "log": "subpath-browser.log"
+    }
+  ],
+  "lockfileUnchanged": true,
+  "outcome": "pass"
+}

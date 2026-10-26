@@ -1,0 +1,548 @@
+[
+  {
+    "locale": "en",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This is an AI-based review of Korean terminology and grammar against provided English translations.",
+      "Button and menu labels were cross-referenced with provided context to ensure consistency with system terminology.",
+      "This review does not certify cultural or localized nuance beyond grammatical and semantic correctness."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "ja",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "Review performed by AI; not a native language certification.",
+      "Labels and UI terms verified against provided context; assume provided mappings are consistent with the application's source of truth."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "zh-CN",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [
+      {
+        "after": "核对完成后点击“批准并纳入分析”，再在企业人才模型中并排查看“公司评价 + D-CAS”和“仅检查的潜力信号”。",
+        "before": "核对完成后点击“批准并纳入分析”，再在企业人才模型中并排查看“公司评价 + D-CAS”和“仅测评的潜力信号”。",
+        "path": "chapters.1.steps.3",
+        "reason": "The source Korean text '검사만의' refers specifically to the 'test/assessment' context rather than a general 'evaluation'. '检查' (as a noun for assessment/test) is more accurate to the technical terminology."
+      }
+    ],
+    "limitations": [
+      "This is an AI-based review, not a professional native-speaker certification.",
+      "The review assumes menu and button labels provided in the JSON match the application's hardcoded UI source labels.",
+      "Terminology context is derived strictly from the provided Korean strings without access to the full application environment."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "zh-TW",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This is an AI-based review of the provided zh-TW translation against the source ko text.",
+      "The review assumes that provided button and menu labels within the 'terms' section are the authoritative correct labels.",
+      "The review does not verify if the translations follow the exact UI design constraints or potential character limits.",
+      "The review is not a native-certified translation assessment."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "mn",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This review is performed by an AI and does not constitute a native professional certification.",
+      "The translation for '기업 인재상' is consistently mapped to 'Байгууллагын авьяасын загвар', which is semantically acceptable but may differ from a preferred organizational term if a specific internal glossary exists.",
+      "Korean terms in menu labels were preserved as requested; grammatical flow in Mongolian was evaluated for functional accuracy only."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "th",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This is an AI-based review of the Thai localization against the provided Korean source text.",
+      "Labels defined in the 'terms' object were treated as constant references; no style improvements were attempted.",
+      "Competency-source placeholder values were ignored as per instructions.",
+      "The review does not constitute native professional certification."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "vi",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [
+      {
+        "after": "Đánh giá hiệu suất nhân viên đã được đưa vào và phần so sánh hiện ở Mô hình nhân tài.",
+        "before": "Đánh giá có bằng chứng đã được đưa vào và phần so sánh hiện ở Mô hình nhân tài.",
+        "path": "chapters.1.done",
+        "reason": "The original translation 'Đánh giá có bằng chứng' (Evidence-based evaluation) confuses the source (work evidence) with the evaluation process itself. Using 'Đánh giá hiệu suất nhân viên' better distinguishes employee work evidence from the evaluation."
+      }
+    ],
+    "limitations": [
+      "This is an AI-based review of Vietnamese translations against Korean source text.",
+      "Native speaker certification is not provided.",
+      "Non-Korean competency-source placeholder values were ignored as instructed."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "ar",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This review is performed by an AI and does not constitute native-level human linguistic certification.",
+      "The evaluation assumes that standard industry terminology in Arabic for HR and organizational development matches the intent of the Korean source text.",
+      "Button and menu labels were verified for consistency with the provided 'terms' section, ensuring no unauthorized renaming occurred."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "ru",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This is an AI-assisted linguistic review of Russian translations against Korean source text.",
+      "Labels were verified against provided system buttons and menu definitions; no cosmetic changes were requested.",
+      "Meaning and grammatical accuracy are assessed based on the provided technical context.",
+      "This review does not substitute for a native human translator's certification."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "km",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "This is an AI-based review of the Khmer translation against Korean content.",
+      "Native certification is not provided.",
+      "Menu and button labels were treated as immutable based on provided guidelines."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "es",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [
+      {
+        "after": "Pulse '입력값 저장 및 비교 분석'.",
+        "before": "Pulse 'Guardar y comparar'.",
+        "path": "chapters.4.steps.2",
+        "reason": "The button label is a hard-coded UI element that must remain unchanged for source consistency per instructions."
+      }
+    ],
+    "limitations": [
+      "This is an AI-assisted review and does not constitute native speaker certification.",
+      "Contextual nuances regarding internal terminology were evaluated based on the provided Korean text.",
+      "Only concrete grammatical or translation errors were addressed; stylistic preferences were ignored."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "fr",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "AI-based review conducted without native speaker certification.",
+      "Translations evaluated for meaning and grammatical consistency against Korean source text only."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "it",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [],
+    "limitations": [
+      "The review is performed by an AI and does not constitute a native language professional certification.",
+      "The context provided is a partial snippet of the localization file, which may limit the assessment of grammatical nuances in longer discourse.",
+      "Non-Korean competency-source placeholder values were ignored as per instructions."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  },
+  {
+    "locale": "az",
+    "reviewType": "Targeted AI review after exact-source term alignment",
+    "nativeReviewed": false,
+    "expectedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ],
+    "corrections": [
+      {
+        "after": "Yoxlama bitəndə 'Təsdiqlə və tətbiq et' düyməsini basın və Korporativ istedad modelində 'şirkət qiymətləndirməsi + D-CAS' ilə 'yalnız testə əsaslanan potensial siqnal'ı yan-yana baxın.",
+        "before": "Yoxlama bitəndə 'Təsdiqlə və tətbiq et' düyməsini basın və Korporativ istedad modelində 'şirkət qiyməti + D-CAS' ilə 'yalnız testə əsaslanan potensial siqnalı' yan-yana baxın.",
+        "path": "chapters.1.steps.3",
+        "reason": "Grammar correction: changed 'şirkət qiyməti' (price) to 'şirkət qiymətləndirməsi' (evaluation) to match source context and fixed the object marker for 'potensial siqnal'."
+      }
+    ],
+    "limitations": [
+      "This is an AI review, not a native language certification.",
+      "The translation check assumes the provided glossary in lines 60-81 is the authoritative source for labels."
+    ],
+    "reviewedPaths": [
+      "chapters.0.open",
+      "chapters.1.open",
+      "chapters.1.steps.2",
+      "chapters.1.steps.3",
+      "chapters.1.done",
+      "chapters.2.open",
+      "chapters.3.open",
+      "chapters.4.open",
+      "chapters.4.steps.2",
+      "chapters.5.open",
+      "chapters.5.notes.1"
+    ]
+  }
+]

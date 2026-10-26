@@ -1,0 +1,27 @@
+{
+  "corrections": [
+    {
+      "old": "経験の根拠は、プランナーとAI自己紹介書の両方が連携され、本人確認と共有同意が有効な場合にのみ表示されます。それ以外は検査結果のみ表示され、不利益はありません。",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Source requires adding a caveat regarding integration deployment and connection owner, while clarifying it is not automatically operational.",
+      "replacement": "経験の根拠データは、連携環境（プランナー＋AI自己紹介書）が整備され、かつ本人確認および共有同意が完了している場合にのみ表示されます。利用環境については接続管理者に確認してください。該当しない場合は、検査結果のみを参考にし、評価上の不利益が生じることはありません。",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 1,
+  "limits": [
+    "Native certification is not provided.",
+    "Only chapter 4, note 1 was reviewed for the integration caveat as requested.",
+    "Unreviewed: All other translation fields and UI strings were not audited."
+  ],
+  "locale": "ja",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "ja-0.json",
+    "ja-1.json",
+    "ja-2.json",
+    "ja-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

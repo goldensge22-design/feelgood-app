@@ -1,0 +1,27 @@
+{
+  "corrections": [
+    {
+      "old": "只有当规划器与AI自我介绍都已关联、且本人确认和共享同意有效时，才显示经历依据。否则只显示测评结果，不会因此不利。",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing operational deployment caveat; clarified integration requirements and connection owner instruction without implying immediate operability.",
+      "replacement": "若未在运营环境中成功关联规划器与AI自我介绍数据，且未完成身份验证及共享授权，将无法查看经历依据。此情况下请仅参考测评结果，不会因此产生不利评价；如需开通，请联系连接负责人。",
+      "severity": "P1"
+    }
+  ],
+  "fieldsReviewed": 328,
+  "limits": [
+    "No native certification claim",
+    "Dates and names localized to standard Chinese context",
+    "Not an exhaustive audit of all stylistic nuances beyond requested defect types"
+  ],
+  "locale": "zh-CN",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "zh-CN-0.json",
+    "zh-CN-1.json",
+    "zh-CN-2.json",
+    "zh-CN-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

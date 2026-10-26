@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "old": "Le evidenze di esperienza compaiono solo se planner e autopresentazione IA sono entrambi collegati e verifica d’identità e consenso alla condivisione sono validi. Altrimenti compaiono solo i risultati del test, senza alcuno svantaggio.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Missing necessary deployment caveat and connection-owner instruction as per requirement.",
+      "replacement": "L'evidenza di esperienza richiede l'integrazione di Planner e IA, verifica d'identità e consenso alla condivisione. Se non disponibile, contatta il responsabile del collegamento; in assenza, usa solo i risultati del test senza penalità.",
+      "severity": "P0"
+    }
+  ],
+  "fieldsReviewed": 1,
+  "limits": [
+    "No native certification claimed",
+    "Only corrected the missing deployment note in chapter 4"
+  ],
+  "locale": "it",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "it-0.json",
+    "it-1.json",
+    "it-2.json",
+    "it-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}

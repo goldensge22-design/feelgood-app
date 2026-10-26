@@ -1,0 +1,26 @@
+{
+  "corrections": [
+    {
+      "old": "La evidencia de experiencia solo aparece si el planificador y la autopresentación con IA están vinculados y la verificación de identidad y el consentimiento para compartir son válidos. Si no, solo se muestran resultados de la prueba, sin perjuicio alguno.",
+      "path": "translation.chapters.3.notes.1",
+      "reason": "Incorporates requested deployment caveat and environment/owner instruction for missing integration scenarios.",
+      "replacement": "La evidencia de experiencia integrada requiere vinculación con el planificador y la IA de declaración personal, verificación de identidad y consentimiento. Si no está disponible, consulte al responsable de la conexión; use los resultados de la prueba sin penalización.",
+      "severity": "P1"
+    }
+  ],
+  "fieldsReviewed": 128,
+  "limits": [
+    "No claim of native review.",
+    "Unreviewed/uncertain issues: The term 'applicant evaluation' used in the query was mapped to context-specific references to performance appraisal and interview assessment; consistency of these domain-specific terms across localized UI elements should be verified by a subject matter expert."
+  ],
+  "locale": "es",
+  "reviewType": "AI-assisted semantic comparison",
+  "nativeReviewed": false,
+  "supersededBy": [
+    "es-0.json",
+    "es-1.json",
+    "es-2.json",
+    "es-3.json"
+  ],
+  "coverageWarning": "Initial broad review was not used as proof of complete coverage. Four smaller pair-by-pair groups are authoritative."
+}
