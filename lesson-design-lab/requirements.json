@@ -1,0 +1,111 @@
+{
+  "schema": "lesson-design-lab.requirements/v1",
+  "rulesVersion": "1.2",
+  "authority": "PRODUCT_RULES.md",
+  "status": "approved-requirements-not-implementation-proof",
+  "entryTabs": [
+    {
+      "id": "secondary",
+      "stages": [
+        "middle",
+        "high"
+      ]
+    },
+    {
+      "id": "university",
+      "stages": [
+        "university"
+      ]
+    }
+  ],
+  "teachingModes": [
+    "one-to-one",
+    "individual",
+    "group",
+    "mixed"
+  ],
+  "baseLessonCount": 18,
+  "worksheetTemplateCount": 36,
+  "countsByStage": {
+    "middle": {
+      "lessons": 6,
+      "worksheets": 12
+    },
+    "high": {
+      "lessons": 6,
+      "worksheets": 12
+    },
+    "university": {
+      "lessons": 6,
+      "worksheets": 12
+    }
+  },
+  "lessonFamilies": [
+    "나의 방법 발견",
+    "진로 후보 비교",
+    "정보와 근거 확인",
+    "미션과 협업",
+    "강점 활용 방법 실험",
+    "탐색부터 실행까지 캠프"
+  ],
+  "worksheetFamilies": [
+    "결과 설명과 실제 경험 대조",
+    "결과지에 관심사를 더한 탐색 방향",
+    "학과·직무 후보와 경로 비교",
+    "출처·사실·미확인 정보 구분",
+    "직무 과정과 요구 행동 지도",
+    "선배·현직자 질문",
+    "현재 분야·미래 아이디어·창업 경로",
+    "역할 분담과 미션 수행",
+    "플래너 실행 계획",
+    "산출물 점검과 동료 피드백",
+    "진로 지도·경험과 나의 이야기",
+    "다음 7일 실행과 진로 재검토"
+  ],
+  "stageDifferentiationRequired": [
+    "learningGoal",
+    "readingMaterials",
+    "studentActions",
+    "optionalSupport",
+    "deliverableAndCompletionCriteria"
+  ],
+  "materialKinds": [
+    "personalWorksheet",
+    "plannerActivityCard"
+  ],
+  "printScopes": [
+    "one-student",
+    "selected-students",
+    "whole-class"
+  ],
+  "printContents": [
+    "worksheets-only",
+    "cards-only",
+    "per-student-bundle"
+  ],
+  "plannerAutoRegistration": "requires-verified-integration-and-confirmed-save",
+  "hanseo": {
+    "optionalExample": true,
+    "teachingMode": "individual",
+    "groupingRequired": false,
+    "fixedInstitution": false
+  },
+  "locales": [
+    "ko",
+    "en",
+    "ja",
+    "zh-CN",
+    "zh-TW",
+    "mn",
+    "th",
+    "vi",
+    "ar",
+    "ru",
+    "km",
+    "es",
+    "fr",
+    "it",
+    "az"
+  ],
+  "requiredProfileStageCases": 243
+}
