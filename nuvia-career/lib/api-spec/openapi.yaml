@@ -1,0 +1,319 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+paths:
+  /career/overview:
+    get:
+      operationId: getCareerOverview
+      responses:
+        "200":
+          description: Public integration readiness and source-labelled common criteria
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerOverview"
+  /career/example:
+    get:
+      operationId: getCareerExample
+      responses:
+        "200":
+          description: Fictional example, never personal test data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerState"
+  /career/workspace:
+    get:
+      operationId: getCareerWorkspace
+      responses:
+        "200":
+          description: Authenticated user's state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerWorkspace"
+        "401":
+          description: Authentication required
+    put:
+      operationId: saveCareerWorkspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerStateInput"
+      responses:
+        "200":
+          description: Atomically saved state
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerWorkspace"
+        "409":
+          description: Revision conflict; local edits must be retained
+        "401":
+          description: Authentication required
+  /career/versions:
+    get:
+      operationId: getCareerVersions
+      responses:
+        "200":
+          description: Owned immutable snapshots
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CareerVersion"
+    post:
+      operationId: createCareerVersion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerVersionInput"
+      responses:
+        "201":
+          description: Immutable snapshot of the saved application
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerVersion"
+        "409":
+          description: Save the draft first
+  /career/export:
+    post:
+      operationId: exportCareerDocument
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerExportInput"
+      responses:
+        "200":
+          description: Actual DOCX file or plain text, never renamed HTML
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
+        "422":
+          description: Fact confirmation required or unsupported format
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    CareerOverview:
+      type: object
+      required: [criteria, integrations]
+      properties:
+        criteria:
+          type: array
+          items:
+            $ref: "#/components/schemas/CareerCriterion"
+        integrations:
+          type: array
+          items:
+            $ref: "#/components/schemas/CareerIntegration"
+    CareerIntegration:
+      type: object
+      required: [id, status, requirements]
+      properties:
+        id:
+          type: string
+          enum: [dcas, planner, company]
+        status:
+          type: string
+          enum: [unconnected, no_data, failed, expired, forbidden, connected]
+        returnUrl:
+          type: string
+        requirements:
+          type: array
+          items: { type: string }
+    CareerCriterion:
+      type: object
+      required: [id, title, description, sourceType, sourceLabel, asOf, version]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        description: { type: string }
+        sourceType:
+          type: string
+          enum: [common_example, official_ncs, report, job_posting, company_public]
+        sourceLabel: { type: string }
+        sourceUrl: { type: string }
+        asOf: { type: string }
+        version: { type: string }
+    CareerState:
+      type: object
+      required: [selectedJob, experiences, activities, applications, criteria, report]
+      properties:
+        selectedJob: { type: string, maxLength: 500 }
+        report:
+          type: [object, "null"]
+          additionalProperties: true
+        criteria:
+          type: array
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/CareerCriterion"
+        experiences:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/CareerExperience"
+        activities:
+          type: array
+          maxItems: 500
+          items:
+            $ref: "#/components/schemas/CareerActivity"
+        applications:
+          type: array
+          maxItems: 200
+          items:
+            $ref: "#/components/schemas/CareerApplication"
+    CareerExperience:
+      type: object
+      required: [id, title, action, result, learning, strengths, criterionIds, confirmed, source]
+      properties:
+        id: { type: string, maxLength: 100 }
+        title: { type: string, maxLength: 500 }
+        action: { type: string, maxLength: 20000 }
+        result: { type: string, maxLength: 20000 }
+        learning: { type: string, maxLength: 20000 }
+        strengths:
+          type: array
+          items: { type: string }
+        criterionIds:
+          type: array
+          items: { type: string }
+        confirmed: { type: boolean }
+        source:
+          type: string
+          enum: [manual, local_activity, planner, example]
+        sourceId: { type: string }
+        sourceUrl: { type: string }
+        sourceVersion: { type: string }
+        permissionStatus:
+          type: string
+          enum: [current, changed, deleted, revoked, unverified]
+    CareerActivity:
+      type: object
+      required: [id, title, goal, steps, date, completion, evidence, strengths, criterionId, status, action, changed, result, learning]
+      properties:
+        id: { type: string, maxLength: 100 }
+        title: { type: string, maxLength: 500 }
+        goal: { type: string, maxLength: 5000 }
+        steps: { type: string, maxLength: 10000 }
+        date: { type: string, maxLength: 40 }
+        completion: { type: string, maxLength: 5000 }
+        evidence: { type: string, maxLength: 10000 }
+        strengths:
+          type: array
+          items: { type: string }
+        criterionId: { type: string }
+        status:
+          type: string
+          enum: [planned, active, paused, partial, completed]
+        action: { type: string, maxLength: 20000 }
+        changed: { type: string, maxLength: 20000 }
+        result: { type: string, maxLength: 20000 }
+        learning: { type: string, maxLength: 20000 }
+    CareerApplication:
+      type: object
+      required: [id, company, job, question, limit, countSpaces, writingLanguage, experienceIds, criterionIds, text]
+      properties:
+        id: { type: string, maxLength: 100 }
+        company: { type: string, maxLength: 500 }
+        job: { type: string, maxLength: 500 }
+        question: { type: string, maxLength: 20000 }
+        limit: { type: integer, minimum: 0, maximum: 100000 }
+        countSpaces: { type: boolean }
+        writingLanguage: { type: string, maxLength: 100 }
+        experienceIds:
+          type: array
+          items: { type: string }
+        criterionIds:
+          type: array
+          items: { type: string }
+        text: { type: string, maxLength: 100000 }
+    CareerWorkspace:
+      type: object
+      required: [revision, state, savedAt]
+      properties:
+        revision: { type: integer }
+        state:
+          $ref: "#/components/schemas/CareerState"
+        savedAt: { type: string }
+    CareerStateInput:
+      type: object
+      required: [revision, state]
+      properties:
+        revision: { type: integer, minimum: 0 }
+        state:
+          $ref: "#/components/schemas/CareerState"
+    CareerVersionInput:
+      type: object
+      required: [applicationId, revision, label, submitted, requestId]
+      properties:
+        applicationId: { type: string }
+        revision: { type: integer }
+        label: { type: string, maxLength: 500 }
+        submitted: { type: boolean }
+        requestId: { type: string, maxLength: 100 }
+    CareerVersion:
+      type: object
+      required: [id, label, submitted, createdAt, application, criteria]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        submitted: { type: boolean }
+        createdAt: { type: string }
+        application:
+          $ref: "#/components/schemas/CareerApplication"
+        criteria:
+          type: array
+          items:
+            $ref: "#/components/schemas/CareerCriterion"
+    CareerExportInput:
+      type: object
+      required: [company, job, question, text, format, confirmed]
+      properties:
+        company: { type: string, maxLength: 500 }
+        job: { type: string, maxLength: 500 }
+        question: { type: string, maxLength: 20000 }
+        text: { type: string, maxLength: 100000 }
+        format:
+          type: string
+          enum: [txt, docx, hwpx]
+        confirmed: { type: boolean }
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+

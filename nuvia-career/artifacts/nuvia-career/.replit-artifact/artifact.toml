@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "NUVIA · 나의 경험이 나의 이야기로"
+description = "FeelGood 대학생과 취업 준비생을 위한 경험 기반 자소서 작성 공간. D-CAS와 기존 플래너를 보존하는 독립 제품이며 경험, 문항, 직접 작성, 버전과 안전한 내보내기를 연결합니다."
+version = "1.0.0"
+id = "artifacts/nuvia-career"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24976
+
+[services.development]
+run = "pnpm --filter @workspace/nuvia-career run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nuvia-career", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/nuvia-career/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24976"
+BASE_PATH = "/"
