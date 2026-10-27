@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="ko" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <meta name="description" content="D-CAS enterprise competency and talent strategy dashboard">
+  <title>D-CAS ENTERPRISE LABS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700;800&family=Noto+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enterprise-dashboard/styles.css">
+</head>
+<body class="is-loading">
+  <a class="skip-link" href="#main" data-i18n="common.skip"></a>
+  <div class="loading-screen" id="loadingScreen" aria-hidden="true">
+    <span class="loading-mark">D</span>
+  </div>
+
+  <div class="app-shell" id="appShell">
+    <aside class="sidebar" id="sidebar" data-i18n-aria-label="nav.label">
+      <div class="brand-block">
+        <div class="brand-mark" aria-hidden="true">D</div>
+        <div>
+          <strong>D-CAS ENTERPRISE LABS</strong>
+          <span data-i18n="brand.subtitle"></span>
+        </div>
+      </div>
+
+      <nav class="nav-list" id="navList">
+        <button class="nav-item active" type="button" data-page="overview"><span class="nav-icon">⌂</span><span data-i18n="nav.overview"></span></button>
+        <button class="nav-item" type="button" data-page="model"><span class="nav-icon">◇</span><span data-i18n="nav.model"></span></button>
+        <button class="nav-item" type="button" data-page="hiring"><span class="nav-icon">◎</span><span data-i18n="nav.hiring"></span></button>
+        <button class="nav-item" type="button" data-page="benchmark"><span class="nav-icon">≋</span><span data-i18n="nav.benchmark"></span></button>
+        <button class="nav-item" type="button" data-page="individual"><span class="nav-icon">◉</span><span data-i18n="nav.individual"></span></button>
+        <button class="nav-item" type="button" data-page="development"><span class="nav-icon">↗</span><span data-i18n="nav.development"></span></button>
+        <button class="nav-item" type="button" data-page="organization"><span class="nav-icon">▦</span><span data-i18n="nav.organization"></span></button>
+        <button class="nav-item" type="button" data-page="actions"><span class="nav-icon">✓</span><span data-i18n="nav.actions"></span></button>
+        <button class="nav-item" type="button" data-page="competencies"><span class="nav-icon">✦</span><span data-i18n="nav.competencies"></span></button>
+      </nav>
+
+      <div class="sidebar-note">
+        <span class="status-dot" aria-hidden="true"></span>
+        <span data-i18n="sidebar.demo"></span>
+        <small data-i18n="sidebar.notice"></small>
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuButton" type="button" aria-controls="sidebar" aria-expanded="false" data-i18n-aria-label="common.menu">☰</button>
+        <div class="organization-switcher">
+          <span class="eyebrow" data-i18n="common.organization"></span>
+          <strong id="organizationName"></strong>
+        </div>
+        <div class="topbar-actions">
+          <label class="language-control">
+            <span class="sr-only" data-i18n="common.language"></span>
+            <select id="languageSelect" data-i18n-aria-label="common.language"></select>
+          </label>
+        </div>
+      </header>
+
+      <main id="main" class="main-content" tabindex="-1">
+        <aside class="demo-disclosure" id="demoDisclosure" data-i18n-aria-label="demo.disclosureLabel"></aside>
+        <section class="page active" id="page-overview" data-page-panel="overview">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.currentCycle"></span><h1 data-i18n="overview.title"></h1><p data-i18n="overview.subtitle"></p></div><div class="heading-meta" id="overviewMeta"></div></div>
+          <div class="metric-grid" id="overviewMetrics"></div>
+          <div class="dashboard-grid two-one"><article class="panel" id="roleReadinessPanel"></article><article class="panel" id="decisionPanel"></article></div>
+          <div class="dashboard-grid equal"><article class="panel" id="capabilityPanel"></article><article class="panel" id="insightPanel"></article></div>
+          <div class="dashboard-grid two-one"><article class="panel table-panel" id="overviewPipelinePanel"></article><article class="panel" id="overviewTasksPanel"></article></div>
+        </section>
+
+        <section class="page" id="page-model" data-page-panel="model">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.modelVersion"></span><h1 data-i18n="model.title"></h1><p data-i18n="model.subtitle"></p></div><div class="heading-meta" id="modelMeta"></div></div>
+          <div class="profile-grid" id="profileGrid"></div>
+          <div class="dashboard-grid two-one"><article class="panel" id="modelEvaluationPanel"></article><article class="panel" id="modelComparisonPanel"></article></div>
+          <article class="panel table-panel" id="modelTablePanel"></article>
+        </section>
+
+        <section class="page" id="page-hiring" data-page-panel="hiring">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.humanReview"></span><h1 data-i18n="hiring.title"></h1><p data-i18n="hiring.subtitle"></p></div></div>
+          <div class="toolbar" id="hiringToolbar"></div>
+          <article class="panel" id="rosterPanel"></article>
+          <div class="metric-grid compact" id="hiringMetrics"></div>
+          <article class="panel table-panel" id="candidateTablePanel"></article>
+          <div class="dashboard-grid equal"><article class="panel" id="hiringPortfolioPanel"></article><article class="panel" id="hiringGuidePanel"></article></div>
+        </section>
+
+        <section class="page" id="page-benchmark" data-page-panel="benchmark">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.internalReference"></span><h1 data-i18n="benchmark.title"></h1><p data-i18n="benchmark.subtitle"></p></div></div>
+          <div class="toolbar" id="benchmarkToolbar"></div>
+          <div class="dashboard-grid two-one"><article class="panel" id="benchmarkChartPanel"></article><article class="panel" id="benchmarkQualityPanel"></article></div>
+          <div class="dashboard-grid equal"><article class="panel" id="talentFormulaPanel"></article><article class="panel" id="resultOnlyRulePanel"></article></div>
+          <article class="panel table-panel" id="performanceEntryPanel"></article>
+          <article class="panel table-panel" id="performanceBenchmarkPanel"></article>
+          <article class="panel table-panel" id="resultOnlyCandidatesPanel"></article>
+          <article class="panel table-panel" id="benchmarkComparisonPanel"></article>
+          <article class="panel table-panel" id="benchmarkTablePanel"></article>
+        </section>
+
+        <section class="page" id="page-individual" data-page-panel="individual">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.decisionSupport"></span><h1 data-i18n="individual.title"></h1><p data-i18n="individual.subtitle"></p></div><div class="heading-meta" id="individualSelector"></div></div>
+          <div class="person-hero" id="personHero"></div>
+          <div class="source-strip" id="individualSourcePanel"></div>
+          <div class="dashboard-grid equal"><article class="panel" id="resultSummaryPanel"></article><article class="panel" id="resumePanel"></article></div>
+          <div class="dashboard-grid two-one"><article class="panel" id="passPanel"></article><article class="panel" id="roleFitPanel"></article></div>
+          <div class="dashboard-grid equal"><article class="panel" id="topJobsPanel"></article><article class="panel" id="evidencePanel"></article></div>
+          <article class="panel table-panel" id="rolePlacementPanel"></article>
+          <article class="panel" id="interviewPanel"></article>
+        </section>
+
+        <section class="page" id="page-development" data-page-panel="development">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.growthPlan"></span><h1 data-i18n="development.title"></h1><p data-i18n="development.subtitle"></p></div></div>
+          <div class="timeline-grid" id="timelineGrid"></div>
+          <div class="dashboard-grid equal"><article class="panel" id="developmentPriorityPanel"></article><article class="panel" id="workStylePanel"></article></div>
+          <div class="dashboard-grid equal"><article class="panel" id="developmentGoalsPanel"></article><article class="panel" id="developmentOwnerPanel"></article></div>
+        </section>
+
+        <section class="page" id="page-organization" data-page-panel="organization">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.aggregateOnly"></span><h1 data-i18n="organization.title"></h1><p data-i18n="organization.subtitle"></p></div></div>
+          <div class="metric-grid" id="organizationMetrics"></div>
+          <div class="dashboard-grid equal"><article class="panel" id="coveragePanel"></article><article class="panel" id="balancePanel"></article></div>
+          <article class="panel table-panel" id="departmentPanel"></article>
+          <div class="dashboard-grid equal"><article class="panel" id="successionPanel"></article><article class="panel" id="mobilityPanel"></article></div>
+          <div class="privacy-callout" id="privacyCallout"></div>
+        </section>
+
+        <section class="page" id="page-actions" data-page-panel="actions">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="common.accountability"></span><h1 data-i18n="actions.title"></h1><p data-i18n="actions.subtitle"></p></div></div>
+          <div class="metric-grid compact" id="actionMetrics"></div>
+          <article class="panel table-panel" id="actionTablePanel"></article>
+          <div class="dashboard-grid equal"><article class="panel" id="actionStagePanel"></article><article class="panel" id="actionPolicyPanel"></article></div>
+        </section>
+
+        <section class="page" id="page-competencies" data-page-panel="competencies">
+          <div class="page-heading"><div><span class="eyebrow" data-i18n="competency.eyebrow"></span><h1 data-i18n="competency.title"></h1><p data-i18n="competency.subtitle"></p></div><div class="heading-meta" id="competencyMeta"></div></div>
+          <div class="model-banner" id="competencyWorkflow"></div>
+          <div class="competency-layout">
+            <article class="panel competency-context" id="competencyContext"></article>
+            <article class="panel competency-editor" id="competencyEditor"></article>
+          </div>
+          <article class="panel table-panel" id="competencyPreview"></article>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script type="module" src="enterprise-dashboard/app.js"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a50e5ae39cae4627',t:'MTc5MzA2OTAyNQ=='};var a=document.createElement('script');a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
