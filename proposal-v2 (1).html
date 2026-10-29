@@ -1193,6 +1193,75 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .cta-card .cta-status{font-size:12.5px;color:#DCE6FB;}
   .cta-card a{color:#fff;text-decoration:underline;font-size:12.5px;}
 
+  /* Enterprise talent evidence proposal */
+  .enterprise-proposal{--ep-navy:#172f55;--ep-blue:#2e66be;--ep-purple:#7065a8;--ep-orange:#f5a623;}
+  .ep-hero{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:30px;align-items:center;background:linear-gradient(135deg,#172f55 0%,#27497d 100%);color:#fff;border-radius:24px;padding:42px;box-shadow:0 18px 44px rgba(23,47,85,.16);overflow:hidden;}
+  .ep-kicker{display:inline-flex;align-items:center;min-height:30px;padding:6px 12px;border:1px solid rgba(245,166,35,.42);border-radius:999px;background:rgba(245,166,35,.12);color:#ffc35f;font-size:11px;font-weight:800;letter-spacing:1.1px;}
+  .ep-hero h1{margin:17px 0 13px;font-size:clamp(30px,4vw,48px);line-height:1.2;letter-spacing:-1.2px;overflow-wrap:break-word;word-break:normal;hyphens:auto;}
+  .ep-hero h1 span{display:block;color:#ffc35f;margin-top:4px;}
+  .ep-hero p{margin:0;color:#dce6f7;font-size:14px;line-height:1.85;max-width:720px;overflow-wrap:anywhere;}
+  .ep-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:24px;}
+  .ep-btn{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:11px 18px;border-radius:12px;background:var(--ep-orange);color:#172f55;text-decoration:none;font-size:13px;font-weight:800;box-shadow:0 8px 20px rgba(245,166,35,.24);overflow-wrap:anywhere;text-align:center;}
+  .ep-demo-note{display:block;width:100%;font-size:11px;color:#bdcae0;line-height:1.55;}
+  .ep-pass-map{position:relative;display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:22px;border:1px solid rgba(255,255,255,.16);border-radius:20px;background:rgba(255,255,255,.08);backdrop-filter:blur(8px);}
+  .ep-pass-map::after{content:'+';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:var(--ep-blue);font-weight:900;box-shadow:0 8px 18px rgba(0,0,0,.16);}
+  .ep-pass-tile{min-width:0;min-height:96px;border-radius:15px;padding:15px 12px;display:flex;flex-direction:column;justify-content:flex-end;color:#fff;font-size:11px;line-height:1.35;}
+  .ep-pass-tile b{font-size:15px;margin-top:4px;overflow-wrap:anywhere;}
+  .ep-pass-tile:nth-child(1){background:#826db8}.ep-pass-tile:nth-child(2){background:#3478ca}.ep-pass-tile:nth-child(3){background:#67b2da}.ep-pass-tile:nth-child(4){background:#f5a623;color:#172f55}
+  .ep-job-standard{grid-column:1/-1;border-radius:13px;background:#fff;color:#172f55;padding:13px 15px;text-align:center;font-size:12px;font-weight:800;}
+  .ep-section{margin-top:34px;}
+  .ep-section-head{max-width:780px;margin-bottom:18px;}
+  .ep-section-head .ep-kicker{background:#fff3df;color:#a85c00;border-color:#f2d5a4;}
+  .ep-section-head h2{margin:10px 0 8px;font-size:clamp(24px,3vw,34px);line-height:1.3;color:var(--ep-navy);overflow-wrap:break-word;word-break:normal;hyphens:auto;}
+  .ep-section-head p{margin:0;color:var(--sub);font-size:14px;line-height:1.75;overflow-wrap:anywhere;}
+  .ep-evidence-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+  .ep-evidence-card{min-width:0;border:1px solid var(--line);border-radius:17px;background:#fff;padding:22px;box-shadow:0 9px 24px rgba(29,53,92,.06);}
+  .ep-evidence-card .ep-no{display:inline-flex;width:30px;height:30px;border-radius:10px;align-items:center;justify-content:center;background:#eef4ff;color:var(--ep-blue);font-size:11px;font-weight:900;margin-bottom:12px;}
+  .ep-evidence-card h3{margin:0 0 8px;font-size:16px;color:var(--ep-navy);overflow-wrap:anywhere;}
+  .ep-evidence-card p{margin:0;color:var(--sub);font-size:12.5px;line-height:1.7;overflow-wrap:anywhere;}
+  .ep-output-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:12px;}
+  .ep-output{min-width:0;padding:18px 20px;border-radius:15px;background:linear-gradient(135deg,#172f55,#27497d);color:#fff;}
+  .ep-output:last-child{background:linear-gradient(135deg,#6c5fa4,#8274bd);}
+  .ep-output b{display:block;color:#ffc35f;font-size:14px;margin-bottom:6px;overflow-wrap:anywhere;}
+  .ep-output p{margin:0;font-size:12.5px;line-height:1.65;color:#edf3ff;overflow-wrap:anywhere;}
+  .ep-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:24px;border:1px solid rgba(46,102,190,.16);border-radius:20px;background:linear-gradient(145deg,#f8fbff,#f7f4ff);}
+  .ep-flow-step{position:relative;min-width:0;background:#fff;border:1px solid var(--line);border-radius:14px;padding:17px 15px;}
+  .ep-flow-step:not(:nth-child(4n))::after{content:'›';position:absolute;right:-9px;top:50%;transform:translateY(-50%);z-index:2;color:var(--ep-purple);font-size:22px;font-weight:900;}
+  .ep-flow-step .ep-no{font-size:10px;color:var(--ep-purple);font-weight:900;margin-bottom:6px;}
+  .ep-flow-step b{display:block;color:var(--ep-navy);font-size:13.5px;margin-bottom:6px;overflow-wrap:anywhere;}
+  .ep-flow-step p{margin:0;color:var(--sub);font-size:11.5px;line-height:1.6;overflow-wrap:anywhere;}
+  .ep-role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;}
+  .ep-role{min-width:0;border-radius:18px;padding:23px;background:#fff;border:1px solid var(--line);box-shadow:0 9px 24px rgba(29,53,92,.06);}
+  .ep-role:first-child{border-top:4px solid var(--ep-blue)}.ep-role:last-child{border-top:4px solid var(--ep-orange)}
+  .ep-role h3{font-size:17px;margin:0 0 9px;color:var(--ep-navy);overflow-wrap:anywhere;}
+  .ep-role p{font-size:12.5px;line-height:1.75;margin:0;color:var(--sub);overflow-wrap:anywhere;}
+  .ep-dashboard{display:grid;grid-template-columns:minmax(280px,.9fr) minmax(0,1.1fr);gap:24px;align-items:center;border-radius:23px;padding:30px;background:#eef3fb;border:1px solid #dce5f3;box-shadow:0 15px 36px rgba(29,53,92,.09);}
+  .ep-browser{min-width:0;border-radius:17px;overflow:hidden;background:#fff;border:1px solid #d6deea;box-shadow:0 16px 32px rgba(29,53,92,.13);}
+  .ep-browser-bar{height:34px;background:#e9edf4;display:flex;align-items:center;gap:6px;padding:0 13px;}
+  .ep-browser-bar i{width:8px;height:8px;border-radius:50%;background:#c9d1dd;}
+  .ep-dashboard-screen{padding:18px;background:#f8faff;}
+  .ep-dash-tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
+  .ep-dash-tabs span{padding:6px 8px;border-radius:7px;background:#e8eef8;color:#3b5276;font-size:9px;font-weight:800;overflow-wrap:anywhere;}
+  .ep-dash-tabs span:first-child{background:var(--ep-navy);color:#fff;}
+  .ep-dash-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;}
+  .ep-dash-mini{min-width:0;min-height:84px;border-radius:10px;background:#fff;border:1px solid #e2e8f1;padding:11px;}
+  .ep-dash-mini b{display:block;color:var(--ep-navy);font-size:10px;margin-bottom:8px;overflow-wrap:anywhere;}
+  .ep-bars{display:flex;align-items:flex-end;gap:5px;height:40px;}
+  .ep-bars i{flex:1;border-radius:4px 4px 2px 2px;background:#4f81cf}.ep-bars i:nth-child(2){background:#f5a623}.ep-bars i:nth-child(3){background:#826db8}.ep-bars i:nth-child(4){background:#67b2da}
+  .ep-dashboard-copy h2{margin:10px 0 8px;color:var(--ep-navy);font-size:clamp(24px,3vw,34px);line-height:1.3;overflow-wrap:break-word;word-break:normal;hyphens:auto;}
+  .ep-dashboard-copy>p{margin:0;color:var(--sub);font-size:13px;line-height:1.75;overflow-wrap:anywhere;}
+  .ep-dashboard-benefits{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:17px 0;}
+  .ep-dashboard-benefits div{min-width:0;border-radius:11px;background:#fff;border:1px solid #dfe6f1;padding:12px;}
+  .ep-dashboard-benefits b{display:block;color:var(--ep-navy);font-size:12.5px;margin-bottom:4px;overflow-wrap:anywhere;}
+  .ep-dashboard-benefits span{display:block;color:var(--sub);font-size:11px;line-height:1.55;overflow-wrap:anywhere;}
+  .ep-pilot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
+  .ep-pilot-step{min-width:0;border:1px solid var(--line);border-radius:14px;padding:18px 15px;background:#fff;}
+  .ep-pilot-step b{display:block;color:var(--ep-navy);font-size:13px;margin:7px 0 6px;overflow-wrap:anywhere;}
+  .ep-pilot-step p{margin:0;color:var(--sub);font-size:11.5px;line-height:1.6;overflow-wrap:anywhere;}
+  .ep-guardrail{margin-top:16px;border-left:4px solid var(--ep-orange);border-radius:12px;background:#fff8ec;padding:15px 17px;color:#645232;font-size:11.5px;line-height:1.7;overflow-wrap:anywhere;}
+  html[dir="rtl"] .ep-guardrail{border-left:0;border-right:4px solid var(--ep-orange)}
+  html[dir="rtl"] .ep-flow-step:not(:nth-child(4n))::after{right:auto;left:-9px;transform:translateY(-50%) rotate(180deg)}
+
   @media(max-width:760px){
     .steps3, .why-grid, .p-facts, .cta-grid, .cl-intro-grid, .evidence-flow, .evidence-outcomes, .biz-evidence .evidence-flow, .evidence-output-list, .ai-resume-section .evidence-flow, .ai-resume-outputs{grid-template-columns:1fr;}
     .ai-resume-section{padding:22px 18px;}
@@ -1206,6 +1275,15 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     .localized-shot-side{grid-template-columns:1fr 1fr;padding:14px;}
     .localized-shot-side div:last-child:nth-child(odd){grid-column:1 / -1;}
     h2.ct-title{font-size:26px;}
+    .ep-hero,.ep-dashboard{grid-template-columns:1fr;padding:24px 18px;}
+    .ep-hero h1{font-size:30px;}
+    html[lang="ru"] .ep-hero h1,html[lang="mn"] .ep-hero h1{font-size:26px;}
+    .ep-pass-map{max-width:440px;width:100%;margin:0 auto;}
+    .ep-evidence-grid,.ep-output-grid,.ep-flow,.ep-role-grid,.ep-dashboard-benefits,.ep-pilot-grid{grid-template-columns:1fr;}
+    .ep-flow-step:not(:nth-child(4n))::after{content:'⌄';right:50%;left:auto;top:auto;bottom:-18px;transform:translateX(50%);}
+    html[dir="rtl"] .ep-flow-step:not(:nth-child(4n))::after{right:50%;left:auto;transform:translateX(50%);}
+    .ep-flow-step:nth-child(4)::after{content:'⌄';position:absolute;right:50%;bottom:-18px;transform:translateX(50%);z-index:2;color:var(--ep-purple);font-size:22px;font-weight:900;}
+    .ep-btn{width:100%;}
   }
 </style>
 </head>
@@ -2292,72 +2370,114 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </section>
 
-<!-- ═══ 기업 제안 (한국어 전용) ═══ -->
-<section id="sec-biz" class="ps ps-inst">
+<!-- ═══ 기업 제안 ═══ -->
+<section id="sec-biz" class="ps ps-inst enterprise-proposal">
   <div class="inst">
-<div class="hero am">
-    <div class="hero-badge" data-i18n="biz_hero_badge">🏢 기업 HR 제안서</div>
-    <h1 data-i18n="biz_hero_h1">D-CAS 기반 인지능력 HR 애널리틱스<br>채용·배치·리더십을 데이터로 결정하라</h1>
-    <p data-i18n="biz_hero_p">PASS 이론(계획력·주의력·동시처리·순차처리) 기반 성인 인지 프로파일링<br>채용 적합도 · 직무 배치 · 리더십 잠재력 · 조직 위험도 분석</p>
-  </div>
-
-  <div class="sec">
-    <div class="sec-title rd" data-i18n="biz_prob_title">기업이 겪는 HR의 한계</div>
-    <div class="prob" data-i18n="biz_prob_1">📌 성격검사(MBTI·DISC)는 인지능력을 측정하지 않아 <strong>직무성과 예측력 낮음</strong></div>
-    <div class="prob" data-i18n="biz_prob_2">📌 면접·학점 기반 채용은 <strong>잠재력 있는 인재를 걸러내지 못함</strong></div>
-    <div class="prob" data-i18n="biz_prob_3">📌 배치 후 직무 부적합으로 인한 <strong>조기 이직 비용 증가</strong></div>
-  </div>
-
-  <div class="sec">
-    <div class="sec-title am" data-i18n="biz_mod_title">D-CAS 6대 HR 분석 모듈</div>
-    <div class="grid2">
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod1_h">🎯 채용 적합도</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod1_d">직무별 PASS 프로파일 기준 매칭<br>계획력 우세 → 전략기획·PM<br>동시처리 우세 → 크리에이티브·R&D</div></div>
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod2_h">🔄 직무 배치 최적화</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod2_d">현재 직무 vs 인지 프로파일 적합도<br>미스매치 감지 → 재배치 제안<br>팀 구성 시너지 분석</div></div>
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod3_h">⚠️ 조직 위험도</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod3_d">번아웃 위험군 사전 감지<br>주의력·계획력 급격 저하 모니터링<br>이직 위험도 예측 점수</div></div>
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod4_h">👑 리더십 잠재력</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod4_d">계획력(P) + 동시처리(Sim) 고점<br>= 전략적 리더십 프로파일<br>임원 후보군 객관적 발굴</div></div>
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod5_h">🤝 협업 시너지</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod5_d">팀원 PASS 조합 분석<br>상호보완 구성 추천<br>갈등 취약 구성 사전 경고</div></div>
-      <div class="card"><div style="font-size:12px;font-weight:700;color:var(--am);margin-bottom:8px" data-i18n="biz_mod6_h">📈 고잠재 인재</div><div style="font-size:12px;color:var(--muted);line-height:1.8" data-i18n="biz_mod6_d">성과 대비 인지능력 잠재력 갭<br>숨겨진 고성과자 발굴<br>HiPo 트랙 객관적 선발</div></div>
-    </div>
-  </div>
-
-  <div class="sec">
-    <div class="evidence-bridge biz-evidence">
-      <span class="flow-tag" data-i18n="biz_ev_tag">TALENT EVIDENCE MATCHING</span>
-      <div class="sec-title am" data-i18n="biz_ev_h">결과지·실행기록·자소서를 연결한 핀셋 인재 추천</div>
-      <p class="sec-sub" data-i18n="biz_ev_p">인지 프로파일만으로 사람을 판단하지 않습니다. 대학 진로·직무 캠프에서 학생이 남긴 계획, 수행 과정, 산출물과 자기소개서의 사실 근거를 기업의 직무 행동 기준과 함께 검토합니다.</p>
-      <div class="evidence-flow" aria-label="기업 인재 추천 근거 흐름" data-i18n-aria-label="biz_ev_aria">
-        <div class="evidence-step"><div class="n">01</div><b data-i18n="nv_cl_flow_s1_h">D-CAS 결과지</b><p data-i18n="nv_cl_flow_s1_p">강점과 지원 포인트, 직무 탐색 후보 확인</p></div>
-        <div class="evidence-step"><div class="n">02</div><b data-i18n="nv_cl_flow_s2_h">NUVIA PLANNER</b><p data-i18n="nv_cl_flow_s2_p">첫 행동과 완료 기준을 정하고 실행·수정 기록</p></div>
-        <div class="evidence-step"><div class="n">03</div><b data-i18n="gp_job_lab_name">기업 직무탐색 LAB</b><p data-i18n="nv_cl_flow_s3_p">직무역량을 관찰 행동과 확인 방법으로 이해</p></div>
-        <div class="evidence-step"><div class="n">04</div><b data-i18n="nv_cl_flow_s4_h">경험카드</b><p data-i18n="nv_cl_flow_s4_p">상황·행동·조정·결과의 사실 근거 정리</p></div>
-        <div class="evidence-step"><div class="n">05</div><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></div>
+    <div class="ep-hero">
+      <div>
+        <span class="ep-kicker" data-i18n="biz2_badge">ENTERPRISE TALENT EVIDENCE</span>
+        <h1><span data-i18n="biz2_title1">우리 회사의 그 자리에 맞는 인재</span><span data-i18n="biz2_title2">인지강점과 실행 근거로 선발과 성장을 연결합니다</span></h1>
+        <p data-i18n="biz2_lede">D-CAS의 인지처리 특성, 대학·직무캠프와 NUVIA PLANNER에서 남긴 실행 기록, 기업이 정의한 관찰 가능한 직무 행동을 함께 검토합니다. 한 점수로 사람을 결정하지 않고 면접·직무 과제·입사 후 성장 설계를 더 구체적으로 만듭니다.</p>
+        <div class="ep-actions">
+          <a class="ep-btn" href="https://goldensge22-design.github.io/feelgood-app/enterprise-demo/?lang=ko#overview" target="_blank" rel="noopener noreferrer" data-enterprise-dashboard-example data-i18n="biz2_cta">기업 대시보드 예시 보기 →</a>
+          <small class="ep-demo-note" data-i18n="biz2_demo_note">공개 예시 화면의 인물과 수치는 모두 가상 데이터입니다.</small>
+        </div>
       </div>
-      <div class="sec-title am" style="font-size:14px;margin-top:18px;" data-i18n="biz_ev_out_h">기업이 받는 검토 자료</div>
-      <div class="evidence-output-list">
-        <div data-i18n="biz_ev_out1">추천 직무와 추천 사유, 대안 직무</div>
-        <div data-i18n="biz_ev_out2">직무 행동 기준별 수행 근거 지도</div>
-        <div data-i18n="biz_ev_out3">자기소개서 근거와 추가 확인이 필요한 항목</div>
-        <div data-i18n="biz_ev_out4">구조화 면접 질문과 입사 후 육성 포인트</div>
+      <div class="ep-pass-map" aria-label="PASS 인지강점과 직무 기준" data-i18n-aria-label="biz2_pass_aria">
+        <div class="ep-pass-tile">Planning<b data-i18n="biz2_pass_p">계획력</b></div>
+        <div class="ep-pass-tile">Attention<b data-i18n="biz2_pass_a">주의력</b></div>
+        <div class="ep-pass-tile">Simultaneous<b data-i18n="biz2_pass_sim">동시처리</b></div>
+        <div class="ep-pass-tile">Successive<b data-i18n="biz2_pass_suc">순차처리</b></div>
+        <div class="ep-job-standard" data-i18n="biz2_job_standard">기업의 직무 기준 · 관찰 행동 · 수행 근거</div>
       </div>
-      <p class="evidence-note" data-i18n="biz_ev_note">추천 결과는 후보 검토를 돕는 참고정보입니다. 직무 관련성 검토, 지원자 동의와 기업 담당자의 사람 중심 판단을 거쳐 최종 채용을 결정합니다.</p>
     </div>
-  </div>
 
-  <div class="sec">
-    <div class="sec-title am" data-i18n="biz_str_title">FeelGood 강점</div>
-    <div class="card">
-      <div class="str-row"><div class="str-num am">1</div><div class="str-body"><strong data-i18n="biz_str_1_h">성인 규준 표준화 완비</strong><span data-i18n="biz_str_1_p">D-CAS 14세~성인 전 연령 규준, 한국 표준화 연구 기반 신뢰도 확보</span></div></div>
-      <div class="str-row"><div class="str-num am">2</div><div class="str-body"><strong data-i18n="biz_str_2_h">디지털 완전 자동화</strong><span data-i18n="biz_str_2_p">검사 → 분석 → 보고서 생성까지 전 과정 플랫폼 내 처리, 추가 인력 불필요</span></div></div>
-      <div class="str-row"><div class="str-num am">3</div><div class="str-body"><strong data-i18n="biz_str_3_h">MBTI·DISC와 차별화된 인지능력 측정</strong><span data-i18n="biz_str_3_p">성격이 아닌 실제 뇌 처리능력 측정 → 직무성과 예측타당도 높음</span></div></div>
-      <div class="str-row"><div class="str-num am">4</div><div class="str-body"><strong data-i18n="biz_str_4_h">대학·공기업 도입 레퍼런스</strong><span data-i18n="biz_str_4_p">장애인 복지관 직업재활, 대학 진로·취업 서비스 실적 보유</span></div></div>
+    <div class="ep-section">
+      <div class="ep-section-head">
+        <span class="ep-kicker" data-i18n="biz2_evidence_tag">THREE EVIDENCE AXES</span>
+        <h2 data-i18n="biz2_evidence_h">한 점수보다, 직무에 필요한 강점과 행동의 조합을 봅니다</h2>
+        <p data-i18n="biz2_evidence_p">검사 결과를 채용 결론으로 사용하지 않습니다. 서로 다른 세 가지 근거를 연결해 확인할 질문을 만들고, 실제 면접과 직무 과제에서 후보자의 경험을 검증합니다.</p>
+      </div>
+      <div class="ep-evidence-grid">
+        <article class="ep-evidence-card"><span class="ep-no">01</span><h3 data-i18n="biz2_axis1_h">D-CAS 인지처리 특성</h3><p data-i18n="biz2_axis1_p">Planning·Attention·Simultaneous·Successive의 상대적 강점과 지원 포인트를 이해합니다.</p></article>
+        <article class="ep-evidence-card"><span class="ep-no">02</span><h3 data-i18n="biz2_axis2_h">실제 실행 기록</h3><p data-i18n="biz2_axis2_p">목표를 세우고 행동하고 조정해 산출물을 만든 과정을 PLANNER와 경험카드에서 확인합니다.</p></article>
+        <article class="ep-evidence-card"><span class="ep-no">03</span><h3 data-i18n="biz2_axis3_h">기업 직무 기준</h3><p data-i18n="biz2_axis3_p">기업의 인재상과 핵심역량을 실제 업무에서 관찰할 수 있는 행동과 확인 방법으로 구체화합니다.</p></article>
+      </div>
+      <div class="ep-output-grid">
+        <div class="ep-output"><b data-i18n="biz2_output1_h">구조화 면접 질문</b><p data-i18n="biz2_output1_p">검사와 기록에서 확인이 필요한 지점을 역할·행동·조정·결과 중심의 질문으로 전환합니다.</p></div>
+        <div class="ep-output"><b data-i18n="biz2_output2_h">맞춤 직무교육 설계</b><p data-i18n="biz2_output2_p">강점을 활용하고 지원이 필요한 방식을 보완하는 온보딩과 성장 계획으로 이어집니다.</p></div>
+      </div>
     </div>
-  </div>
 
-  <div class="cta am">
-    <strong data-i18n="biz_cta_h">기업 HR 파일럿 제안</strong>
-    <p data-i18n="biz_cta_p">100명 이상 조직 대상 D-CAS 파일럿 → 직무 적합도 분석 리포트 제공</p>
-    <a href="mailto:yhim@feel-good.io" data-i18n="biz_cta_email">yhim@feel-good.io | FeelGood EduTech</a>
-  </div>
+    <div class="ep-section">
+      <div class="ep-section-head">
+        <span class="ep-kicker" data-i18n="biz2_flow_tag">EDUCATION TO ENTERPRISE</span>
+        <h2 data-i18n="biz2_flow_h">교육에서 쌓인 기록이 기업에서 확인 가능한 근거가 됩니다</h2>
+        <p data-i18n="biz2_flow_p">학생이 공유 범위를 선택한 기록만 연결합니다. 기업은 완성된 자기소개서 문장만 보지 않고, 그 문장을 만든 활동과 수정 과정을 함께 확인할 수 있습니다.</p>
+      </div>
+      <div class="ep-flow" aria-label="교육 기록에서 채용과 성장까지의 흐름" data-i18n-aria-label="biz2_flow_aria">
+        <div class="ep-flow-step"><div class="ep-no">01</div><b data-i18n="biz2_flow1_h">D-CAS 결과지</b><p data-i18n="biz2_flow1_p">인지강점과 지원 포인트를 이해</p></div>
+        <div class="ep-flow-step"><div class="ep-no">02</div><b data-i18n="biz2_flow2_h">기업 직무탐색 LAB</b><p data-i18n="biz2_flow2_p">실제 업무형 과제로 직무 행동을 경험</p></div>
+        <div class="ep-flow-step"><div class="ep-no">03</div><b data-i18n="biz2_flow3_h">NUVIA PLANNER</b><p data-i18n="biz2_flow3_p">목표·행동·수정·완료 기록을 축적</p></div>
+        <div class="ep-flow-step"><div class="ep-no">04</div><b data-i18n="biz2_flow4_h">경험카드·AI 자소서</b><p data-i18n="biz2_flow4_p">사실 근거를 학생의 언어로 정리</p></div>
+        <div class="ep-flow-step"><div class="ep-no">05</div><b data-i18n="biz2_flow5_h">업무역량 모델</b><p data-i18n="biz2_flow5_p">기업이 필요한 행동과 확인 기준을 정의</p></div>
+        <div class="ep-flow-step"><div class="ep-no">06</div><b data-i18n="biz2_flow6_h">후보 근거 분석</b><p data-i18n="biz2_flow6_p">직무 기준과 공유된 수행 근거를 나란히 검토</p></div>
+        <div class="ep-flow-step"><div class="ep-no">07</div><b data-i18n="biz2_flow7_h">면접·직무 과제</b><p data-i18n="biz2_flow7_p">실제 역할과 행동을 사람 중심으로 확인</p></div>
+        <div class="ep-flow-step"><div class="ep-no">08</div><b data-i18n="biz2_flow8_h">30·60·90 성장 계획</b><p data-i18n="biz2_flow8_p">입사 후 기록과 피드백으로 지원을 조정</p></div>
+      </div>
+    </div>
+
+    <div class="ep-section">
+      <div class="ep-section-head"><h2 data-i18n="biz2_roles_h">HR과 현업 리더가 같은 근거를 봅니다</h2><p data-i18n="biz2_roles_p">HR은 공통 기준과 검토 절차를 만들고, 현업은 실제 업무 행동과 산출물을 확인합니다. 두 관점을 분리하지 않고 하나의 근거 흐름으로 연결합니다.</p></div>
+      <div class="ep-role-grid">
+        <article class="ep-role"><h3 data-i18n="biz2_hr_h">HR · 기준과 공정한 검토</h3><p data-i18n="biz2_hr_p">직무별 역량 모델, 데이터 완결성, 공통 면접 루브릭, 검토 이력을 관리해 후보자마다 같은 기준을 적용합니다.</p></article>
+        <article class="ep-role"><h3 data-i18n="biz2_field_h">현업 리더 · 실제 업무 확인</h3><p data-i18n="biz2_field_p">업무 산출물과 직무 과제를 확인하고 관찰 피드백을 남겨, 입사 후 필요한 다음 교육과 지원을 제안합니다.</p></article>
+      </div>
+    </div>
+
+    <div class="ep-section ep-dashboard">
+      <div class="ep-browser" aria-label="기업 인재 분석 대시보드 미리보기" data-i18n-aria-label="biz2_dash_aria">
+        <div class="ep-browser-bar"><i></i><i></i><i></i></div>
+        <div class="ep-dashboard-screen">
+          <div class="ep-dash-tabs"><span data-i18n="biz2_tab1">업무역량 모델</span><span data-i18n="biz2_tab2">기업 인재상</span><span data-i18n="biz2_tab3">채용 인재 분석</span><span data-i18n="biz2_tab4">개인 상세</span><span data-i18n="biz2_tab5">성장 계획</span></div>
+          <div class="ep-dash-grid">
+            <div class="ep-dash-mini"><b data-i18n="biz2_mini1">인지강점 구성</b><div class="ep-bars"><i style="height:72%"></i><i style="height:48%"></i><i style="height:88%"></i><i style="height:62%"></i></div></div>
+            <div class="ep-dash-mini"><b data-i18n="biz2_mini2">직무 행동 근거</b><div class="ep-bars"><i style="height:45%"></i><i style="height:76%"></i><i style="height:58%"></i><i style="height:84%"></i></div></div>
+            <div class="ep-dash-mini"><b data-i18n="biz2_mini3">면접 확인 항목</b><div class="ep-bars"><i style="height:68%"></i><i style="height:53%"></i><i style="height:79%"></i><i style="height:44%"></i></div></div>
+            <div class="ep-dash-mini"><b data-i18n="biz2_mini4">30·60·90 성장</b><div class="ep-bars"><i style="height:38%"></i><i style="height:57%"></i><i style="height:73%"></i><i style="height:90%"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="ep-dashboard-copy">
+        <span class="ep-kicker" data-i18n="biz2_dash_tag">ENTERPRISE DASHBOARD · LIVE DEMO</span>
+        <h2 data-i18n="biz2_dash_h">후보자 비교에서 입사 후 성장까지, 하나의 근거 흐름</h2>
+        <p data-i18n="biz2_dash_p">여러 성공 프로파일을 인정하면서 직무 기준, 후보자의 공유 기록, 면접 확인 질문, 온보딩 계획을 한 화면에서 연결합니다.</p>
+        <div class="ep-dashboard-benefits">
+          <div><b data-i18n="biz2_dash_card1_h">복수 성공 프로파일</b><span data-i18n="biz2_dash_card1_p">서열이 아닌 서로 다른 성공 경로를 검토</span></div>
+          <div><b data-i18n="biz2_dash_card2_h">후보 근거 비교</b><span data-i18n="biz2_dash_card2_p">같은 직무 기준에 수행 근거를 나란히 배치</span></div>
+          <div><b data-i18n="biz2_dash_card3_h">구조화 면접</b><span data-i18n="biz2_dash_card3_p">추가 확인 질문과 직무 과제를 준비</span></div>
+          <div><b data-i18n="biz2_dash_card4_h">30·60·90 온보딩</b><span data-i18n="biz2_dash_card4_p">기록과 피드백으로 다음 지원을 조정</span></div>
+        </div>
+        <a class="ep-btn" href="https://goldensge22-design.github.io/feelgood-app/enterprise-demo/?lang=ko#overview" target="_blank" rel="noopener noreferrer" data-enterprise-dashboard-example data-i18n="biz2_dash_cta">기업 대시보드 직접 체험하기 →</a>
+      </div>
+    </div>
+
+    <div class="ep-section">
+      <div class="ep-section-head"><h2 data-i18n="biz2_pilot_h">한 직무에서 작게 시작해 근거의 품질을 확인합니다</h2><p data-i18n="biz2_pilot_p">대규모 자동화보다 한 직무의 실제 채용과 교육 흐름을 먼저 설계하고, 기업 담당자와 함께 확인한 뒤 확장합니다.</p></div>
+      <div class="ep-pilot-grid">
+        <div class="ep-pilot-step"><span class="ep-no">01</span><b data-i18n="biz2_pilot1_h">파일럿 직무 선정</b><p data-i18n="biz2_pilot1_p">채용 또는 육성 수요가 분명한 한 직무를 선택</p></div>
+        <div class="ep-pilot-step"><span class="ep-no">02</span><b data-i18n="biz2_pilot2_h">관찰 행동 합의</b><p data-i18n="biz2_pilot2_p">HR과 현업이 좋은 수행을 보여주는 행동을 정의</p></div>
+        <div class="ep-pilot-step"><span class="ep-no">03</span><b data-i18n="biz2_pilot3_h">동의·연결 범위 설계</b><p data-i18n="biz2_pilot3_p">지원자가 공유할 기록과 기업의 검토 범위를 명확히 설정</p></div>
+        <div class="ep-pilot-step"><span class="ep-no">04</span><b data-i18n="biz2_pilot4_h">면접·과제 운영과 리뷰</b><p data-i18n="biz2_pilot4_p">질문과 과제를 운영하고 근거의 유용성과 공정성을 검토</p></div>
+      </div>
+      <div class="ep-guardrail" data-i18n="biz2_guardrail">D-CAS와 활동 기록은 후보자를 자동 선발하거나 직무 성공을 보장하는 도구가 아닙니다. 서로 다른 지표를 하나의 점수로 합치지 않으며, 지원자가 동의해 공유한 범위 안에서 면접·과제·담당자의 판단을 돕는 참고 근거로 사용합니다.</div>
+    </div>
+
+    <div class="cta am">
+      <strong data-i18n="biz2_contact_h">기업 인재선발·성장 파일럿 제안</strong>
+      <p data-i18n="biz2_contact_p">한 직무의 역량 기준부터 구조화 면접과 30·60·90 성장 계획까지 협의하여 설계합니다.</p>
+      <a href="mailto:yhim@feel-good.io" data-i18n="biz2_contact_email">yhim@feel-good.io | FeelGood EduTech</a>
+    </div>
   </div>
 </section>
 
@@ -2468,7 +2588,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20260922-1"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261029-1"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -2493,6 +2613,11 @@ function updateReportLinks(lang) {
   document.querySelectorAll('a[data-school-dashboard-example]').forEach(a => {
     if (!a.dataset.dashboardBase) a.dataset.dashboardBase = a.href.split('?')[0];
     a.href = a.dataset.dashboardBase + '?lang=' + encodeURIComponent(dl);
+  });
+  document.querySelectorAll('a[data-enterprise-dashboard-example]').forEach(a => {
+    const dashboardUrl = new URL(a.href, window.location.href);
+    dashboardUrl.searchParams.set('lang', dl);
+    a.href = dashboardUrl.toString();
   });
 }
 

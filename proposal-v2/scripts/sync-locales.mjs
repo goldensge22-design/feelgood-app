@@ -109,20 +109,23 @@ async function translateBatch(locale, batch) {
 const source = loadDictionary('en');
 const locales = String(args.get('locales') || '').split(',').map(value => value.trim()).filter(Boolean);
 const overwrite = new Set(String(args.get('overwrite') || '').split(',').map(value => value.trim()).filter(Boolean));
+const overwritePrefix = String(args.get('overwrite-prefix') || '').trim();
+const batchLength = Math.max(300, Number(args.get('batch-length') || 900));
 
 if (!locales.length) {
-  console.error('Usage: node proposal-v2/scripts/sync-locales.mjs --locales=es,fr [--translate-missing] [--overwrite=key_a,key_b]');
+  console.error('Usage: node proposal-v2/scripts/sync-locales.mjs --locales=es,fr [--translate-missing] [--overwrite=key_a,key_b] [--overwrite-prefix=biz2_] [--batch-length=900]');
   process.exit(2);
 }
 
 for (const locale of locales) {
   const dictionary = loadDictionary(locale);
   const missing = Object.keys(source).filter(key => !Object.prototype.hasOwnProperty.call(dictionary, key) || dictionary[key] === '');
-  const requested = [...new Set([...missing, ...overwrite])].filter(key => Object.prototype.hasOwnProperty.call(source, key));
-  console.log(`${locale}: ${Object.keys(dictionary).length}/${Object.keys(source).length} keys, ${missing.length} missing, ${overwrite.size} explicitly refreshed`);
+  const prefixed = overwritePrefix ? Object.keys(source).filter(key => key.startsWith(overwritePrefix)) : [];
+  const requested = [...new Set([...missing, ...overwrite, ...prefixed])].filter(key => Object.prototype.hasOwnProperty.call(source, key));
+  console.log(`${locale}: ${Object.keys(dictionary).length}/${Object.keys(source).length} keys, ${missing.length} missing, ${requested.length - missing.length} explicitly refreshed`);
   if (!args.has('translate-missing')) continue;
   const entries = requested.map(key => ({key, source: source[key]}));
-  const work = chunks(entries);
+  const work = chunks(entries, batchLength);
   for (let index = 0; index < work.length; index += 1) {
     Object.assign(dictionary, await translateBatch(locale, work[index]));
     writeDictionary(locale, dictionary);
