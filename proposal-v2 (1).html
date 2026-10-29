@@ -1254,6 +1254,23 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .ep-dashboard-benefits div{min-width:0;border-radius:11px;background:#fff;border:1px solid #dfe6f1;padding:12px;}
   .ep-dashboard-benefits b{display:block;color:var(--ep-navy);font-size:12.5px;margin-bottom:4px;overflow-wrap:anywhere;}
   .ep-dashboard-benefits span{display:block;color:var(--sub);font-size:11px;line-height:1.55;overflow-wrap:anywhere;}
+  .ep-try-shell{margin-top:34px;border-radius:23px;padding:30px;background:linear-gradient(145deg,#172f55,#233f6c);color:#fff;box-shadow:0 16px 38px rgba(23,47,85,.15);}
+  .ep-try-head{max-width:820px;margin-bottom:20px;}
+  .ep-try-head h2{margin:10px 0 8px;font-size:clamp(24px,3vw,34px);line-height:1.3;color:#fff;overflow-wrap:break-word;word-break:normal;hyphens:auto;}
+  .ep-try-head p{margin:0;color:#dce6f7;font-size:13.5px;line-height:1.75;overflow-wrap:anywhere;}
+  .ep-try-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;}
+  .ep-try-card{min-width:0;display:flex;flex-direction:column;border-radius:18px;padding:20px;background:#fff;color:var(--ep-navy);border:1px solid rgba(255,255,255,.2);box-shadow:0 10px 26px rgba(0,0,0,.12);}
+  .ep-try-label{display:inline-flex;align-self:flex-start;min-height:26px;align-items:center;padding:5px 9px;border-radius:999px;background:#eef4ff;color:var(--ep-blue);font-size:10px;font-weight:900;letter-spacing:.6px;margin-bottom:10px;}
+  .ep-try-card:nth-child(2) .ep-try-label{background:#f2edff;color:#6c5fa4}.ep-try-card:nth-child(3) .ep-try-label{background:#fff3df;color:#a85c00}
+  .ep-try-card h3{margin:0 0 7px;font-size:17px;color:var(--ep-navy);overflow-wrap:anywhere;}
+  .ep-try-card>p{margin:0;color:var(--sub);font-size:12px;line-height:1.65;overflow-wrap:anywhere;}
+  .ep-try-point{margin-top:12px;padding:11px 12px;border-radius:11px;background:#f3f6fb;color:#314b73;font-size:11.5px;font-weight:700;line-height:1.55;overflow-wrap:anywhere;}
+  .ep-try-qr{display:flex;align-items:center;justify-content:center;margin:16px auto 14px;width:142px;height:142px;border-radius:14px;background:#fff;border:1px solid #dfe6f1;padding:8px;transition:transform .2s,box-shadow .2s;}
+  .ep-try-qr:hover{transform:translateY(-2px);box-shadow:0 10px 22px rgba(29,53,92,.12);}
+  .ep-try-qr img{display:block;width:100%;height:100%;object-fit:contain;}
+  .ep-try-open{display:flex;align-items:center;justify-content:center;min-height:46px;margin-top:auto;padding:10px 13px;border-radius:11px;background:var(--ep-navy);color:#fff;text-decoration:none;text-align:center;font-size:12px;font-weight:800;line-height:1.45;overflow-wrap:anywhere;}
+  .ep-try-card:nth-child(2) .ep-try-open{background:#6c5fa4}.ep-try-card:nth-child(3) .ep-try-open{background:var(--ep-orange);color:#172f55}
+  .ep-try-foot{margin:13px 0 0;color:#bdcae0;font-size:10.5px;line-height:1.6;text-align:center;overflow-wrap:anywhere;}
   .ep-pilot-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;}
   .ep-pilot-step{min-width:0;border:1px solid var(--line);border-radius:14px;padding:18px 15px;background:#fff;}
   .ep-pilot-step b{display:block;color:var(--ep-navy);font-size:13px;margin:7px 0 6px;overflow-wrap:anywhere;}
@@ -1261,6 +1278,8 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .ep-guardrail{margin-top:16px;border-left:4px solid var(--ep-orange);border-radius:12px;background:#fff8ec;padding:15px 17px;color:#645232;font-size:11.5px;line-height:1.7;overflow-wrap:anywhere;}
   html[dir="rtl"] .ep-guardrail{border-left:0;border-right:4px solid var(--ep-orange)}
   html[dir="rtl"] .ep-flow-step:not(:nth-child(4n))::after{right:auto;left:-9px;transform:translateY(-50%) rotate(180deg)}
+
+  @media(max-width:980px) and (min-width:761px){.ep-try-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.ep-try-card:last-child{grid-column:1/-1;}}
 
   @media(max-width:760px){
     .steps3, .why-grid, .p-facts, .cta-grid, .cl-intro-grid, .evidence-flow, .evidence-outcomes, .biz-evidence .evidence-flow, .evidence-output-list, .ai-resume-section .evidence-flow, .ai-resume-outputs{grid-template-columns:1fr;}
@@ -1279,11 +1298,13 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     .ep-hero h1{font-size:30px;}
     html[lang="ru"] .ep-hero h1,html[lang="mn"] .ep-hero h1{font-size:26px;}
     .ep-pass-map{max-width:440px;width:100%;margin:0 auto;}
-    .ep-evidence-grid,.ep-output-grid,.ep-flow,.ep-role-grid,.ep-dashboard-benefits,.ep-pilot-grid{grid-template-columns:1fr;}
+    .ep-evidence-grid,.ep-output-grid,.ep-flow,.ep-role-grid,.ep-dashboard-benefits,.ep-try-grid,.ep-pilot-grid{grid-template-columns:1fr;}
     .ep-flow-step:not(:nth-child(4n))::after{content:'⌄';right:50%;left:auto;top:auto;bottom:-18px;transform:translateX(50%);}
     html[dir="rtl"] .ep-flow-step:not(:nth-child(4n))::after{right:50%;left:auto;transform:translateX(50%);}
     .ep-flow-step:nth-child(4)::after{content:'⌄';position:absolute;right:50%;bottom:-18px;transform:translateX(50%);z-index:2;color:var(--ep-purple);font-size:22px;font-weight:900;}
     .ep-btn{width:100%;}
+    .ep-try-shell{padding:24px 18px;}
+    .ep-try-card{padding:18px;}
   }
 </style>
 </head>
@@ -2462,6 +2483,41 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       </div>
     </div>
 
+    <div class="ep-try-shell" aria-label="기업 인재선발 연계 서비스 체험" data-i18n-aria-label="biz2_try_aria">
+      <div class="ep-try-head">
+        <span class="ep-kicker" data-i18n="biz2_try_tag">LIVE EXPERIENCE · 3 DEMOS</span>
+        <h2 data-i18n="biz2_try_h">결과지에서 실행 기록, 기업 검토까지 직접 확인하세요</h2>
+        <p data-i18n="biz2_try_p">대학생이 자신의 인지강점을 이해하고, PLANNER에 실행 과정을 남기며, 기업이 동의된 근거를 검토하는 전체 흐름을 세 개의 실제 예시 화면으로 체험할 수 있습니다.</p>
+      </div>
+      <div class="ep-try-grid">
+        <article class="ep-try-card">
+          <span class="ep-try-label" data-i18n="biz2_try_result_tag">STEP 1 · UNIVERSITY REPORT</span>
+          <h3 data-i18n="biz2_try_result_h">대학생용 결과지·진로준비 데모</h3>
+          <p data-i18n="biz2_try_result_p">결과지 요약 화면에서 PASS 4영역의 활용 전략과 직무 준비 기준으로 이어지는 흐름을 확인합니다.</p>
+          <div class="ep-try-point" data-i18n="biz2_try_result_point">직무 탐색의 출발점: 나의 정보처리 방식과 지원 포인트 이해</div>
+          <a class="ep-try-qr" href="https://heavenly-wilted-constants.replit.app/demo?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-result-demo aria-label="대학생용 결과지·진로준비 데모 QR 열기" data-i18n-aria-label="biz2_try_result_qr_aria"><img src="proposal/images/qr-university-result.svg" loading="lazy" alt="대학생용 결과지·진로준비 데모 QR" data-i18n-alt="biz2_try_result_qr_alt"></a>
+          <a class="ep-try-open" href="https://heavenly-wilted-constants.replit.app/demo?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-result-demo data-i18n="biz2_try_result_btn">대학생용 결과지 데모 열기 →</a>
+        </article>
+        <article class="ep-try-card">
+          <span class="ep-try-label" data-i18n="biz2_try_planner_tag">STEP 2 · NUVIA PLANNER</span>
+          <h3 data-i18n="biz2_try_planner_h">대학생용 실행 플래너</h3>
+          <p data-i18n="biz2_try_planner_p">목표·첫 행동·완료 기준을 정하고, 수행과 수정 과정을 실제 기록으로 축적합니다.</p>
+          <div class="ep-try-point" data-i18n="biz2_try_planner_point">자소서와 면접의 근거: 계획이 아니라 실제로 실행하고 조정한 기록</div>
+          <a class="ep-try-qr" href="https://impassioned-windy-hardware.replit.app/studio.html?demo=university" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo aria-label="대학생용 NUVIA PLANNER QR 열기" data-i18n-aria-label="biz2_try_planner_qr_aria"><img src="proposal/images/qr-university-planner.svg" loading="lazy" alt="대학생용 NUVIA PLANNER QR" data-i18n-alt="biz2_try_planner_qr_alt"></a>
+          <a class="ep-try-open" href="https://impassioned-windy-hardware.replit.app/studio.html?demo=university" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo data-i18n="biz2_try_planner_btn">대학생용 플래너 열기 →</a>
+        </article>
+        <article class="ep-try-card">
+          <span class="ep-try-label" data-i18n="biz2_try_dashboard_tag">STEP 3 · ENTERPRISE DASHBOARD</span>
+          <h3 data-i18n="biz2_try_dashboard_h">기업 인재분석 대시보드</h3>
+          <p data-i18n="biz2_try_dashboard_p">기업의 직무 기준과 후보자의 공유 근거를 비교하고 면접 질문과 30·60·90 성장 계획으로 연결합니다.</p>
+          <div class="ep-try-point" data-i18n="biz2_try_dashboard_point">사람이 내리는 결정 지원: 자동 선발이 아닌 근거 중심의 검토와 육성</div>
+          <a class="ep-try-qr" href="https://goldensge22-design.github.io/feelgood-app/enterprise-demo/?lang=ko#overview" target="_blank" rel="noopener noreferrer" data-enterprise-dashboard-example aria-label="기업 인재분석 대시보드 QR 열기" data-i18n-aria-label="biz2_try_dashboard_qr_aria"><img src="proposal/images/qr-enterprise-dashboard.svg" loading="lazy" alt="기업 인재분석 대시보드 QR" data-i18n-alt="biz2_try_dashboard_qr_alt"></a>
+          <a class="ep-try-open" href="https://goldensge22-design.github.io/feelgood-app/enterprise-demo/?lang=ko#overview" target="_blank" rel="noopener noreferrer" data-enterprise-dashboard-example data-i18n="biz2_try_dashboard_btn">기업 대시보드 열기 →</a>
+        </article>
+      </div>
+      <p class="ep-try-foot" data-i18n="biz2_try_foot">QR은 휴대폰 카메라로 스캔하고, 현재 기기에서는 각 카드의 버튼을 누르세요. 예시 화면의 인물과 수치는 설명을 위한 가상 데이터입니다.</p>
+    </div>
+
     <div class="ep-section">
       <div class="ep-section-head"><h2 data-i18n="biz2_pilot_h">한 직무에서 작게 시작해 근거의 품질을 확인합니다</h2><p data-i18n="biz2_pilot_p">대규모 자동화보다 한 직무의 실제 채용과 교육 흐름을 먼저 설계하고, 기업 담당자와 함께 확인한 뒤 확장합니다.</p></div>
       <div class="ep-pilot-grid">
@@ -2588,7 +2644,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20261029-1"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261029-2"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -2618,6 +2674,16 @@ function updateReportLinks(lang) {
     const dashboardUrl = new URL(a.href, window.location.href);
     dashboardUrl.searchParams.set('lang', dl);
     a.href = dashboardUrl.toString();
+  });
+  document.querySelectorAll('a[data-enterprise-result-demo]').forEach(a => {
+    const resultUrl = new URL(a.href, window.location.href);
+    resultUrl.searchParams.set('lang', dl);
+    a.href = resultUrl.toString();
+  });
+  document.querySelectorAll('a[data-enterprise-planner-demo]').forEach(a => {
+    const plannerUrl = new URL(a.href, window.location.href);
+    plannerUrl.searchParams.set('lang', dl);
+    a.href = plannerUrl.toString();
   });
 }
 
