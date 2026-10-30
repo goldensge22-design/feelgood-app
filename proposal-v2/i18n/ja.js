@@ -1036,5 +1036,13 @@ window.LANG["ja"] = {
   "history_demo_btn": "NUVIA HISTORY デモを体験してください →",
   "history_demo_qr_aria": "NUVIA HISTORY デモ QR コードを開きます",
   "history_demo_qr_alt": "NUVIA HISTORY デモ QR コード",
+  "kids_demo_btn": "NUVIA KIDS デモを体験してください →",
+  "kids_demo_qr": "NUVIA KIDS デモ QR を開く",
+  "planner_demo_btn": "NUVIA PLANNER デモを体験してください →",
+  "planner_demo_qr": "NUVIA PLANNER デモ QR を開く",
+  "career_demo_btn": "Career Exploration LAB デモを体験してください →",
+  "career_demo_qr": "Career Exploration LAB デモ QR を開く",
+  "ai_demo_btn": "AI Personal Statement デモを体験してください →",
+  "ai_demo_qr": "AI Personal Statement デモ QR を開きます",
   "nv_verify_test": "評価"
 };

@@ -1036,5 +1036,13 @@ window.LANG["ru"] = {
   "history_demo_btn": "Познакомьтесь с демо-версией NUVIA HISTORY →",
   "history_demo_qr_aria": "Откройте демонстрационный QR-код NUVIA HISTORY.",
   "history_demo_qr_alt": "NUVIA HISTORY демонстрационный QR-код",
+  "kids_demo_btn": "Познакомьтесь с демо-версией NUVIA KIDS →",
+  "kids_demo_qr": "Откройте QR-демонстрацию NUVIA KIDS.",
+  "planner_demo_btn": "Познакомьтесь с демо-версией NUVIA PLANNER →",
+  "planner_demo_qr": "Откройте QR-демонстрацию NUVIA PLANNER.",
+  "career_demo_btn": "Ознакомьтесь с демо-версией Career Exploration LAB →",
+  "career_demo_qr": "Откройте QR-демонстрацию Career Exploration LAB.",
+  "ai_demo_btn": "Ознакомьтесь с демо-версией личного заявления AI →",
+  "ai_demo_qr": "Откройте QR-код демо-версии личного заявления AI.",
   "nv_verify_test": "Оценка"
 };

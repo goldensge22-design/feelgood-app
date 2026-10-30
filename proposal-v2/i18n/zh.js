@@ -1036,5 +1036,13 @@ window.LANG["zh"] = {
   "history_demo_btn": "体验 NUVIA HISTORY 演示 →",
   "history_demo_qr_aria": "打开NUVIA HISTORY演示二维码",
   "history_demo_qr_alt": "NUVIA HISTORY 演示二维码",
+  "kids_demo_btn": "体验 NUVIA KIDS 演示 →",
+  "kids_demo_qr": "打开NUVIA KIDS演示二维码",
+  "planner_demo_btn": "体验 NUVIA PLANNER 演示 →",
+  "planner_demo_qr": "打开 NUVIA PLANNER 演示二维码",
+  "career_demo_btn": "体验职业探索 LAB 演示 →",
+  "career_demo_qr": "打开职业探索 LAB 演示二维码",
+  "ai_demo_btn": "体验 AI 个人陈述演示 →",
+  "ai_demo_qr": "打开 AI 个人陈述演示二维码",
   "nv_verify_test": "评估"
 };

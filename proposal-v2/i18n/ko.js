@@ -1036,5 +1036,13 @@ window.LANG.ko = {
   "history_demo_btn": "NUVIA HISTORY 데모 체험하기 →",
   "history_demo_qr_aria": "NUVIA HISTORY 데모 QR 열기",
   "history_demo_qr_alt": "NUVIA HISTORY 데모 QR",
+  "kids_demo_btn": "NUVIA KIDS 데모 체험하기 →",
+  "kids_demo_qr": "NUVIA KIDS 데모 QR 열기",
+  "planner_demo_btn": "NUVIA PLANNER 데모 체험하기 →",
+  "planner_demo_qr": "NUVIA PLANNER 데모 QR 열기",
+  "career_demo_btn": "진로탐색 LAB 데모 체험하기 →",
+  "career_demo_qr": "진로탐색 LAB 데모 QR 열기",
+  "ai_demo_btn": "AI 자기소개서 데모 체험하기 →",
+  "ai_demo_qr": "AI 자기소개서 데모 QR 열기",
   "nv_verify_test": "검사"
 };

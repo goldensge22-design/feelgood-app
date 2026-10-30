@@ -1036,5 +1036,13 @@ window.LANG["az"] = {
   "history_demo_btn": "NUVIA HISTORY demosunu təcrübədən keçirin →",
   "history_demo_qr_aria": "NUVIA HISTORY demo QR kodunu açın",
   "history_demo_qr_alt": "NUVIA HISTORY demo QR kodu",
+  "kids_demo_btn": "NUVIA KIDS demosunu təcrübədən keçirin →",
+  "kids_demo_qr": "NUVIA KIDS demo QR-ni açın",
+  "planner_demo_btn": "NUVIA PLANNER demosunu təcrübədən keçirin →",
+  "planner_demo_qr": "NUVIA PLANNER demo QR-ni açın",
+  "career_demo_btn": "Karyera Kəşfiyyatı LAB demosunu təcrübədən keçirin →",
+  "career_demo_qr": "Karyera Kəşfiyyatı LAB demo QR-ni açın",
+  "ai_demo_btn": "AI Şəxsi Bəyanat demosunu təcrübədən keçirin →",
+  "ai_demo_qr": "AI Şəxsi Bəyanat demo QR-ni açın",
   "nv_verify_test": "Assessment"
 };

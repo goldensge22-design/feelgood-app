@@ -1036,5 +1036,13 @@ window.LANG["mn"] = {
   "history_demo_btn": "NUVIA HISTORY демо-г үзээрэй →",
   "history_demo_qr_aria": "NUVIA HISTORY демо QR кодыг нээнэ үү",
   "history_demo_qr_alt": "NUVIA HISTORY демо QR код",
+  "kids_demo_btn": "NUVIA KIDS демо-г үзээрэй →",
+  "kids_demo_qr": "NUVIA KIDS demo QR-г нээнэ үү",
+  "planner_demo_btn": "NUVIA PLANNER демо-г үзээрэй →",
+  "planner_demo_qr": "NUVIA PLANNER demo QR-г нээнэ үү",
+  "career_demo_btn": "Ажил мэргэжлийн хайгуулын LAB үзүүлбэрийг мэдрээрэй →",
+  "career_demo_qr": "Career Exploration LAB demo QR-г нээнэ үү",
+  "ai_demo_btn": "AI Хувийн мэдэгдлийн демо хувилбарыг үзээрэй →",
+  "ai_demo_qr": "AI Хувийн мэдэгдлийн QR-г нээнэ үү",
   "nv_verify_test": "Үнэлгээ"
 };

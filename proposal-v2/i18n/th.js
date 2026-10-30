@@ -1036,5 +1036,13 @@ window.LANG["th"] = {
   "history_demo_btn": "สัมผัสประสบการณ์การสาธิต NUVIA HISTORY →",
   "history_demo_qr_aria": "เปิดรหัส QR สาธิต NUVIA HISTORY",
   "history_demo_qr_alt": "รหัส QR สาธิต NUVIA HISTORY",
+  "kids_demo_btn": "สัมผัสประสบการณ์การสาธิต NUVIA KIDS →",
+  "kids_demo_qr": "เปิด QR สาธิต NUVIA KIDS",
+  "planner_demo_btn": "สัมผัสประสบการณ์การสาธิต NUVIA PLANNER →",
+  "planner_demo_qr": "เปิด QR สาธิต NUVIA PLANNER",
+  "career_demo_btn": "สัมผัสประสบการณ์การสาธิต Career Exploration LAB →",
+  "career_demo_qr": "เปิด QR สาธิตการสำรวจอาชีพ LAB",
+  "ai_demo_btn": "สัมผัสประสบการณ์การสาธิตคำชี้แจงส่วนบุคคล AI →",
+  "ai_demo_qr": "เปิด QR สาธิตคำชี้แจงส่วนบุคคล AI",
   "nv_verify_test": "การประเมิน"
 };

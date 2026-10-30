@@ -1036,5 +1036,13 @@ window.LANG["es"] = {
   "history_demo_btn": "Experimente la demostración de NUVIA HISTORY →",
   "history_demo_qr_aria": "Abra el código QR de demostración NUVIA HISTORY",
   "history_demo_qr_alt": "Código QR de demostración NUVIA HISTORY",
+  "kids_demo_btn": "Experimente la demostración de NUVIA KIDS →",
+  "kids_demo_qr": "Abra el QR de demostración NUVIA KIDS",
+  "planner_demo_btn": "Experimente la demostración de NUVIA PLANNER →",
+  "planner_demo_qr": "Abra el QR de demostración NUVIA PLANNER",
+  "career_demo_btn": "Experimente la demostración de Career Exploration LAB →",
+  "career_demo_qr": "Abra el QR de demostración de Career Exploration LAB",
+  "ai_demo_btn": "Experimente la demostración de Declaración personal AI →",
+  "ai_demo_qr": "Abra el QR de demostración de declaración personal AI",
   "nv_verify_test": "Evaluación"
 };

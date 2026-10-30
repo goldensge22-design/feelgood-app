@@ -1036,5 +1036,13 @@ window.LANG["km"] = {
   "history_demo_btn": "បទពិសោធន៍ការបង្ហាញ NUVIA HISTORY →",
   "history_demo_qr_aria": "បើកកូដ QR សាកល្បង NUVIA HISTORY",
   "history_demo_qr_alt": "កូដ QR សាកល្បង NUVIA HISTORY",
+  "kids_demo_btn": "បទពិសោធន៍ការបង្ហាញ NUVIA KIDS →",
+  "kids_demo_qr": "បើកការបង្ហាញ QR NUVIA KIDS",
+  "planner_demo_btn": "បទពិសោធន៍ការបង្ហាញ NUVIA PLANNER →",
+  "planner_demo_qr": "បើកការបង្ហាញ QR NUVIA PLANNER",
+  "career_demo_btn": "បទពិសោធន៍ការរុករកអាជីព LAB ការបង្ហាញ →",
+  "career_demo_qr": "បើកការរុករកអាជីព LAB ការបង្ហាញ QR",
+  "ai_demo_btn": "ទទួលបានបទពិសោធន៍ AI ការបង្ហាញសេចក្តីថ្លែងការណ៍ផ្ទាល់ខ្លួន →",
+  "ai_demo_qr": "បើកការបង្ហាញ AI Personal Statement demo QR",
   "nv_verify_test": "ការវាយតម្លៃ"
 };

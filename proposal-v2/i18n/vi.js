@@ -1036,5 +1036,13 @@ window.LANG["vi"] = {
   "history_demo_btn": "Trải nghiệm demo NUVIA HISTORY →",
   "history_demo_qr_aria": "Mở mã QR demo NUVIA HISTORY",
   "history_demo_qr_alt": "Mã QR demo NUVIA HISTORY",
+  "kids_demo_btn": "Trải nghiệm demo NUVIA KIDS →",
+  "kids_demo_qr": "Mở QR demo NUVIA KIDS",
+  "planner_demo_btn": "Trải nghiệm demo NUVIA PLANNER →",
+  "planner_demo_qr": "Mở QR demo NUVIA PLANNER",
+  "career_demo_btn": "Trải nghiệm demo Khám phá nghề nghiệp LAB →",
+  "career_demo_qr": "Mở QR demo Khám phá nghề nghiệp LAB",
+  "ai_demo_btn": "Trải nghiệm bản demo Tuyên bố cá nhân AI →",
+  "ai_demo_qr": "Mở bản demo Tuyên bố cá nhân AI QR",
   "nv_verify_test": "Đánh giá"
 };

@@ -1036,5 +1036,13 @@ window.LANG["ar"] = {
   "history_demo_btn": "تجربة العرض التجريبي NUVIA HISTORY →",
   "history_demo_qr_aria": "افتح رمز QR التجريبي NUVIA HISTORY",
   "history_demo_qr_alt": "NUVIA HISTORY رمز الاستجابة السريعة التجريبي",
+  "kids_demo_btn": "تجربة العرض التجريبي NUVIA KIDS →",
+  "kids_demo_qr": "افتح QR التجريبي NUVIA KIDS",
+  "planner_demo_btn": "تجربة العرض التجريبي NUVIA PLANNER →",
+  "planner_demo_qr": "افتح QR التجريبي NUVIA PLANNER",
+  "career_demo_btn": "تجربة الاستكشاف الوظيفي LAB التجريبي →",
+  "career_demo_qr": "افتح العرض التجريبي للاستكشاف الوظيفي LAB QR",
+  "ai_demo_btn": "قم بتجربة العرض التوضيحي للبيان الشخصي AI →",
+  "ai_demo_qr": "افتح العرض التوضيحي للبيان الشخصي AI QR",
   "nv_verify_test": "تقدير"
 };

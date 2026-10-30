@@ -1036,5 +1036,13 @@ window.LANG["zh-TW"] = {
   "history_demo_btn": "體驗 NUVIA HISTORY 示範 →",
   "history_demo_qr_aria": "開啟NUVIA HISTORY演示二維碼",
   "history_demo_qr_alt": "NUVIA HISTORY 示範二維碼",
+  "kids_demo_btn": "體驗 NUVIA KIDS 示範 →",
+  "kids_demo_qr": "開啟NUVIA KIDS演示二維碼",
+  "planner_demo_btn": "體驗 NUVIA PLANNER 演示 →",
+  "planner_demo_qr": "開啟 NUVIA PLANNER 演示二維碼",
+  "career_demo_btn": "體驗職業探索 LAB 演示 →",
+  "career_demo_qr": "開啟職業探索 LAB 演示二維碼",
+  "ai_demo_btn": "體驗 AI 個人陳述示範 →",
+  "ai_demo_qr": "開啟 AI 個人陳述示範二維碼",
   "nv_verify_test": "评估"
 };

@@ -2,7 +2,7 @@
 // To add a language: add one entry here and create the matching <code>.js file.
 (function loadProposalLanguages(document) {
   var config = {
-  "assetVersion": "20261030-1",
+  "assetVersion": "20261031-1",
   "languages": [
     {
       "code": "ko",
