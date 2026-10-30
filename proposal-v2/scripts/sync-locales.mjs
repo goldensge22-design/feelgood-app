@@ -45,7 +45,8 @@ function chunks(entries, maxLength = 2800) {
 
 const protectedTerms = [
   'K-PASS', 'D-CAS', 'NUVIA KIDS', 'NUVIA HISTORY', 'NUVIA PLANNER',
-  'NUVIA CAREER LAB', 'MY NUVIA', 'NUVIA', 'PASS', 'FeelGood', 'MindCompass',
+  'NUVIA CAREER LAB', 'MY NUVIA', 'NUVIA', 'KIDS', 'HISTORY', 'PLANNER',
+  'CAREER LAB', 'LAB', 'PASS', 'FeelGood', 'MindCompass',
   'Planning', 'Attention', 'Simultaneous', 'Successive', 'AI', '2E'
 ];
 

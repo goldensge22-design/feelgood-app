@@ -1279,6 +1279,42 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   html[dir="rtl"] .ep-guardrail{border-left:0;border-right:4px solid var(--ep-orange)}
   html[dir="rtl"] .ep-flow-step:not(:nth-child(4n))::after{right:auto;left:-9px;transform:translateY(-50%) rotate(180deg)}
 
+  /* assessment story: visible results above, cognitive processing below */
+  .assessment-story{margin:0 0 34px;border-radius:26px;overflow:hidden;background:linear-gradient(135deg,#142f59,#24487b);color:#fff;box-shadow:0 18px 42px rgba(28,53,91,.16);}
+  .assessment-story-main{display:grid;grid-template-columns:minmax(0,.92fr) minmax(380px,1.08fr);align-items:stretch;min-height:430px;}
+  .assessment-story-copy{padding:48px 42px;display:flex;flex-direction:column;justify-content:center;}
+  .assessment-story-tag{display:inline-flex;align-self:flex-start;align-items:center;gap:9px;color:#ffbd48;font-size:11px;font-weight:900;letter-spacing:1.5px;text-transform:uppercase;}
+  .assessment-story-tag::before{content:'';width:27px;height:3px;border-radius:99px;background:#f5a623;}
+  .assessment-story-copy h3{margin:18px 0 13px;color:#fff;font-size:clamp(28px,4vw,42px);line-height:1.24;letter-spacing:-.045em;overflow-wrap:anywhere;}
+  .assessment-story-copy>p{margin:0;color:#dce7f7;font-size:14px;line-height:1.78;overflow-wrap:anywhere;}
+  .assessment-story-visual{position:relative;min-width:0;background:#d8edff;}
+  .assessment-story-visual img{display:block;width:100%;height:100%;min-height:430px;object-fit:cover;object-position:center;}
+  .assessment-story-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:0 28px 28px;}
+  .assessment-flow-card{min-width:0;border:1px solid rgba(255,255,255,.18);border-radius:15px;padding:17px;background:rgba(255,255,255,.075);}
+  .assessment-flow-card .n{display:block;color:#ffbd48;font-size:10px;font-weight:900;margin-bottom:7px;}
+  .assessment-flow-card b{display:block;color:#fff;font-size:13px;margin-bottom:6px;overflow-wrap:anywhere;}
+  .assessment-flow-card p{margin:0;color:#cbd9ed;font-size:11px;line-height:1.55;overflow-wrap:anywhere;}
+  .assessment-audience{margin:40px 0 44px;}
+  .assessment-audience-head{max-width:760px;margin-bottom:19px;}
+  .assessment-audience-head h3{font-size:23px;margin:0 0 8px;color:var(--navy);overflow-wrap:anywhere;}
+  .assessment-audience-head p{margin:0;color:var(--textm);font-size:13.5px;line-height:1.7;overflow-wrap:anywhere;}
+  .assessment-audience-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;}
+  .assessment-audience-card{min-width:0;background:#fff;border:1px solid #e1e7f1;border-radius:17px;padding:20px 18px;box-shadow:0 10px 25px rgba(28,53,91,.07);}
+  .assessment-audience-card:nth-child(1){border-top:4px solid #4a7ec8}.assessment-audience-card:nth-child(2){border-top:4px solid #806db6}.assessment-audience-card:nth-child(3){border-top:4px solid #34a58f}.assessment-audience-card:nth-child(4){border-top:4px solid #f5a623}
+  .assessment-audience-card span{display:inline-flex;padding:5px 8px;border-radius:7px;background:#eef3fb;color:#48658e;font-size:10px;font-weight:900;margin-bottom:11px;}
+  .assessment-audience-card h4{font-size:15px;margin:0 0 7px;color:var(--navy);overflow-wrap:anywhere;}
+  .assessment-audience-card p{font-size:11.5px;line-height:1.62;color:var(--textm);margin:0;overflow-wrap:anywhere;}
+  .history-demo-cta{display:grid;grid-template-columns:minmax(0,1fr) 124px;gap:22px;align-items:center;margin:20px 0 22px;padding:24px;border-radius:18px;background:linear-gradient(135deg,#102f42,#28566e);color:#fff;box-shadow:0 14px 30px rgba(16,47,66,.16);}
+  .history-demo-tag{display:inline-flex;align-items:center;align-self:flex-start;padding:5px 9px;border:1px solid rgba(255,255,255,.24);border-radius:999px;color:#ffca6a;font-size:10px;font-weight:900;letter-spacing:.8px;margin-bottom:10px;}
+  .history-demo-copy h4{font-size:21px;color:#fff;margin:0 0 7px;overflow-wrap:anywhere;}
+  .history-demo-copy p{font-size:12.5px;line-height:1.68;color:#d9e8ef;margin:0;overflow-wrap:anywhere;}
+  .history-demo-lang{display:block;margin-top:9px;color:#a9cbd8;font-size:10.5px;line-height:1.5;}
+  .history-demo-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;margin-top:14px;padding:10px 15px;border-radius:10px;background:#f5a623;color:#17355f;text-decoration:none;font-size:12px;font-weight:900;}
+  .history-demo-qr{display:flex;align-items:center;justify-content:center;width:124px;height:124px;padding:8px;border-radius:14px;background:#fff;border:1px solid rgba(255,255,255,.5);transition:transform .2s;}
+  .history-demo-qr:hover{transform:translateY(-2px)}
+  .history-demo-qr img{display:block;width:100%;height:100%;object-fit:contain;}
+  html[dir="rtl"] .assessment-story-copy,html[dir="rtl"] .assessment-audience-head,html[dir="rtl"] .assessment-audience-card,html[dir="rtl"] .history-demo-copy{text-align:right;}
+
   @media(max-width:980px) and (min-width:761px){.ep-try-grid{grid-template-columns:repeat(2,minmax(0,1fr));}.ep-try-card:last-child{grid-column:1/-1;}}
 
   @media(max-width:760px){
@@ -1305,6 +1341,19 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     .ep-btn{width:100%;}
     .ep-try-shell{padding:24px 18px;}
     .ep-try-card{padding:18px;}
+    .assessment-story-main{grid-template-columns:1fr;min-height:0;}
+    .assessment-story-copy{padding:34px 24px;}
+    .assessment-story-visual img{min-height:260px;max-height:390px;}
+    .assessment-story-flow,.assessment-audience-grid{grid-template-columns:1fr 1fr;}
+    .assessment-story-flow{padding:0 18px 20px;}
+    .history-demo-cta{grid-template-columns:1fr;}
+    .history-demo-qr{width:140px;height:140px;justify-self:center;}
+  }
+  @media(max-width:520px){
+    .assessment-story-copy h3{font-size:28px;}
+    .assessment-story-flow,.assessment-audience-grid{grid-template-columns:1fr;}
+    .assessment-story-visual img{min-height:220px;}
+    .history-demo-btn{width:100%;}
   }
 </style>
 </head>
@@ -1477,6 +1526,24 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div class="mb32">
     <button class="btn-navy" onclick="openB()" data-i18n="test_brochure_btn">📄 검사 소개 브로셔 보기</button>
   </div>
+  <div class="assessment-story">
+    <div class="assessment-story-main">
+      <div class="assessment-story-copy">
+        <span class="assessment-story-tag" data-i18n="test_story_tag">ASSESSMENT · THE WHOLE PICTURE</span>
+        <h3 data-i18n="test_story_h">보이는 점수 아래에는<br>문제를 해결하는 방식이 있습니다</h3>
+        <p data-i18n="test_story_p">K-PASS와 D-CAS는 한 점수로 사람을 설명하지 않습니다. 수면 아래의 계획·주의·동시처리·순차처리 조합을 살펴 강점을 활용하고 필요한 지원을 설계합니다.</p>
+      </div>
+      <figure class="assessment-story-visual">
+        <img src="proposal/images/assessment-iceberg-v1.png" loading="eager" alt="수면 위의 결과와 수면 아래 네 가지 인지처리 과정을 표현한 빙산" data-i18n-alt="test_story_alt">
+      </figure>
+    </div>
+    <div class="assessment-story-flow" aria-label="검사부터 성장 기록까지의 흐름" data-i18n-aria-label="test_story_flow_aria">
+      <div class="assessment-flow-card"><span class="n">01</span><b data-i18n="nv_step1_num">검사 · 발견</b><p data-i18n="nv_step1_p">현재 인지특성과 강점·지원영역을 확인합니다.</p></div>
+      <div class="assessment-flow-card"><span class="n">02</span><b data-i18n="gp_step2_num">프로그램 · 실행</b><p data-i18n="gp_step2_p">인지훈련과 자기관리, 직무탐색, AI 자소서를 실제 수행 기록으로 연결합니다.</p></div>
+      <div class="assessment-flow-card"><span class="n">03</span><b data-i18n="test_flow3_h">실제 경험 · 수행</b><p data-i18n="test_flow3_p">배움·생활·진로·직무 과제에서 전략을 직접 적용하고 수정합니다.</p></div>
+      <div class="assessment-flow-card"><span class="n">04</span><b data-i18n="test_flow4_h">성장 기록 · 다음 지원</b><p data-i18n="test_flow4_p">결과와 활동 기록을 함께 보며 다음 교육·지원 계획을 구체화합니다.</p></div>
+    </div>
+  </div>
   <div class="thgrid">
     <div class="tc kp">
       <div class="tbadge" data-i18n="test_kp_badge">K⁺PASS · 케이-패스</div>
@@ -1499,6 +1566,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <div class="axc"><div class="axl">A</div><div class="axn" data-i18n="test_a_name">주의력</div><div class="axe">Attention</div><div class="axd" data-i18n="test_a_desc">선택적 주의·집중 유지. 학습 효율성·ADHD 관련 지표</div></div>
     <div class="axc"><div class="axl">S</div><div class="axn" data-i18n="test_s_name">동시처리</div><div class="axe">Simultaneous</div><div class="axd" data-i18n="test_s_desc">우뇌 패턴·전체 맥락 파악. 창의적·시각적·직관적 사고</div></div>
     <div class="axc"><div class="axl">Ss</div><div class="axn" data-i18n="test_ss_name">순차처리</div><div class="axe">Successive</div><div class="axd" data-i18n="test_ss_desc">좌뇌 언어·논리·단계 처리. 순서·규칙 기반 학습 강점</div></div>
+  </div>
+  <div class="assessment-audience">
+    <div class="assessment-audience-head">
+      <h3 data-i18n="test_audience_title">연령과 목적에 따라 결과 활용이 달라집니다</h3>
+      <p data-i18n="test_audience_sub">같은 PASS 인지과정을 살펴보되, 교육·진로·직무 현장에서 확인할 질문과 다음 프로그램을 다르게 연결합니다.</p>
+    </div>
+    <div class="assessment-audience-grid">
+      <article class="assessment-audience-card"><span data-i18n="test_audience1_tag">초등</span><h4 data-i18n="test_audience1_h">배움의 기초와 생활 실행</h4><p data-i18n="test_audience1_p">K-PASS 결과를 NUVIA KIDS, HISTORY, PLANNER와 연결해 강점 활용과 학습·생활 지원을 설계합니다.</p></article>
+      <article class="assessment-audience-card"><span data-i18n="test_audience2_tag">중·고등</span><h4 data-i18n="test_audience2_h">자기이해와 진로 탐색</h4><p data-i18n="test_audience2_p">D-CAS로 인지특성을 이해하고 HISTORY·진로탐색 LAB·PLANNER에서 관심 분야와 다음 행동을 확인합니다.</p></article>
+      <article class="assessment-audience-card"><span data-i18n="test_audience3_tag">대학</span><h4 data-i18n="test_audience3_h">전공·직무 경험의 근거화</h4><p data-i18n="test_audience3_p">D-CAS 결과를 기업 직무탐색 LAB, PLANNER, AI 자소서와 연결해 실행·수정·표현의 근거를 남깁니다.</p></article>
+      <article class="assessment-audience-card"><span data-i18n="test_audience4_tag">기업</span><h4 data-i18n="test_audience4_h">선발과 입사 후 성장 지원</h4><p data-i18n="test_audience4_p">인지특성과 동의된 활동 기록을 직무 기준, 면접·과제, 입사 후 교육과 함께 검토합니다.</p></article>
+    </div>
   </div>
   <div class="sh">
     <h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_intro_title">소개 영상</h3>
@@ -1853,6 +1932,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <thead><tr><th data-i18n="nv_prod_th1">프로그램</th><th data-i18n="nv_prod_th2">핵심 경험</th><th data-i18n="nv_prod_th3">주요 대상 · 목적</th></tr></thead>
       <tbody>
         <tr><td class="name">KIDS</td><td data-i18n="nv_prod_r1_c2">게임으로 기초 인지과정 연습</td><td data-i18n="nv_prod_r1_c3">유아 · 초등 중심</td></tr>
+        <tr><td class="name">HISTORY</td><td data-i18n="nv_prod_r2_c2">역사 자료로 근거를 비교하고 판단</td><td data-i18n="nv_prod_r2_c3">연령별 사고력 활동</td></tr>
         <tr><td class="name">PLANNER</td><td data-i18n="nv_prod_r3_c2">계획을 세우고 실행 · 회고</td><td data-i18n="nv_prod_r3_c3">초4부터 대학생 · 성인</td></tr>
         <tr><td class="name" data-i18n="gp_job_lab_name">기업 직무탐색 LAB</td><td data-i18n="gp_prod_job_c2">기업·직무 조사와 업무형 프로젝트 수행</td><td data-i18n="gp_prod_job_c3">중고생 진로 / 대학생 학과별 직무</td></tr>
         <tr><td class="name" data-i18n="nv_cl_flow_s5_h">AI 자소서</td><td data-i18n="gp_prod_ai_c2">경험 근거를 질문으로 구체화하고 직접 수정</td><td data-i18n="gp_prod_ai_c3">고등학생 · 대학생 · 취업준비생</td></tr>
@@ -1891,8 +1971,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <div class="link-chain" data-i18n="gp_kids_link"><b>STEP 1 → STEP 2</b> — 익힌 전략을 PLANNER의 일상 과제와 기업 직무탐색 LAB의 프로젝트에서 다시 활용하도록 설계합니다.</div>
   </div>
 
-  <!-- 개발 완료 후 복원할 수 있도록 비렌더링 템플릿으로 보존합니다. -->
-  <template id="future-nuvia-history">
+  <!-- NUVIA HISTORY: completed demo and public program introduction -->
   <div class="product-block step2">
     <span class="step-tag">NUVIA HISTORY</span>
     <h3 data-i18n="nv_history_h">역사기반 사고력 훈련</h3>
@@ -1913,6 +1992,16 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       </div>
     </div>
     <div class="shot-cap" data-i18n="nv_history_cap">NUVIA HISTORY 실제 화면 · 세계사 3주차 「나일강 개척 보드」 · 고등학생 플레이 수준</div>
+    <div class="history-demo-cta">
+      <div class="history-demo-copy">
+        <span class="history-demo-tag" data-i18n="history_demo_tag">LIVE DEMO · NUVIA HISTORY</span>
+        <h4 data-i18n="history_demo_title">연령별 역사 사고력 활동을 직접 체험하세요</h4>
+        <p data-i18n="history_demo_p">구텐베르크 인쇄 작업장을 배경으로 5~7세, 초5, 초6, 고등 활동을 선택해 자료 비교·예측·판단 수정 과정을 확인할 수 있습니다.</p>
+        <small class="history-demo-lang" data-i18n="history_demo_lang">데모 내부 언어는 현재 한국어와 영어를 지원합니다.</small>
+        <a class="history-demo-btn" href="https://nuvia-history-w-04-pilot.replit.app/w04" target="_blank" rel="noopener noreferrer" data-i18n="history_demo_btn">NUVIA HISTORY 데모 체험하기 →</a>
+      </div>
+      <a class="history-demo-qr" href="https://nuvia-history-w-04-pilot.replit.app/w04" target="_blank" rel="noopener noreferrer" aria-label="NUVIA HISTORY 데모 QR 열기" data-i18n-aria-label="history_demo_qr_aria"><img src="proposal/images/qr-nuvia-history.png" loading="lazy" alt="NUVIA HISTORY 데모 QR" data-i18n-alt="history_demo_qr_alt"></a>
+    </div>
     <table class="ct-table" style="margin-bottom:22px;">
       <thead><tr><th data-i18n="nv_history_th1">대상</th><th data-i18n="nv_history_th2">자료</th><th data-i18n="nv_history_th3">사고 활동</th></tr></thead>
       <tbody>
@@ -1924,7 +2013,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="p-footnote" data-i18n="nv_history_foot">세계사 우선 구축, 한국사 2차 확장. 화면에 표시된 프로파일은 체험용 가상 점수입니다.</p>
     <div class="link-chain" data-i18n="nv_history_link"><b>STEP 2 → STEP 3</b> — 자료 비교와 판단 근거를 진로·직무 체험(CAREER LAB)에 활용하고 PLANNER의 다음 행동으로 연결합니다.</div>
   </div>
-  </template>
 
   <div class="product-block step3">
     <span class="step-tag">NUVIA PLANNER</span>
@@ -1960,7 +2048,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="p-footnote" style="margin-top:16px;" data-i18n="nv_planner_foot">캠프 과제도 개인 할 일로 연결합니다. 스스로 계획하고 실행하는 힘을 기르도록 설계합니다. 화면의 A·B 프로필은 체험용 예시입니다.</p>
   </div>
 
-  <template id="future-nuvia-history-transfer">
   <div class="transfer-block">
     <div class="block-head">
       <h3 data-i18n="nv_transfer_h">HISTORY와 PLANNER는 전략으로 연결됩니다</h3>
@@ -1989,7 +2076,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       </div>
     </div>
   </div>
-  </template>
 
   <!-- ============ NUVIA CAREER LAB ============ -->
   <div class="cl-section">
@@ -2644,7 +2730,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20261029-2"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261030-1"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
