@@ -1,0 +1,285 @@
+{
+  "started": "2026-11-05T10:37:17.517Z",
+  "ended": "2026-11-05T10:38:17.824Z",
+  "checks": [
+    {
+      "name": "actual results screen preserves empty first/middle ranks",
+      "ok": true
+    },
+    {
+      "name": "teacher sees previous full report cards and original material basis revision",
+      "ok": true
+    },
+    {
+      "name": "single UI save 81 keeps latest inputs and all existing documents/V1/V2",
+      "ok": true
+    },
+    {
+      "name": "save 81: navigation/reload preserves current revision and history",
+      "ok": true
+    },
+    {
+      "name": "single UI save 82 keeps latest inputs and all existing documents/V1/V2",
+      "ok": true
+    },
+    {
+      "name": "save 82: navigation/reload preserves current revision and history",
+      "ok": true
+    },
+    {
+      "name": "blocked storage changes neither committed memory nor current/history, retains latest draft and error",
+      "ok": true
+    },
+    {
+      "name": "reload after failed save retains old committed report plus unsaved new input",
+      "ok": true
+    },
+    {
+      "name": "retry commits current/history together exactly once, existing versions and originals unchanged",
+      "ok": true
+    },
+    {
+      "name": "invalid score cannot add history or replace current report",
+      "ok": true
+    },
+    {
+      "name": "ko: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "ko: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "en: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "en: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "ja: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "ja: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "mn: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "mn: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "th: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "th: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "vi: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "vi: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "ar: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "ar: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "ru: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "ru: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "km: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "km: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "es: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "es: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "fr: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "fr: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "it: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "it: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "az: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "az: actual summary preview/PDF original ranks, source and current revision match",
+      "ok": true
+    },
+    {
+      "name": "Arabic 1280px results/history: inputs and selector accessible, no page overflow",
+      "ok": true
+    },
+    {
+      "name": "Arabic 360px results/history: inputs and selector accessible, no page overflow",
+      "ok": true
+    },
+    {
+      "name": "legacy browser load/edit/reload archives only observed original with unknown previous save time",
+      "ok": true
+    }
+  ],
+  "pdfs": [
+    {
+      "lang": "ko",
+      "file": "ko-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "en",
+      "file": "en-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "ja",
+      "file": "ja-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "zh-CN",
+      "file": "zh-CN-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "zh-TW",
+      "file": "zh-TW-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "mn",
+      "file": "mn-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "th",
+      "file": "th-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "vi",
+      "file": "vi-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "ar",
+      "file": "ar-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "ru",
+      "file": "ru-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "km",
+      "file": "km-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "es",
+      "file": "es-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "fr",
+      "file": "fr-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "it",
+      "file": "it-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    },
+    {
+      "lang": "az",
+      "file": "az-result-summary.pdf",
+      "pages": 1,
+      "expectedRevision": 6,
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,1881 @@
+{
+  "algorithm": "SHA-256",
+  "selfExcluded": "SHA256SUMS.json",
+  "files": [
+    {
+      "path": ".gitignore",
+      "bytes": 120,
+      "sha256": "f338236dfebd69ef74a0a2bc7d695aa55b2b1813fc61b34f641df93d442a1ac0"
+    },
+    {
+      "path": ".npmrc",
+      "bytes": 56,
+      "sha256": "1ded4f26f4851b35dae702edd5719d1be5ff31db6983858d088d5e6593ea7c99"
+    },
+    {
+      "path": "HANDOFF-VALIDATION.md",
+      "bytes": 4674,
+      "sha256": "7eb7d98438b668c8e7fe2b3c8c122e783ab3f75b4f074d4d98043bdcf7b7868a"
+    },
+    {
+      "path": "INTEGRATION-TODO.md",
+      "bytes": 2447,
+      "sha256": "4e636f10d91ef78a6bd9cafa709b2a3c532583a0ec016c200bb58be786e116a1"
+    },
+    {
+      "path": "README.md",
+      "bytes": 6061,
+      "sha256": "85a78646a5d73dbf38aa1d5f161fcca9d12639deeecdd44f0bcda18b98c8e613"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/.replit-artifact/artifact.toml",
+      "bytes": 836,
+      "sha256": "7cb2dd5433af5cc0161b1322d7144080e197737fb3644222a7407a448acf730c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/components.json",
+      "bytes": 434,
+      "sha256": "3a5d5af62f05e6e3de6c5085f31ed4f49273d57cfeae4d69d00a2568c91f54f9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/index.html",
+      "bytes": 1304,
+      "sha256": "8a723aa94795d83d2c04dd9a290f63bc04f4c3e4911112da91ac12d7c0d70765"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/package.json",
+      "bytes": 2839,
+      "sha256": "12cffa8054092a630e2a3b50a048d1ca2e2511c394cfa68c5ad8dd400f8fda3b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/favicon.svg",
+      "bytes": 163,
+      "sha256": "8ffbde9092b1fa4de97c9481b76f518b131268c82e7c555041925225b1dab6e0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/robots.txt",
+      "bytes": 23,
+      "sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.0.md",
+      "bytes": 17071,
+      "sha256": "39ba1eca673d38c3bcd79637365557b209649aa3ec10bf3d1c554a7986460e3a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.1.md",
+      "bytes": 5141,
+      "sha256": "0ad0f313de5ac637644172fd577dd54c45cd890b70000f4cd0ebf28c141dee21"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.2.md",
+      "bytes": 4946,
+      "sha256": "6d6ed86e913aacdab5f62cd761c28506e382c37aae41a65258813b111c8dadc0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.5.md",
+      "bytes": 15622,
+      "sha256": "28bc071541ecad040c1e83f46b7db8dbf98ae958685334b26de44f5e9c445d4f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-language-checks.mjs",
+      "bytes": 16919,
+      "sha256": "338fae378d2ceec416e0fa096c3819218b8f924831add225178b5cd9ebbc73eb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-language-extras.mjs",
+      "bytes": 7662,
+      "sha256": "86f7bc63a7f94546651866c615294d2a8d73df463987137daf7a6d9fbc6cb878"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-materials-checks.mjs",
+      "bytes": 14045,
+      "sha256": "8193d99d9194f6a8392625d4956b39a7f3b6ff637da68d2056458173b6d6dc08"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-report-history-checks.mjs",
+      "bytes": 12553,
+      "sha256": "0af3a409acc0dc7430db3d536eda9af33e341bd4d870c4863a98856062b3bcbf"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-settings-checks.mjs",
+      "bytes": 10861,
+      "sha256": "3cf1dc3281e259d94b8185fa6105a95cc0531d105a2b156988fdda241318ecfb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-studio-checks.mjs",
+      "bytes": 16151,
+      "sha256": "ad6d1a31e81ab15a9463cb262e69fbd2c842b5fb4c09913cb9166b8c4f10992c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/browser-u09-checks.mjs",
+      "bytes": 10630,
+      "sha256": "ddd0d340c51fc426272c4b68f4d3cc3f54aeee12a74d99fb63cc1d2652d3de0a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/diagnostics.mjs",
+      "bytes": 947,
+      "sha256": "e8dc1c882465bcb5707ada038b812fa74aaa5fb2b016b05b4abe7b5cd1345066"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/i18n-codemod.mjs",
+      "bytes": 3983,
+      "sha256": "f531c075b36b1d709199a5ea9cd771d8d023f765c0533b13edef037397b00935"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/i18n-keys.mjs",
+      "bytes": 4802,
+      "sha256": "28d94fc7c0abd398f2ef9cd6511052e0dc80240e41fe1faaaf4c925b7f15e7a8"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/language-regressions.mjs",
+      "bytes": 10100,
+      "sha256": "24f9456ec6b7804540b0220213e5c0da126103c96e1ddf9b6e3073df9aee9d56"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/qa-followup-report.mjs",
+      "bytes": 10936,
+      "sha256": "51d123ad81b9142bf9f66865e26817132caa33ce5e761492034db31c1fa960b5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/qa-report.mjs",
+      "bytes": 11198,
+      "sha256": "5c2fd4674b41e8994053e11b562f0936911f919a8c81e25ad65a644aa3194073"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/report-history-checks.mjs",
+      "bytes": 8563,
+      "sha256": "d26bfed27cc77d6878c52c4229146e1a72c31fac9d130a6d58a4dab9861512b6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/report-history-report.mjs",
+      "bytes": 6087,
+      "sha256": "febfa476334c01d9a1657ab7121c35eb5ead620c172df6ded6f2125f96bbdcd0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/rules-1.1-checks.mjs",
+      "bytes": 6436,
+      "sha256": "1b92afe1fec57374926470db5130c43e10771e492e71d7b2920a77a9ac46ad19"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/rules-1.2-checks.mjs",
+      "bytes": 13027,
+      "sha256": "b8b1c956042be608e952d1c1f2050a6dc95aeb82e53a8a830d841c5bc36de83b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/studio-checks.mjs",
+      "bytes": 19139,
+      "sha256": "a3704020f9f0ff0dfdd27a85f92c7b8da02dc187b929d686d77a3ac43af7405f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/scripts/u09-language-regressions.mjs",
+      "bytes": 5637,
+      "sha256": "5146a67f6f0b5e3cc94686dc163f6144ab65c10f70978fba0f43c924e5339b29"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/App.tsx",
+      "bytes": 3603,
+      "sha256": "6dd9adb79955a53a599914235cf2ddb5ce395da51c06cb15ad91cdd7ca6d1ae7"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/error-boundary.tsx",
+      "bytes": 2735,
+      "sha256": "c1ea4d88be8cd206a46bd87f19edf025b2504a70a2b65cd9c438e4a0e62dafe0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/group-editor.tsx",
+      "bytes": 12084,
+      "sha256": "575770780b072c946717cbbfa7050f2915aa4b498f35b4df2178b63b97ff4d00"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/job-card.tsx",
+      "bytes": 3256,
+      "sha256": "133c70e73be0d106851827794eb842cb5eb37913c6e4130012528bdce3a48bd0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/material-editors.tsx",
+      "bytes": 22606,
+      "sha256": "5521e943e4792620025be7745ae8020889252be183702c84095a4ef0643b66cf"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/material-language-preview.tsx",
+      "bytes": 5221,
+      "sha256": "1ef827ba572553ccbbd83fb20c9e72a3482437100d516822d8520314cf61e74b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/material-pages.tsx",
+      "bytes": 2871,
+      "sha256": "c0edbffb064e8d5cc959e61fac1dcde1ad1714668ab43d11571ebc00aba2e949"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/shell.tsx",
+      "bytes": 8397,
+      "sha256": "bfb166accd7cec5ee746b305bd9bec64c12a6c1b857fb31e213d89f6045aa629"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/accordion.tsx",
+      "bytes": 2013,
+      "sha256": "8e4230a3e6d38bfab7b02f00f9e948c8c4038432c5b1bf2d0ea44dc8b5ce09cc"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/alert-dialog.tsx",
+      "bytes": 4447,
+      "sha256": "d76901a06e6881e94aa3847fde2602ee6f6ddc9f4cace9fa238627a5572bd24e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/alert.tsx",
+      "bytes": 1609,
+      "sha256": "695369ea4d1ba4438dcedacaa8059b08b6463ac93170360f3bd42b983b7608e9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/aspect-ratio.tsx",
+      "bytes": 143,
+      "sha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/avatar.tsx",
+      "bytes": 1431,
+      "sha256": "429f5e82fc3dcf265625650176f16ff9b35e55826183e1f1b2d4dc2a338f9b15"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/badge.tsx",
+      "bytes": 1528,
+      "sha256": "ba6f51e428a520f54e600fded4ea030a8099fa6a9a7b7110af8dca34795415d1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/breadcrumb.tsx",
+      "bytes": 2735,
+      "sha256": "44b4de47f806eec0e3de5130f0399e83700eaf0bc8deb47af5ffda2bb11eb3f1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/button-group.tsx",
+      "bytes": 2222,
+      "sha256": "b89025c11d08652597cb46b097d3e04658ad2c383bf81ed445c8182c0ed1b260"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/button.tsx",
+      "bytes": 2370,
+      "sha256": "9c20a340ca0c948d0164158eff44fca2e26343c8ee387ffc22f9cd677c59d27d"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/calendar.tsx",
+      "bytes": 7607,
+      "sha256": "1cdd1e62797356fe62f61f5521fcf0da8e3570b1120868ccca2b48370157fe46"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/card.tsx",
+      "bytes": 1856,
+      "sha256": "9fed39a53303c12fa6ac6f5f8813c1683e2198df9ee067cffbdfe69044cf3e4f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/carousel.tsx",
+      "bytes": 6288,
+      "sha256": "4ae2f69bc2c1ce33c60b23ddc5382f4b93882dac07c2d18cce32fb148ff52c48"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/chart.tsx",
+      "bytes": 10846,
+      "sha256": "ac747c83483d742e207426a193ba5e2cf639fa18cd819c1f12d12329520c6c12"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/checkbox.tsx",
+      "bytes": 1038,
+      "sha256": "6b9e336fa42475bbb2ad4d76478afb8d2555e6e26bac245b9ccde62a9a033adc"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/collapsible.tsx",
+      "bytes": 335,
+      "sha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/command.tsx",
+      "bytes": 4918,
+      "sha256": "d8fb66e44f9f8de558f6a94c781f3d890871d76dbabcda64e6fab3c917b3237d"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/context-menu.tsx",
+      "bytes": 7446,
+      "sha256": "bdff38b45a6010e3db808c099c799bd61e6aca619378074e7b14b63c1291e4c9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/dialog.tsx",
+      "bytes": 3889,
+      "sha256": "e0d3fa53f4cb7d8011ab09f2d198c24234062d24638fabf5142f5fbce57d2ba5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/drawer.tsx",
+      "bytes": 3029,
+      "sha256": "152bc340ad982e84f851e3bc1a6b8e7ffd0151a7445c6ecf1b1e3e13cbc19210"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7646,
+      "sha256": "a79d5419ee174de35880340aef44d67847cee54846c058e02ac4a846b603c60f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/empty.tsx",
+      "bytes": 2410,
+      "sha256": "48824b1b37bd406fa74f48db726a4f1d70cf88db5b3432f7b1d59f584f1c5dad"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/field.tsx",
+      "bytes": 6079,
+      "sha256": "c3787ffb045354e9f18e70d94890627caea94939a226e49c1e6cedee84a1e9e1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/form.tsx",
+      "bytes": 4232,
+      "sha256": "1960463b09152760fdd99ca3eb16187408d064c7599ed66384b42d1613d3a3a3"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/hover-card.tsx",
+      "bytes": 1245,
+      "sha256": "e0b4e3f0126757a8eb5c6e436c8c041c049430abe9a2eb84b10154144b31c29c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/input-group.tsx",
+      "bytes": 4993,
+      "sha256": "f4befbf9bf8ebd755b267c4db2b396be296adb95acca5c3fba54f6495bdedebd"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/input-otp.tsx",
+      "bytes": 2160,
+      "sha256": "b4891335e70920518cfbdef2aeb399f61477fbc4b3ffe3b8a2938f19074164cc"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/input.tsx",
+      "bytes": 775,
+      "sha256": "03ac1648171bd5ad90dbc03e9ebff9a9cc77708bcc53bdac914b80eeebfe3032"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/item.tsx",
+      "bytes": 4519,
+      "sha256": "4a84cda22d692ee176f5128517a4003a63d11f907df445e7586ef034c88e8772"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/kbd.tsx",
+      "bytes": 867,
+      "sha256": "4348a7a06a715e9e9673602cbb9ed89a6a4c6cbdd457d4c03db0f23a139d19eb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/label.tsx",
+      "bytes": 733,
+      "sha256": "fbc0c7db4221227941271a004bf71db5067aee9d8668f3351d91113cd5934c8c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/menubar.tsx",
+      "bytes": 8655,
+      "sha256": "26dbbf36e4ffd87aab74e61dd1e3613f0c640988479679d53bacd8dbd15cc891"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/navigation-menu.tsx",
+      "bytes": 5150,
+      "sha256": "222020e1ac703ce01700d6e8822c6263932bc71c481d724b8ef53ccaae8ad63f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/pagination.tsx",
+      "bytes": 2772,
+      "sha256": "dd65d2e59226a3f384014b596ae701aef50f130cb3061f4657e81c588587b8da"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/popover.tsx",
+      "bytes": 1351,
+      "sha256": "dc574442536873c8aa88733c348503c4599ad6ed0fc9898fd25406d94e095cca"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/progress.tsx",
+      "bytes": 799,
+      "sha256": "74223bcccf7ca2ed026d197476abbe3d48fbc531c40f4252445f56954a270c75"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/radio-group.tsx",
+      "bytes": 1421,
+      "sha256": "8155d32dea5d4ddea2048b6d12f83fe4805d9bc87c97b994dbb0d040981334f2"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/resizable.tsx",
+      "bytes": 1733,
+      "sha256": "8e73dfb8b582944364d73b64ed03378016f20f7251f15f880dcf0fb140e1ad41"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/scroll-area.tsx",
+      "bytes": 1650,
+      "sha256": "73f5dedda781e5285092ea269f747378dbad8d95631eab638e15b3c31595dc59"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/select.tsx",
+      "bytes": 5773,
+      "sha256": "c64c9c1574c91f1eff922f3557e7609ba6c1d5e39959dbdecf8d386d7ae41990"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/separator.tsx",
+      "bytes": 764,
+      "sha256": "2b129347f918742bf006099f7f56a9be373250de2ecc3ad201297563e3d1f807"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/sheet.tsx",
+      "bytes": 4307,
+      "sha256": "ef2ae35ccab1252c4eee56e67e9f1b2499b5bbfb3ae39037d8d4be39915c272f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/sidebar.tsx",
+      "bytes": 21969,
+      "sha256": "de7566e708ba8bf34cb4a78fc018c784315c9d7a16d70e66255f8c72caf9d1db"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/skeleton.tsx",
+      "bytes": 269,
+      "sha256": "d78130b2e311a750e7bb524e66e3af4c04e2ab02b04fd68539c1afd0bbb47152"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/slider.tsx",
+      "bytes": 1043,
+      "sha256": "ecac74b8f3a044ba7a9e4eb0bdbfdf48be92483a32d2c414c5078c9f38e1f369"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/sonner.tsx",
+      "bytes": 902,
+      "sha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/spinner.tsx",
+      "bytes": 334,
+      "sha256": "4458ea392b32f439cd4c64b9593846f339370fa1295c04f9003f05c1f3386689"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/switch.tsx",
+      "bytes": 1155,
+      "sha256": "f81bc9b5ce2d6a92b6b2f1f3376c0489f30f7073081a1d9d6c56553880f44c58"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/table.tsx",
+      "bytes": 2881,
+      "sha256": "dd29f5ef260af67ed09c84505495e3fddbad14009e3b3ce689d0c354ffaf55d3"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/tabs.tsx",
+      "bytes": 1890,
+      "sha256": "320609101fbaa6cccda0b899154cb510fa322926cfdbaf07e33b79c00c83fcd6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/textarea.tsx",
+      "bytes": 655,
+      "sha256": "63fb699771afe60c5073ed50e1a042d7d7f21eefd12d15bcb750cf3230985011"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/toast.tsx",
+      "bytes": 4871,
+      "sha256": "04d4ef720079342e2f4380c22683f1544bd8e93a581fb55e447458f04a6127d5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/toaster.tsx",
+      "bytes": 884,
+      "sha256": "91a0072e2523e83a6b65f6beed8ae9e74d7374370cd789dffb34a449528eed7a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/toggle-group.tsx",
+      "bytes": 1767,
+      "sha256": "6d7aca86245edf5d0a8f6f3ed73bd19316f4865425891eabccd6f3e37e59519e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/toggle.tsx",
+      "bytes": 1494,
+      "sha256": "5800d2099224ef90892e8c1d972d2a0964391c33cd43d7f5c6abf5cd42e023e1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/components/ui/tooltip.tsx",
+      "bytes": 1277,
+      "sha256": "e3c6ea9d4ecd62881af33564e25be013d35a8a7fa78475a6dcc98a06c7f894eb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/data/job-tasks.ts",
+      "bytes": 18222,
+      "sha256": "559b6423b648172a5450e5ea86675acc53a3e3518df4688b91ef0c78690d58db"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/data/lessons.ts",
+      "bytes": 26804,
+      "sha256": "99296e08e3c247c653652a13754f4ca270301af9f20c831d8b3cb7a08a948e4f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/data/worksheets.ts",
+      "bytes": 34161,
+      "sha256": "203d94b9a32f8af7ecd97a99da39e5cfc6c31ac2e45c32bad8efac4b8273cc5a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/hooks/use-mobile.tsx",
+      "bytes": 585,
+      "sha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/hooks/use-toast.ts",
+      "bytes": 3952,
+      "sha256": "12cce940e597e1d597f7063131acd19658d25e924904308bf719bde17b67e351"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/authored-aliases.json",
+      "bytes": 75620,
+      "sha256": "539af37f0543fefffd7740e99652304dad4c942afe33ad92cd73ff411715396c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/authored.ts",
+      "bytes": 5742,
+      "sha256": "36ddad7a6c9f0b558cc68647738758166a1f2cd4355ce85c503d19709103b428"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/ar.json",
+      "bytes": 121584,
+      "sha256": "cd88a991e7f3e498353cf8d9c440efe3dae45e550caff501e35169d8911896cb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/az.json",
+      "bytes": 100492,
+      "sha256": "f3ad423714896376548162dcb7f109849fa12f333c4da2020c78da6d0cea9c21"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/en.json",
+      "bytes": 91684,
+      "sha256": "bd85d72ac0249c802d712eb935908b7f9860fefedefa7b3ba19a0f5f1b554d7f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/es.json",
+      "bytes": 102768,
+      "sha256": "5de1fab84226226ed49ab6f9741939c1b31644aa981cbce4c5bb5f4e6aa2649b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/fr.json",
+      "bytes": 105503,
+      "sha256": "a6a459ed9e6a792c3efa3b793ca2a48383f69fd1447a13e38b07f71b0ed3e84f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/it.json",
+      "bytes": 101704,
+      "sha256": "098940ee9ea5c62ecadecadb14b37aea444e725f6e5fb7116f318dcfda2629f3"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/ja.json",
+      "bytes": 96206,
+      "sha256": "1f1fbc9117565b676b67c74bd28e74229a32c4b9cd3f0028a06c1dba1014cfc0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/km.json",
+      "bytes": 198761,
+      "sha256": "4cd98e1801c028e4dec699014b83a57b6bee7df2104ed5e665439c0c9ae03f1b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/mn.json",
+      "bytes": 148219,
+      "sha256": "b4975be09882e179de874557556b844647783c390c87d2838bc5c23152eee384"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/ru.json",
+      "bytes": 147903,
+      "sha256": "ca679c0071d0c452676649b79a1ffadadb46f0c26eccf51f9d034bccd2088991"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/th.json",
+      "bytes": 177511,
+      "sha256": "8203380404529a8cb2237e523166cf76c3697d32ea3cb7b632ad1ebe40b8344b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/vi.json",
+      "bytes": 111387,
+      "sha256": "ae9290e24058f35a1cd72803d516bf81661b8612dbd3dca4e8bfd91cbab078ee"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/zh-CN.json",
+      "bytes": 79912,
+      "sha256": "d9ac55fa0e738c451732cd0e846e012d7ffdc94248e9ce9fc890a88eb612d4f9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/generated/zh-TW.json",
+      "bytes": 79816,
+      "sha256": "4017f366e5c14529730a605969a1294feeaa5fa3684347a687b557bfe123c3c4"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/content/index.ts",
+      "bytes": 4876,
+      "sha256": "9d6901fccd2d6f4dfdae2554d367f030bf1d0aac4e7151304113b4df8c978d02"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/format.ts",
+      "bytes": 1701,
+      "sha256": "cb28cb70d790db931d3c311b0cf2a614856a77576217115fc05eb45118adf6b0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/ar.json",
+      "bytes": 63046,
+      "sha256": "6a168ebc98114927af15b43d3571f25ebc88cbfc4932764a7a8cdb14654c1192"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/az.json",
+      "bytes": 57081,
+      "sha256": "d2f8a7867ba08e45543947ecf23a330231df2679ff7a26aeae3bdae9d25c51cf"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/en.json",
+      "bytes": 51855,
+      "sha256": "0df569e86460431f9acdb1f95f0df48643f5a2c3a2b2dc10154af1d5d2456281"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/es.json",
+      "bytes": 56170,
+      "sha256": "8f52139cd6720b3c529f34b27b2c38c5da9ae44fe0f089f673a8d4a3957dc761"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/fr.json",
+      "bytes": 57636,
+      "sha256": "dda93a12d15f09dc833315a5ba1745e9b00cb381e6fefcab5510faba7f26cda2"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/it.json",
+      "bytes": 56098,
+      "sha256": "463d9e36d3b10fa23afcac79fea907259265288321942e481f3c6ba4ded9181a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/ja.json",
+      "bytes": 51044,
+      "sha256": "322599c4ace4e1afdf379ff5f8e32dc99cbaee8608cf900f7c6699dae41652f6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/km.json",
+      "bytes": 97963,
+      "sha256": "83c5ab454d2909b0aace500ee819362e83da2d356e5680d8a1a3d4814e4c889b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/mn.json",
+      "bytes": 77501,
+      "sha256": "985bbbb5cd8d580c56124488947c0b9d17af9638004ac80c541116214d0fbfb0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/ru.json",
+      "bytes": 74794,
+      "sha256": "200bf05019d033644d6d173f413c14cb051742aa83b82f2a9ebfbcb51fb4041d"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/th.json",
+      "bytes": 89061,
+      "sha256": "9ab864fa36817df7c80f454bcbfea3aa235d9ab91efd7e77e09bf9298c1f70a9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/vi.json",
+      "bytes": 61060,
+      "sha256": "705fa09c9364d0ea446daefd38e64fc0f8b52bf4c15efced30c23c6102f8879e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/zh-CN.json",
+      "bytes": 46349,
+      "sha256": "8d1aaf9da8c09ec84caf6683f0458d16432012a31bb63809cf9d2c6ea86a7d14"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-jobs/zh-TW.json",
+      "bytes": 46764,
+      "sha256": "f0fb1335040e3bcb7e3bd22d6d4e119f08c3c4660df605cd2f399b0444d8a6d5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/ar.json",
+      "bytes": 265493,
+      "sha256": "88aab251cee9c0bc76bd2436634f530f9e3c0d0dc80a7368a3a384ea0a1c6ff4"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/az.json",
+      "bytes": 236108,
+      "sha256": "5a2e2a1d5869a8522e2f26d66f8db966c6d8ee16c79eeab6b2e1d09de71a3c65"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/en.json",
+      "bytes": 213655,
+      "sha256": "f031037a1221d8059810fda5a0530035f860509834f6a554c3e3690b172a2b46"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/es.json",
+      "bytes": 234160,
+      "sha256": "4662ce4d64c3dae7e764dc9d8e86874eaade5759f1ccda7742ad2a25d3184991"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/fr.json",
+      "bytes": 241490,
+      "sha256": "26715f225f5a24caa30cb6d7264c5811b44082a935ce1a561cd22ae8a646865f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/it.json",
+      "bytes": 233052,
+      "sha256": "38b7c5ad08e2ab2c90e1cfe2706e67d0bbe0d5f2452439e36867cec3469b444a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/ja.json",
+      "bytes": 221842,
+      "sha256": "38e45de8752ac3f18c5dacd012b65e1cf09a3d9ab877820cc584cd98fc9f2217"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/km.json",
+      "bytes": 404339,
+      "sha256": "4be7644d643d94f9fc345a59f9aa82f992dc2d21c8106f0047f0381af2bdf4e5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/mn.json",
+      "bytes": 313793,
+      "sha256": "0492cbc88a3f70a28351a7eeb466192f54544909702af055c930242b649a72e4"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/ru.json",
+      "bytes": 314778,
+      "sha256": "f3dc54a5e25dc69a7625c542a3aa3ac769cc0d161bbdf6070611f4485beab985"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/th.json",
+      "bytes": 368958,
+      "sha256": "a6b71d337e758698caefe4a158456e5d8dc1de82c6a7047eafd081127197572e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/vi.json",
+      "bytes": 250698,
+      "sha256": "5463f8385f222bf38e826eb3e6c6f72d2d32c0a6ca2813b8ba4371636f29ae36"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/zh-CN.json",
+      "bytes": 196727,
+      "sha256": "eec10afa416ad5ee1b38b5989cb25eed04798fc5f76f444e8f9f29255c5e20d1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/generated-ui/zh-TW.json",
+      "bytes": 197589,
+      "sha256": "c828026a2b2bc21434f82c6eb6630b71a886089171aa3502b09222ffd51f8263"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/job-source-keys.json",
+      "bytes": 23458,
+      "sha256": "b7e28d1380e695dbf95d3ce6d22dd5f6c7f308ef88513a7f79221cef68dd733b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/tx.ts",
+      "bytes": 3566,
+      "sha256": "4ee368f65eea09138032a1c3a0585b98fcb984a0cb3b7500ead632df30f99b61"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/ui-source-keys.json",
+      "bytes": 78735,
+      "sha256": "d6c428c797f81ab249e4205907cc80c666e93ce39abe9e0a2ef32241269b9be2"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/i18n/ui.ts",
+      "bytes": 9505,
+      "sha256": "5fd4dc107fe566e8a5d8d2d54eefecbac1828108c07d766e22f6d8dc8926d39e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/index.css",
+      "bytes": 17844,
+      "sha256": "371b9919c949086e3d8d06bef5d0cc8033433f820341c4a254a874ab645f39e5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/cards.ts",
+      "bytes": 12212,
+      "sha256": "92e3d92692aab1c7b698bf3d4584d892ae3a93c115105a5c90fa312ba91e185c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/diagnostics.ts",
+      "bytes": 10620,
+      "sha256": "fd8981dbffeb0fe4eb98c4647241b77b3b85bac873ba038c8e18624954e84cd5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/domain.ts",
+      "bytes": 9075,
+      "sha256": "f07b155d93231d5d8725f08b88ca503c59f466956da2a43cd97c87b60d8586d6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/material-language.ts",
+      "bytes": 6918,
+      "sha256": "dd45e9ca93973fd666f410c8ac53086e6a9b8f28b01b79d6bfaa9af0b913dfda"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/material-print.ts",
+      "bytes": 9008,
+      "sha256": "8e3fdc3ee9ce50bd3ca010d1b548c217d8258434c128e38cc2fc33a06391521a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/material-types.ts",
+      "bytes": 3440,
+      "sha256": "f2620c74c93bebb48f4512f4a19274b85fe914ebb57cac41db322b94a34cb454"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/materials.ts",
+      "bytes": 15191,
+      "sha256": "52f589ffb7c32d01b38cf2f6605187458bd98a624d8154fd9a2cdff1f1045d52"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/print-pages.ts",
+      "bytes": 687,
+      "sha256": "00f7a1f6762d4e1209a4bbcc8c20e4a6da6d651ec77da458484abc2e0d63d7e5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/store.ts",
+      "bytes": 5271,
+      "sha256": "de6dd014ffe1f942e66f8df3c274b3f62b1d44271db6dfbc277cc4e647d31737"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/core.ts",
+      "bytes": 10444,
+      "sha256": "ac4dfecc7a6135074c95c5df63fbd084c6d4a4831975fe1ce501900e0494ee1b"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/curriculum.ts",
+      "bytes": 8432,
+      "sha256": "6a205a2adc9b2dd7d1dbdfa905cad9c9fdd4de16abc413c565e9ad8005916686"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/group-work.ts",
+      "bytes": 2659,
+      "sha256": "716749ffc46c0b9e42197be70083285eb7cad1e8b121de66ad5e73b2ab9f93c2"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/index.ts",
+      "bytes": 220,
+      "sha256": "0854cc2c847c636ba2dfe483f59f8cc725446524044fed7957bbd27bf86b783f"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/missions.ts",
+      "bytes": 25287,
+      "sha256": "a56591af426b79773c51c3754ae0169fa19e6aafacc97e228db511eb05f0f837"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/printing.ts",
+      "bytes": 8474,
+      "sha256": "232202fc3a4e69ee52cee259ec25abb1f4a100ff27bdad637f3df03b09efa503"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/report-labels.ts",
+      "bytes": 5853,
+      "sha256": "59c7c24840e094d139763e425f68a0c10fa15f8a9a7e9d331312f238298e8905"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/reports.ts",
+      "bytes": 911,
+      "sha256": "1964998ac5423ca736755fc32a2f1adcb2246d40321bef17c507b714ab78cebe"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/schedule.ts",
+      "bytes": 4486,
+      "sha256": "9b43661b73bf928fcb87924dbb9ba8b1995d803af74c023c28c5fb25212f7295"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/types.ts",
+      "bytes": 7493,
+      "sha256": "2e959ba80e28eeb252b02b91695772bfb820ec782c1ccf720bd468c8dd04f837"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/studio/writing.ts",
+      "bytes": 11732,
+      "sha256": "11a06e9ba52eef5b7345bfd3e1912ea54e7562fb062f6121581fdff38183e192"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/teaching.ts",
+      "bytes": 6739,
+      "sha256": "acc454409cdf12c6ccc39509f429d15e7d86de319ad1511465370c750bef39b6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/lib/utils.ts",
+      "bytes": 170,
+      "sha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/main.tsx",
+      "bytes": 446,
+      "sha256": "e7e03b61f962dc1787ea029d4941424475455366b5a4f079c8fcb4f5df4d076c"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/camp.tsx",
+      "bytes": 18031,
+      "sha256": "3bebc4206a1c0ec31949884f2ea602b5535fabf0619fc17f666fa489df9a16c5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/cards.tsx",
+      "bytes": 16993,
+      "sha256": "eab7225383b878d3c93a7ee1aad5e9f2ab2ba237801d33a17c007e86631209d2"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/dashboard.tsx",
+      "bytes": 8655,
+      "sha256": "b4a1e3b3eea07ed089b3cac0807a963ed5e05bd1f68196c2b293b9981cbc5052"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/lesson-editor.tsx",
+      "bytes": 17513,
+      "sha256": "8bdcc2b879b1b52f43a93e85af45205ce78abfda492797fbce7c7ba2e6e47d82"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/lessons.tsx",
+      "bytes": 6142,
+      "sha256": "f2f8203df54fee16bb92f24c0e8467f33e047be4118b0eafe40ef35697b5597d"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/materials.tsx",
+      "bytes": 26211,
+      "sha256": "610a1d87931e33cccc71f44ede78a77a17ca33cf71e6f3ae5204899ef8116c48"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/not-found.tsx",
+      "bytes": 543,
+      "sha256": "832aff3938ac91478898169e136bb1d32e21f62ac45f0cf80088a60a23f5adc5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/rules.tsx",
+      "bytes": 15016,
+      "sha256": "b505b73afe3bfc2315bfab87f5dd34909c1896c90cdf767f029889fa25fcde96"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/students.tsx",
+      "bytes": 25104,
+      "sha256": "a5c8aba92a510fadf0671f0ecabeb14586a745e838090a7f816525d10a03736e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/agenda.tsx",
+      "bytes": 3411,
+      "sha256": "2a6553f05489f393549fab1105163647ff92a6a9b9f8d08e60f3be4de4b2412a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/common.tsx",
+      "bytes": 11709,
+      "sha256": "af265d99c8e9f67d78e79dbb7342a76595ceca98893481d0d42510f3208eb2c8"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/courses.tsx",
+      "bytes": 22176,
+      "sha256": "7b036d8d84cd837b67ba7ab478598f29b5ad56ed241c2b4a221833fa6a26e682"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/group-work.tsx",
+      "bytes": 5155,
+      "sha256": "6a7859cac92c5a39968f068598a364c1ec2b7254636346bd9ad80c140af2d751"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/guard.tsx",
+      "bytes": 2033,
+      "sha256": "258cfb422ee48bd7cbd2ca80041efc1f66ed867650578ec844bd27e237fc017e"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/interview.tsx",
+      "bytes": 6091,
+      "sha256": "692e7392f28ebc04d12c513146f3b45ade5376e834abbdacd3a7867e2d39e3b6"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/live.tsx",
+      "bytes": 19974,
+      "sha256": "52b10278c9adc2e15e6717138d47477a6482bba90e8c8f7049449556198d04bb"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/practice.tsx",
+      "bytes": 5944,
+      "sha256": "e53d72b69369ac6de041a66f486b03a0b211fe9ed4c5cfbf40dd327378bd7c1a"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/print.tsx",
+      "bytes": 12549,
+      "sha256": "6fdd9af6cdb392233b887b09fa43016e109c844b02d51a109df91278ddfe64e0"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/results.tsx",
+      "bytes": 11001,
+      "sha256": "f23ffb6f1d1f50cd85ae8fd2c55b0d36543b67a4c31209c3a0306426f4e53ce8"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/sources.tsx",
+      "bytes": 7233,
+      "sha256": "6e8cd63bace440d2ba71b2c47cd436c587120880bab33149c47cf67237637e89"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/status.tsx",
+      "bytes": 5206,
+      "sha256": "40bb35ce449672419a97e28071c6a06487b05f92f3bb11d14c3b3e769a54c4be"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/writing-panels.tsx",
+      "bytes": 12606,
+      "sha256": "7fdc14e3337437a17ff913a4b43e68831bb8f52e95af2f9769b8a038f929675d"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/studio/writing.tsx",
+      "bytes": 12672,
+      "sha256": "6b506c003f17659c105c1dc836df8c21ac42351a985bbd60447959133dbcaa05"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/supports.tsx",
+      "bytes": 3468,
+      "sha256": "2d3aefa588394c1ab9554f1e705e054ee4a568213d14e5dbf25e8474f76146f5"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/worksheet-detail.tsx",
+      "bytes": 3802,
+      "sha256": "e969a9cb50637b5233d026d163157f9fe16da345bc3b3164d9fed4c3e7147f22"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/src/pages/worksheets.tsx",
+      "bytes": 2814,
+      "sha256": "448328e0a8fd09562014bbb4e7abb6308eb1432b0dd3833e38e2ca234bb0c286"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/tsconfig.json",
+      "bytes": 520,
+      "sha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9"
+    },
+    {
+      "path": "artifacts/teacher-lesson-lab/vite.config.ts",
+      "bytes": 1803,
+      "sha256": "4f7c94d802c4f2d5f5c92e051ac99f5701d62d518a8cb412b9ae094879e0a4f7"
+    },
+    {
+      "path": "docs/lesson-lab/CHANGELOG.md",
+      "bytes": 5762,
+      "sha256": "6b2623453b19a3df5a79bee89fde26c075e64a4b764982c4634ee18c385e1dde"
+    },
+    {
+      "path": "docs/lesson-lab/INTEGRATION.md",
+      "bytes": 8022,
+      "sha256": "f58c0d3a5aecfb0484ae7834c3ad1ddaaa33ad056ba011d4aedde36428cdca36"
+    },
+    {
+      "path": "docs/lesson-lab/QA-1.5-I18N-2026-11-04.md",
+      "bytes": 9874,
+      "sha256": "31b634b4668cbd53156534a9afef8fbee33d51c792bffc58a0ef48d60b2b7bc9"
+    },
+    {
+      "path": "docs/lesson-lab/QA-1.5-REPORT-HISTORY-2026-11-05.md",
+      "bytes": 5994,
+      "sha256": "f2182a733658a884e77e4357d83d77701fd1a8a006d9b105cbc920399db2e718"
+    },
+    {
+      "path": "docs/lesson-lab/QA-1.5-U09-SETTINGS-2026-11-05.md",
+      "bytes": 5312,
+      "sha256": "a498ed02d28bf2a196cbc7091b0b61581972bc41726d2d8f789901ff1e9892ee"
+    },
+    {
+      "path": "docs/lesson-lab/STUDIO-API.md",
+      "bytes": 4520,
+      "sha256": "a5e3f06e6f648e06afc4651de8e89aa8b3e97b5e36873b11bbdb820dccb77b07"
+    },
+    {
+      "path": "docs/lesson-lab/VALIDATION-1.5.md",
+      "bytes": 7892,
+      "sha256": "3691fc8331f99b72e70b7769ff38c7c26a451c6e751ac1f3757b9b424aa78183"
+    },
+    {
+      "path": "docs/lesson-lab/VALIDATION.md",
+      "bytes": 9996,
+      "sha256": "311605e1d9f1539df8c87bca9542c2b7908ac32067bef8b4442532e73051c688"
+    },
+    {
+      "path": "handoff/run.mjs",
+      "bytes": 4591,
+      "sha256": "38396cf1ba9da470b4460c88561a6ece28e54852e6668fbe02e507aa068d6878"
+    },
+    {
+      "path": "handoff/verify.mjs",
+      "bytes": 1038,
+      "sha256": "f52ccc46d2942742fd80f9910aea669efe9f6c0c04b81ca94a1df522f9b3b115"
+    },
+    {
+      "path": "lib/api-client-react/package.json",
+      "bytes": 265,
+      "sha256": "ae70f97a12d1f7e7cbb291b5ffd1d6893f0d7a0ff7721a21e615d47bccfad789"
+    },
+    {
+      "path": "lib/api-client-react/src/custom-fetch.ts",
+      "bytes": 11377,
+      "sha256": "3a5605ea89571cca7ea9412a230a40954e3a3f1d94d7a566271480165bf5e03c"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "bytes": 178,
+      "sha256": "a52ae133825c10e00d9b695aecc789b6636e774d4097ff810acfd19e83969a4e"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "bytes": 2544,
+      "sha256": "9d7cf1d5de5bdaac99b9587f788e2c506a5617a99a0447d0f5649fc34635f194"
+    },
+    {
+      "path": "lib/api-client-react/src/index.ts",
+      "bytes": 194,
+      "sha256": "7974b36e3973a8d0c403589bcf8d8aca7547c5c42c4b73924d05f49de18809e5"
+    },
+    {
+      "path": "lib/api-client-react/tsconfig.json",
+      "bytes": 251,
+      "sha256": "7e9d09ae244912d5d1add40373fc8dfb98200e903c0994aba4faee4a5afc3489"
+    },
+    {
+      "path": "package.json",
+      "bytes": 619,
+      "sha256": "cb422c326dd16538a62ed2885d3658cce8d812af9e90321e3d4d9b7f6cd4e7a2"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 152776,
+      "sha256": "3eb71853f1cfecd38fd1dd88fda707565f06e7d725f911462d917bf2ecd14858"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "bytes": 2992,
+      "sha256": "3d58fb24a0cbb0d242e2a02f287554d968c94ca2f7ae0dae7458aab4590f1f8b"
+    },
+    {
+      "path": "provenance/original-workspace/package.json",
+      "bytes": 650,
+      "sha256": "3817428a1443050a428fc819596fe07e153f863f8fed3d368685e2a10e196036"
+    },
+    {
+      "path": "provenance/original-workspace/pnpm-lock.yaml",
+      "bytes": 205645,
+      "sha256": "e33ce607cfa73094c8b91199fde834f396f4cd2cf34259087c0b4aa838d258bb"
+    },
+    {
+      "path": "provenance/original-workspace/pnpm-workspace.yaml",
+      "bytes": 6793,
+      "sha256": "9b698a8784609f86c0850c71da84d64fd0c2ae6519fae3a4ab04d784064aa12e"
+    },
+    {
+      "path": "provenance/original-workspace/tsconfig.json",
+      "bytes": 236,
+      "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
+    },
+    {
+      "path": "provenance/source-files.json",
+      "bytes": 74509,
+      "sha256": "6dc4c564b6225e237b69721eceb4c93af45d19e1cd0abb3ef7cdc1ae4b051a8e"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ar-fonts.txt",
+      "bytes": 2256,
+      "sha256": "cd5c7c0e596c9fb29160a0a614dc3e46c9f0e6fa332221eaa12ac07e8eeb98f6"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ar-result-summary.pdf",
+      "bytes": 152978,
+      "sha256": "779e744e7f1acfd6fe294ae3a5407228dc13631eedf40a0dcb90f6735523bdfe"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ar-result-summary.txt",
+      "bytes": 2693,
+      "sha256": "f6724f77312b40c11dd6b9961546231ad4f197b212e4c59ca16154a783162165"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/az-fonts.txt",
+      "bytes": 2538,
+      "sha256": "353da013fc37b5dfbafca55f7306b41013c5288378e08a92d78cb26e44512963"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/az-result-summary.pdf",
+      "bytes": 95291,
+      "sha256": "0a470fcea7d351e09bc2335cf2cc25b8a921d8616725fe12fd3953646eb6eabc"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/az-result-summary.txt",
+      "bytes": 822,
+      "sha256": "76846723a5c47dbce2b4f96afd8a7bed6337f29e72cea4137b97f2b25aecee3f"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/browser-existing.log",
+      "bytes": 845,
+      "sha256": "e69f81f2e052386e52a764b74363ed071da11b905eac7a37a34d7544612b4528"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/browser.json",
+      "bytes": 8213,
+      "sha256": "c79684d1563c7be926b7a70a3333a2f2ef03053a00ce77c16720a21f02f5b56b"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/build.log",
+      "bytes": 892,
+      "sha256": "fdd41050343150fee9afd9d73848fbf1ccc937317317e952b7825bd7454c326c"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/core.log",
+      "bytes": 2372,
+      "sha256": "cff52c9f41811a057c58ed715658fefa7d89e0cd8e2c3b8274e806804eb1fd70"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/en-fonts.txt",
+      "bytes": 1410,
+      "sha256": "b149018c2192c8f840c282c05b9dfc1657f7be07d6ecc5acdec9cd9817b21370"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/en-result-summary.pdf",
+      "bytes": 63862,
+      "sha256": "68ab3f920e05e4dc20dda7e5b45877b77f0328ca07649b5ff05aaee4d83f702d"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/en-result-summary.txt",
+      "bytes": 752,
+      "sha256": "c15e27d4dfd76692c2723462ae2874db23e3daa130353285cfdb27341f6b9230"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/es-fonts.txt",
+      "bytes": 1598,
+      "sha256": "e66289a6a51e25c91d78353598bca8be89ad1e23c321d07c8bf6d4e3b37e4ebe"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/es-result-summary.pdf",
+      "bytes": 69644,
+      "sha256": "d250e3efc041e37fb1b155cdd761ea8db438f07a0bba08669e6532e363e83aec"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/es-result-summary.txt",
+      "bytes": 809,
+      "sha256": "da7b256a4fd809f43422bd0e539051b02f9aa7e78e37b649e6c3a2edb65c5e87"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/extracted-install.log",
+      "bytes": 1405,
+      "sha256": "bfdcc227db9fb77360d0e51c062c3e868cddc038ff5db7ad48f3916a4881edbe"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/extracted-integrity.log",
+      "bytes": 205,
+      "sha256": "7c8badb4e451bdf55143eb4e343e5cb2b85d8def0da2de9905fcdb0bc4709d1c"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/extracted-qa.log",
+      "bytes": 8569,
+      "sha256": "0646b5e220c7e12045a7cc8ae1025e277a6ee8dc1da9ba529a0454c15b731340"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/extracted-typecheck.log",
+      "bytes": 315,
+      "sha256": "26c24c68b9694620c8fd59b737f7279d01aad3d40eb9d6e8d2c3f4ab937fa839"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/fr-fonts.txt",
+      "bytes": 1786,
+      "sha256": "1b5fae3d9ae94158c6d0658107aa0031547c0d614b278ed08d5234cadf0296e6"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/fr-result-summary.pdf",
+      "bytes": 73101,
+      "sha256": "e89285254e50dafc53709d20eb0fd573c49c6cfb16871c2b9ee6e7db09fb0a9c"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/fr-result-summary.txt",
+      "bytes": 828,
+      "sha256": "a4084eacb73278311d8687afbface63e3f6ad0a915f00243579c6bfc6a9a30be"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/history-ar-1280.png",
+      "bytes": 189109,
+      "sha256": "4f0d36603b5e28d9530aaa1290ffd444dc6928e8f30df231425f85a2f10e3c03"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/history-ar-360.png",
+      "bytes": 81692,
+      "sha256": "2e35874d4226e86add50fa927f4c2020e3aafb3af3f3e289b034e744068cf7fc"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/history-en-1280.png",
+      "bytes": 191639,
+      "sha256": "173b971577a1e6709ca9f17dc0e3df7d758c6ec85f3e66261cba452ada9ec8d7"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/history-en-360.png",
+      "bytes": 78741,
+      "sha256": "14cc941c4ff5e5d510413efa57c6a6b465ac6525739daeab000767ae1b88f946"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/it-fonts.txt",
+      "bytes": 1410,
+      "sha256": "b149018c2192c8f840c282c05b9dfc1657f7be07d6ecc5acdec9cd9817b21370"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/it-result-summary.pdf",
+      "bytes": 63352,
+      "sha256": "9b5741f6e6db2ec6de510ed7aab4d546a7a4ddd3157b46b00e9ff0b3b6ca037d"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/it-result-summary.txt",
+      "bytes": 819,
+      "sha256": "c8147cf36be6df6d805f89f303290e005f8356ab8b524e7c1a9150549ba338f8"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ja-fonts.txt",
+      "bytes": 5076,
+      "sha256": "c4dde9add746bf42706011e2e1d9099355c8b290cd0abecf657966d118b28606"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ja-result-summary.pdf",
+      "bytes": 140393,
+      "sha256": "a18fa00843b75dba3d139cd759fdefbbe3bb5764c41d0ec2cb3c7520734173fb"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ja-result-summary.txt",
+      "bytes": 783,
+      "sha256": "f1582f53c8e429b22e50dae9e65f8dc3ca656297e5fa9f5f1211671394c79463"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/km-fonts.txt",
+      "bytes": 1786,
+      "sha256": "925510fa1c0a846bbc55b0e217dfb313d8ea879644bf1ae46d4eda2f8e64a114"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/km-result-summary.pdf",
+      "bytes": 164564,
+      "sha256": "3e3572e387a22537dfed4c98f650e8cfe161cca6e3530eb60882e10763368068"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/km-result-summary.txt",
+      "bytes": 1264,
+      "sha256": "182c94a56c6c2f96520848117ab4041cc82e98e2e5934288bfbf5a97bfedb56a"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ko-fonts.txt",
+      "bytes": 2068,
+      "sha256": "8fe0cd0830b847fd59a4da11fa838a766ff0a9dd9fc14ec14ffe0115e220d9e4"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ko-result-summary.pdf",
+      "bytes": 86059,
+      "sha256": "44f4d548ef3b3128e191a17b6343af5252506ead1a284f6fa5530a763046eb02"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ko-result-summary.txt",
+      "bytes": 754,
+      "sha256": "07520c11955209fb4705145a3aeff82db5a7e10fbc431d83b036d6758910668d"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/language-regression.log",
+      "bytes": 11856,
+      "sha256": "22280df9db0b9c9b077aaf1bab65271db0b76b9401986b4b02f7d812711b125b"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/legacy.log",
+      "bytes": 2423,
+      "sha256": "c870a91bac74b349975029e89fec919af9a65cc642a3e8256f69c772e1917bdb"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/logic.json",
+      "bytes": 4832,
+      "sha256": "2e5503d932727ce5eb8f68b8d41acf07c1ce83f6a1d47b6dc95fc6a339447fda"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/main-class-blank.pdf",
+      "bytes": 951821,
+      "sha256": "438c0bee2ea01d6a864e0b3f95a133358f8895ea18d44bd4ca231c23baebe271"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/main-one-student-mixed.pdf",
+      "bytes": 223898,
+      "sha256": "e26be4ec918e200966d45c1be9e5ab4564de6d7bf55ef6b54bee7e81acfb3b5c"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/main-private-comparison.pdf",
+      "bytes": 88630,
+      "sha256": "c83d88a5f7e213aac54ad39959159919fa3139f997dd77bf57a7027f27af48de"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/mn-fonts.txt",
+      "bytes": 2068,
+      "sha256": "c1dd466e63398f71c283ae766198aec5e8048d2af79c0edf1e22ba5176da19de"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/mn-result-summary.pdf",
+      "bytes": 106275,
+      "sha256": "c0007b5ae6365e9c1810fc1cd2547b855cb0c85cc8c43561b607b4cf7ff17917"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/mn-result-summary.txt",
+      "bytes": 979,
+      "sha256": "0b699eee9077b33bfa98179ca36c343744ee4377a1dce1c4314e8aaaacc833f6"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/new-browser.log",
+      "bytes": 4192,
+      "sha256": "b546128a684e9b070bc080b1c3c4fc10cc1842e255dd9881615dfe197d05cee4"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/new-logic.log",
+      "bytes": 2904,
+      "sha256": "df3f7a5a4f478db3cb586bfed7aec499be038df1025c3ffb9efb6e2a9b7affc3"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/report.html",
+      "bytes": 3128,
+      "sha256": "3b40322ffede92f81c26fb0b286f0727ea7c9a5101af73c86f805d00db32b64b"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/report.log",
+      "bytes": 130,
+      "sha256": "f3e3768c83d1dac173e8ddb73b86cc9035a6c7b4c14d2630c653ccf11148d836"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ru-fonts.txt",
+      "bytes": 1786,
+      "sha256": "3995915f0334fec9d20d84f9c56827fd8324e5c07094746fb2ba113989f0fb6c"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ru-result-summary.pdf",
+      "bytes": 110469,
+      "sha256": "f98b2b8ffec62f06917415b9ec97330c6edeab7d081e0720523cb2f8f31a4182"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/ru-result-summary.txt",
+      "bytes": 1041,
+      "sha256": "7f76cc99e41665303d891977c04cfa7313e2a139181920b212507110caf07e19"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/summary.json",
+      "bytes": 4559,
+      "sha256": "83ec2e3a877f6a1c769a700dd8ea6b3d526a9b28648739640213b83d6cc5509e"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/th-fonts.txt",
+      "bytes": 1598,
+      "sha256": "e715e23b2af80653165dabfd448f7ad4e4e664a013558ef1d9f04f30369b53be"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/th-result-summary.pdf",
+      "bytes": 130061,
+      "sha256": "35d7e38b0bc2d70f69a8e8d54595a0bd636a0a68555c5f740b8daa25b7ba0d49"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/th-result-summary.txt",
+      "bytes": 1188,
+      "sha256": "9bc87989f327f32ddbbf62d89e26f4c4ebb4c949cb59a879bd192f81ba46d0bc"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/typecheck.log",
+      "bytes": 173,
+      "sha256": "88212eebc315518f28f8aaecf51a7e054868061a6727f10f657ce0ddd42488d9"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/u09-regression.log",
+      "bytes": 26,
+      "sha256": "e9f088f2cadcbeb11751d6cdcea1d1032468a083e780ac8e06b586d5ec54614f"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/vi-fonts.txt",
+      "bytes": 2726,
+      "sha256": "6f46ae326756d9ee24a37993dd8d7859f67775134fd068ae8fdb4304b8ae1ef8"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/vi-result-summary.pdf",
+      "bytes": 126810,
+      "sha256": "90ea82f187ba29fca7748d557c283ae6edb34940c30616c6b1e2eef1ab6651d4"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/vi-result-summary.txt",
+      "bytes": 893,
+      "sha256": "32b9b6036af1cd89ce185cd55ff3109cac5ca4769ce58255ff507a36bd27c69b"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-CN-fonts.txt",
+      "bytes": 5546,
+      "sha256": "5ed8dd96c34a487f04dd7552d9d12446bc73171a375a37f7ae3b472e7aaa19ad"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-CN-result-summary.pdf",
+      "bytes": 146238,
+      "sha256": "7cbb8fba1507e4b3e63496326ddcfe53ac82c1a1031c5eafc828de65ad8474a9"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-CN-result-summary.txt",
+      "bytes": 790,
+      "sha256": "5a97816caca70ca3e2247d86826259f23924b78c938932866ed8f8a039a8e345"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-TW-fonts.txt",
+      "bytes": 5546,
+      "sha256": "d5ddae05aca6c6a5727ec65857a50d62ca00cf188d82ed56257740105c42a2bc"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-TW-result-summary.pdf",
+      "bytes": 146709,
+      "sha256": "1385f1b0744a7020658a9e104ec7366538509bf7b0dec7e562ffb4539f6aca39"
+    },
+    {
+      "path": "qa/evidence/handoff-replay/zh-TW-result-summary.txt",
+      "bytes": 801,
+      "sha256": "6aea0b6081a0a1e32fcbf8ef6ce6780123ea48c5c25d760ada22da57bd9046c0"
+    },
+    {
+      "path": "qa/evidence/latest-564/app-results-preview.jpg",
+      "bytes": 68874,
+      "sha256": "f751ba816f0a64be7cdc374800a5592ba4da00f1cb666ef692e1bddac337892d"
+    },
+    {
+      "path": "qa/evidence/latest-564/ar-fonts.txt",
+      "bytes": 2256,
+      "sha256": "cd5c7c0e596c9fb29160a0a614dc3e46c9f0e6fa332221eaa12ac07e8eeb98f6"
+    },
+    {
+      "path": "qa/evidence/latest-564/ar-result-summary.pdf",
+      "bytes": 154032,
+      "sha256": "5daa4cfde797b60994be913a9b75def185e414d5aad2cb12efb7dd010c50f2bb"
+    },
+    {
+      "path": "qa/evidence/latest-564/ar-result-summary.txt",
+      "bytes": 2693,
+      "sha256": "34011188367a398d59829ee546637f0d763f1d8be62b5dca8d34ad11fd0cbe81"
+    },
+    {
+      "path": "qa/evidence/latest-564/ar-summary-page1.png",
+      "bytes": 49165,
+      "sha256": "a018e878e76515c288a6e41a5de58c419cb4d229986e7fe3d89e5d73386e8cc6"
+    },
+    {
+      "path": "qa/evidence/latest-564/az-fonts.txt",
+      "bytes": 2538,
+      "sha256": "353da013fc37b5dfbafca55f7306b41013c5288378e08a92d78cb26e44512963"
+    },
+    {
+      "path": "qa/evidence/latest-564/az-result-summary.pdf",
+      "bytes": 95546,
+      "sha256": "360a080429bc1c5c590dbc2a8e687f4c355f3779054aae85c68142e481649fcb"
+    },
+    {
+      "path": "qa/evidence/latest-564/az-result-summary.txt",
+      "bytes": 822,
+      "sha256": "2394eaa6f05c086132bbb0ce5f4a193c068150913c6010b26fef46f19ff1d643"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-attempt1.json",
+      "bytes": 1641,
+      "sha256": "4f1f4b953df2de8637c5a58e21ba9c20ab635d1a753d82a8483ec9cfc4f4f744"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-attempt1.log",
+      "bytes": 1385,
+      "sha256": "5f8aa0ee67b07f17b378874bbed66474a501086d1c35a65c74079ba54db0b32a"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-attempt2.json",
+      "bytes": 2640,
+      "sha256": "8464d98e5ecbb8a62abf28d1a1b4e8562767ffd1a5fc4abedbccecf467c7ecde"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-attempt2.log",
+      "bytes": 2745,
+      "sha256": "a89caf23a9402c3c25f84bfe6b2cef779cd9fac8a3ce6b7d2f495dfa139c5f83"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-existing.log",
+      "bytes": 845,
+      "sha256": "e69f81f2e052386e52a764b74363ed071da11b905eac7a37a34d7544612b4528"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser-pre-rtl-correction.json",
+      "bytes": 7896,
+      "sha256": "2d029d7bf7db91e1836adee7102e429f9eed0559dccb497db1b73a3f6448d2df"
+    },
+    {
+      "path": "qa/evidence/latest-564/browser.json",
+      "bytes": 8213,
+      "sha256": "8d047888e477d25e5a1d2d6d924c6569cd98eb93b8cd52c1fc50097d1f2ac39a"
+    },
+    {
+      "path": "qa/evidence/latest-564/build.log",
+      "bytes": 853,
+      "sha256": "43daa2b5e5bf50f504fd6bba63bf172c9292a5c0471f2b2ecbbd8852cb114ca0"
+    },
+    {
+      "path": "qa/evidence/latest-564/core.log",
+      "bytes": 2372,
+      "sha256": "cff52c9f41811a057c58ed715658fefa7d89e0cd8e2c3b8274e806804eb1fd70"
+    },
+    {
+      "path": "qa/evidence/latest-564/en-fonts.txt",
+      "bytes": 1410,
+      "sha256": "b149018c2192c8f840c282c05b9dfc1657f7be07d6ecc5acdec9cd9817b21370"
+    },
+    {
+      "path": "qa/evidence/latest-564/en-result-summary.pdf",
+      "bytes": 64062,
+      "sha256": "f1df6da5599c40a2507c9491ffaaf672ae94f8846072048522d29b997753f061"
+    },
+    {
+      "path": "qa/evidence/latest-564/en-result-summary.txt",
+      "bytes": 752,
+      "sha256": "8c3cfa99197be813997e3281f47129356da7ceab597258c471b7614053760b7a"
+    },
+    {
+      "path": "qa/evidence/latest-564/en-summary-page1.png",
+      "bytes": 56851,
+      "sha256": "f27ac7d794a9839b761d8301d2c1de160e7e2adab88107af5199818c47c03f61"
+    },
+    {
+      "path": "qa/evidence/latest-564/es-fonts.txt",
+      "bytes": 1598,
+      "sha256": "e66289a6a51e25c91d78353598bca8be89ad1e23c321d07c8bf6d4e3b37e4ebe"
+    },
+    {
+      "path": "qa/evidence/latest-564/es-result-summary.pdf",
+      "bytes": 69870,
+      "sha256": "1ce319bd3f39def7ba33acfcb535484347903b27719f0dfa15ef7e346a346341"
+    },
+    {
+      "path": "qa/evidence/latest-564/es-result-summary.txt",
+      "bytes": 809,
+      "sha256": "b18ddfe4a7f3fb4da4daf5c4937fedd07761458ceffebe09e72adf644ae85c17"
+    },
+    {
+      "path": "qa/evidence/latest-564/fr-fonts.txt",
+      "bytes": 1786,
+      "sha256": "1b5fae3d9ae94158c6d0658107aa0031547c0d614b278ed08d5234cadf0296e6"
+    },
+    {
+      "path": "qa/evidence/latest-564/fr-result-summary.pdf",
+      "bytes": 73333,
+      "sha256": "a6406bf17dbf2c140435f1a6fcdb502590aec2d0aebacce0f02cf77297758563"
+    },
+    {
+      "path": "qa/evidence/latest-564/fr-result-summary.txt",
+      "bytes": 828,
+      "sha256": "1d35d4c12504e48ffb8d0e00d3296148f4453e6e4224baa8270d787e4d779394"
+    },
+    {
+      "path": "qa/evidence/latest-564/history-ar-1280.png",
+      "bytes": 196818,
+      "sha256": "ec9b36fb35e9f29a2466c6db7931b0084ff30e13450f2d4b76d8b1b818be596a"
+    },
+    {
+      "path": "qa/evidence/latest-564/history-ar-360.png",
+      "bytes": 81936,
+      "sha256": "0ec6125ae538c60302d459d2d36f16cf8bf7a559d7ea47987077971946f1181b"
+    },
+    {
+      "path": "qa/evidence/latest-564/history-en-1280.png",
+      "bytes": 191922,
+      "sha256": "55cc0db067a2b353930c542ab3621e9da926c878f840098bcfe0172cdc83cb50"
+    },
+    {
+      "path": "qa/evidence/latest-564/history-en-360.png",
+      "bytes": 79239,
+      "sha256": "238d76d757d5781bbfdd2c5c8f3f8a419a322ae823861012cf0a8578a9b428e2"
+    },
+    {
+      "path": "qa/evidence/latest-564/it-fonts.txt",
+      "bytes": 1410,
+      "sha256": "b149018c2192c8f840c282c05b9dfc1657f7be07d6ecc5acdec9cd9817b21370"
+    },
+    {
+      "path": "qa/evidence/latest-564/it-result-summary.pdf",
+      "bytes": 63586,
+      "sha256": "84e4aafd4575a72cb1c1c9dbddf9660bcaed841d46a992845223cfbca19fed59"
+    },
+    {
+      "path": "qa/evidence/latest-564/it-result-summary.txt",
+      "bytes": 819,
+      "sha256": "5d5d04cbb3c49835a56de3b848e099744e2f352713cf1137a92fedb8e83d7373"
+    },
+    {
+      "path": "qa/evidence/latest-564/ja-fonts.txt",
+      "bytes": 5076,
+      "sha256": "c4dde9add746bf42706011e2e1d9099355c8b290cd0abecf657966d118b28606"
+    },
+    {
+      "path": "qa/evidence/latest-564/ja-result-summary.pdf",
+      "bytes": 140733,
+      "sha256": "d433028e2e6f2297893ed88fa8179d5a6f98e83433d3f29e25df618fb368fd85"
+    },
+    {
+      "path": "qa/evidence/latest-564/ja-result-summary.txt",
+      "bytes": 783,
+      "sha256": "ccff6cb96ba83ce05387bbc729f238865d446ee3140d119ad474f209394e66fc"
+    },
+    {
+      "path": "qa/evidence/latest-564/km-fonts.txt",
+      "bytes": 1786,
+      "sha256": "925510fa1c0a846bbc55b0e217dfb313d8ea879644bf1ae46d4eda2f8e64a114"
+    },
+    {
+      "path": "qa/evidence/latest-564/km-result-summary.pdf",
+      "bytes": 164875,
+      "sha256": "341437d3280aa8240c18fc797b8502fe26dd389901d0cb9d6f02fe59f352704c"
+    },
+    {
+      "path": "qa/evidence/latest-564/km-result-summary.txt",
+      "bytes": 1264,
+      "sha256": "ef8b5a17f925426ce4b2d633d26ab6eef3df6c89f319b0a5ef83c719d950ce8a"
+    },
+    {
+      "path": "qa/evidence/latest-564/ko-fonts.txt",
+      "bytes": 2068,
+      "sha256": "8fe0cd0830b847fd59a4da11fa838a766ff0a9dd9fc14ec14ffe0115e220d9e4"
+    },
+    {
+      "path": "qa/evidence/latest-564/ko-result-summary.pdf",
+      "bytes": 86390,
+      "sha256": "f2d3ea06c2ccecebfa4a764683b0ebcc5705ce209cef19b6dbbd8beb4343ffb9"
+    },
+    {
+      "path": "qa/evidence/latest-564/ko-result-summary.txt",
+      "bytes": 754,
+      "sha256": "bb19ad9cc31fef5043ce11add39d672e07d1c727ef3d2525a3c1bfbe0f91d52d"
+    },
+    {
+      "path": "qa/evidence/latest-564/language-regression.log",
+      "bytes": 11856,
+      "sha256": "22280df9db0b9c9b077aaf1bab65271db0b76b9401986b4b02f7d812711b125b"
+    },
+    {
+      "path": "qa/evidence/latest-564/legacy.log",
+      "bytes": 2423,
+      "sha256": "c870a91bac74b349975029e89fec919af9a65cc642a3e8256f69c772e1917bdb"
+    },
+    {
+      "path": "qa/evidence/latest-564/logic.json",
+      "bytes": 4832,
+      "sha256": "49aad50391238ec6a6fb09be01b6b26119cef78171766e7934698355a084eaea"
+    },
+    {
+      "path": "qa/evidence/latest-564/main-class-blank.pdf",
+      "bytes": 951984,
+      "sha256": "9294b1b22c58f4d4d51613f2d22ff79f2dfe196e631c2d4f8cc1cc955ab9d263"
+    },
+    {
+      "path": "qa/evidence/latest-564/main-one-student-mixed.pdf",
+      "bytes": 223724,
+      "sha256": "790f02175c022f1530f1e565676c4898c366471c4b8ecc642b0f396c943fdb56"
+    },
+    {
+      "path": "qa/evidence/latest-564/main-private-comparison.pdf",
+      "bytes": 89049,
+      "sha256": "142869272020c5c879de28c0f2991af538dd6df4772c0a9ed451fa54aa983feb"
+    },
+    {
+      "path": "qa/evidence/latest-564/mn-fonts.txt",
+      "bytes": 2068,
+      "sha256": "c1dd466e63398f71c283ae766198aec5e8048d2af79c0edf1e22ba5176da19de"
+    },
+    {
+      "path": "qa/evidence/latest-564/mn-result-summary.pdf",
+      "bytes": 106590,
+      "sha256": "fff4c4ea1674da18853acc6d87edeb28b0185f155dd5dc44b1d942a1d758d061"
+    },
+    {
+      "path": "qa/evidence/latest-564/mn-result-summary.txt",
+      "bytes": 979,
+      "sha256": "b19c03e2bd9b2c8ef87f9a5dd9f7397dd89be4b26836134a938b04856172114c"
+    },
+    {
+      "path": "qa/evidence/latest-564/new-browser.log",
+      "bytes": 4192,
+      "sha256": "b546128a684e9b070bc080b1c3c4fc10cc1842e255dd9881615dfe197d05cee4"
+    },
+    {
+      "path": "qa/evidence/latest-564/new-logic.log",
+      "bytes": 2904,
+      "sha256": "df3f7a5a4f478db3cb586bfed7aec499be038df1025c3ffb9efb6e2a9b7affc3"
+    },
+    {
+      "path": "qa/evidence/latest-564/report.html",
+      "bytes": 3128,
+      "sha256": "096245fb8ab436fd6c39019c9eafa862707b78f58373ea7c30f2c6f1a65f8c2a"
+    },
+    {
+      "path": "qa/evidence/latest-564/ru-fonts.txt",
+      "bytes": 1786,
+      "sha256": "3995915f0334fec9d20d84f9c56827fd8324e5c07094746fb2ba113989f0fb6c"
+    },
+    {
+      "path": "qa/evidence/latest-564/ru-result-summary.pdf",
+      "bytes": 110805,
+      "sha256": "2130867ae33399d945319cdb64b472aa9080fa3c07b34916dbfec868920ae94b"
+    },
+    {
+      "path": "qa/evidence/latest-564/ru-result-summary.txt",
+      "bytes": 1041,
+      "sha256": "7dfd9f94713711452a12abe1fbf7dac29b04d63b9180ce649b056e10d36589a0"
+    },
+    {
+      "path": "qa/evidence/latest-564/summary.json",
+      "bytes": 4559,
+      "sha256": "c61276f83b4d73613036fca0433dabb50aea45836bb01cea6d57bb8926e6fa95"
+    },
+    {
+      "path": "qa/evidence/latest-564/th-fonts.txt",
+      "bytes": 1598,
+      "sha256": "e715e23b2af80653165dabfd448f7ad4e4e664a013558ef1d9f04f30369b53be"
+    },
+    {
+      "path": "qa/evidence/latest-564/th-result-summary.pdf",
+      "bytes": 130283,
+      "sha256": "9b8af81e805ffc600a294e0e41fb4e08c73e8810c6b46e45efca74aee0fc2ed9"
+    },
+    {
+      "path": "qa/evidence/latest-564/th-result-summary.txt",
+      "bytes": 1188,
+      "sha256": "a6331cafadf2ab20d91583ca5c5e17debdbf0ff6247b5430a4e453629b951989"
+    },
+    {
+      "path": "qa/evidence/latest-564/typecheck.log",
+      "bytes": 134,
+      "sha256": "2850702a64130b45b906752749ad78455efa961b9788b1d886a0782a0a410cb6"
+    },
+    {
+      "path": "qa/evidence/latest-564/u09-regression.log",
+      "bytes": 26,
+      "sha256": "e9f088f2cadcbeb11751d6cdcea1d1032468a083e780ac8e06b586d5ec54614f"
+    },
+    {
+      "path": "qa/evidence/latest-564/vi-fonts.txt",
+      "bytes": 2726,
+      "sha256": "6f46ae326756d9ee24a37993dd8d7859f67775134fd068ae8fdb4304b8ae1ef8"
+    },
+    {
+      "path": "qa/evidence/latest-564/vi-result-summary.pdf",
+      "bytes": 127036,
+      "sha256": "f164643b5738e32802b4e9f5e28deeace3fafc249cf1d316b5adc1c85355a628"
+    },
+    {
+      "path": "qa/evidence/latest-564/vi-result-summary.txt",
+      "bytes": 893,
+      "sha256": "971b604d920612aea7b001c6c2e1500f1f61eea0716b33f07be5ef25925a363f"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-CN-fonts.txt",
+      "bytes": 5546,
+      "sha256": "5ed8dd96c34a487f04dd7552d9d12446bc73171a375a37f7ae3b472e7aaa19ad"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-CN-result-summary.pdf",
+      "bytes": 146566,
+      "sha256": "0bf031bcde821167868fe9a5b6b88c87e94de4d70baa11f5861986e8c51b47bc"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-CN-result-summary.txt",
+      "bytes": 790,
+      "sha256": "b2e83ee222581d10fd66d44d91cc7a3b186e31043b0a33a527aed2a14dac9ed3"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-TW-fonts.txt",
+      "bytes": 5546,
+      "sha256": "d5ddae05aca6c6a5727ec65857a50d62ca00cf188d82ed56257740105c42a2bc"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-TW-result-summary.pdf",
+      "bytes": 147039,
+      "sha256": "c0e21c14a8b1307bfd3de340612faad6b9da868fcc9b8d03b90a8ef64a63defe"
+    },
+    {
+      "path": "qa/evidence/latest-564/zh-TW-result-summary.txt",
+      "bytes": 801,
+      "sha256": "b48655c9177c71c0e1dd5702408ab0691f5042a98d70974f812d5d08b2962b6c"
+    },
+    {
+      "path": "qa/evidence/previous/qa-followup-report.html",
+      "bytes": 604342,
+      "sha256": "e276dab154134e0f7ec1f574ec8f9dd6bcb32cadf2ccf74d3c0f16b0a79464f7"
+    },
+    {
+      "path": "qa/evidence/previous/qa-followup-summary.json",
+      "bytes": 67863,
+      "sha256": "1447929522286c059874023ae1ca7c471c88fd961c722ac1beff0f65a021c8d5"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "bytes": 692,
+      "sha256": "2dfaa6f6168f618e0e6deff048c17e4f5f73d59325bd935d471905ae6773585c"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 129,
+      "sha256": "9d0c194148a53ef5183f8c2165a4a44449285f1983176e76e47e13cecada9582"
+    }
+  ]
+}

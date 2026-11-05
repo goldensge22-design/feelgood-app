@@ -1,7 +1,7 @@
 {
   "schema": "lesson-design-lab.requirements/v1",
-  "rulesVersion": "1.2",
-  "authority": "PRODUCT_RULES.md",
+  "rulesVersion": "1.5",
+  "authority": "docs/product-rules-v1.5-ko.txt",
   "status": "approved-requirements-not-implementation-proof",
   "entryTabs": [
     {
@@ -107,5 +107,14 @@
     "it",
     "az"
   ],
-  "requiredProfileStageCases": 243
+  "requiredProfileStageCases": 243,
+  "inheritedAuthorities": [
+    "docs/course-duration-rules-v1.4-ko.txt",
+    "PRODUCT_RULES.md"
+  ],
+  "dailyCourseRule": "180/240/300 minute individual missions; optional 300-minute counseling variant",
+  "groupCourseRule": "Optional for long-term courses. Existing teaching.ts/group-editor proposal engine must be connected and verified in the newer Studio course flow.",
+  "nextDesignVersion": "1.6-design-only",
+  "nextDesignAuthority": "docs/LESSON-DESIGN-1.6.md",
+  "nextIntegrationAuthority": "docs/INTEGRATION-AND-ACCEPTANCE-1.6.md"
 }

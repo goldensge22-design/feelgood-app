@@ -1,0 +1,1917 @@
+{
+  "generatedAt": "2026-11-05T00:35:01.448Z",
+  "version": {
+    "product": "수업설계LAB",
+    "rules": "1.5",
+    "correction": "U09 생성 카드·현재 버전·운영 설정 저장 추가 QA",
+    "sourceSha256": "0c0f2e8e172043b335125313b14df89bbbbf14232ec249c379d62139c5d57543",
+    "baselineCommit": "8937990884297e66362872a710b28f24f77ed0ed"
+  },
+  "runs": {
+    "browserStart": "2026-11-05T00:25:06.094Z",
+    "browserEnd": "2026-11-05T00:29:59.204Z",
+    "continuousStart": "2026-11-05T00:29:59.293Z",
+    "continuousEnd": "2026-11-05T00:30:40.428Z",
+    "logicStart": "2026-11-05T00:22:15.155Z",
+    "logicEnd": "2026-11-05T00:22:16.841Z",
+    "u09Start": "2026-11-05T00:23:57.211Z",
+    "u09End": "2026-11-05T00:24:56.787Z",
+    "settingsStart": "2026-11-05T00:23:46.093Z",
+    "settingsEnd": "2026-11-05T00:23:57.133Z",
+    "newRegressionStart": "2026-11-05T00:22:17.567Z",
+    "newRegressionEnd": "2026-11-05T00:22:19.152Z",
+    "completed": {
+      "core": "2026-11-05T00:22:12.012Z",
+      "legacy": "2026-11-05T00:22:14.576Z",
+      "browserMain": "2026-11-05T00:25:05.956Z",
+      "build": "2026-11-05T00:22:37.404Z",
+      "typecheck": "2026-11-05T00:22:19.872Z"
+    }
+  },
+  "suites": {
+    "core": 28,
+    "legacy": 21,
+    "browserMain": 11,
+    "languageRegression": 203,
+    "multilingualCheckpoints": 226,
+    "newU09Regression": 212,
+    "newU09Browser": 90,
+    "newSettingsBrowser": 11,
+    "failed": 0
+  },
+  "pdfs": {
+    "baseCount": 150,
+    "basePages": 473,
+    "baseline45Pages": 161,
+    "u09Count": 15,
+    "u09Pages": 149,
+    "mainCount": 3,
+    "mainPages": 96,
+    "totalCount": 168,
+    "totalPages": 718
+  },
+  "extraPdfs": [
+    {
+      "lang": "ko",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ko-both.pdf",
+      "pages": 10,
+      "goal": "[직무 과제 미확인 - 교사 확인 필요] 직무 준비를 프로젝트·학습·네트워킹으로 나눈 학기 플래너로 만든다.",
+      "embeddedUnicodeFonts": 31
+    },
+    {
+      "lang": "en",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-en-both.pdf",
+      "pages": 10,
+      "goal": "[Job Assignment Unconfirmed - Teacher Verification Required] Create a semester planner dividing job preparation into projects, learning, and networking.",
+      "embeddedUnicodeFonts": 13
+    },
+    {
+      "lang": "ja",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ja-both.pdf",
+      "pages": 10,
+      "goal": "[職務課題未確認 - 教師の確認が必要] 職務準備をプロジェクト・学習・ネットワーキングに分けた学期プランナーを作成する。",
+      "embeddedUnicodeFonts": 172
+    },
+    {
+      "lang": "zh-CN",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-zh-CN-both.pdf",
+      "pages": 9,
+      "goal": "[职务任务未确认 - 需要教师确认] 制定期末规划表，将职位准备分为项目·学习·网络扩展。",
+      "embeddedUnicodeFonts": 163
+    },
+    {
+      "lang": "zh-TW",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-zh-TW-both.pdf",
+      "pages": 9,
+      "goal": "[職務任務未確認 - 需教師確認] 製作將職位準備分為專案·學習·人際網絡的學期計畫表。",
+      "embeddedUnicodeFonts": 182
+    },
+    {
+      "lang": "mn",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-mn-both.pdf",
+      "pages": 10,
+      "goal": "[Ажлын даалгавар баталгаажаагүй - багш шалгах шаардлагатай] Ажилд бэлтгэх бэлтгэлийг төсөл·хичээл·сүлжээгээр хуваасан хичээлийн улирлын төлөвлөгч болгох.",
+      "embeddedUnicodeFonts": 22
+    },
+    {
+      "lang": "th",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-th-both.pdf",
+      "pages": 10,
+      "goal": "[ภารกิจงานยังไม่ยืนยัน - ครูต้องตรวจสอบ] สร้างแพลนเนอร์รายภาคการศึกษาที่แบ่งการเตรียมตัวสู่งานออกเป็นโครงการ·การเรียนรู้·การสร้างเครือข่าย",
+      "embeddedUnicodeFonts": 15
+    },
+    {
+      "lang": "vi",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-vi-both.pdf",
+      "pages": 10,
+      "goal": "[Nhiệm vụ công việc chưa xác nhận - Cần giáo viên xác nhận] Lập planner học kỳ chia việc chuẩn bị nghề nghiệp thành dự án·học tập·kết nối mạng lưới.",
+      "embeddedUnicodeFonts": 37
+    },
+    {
+      "lang": "ar",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ar-both.pdf",
+      "pages": 10,
+      "goal": "[مهمة الوظيفة غير مؤكدة - يلزم تأكيد المعلم] إنشاء مخطط للفصل الدراسي يقسم التحضير للوظيفة إلى مشاريع، تعلم، وتشبيك.",
+      "embeddedUnicodeFonts": 26
+    },
+    {
+      "lang": "ru",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ru-both.pdf",
+      "pages": 10,
+      "goal": "[Задание по должности не подтверждено - требуется проверка учителем] Создать семестровый планировщик подготовки к работе, разделенный на проекты, обучение и нетворкинг.",
+      "embeddedUnicodeFonts": 18
+    },
+    {
+      "lang": "km",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-km-both.pdf",
+      "pages": 10,
+      "goal": "[កិច្ចការងារមិនបានផ្ទៀងផ្ទាត់ - ត្រូវការគ្រូពិនិត្យ] បង្កើតកម្មវិធីអនុវត្តឆមាសដែលបែងចែកការត្រៀមខ្លួនសម្រាប់មុខតំណែងជា គម្រោង·ការសិក្សា·ការបង្កើតបណ្តាញទំនាក់ទំនង។",
+      "embeddedUnicodeFonts": 17
+    },
+    {
+      "lang": "es",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-es-both.pdf",
+      "pages": 10,
+      "goal": "[Tarea laboral no verificada - Requiere verificación del docente] Crear un planificador semestral dividiendo la preparación del puesto en proyectos, aprendizaje y redes de contacto.",
+      "embeddedUnicodeFonts": 18
+    },
+    {
+      "lang": "fr",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-fr-both.pdf",
+      "pages": 11,
+      "goal": "[Tâche professionnelle non confirmée - Confirmation enseignant requise] Créer un planificateur de semestre divisé en projets, apprentissage et réseautage pour la préparation de la fonction.",
+      "embeddedUnicodeFonts": 18
+    },
+    {
+      "lang": "it",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-it-both.pdf",
+      "pages": 10,
+      "goal": "[Incarico lavorativo non verificato - Insegnante da verificare] Creare un pianificatore semestrale che divida la preparazione al ruolo in progetti, apprendimento e networking.",
+      "embeddedUnicodeFonts": 16
+    },
+    {
+      "lang": "az",
+      "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-az-both.pdf",
+      "pages": 10,
+      "goal": "[Vəzifə tapşırığı təsdiqlənməyib - müəllim təsdiqi lazımdır] Vəzifə hazırlığını layihə, təlim və şəbəkələşmə olaraq bölən semestr planlayıcısı hazırlayıram.",
+      "embeddedUnicodeFonts": 29
+    }
+  ],
+  "mainPdfs": [
+    {
+      "name": "class-blank",
+      "pages": 90,
+      "embeddedUnicodeFonts": 25
+    },
+    {
+      "name": "private-comparison",
+      "pages": 1,
+      "embeddedUnicodeFonts": 19
+    },
+    {
+      "name": "one-student-mixed",
+      "pages": 5,
+      "embeddedUnicodeFonts": 30
+    }
+  ],
+  "languages": [
+    {
+      "lang": "ko",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 26,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 25,
+          "direction": "ltr",
+          "firstFooter": "학생 3쪽 중 1쪽",
+          "lastFooter": "학생 3쪽 중 3쪽"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 25,
+          "direction": "ltr",
+          "firstFooter": "학생 3쪽 중 1쪽",
+          "lastFooter": "학생 3쪽 중 3쪽"
+        },
+        {
+          "kind": "guide",
+          "pages": 4,
+          "embeddedUnicodeFonts": 34,
+          "direction": "ltr",
+          "firstFooter": "학생 4쪽 중 1쪽",
+          "lastFooter": "학생 4쪽 중 4쪽"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "학생 1쪽 중 1쪽",
+          "lastFooter": "학생 1쪽 중 1쪽"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 26,
+          "direction": "ltr",
+          "firstFooter": "학생 2쪽 중 1쪽",
+          "lastFooter": "학생 2쪽 중 2쪽"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 21,
+          "direction": "ltr",
+          "firstFooter": "학생 1쪽 중 1쪽",
+          "lastFooter": "학생 1쪽 중 1쪽"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 26,
+          "direction": "ltr",
+          "firstFooter": "학생 2쪽 중 1쪽",
+          "lastFooter": "학생 2쪽 중 2쪽"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 28,
+          "direction": "ltr",
+          "firstFooter": "학생 2쪽 중 1쪽",
+          "lastFooter": "학생 2쪽 중 2쪽"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 3,
+          "embeddedUnicodeFonts": 28,
+          "direction": "ltr",
+          "firstFooter": "학생 3쪽 중 1쪽",
+          "lastFooter": "학생 3쪽 중 3쪽"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 5,
+          "embeddedUnicodeFonts": 30,
+          "direction": "ltr",
+          "firstFooter": "학생 5쪽 중 1쪽",
+          "lastFooter": "학생 5쪽 중 5쪽"
+        }
+      ],
+      "u09": {
+        "lang": "ko",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ko-both.pdf",
+          "pages": 10,
+          "goal": "[직무 과제 미확인 - 교사 확인 필요] 직무 준비를 프로젝트·학습·네트워킹으로 나눈 학기 플래너로 만든다."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "en",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 16,
+      "pdfs": 10,
+      "pages": 31,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 9,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 3",
+          "lastFooter": "Page 3 of 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 9,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 3",
+          "lastFooter": "Page 3 of 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 7,
+          "embeddedUnicodeFonts": 8,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 7",
+          "lastFooter": "Page 7 of 7"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 1",
+          "lastFooter": "Page 1 of 1"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 2",
+          "lastFooter": "Page 2 of 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 1",
+          "lastFooter": "Page 1 of 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 2",
+          "lastFooter": "Page 2 of 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 2",
+          "lastFooter": "Page 2 of 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 4",
+          "lastFooter": "Page 4 of 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Page 1 of 6",
+          "lastFooter": "Page 6 of 6"
+        }
+      ],
+      "u09": {
+        "lang": "en",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-en-both.pdf",
+          "pages": 10,
+          "goal": "[Job Assignment Unconfirmed - Teacher Verification Required] Create a semester planner dividing job preparation into projects, learning, and networking."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "ja",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 26,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 92,
+          "direction": "ltr",
+          "firstFooter": "全3ページ中1ページ目",
+          "lastFooter": "全3ページ中3ページ目"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 67,
+          "direction": "ltr",
+          "firstFooter": "全3ページ中1ページ目",
+          "lastFooter": "全3ページ中3ページ目"
+        },
+        {
+          "kind": "guide",
+          "pages": 4,
+          "embeddedUnicodeFonts": 152,
+          "direction": "ltr",
+          "firstFooter": "全4ページ中1ページ目",
+          "lastFooter": "全4ページ中4ページ目"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 77,
+          "direction": "ltr",
+          "firstFooter": "全1ページ中1ページ目",
+          "lastFooter": "全1ページ中1ページ目"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 67,
+          "direction": "ltr",
+          "firstFooter": "全2ページ中1ページ目",
+          "lastFooter": "全2ページ中2ページ目"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 62,
+          "direction": "ltr",
+          "firstFooter": "全1ページ中1ページ目",
+          "lastFooter": "全1ページ中1ページ目"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 90,
+          "direction": "ltr",
+          "firstFooter": "全2ページ中1ページ目",
+          "lastFooter": "全2ページ中2ページ目"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 122,
+          "direction": "ltr",
+          "firstFooter": "全2ページ中1ページ目",
+          "lastFooter": "全2ページ中2ページ目"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 3,
+          "embeddedUnicodeFonts": 128,
+          "direction": "ltr",
+          "firstFooter": "全3ページ中1ページ目",
+          "lastFooter": "全3ページ中3ページ目"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 5,
+          "embeddedUnicodeFonts": 156,
+          "direction": "ltr",
+          "firstFooter": "全5ページ中1ページ目",
+          "lastFooter": "全5ページ中5ページ目"
+        }
+      ],
+      "u09": {
+        "lang": "ja",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ja-both.pdf",
+          "pages": 10,
+          "goal": "[職務課題未確認 - 教師の確認が必要] 職務準備をプロジェクト・学習・ネットワーキングに分けた学期プランナーを作成する。"
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "zh-CN",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 26,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 95,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 3 页",
+          "lastFooter": "第 3 页，共 3 页"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 75,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 3 页",
+          "lastFooter": "第 3 页，共 3 页"
+        },
+        {
+          "kind": "guide",
+          "pages": 4,
+          "embeddedUnicodeFonts": 144,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 4 页",
+          "lastFooter": "第 4 页，共 4 页"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 81,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 1 页",
+          "lastFooter": "第 1 页，共 1 页"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 68,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 2 页",
+          "lastFooter": "第 2 页，共 2 页"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 59,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 1 页",
+          "lastFooter": "第 1 页，共 1 页"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 83,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 2 页",
+          "lastFooter": "第 2 页，共 2 页"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 118,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 2 页",
+          "lastFooter": "第 2 页，共 2 页"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 3,
+          "embeddedUnicodeFonts": 133,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 3 页",
+          "lastFooter": "第 3 页，共 3 页"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 5,
+          "embeddedUnicodeFonts": 149,
+          "direction": "ltr",
+          "firstFooter": "第 1 页，共 5 页",
+          "lastFooter": "第 5 页，共 5 页"
+        }
+      ],
+      "u09": {
+        "lang": "zh-CN",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-zh-CN-both.pdf",
+          "pages": 9,
+          "goal": "[职务任务未确认 - 需要教师确认] 制定期末规划表，将职位准备分为项目·学习·网络扩展。"
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "zh-TW",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 26,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 108,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 3 頁",
+          "lastFooter": "第 3 頁，共 3 頁"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 80,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 3 頁",
+          "lastFooter": "第 3 頁，共 3 頁"
+        },
+        {
+          "kind": "guide",
+          "pages": 4,
+          "embeddedUnicodeFonts": 164,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 4 頁",
+          "lastFooter": "第 4 頁，共 4 頁"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 88,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 1 頁",
+          "lastFooter": "第 1 頁，共 1 頁"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 77,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 2 頁",
+          "lastFooter": "第 2 頁，共 2 頁"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 67,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 1 頁",
+          "lastFooter": "第 1 頁，共 1 頁"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 92,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 2 頁",
+          "lastFooter": "第 2 頁，共 2 頁"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 140,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 2 頁",
+          "lastFooter": "第 2 頁，共 2 頁"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 3,
+          "embeddedUnicodeFonts": 149,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 3 頁",
+          "lastFooter": "第 3 頁，共 3 頁"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 5,
+          "embeddedUnicodeFonts": 180,
+          "direction": "ltr",
+          "firstFooter": "第 1 頁，共 5 頁",
+          "lastFooter": "第 5 頁，共 5 頁"
+        }
+      ],
+      "u09": {
+        "lang": "zh-TW",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-zh-TW-both.pdf",
+          "pages": 9,
+          "goal": "[職務任務未確認 - 需教師確認] 製作將職位準備分為專案·學習·人際網絡的學期計畫表。"
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "mn",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 33,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Нийт 3 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 3 хуудасны 3-р хуудас"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "Нийт 3 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 3 хуудасны 3-р хуудас"
+        },
+        {
+          "kind": "guide",
+          "pages": 8,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Нийт 8 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 8 хуудасны 8-р хуудас"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 24,
+          "direction": "ltr",
+          "firstFooter": "Нийт 2 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 2 хуудасны 2-р хуудас"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 26,
+          "direction": "ltr",
+          "firstFooter": "Нийт 2 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 2 хуудасны 2-р хуудас"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 22,
+          "direction": "ltr",
+          "firstFooter": "Нийт 1 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 1 хуудасны 1-р хуудас"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Нийт 2 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 2 хуудасны 2-р хуудас"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 20,
+          "direction": "ltr",
+          "firstFooter": "Нийт 2 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 2 хуудасны 2-р хуудас"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Нийт 4 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 4 хуудасны 4-р хуудас"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Нийт 6 хуудасны 1-р хуудас",
+          "lastFooter": "Нийт 6 хуудасны 6-р хуудас"
+        }
+      ],
+      "u09": {
+        "lang": "mn",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-mn-both.pdf",
+          "pages": 10,
+          "goal": "[Ажлын даалгавар баталгаажаагүй - багш шалгах шаардлагатай] Ажилд бэлтгэх бэлтгэлийг төсөл·хичээл·сүлжээгээр хуваасан хичээлийн улирлын төлөвлөгч болгох."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "th",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 31,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 3 หน้า",
+          "lastFooter": "หน้า 3 จากทั้งหมด 3 หน้า"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 3 หน้า",
+          "lastFooter": "หน้า 3 จากทั้งหมด 3 หน้า"
+        },
+        {
+          "kind": "guide",
+          "pages": 7,
+          "embeddedUnicodeFonts": 10,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 7 หน้า",
+          "lastFooter": "หน้า 7 จากทั้งหมด 7 หน้า"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 1 หน้า",
+          "lastFooter": "หน้า 1 จากทั้งหมด 1 หน้า"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 20,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 2 หน้า",
+          "lastFooter": "หน้า 2 จากทั้งหมด 2 หน้า"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 17,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 1 หน้า",
+          "lastFooter": "หน้า 1 จากทั้งหมด 1 หน้า"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 2 หน้า",
+          "lastFooter": "หน้า 2 จากทั้งหมด 2 หน้า"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 13,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 2 หน้า",
+          "lastFooter": "หน้า 2 จากทั้งหมด 2 หน้า"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 4 หน้า",
+          "lastFooter": "หน้า 4 จากทั้งหมด 4 หน้า"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "หน้า 1 จากทั้งหมด 6 หน้า",
+          "lastFooter": "หน้า 6 จากทั้งหมด 6 หน้า"
+        }
+      ],
+      "u09": {
+        "lang": "th",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-th-both.pdf",
+          "pages": 10,
+          "goal": "[ภารกิจงานยังไม่ยืนยัน - ครูต้องตรวจสอบ] สร้างแพลนเนอร์รายภาคการศึกษาที่แบ่งการเตรียมตัวสู่งานออกเป็นโครงการ·การเรียนรู้·การสร้างเครือข่าย"
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "vi",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 34,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 30,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 3 trang",
+          "lastFooter": "Trang 3 trên tổng số 3 trang"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 3 trang",
+          "lastFooter": "Trang 3 trên tổng số 3 trang"
+        },
+        {
+          "kind": "guide",
+          "pages": 9,
+          "embeddedUnicodeFonts": 27,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 9 trang",
+          "lastFooter": "Trang 9 trên tổng số 9 trang"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 34,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 2 trang",
+          "lastFooter": "Trang 2 trên tổng số 2 trang"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 33,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 2 trang",
+          "lastFooter": "Trang 2 trên tổng số 2 trang"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 30,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 1 trang",
+          "lastFooter": "Trang 1 trên tổng số 1 trang"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 31,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 2 trang",
+          "lastFooter": "Trang 2 trên tổng số 2 trang"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 32,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 2 trang",
+          "lastFooter": "Trang 2 trên tổng số 2 trang"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 34,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 4 trang",
+          "lastFooter": "Trang 4 trên tổng số 4 trang"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 37,
+          "direction": "ltr",
+          "firstFooter": "Trang 1 trên tổng số 6 trang",
+          "lastFooter": "Trang 6 trên tổng số 6 trang"
+        }
+      ],
+      "u09": {
+        "lang": "vi",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-vi-both.pdf",
+          "pages": 10,
+          "goal": "[Nhiệm vụ công việc chưa xác nhận - Cần giáo viên xác nhận] Lập planner học kỳ chia việc chuẩn bị nghề nghiệp thành dự án·học tập·kết nối mạng lưới."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "ar",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 30,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 20,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٣",
+          "lastFooter": "صفحة ٣ من ٣"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 20,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٣",
+          "lastFooter": "صفحة ٣ من ٣"
+        },
+        {
+          "kind": "guide",
+          "pages": 6,
+          "embeddedUnicodeFonts": 19,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٦",
+          "lastFooter": "صفحة ٦ من ٦"
+        },
+        {
+          "kind": "consultation",
+          "pages": 1,
+          "embeddedUnicodeFonts": 23,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ١",
+          "lastFooter": "صفحة ١ من ١"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 29,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٢",
+          "lastFooter": "صفحة ٢ من ٢"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 24,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ١",
+          "lastFooter": "صفحة ١ من ١"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 25,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٢",
+          "lastFooter": "صفحة ٢ من ٢"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 22,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٢",
+          "lastFooter": "صفحة ٢ من ٢"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 25,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٤",
+          "lastFooter": "صفحة ٤ من ٤"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 27,
+          "direction": "rtl",
+          "firstFooter": "صفحة ١ من ٦",
+          "lastFooter": "صفحة ٦ من ٦"
+        }
+      ],
+      "u09": {
+        "lang": "ar",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ar-both.pdf",
+          "pages": 10,
+          "goal": "[مهمة الوظيفة غير مؤكدة - يلزم تأكيد المعلم] إنشاء مخطط للفصل الدراسي يقسم التحضير للوظيفة إلى مشاريع، تعلم، وتشبيك."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "ru",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 36,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 3",
+          "lastFooter": "Страница 3 из 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 3",
+          "lastFooter": "Страница 3 из 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 11,
+          "embeddedUnicodeFonts": 13,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 11",
+          "lastFooter": "Страница 11 из 11"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 20,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 2",
+          "lastFooter": "Страница 2 из 2"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 2",
+          "lastFooter": "Страница 2 из 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 1",
+          "lastFooter": "Страница 1 из 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 2",
+          "lastFooter": "Страница 2 из 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 16,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 2",
+          "lastFooter": "Страница 2 из 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 4",
+          "lastFooter": "Страница 4 из 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Страница 1 из 6",
+          "lastFooter": "Страница 6 из 6"
+        }
+      ],
+      "u09": {
+        "lang": "ru",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-ru-both.pdf",
+          "pages": 10,
+          "goal": "[Задание по должности не подтверждено - требуется проверка учителем] Создать семестровый планировщик подготовки к работе, разделенный на проекты, обучение и нетворкинг."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "km",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 33,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 13,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 3 ទំព័រ",
+          "lastFooter": "ទំព័រទី 3 នៃ 3 ទំព័រ"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 13,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 3 ទំព័រ",
+          "lastFooter": "ទំព័រទី 3 នៃ 3 ទំព័រ"
+        },
+        {
+          "kind": "guide",
+          "pages": 8,
+          "embeddedUnicodeFonts": 13,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 8 ទំព័រ",
+          "lastFooter": "ទំព័រទី 8 នៃ 8 ទំព័រ"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 2 ទំព័រ",
+          "lastFooter": "ទំព័រទី 2 នៃ 2 ទំព័រ"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 22,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 2 ទំព័រ",
+          "lastFooter": "ទំព័រទី 2 នៃ 2 ទំព័រ"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 1 ទំព័រ",
+          "lastFooter": "ទំព័រទី 1 នៃ 1 ទំព័រ"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 2 ទំព័រ",
+          "lastFooter": "ទំព័រទី 2 នៃ 2 ទំព័រ"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 2 ទំព័រ",
+          "lastFooter": "ទំព័រទី 2 នៃ 2 ទំព័រ"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 4 ទំព័រ",
+          "lastFooter": "ទំព័រទី 4 នៃ 4 ទំព័រ"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "ទំព័រទី 1 នៃ 6 ទំព័រ",
+          "lastFooter": "ទំព័រទី 6 នៃ 6 ទំព័រ"
+        }
+      ],
+      "u09": {
+        "lang": "km",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-km-both.pdf",
+          "pages": 10,
+          "goal": "[កិច្ចការងារមិនបានផ្ទៀងផ្ទាត់ - ត្រូវការគ្រូពិនិត្យ] បង្កើតកម្មវិធីអនុវត្តឆមាសដែលបែងចែកការត្រៀមខ្លួនសម្រាប់មុខតំណែងជា គម្រោង·ការសិក្សា·ការបង្កើតបណ្តាញទំនាក់ទំនង។"
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "es",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 35,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 12,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 3",
+          "lastFooter": "Página 3 de 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 12,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 3",
+          "lastFooter": "Página 3 de 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 10,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 10",
+          "lastFooter": "Página 10 de 10"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 20,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 2",
+          "lastFooter": "Página 2 de 2"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 2",
+          "lastFooter": "Página 2 de 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 1",
+          "lastFooter": "Página 1 de 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 2",
+          "lastFooter": "Página 2 de 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 2",
+          "lastFooter": "Página 2 de 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 4",
+          "lastFooter": "Página 4 de 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Página 1 de 6",
+          "lastFooter": "Página 6 de 6"
+        }
+      ],
+      "u09": {
+        "lang": "es",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-es-both.pdf",
+          "pages": 10,
+          "goal": "[Tarea laboral no verificada - Requiere verificación del docente] Crear un planificador semestral dividiendo la preparación del puesto en proyectos, aprendizaje y redes de contacto."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "fr",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 36,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 3",
+          "lastFooter": "Page 3 sur 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 12,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 3",
+          "lastFooter": "Page 3 sur 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 11,
+          "embeddedUnicodeFonts": 10,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 11",
+          "lastFooter": "Page 11 sur 11"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 2",
+          "lastFooter": "Page 2 sur 2"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 2",
+          "lastFooter": "Page 2 sur 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 1",
+          "lastFooter": "Page 1 sur 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 2",
+          "lastFooter": "Page 2 sur 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 2",
+          "lastFooter": "Page 2 sur 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 4",
+          "lastFooter": "Page 4 sur 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 19,
+          "direction": "ltr",
+          "firstFooter": "Page 1 sur 6",
+          "lastFooter": "Page 6 sur 6"
+        }
+      ],
+      "u09": {
+        "lang": "fr",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-fr-both.pdf",
+          "pages": 11,
+          "goal": "[Tâche professionnelle non confirmée - Confirmation enseignant requise] Créer un planificateur de semestre divisé en projets, apprentissage et réseautage pour la préparation de la fonction."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "it",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 36,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 10,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 3",
+          "lastFooter": "Pagina 3 di 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 11,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 3",
+          "lastFooter": "Pagina 3 di 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 11,
+          "embeddedUnicodeFonts": 10,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 11",
+          "lastFooter": "Pagina 11 di 11"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 2",
+          "lastFooter": "Pagina 2 di 2"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 2",
+          "lastFooter": "Pagina 2 di 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 15,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 1",
+          "lastFooter": "Pagina 1 di 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 14,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 2",
+          "lastFooter": "Pagina 2 di 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 12,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 2",
+          "lastFooter": "Pagina 2 di 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 4",
+          "lastFooter": "Pagina 4 di 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 18,
+          "direction": "ltr",
+          "firstFooter": "Pagina 1 di 6",
+          "lastFooter": "Pagina 6 di 6"
+        }
+      ],
+      "u09": {
+        "lang": "it",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-it-both.pdf",
+          "pages": 10,
+          "goal": "[Incarico lavorativo non verificato - Insegnante da verificare] Creare un pianificatore semestrale che divida la preparazione al ruolo in progetti, apprendimento e networking."
+        }
+      },
+      "nativeReview": "미실행"
+    },
+    {
+      "lang": "az",
+      "status": "PASS",
+      "ui": "PASS",
+      "educationalPacks": "PASS",
+      "authoredDocumentBody": "PASS",
+      "workflow": "PASS",
+      "continuousPreservation": "PASS",
+      "printPreview360": "PASS",
+      "newLanguageVersion": "PASS",
+      "nativeMeaningReview": "NOT_RUN",
+      "checkpoints": 15,
+      "pdfs": 10,
+      "pages": 34,
+      "audits": [
+        {
+          "kind": "example",
+          "pages": 3,
+          "embeddedUnicodeFonts": 23,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 3",
+          "lastFooter": "Səhifə 3 / 3"
+        },
+        {
+          "kind": "blank",
+          "pages": 3,
+          "embeddedUnicodeFonts": 21,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 3",
+          "lastFooter": "Səhifə 3 / 3"
+        },
+        {
+          "kind": "guide",
+          "pages": 9,
+          "embeddedUnicodeFonts": 22,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 9",
+          "lastFooter": "Səhifə 9 / 9"
+        },
+        {
+          "kind": "consultation",
+          "pages": 2,
+          "embeddedUnicodeFonts": 28,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 2",
+          "lastFooter": "Səhifə 2 / 2"
+        },
+        {
+          "kind": "feedback",
+          "pages": 2,
+          "embeddedUnicodeFonts": 30,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 2",
+          "lastFooter": "Səhifə 2 / 2"
+        },
+        {
+          "kind": "comparison",
+          "pages": 1,
+          "embeddedUnicodeFonts": 29,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 1",
+          "lastFooter": "Səhifə 1 / 1"
+        },
+        {
+          "kind": "interview",
+          "pages": 2,
+          "embeddedUnicodeFonts": 28,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 2",
+          "lastFooter": "Səhifə 2 / 2"
+        },
+        {
+          "kind": "personal-worksheets",
+          "pages": 2,
+          "embeddedUnicodeFonts": 25,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 2",
+          "lastFooter": "Səhifə 2 / 2"
+        },
+        {
+          "kind": "personal-cards",
+          "pages": 4,
+          "embeddedUnicodeFonts": 28,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 4",
+          "lastFooter": "Səhifə 4 / 4"
+        },
+        {
+          "kind": "personal-both",
+          "pages": 6,
+          "embeddedUnicodeFonts": 30,
+          "direction": "ltr",
+          "firstFooter": "Səhifə 1 / 6",
+          "lastFooter": "Səhifə 6 / 6"
+        }
+      ],
+      "u09": {
+        "lang": "az",
+        "ok": true,
+        "checks": [
+          "complete U09 warning and authored goal",
+          "card save current header v2 and original performance preserved",
+          "second card language version header/history v3",
+          "existing U09 answer and three worksheet versions unchanged",
+          "nine worksheet fields/save/reload/current header v4 and three original versions preserved",
+          "real U09 A4 worksheet/A5 cards PDF includes complete localized goal and original answer/performance"
+        ],
+        "pdf": {
+          "file": "/home/runner/workspace/generated-artifacts/lesson-lab-qa/u09-az-both.pdf",
+          "pages": 10,
+          "goal": "[Vəzifə tapşırığı təsdiqlənməyib - müəllim təsdiqi lazımdır] Vəzifə hazırlığını layihə, təlim və şəbəkələşmə olaraq bölən semestr planlayıcısı hazırlayıram."
+        }
+      },
+      "nativeReview": "미실행"
+    }
+  ],
+  "limitations": [
+    "이번 수치는 수정 후 새로 실행한 검사만 집계했다. 이전 실행은 이력으로만 보존했다.",
+    "원어민/교육 전문가 의미 승인 및 모든 입력·직무·유형·버전 조합의 전수 브라우저 검수는 미실행이다.",
+    "PDF 쪽 수·문자 추출·포함 글꼴과 DOM 본문을 자동 검사했다. 렌더 시각 확인은 대표 페이지이며 전체 모든 줄을 육안 검수한 것은 아니다.",
+    "실물 프린터·실제 학생·실제 계정/서버 권한·외부 결과지/기업LAB/플래너/AI 통합은 검사하지 않았다. 외부 연결 개발과 공개 배포를 하지 않았다.",
+    "기존 자동 회귀의 사람 확인 대기 3항목은 완료로 바꾸지 않았다."
+  ],
+  "history": {
+    "previousVersionRetry": {
+      "start": "2026-11-04T23:23:02.460Z",
+      "end": "2026-11-04T23:23:41.016Z"
+    }
+  }
+}
