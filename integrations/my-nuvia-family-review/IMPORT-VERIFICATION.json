@@ -1,0 +1,62 @@
+{
+  "checkedAt": "2026-11-07T06:49:19.100Z",
+  "verified": [
+    {
+      "package": "MY-NUVIA-SOURCE",
+      "files": 278
+    },
+    {
+      "package": "MY-NUVIA-EVIDENCE",
+      "files": 127
+    },
+    {
+      "package": "MY-NUVIA-PATCH",
+      "files": 3
+    }
+  ],
+  "patchFinalBlobs": 45,
+  "qa": {
+    "executedAt": "2026-11-06T12:43:43.767Z",
+    "baseline": "ee6c376e1efa1fbe0d2c271051d1828f63a1d52b0bf0baebc589995c5d4ff55f",
+    "unchanged": true,
+    "cases": 135,
+    "pass": 135,
+    "functionSteps": 900,
+    "failedSteps": 0,
+    "languages": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW",
+      "mn",
+      "th",
+      "vi",
+      "ar",
+      "ru",
+      "km",
+      "es",
+      "fr",
+      "it",
+      "az"
+    ],
+    "widths": [
+      360,
+      768,
+      1440
+    ],
+    "roles": [
+      "parent",
+      "child",
+      "teacher"
+    ]
+  },
+  "errors": [],
+  "secretPatternCandidates": [],
+  "gitIndex": {
+    "verifiedAt": "2026-11-07T06:53:09.747Z",
+    "files": 408,
+    "status": "PASS",
+    "scope": "All source, lite-evidence and patch manifest entries match staged Git blobs"
+  }
+}

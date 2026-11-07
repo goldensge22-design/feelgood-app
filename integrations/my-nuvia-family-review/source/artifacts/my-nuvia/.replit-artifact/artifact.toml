@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "MY NUVIA"
+description = "FeelGood와 분리된 가상 가족용 기능 검토 앱. 플래너, 히스토리, AI 자소서와 별도 교사·검토 공간."
+version = "1.0.0"
+id = "artifacts/my-nuvia"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 24836
+
+[services.development]
+run = "pnpm --filter @workspace/my-nuvia run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/my-nuvia", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/my-nuvia/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "24836"
+BASE_PATH = "/"

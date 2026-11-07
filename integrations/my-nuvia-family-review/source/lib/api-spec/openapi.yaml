@@ -1,0 +1,223 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+paths:
+  /nuvia/session:
+    get:
+      operationId: getNuviaSession
+      responses:
+        "200":
+          description: Review session
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReviewSession" }
+    post:
+      operationId: enterNuviaReview
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ReviewEntry" }
+      responses:
+        "200":
+          description: Explicit fictional account entry
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReviewSession" }
+    delete:
+      operationId: leaveNuviaReview
+      responses:
+        "200": { description: Session ended }
+  /nuvia/subjects/{subjectId}:
+    parameters:
+      - in: path
+        name: subjectId
+        required: true
+        schema: { type: string }
+    get:
+      operationId: getNuviaWorkspace
+      responses:
+        "200":
+          description: Authorized workspace, private fields scoped to actor
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReviewWorkspace" }
+    post:
+      operationId: actNuviaWorkspace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/ReviewAction" }
+      responses:
+        "200":
+          description: Transactionally saved workspace
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/ReviewWorkspace" }
+  /nuvia/teacher/{subjectId}:
+    get:
+      operationId: getNuviaTeacher
+      parameters:
+        - in: path
+          name: subjectId
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Explicitly shared records only
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/TeacherWorkspace" }
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+components:
+  schemas:
+    ReviewEntry:
+      type: object
+      required: [account, acknowledged]
+      properties:
+        account: { type: string, enum: [parent, child, teen, adult, teacher] }
+        acknowledged: { type: boolean }
+        space:
+          type: string
+          pattern: "^(visitor|legacy|qa-[a-zA-Z0-9-]{1,80})$"
+          description: Fictional review dataset only. Never grants a role or subject relationship.
+    Subject:
+      type: object
+      required: [id, label, ageBand]
+      properties:
+        id: { type: string }
+        label: { type: string }
+        ageBand: { type: string, enum: [child, teen, adult, unknown] }
+    ReviewSession:
+      type: object
+      required: [authenticated, subjects]
+      properties:
+        authenticated: { type: boolean }
+        account: { type: string }
+        space: { type: string }
+        role: { type: string, enum: [parent, self, teacher] }
+        expiresAt: { type: string }
+        subjects:
+          type: array
+          items: { $ref: "#/components/schemas/Subject" }
+    Plan:
+      type: object
+      required: [id, title, steps, example, step, status, elapsed, duration, startedAt, source]
+      properties:
+        id: { type: string }
+        title: { type: string }
+        steps: { type: array, items: { type: string } }
+        example: { type: string }
+        step: { type: integer }
+        status: { type: string, enum: [ready, running, paused, archived, ended, completed] }
+        elapsed: { type: integer }
+        duration: { type: ["integer", "null"] }
+        startedAt: { type: ["string", "null"] }
+        source: { type: string }
+    ActivityRecord:
+      type: object
+      required: [id, kind, title, date, outcome, help, feeling, action, difficulty, change, result, learned, version, shared]
+      properties:
+        id: { type: string }
+        kind: { type: string, enum: [planner, history] }
+        title: { type: string }
+        date: { type: string }
+        outcome: { type: string }
+        help: { type: string }
+        feeling: { type: string }
+        action: { type: string }
+        difficulty: { type: string }
+        change: { type: string }
+        result: { type: string }
+        learned: { type: string }
+        version: { type: integer }
+        shared: { type: boolean }
+    StoryDraft:
+      type: object
+      required: [id, recordIds, sourceVersions, action, difficulty, change, result, learned, text]
+      properties:
+        id: { type: string }
+        recordIds: { type: array, items: { type: string } }
+        sourceVersions: { type: object, additionalProperties: { type: integer } }
+        action: { type: string }
+        difficulty: { type: string }
+        change: { type: string }
+        result: { type: string }
+        learned: { type: string }
+        text: { type: string }
+    ReviewWorkspace:
+      type: object
+      required: [subject, version, plans, records, drafts, privateNote, observation, weeklyChoice, savedAt]
+      properties:
+        subject: { $ref: "#/components/schemas/Subject" }
+        version: { type: integer }
+        plans: { type: array, items: { $ref: "#/components/schemas/Plan" } }
+        records: { type: array, items: { $ref: "#/components/schemas/ActivityRecord" } }
+        drafts: { type: array, items: { $ref: "#/components/schemas/StoryDraft" } }
+        privateNote: { type: string }
+        observation: { type: string }
+        weeklyChoice: { type: string }
+        savedAt: { type: ["string", "null"] }
+    TeacherWorkspace:
+      type: object
+      required: [subject, records]
+      properties:
+        subject: { $ref: "#/components/schemas/Subject" }
+        records: { type: array, items: { $ref: "#/components/schemas/ActivityRecord" } }
+    ReviewAction:
+      type: object
+      required: [type, version, requestId]
+      properties:
+        type: { type: string, enum: [createPlan, updatePlan, start, pause, archive, resume, nextStep, end, reflect, history, saveDraft, saveNote, saveObservation, weekly, shareRecord] }
+        version: { type: integer }
+        requestId: { type: string }
+        planId: { type: string }
+        recordId: { type: string }
+        title: { type: string }
+        steps: { type: array, items: { type: string } }
+        example: { type: string }
+        duration: { type: ["integer", "null"] }
+        source: { type: string }
+        outcome: { type: string }
+        help: { type: string }
+        feeling: { type: string }
+        action: { type: string }
+        difficulty: { type: string }
+        change: { type: string }
+        result: { type: string }
+        learned: { type: string }
+        text: { type: string }
+        recordIds: { type: array, items: { type: string } }
+        sourceVersions: { type: object, additionalProperties: { type: integer } }
+        shared: { type: boolean }
+        simulateFailure: { type: boolean }
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+

@@ -1,0 +1,19 @@
+
+> @workspace/my-nuvia@0.0.0 build /home/runner/workspace/artifacts/my-nuvia
+> vite build --config vite.config.ts
+
+vite v7.3.7 building client environment for production...
+transforming...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 1799 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/index.html                   1.75 kB │ gzip:   0.79 kB
+dist/public/assets/index-B2LywUni.css  109.34 kB │ gzip:  18.60 kB
+dist/public/assets/index-DdR5G4rV.js   654.99 kB │ gzip: 200.55 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 13.03s
