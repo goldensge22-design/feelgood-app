@@ -1,0 +1,31 @@
+PASS browser-save-503-input-preserved-refresh-retry 
+PASS two-independent-browser-sessions-same-server-progress {
+  independentCookies: true,
+  step: 1,
+  elapsed: 1,
+  physicalDevices: false
+}
+PASS language-switch-active-timer-child-route-and-draft-preserved 
+PASS revoked-session-relogin-restores-destination-child-lang-input 
+PASS keyboard-navigation-and-control-accessible-names 
+PASS server-committed-response-lost-refresh-retry-no-duplicate 
+PASS browser-conflict-retains-input-refreshes-version-retry 
+PASS browser-story-stale-source-blocked-reconfirm-save 
+PASS parent-unlinked-subject-browser-denial-and-reconnect 
+PASS weekly-choice-keyboard-arrows-and-persist 
+PASS core-controls-accessible-names-and-44px-targets 
+PASS english-region-separate-from-language-unambiguous-dates 
+PASS review-evidence-only-dedicated-space-and-not-print 
+[
+  {
+    name: 'automation-visitor-legacy-server-isolation-no-deletion',
+    status: 'PASS',
+    legacyHashUnchanged: true,
+    legacyRecordCount: 23,
+    visitorNotModified: true
+  },
+  {
+    name: 'visitor-language-examples-no-test-fixtures',
+    status: 'PASS'
+  }
+]

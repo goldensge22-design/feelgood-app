@@ -1,0 +1,81 @@
+{
+  "scope": "Independent fictional review API integration, not browser E2E or production",
+  "timestamp": "2026-11-06T12:21:25.709Z",
+  "checks": [
+    {
+      "name": "Anonymous workspace denied",
+      "result": "pass"
+    },
+    {
+      "name": "Parent unrelated child/adult and teacher data denied; URL role cannot elevate",
+      "result": "pass"
+    },
+    {
+      "name": "Self other-person and teacher data denied",
+      "result": "pass"
+    },
+    {
+      "name": "Teacher out-of-scope and family workspace denied",
+      "result": "pass"
+    },
+    {
+      "name": "Adult self isolated from family subjects",
+      "result": "pass"
+    },
+    {
+      "name": "Concurrent duplicate request creates one plan",
+      "result": "pass"
+    },
+    {
+      "name": "Simulated failed save leaves server data/version unchanged",
+      "result": "pass"
+    },
+    {
+      "name": "Stale write rejected, not silently overwritten",
+      "result": "pass"
+    },
+    {
+      "name": "Timer end does not automatically complete task",
+      "result": "pass"
+    },
+    {
+      "name": "Two independent cookie sessions resume same step/time; archive preserves state; one execution; end differs from completion",
+      "result": "pass"
+    },
+    {
+      "name": "Parent observations and private notes isolated by actor",
+      "result": "pass"
+    },
+    {
+      "name": "History model record and confirmed planner transfer saved",
+      "result": "pass"
+    },
+    {
+      "name": "Only selected own source records in draft; no automatic parent access or foreign sources",
+      "result": "pass"
+    },
+    {
+      "name": "Source version change requires reconfirmation",
+      "result": "pass"
+    },
+    {
+      "name": "Teacher payload contains only allowed subject shared records, no notes/drafts",
+      "result": "pass"
+    },
+    {
+      "name": "Server session revocation requires reconnection",
+      "result": "pass"
+    }
+  ]
+}
+{
+  "scope": "Independent fictional review API only",
+  "timestamp": "2026-11-06T12:21:26.056Z",
+  "results": {
+    "requestRoleIgnored": "pass",
+    "explicitlySharedRecordVisibleToAssignedTeacher": "pass",
+    "unsharedRecordHidden": "pass",
+    "privateNotesAndDraftsExcluded": "pass",
+    "parentPrivateNoteIsolation": "pass"
+  }
+}

@@ -1,0 +1,9 @@
+Automated assisted review assessment for n=0, 1, 2, 3, 11, 21:
+
+*   **ko [L4], ja [L12], zh-CN [L16], zh-TW [L20], th [L28], vi [L32], mn [L24]:** These languages naturally avoid singular/plural distinctions in this context. Formulations are acceptable.
+*   **en [L8], es [L48], fr [L52], it [L56], az [L60]:** These use a static label (e.g., "Days") followed by a number. This is grammatically acceptable for all values of n, including n=1, though "Day: 1" is sometimes preferred over "Days: 1." No defect.
+*   **ru [L40]:** Uses the genitive plural form "Дней" (Days), which is grammatically inconsistent for n=1 (should be "День"). **Defect:** Incorrect pluralization for n=1.
+*   **ar [L36]:** Uses "الأيام" (The days), which is structurally acceptable but lacks the specific morphosyntactic handling required for Arabic plurals (which change based on n=1, 2, 3-10, 11-99). **Defect:** Does not account for Arabic numeric declension rules.
+*   **km [L44]:** Uses "ថ្ងៃ" (Day/Days), which is invariant. Acceptable.
+
+**Limitations:** This assessment assumes simple suffixation or static labeling. It does not account for complex localized pluralization rules (e.g., CLDR plural categories) required for fully natural-sounding UI in languages like Russian or Arabic. Never consider this native reviewed.

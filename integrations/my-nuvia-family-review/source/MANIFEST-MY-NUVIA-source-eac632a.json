@@ -1,0 +1,1398 @@
+{
+  "createdAt": "2026-11-07T06:43:35.326961+00:00",
+  "sourceSha256": "ee6c376e1efa1fbe0d2c271051d1828f63a1d52b0bf0baebc589995c5d4ff55f",
+  "gitHead": "eac632a8ba7d7d01dccf934122c8ed47860fd77c",
+  "manifestSelfExcluded": true,
+  "files": [
+    {
+      "path": ".env.example",
+      "bytes": 411,
+      "sha256": "1e43f6e0b13f0e4cb5c7abcce6755a8ff2ee80635058211850fc00e93d450e73"
+    },
+    {
+      "path": ".gitignore",
+      "bytes": 737,
+      "sha256": "4bd10f88b9584e03c22ea6693895cf280a902df6d2413a4467c74fd95abab1ab"
+    },
+    {
+      "path": ".npmrc",
+      "bytes": 56,
+      "sha256": "1ded4f26f4851b35dae702edd5719d1be5ff31db6983858d088d5e6593ea7c99"
+    },
+    {
+      "path": ".replit",
+      "bytes": 343,
+      "sha256": "c36bb332bbeca09c1ec03360d8e2c855aaa500efb8f1a3cf295da20c553b938b"
+    },
+    {
+      "path": ".replitignore",
+      "bytes": 223,
+      "sha256": "1f78f03e45e9d00e6c41e12971d437fd2ae184f2b976fafab408d895ba529e8c"
+    },
+    {
+      "path": "DEVELOPER-HANDOFF.md",
+      "bytes": 9182,
+      "sha256": "5b091d37f655675a1d4cd0b98094759af16731844209b98d1632d761607d9bfc"
+    },
+    {
+      "path": "GITHUB-REGISTRATION.md",
+      "bytes": 1720,
+      "sha256": "14e7589c116a8aba1529d8277b8a4abb3f0f52d943e626f1c9c174bb9e213979"
+    },
+    {
+      "path": "SOURCE-FINGERPRINT.json",
+      "bytes": 24878,
+      "sha256": "dd8e93e1582d93f9e9ab0db3223998c3e3fc40fa83a44589237cc85c2210c13e"
+    },
+    {
+      "path": "artifacts/api-server/.replit-artifact/artifact.toml",
+      "bytes": 784,
+      "sha256": "e461708bfe50f6eb964fa755cf0c6ba813c19392be055d5ef96c729aa0173539"
+    },
+    {
+      "path": "artifacts/api-server/build.mjs",
+      "bytes": 3455,
+      "sha256": "a268757bc319f2ccaf2f2661d6616ea9cab3c8d8bc45b46b0ebfdb2bc6180267"
+    },
+    {
+      "path": "artifacts/api-server/package.json",
+      "bytes": 880,
+      "sha256": "8f9589140bea519c2d922531a060d5d14b87d7dd74a1a84643c457ecceb249ed"
+    },
+    {
+      "path": "artifacts/api-server/src/app.ts",
+      "bytes": 656,
+      "sha256": "72f19250d5ea5e836225d357338a0ff9459e813eb48f1a2ac7e60fa5335ca878"
+    },
+    {
+      "path": "artifacts/api-server/src/index.ts",
+      "bytes": 511,
+      "sha256": "9c1f296e0008006b40d766ee436697e43ef99cf907f2c7afe9a6cd2d6c118d3c"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/logger.ts",
+      "bytes": 421,
+      "sha256": "29e1ca75036fe917595a3a74fd450857d845836fe0625c30b9caa02df4acba62"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/nuvia-access.ts",
+      "bytes": 4148,
+      "sha256": "84641fbf1ddc00a70bb949b27c02a29eb873a7fe429a4854ac2c780fcbf84394"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/nuvia-workspace.ts",
+      "bytes": 9082,
+      "sha256": "22cc01dad9646a91eeae0080bca2f49642744b5043314769477fb86f503db1bc"
+    },
+    {
+      "path": "artifacts/api-server/src/middlewares/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/health.ts",
+      "bytes": 288,
+      "sha256": "0386ceddb4ff4bff220af72ca38a62191ad95a2f41fd619df3bb9ceffce03db2"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/index.ts",
+      "bytes": 231,
+      "sha256": "375be4a3f544b47862ed7cae26c74f3787efd897e2fbd3f81d2c6f52abe33af9"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/nuvia.ts",
+      "bytes": 2906,
+      "sha256": "225a416debd771b77d98c9afd6541e08b31aaab5c2bd6ba12a3e0c82b1ad30bf"
+    },
+    {
+      "path": "artifacts/api-server/tsconfig.json",
+      "bytes": 335,
+      "sha256": "aa300909ccd1d4282761b5d6549a174717b663bb56cb0f59d107d4b3d96cb009"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/.replit-artifact/artifact.toml",
+      "bytes": 327,
+      "sha256": "e259a07aa72cd0a1d06c141f4aa00c16aa6942443ddf17b7cb59e88a9882f4f9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/components.json",
+      "bytes": 426,
+      "sha256": "aa1b56411ed0e8fc2ac14315f211c7059406e03d68666e1921f640186b8c096f"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/index.html",
+      "bytes": 4325,
+      "sha256": "fa4111c44a19ea399d44d7c6486387ffd49d9f21459ac87906ded4dd5c2bcb6c"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/mockupPreviewPlugin.ts",
+      "bytes": 4639,
+      "sha256": "4d579d37f3d3d12ec8d8d78571b651c606ed44b07fb04a53aff02bcc75621cfd"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/package.json",
+      "bytes": 2511,
+      "sha256": "11e03181eb7806465ec7c7b1858f79707c8d57db11ad1ae195fe5bf21ee40dd1"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/.generated/mockup-components.ts",
+      "bytes": 171,
+      "sha256": "2c23d71ff9b2704c9db9aff8a414a728b810b10abc508e3bd75acf5718651cec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/App.tsx",
+      "bytes": 3654,
+      "sha256": "0e0e60da88a64ef68a930565bb5c5d326896aaa0f9cea62702eef4c02db2462a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/accordion.tsx",
+      "bytes": 2001,
+      "sha256": "dcbfb3243a26096fc3e5f54039ccb5c4c23d9bb79a4d5846b4be75bf912f07d9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/alert-dialog.tsx",
+      "bytes": 4419,
+      "sha256": "311bede35f785d7b1ecd7398986757e26409d1049352a94ccf83586b8603c92d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/alert.tsx",
+      "bytes": 1598,
+      "sha256": "5950ac01377e7eedc94b00eb3fee678745e4cc1a72b5343867f0733d07db6660"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/aspect-ratio.tsx",
+      "bytes": 140,
+      "sha256": "08b0aa0b05efc573c7d63363c03e83d4b101bfeb54140764e96ddea30659cfcc"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/avatar.tsx",
+      "bytes": 1419,
+      "sha256": "e78b35ed76c67d8ff50603fbe0dfa4fe600097bd860d89e65beea3e16683dad8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/badge.tsx",
+      "bytes": 1163,
+      "sha256": "0564174ab513773e924dda521ce205535b05c7df9842e331ebbb59dd8b86022d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/breadcrumb.tsx",
+      "bytes": 2712,
+      "sha256": "c3d3dcb0d82fc5e91d8830bac7fead905686fe876f1f42c3ed872bb0a6b6584e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/button-group.tsx",
+      "bytes": 2209,
+      "sha256": "e3716d270e9ef6457b5cd29464ae00194abc8093c08ebf726c9204d7a69231d9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/button.tsx",
+      "bytes": 1925,
+      "sha256": "4ea01d60fddbf1a0e66aa8234807d010378786b9bc5a934ed76a09edfa671040"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/calendar.tsx",
+      "bytes": 7569,
+      "sha256": "787a19c855cf2b826942d25440b63150c45094154c6a40e95abdb4109298b8b4"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/card.tsx",
+      "bytes": 1828,
+      "sha256": "525c4bb2c051987be64df0e92e1d90174912b219bf541e24ffbc4a3406de49e8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/carousel.tsx",
+      "bytes": 6210,
+      "sha256": "5a4ff73c804e86c873382da80c453f1399006326ef042fb984c24162ec86666e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/chart.tsx",
+      "bytes": 10674,
+      "sha256": "74005899ffa62cff5cc71ddd72a727bdc84a9bd9b7e26901e1f10d2ca8d90b62"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/checkbox.tsx",
+      "bytes": 1031,
+      "sha256": "ac389a574651c8bedffc10f80674c5fc2f02ab81291a5f4ad9c587d1f775fdce"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/collapsible.tsx",
+      "bytes": 329,
+      "sha256": "f4cdd104de29928bfcd40b865c7d08eed9157a537fbb8b5e6d0921f02b63cc04"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/command.tsx",
+      "bytes": 4887,
+      "sha256": "5a57ebc119f2357b097098d22865d45de8fda623ee88fe98b99999838c13633b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/context-menu.tsx",
+      "bytes": 7406,
+      "sha256": "5369fc82c51df067aec2934f5e711aaf9e3f745ed7baadd7ba4b77397dee2a1b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/dialog.tsx",
+      "bytes": 3835,
+      "sha256": "f9c982ed8114c253c6ca738043d3f455e89c6d65569e90c9415776d6b4d6be14"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/drawer.tsx",
+      "bytes": 3007,
+      "sha256": "47ff6248307a4ac09bf7e00181a2a29f9f846691092e04cad03e15d749bc249b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7606,
+      "sha256": "dc109123ecd59af01d07aa9f3a8e8a7085bd3f337388c5369799ab1ce6c2d45f"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/empty.tsx",
+      "bytes": 2396,
+      "sha256": "9f975582a0290dbc7ce6efa3b36b376a4c3f07863026c3b74c1e73cb0023acb8"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/field.tsx",
+      "bytes": 6044,
+      "sha256": "e463611ab049c5e9b1c61691d239e05970ead7b577a191b3f80aa6f8ffccada9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/form.tsx",
+      "bytes": 4175,
+      "sha256": "d50adf86568f76246f0f319c9e1e858627475563f6c1e38f5df7d4ee23958559"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/hover-card.tsx",
+      "bytes": 1237,
+      "sha256": "00f9086b1412843e04e01d31d2fab00a25d65d789d1a382e41f01b1f3c167c3b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input-group.tsx",
+      "bytes": 4883,
+      "sha256": "131052098fa8b16b423192ec7dcc8c8506f0e7e81355134aae4c9044e1d3ef95"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input-otp.tsx",
+      "bytes": 2143,
+      "sha256": "7c4799e3597f2780c09a39a1391b921fa16eaedd0476457492af734f58e2ec98"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/input.tsx",
+      "bytes": 768,
+      "sha256": "6299a6a387dc55e528aec4342deaea0b83f1ea3a365c135a31a18ee55334f441"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/item.tsx",
+      "bytes": 4494,
+      "sha256": "90983640aa7cfef8217422347d8e14825cf55137c76369decacf440767f03188"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/kbd.tsx",
+      "bytes": 862,
+      "sha256": "0c025e7736d435f563bfb44105e562629672799eb1f35cbf194148d06cd1a9f7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/label.tsx",
+      "bytes": 724,
+      "sha256": "2eac8fbb04002c42b0fbc4062d20d131e421796eaf65c37d2049e29e42ecbc5a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/menubar.tsx",
+      "bytes": 8608,
+      "sha256": "def61eb2c47c9ec319423471f4ca20045e99549958211cacf832e4ede769e484"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/navigation-menu.tsx",
+      "bytes": 5124,
+      "sha256": "a06d96a582ac207ffcd38445d773c05e841d646efb185b5e9b65f73e5bd388c7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/pagination.tsx",
+      "bytes": 2751,
+      "sha256": "9506dbd19ddd0c2810d1c9668a3f01606e39d9bf33ddc43329523c03bf629012"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/popover.tsx",
+      "bytes": 1342,
+      "sha256": "04cf38bf94abd3fe1b51e90227e6e235ca74776f6fc6af718bfc149e7424f582"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/progress.tsx",
+      "bytes": 792,
+      "sha256": "6b3b4b69a1cb361076174892e9a96e1a09020307616965ef89f2f7e2495b57a9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/radio-group.tsx",
+      "bytes": 1410,
+      "sha256": "9ba7808b7404cdf2159c81883a39290033bc4308f2978eb80797c92b87421301"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/resizable.tsx",
+      "bytes": 1723,
+      "sha256": "70d1e35a5fb0897af7063cdd841d8ed636e1c332ef7ea6469f0f175a5a93dddf"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/scroll-area.tsx",
+      "bytes": 1642,
+      "sha256": "d7d02600effca55d0dcadce8c09c97ebddda3a19c5fa1d52dc9f6f727b26c6b1"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/select.tsx",
+      "bytes": 5745,
+      "sha256": "3d93ae07a8f3fe121ba60f4439e26bd7859f247eb8bfcafcf4b4a8a069888eec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/separator.tsx",
+      "bytes": 756,
+      "sha256": "c956c4cca4b8442fa9314d6079b9f975e1ee39d5804aaf2966990f6258ac342a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sheet.tsx",
+      "bytes": 4280,
+      "sha256": "363f8e06aa5b53c6475f445117f60fa9294be79e9e4f1f5bf70886800188124e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sidebar.tsx",
+      "bytes": 21056,
+      "sha256": "53c5391594a46de2c3161de40eb56953ff6ddb09a9c64b877ea98af810b0ed35"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/skeleton.tsx",
+      "bytes": 266,
+      "sha256": "87608e7cc815ad3d88e0b9de6c402bb37b58ea1b38636cf69709da1baff6e334"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/slider.tsx",
+      "bytes": 1037,
+      "sha256": "234e38fef59169bd02d8f5b56ca02e5ec13a0bd6846c328927b924e1299f7fb0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/sonner.tsx",
+      "bytes": 894,
+      "sha256": "771ab8637d27384c3ed030ba3be01a07b90c791c294eae06646250f8e81bc49e"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/spinner.tsx",
+      "bytes": 331,
+      "sha256": "3e6e6e8d37fb4069f8e43e55318f8db06fbc36e6c8be0096da3c9337c1c798b9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/switch.tsx",
+      "bytes": 1148,
+      "sha256": "ba5867cd3145af1290edd80bb56d4b6d61c6331aa8ef96ae0b85487f4499feaf"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/table.tsx",
+      "bytes": 2859,
+      "sha256": "a4a6972c2d47d465d7f02c1dc4a6cbfeda7a97e46479c1b0cebdaf26bf9b497a"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/tabs.tsx",
+      "bytes": 1877,
+      "sha256": "6f74706bc6b53f9e4bcebb5e7ab8743b616aef181edc7758b8ee905f9b2fdcd7"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/textarea.tsx",
+      "bytes": 649,
+      "sha256": "ec7c92aaed80f6923a7caa4bfe4eead395b50a7001504fd7fbb0b9381804dae9"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toast.tsx",
+      "bytes": 4845,
+      "sha256": "99f9f4a3e897f71d89b01c6772b2f5db51b888cecb2c8214fb2c2dbb2b3e6356"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toaster.tsx",
+      "bytes": 772,
+      "sha256": "1348f1a1f9820e2f1394b93cecc156a7e22f03636ab9270753985549aae2be74"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toggle-group.tsx",
+      "bytes": 1753,
+      "sha256": "dba95ead40d163af6959198ded9853a2cc9282b2cb534980f99937a65edf4e2d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/toggle.tsx",
+      "bytes": 1486,
+      "sha256": "955fa1bb97505b7a8bba3f7cff1991035a9afa0e1113f5d598147e6369dbf44b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/components/ui/tooltip.tsx",
+      "bytes": 1267,
+      "sha256": "ce6afa34fb9dae51053a863b4c3f7c6e55f3da23b00149f31a8e4402bc963be0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/hooks/use-mobile.tsx",
+      "bytes": 565,
+      "sha256": "ad0936f84f1df79d3697bfbff9c18f8ad58431c1cbaf2359c6a853b0fcc9f28b"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/hooks/use-toast.ts",
+      "bytes": 3767,
+      "sha256": "eb23d01c5e502ae1e0772f4303147170811b11f498c7e8f0dc8424c0f3463c94"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/index.css",
+      "bytes": 5760,
+      "sha256": "3935d982402c0101e55b60039685383ade4fd25227d2f4149ba356e6c2932aa3"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/lib/utils.ts",
+      "bytes": 166,
+      "sha256": "7c8c3dfc0cdd370d44932828eb067ef771c8fe7996693221d5d4b90af6d54f2d"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/src/main.tsx",
+      "bytes": 157,
+      "sha256": "29946f51942fba11605c7595fd82b50b0d7e50148e0194fd356dacbc958f18ec"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/tsconfig.json",
+      "bytes": 513,
+      "sha256": "bd0a1d0c1afa46c590350664a29d7848f6ccb91cfbd76426c40798437369fbf0"
+    },
+    {
+      "path": "artifacts/mockup-sandbox/vite.config.ts",
+      "bytes": 1592,
+      "sha256": "7de0f52b190e4d8f0854ed852e7a0d24420b4242e22423c6dd2712e7b0497cc7"
+    },
+    {
+      "path": "artifacts/my-nuvia/.replit-artifact/artifact.toml",
+      "bytes": 657,
+      "sha256": "2bc982612cef40a73f7197d2361e5a3beff5448171886100a85ef57053930bd6"
+    },
+    {
+      "path": "artifacts/my-nuvia/components.json",
+      "bytes": 434,
+      "sha256": "3a5d5af62f05e6e3de6c5085f31ed4f49273d57cfeae4d69d00a2568c91f54f9"
+    },
+    {
+      "path": "artifacts/my-nuvia/index.html",
+      "bytes": 1652,
+      "sha256": "f36d70f7513aaf0058963c5d62888f13570cdd75ea4b4d269f0e778fea10293e"
+    },
+    {
+      "path": "artifacts/my-nuvia/package.json",
+      "bytes": 2732,
+      "sha256": "e4012be4d5851a61b160e96e470f4065eee8ce1d4c790290d5431634ff438e11"
+    },
+    {
+      "path": "artifacts/my-nuvia/public/favicon.svg",
+      "bytes": 163,
+      "sha256": "8ffbde9092b1fa4de97c9481b76f518b131268c82e7c555041925225b1dab6e0"
+    },
+    {
+      "path": "artifacts/my-nuvia/public/review-qa-summary.json",
+      "bytes": 45301,
+      "sha256": "e3f4871939417a96abff8f6113d8ccf5eaee7b8c82db14f1969337decd126f37"
+    },
+    {
+      "path": "artifacts/my-nuvia/public/robots.txt",
+      "bytes": 23,
+      "sha256": "16ceb5ee3e0dc13aa9adf31a3ebbe45a1d965b8c2b9f72eaf84e5911e140ed95"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/App.tsx",
+      "bytes": 3019,
+      "sha256": "2e271f4d7dc354a9a31f1b80293524129a39ee5a067b8aa8a4164f5acdae8403"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/bits.tsx",
+      "bytes": 6550,
+      "sha256": "ab8bf3565ad0d003a13fe12d13bb3c12878783720aded25614a7bb559d87b8be"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/error-boundary.tsx",
+      "bytes": 2735,
+      "sha256": "c1ea4d88be8cd206a46bd87f19edf025b2504a70a2b65cd9c438e4a0e62dafe0"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/family.tsx",
+      "bytes": 9093,
+      "sha256": "eeb9261728b72aececc3ac94a50e7371fcbf46cb4d076c17d791f72216109b4a"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/review-qa.tsx",
+      "bytes": 2203,
+      "sha256": "5f376e048dc950ba3cd321d1ddf32d4225562f8f3fa08218a305a048cf1adae0"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/shell.tsx",
+      "bytes": 7832,
+      "sha256": "d311dda5410d14c2492f9bd3d0fe1877aa939e8e988addd0b407e165eeffe72f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/accordion.tsx",
+      "bytes": 2013,
+      "sha256": "8e4230a3e6d38bfab7b02f00f9e948c8c4038432c5b1bf2d0ea44dc8b5ce09cc"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/alert-dialog.tsx",
+      "bytes": 4447,
+      "sha256": "d76901a06e6881e94aa3847fde2602ee6f6ddc9f4cace9fa238627a5572bd24e"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/alert.tsx",
+      "bytes": 1609,
+      "sha256": "695369ea4d1ba4438dcedacaa8059b08b6463ac93170360f3bd42b983b7608e9"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/aspect-ratio.tsx",
+      "bytes": 143,
+      "sha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/avatar.tsx",
+      "bytes": 1431,
+      "sha256": "429f5e82fc3dcf265625650176f16ff9b35e55826183e1f1b2d4dc2a338f9b15"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/badge.tsx",
+      "bytes": 1528,
+      "sha256": "ba6f51e428a520f54e600fded4ea030a8099fa6a9a7b7110af8dca34795415d1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/breadcrumb.tsx",
+      "bytes": 2735,
+      "sha256": "44b4de47f806eec0e3de5130f0399e83700eaf0bc8deb47af5ffda2bb11eb3f1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/button-group.tsx",
+      "bytes": 2222,
+      "sha256": "b89025c11d08652597cb46b097d3e04658ad2c383bf81ed445c8182c0ed1b260"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/button.tsx",
+      "bytes": 2370,
+      "sha256": "9c20a340ca0c948d0164158eff44fca2e26343c8ee387ffc22f9cd677c59d27d"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/calendar.tsx",
+      "bytes": 7607,
+      "sha256": "1cdd1e62797356fe62f61f5521fcf0da8e3570b1120868ccca2b48370157fe46"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/card.tsx",
+      "bytes": 1856,
+      "sha256": "9fed39a53303c12fa6ac6f5f8813c1683e2198df9ee067cffbdfe69044cf3e4f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/carousel.tsx",
+      "bytes": 6288,
+      "sha256": "4ae2f69bc2c1ce33c60b23ddc5382f4b93882dac07c2d18cce32fb148ff52c48"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/chart.tsx",
+      "bytes": 10846,
+      "sha256": "ac747c83483d742e207426a193ba5e2cf639fa18cd819c1f12d12329520c6c12"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/checkbox.tsx",
+      "bytes": 1038,
+      "sha256": "6b9e336fa42475bbb2ad4d76478afb8d2555e6e26bac245b9ccde62a9a033adc"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/collapsible.tsx",
+      "bytes": 335,
+      "sha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/command.tsx",
+      "bytes": 4918,
+      "sha256": "d8fb66e44f9f8de558f6a94c781f3d890871d76dbabcda64e6fab3c917b3237d"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/context-menu.tsx",
+      "bytes": 7446,
+      "sha256": "bdff38b45a6010e3db808c099c799bd61e6aca619378074e7b14b63c1291e4c9"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/dialog.tsx",
+      "bytes": 3889,
+      "sha256": "e0d3fa53f4cb7d8011ab09f2d198c24234062d24638fabf5142f5fbce57d2ba5"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/drawer.tsx",
+      "bytes": 3029,
+      "sha256": "152bc340ad982e84f851e3bc1a6b8e7ffd0151a7445c6ecf1b1e3e13cbc19210"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7646,
+      "sha256": "a79d5419ee174de35880340aef44d67847cee54846c058e02ac4a846b603c60f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/empty.tsx",
+      "bytes": 2410,
+      "sha256": "48824b1b37bd406fa74f48db726a4f1d70cf88db5b3432f7b1d59f584f1c5dad"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/field.tsx",
+      "bytes": 6079,
+      "sha256": "c3787ffb045354e9f18e70d94890627caea94939a226e49c1e6cedee84a1e9e1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/form.tsx",
+      "bytes": 4232,
+      "sha256": "1960463b09152760fdd99ca3eb16187408d064c7599ed66384b42d1613d3a3a3"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/hover-card.tsx",
+      "bytes": 1245,
+      "sha256": "e0b4e3f0126757a8eb5c6e436c8c041c049430abe9a2eb84b10154144b31c29c"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/input-group.tsx",
+      "bytes": 4993,
+      "sha256": "f4befbf9bf8ebd755b267c4db2b396be296adb95acca5c3fba54f6495bdedebd"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/input-otp.tsx",
+      "bytes": 2160,
+      "sha256": "b4891335e70920518cfbdef2aeb399f61477fbc4b3ffe3b8a2938f19074164cc"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/input.tsx",
+      "bytes": 775,
+      "sha256": "03ac1648171bd5ad90dbc03e9ebff9a9cc77708bcc53bdac914b80eeebfe3032"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/item.tsx",
+      "bytes": 4519,
+      "sha256": "4a84cda22d692ee176f5128517a4003a63d11f907df445e7586ef034c88e8772"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/kbd.tsx",
+      "bytes": 867,
+      "sha256": "4348a7a06a715e9e9673602cbb9ed89a6a4c6cbdd457d4c03db0f23a139d19eb"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/label.tsx",
+      "bytes": 733,
+      "sha256": "fbc0c7db4221227941271a004bf71db5067aee9d8668f3351d91113cd5934c8c"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/menubar.tsx",
+      "bytes": 8655,
+      "sha256": "26dbbf36e4ffd87aab74e61dd1e3613f0c640988479679d53bacd8dbd15cc891"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/navigation-menu.tsx",
+      "bytes": 5150,
+      "sha256": "222020e1ac703ce01700d6e8822c6263932bc71c481d724b8ef53ccaae8ad63f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/pagination.tsx",
+      "bytes": 2772,
+      "sha256": "dd65d2e59226a3f384014b596ae701aef50f130cb3061f4657e81c588587b8da"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/popover.tsx",
+      "bytes": 1351,
+      "sha256": "dc574442536873c8aa88733c348503c4599ad6ed0fc9898fd25406d94e095cca"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/progress.tsx",
+      "bytes": 799,
+      "sha256": "74223bcccf7ca2ed026d197476abbe3d48fbc531c40f4252445f56954a270c75"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/radio-group.tsx",
+      "bytes": 1421,
+      "sha256": "8155d32dea5d4ddea2048b6d12f83fe4805d9bc87c97b994dbb0d040981334f2"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/resizable.tsx",
+      "bytes": 1733,
+      "sha256": "8e73dfb8b582944364d73b64ed03378016f20f7251f15f880dcf0fb140e1ad41"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/scroll-area.tsx",
+      "bytes": 1650,
+      "sha256": "73f5dedda781e5285092ea269f747378dbad8d95631eab638e15b3c31595dc59"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/select.tsx",
+      "bytes": 5773,
+      "sha256": "c64c9c1574c91f1eff922f3557e7609ba6c1d5e39959dbdecf8d386d7ae41990"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/separator.tsx",
+      "bytes": 764,
+      "sha256": "2b129347f918742bf006099f7f56a9be373250de2ecc3ad201297563e3d1f807"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/sheet.tsx",
+      "bytes": 4307,
+      "sha256": "ef2ae35ccab1252c4eee56e67e9f1b2499b5bbfb3ae39037d8d4be39915c272f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/sidebar.tsx",
+      "bytes": 21969,
+      "sha256": "de7566e708ba8bf34cb4a78fc018c784315c9d7a16d70e66255f8c72caf9d1db"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/skeleton.tsx",
+      "bytes": 269,
+      "sha256": "d78130b2e311a750e7bb524e66e3af4c04e2ab02b04fd68539c1afd0bbb47152"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/slider.tsx",
+      "bytes": 1043,
+      "sha256": "ecac74b8f3a044ba7a9e4eb0bdbfdf48be92483a32d2c414c5078c9f38e1f369"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/sonner.tsx",
+      "bytes": 902,
+      "sha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/spinner.tsx",
+      "bytes": 334,
+      "sha256": "4458ea392b32f439cd4c64b9593846f339370fa1295c04f9003f05c1f3386689"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/switch.tsx",
+      "bytes": 1155,
+      "sha256": "f81bc9b5ce2d6a92b6b2f1f3376c0489f30f7073081a1d9d6c56553880f44c58"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/table.tsx",
+      "bytes": 2881,
+      "sha256": "dd29f5ef260af67ed09c84505495e3fddbad14009e3b3ce689d0c354ffaf55d3"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/tabs.tsx",
+      "bytes": 1890,
+      "sha256": "320609101fbaa6cccda0b899154cb510fa322926cfdbaf07e33b79c00c83fcd6"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/textarea.tsx",
+      "bytes": 655,
+      "sha256": "63fb699771afe60c5073ed50e1a042d7d7f21eefd12d15bcb750cf3230985011"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/toast.tsx",
+      "bytes": 4871,
+      "sha256": "04d4ef720079342e2f4380c22683f1544bd8e93a581fb55e447458f04a6127d5"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/toaster.tsx",
+      "bytes": 777,
+      "sha256": "d34c7cd51482ddd5703a13378d9ac69b3459a304581e42f56ac2c696e53163ac"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/toggle-group.tsx",
+      "bytes": 1767,
+      "sha256": "6d7aca86245edf5d0a8f6f3ed73bd19316f4865425891eabccd6f3e37e59519e"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/toggle.tsx",
+      "bytes": 1494,
+      "sha256": "5800d2099224ef90892e8c1d972d2a0964391c33cd43d7f5c6abf5cd42e023e1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/components/ui/tooltip.tsx",
+      "bytes": 1277,
+      "sha256": "e3c6ea9d4ecd62881af33564e25be013d35a8a7fa78475a6dcc98a06c7f894eb"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/hooks/use-mobile.tsx",
+      "bytes": 585,
+      "sha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/hooks/use-toast.ts",
+      "bytes": 3952,
+      "sha256": "12cce940e597e1d597f7063131acd19658d25e924904308bf719bde17b67e351"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/ar.ts",
+      "bytes": 17489,
+      "sha256": "751a330c0e2d425105b787cd1f32ce04b78fa7d9ae520da8bc944a70f806624a"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/az.ts",
+      "bytes": 14029,
+      "sha256": "1f6ddc8e08b723e74eea479efe27a2b363558d242a79ed12ee25c79bc26dd7cc"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/build.py",
+      "bytes": 1350,
+      "sha256": "f3921908b6313ba3dc128d17487dee21c62b28bb1f1c2330ba47197cbeb99569"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/en.ts",
+      "bytes": 12948,
+      "sha256": "023123415089f6fa11c0e8fd9bea34a923a227657ea541262e0df5c7c3ff6332"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/es.ts",
+      "bytes": 14164,
+      "sha256": "2f2f3edd936f2dd9a5d6c15481ecc10858e58e190d5f014f44ea9300b97bf8e7"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/first-week.ts",
+      "bytes": 2711,
+      "sha256": "1d0cfeb5e42ab16bca4bce9bfcce000747425c8cd0f73976eb103a3d5ef3c418"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/fr.ts",
+      "bytes": 14731,
+      "sha256": "b7115d32923f061e4305a5683340f0005f9c57c73d92527b953a42e0c4884d6a"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/index.tsx",
+      "bytes": 4584,
+      "sha256": "7a05763ca0348a90558a3f262750316a8701a24df5518f96adc1b0c0ec8793b8"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/it.ts",
+      "bytes": 13952,
+      "sha256": "bb9710c1d2530943d7f733db2fb10053f6180d1fccfca6c69dade7a2a50936d9"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/ja.ts",
+      "bytes": 15104,
+      "sha256": "702f68f00b3d1013740528548285518f21d539174dcaa188b308953a6f562198"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/km.ts",
+      "bytes": 26057,
+      "sha256": "9c052d130f7becae2becd5053ffb81ca5ea5dcd5f1d187e6415e262acdf1e5c8"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/ko.ts",
+      "bytes": 14121,
+      "sha256": "ddeb8ee1302186999e0e3e8447df12ca98954a38f193f3dad419d61090944544"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/mn.ts",
+      "bytes": 19735,
+      "sha256": "9dfa3081d4afb9e25c5e1da75a92dbc362b4da7ab09a2138dc1c2fc8fabcb634"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/ru.ts",
+      "bytes": 19548,
+      "sha256": "a2659a27721559dd35b4901bb63e9e71b6d5a91fa50a164cd1825d717a16878e"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/ar.txt",
+      "bytes": 11995,
+      "sha256": "295eac5ca628bba4270ceeb4c411cca71811853bd0aebb9242dc7dd14067d810"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/az.txt",
+      "bytes": 8550,
+      "sha256": "9fe72bc1603e405c4c487d2f2e41bfc19ec420275a0eacbdc8c9b3cf4e2f7e3c"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/en.txt",
+      "bytes": 7468,
+      "sha256": "e5918e2a1e11db939b874a8caf0a0d11e9ba721ed6928a619735e46eb3227cb5"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/es.txt",
+      "bytes": 8684,
+      "sha256": "1d639633c89372ab070fbaa667206059bf9cf8de6ec227b504bdf982df50d297"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/fr.txt",
+      "bytes": 9250,
+      "sha256": "f54576488d9bf24f1932ec3cf8441c57b3d8c2266d4e2540c296dc8f2857edb1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/it.txt",
+      "bytes": 8472,
+      "sha256": "bbf9e0ce804a1df1e9cf1324b604e54dc55c153ed915d35b58a38f93eb02997b"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/ja.txt",
+      "bytes": 9625,
+      "sha256": "8abc31c929083afdaeb12be398b5ce9a7d3b14c80eaa6d25043181bb5910f092"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/km.txt",
+      "bytes": 20578,
+      "sha256": "cbe946babf731261f8f7b57e84cfa4e299ee8fad95cd745f510cf4a45de6809f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/mn.txt",
+      "bytes": 14256,
+      "sha256": "d9ddd77b5796fbea66483126b9a2e2d0f0c9dec02a6b8954908d1f88cb79d3b0"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/ru.txt",
+      "bytes": 14048,
+      "sha256": "129d9cdf4e3ffe910fd50a246d043ce226111a7fea3cf1d8745172cdf9831f8f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/th.txt",
+      "bytes": 18004,
+      "sha256": "4a993641a1f48fa074e7146952e6bb3cdc0166f2a023c7741c8f8ac7e1270958"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/vi.txt",
+      "bytes": 10050,
+      "sha256": "bc748338bb38ae631dec40e12b2add680be00c2a858848303e059bdeaf8295d2"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/zh-CN.txt",
+      "bytes": 6789,
+      "sha256": "2a31d9b0ff85edba6a7bbc47baf825f097a6a032dfadd1cb4a70bc277edfad1e"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/src/zh-TW.txt",
+      "bytes": 6840,
+      "sha256": "47f5d474f6a0a2dd7b895e7c7f4fabe185768d455737766e5edeb00ec234d8ff"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/th.ts",
+      "bytes": 23483,
+      "sha256": "9ddca09bd1ba593157d2fe644e98dea8026b70e45f0e155ebce665a4fbdbddbb"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/vi.ts",
+      "bytes": 15529,
+      "sha256": "71e28222db95013ded39a88c5168095329a3f2360f55c1382298775a9ce706a4"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/zh-CN.ts",
+      "bytes": 12270,
+      "sha256": "3f2ea75c9cf67dcba77687a336560a6606c74363bf9881ff458a6b8c7afef88d"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/i18n/zh-TW.ts",
+      "bytes": 12321,
+      "sha256": "e4e7e5bb6193fe9ebb089f482016c88661fbf926830bad33ca93623ac59881c2"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/index.css",
+      "bytes": 9171,
+      "sha256": "21b87554e1befc8228d54372129e7bbdd621d777380df81a944906c72f03ac1f"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/lib/nuvia.ts",
+      "bytes": 9099,
+      "sha256": "11bb7df6f20df67c83a0d9e428ab9acd7d25b12d63c44c6056d0a038d8820e78"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/lib/review-evidence.ts",
+      "bytes": 1776,
+      "sha256": "b84c9a38df870e35972dd3c745a566da0e8cef6289bb6023fd3e13ce46061662"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/lib/utils.ts",
+      "bytes": 170,
+      "sha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/main.tsx",
+      "bytes": 446,
+      "sha256": "e7e03b61f962dc1787ea029d4941424475455366b5a4f079c8fcb4f5df4d076c"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/history.tsx",
+      "bytes": 10582,
+      "sha256": "8abf6e293c719fbfd12e967e459f16b76dc856ab5b0494b11ba5cd9aca2f123b"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/login.tsx",
+      "bytes": 1662,
+      "sha256": "7a0aaa945c80802944facaeaae8a740f95fe42aa97ba5af0b6f24bf0b22b8060"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/planner.tsx",
+      "bytes": 25652,
+      "sha256": "b1ff401098f4ac56cc7d5f240c86a0212804b4740c8b86a9855339ae54787279"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/review.tsx",
+      "bytes": 11216,
+      "sha256": "ac475134108dc989f5f86dfc51e192412a08921143200371a79a841c41218e07"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/story.tsx",
+      "bytes": 10228,
+      "sha256": "9514bf157385a2bc2d00eb2f1dae9ae1b23802144258b12b0bea843210a7c501"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/teacher.tsx",
+      "bytes": 5035,
+      "sha256": "d031595a99f5309f6c9152e4a2ed25722423276d2562f4d7c6fff8b1ccca1e9d"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/today.tsx",
+      "bytes": 8634,
+      "sha256": "a073f6c71396e633706ace48b193daceabaeca9cfb94a17dfffdb3677cd28321"
+    },
+    {
+      "path": "artifacts/my-nuvia/src/pages/weekly.tsx",
+      "bytes": 414,
+      "sha256": "8567bb66650b8e83f981e5b3cd8433b64d40644e4650ae1a163c983732691715"
+    },
+    {
+      "path": "artifacts/my-nuvia/tsconfig.json",
+      "bytes": 520,
+      "sha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9"
+    },
+    {
+      "path": "artifacts/my-nuvia/vite.config.ts",
+      "bytes": 1694,
+      "sha256": "e4eba4bd6bd4a1ad12b28d097a4707917544d56c5295d2fa996b16923bbc13ea"
+    },
+    {
+      "path": "docs/MY-NUVIA-BROWSER-EVIDENCE.md",
+      "bytes": 9030,
+      "sha256": "81559479fe3c2de43dd0cf4e0342dafc129b4ab16d8cd486a1508ef153ab072b"
+    },
+    {
+      "path": "docs/MY-NUVIA-FULL-QA.md",
+      "bytes": 21102,
+      "sha256": "a542e33d9b84bd1a54cd78d5d1e462138d5813a040726c7bf52b012ec4a3120f"
+    },
+    {
+      "path": "docs/MY-NUVIA-HANDOFF.md",
+      "bytes": 8572,
+      "sha256": "78b6a0281d84ede8c2c42776d093c90fcbee792cc17e04edb8aea512138722a1"
+    },
+    {
+      "path": "docs/MY-NUVIA-VERIFICATION.md",
+      "bytes": 7373,
+      "sha256": "1b1a72de385cede79d6db974263334ac4b016aa126d7b7d3e664247d9dd1f947"
+    },
+    {
+      "path": "lib/api-client-react/package.json",
+      "bytes": 265,
+      "sha256": "ae70f97a12d1f7e7cbb291b5ffd1d6893f0d7a0ff7721a21e615d47bccfad789"
+    },
+    {
+      "path": "lib/api-client-react/src/custom-fetch.ts",
+      "bytes": 11377,
+      "sha256": "3a5605ea89571cca7ea9412a230a40954e3a3f1d94d7a566271480165bf5e03c"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "bytes": 4080,
+      "sha256": "3132afdfb55742c10acd0c544dbb7da5a5839385fdec4a896810766fdb230449"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "bytes": 24747,
+      "sha256": "325c35e936849803b52c8ee53d3912e727a87ed71addb0df2c278414e18460fe"
+    },
+    {
+      "path": "lib/api-client-react/src/index.ts",
+      "bytes": 194,
+      "sha256": "7974b36e3973a8d0c403589bcf8d8aca7547c5c42c4b73924d05f49de18809e5"
+    },
+    {
+      "path": "lib/api-client-react/tsconfig.json",
+      "bytes": 267,
+      "sha256": "a00fda842228e3478705abcf2c76d9641f5d6263cd5d2df0b613d5379088ad73"
+    },
+    {
+      "path": "lib/api-spec/openapi.yaml",
+      "bytes": 7637,
+      "sha256": "b5c556e12d0efa4c9f458e72bbc172382052bd2461208f821a186ab56c03df41"
+    },
+    {
+      "path": "lib/api-spec/orval.config.ts",
+      "bytes": 2082,
+      "sha256": "c8c5abc36e3fcdd8963de8473007ff6d08027788ec780ced570a1e579df25539"
+    },
+    {
+      "path": "lib/api-spec/package.json",
+      "bytes": 228,
+      "sha256": "15dacbf426eae69915fc57094cbd0345a198aa0f305eb0ff33915ac17de04dd0"
+    },
+    {
+      "path": "lib/api-zod/package.json",
+      "bytes": 189,
+      "sha256": "07009861b2ba8decccb4e9d78d743cb7273bd91915231b5eb1463b296efca13e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/api.ts",
+      "bytes": 6690,
+      "sha256": "06c36d6cc9cfddcb27afb547327aac20c354ff947d8334f0c154e4f2a3a4867c"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/activityRecord.ts",
+      "bytes": 482,
+      "sha256": "58a0094cc0cbb1a34b9a5896791cbe4d463de3f019128959d68aa00cc5fc8828"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/activityRecordKind.ts",
+      "bytes": 307,
+      "sha256": "788e8b8cec1eacc7d416eadfbb2bfe785227cb35e155a13387ab68e8f49a163e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/healthStatus.ts",
+      "bytes": 172,
+      "sha256": "cbf343355d947ee2a2fc7c6ff659866f5620a9fd2f1c84de981041f5b4aefc87"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/index.ts",
+      "bytes": 737,
+      "sha256": "6026db481035b4ac0dc60b4691fcb67fd8956a8feaf9028918cf1f9688c63f2b"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/plan.ts",
+      "bytes": 431,
+      "sha256": "485ff83e1e122c2fb1b4c52a80069a5cad95262f7c5d5a31882aa21c3664832e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/planStatus.ts",
+      "bytes": 359,
+      "sha256": "1b86adaee4beca0fb918796c7a1153ae9fe1d0ced80db4026dcb633de317cbfe"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewAction.ts",
+      "bytes": 818,
+      "sha256": "4b2aba0cd9ab69d6a84735663ae0d492c12f60909f276f7e719a2745b1965831"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewActionSourceVersions.ts",
+      "bytes": 186,
+      "sha256": "b88db0634804a39d32e9bf815ae5d9a7a9c3cf2b8b063aa47cbedcd09b8b10f4"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewActionType.ts",
+      "bytes": 609,
+      "sha256": "1d9f2b9dcecedef739ed974071ed6757ad31481b32920f56297e3f9433a75964"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewEntry.ts",
+      "bytes": 445,
+      "sha256": "8a87b76959a5de30bf0c513685c2dc1675b20015194c9aca6190d9a78b90cd93"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewEntryAccount.ts",
+      "bytes": 357,
+      "sha256": "2154fd823325727727be845c37a91bc909d6f90cc972627e56e6d9dffa4de855"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewSession.ts",
+      "bytes": 396,
+      "sha256": "181942e00a029bb6de071548b43e2581c0ab02e71eb2268d0457b828c16299bc"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewSessionRole.ts",
+      "bytes": 317,
+      "sha256": "ff84dbc8d1ce6b33b7d53613f022891d9c8c5528589acdaa84e058f67a044949"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/reviewWorkspace.ts",
+      "bytes": 563,
+      "sha256": "3ec7780746b2d5107821375896f7ee5dc5c3dfd3130ee6f67f95e1ed02ee79fa"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/storyDraft.ts",
+      "bytes": 420,
+      "sha256": "b7a900fd0816bd45079b75ce842518da01e2431277b749ea818c7040cc16c68b"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/storyDraftSourceVersions.ts",
+      "bytes": 184,
+      "sha256": "ed46cfae06a7e5699b20a7a05e137b9cf84f314128bb1fd1343858afced18598"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/subject.ts",
+      "bytes": 263,
+      "sha256": "11e151aeec6aabe357900f8dbf4b7520d8afa81e7a7ca2f1573ac5bd67af7a53"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/subjectAgeBand.ts",
+      "bytes": 321,
+      "sha256": "57fb860987c71d146e8f15ba58ff839ef55f5564e3e6081917a402216f0a4c7c"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/teacherWorkspace.ts",
+      "bytes": 305,
+      "sha256": "2f4e34db5f230fb31a3cba1e6aee3a135afa087ee2f2667223bbfab999d7d32f"
+    },
+    {
+      "path": "lib/api-zod/src/index.ts",
+      "bytes": 68,
+      "sha256": "effb7d33b5df99004c9b1a840944516ca3ad65cbcd3ae2fcc717c505814ce039"
+    },
+    {
+      "path": "lib/api-zod/tsconfig.json",
+      "bytes": 221,
+      "sha256": "bb52c0e8b13e658570a208d946cb874fdf2b8d990f7c228f96fb24254c9c5a95"
+    },
+    {
+      "path": "lib/db/drizzle.config.ts",
+      "bytes": 352,
+      "sha256": "57862221556f24a1accd28b283876930c403ad7c86b79d87cfb5c9c200ba6258"
+    },
+    {
+      "path": "lib/db/package.json",
+      "bytes": 578,
+      "sha256": "b3a3034936a6c5251cf1d8d9bdbde1471580db520456dd2af27a8f42208fd2c5"
+    },
+    {
+      "path": "lib/db/src/index.ts",
+      "bytes": 416,
+      "sha256": "fc285bc83108137ba57c4c2774a35053e3c25fda1292c3d7a16a57d43dd9679c"
+    },
+    {
+      "path": "lib/db/src/schema/index.ts",
+      "bytes": 758,
+      "sha256": "176e1db5b1c058ffa378af2197433a6a2eac3b39b2e4261a0ca82a585497ef6c"
+    },
+    {
+      "path": "lib/db/src/schema/nuvia.ts",
+      "bytes": 529,
+      "sha256": "f647805323ea736c6ca853ae494145e0726afaabd02a70ebd3bf55744f0f454b"
+    },
+    {
+      "path": "lib/db/tsconfig.json",
+      "bytes": 244,
+      "sha256": "69c976d11de35f0ac391934625beeccdd1b2689ba5d0f14c54b5384d4c30a9c9"
+    },
+    {
+      "path": "package.json",
+      "bytes": 650,
+      "sha256": "3817428a1443050a428fc819596fe07e153f863f8fed3d368685e2a10e196036"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 206198,
+      "sha256": "d29cf61d789d99083690e0c429f80ba65181cf7b2c8b5d8e495f58e0154942e5"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "bytes": 6793,
+      "sha256": "9b698a8784609f86c0850c71da84d64fd0c2ae6519fae3a4ab04d784064aa12e"
+    },
+    {
+      "path": "replit.md",
+      "bytes": 4014,
+      "sha256": "b7164591c72b6a1c785c656da968a5e612c39b5090eb2fecaa50b7b75f56d891"
+    },
+    {
+      "path": "scripts/package.json",
+      "bytes": 552,
+      "sha256": "ccd50e8743bc026213e6811ca425ba597ef4135c546bdf163cd76ed27a6f95b1"
+    },
+    {
+      "path": "scripts/post-merge.sh",
+      "bytes": 72,
+      "sha256": "b9e43e43dcbacd4bd26b84d68dd616270a6aacbd51ab25a2f6b1b81484eadc37"
+    },
+    {
+      "path": "scripts/src/hello.ts",
+      "bytes": 46,
+      "sha256": "9a865c3de9900891e697e1ee8632dd565ce69bd7cb6b610e48b26bc0ee9e81e9"
+    },
+    {
+      "path": "scripts/src/nuvia-api-check.mjs",
+      "bytes": 9173,
+      "sha256": "74e611308ff903bd9d40846e88172788ed47a67bb414a4ed0fa0e3230ac6a8ea"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-accessibility.mjs",
+      "bytes": 3820,
+      "sha256": "1a9d223a5ae45b740a4ef31a6530fbc1b90c7fca6ec6fc669552fa813e8da582"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-edge.mjs",
+      "bytes": 4600,
+      "sha256": "d663af6b0e11e80c3e1e33d42beb5d57c2c5f73e8628627171375d1f5899635e"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-history-story.mjs",
+      "bytes": 5435,
+      "sha256": "7b9125da9cd79cd494c2608ce3d3dcf143299ca04683d4f8f601b23754baecb1"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-locales.mjs",
+      "bytes": 5777,
+      "sha256": "4e8934cd13d0c85e76af23caa72febf9ddcad62cebeda31fbdb6fe73c6cb9e53"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-planner.mjs",
+      "bytes": 3464,
+      "sha256": "b361d88a111afdfb100a0bfcd0cf465aeeb4ef3306fc1a4cb065a6e7466d9535"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-recovery.mjs",
+      "bytes": 7171,
+      "sha256": "aa727e24f606e160d3d43bbca1b488bf349aa07be3e3c9b16b9f7f2f7de3093f"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-responsive.mjs",
+      "bytes": 2357,
+      "sha256": "07b8cde813f531676508d139289c81fd292f9d20fb09e373fefa8bed0f497b01"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-review.mjs",
+      "bytes": 1208,
+      "sha256": "da10f92c85df3183782315f39a4fd236dfdc7c81017d93d23fe4bc71815be751"
+    },
+    {
+      "path": "scripts/src/nuvia-browser-utils.mjs",
+      "bytes": 3108,
+      "sha256": "e05862a1408f3f58455d7d6bed1ff51363b3d6be496374f4c74306e246701cef"
+    },
+    {
+      "path": "scripts/src/nuvia-locale-check.py",
+      "bytes": 2060,
+      "sha256": "e5d9762b478ac886ad5be29ecfdad29c9fb50b4175f57788fbfbbb228f893ced"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-audit.mjs",
+      "bytes": 6062,
+      "sha256": "e8fc9ac7d2288218b0568c9baf1a1a11d015e50c8b3565ae8e012116fa973940"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-baseline.mjs",
+      "bytes": 1481,
+      "sha256": "fa0fcb8c1e9e0abd6e465546a68ef782b1a5484886176a118684335724afec45"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-isolation.mjs",
+      "bytes": 3678,
+      "sha256": "ee67ca1ecf438f41620d01496110ea5051674ae72876a1c8c6a06fb655f340cf"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-matrix.mjs",
+      "bytes": 23651,
+      "sha256": "2590ba0740ad6b4d1447aef8f4b89ee181b078a4d11ebf2527944a060576ccd0"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-report.mjs",
+      "bytes": 4514,
+      "sha256": "53915a5e3db9b034582c1148aab43d8b62d5e159bd9af2bcee1c416aa60087eb"
+    },
+    {
+      "path": "scripts/src/nuvia-qa-static.mjs",
+      "bytes": 2447,
+      "sha256": "b7d6fc43241a995682065908180d4ca7a578bc55cb7530366f11bfe2a2a85a21"
+    },
+    {
+      "path": "scripts/src/nuvia-sharing-check.mjs",
+      "bytes": 2994,
+      "sha256": "b8c4033cc2f2927daee6fb81d5f292dc4e3420446baa52b64b89befe8bd8b2fa"
+    },
+    {
+      "path": "scripts/tsconfig.json",
+      "bytes": 157,
+      "sha256": "636dea76ed898c62e56d6657ed97bb3edc85feb0ea8256b5198849d5c6cf462a"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "bytes": 692,
+      "sha256": "2dfaa6f6168f618e0e6deff048c17e4f5f73d59325bd935d471905ae6773585c"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 236,
+      "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
+    }
+  ]
+}
