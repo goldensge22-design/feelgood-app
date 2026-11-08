@@ -1,10 +1,12 @@
-# 수업설계LAB 개발자 인계 — 2026-11-05
+# 수업설계LAB 개발자 인계 — 2026-11-08
+
+**최신 전달 문구와 적용 순서:** [DEVELOPER_MESSAGE.md](DEVELOPER_MESSAGE.md). 실행본은 1.5-star이며 1.6 전체 설계는 후속 범위로 남아 있습니다.
 
 ## 시작 위치
 
 `app/`의 최신 소스와 인계 안내를 사용합니다. 내부 설치·실행·빌드·검사 방법 및 파일별 해시를 확인해주세요. 기존 자소서 앱과 분리된 교사용 앱입니다.
 
-규칙 [1.5](docs/product-rules-v1.5-ko.txt)가 최신이며 [1.4](docs/course-duration-rules-v1.4-ko.txt)와 [1.2](PRODUCT_RULES.md)를 승계합니다. 상충하는 이전 설명은 최신 규칙을 우선합니다.
+[STAR 추가 규칙](app/artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.5-star.md)이 이번 변경 기준이며 [1.5](docs/product-rules-v1.5-ko.txt), [1.4](docs/course-duration-rules-v1.4-ko.txt), [1.2](PRODUCT_RULES.md)를 승계합니다. 상충하는 이전 설명은 최신 규칙을 우선합니다.
 
 ## 보존할 핵심 동작
 
@@ -20,7 +22,7 @@
 
 ## 검증 결과
 
-[최종 QA](docs/qa-final-20261105-ko.txt): Replit 마지막 실행564개 검사·확인 지점 통과, 실패0. 모든 조합·원어민 승인·실물 출력의 완료를 의미하지 않습니다. 기존168PDF·718쪽과 최신 수정 후18PDF·111쪽을 구분합니다. 이 인계본의 설치 재현 검증은 app 내부 인계 자료에서 확인합니다.
+[최신 STAR QA](app/docs/lesson-lab/QA-STAR.md): Replit 분리 설치 사본에서 기존 564개 재실행 + 신규 111개 = 675개 통과, 실패 0. 타입 검사·빌드 통과. 증거 PDF 38개·357쪽이며 모든 조합·원어민 승인·전체 페이지 육안·실물 출력 완료를 의미하지 않습니다. 11월 5일 QA는 과거 기록으로 유지합니다.
 
 ## 후속 개발 순서
 

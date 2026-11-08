@@ -1,0 +1,262 @@
+{
+  "started": "2026-11-07T15:40:30.206Z",
+  "ended": "2026-11-07T15:40:31.389Z",
+  "checks": [
+    {
+      "name": "old records load without invented coaching notes or historical versions",
+      "ok": true
+    },
+    {
+      "name": "default helper closed; no required fields, print or sharing",
+      "ok": true
+    },
+    {
+      "name": "empty optional situation/role and all other fields can save before V1",
+      "ok": true
+    },
+    {
+      "name": "saving notes does not create facts/body/planner/mission/old versions",
+      "ok": true
+    },
+    {
+      "name": "auto motivation uses purpose question, not six STAR questions",
+      "ok": true
+    },
+    {
+      "name": "auto values uses purpose question, not six STAR questions",
+      "ok": true
+    },
+    {
+      "name": "auto plan uses purpose question, not six STAR questions",
+      "ok": true
+    },
+    {
+      "name": "auto custom uses purpose question, not six STAR questions",
+      "ok": true
+    },
+    {
+      "name": "student may select STAR for a nonexperience prompt or no help",
+      "ok": true
+    },
+    {
+      "name": "blank-field coach questions skip supplied actions without inventing values",
+      "ok": true
+    },
+    {
+      "name": "multiple note edits archive exact old note versions, never essay versions",
+      "ok": true
+    },
+    {
+      "name": "notes survive normalization/reload with purpose/help/index/original intact",
+      "ok": true
+    },
+    {
+      "name": "another student cannot overwrite or read private notes",
+      "ok": true
+    },
+    {
+      "name": "teacher does not receive private note or old note history",
+      "ok": true
+    },
+    {
+      "name": "all-student blank print never leaks private memo",
+      "ok": true
+    },
+    {
+      "name": "print opt-in alone does not grant teacher sharing",
+      "ok": true
+    },
+    {
+      "name": "student may print own opt-in notes without sharing to teacher",
+      "ok": true
+    },
+    {
+      "name": "sharing alone does not opt notes into printing",
+      "ok": true
+    },
+    {
+      "name": "explicit print AND sharing permit only current note, never private history",
+      "ok": true
+    },
+    {
+      "name": "linked simulation cannot be relabelled actual; link does not autofill fields",
+      "ok": true
+    },
+    {
+      "name": "explicit student reconfirm creates receipt but no fact or essay mutation",
+      "ok": true
+    },
+    {
+      "name": "changed original blocks new note print reuse while preserving saved note history",
+      "ok": true
+    },
+    {
+      "name": "explicit reconfirm permits changed source only after student action",
+      "ok": true
+    },
+    {
+      "name": "withdrawal cannot be reconfirmed, does not erase past notes or V1/V2",
+      "ok": true
+    },
+    {
+      "name": "help skipped, no selected facts: manual V1 saves without creating experience",
+      "ok": true
+    },
+    {
+      "name": "unverified free draft cannot be marked fact-checked final by checklist alone",
+      "ok": true
+    },
+    {
+      "name": "changed/withdrawn source blocks new selected-fact preview; old V1 preserved",
+      "ok": true
+    },
+    {
+      "name": "three stage readings/questions/help/outputs are substantive and different",
+      "ok": true
+    },
+    {
+      "name": "selected/full batch deduplicates templates and keeps student page boundaries",
+      "ok": true
+    },
+    {
+      "name": "single student print never includes peer memo",
+      "ok": true
+    },
+    {
+      "name": "whole class gets exactly three sheets per student without mixed identities",
+      "ok": true
+    },
+    {
+      "name": "changed original requires reconfirmation before V2, without touching V1",
+      "ok": true
+    },
+    {
+      "name": "ko: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "ko: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "en: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "en: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "ja: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "ja: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "mn: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "mn: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "th: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "th: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "vi: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "vi: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "ar: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "ar: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "ru: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "ru: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "km: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "km: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "es: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "es: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "fr: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "fr: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "it: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "it: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "az: every new label and 3-stage educational prose supplied, not Korean/English fallback",
+      "ok": true
+    },
+    {
+      "name": "az: three new print templates/guide use selected language and keep raw student memo",
+      "ok": true
+    },
+    {
+      "name": "180/240/300/counseling totals, breaks and extra on-site test remain exact",
+      "ok": true
+    },
+    {
+      "name": "long course has V1/counseling/fact confirmation/V2 guidance without time inflation",
+      "ok": true
+    }
+  ]
+}

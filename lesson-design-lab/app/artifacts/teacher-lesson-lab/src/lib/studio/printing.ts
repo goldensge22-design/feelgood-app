@@ -7,9 +7,11 @@ import { buildAgenda, courseStats } from './curriculum';
 import { getWritingView, writingQuestions, interviewQuestions } from './writing';
 import { top5Text } from './reports';
 import { reportLabel } from './report-labels';
+import { coachText, stageCoach } from '@/i18n/experience-coach';
+import { getExperienceNote, experienceSourceState } from './experience-coach';
 
-export type StudioPrintKind='guide'|'blank'|'example'|'summary'|'consultation'|'feedback'|'comparison'|'interview';
-const printTitle=(kind:StudioPrintKind)=>({guide:T('교사 진행안'),blank:T('개인 빈 활동지'),example:T('대상별 학습 예시'),summary:T('본인 결과 요약'),consultation:T('면담 준비표'),feedback:T('상담자 질문·피드백표'),comparison:T('수정 전후 확인표'),interview:T('모의면접 회고표')})[kind];
+export type StudioPrintKind='guide'|'blank'|'example'|'summary'|'consultation'|'feedback'|'comparison'|'interview'|'experience-notes'|'writing-check'|'revision-record';
+const printTitle=(kind:StudioPrintKind)=>({guide:T('교사 진행안'),blank:T('개인 빈 활동지'),example:T('대상별 학습 예시'),summary:T('본인 결과 요약'),consultation:T('면담 준비표'),feedback:T('상담자 질문·피드백표'),comparison:T('수정 전후 확인표'),interview:T('모의면접 회고표'),'experience-notes':coachText('experienceSheet'),'writing-check':coachText('writingSheet'),'revision-record':coachText('revisionSheet')})[kind];
 export function coursePrint(s:AppState,courseId:string,studentIds:string[],kind:StudioPrintKind):MaterialBundle {
   const c=requireCourse(s,courseId),actor=s.studio.actor;
   const isCommon=['guide','blank','example'].includes(kind);
@@ -39,6 +41,32 @@ export function coursePrint(s:AppState,courseId:string,studentIds:string[],kind:
         {label:T('실제로 한 행동·결과·배운 점'),text:'',writingLines:4},
         {label:T('글쓰기: 사실 확인과 다음 행동'),text:'',writingLines:4},
       ];
+    }else if(['experience-notes','writing-check','revision-record'].includes(kind)){
+      const stage=stageCoach(c.stage),n=getExperienceNote(s,courseId,sid);
+      const raw=s.studio.experienceNotes?.find(x=>x.courseId===courseId&&x.studentId===sid);
+      const state=raw?experienceSourceState(s,raw):'none';
+      // Printing the blank scaffolding is safe for a class; student notes require separate opt-in.
+      const include=!!n?.includePrint&&!['changed','withdrawn','unconfirmed'].includes(state);
+      version=n?.revision??1;modified=n?.updatedAt??c.updatedAt;
+      blocks=[{label:printTitle(kind),text:stage.reading},
+        {label:coachText('optional'),text:`${coachText('writeFreely')}\n${stage.help}\n${stage.deliverable}`}];
+      if(kind==='experience-notes'){
+        const keys=['situation','roleGoal','action','result','learning','evidence'] as const;
+        blocks.push(...keys.map((key,i)=>({label:coachText(key),text:`${stage.questions[i]}${include&&n?.fields[key]?'\n'+n.fields[key]:''}`,writingLines:3})));
+      }else if(kind==='writing-check'){
+        blocks.push({label:coachText('purpose'),text:include&&n?(n.customPurpose||coachText(n.purpose)):'',writingLines:2},
+          {label:coachText('writeFreely'),text:coachText('guideFlow'),writingLines:5},
+          {label:coachText('checkFacts'),text:stage.questions.slice(2).join('\n'),writingLines:3});
+      }else{
+        const w=s.studio.writings.find(w=>w.courseId===courseId&&w.studentId===sid);
+        const view=w?getWritingView(s,w.id):null;
+        blocks.push({label:'V1 → V2',text:coachText('guideConsult'),writingLines:3},
+          {label:coachText('teacherQuestion'),text:view?.writing.questions.join('\n')??'',writingLines:3},
+          {label:coachText('checkFacts'),text:view?.writing.factCandidates.map(f=>`${f.confirmed?T('확인'):f.rejected?T('제외'):T('확인 대기')}: ${f.text}`).join('\n')??'',writingLines:4},
+          {label:coachText('revisionSheet'),text:'',writingLines:4});
+      }
+      blocks.push({label:coachText(include&&n? n.sourceKind==='simulation'?'sourceSimulation':n.sourceKind==='actual'?'sourceActual':'sourceUnverified':'notesPrivate'),
+        text:state==='changed'?coachText('sourceChanged'):state==='withdrawn'?coachText('sourceWithdrawn'):coachText('previewOnly')});
     }else if(kind==='summary'){
       if(actor.role==='counselor')throw new Error(T('PASS 결과는 상담 공유 기본 대상이 아닙니다.'));
       const r=s.studio.reports.find((x)=>x.studentId===sid);
@@ -77,4 +105,22 @@ export function coursePrint(s:AppState,courseId:string,studentIds:string[],kind:
     });documents++;
   }
   return {id:uid('studio-print'),at:now(),mode:'worksheets',layout:'A4',studentIds:ids,pages,counts:{students:kind==='guide'?0:ids.length,worksheets:documents,cards:0,outputs:documents,sheets:pages.length,panels:pages.length},state:'prepared',printRequests:[],language:s.lang};
+}
+
+/** Optional writing worksheets are appended inside each student's boundary, never across students. */
+export function buildCoachingBundle(s:AppState,courseId:string,studentIds:string[],kinds:('experience-notes'|'writing-check'|'revision-record')[],base?:MaterialBundle):MaterialBundle {
+  const c=requireCourse(s,courseId);
+  const ids=c.studentIds.filter(id=>studentIds.includes(id));
+  const unique=[...new Set(kinds)];
+  if(!ids.length||studentIds.some(id=>!c.studentIds.includes(id)))throw Error(T('담당 수업의 출력할 학생을 선택하세요.'));
+  const extra=unique.map(kind=>coursePrint(s,courseId,ids,kind));
+  const pages:MaterialPage[]=[];
+  for(const sid of ids) {
+    const group=[...(base?.pages.filter(p=>p.studentId===sid)??[]),...extra.flatMap(b=>b.pages.filter(p=>p.studentId===sid))];
+    group.forEach((p,i)=>pages.push({...structuredClone(p),studentPage:i+1,studentPages:group.length,globalPage:pages.length+1}));
+  }
+  const worksheets=(base?.counts.worksheets??0)+extra.reduce((n,b)=>n+b.counts.worksheets,0),cards=base?.counts.cards??0;
+  return {id:uid('coaching-print'),at:now(),mode:base?.mode??'worksheets',layout:base?.layout??'A4',studentIds:ids,
+    pages,counts:{students:ids.length,worksheets,cards,outputs:worksheets+cards,sheets:pages.length,panels:pages.reduce((n,p)=>n+p.panels.length,0)},
+    state:'prepared',printRequests:[],language:s.lang};
 }

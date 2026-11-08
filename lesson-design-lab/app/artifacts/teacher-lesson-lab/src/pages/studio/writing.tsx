@@ -9,6 +9,8 @@ import { Btn, Pill } from '@/components/shell';
 import { cn } from '@/lib/utils';
 import { StudioFrame, Section, Txt, Check, act, useDraft, useStudio, studentName, tryOr, Empty, Status, SimTag, errText } from './common';
 import { useStudentScope } from './live';
+import ExperienceCoach, { CaretArea } from './experience-coach';
+import { coachText } from '@/i18n/experience-coach';
 import { SourceCheck, sourceChanges, SharePanel, BookingPanel, CapacityPanel, ConsultPanel, FactConfirmPanel, FinalizePanel } from './writing-panels';
 
 export default function WritingPage() {
@@ -18,7 +20,7 @@ export default function WritingPage() {
   const writings = s.studio.writings.filter((w) => w.courseId === course.id);
   return (
     <StudioFrame kicker="STUDIO 1.5 · WRITING" title={T('사실 기반 글쓰기와 상담')} actions={actor.role === 'teacher' ? picker : undefined}>
-      {actor.role === 'student' ? <StudentWriting key={sid} course={course} sid={sid} w={writings.find((w) => w.studentId === sid)} /> : (
+      {actor.role === 'student' ? <StudentWriting key={`${course.id}-${sid}`} course={course} sid={sid} w={writings.find((w) => w.studentId === sid)} /> : (
         <>
           <CapacityPanel course={course} />
           <Section title={actor.role === 'counselor' ? T('나에게 공유된 글') : T('학생이 공유한 글')} hint={T('학생이 선택해 공유한 항목만 표시합니다. 공유하지 않은 본문은 화면에 전달되지 않습니다.')}>
@@ -54,7 +56,7 @@ function SharedList({ course, writings }: { course: Course; writings: Writing[] 
 function StudentWriting({ course, sid, w }: { course: Course; sid: string; w?: Writing }) {
   const { s } = useStudio();
   const facts = s.studio.facts.filter((f) => f.courseId === course.id && f.studentId === sid && f.studentConfirmed);
-  const init = (): WritingInput => ({ courseId: course.id, studentId: sid, question: w?.question ?? (course.stage==='middle'?T('오늘 활동에서 내가 직접 한 일과 배운 점을 소개하세요.'):course.stage==='high'?T('진로 탐구에서 교과와 연결한 행동과 성장 과정을 설명하세요.'):T('지원 직무의 요구 행동과 연결되는 본인의 실제 수행을 설명하세요.')), job: w?.job ?? '', limit: w?.limit ?? 500, factIds: w?.factIds ?? [], selectedFacts: w?.selectedFacts ?? { action: true, result: true, learning: true }, requirements: w?.requirements ?? '', text: w?.draft ?? '' });
+  const init = (): WritingInput => ({ courseId: course.id, studentId: sid, question: w?.question ?? (course.stage==='middle'?T('오늘 활동에서 내가 직접 한 일과 배운 점을 소개하세요.'):course.stage==='high'?T('진로 탐구에서 교과와 연결한 행동과 성장 과정을 설명하세요.'):T('지원 직무의 요구 행동과 연결되는 본인의 실제 수행을 설명하세요.')), job: w?.job ?? '', limit: w?.limit ?? 500, factIds: w?.factIds ?? [], selectedFacts: w?.selectedFacts ?? { action: true, result: true, learning: true }, requirements: w?.requirements ?? '', text: w?.draft ?? '', freeDraft: true });
   const [d, setD] = useDraft<WritingInput>(`writing-${course.id}-${sid}`, init);
   const [preview, setPreview] = useState<string | null>(null);
   const [reviewed, setReviewed] = useState(false);
@@ -63,6 +65,8 @@ function StudentWriting({ course, sid, w }: { course: Course; sid: string; w?: W
   const changes = w ? sourceChanges(s, w) : [];
   const qs = w ? tryOr(() => writingQuestions(s, w.id), [] as string[]) : [];
   return (
+    <div className="space-y-5">
+    <ExperienceCoach course={course} sid={sid} />
     <div className="grid gap-5 xl:grid-cols-[1.15fr_1fr]">
       <Section title={w ? T('글 편집 · V1은 보존됩니다') : course.stage==='middle'?T('활동 소개 · V1 작성'):course.stage==='high'?T('진로·성장 이야기 · V1 작성'):T('직무 자소서 · V1 작성')} hint={T('입력 중인 글은 자동으로 초안 저장됩니다.')}>
         <div className="space-y-2.5">
@@ -77,12 +81,12 @@ function StudentWriting({ course, sid, w }: { course: Course; sid: string; w?: W
           </div>
           <Txt rows={2} label={T('요구 조건')} value={d.requirements} onChange={(v) => set({ requirements: v })} testid="input-w-req" />
           <div>
-            <Txt rows={9} label={T('본문')} value={d.text} onChange={(v) => set({ text: v })} testid="input-w-text" />
+            <CaretArea id={`writing-body-${course.id}-${sid}`} rows={9} label={T('본문')} value={d.text} onChange={(v) => set({ text: v })} testid="input-w-text" />
             <div className={cn('mt-1 text-end font-mono text-xs', len > d.limit ? 'text-destructive' : 'text-muted-foreground')} data-testid="text-length">{len} / {d.limit}</div>
           </div>
           <div className="flex flex-wrap gap-2">
-            <Btn onClick={() => act((st) => saveWriting(st, w?.id ?? null, d), w ? '초안을 저장했습니다' : 'V1을 저장했습니다')} data-testid="button-save-writing"><Save className="h-4 w-4" />{w ? T('초안 저장') : T('V1 저장')}</Btn>
-            {w && <Btn variant="outline" disabled={changes.length > 0} onClick={() => { try { setPreview(draftSuggestion(s, w.id)); } catch (e) { setPreview(null); act(() => { throw new Error(errText(e)); }); } }} data-testid="button-preview-suggestion"><Eye className="h-4 w-4" />{T('사실 기반 초안 미리보기')}</Btn>}
+            <Btn onClick={() => act((st) => saveWriting(st, w?.id ?? null, {...d,freeDraft:true}), w ? '초안을 저장했습니다' : 'V1을 저장했습니다')} data-testid="button-save-writing"><Save className="h-4 w-4" />{w ? T('초안 저장') : T('V1 저장')}</Btn>
+            {w && <Btn variant="outline" disabled={changes.length > 0} onClick={() => { try { setPreview(draftSuggestion(s, w.id)); } catch (e) { setPreview(null); act(() => { throw new Error(errText(e)); }); } }} data-testid="button-preview-suggestion"><Eye className="h-4 w-4" />{coachText('previewOnly')}</Btn>}
           </div>
           {w && <SourceCheck w={w} changes={changes} />}
           {preview !== null && (
@@ -111,6 +115,7 @@ function StudentWriting({ course, sid, w }: { course: Course; sid: string; w?: W
           <Btn variant="outline" onClick={() => { try { download(new Blob([writingExport(s, w.id)], { type: 'text/plain;charset=utf-8' }), `writing-${w.id}.txt`); } catch (e) { act(() => { throw new Error(errText(e)); }); } }} data-testid="button-export-writing"><Download className="h-4 w-4" />{T('버전·사실 내려받기')}</Btn>
         </> : <Empty title={T('V1을 저장하면 공유·예약·상담이 열립니다')} />}
       </div>
+    </div>
     </div>
   );
 }

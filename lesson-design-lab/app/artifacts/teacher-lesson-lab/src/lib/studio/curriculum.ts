@@ -1,6 +1,7 @@
 import { T } from '@/i18n/tx';
 import { displayAppText } from '@/i18n/authored';
 import { formatNumber } from '@/i18n/format';
+import { coachText, stageCoach } from '@/i18n/experience-coach';
 import type { AgendaRow, Course } from './types';
 
 const PHASES = [
@@ -52,8 +53,17 @@ export function buildAgenda(c: Course): AgendaRow[] {
   const clock = new Map<number,number>();
   return source.map(({phase,minutes,session}, i) => {
     const start = clock.get(session) ?? session*1440; clock.set(session,start+minutes);
-    return { id: `${phase[0]}-${session}-${i}`, phase: displayAppText(phase[1]), minutes, start, end: start+minutes, session,
+    const row={ id: `${phase[0]}-${session}-${i}`, phase: displayAppText(phase[1]), minutes, start, end: start+minutes, session,
       program: displayAppText(phase[2]), screen: displayAppText(phase[3]), teacher: displayAppText(phase[4]), student: displayAppText(phase[5]), deliverable: displayAppText(phase[6]), completion: displayAppText(phase[7]), alternative: displayAppText(phase[8]) };
+    const stage=stageCoach(c.stage);
+    if(['experience','writing','v1','revise','consult'].includes(phase[0])) {
+      row.program=coachText('program');
+      row.teacher+=`\n${coachText('teacherDemo')}\n${coachText('teacherQuestion')}: ${stage.questions.join(' / ')}`;
+      row.student+=`\n${coachText(phase[0]==='consult'||phase[0]==='revise'?'guideConsult':'guideFlow')}\n${stage.reading}`;
+      row.deliverable+=`\n${stage.deliverable}`;
+      row.alternative+=`\n${stage.help}\n${coachText('writeFreely')}`;
+    }
+    return row;
   });
 }
 export function courseStats(c: Course) {

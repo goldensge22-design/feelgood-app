@@ -68,6 +68,20 @@ export interface Mission {
 export interface ConfirmedFact {
   id: string; courseId: string; studentId: string; missionId?: string;
   action: string; result: string; learning: string; evidence: string; simulation: boolean; studentConfirmed: boolean; at: string;
+  withdrawn?: boolean;
+}
+export interface ExperienceNoteData {
+  purpose: 'experience' | 'motivation' | 'values' | 'plan' | 'custom';
+  customPurpose: string; mode: 'auto' | 'star' | 'purpose' | 'none';
+  expanded: boolean; questionIndex: number;
+  fields: { situation: string; roleGoal: string; action: string; result: string; learning: string; evidence: string };
+  sourceKind: 'actual' | 'simulation' | 'unverified'; factId: string;
+  includePrint: boolean; shareNotes: boolean;
+}
+export interface ExperienceNote extends ExperienceNoteData {
+  courseId: string; studentId: string; revision: number; updatedAt: string;
+  sourceReceipt?: { factId: string; fingerprint: string };
+  versions: { revision: number; at: string; data: ExperienceNoteData; sourceReceipt?: ExperienceNote['sourceReceipt'] }[];
 }
 export interface WritingVersion {
   number: number; text: string; at: string; reviewed: boolean; factIds: string[]; confirmedFactIds: string[];
@@ -83,10 +97,14 @@ export interface Writing {
   checklist: { response: boolean; ownAction: boolean; evidence: boolean; jobLink: boolean; facts: boolean; reviewed: boolean };
   createdAt: string; updatedAt: string;
   sourceStates: { id: string; version: string; changedAt: string }[];
+  /** Only captured from an observed save; never fabricated for historical versions. */
+  experienceReceipts?: { id:string; fingerprint:string }[];
 }
 export interface WritingInput {
   courseId: string; studentId: string; question: string; job: string; limit: number; factIds: string[];
   selectedFacts: Writing['selectedFacts']; requirements: string; text: string;
+  /** A manually written draft is not a verified experience or a final submission. */
+  freeDraft?: boolean;
 }
 export interface Booking {
   id: string; courseId: string; writingId: string; studentId: string; counselorId: string;
@@ -100,6 +118,7 @@ export interface StudioState {
   version: '1.5'; actor: StudioActor; activeCourseId: string;
   courses: Course[]; reports: ReportSnapshot[]; reportHistory?: ReportSnapshot[]; companies: CompanyModel[]; explorations: Exploration[];
   missions: Mission[]; facts: ConfirmedFact[]; writings: Writing[]; bookings: Booking[]; interviews: MockInterview[];
+  experienceNotes?: ExperienceNote[];
   practices: { courseId: string; studentId: string; plannerId: string; goal: string; actual: string; reflection: string; done: boolean; at: string }[];
   followups: { courseId: string; studentId: string; text: string; at: string; versions?: { text: string; at: string }[] }[];
   groupWorks: { id:string; courseId:string; kind:'job-group'|'joint'; group:string; studentIds:string[]; task:string; artifact:string; versions:{number:number;task:string;artifact:string;studentIds:string[];at:string}[] }[];

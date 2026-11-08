@@ -1,7 +1,7 @@
 {
   "schema": "lesson-design-lab.requirements/v1",
-  "rulesVersion": "1.5",
-  "authority": "docs/product-rules-v1.5-ko.txt",
+  "rulesVersion": "1.5-star",
+  "authority": "app/artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.5-star.md",
   "status": "approved-requirements-not-implementation-proof",
   "entryTabs": [
     {
@@ -116,5 +116,15 @@
   "groupCourseRule": "Optional for long-term courses. Existing teaching.ts/group-editor proposal engine must be connected and verified in the newer Studio course flow.",
   "nextDesignVersion": "1.6-design-only",
   "nextDesignAuthority": "docs/LESSON-DESIGN-1.6.md",
-  "nextIntegrationAuthority": "docs/INTEGRATION-AND-ACCEPTANCE-1.6.md"
+  "nextIntegrationAuthority": "docs/INTEGRATION-AND-ACCEPTANCE-1.6.md",
+  "ruleAuthority": "app/artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.5-star.md",
+  "starPatch": {
+    "optionalExperienceNotes": true,
+    "purposeSpecificQuestions": true,
+    "freeDraftNotVerifiedFact": true,
+    "studentOptInForSharingAndPrinting": true,
+    "supplementalWorksheetTypes": 3,
+    "locales": 15,
+    "serverIntegration": "developer-follow-up"
+  }
 }

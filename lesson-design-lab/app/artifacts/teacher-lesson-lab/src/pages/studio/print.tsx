@@ -5,7 +5,8 @@ import { T, txLang } from '@/i18n/tx';
 import { LANGS } from '@/i18n/ui';
 import { MaterialLanguagePreview } from '@/components/material-language-preview';
 import { getState } from '@/lib/store';
-import { coursePrint } from '@/lib/studio';
+import { coursePrint, buildCoachingBundle } from '@/lib/studio';
+import { coachText } from '@/i18n/experience-coach';
 import { buildMaterialBundle } from '@/lib/material-print';
 import type { MaterialBundle, MaterialPrintMode, CardLayout } from '@/lib/material-types';
 import { MaterialPages } from '@/components/material-pages';
@@ -13,8 +14,11 @@ import { Btn, Pill } from '@/components/shell';
 import { cn } from '@/lib/utils';
 import { StudioFrame, Section, act, useDraft, useStudio, Empty, errText, studentName } from './common';
 
-type Kind = 'guide' | 'blank' | 'example' | 'summary' | 'consultation' | 'feedback' | 'comparison' | 'interview';
-const KINDS: [Kind, string, boolean][] = [['guide', '진행 안내', false], ['blank', '빈 활동지', false], ['example', '예시', false], ['summary', '개인 요약 (공유 범위만)', true], ['consultation', '상담 기록 (공유 범위만)', true], ['feedback', '피드백', false], ['comparison', '버전 비교 (공유 범위만)', true], ['interview', '모의 면접', false]];
+type Kind = 'guide' | 'blank' | 'example' | 'summary' | 'consultation' | 'feedback' | 'comparison' | 'interview' | 'experience-notes' | 'writing-check' | 'revision-record';
+type CoachKind = 'experience-notes' | 'writing-check' | 'revision-record';
+const COACH: Record<CoachKind, string> = { 'experience-notes': 'experienceSheet', 'writing-check': 'writingSheet', 'revision-record': 'revisionSheet' };
+const kindLabel = (k: Kind, l: string) => (k in COACH ? coachText(COACH[k as CoachKind]) : T(l));
+const KINDS: [Kind, string, boolean][] = [['guide', '진행 안내', false], ['blank', '빈 활동지', false], ['example', '예시', false], ['summary', '개인 요약 (공유 범위만)', true], ['consultation', '상담 기록 (공유 범위만)', true], ['feedback', '피드백', false], ['comparison', '버전 비교 (공유 범위만)', true], ['interview', '모의 면접', false], ['experience-notes', '', false], ['writing-check', '', false], ['revision-record', '', false]];
 
 export default function StudioPrint() {
   const { s, course, actor } = useStudio();
@@ -25,6 +29,7 @@ export default function StudioPrint() {
   const [layout, setLayout] = useDraft<CardLayout>('print-layout', 'A4');
   const [ws, setWs] = useDraft<string[]>('print-ws', []);
   const [acts, setActs] = useDraft<string[]>('print-acts', []);
+  const [att, setAtt] = useDraft<CoachKind[]>('print-coach-attach', []);
   const [bundle, setBundle] = useState<MaterialBundle | null>(null);
   const [printing, setPrinting] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -32,7 +37,7 @@ export default function StudioPrint() {
   const [langDoc, setLangDoc] = useState('');
   const reset = () => { setBundle(null); setChecked(false); setPrinting(false); document.body.classList.remove('mat-printing'); };
   /* content signature: any edit to the selected inputs or underlying documents invalidates the preview (selections are kept) */
-  const sig = useMemo(() => JSON.stringify([kind, ids, mode, layout, ws, acts, course, s.studio.writings, s.studio.interviews, s.studio.reports, s.personalWorksheets, s.plannerActivities]), [kind, ids, mode, layout, ws, acts, course, s.studio.writings, s.studio.interviews, s.studio.reports, s.personalWorksheets, s.plannerActivities]);
+  const sig = useMemo(() => JSON.stringify([kind, ids, mode, layout, ws, acts, att, course, s.studio.experienceNotes, s.studio.writings, s.studio.interviews, s.studio.reports, s.personalWorksheets, s.plannerActivities]), [kind, ids, mode, layout, ws, acts, att, course, s.studio.experienceNotes, s.studio.writings, s.studio.interviews, s.studio.reports, s.personalWorksheets, s.plannerActivities]);
   useEffect(reset, [course?.id, actor.id, s.lang, sig]);
   useEffect(() => { const done = () => { document.body.classList.remove('mat-printing'); setPrinting(false); }; window.addEventListener('afterprint', done); return () => { window.removeEventListener('afterprint', done); document.body.classList.remove('mat-printing'); }; }, []);
   const make = (fn: () => MaterialBundle, go: boolean) => {
@@ -54,7 +59,7 @@ export default function StudioPrint() {
           <p className="mt-2 text-xs text-muted-foreground">{ids.length ? T('{0}명 선택', ids.length) : T('선택이 없으면 과정 전체 학생')}</p>
         </Section>
         <Section title={T('2 · 과정 자료 종류')} hint={T('개인 글은 공통 자료에 포함되지 않습니다. 개인 자료는 학생이 공유한 범위만 인쇄됩니다.')}>
-          <div className="grid grid-cols-2 gap-1.5">{KINDS.map(([k, l, priv]) => <button key={k} type="button" onClick={() => setKind(k)} data-testid={`button-print-kind-${k}`} className={cn('rounded-lg border px-2.5 py-2 text-start text-sm', kind === k ? 'border-primary bg-secondary ring-2 ring-primary/25' : 'bg-card')}>{T(l)} {priv && <Pill tone="orange">{T('개인')}</Pill>}</button>)}</div>
+          <div className="grid grid-cols-2 gap-1.5">{KINDS.map(([k, l, priv]) => <button key={k} type="button" onClick={() => setKind(k)} data-testid={`button-print-kind-${k}`} className={cn('rounded-lg border px-2.5 py-2 text-start text-sm', kind === k ? 'border-primary bg-secondary ring-2 ring-primary/25' : 'bg-card')}>{kindLabel(k, l)} {priv && <Pill tone="orange">{T('개인')}</Pill>}</button>)}</div>
           {privBlock && <p className="mt-2 rounded-md bg-destructive/10 px-2.5 py-1.5 text-xs text-destructive" data-testid="text-private-one">{T('개인 자료는 학생 한 명만 선택해야 인쇄할 수 있습니다. 공통 본문으로 묶지 않습니다.')}</p>}
           <div className="mt-3 flex gap-2"><Btn variant="outline" disabled={privBlock} onClick={() => make(() => coursePrint(getState(), course!.id, studs, kind), false)} data-testid="button-preview-course"><Eye className="h-4 w-4" />{T('미리보기')}</Btn><Btn disabled={privBlock} onClick={() => make(() => coursePrint(getState(), course!.id, studs, kind), true)} data-testid="button-print-course"><Printer className="h-4 w-4" />{T('인쇄 묶음 준비')}</Btn></div>
         </Section>
@@ -76,7 +81,17 @@ export default function StudioPrint() {
             {(() => { const w = pWs.find((x) => x.id === langDoc && ws.includes(x.id)); const a = pActs.find((x) => x.id === langDoc && acts.includes(x.id)); return w ? <MaterialLanguagePreview key={w.id} id={w.id} kind="worksheet" docLang={w.lang} /> : a ? <MaterialLanguagePreview key={a.id} id={a.id} kind="card" docLang={a.lang} /> : null; })()}
           </div>
         )}
-        <Btn className="mt-3" disabled={!ws.length && !acts.length} onClick={() => make(() => buildMaterialBundle(getState(), { studentIds: studs, mode, layout, worksheetIds: ws, activityIds: acts }), true)} data-testid="button-print-personal"><Printer className="h-4 w-4" />{T('선택 자료 미리보기')}</Btn>
+        <div className="mt-3 rounded-lg border p-2.5" data-testid="panel-print-coach-attach">
+          <div className="mb-1.5 text-xs font-semibold text-muted-foreground">{coachText('attach')}</div>
+          <div className="flex flex-wrap gap-4">{(Object.keys(COACH) as CoachKind[]).map((k) => <label key={k} className="inline-flex items-center gap-2 text-sm"><input type="checkbox" checked={att.includes(k)} onChange={() => setAtt(att.includes(k) ? att.filter((x) => x !== k) : [...att, k])} data-testid={`check-print-attach-${k}`} />{coachText(COACH[k])}</label>)}</div>
+        </div>
+        <Btn className="mt-3" disabled={!ws.length && !acts.length && !att.length} onClick={() => make(() => {
+          const st=getState();
+          // A student receiving only the new writing sheets need not already have an execution card.
+          const baseIds=att.length?studs.filter(id=>st.personalWorksheets.some(w=>w.studentId===id&&ws.includes(w.id))||st.plannerActivities.some(a=>a.studentId===id&&acts.includes(a.id))):studs;
+          const base=ws.length||acts.length?buildMaterialBundle(st,{studentIds:baseIds,mode,layout,worksheetIds:ws,activityIds:acts}):undefined;
+          return att.length?buildCoachingBundle(st,course!.id,studs,att,base):base!;
+        },true)} data-testid="button-print-personal"><Printer className="h-4 w-4" />{T('선택 자료 미리보기')}</Btn>
       </Section>
       {bundle && (
         <Section title={T('미리보기')} right={<span className="font-mono text-xs">{T('{0}장', bundle.pages.length)}</span>}>

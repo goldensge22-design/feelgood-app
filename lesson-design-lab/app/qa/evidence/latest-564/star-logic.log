@@ -1,0 +1,65 @@
+PASS old records load without invented coaching notes or historical versions
+PASS default helper closed; no required fields, print or sharing
+PASS empty optional situation/role and all other fields can save before V1
+PASS saving notes does not create facts/body/planner/mission/old versions
+PASS auto motivation uses purpose question, not six STAR questions
+PASS auto values uses purpose question, not six STAR questions
+PASS auto plan uses purpose question, not six STAR questions
+PASS auto custom uses purpose question, not six STAR questions
+PASS student may select STAR for a nonexperience prompt or no help
+PASS blank-field coach questions skip supplied actions without inventing values
+PASS multiple note edits archive exact old note versions, never essay versions
+PASS notes survive normalization/reload with purpose/help/index/original intact
+PASS another student cannot overwrite or read private notes
+PASS teacher does not receive private note or old note history
+PASS all-student blank print never leaks private memo
+PASS print opt-in alone does not grant teacher sharing
+PASS student may print own opt-in notes without sharing to teacher
+PASS sharing alone does not opt notes into printing
+PASS explicit print AND sharing permit only current note, never private history
+PASS linked simulation cannot be relabelled actual; link does not autofill fields
+PASS explicit student reconfirm creates receipt but no fact or essay mutation
+PASS changed original blocks new note print reuse while preserving saved note history
+PASS explicit reconfirm permits changed source only after student action
+PASS withdrawal cannot be reconfirmed, does not erase past notes or V1/V2
+PASS help skipped, no selected facts: manual V1 saves without creating experience
+PASS unverified free draft cannot be marked fact-checked final by checklist alone
+PASS changed/withdrawn source blocks new selected-fact preview; old V1 preserved
+PASS three stage readings/questions/help/outputs are substantive and different
+PASS selected/full batch deduplicates templates and keeps student page boundaries
+PASS single student print never includes peer memo
+PASS whole class gets exactly three sheets per student without mixed identities
+PASS changed original requires reconfirmation before V2, without touching V1
+PASS ko: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS ko: three new print templates/guide use selected language and keep raw student memo
+PASS en: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS en: three new print templates/guide use selected language and keep raw student memo
+PASS ja: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS ja: three new print templates/guide use selected language and keep raw student memo
+PASS zh-CN: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS zh-CN: three new print templates/guide use selected language and keep raw student memo
+PASS zh-TW: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS zh-TW: three new print templates/guide use selected language and keep raw student memo
+PASS mn: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS mn: three new print templates/guide use selected language and keep raw student memo
+PASS th: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS th: three new print templates/guide use selected language and keep raw student memo
+PASS vi: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS vi: three new print templates/guide use selected language and keep raw student memo
+PASS ar: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS ar: three new print templates/guide use selected language and keep raw student memo
+PASS ru: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS ru: three new print templates/guide use selected language and keep raw student memo
+PASS km: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS km: three new print templates/guide use selected language and keep raw student memo
+PASS es: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS es: three new print templates/guide use selected language and keep raw student memo
+PASS fr: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS fr: three new print templates/guide use selected language and keep raw student memo
+PASS it: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS it: three new print templates/guide use selected language and keep raw student memo
+PASS az: every new label and 3-stage educational prose supplied, not Korean/English fallback
+PASS az: three new print templates/guide use selected language and keep raw student memo
+PASS 180/240/300/counseling totals, breaks and extra on-site test remain exact
+PASS long course has V1/counseling/fact confirmation/V2 guidance without time inflation
+64 checks; 0 failed

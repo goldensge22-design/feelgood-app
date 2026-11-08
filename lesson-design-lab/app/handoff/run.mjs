@@ -16,6 +16,7 @@ const wait=child=>new Promise((resolve,reject)=>{child.once('error',reject);chil
 async function ready(url){for(let i=0;i<300;i++){try{if((await fetch(url)).ok)return}catch{}await new Promise(r=>setTimeout(r,100))}throw Error(`Server did not become ready: ${url}`)}
 const out=path.join(root,'generated-artifacts/lesson-lab-report-history-qa');
 await fs.mkdir(out,{recursive:true});await fs.mkdir(path.join(root,'generated-artifacts/lesson-lab-qa'),{recursive:true});
+await fs.mkdir(path.join(root,'generated-artifacts/lesson-lab-star-qa'),{recursive:true});
 async function test(file,log){
  const source=await fs.readFile(path.join(app,'scripts',file),'utf8');
  // Disposable test copy only: preserve original test logic and app source, replace Replit routing/temp paths.
@@ -40,6 +41,7 @@ try{
    await test('language-regressions.mjs','language-regression.log');
    await test('u09-language-regressions.mjs','u09-regression.log');
    await test('report-history-checks.mjs','new-logic.log');
+   await test('star-coach-checks.mjs','star-logic.log');
    if(command==='qa'){
      if(!process.env.CHROME_BIN)throw Error('Set CHROME_BIN to Chrome/Chromium. Also install pdfinfo, pdftotext, pdffonts (Poppler).');
      start(pnpm,['--filter','@workspace/teacher-lesson-lab','dev']);
@@ -48,15 +50,17 @@ try{
      await ready(origin);await ready(`http://127.0.0.1:${cdp}/json/version`);
      await test('browser-studio-checks.mjs','browser-existing.log');
      await test('browser-report-history-checks.mjs','new-browser.log');
+     await test('browser-star-coach-checks.mjs','star-browser.log');
      // Report builder expects successful type/build logs: run real checks, never seed success text.
      for(const [name,args]of [['typecheck',['--filter','@workspace/teacher-lesson-lab','typecheck']],['build',['--filter','@workspace/teacher-lesson-lab','build']]]){
        const log=await fs.open(path.join(out,`${name}.log`),'w');
        try{await wait(start(pnpm,args,{stdio:['ignore',log.fd,log.fd]}))}finally{await log.close()}
      }
      await test('report-history-report.mjs','report.log');
-     console.log(`QA completed. New evidence: ${out}. Immutable original QA: qa/evidence/latest-564/`);
+     await test('star-coach-report.mjs','star-report.log');
+     console.log(`QA completed. Fresh baseline evidence: ${out}. STAR evidence: generated-artifacts/lesson-lab-star-qa/`);
      chrome.kill();
-   }else console.log('Unit scope: 508 checks (28+21+203+212+44). Browser/PDF checks not run.');
+   }else console.log('Unit scope: existing 508 checks + new STAR logic checks. Browser/PDF checks not run.');
  }
 }catch(e){console.error(e);process.exitCode=1}
 finally{for(const child of processes){try{if(process.platform==='win32')child.kill();else process.kill(-child.pid,'SIGTERM')}catch{}}}

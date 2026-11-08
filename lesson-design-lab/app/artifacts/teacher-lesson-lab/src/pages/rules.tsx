@@ -1,3 +1,4 @@
+import { coachText } from '@/i18n/experience-coach';
 import { T } from '@/i18n/tx';
 import { useEffect, useMemo, useState } from 'react';
 import { Download, CheckCircle2, CircleDashed, XCircle, RefreshCw } from 'lucide-react';
@@ -28,6 +29,7 @@ export default function Rules() {
     <div>
       <PageHead kicker="Rules 1.5 · inherits 1.2 + 1.1 + 1.0" title={T("규칙 · 버전 · 상태")}>
         <a href={RULES['1.5']} download="lesson-lab-rules-1.5.md" className="inline-flex items-center gap-1.5 rounded-lg bg-primary px-3.5 py-2 text-sm font-semibold text-primary-foreground" data-testid="link-download-rules"><Download className="h-4 w-4" />{T("규칙 1.5 다운로드")}</a>
+        <a href={`${import.meta.env.BASE_URL}rules/lesson-lab-rules-1.5-star.md`} download="lesson-lab-rules-1.5-star.md" className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-semibold" data-testid="link-download-rules-star"><Download className="h-4 w-4" />{coachText('title')} · v1.5 STAR / KO</a>
         <a href={RULES['1.2']} download="lesson-lab-rules-1.2.md" className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-semibold" data-testid="link-download-rules-1-2"><Download className="h-4 w-4" />{T("이전 1.2 원문")}</a>
         <a href={RULES['1.1']} download="lesson-lab-rules-1.1.md" className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-semibold" data-testid="link-download-rules-1-1"><Download className="h-4 w-4" />{T("이전 1.1 원문")}</a>
         <a href={RULES['1.0']} download="lesson-lab-rules-1.0.md" className="inline-flex items-center gap-1.5 rounded-lg border px-3.5 py-2 text-sm font-semibold" data-testid="link-download-rules-1-0"><Download className="h-4 w-4" />{T("이전 1.0 원문")}</a>

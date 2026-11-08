@@ -2,6 +2,7 @@ import { T } from '@/i18n/tx';
 import { now, uid, type AppState } from '../store';
 import type { Writing, WritingInput, MockInterview } from './types';
 import { copy, requireCourse, requireStudent, needed, finite } from './core';
+import { coachText } from '@/i18n/experience-coach';
 
 function ownWriting(s:AppState,id:string) {
   const w=s.studio.writings.find((x)=>x.id===id);if(!w)throw new Error(T('글을 먼저 저장하세요.'));
@@ -9,9 +10,9 @@ function ownWriting(s:AppState,id:string) {
 }
 export function saveWriting(s:AppState,id:string|null,input:WritingInput) {
   requireStudent(s,input.courseId,input.studentId,true);needed(input.question,T('문항'));needed(input.job,T('직무'));finite(input.limit,50,20000);
-  const facts=input.factIds.map((fid)=>s.studio.facts.find((f)=>f.id===fid&&f.courseId===input.courseId&&f.studentId===input.studentId&&f.studentConfirmed));
-  if(!facts.length||facts.some((f)=>!f))throw new Error(T('학생이 확인한 본인 경험을 하나 이상 선택하세요.'));
-  if(!input.selectedFacts.action&&!input.selectedFacts.result&&!input.selectedFacts.learning)throw new Error(T('글에 사용할 행동·결과·배운 점을 선택하세요.'));
+  const facts=input.factIds.map((fid)=>s.studio.facts.find((f)=>f.id===fid&&f.courseId===input.courseId&&f.studentId===input.studentId&&f.studentConfirmed&&!f.withdrawn));
+  if((!facts.length&&!input.freeDraft)||facts.some((f)=>!f))throw new Error(T('학생이 확인한 본인 경험을 하나 이상 선택하세요.'));
+  if(facts.length&&!input.selectedFacts.action&&!input.selectedFacts.result&&!input.selectedFacts.learning)throw new Error(T('글에 사용할 행동·결과·배운 점을 선택하세요.'));
   if(input.text.length>input.limit)throw new Error(T('문항의 분량을 넘었습니다. 학생이 범위를 조정하세요.'));
   const n=copy(s);
   if(id){
@@ -25,12 +26,18 @@ export function saveWriting(s:AppState,id:string|null,input:WritingInput) {
       draft:input.text,versions:[{number:1,text:input.text,at:now(),reviewed:false,factIds:[...input.factIds],confirmedFactIds:[]}],
       sharing:{v1:false,experiences:false,requirements:false,counselorIds:[],at:now()},status:'draft-saved',
       questions:[],factCandidates:[],expressionSuggestions:'',checklist:{response:false,ownAction:false,evidence:false,jobLink:false,facts:false,reviewed:false},createdAt:now(),updatedAt:now(),
-      sourceStates:s.studio.companies.filter((m)=>m.job===input.job).map((m)=>({id:m.id,version:m.version,changedAt:m.changedAt}))};
+      sourceStates:s.studio.companies.filter((m)=>m.job===input.job).map((m)=>({id:m.id,version:m.version,changedAt:m.changedAt})),
+      experienceReceipts:facts.filter((f)=>!!f).map((f)=>({id:f!.id,fingerprint:JSON.stringify(f)}))};
     n.studio.writings.push(w);
   }return n;
 }
 export function addWritingVersion(s:AppState,id:string,text:string,reviewed:boolean) {
   const w=ownWriting(s,id);needed(text,T('수정 원문'));
+  for(const id of w.factIds){
+    const f=s.studio.facts.find(f=>f.id===id&&f.studentId===w.studentId);
+    if(!f||f.withdrawn||!f.studentConfirmed)throw Error(coachText('sourceWithdrawn'));
+    if(!w.experienceReceipts?.some(r=>r.id===id&&r.fingerprint===JSON.stringify(f)))throw Error(coachText('sourceChanged'));
+  }
   if(text.length>w.limit)throw new Error(T('문항의 분량을 넘었습니다.'));
   if(!reviewed)throw new Error(T('학생이 수정 내용을 미리 보고 확인해야 합니다.'));
   if(w.factCandidates.some((f)=>!f.confirmed&&!f.rejected))throw new Error(T('면담의 추가 사실을 학생이 확인 또는 제외한 뒤 저장하세요.'));
@@ -49,7 +56,7 @@ export function getWritingView(s:AppState,id:string) {
   try{requireCourse(s,w.courseId);}catch{return null;}
   const actor=s.studio.actor, own=actor.role==='student'&&actor.id===w.studentId;
   if(!own&&!w.sharing.counselorIds.includes(actor.id))return null;
-  const allFacts=s.studio.facts.filter((x)=>w.factIds.includes(x.id)&&x.studentId===w.studentId&&x.studentConfirmed);
+  const allFacts=s.studio.facts.filter((x)=>w.factIds.includes(x.id)&&x.studentId===w.studentId&&x.studentConfirmed&&!x.withdrawn);
   const view=structuredClone(w);
   if(!own){
     view.draft='';view.versions=w.versions.filter((x)=>x.number===1?w.sharing.v1:!!w.sharing.versions).map((x)=>({...x}));
@@ -68,6 +75,12 @@ export function writingQuestions(s:AppState,id:string) {
 }
 export function draftSuggestion(s:AppState,id:string) {
   const w=ownWriting(s,id);
+  for(const id of w.factIds) {
+    const f=s.studio.facts.find(f=>f.id===id&&f.studentId===w.studentId);
+    if(!f||f.withdrawn||!f.studentConfirmed)throw Error(coachText('sourceWithdrawn'));
+    const receipt=w.experienceReceipts?.find(r=>r.id===id);
+    if(!receipt||receipt.fingerprint!==JSON.stringify(f))throw Error(coachText('sourceChanged'));
+  }
   for(const receipt of w.sourceStates??[]){
     const model=s.studio.companies.find((m)=>m.id===receipt.id);
     if(!model||model.revoked||!model.educationAllowed||model.version!==receipt.version||model.changedAt!==receipt.changedAt) throw new Error(T('자료가 변경되거나 공유가 철회되었습니다. 기존 저장본은 보존하며 새 제안 전 자료를 재확인하세요.'));
@@ -75,7 +88,7 @@ export function draftSuggestion(s:AppState,id:string) {
   for(const company of s.studio.companies.filter((m)=>m.job===w.job)) {
     if(company.revoked)throw new Error(T('자료 공유가 철회되었습니다. 새 제안 활용 전 출처와 공유를 다시 확인하세요.'));
   }
-  const facts=s.studio.facts.filter((x)=>w.factIds.includes(x.id)&&x.studentId===w.studentId&&x.studentConfirmed);
+  const facts=s.studio.facts.filter((x)=>w.factIds.includes(x.id)&&x.studentId===w.studentId&&x.studentConfirmed&&!x.withdrawn);
   return facts.map((f)=>[
     f.simulation?T('수업용 모의 과제에서의 경험입니다.'):T('학생이 확인한 실제 경험입니다.'),
     w.selectedFacts.action?`${T('본인 행동')}: ${f.action}`:'',
@@ -88,8 +101,11 @@ export function refreshWritingSources(s:AppState,id:string,confirmed:boolean) {
   if(!confirmed)throw new Error(T('자료 출처·버전과 교육 공유를 다시 확인하세요.'));
   const models=s.studio.companies.filter((m)=>m.job===w.job);
   if(models.some((m)=>m.revoked||!m.educationAllowed))throw new Error(T('공유가 철회된 자료는 다시 활용할 수 없습니다. 다른 자료를 선택하세요.'));
+  const facts=w.factIds.map(id=>s.studio.facts.find(f=>f.id===id&&f.studentId===w.studentId&&f.studentConfirmed&&!f.withdrawn));
+  if(facts.some(f=>!f))throw Error(coachText('sourceWithdrawn'));
   const n=copy(s),target=n.studio.writings.find((x)=>x.id===id)!;
-  target.sourceStates=models.map((m)=>({id:m.id,version:m.version,changedAt:m.changedAt}));target.updatedAt=now();return n;
+  target.sourceStates=models.map((m)=>({id:m.id,version:m.version,changedAt:m.changedAt}));
+  target.experienceReceipts=facts.map(f=>({id:f!.id,fingerprint:JSON.stringify(f)}));target.updatedAt=now();return n;
 }
 export function saveConsultation(s:AppState,id:string,questions:string[],facts:string[],expressionSuggestions:string) {
   const view=getWritingView(s,id);if(!view)throw new Error(T('학생이 선택 공유한 자료가 없습니다.'));
@@ -111,6 +127,7 @@ export function confirmFact(s:AppState,id:string,factId:string,approved:boolean)
 }
 export function finalizeWriting(s:AppState,id:string,checklist:Writing['checklist']) {
   const w=ownWriting(s,id);
+  if(!w.factIds.length||w.factIds.some(id=>!s.studio.facts.some(f=>f.id===id&&f.studentId===w.studentId&&f.studentConfirmed&&!f.withdrawn)))throw Error(coachText('confirmedFactsRequired'));
   if(w.versions.length<2||!Object.values(checklist).every(Boolean)||w.factCandidates.some((f)=>!f.confirmed&&!f.rejected))throw new Error(T('문항 응답·본인 행동·근거·직무 연결·사실 확인·학생 검토와 V2 저장을 마치세요.'));
   const n=copy(s),target=n.studio.writings.find((x)=>x.id===id)!;target.checklist=checklist;target.status='student-final';target.updatedAt=now();return n;
 }

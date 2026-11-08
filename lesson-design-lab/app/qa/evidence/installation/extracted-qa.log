@@ -1,0 +1,66 @@
+
+> teacher-lesson-lab-handoff@0.0.0 qa /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff
+> node handoff/run.mjs qa
+
+RUN studio-checks.mjs
+RUN diagnostics.mjs
+RUN language-regressions.mjs
+RUN u09-language-regressions.mjs
+RUN report-history-checks.mjs
+RUN star-coach-checks.mjs
+[2776:2805:1107/154031.770566:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154031.770806:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2805:1107/154031.808733:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154031.808937:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154031.809134:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154031.809173:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2805:1107/154031.809265:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2805:1107/154031.820104:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+
+> @workspace/teacher-lesson-lab@0.0.0 dev /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff/artifacts/teacher-lesson-lab
+> vite --config vite.config.ts --host 0.0.0.0
+
+[2776:2805:1107/154031.900607:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+
+DevTools listening on ws://127.0.0.1:9233/devtools/browser/92a91262-4ed2-4b9c-8f52-20a2cfb4906b
+[2776:2776:1107/154032.128930:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2776:1107/154032.129391:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2776:1107/154032.130004:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2805:1107/154032.133141:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2805:1107/154032.133194:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2776:1107/154032.144577:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2805:1107/154032.144712:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2776:1107/154032.174363:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2776:1107/154032.174739:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2805:1107/154032.175354:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154032.175876:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Failed to connect to socket /run/dbus/system_bus_socket: No such file or directory
+[2776:2805:1107/154032.175959:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[2776:2776:1107/154032.195870:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2776:1107/154032.221333:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.Properties.GetAll: object_path= /org/freedesktop/UPower/devices/DisplayDevice: unknown error type: 
+[2776:2776:1107/154032.221537:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2805:1107/154032.221607:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+[replit-cartographer] Loaded @theme tokens from /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff/artifacts/teacher-lesson-lab/src/index.css
+[2776:2776:1107/154032.239287:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+[2776:2805:1107/154032.239496:ERROR:dbus/bus.cc:405] Failed to connect to the bus: Could not parse server address: Unknown address type (examples of valid types are "tcp" and on UNIX "unix")
+
+  VITE v7.3.7  ready in 386 ms
+
+  ➜  Local:   http://localhost:5175/
+  ➜  Network: http://172.24.0.2:5175/
+[2776:2776:1107/154032.294012:ERROR:dbus/object_proxy.cc:572] Failed to call method: org.freedesktop.DBus.NameHasOwner: object_path= /org/freedesktop/DBus: unknown error type: 
+RUN browser-studio-checks.mjs
+[2776:2808:1107/154035.620793:ERROR:google_apis/gcm/engine/mcs_client.cc:702]   Error code: 401  Error message: Authentication Failed: wrong_secret
+[2776:2808:1107/154035.620868:ERROR:google_apis/gcm/engine/mcs_client.cc:704] Failed to log in to GCM, resetting connection.
+[2776:2808:1107/154035.768137:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+[2776:2808:1107/154035.881391:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+[2776:2808:1107/154035.894263:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: PHONE_REGISTRATION_ERROR
+RUN browser-report-history-checks.mjs
+[2776:2808:1107/154102.455261:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+RUN browser-star-coach-checks.mjs
+[2776:2808:1107/154157.086215:ERROR:google_apis/gcm/engine/registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+RUN report-history-report.mjs
+RUN star-coach-report.mjs
+QA completed. Fresh baseline evidence: /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff/generated-artifacts/lesson-lab-report-history-qa. STAR evidence: generated-artifacts/lesson-lab-star-qa/
+/tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff/artifacts/teacher-lesson-lab:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @workspace/teacher-lesson-lab@0.0.0 dev: `vite --config vite.config.ts --host 0.0.0.0`
+Command failed with signal "SIGTERM"

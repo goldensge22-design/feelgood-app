@@ -1,4 +1,4 @@
-> 최신 제작 기준은 [규칙 1.5](docs/product-rules-v1.5-ko.txt)와 [기간 규칙 1.4](docs/course-duration-rules-v1.4-ko.txt)입니다. 이 문서는 승계되는 1.2 원문이며 최신 변경과 함께 읽습니다.
+> 최신 제작 기준은 [STAR 추가 규칙](app/artifacts/teacher-lesson-lab/public/rules/lesson-lab-rules-1.5-star.md), [규칙 1.5](docs/product-rules-v1.5-ko.txt), [기간 규칙 1.4](docs/course-duration-rules-v1.4-ko.txt)입니다. 이 문서는 승계되는 1.2 원문이며 최신 변경과 함께 읽습니다.
 
 # 수업설계LAB 확정 제작 규칙
 

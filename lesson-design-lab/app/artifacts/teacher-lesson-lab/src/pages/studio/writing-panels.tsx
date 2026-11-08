@@ -3,6 +3,7 @@ import { useState } from 'react';
 import type { AppState } from '@/lib/store';
 import { CalendarPlus, X, Share2, Check as CheckIcon, Save, Flag } from 'lucide-react';
 import { T } from '@/i18n/tx';
+import { coachText } from '@/i18n/experience-coach';
 import { setSharing, counselingSlots, counselingCapacity, bookSlot, cancelBooking, saveConsultation, confirmFact, finalizeWriting, formatOffset, refreshWritingSources } from '@/lib/studio';
 import type { Writing, Course } from '@/lib/studio/types';
 import { Btn, Pill } from '@/components/shell';
@@ -101,6 +102,11 @@ export function sourceChanges(s: AppState, w: Writing): string[] {
   const models = s.studio.companies.filter((m) => m.job === w.job);
   const snap = w.sourceStates ?? [];
   const out: string[] = [];
+  for(const id of w.factIds) {
+    const f=s.studio.facts.find(f=>f.id===id&&f.studentId===w.studentId);
+    if(!f||f.withdrawn||!f.studentConfirmed)out.push(coachText('sourceWithdrawn'));
+    else if(!w.experienceReceipts?.some(r=>r.id===id&&r.fingerprint===JSON.stringify(f)))out.push(coachText('sourceChanged'));
+  }
   for (const r of snap) {
     const m = s.studio.companies.find((x) => x.id === r.id);
     if (!m) out.push(T('{0}: 삭제됨', r.id));
