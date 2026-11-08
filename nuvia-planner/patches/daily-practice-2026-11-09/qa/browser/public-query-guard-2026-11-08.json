@@ -1,0 +1,39 @@
+{
+  "route": "/library-demo.html?demo=university&review=1&qa=1&board=1&stage=high&jobcatalog=1&draftJob=1",
+  "sourcePolicy": {
+    "file": "artifacts/nuvia-ui-review/src/library-public/policy.ts",
+    "publicLibrary": "compile-time env only; never granted by query/stored data",
+    "audienceParams": [
+      "demo",
+      "audience"
+    ],
+    "accepted": [
+      "university",
+      "school",
+      "enterprise"
+    ],
+    "reviewGate": "StudioApp REVIEW is !demoAudience && review=1"
+  },
+  "runtime": {
+    "publicDemoNotice": "가상 데이터 데모 · 대학",
+    "audienceLinks": [
+      "enterprise",
+      "university",
+      "school"
+    ],
+    "compareControls": 0,
+    "reviewOrJobTestids": [
+      "review-run"
+    ],
+    "jobcatalogTextMatches": null,
+    "ordinaryTabs": [
+      "지금",
+      "계획",
+      "돌아보기",
+      "리포트"
+    ],
+    "urlFlagsDidNotEnableDevOrDraftSurface": true,
+    "issues": []
+  },
+  "screenshot": "xladlw"
+}

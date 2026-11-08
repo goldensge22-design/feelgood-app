@@ -1,0 +1,44 @@
+{
+  "complete": true,
+  "scope": "new daily-practice technical handoff only",
+  "publicReady": false,
+  "published": false,
+  "automaticAssertions": 6409,
+  "typescript": "PASS",
+  "build": "PASS",
+  "publicBuild": "PASS",
+  "publicBoundaryAssertions": 361,
+  "builtHttpChecks": 19,
+  "browser": {
+    "newRecommendationUiMatrix": "30/30 PASS (15 locales x 1440/360)",
+    "finalHelperLabelLayoutMatrix": "30/30 PASS",
+    "representativeFullJourneys": [
+      "ko desktop",
+      "en desktop",
+      "ja 360"
+    ],
+    "actualDownloadedFileRestore": "PASS",
+    "fiveAgeInputs": "PASS",
+    "manualHelpLocaleAndStrengthPreservation": "PASS",
+    "fullTargetStrengthUiGrid": "not fully repeated"
+  },
+  "legacy": {
+    "passed": 257,
+    "failed": 4,
+    "total": 261,
+    "unchangedOfficialFiles": true
+  },
+  "translation": "15 locales x 103 new keys; AI draft, not native/professionally reviewed",
+  "priorLibraryUnverifiedCombinations": 17,
+  "unconnected": [
+    "real assessment server",
+    "authentication",
+    "cross-device sync"
+  ],
+  "notValidated": [
+    "native-language review",
+    "professional content/efficacy",
+    "independent student use",
+    "long-term followup"
+  ]
+}

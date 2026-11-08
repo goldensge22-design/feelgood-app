@@ -1,0 +1,29 @@
+{
+  "row": "en@1440x1000 in fresh context; active run language switched to fr",
+  "status": "core-flow-passed; a11y/layout follow-up incomplete",
+  "route": "/library-demo.html?demo=university",
+  "viewport": "1440x1000",
+  "finalLocaleAfterRestore": "fr",
+  "syntheticTask": {"id":"3b027814-a643-4597-968e-d518035066bd","title":"EN desktop synthetic task","action":"Review one small outline","scope":"Three bullet plan lines","minutes":12,"recommendation":"planning.tidy / Set the amount for organizing one area","sourceHelp":"attention","explicitHelpViewChoice":"planning"},
+  "checks": {
+    "freshRouteLoad": {"status":"pass","initialIssues":[]},
+    "otherCyclesCandidate": {"status":"pass","first":"planning.prepare / Create a small preparation plan","second":"planning.tidy / Set the amount for organizing one area"},
+    "unsavedPreviewLocaleSwitch": {"status":"pass","sequence":"en→fr→en","titleActionScopeMinutesAndAttentionHelperRetained":true},
+    "addPlaceStart": {"status":"pass","explicitAddCreatedOneToDoCard":true,"placedExplicitly":true,"placementAutoStarted":false},
+    "targetedHelpView": {"status":"pass","recommendedAttentionShownInActualHelpViewAfterPlacement":true,"laterExplicitGoalsAndCompletionCriteriaSelectionRespected":true,"runSupportInActualDownloadedBackup":"planning","sourceAttachmentHelp":"attention"},
+    "activeLocaleChange": {"status":"pass","sequence":"en→fr","urlUnchanged":true,"timerObserved":"0m00→0m11→0m24","HelpViewOverridePersisted":true},
+    "runLifecycle": {"status":"pass","pause":true,"flag":"EN QA pause marker","resume":true,"review":true,"completedExplicitly":true,"recordedActualMinutes":0.77,"closed":true,"completionCollectionCount":1},
+    "noImplicitCredit": {"status":"pass","beforeCompletion":"uses=0, responses=0","afterCompletionBeforeSelfreport":"uses=1, responses=0, unanswered=1"},
+    "selfreport": {"status":"pass","response":"yes","final":"uses=1,responses=1,yes=1,neutral=0,no=0,unanswered=0"},
+    "report": {"status":"pass","month":"2026-11","summary":"Practice: one completion and one helpful self-report; HelpView method use separately shows 1 use, 0 method responses, 1 unanswered","download":"NUVIA_monthly_2026-11.html","saved":"/tmp/en-desktop-synthetic-report.html","failure":null},
+    "reportIframeSandbox": {"status":"expected-sandbox-message-only","sandbox":"empty string","srcdocLength":8019,"srcdocContainsScript":false,"frameScriptCount":0,"exactConsole":"Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set."},
+    "dailyNote": {"status":"pass","text":"EN desktop synthetic note: revise one outline tomorrow.","autosaved":true},
+    "personalBackupRestore": {"status":"pass","download":"NUVIA_studio_my_records.json","path":"/tmp/qa-en-desktop-personal-backup.json","downloadFailure":null,"restoredSameFile":true,"appConfirmedVerifiedRestore":true,"restoreDialog":"Remplace mes enregistrements personnels par le point de sauvegarde. Les modifications ultérieures pourraient être perdues. Les données des autres étudiants/enseignants ne seront pas importées. Avez-vous d'abord archivé la sauvegarde actuelle ?","reloadVerified":true},
+    "postRestore": {"status":"pass","locale":"fr","taskCount":1,"source":"Définir la charge pour ranger une zone","action":"Review one small outline","scope":"Three bullet plan lines","stats":"uses=1,responses=1,yes=1,neutral=0,no=0,unanswered=0","dailyNoteExact":true},
+    "runSupportInBackup": {"status":"pass","matchingRunPhase":"closed","support":"planning"},
+    "layout": {"status":"partial","checkedLocale":"fr","dir":"ltr","scrollWidth":"1425 equal to clientWidth 1425","horizontalOverflow":false,"shortVisibleElements":["task heading 34px","two existing task-edit inputs 22px; not enough evidence to classify as new-flow controls"],"newPreviewField44pxAudit":"not yet done"},
+    "consoleAndNetwork": {"status":"pass-with-known-sandbox-note","freshPageNetworkIssues":[],"onlyLaterConsoleMessage":"Blocked script execution in 'about:srcdoc' because the document's frame is sandboxed and the 'allow-scripts' permission is not set.","iframeSrcdocHasNoScript":true,"noOtherEnDesktopConsoleErrors":true}
+  },
+  "remaining": ["ja@desktop and all other locale/viewport rows", "all 360px locale rows", "keyboard and new-control 44px audit", "remaining 5-age compare variants and all target/strength combinations", "ordinary demo query/jobcatalog exposure checks"] ,
+  "screenshots": ["vy48c0","nb7pw1","mwdz95","lbs8lm","2vysi0","bxfk99","lc7iip","9pwm30","98cyk5","acv428","e9he5a","lxokg4","btqlh0","rdk28y","6zzyas","6yt5e2","r997wh","gz7vlf","cgj3y7","ntr4er","43m4rn","e3boe3","doq0q6","bbdqk5","f115lh","flxxwg","vks05e","7k2yte","qjv9co","iwyx2x","zwmhi7","l41yr5","1o50jp","01s7rk","yx2os9","onxglv","t5xtkq","mtdlrg","78yp2o","l1jrjx","y3es38","8905e5","bv8gk1","8qaqcm","uytqq2"]
+}

@@ -1,0 +1,144 @@
+{
+  "route": "/practice-compare.html",
+  "context": "fresh browser context, viewport 1440x1000, locale ko",
+  "statuses": {
+    "first-load": {
+      "status": "pass",
+      "pageErrors": [],
+      "consoleErrors": []
+    },
+    "elementary_1_3": {
+      "status": "pass",
+      "preview": "small preparation plan",
+      "optionalInputs": 2,
+      "maxLength": [
+        40,
+        40
+      ],
+      "svgCount": 2,
+      "taskAdded": false
+    },
+    "elementary_4_6": {
+      "status": "pass",
+      "stageScopeObservedAfterFreshSelection": true,
+      "optionalInputs": 3,
+      "inputTypes": [
+        "text",
+        "text",
+        "text"
+      ],
+      "maxLength": [
+        80,
+        80,
+        80
+      ],
+      "ageDetailsOpened": true,
+      "taskAdded": false,
+      "issueSink": [],
+      "evidence": "age-elementary-4-6-2026-11-08.json"
+    },
+    "adult": {
+      "status": "pass on current fix build",
+      "optionalInputs": 5,
+      "fieldRoles": [
+        "owner",
+        "dependency",
+        "handoff",
+        "material1",
+        "material2"
+      ],
+      "waitingCheckbox": true,
+      "allFieldsAndWaitingPersistAfterStrengthChange": true,
+      "allFieldsAndWaitingPersistAfterAdd": true,
+      "target": "planning",
+      "strengthChange": "simultaneous to successive; preview retained",
+      "successiveSteps": [
+        "action",
+        "scope only"
+      ],
+      "postAdd": {
+        "taskCount": 1,
+        "status": "waiting",
+        "manualStartConfirmation": true,
+        "runElements": [],
+        "done": 0,
+        "planned": 10
+      },
+      "issueSink": [],
+      "evidence": "age-adult-successive-2026-11-08.json"
+    },
+    "sameTargetStrengthComparison": {
+      "status": "pass",
+      "target": "planning unchanged",
+      "strength": "simultaneous to successive",
+      "recommendationTitle": "작은 준비 계획 세우기 unchanged",
+      "action": "unchanged",
+      "help": "sequential two-step structure observed"
+    },
+    "productionBuildHtmlExclusion": {
+      "status": "pass-at-checkpoint",
+      "result": "No practice-compare.html found under artifacts/nuvia-ui-review/dist"
+    },
+    "middle": {
+      "status": "pass",
+      "optionalInputs": 3,
+      "inputTypes": [
+        "text",
+        "text",
+        "text"
+      ],
+      "maxLength": [
+        160,
+        160,
+        160
+      ],
+      "ageDetailsOpened": true,
+      "taskAdded": false,
+      "issueSink": [],
+      "evidence": "age-middle-2026-11-08.json"
+    },
+    "high": {
+      "status": "pass on current fix build",
+      "fieldStructure": "pass",
+      "optionalInputs": 4,
+      "inputTypes": [
+        "date",
+        "date",
+        "text",
+        "text"
+      ],
+      "actualDatesEntered": [
+        "2026-11-10",
+        "2026-11-12"
+      ],
+      "conditionsEntered": [
+        "QA condition A",
+        "QA condition B"
+      ],
+      "target": "planning",
+      "strengthChange": "simultaneous to successive; preview remained open; target unchanged",
+      "authoredTitleActionScopePersisted": true,
+      "defaultHelpFollowedNewRecommendation": true,
+      "successiveSteps": [
+        "Compare two deadlines and choose one action",
+        "Complete one concrete step before the earlier date"
+      ],
+      "onlyActionScopeBecameSteps": true,
+      "afterAdd": "one pending item on 2026-11-10; Add disabled; no auto-start/run panel; selected 2026-11-08 counters remained 0 done/0 planned",
+      "pageIssues": [],
+      "evidence": "age-high-2026-11-08.json"
+    }
+  },
+  "runtimeObservations": [
+    "A generic Failed to load resource: 404 () appeared once after changing compare profile; no URL was surfaced.",
+    "Subsequent Vite HMR events updated PracticeUI.tsx and Compare.tsx; browser logged ReactDOMClient.createRoot() on a container already passed to createRoot(), and page state reset to default adult profile.",
+    "No workflow restart or app code edits were performed by this testing session.",
+    "Historical pre-fix behavior (superseded): two contexts reproduced high-preview unmount on strength change; values were not checked after reopening. Current fixed-build retest passes; see age-high-2026-11-08.json.",
+    "Post-fix fresh high-stage proof: preview stayed open after simultaneous→successive strength change; authored title/action/scope, both native dates and both conditions remained; default help switched to successive; steps contained only action/scope. Add confirmed one pending item on 2026-11-10 with no run/progress.",
+    "Current fixed-build high-stage retest passes: preview and authored title/action/scope/date/conditions survived simultaneous→successive; default help switched to successive; steps were action/scope only; explicit Add created one pending 2026-11-10 task without auto-start/progress."
+  ],
+  "pending": [
+    "Full target×strength consistency grid beyond the targeted planning/high/adult cases was not exercised in this bounded follow-up; prior planning same-target simultaneous→successive pass is preserved."
+  ],
+  "status": "targeted current-fix comparisons complete"
+}

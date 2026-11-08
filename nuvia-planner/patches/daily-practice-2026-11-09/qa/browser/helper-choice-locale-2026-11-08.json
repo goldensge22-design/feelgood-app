@@ -1,0 +1,72 @@
+{
+  "build": "requester-managed post-restart helper-label fix; build ID not observed",
+  "route": "/library-demo.html?demo=university",
+  "scope": "manual help choice survives locale change; preview-only, no Add",
+  "manualChoice": {
+    "id": "practice-help-choice-attention",
+    "semantic": "highlight",
+    "manuallySelected": true,
+    "labels": {
+      "ko": "한 가지 강조",
+      "az": "Bir əşyanın vurğulanması"
+    }
+  },
+  "fields": {
+    "title": "QA-helper-choice-locale",
+    "action": "Keep my chosen highlight",
+    "scope": "Preserve these exact fields"
+  },
+  "transitions": [
+    {
+      "locale": "ko",
+      "lang": "ko",
+      "preview": true,
+      "pressed": [
+        "practice-help-choice-attention"
+      ],
+      "fieldsPreserved": true
+    },
+    {
+      "locale": "az",
+      "lang": "az",
+      "preview": true,
+      "pressed": [
+        "practice-help-choice-attention"
+      ],
+      "fieldsPreserved": true,
+      "labels": {
+        "planning": "Məqsəd və tamamlama meyarları",
+        "attention": "Bir əşyanın vurğulanması",
+        "simultaneous": "Ümumi xəritə və əlaqəli qruplar",
+        "successive": "İndiki və növbəti ardıcıllıq cədvəli",
+        "universal": "Qısa ümumi təlimat",
+        "none": "Əlavə kömək olmadan"
+      }
+    },
+    {
+      "locale": "ko",
+      "lang": "ko",
+      "preview": true,
+      "pressed": [
+        "practice-help-choice-attention"
+      ],
+      "fieldsPreserved": true,
+      "labels": {
+        "planning": "목표·완료 기준",
+        "attention": "한 가지 강조",
+        "simultaneous": "전체 지도·관계 묶음",
+        "successive": "현재·다음 순서표",
+        "universal": "짧은 공통 안내",
+        "none": "추가 도움 없이"
+      }
+    }
+  ],
+  "issues": [],
+  "addClicked": false,
+  "taskCountRemainedOne": true,
+  "screenshots": [
+    "sie0ep",
+    "7vunsr",
+    "rob0gg"
+  ]
+}

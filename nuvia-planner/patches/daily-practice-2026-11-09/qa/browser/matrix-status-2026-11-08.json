@@ -1,0 +1,222 @@
+{
+  "scope": "Preserve the earlier 15-locale UI journeys/core journeys and legacy-library QA; run only targeted current-fix checks and post-CSS 15×1440/360 layout/console audit; no tester app edits/restarts.",
+  "checkpoint": "2026-11-08T16:52Z",
+  "stability": {
+    "status": "prior old-tab WebSocket loss confirmed expected by requester; subsequent rows ran in fresh contexts",
+    "observation": "Requester confirmed the managed Vite workflow was restarted once immediately before the prior follow-up and was ready at 15:36:27; old-tab WebSocket loss was expected. Tester closed all old contexts before resuming. Subsequent fresh contexts reported clean page-local issue sinks except the recorded high-preview behavior (no network/page errors). No tester source edits or workflow restarts.",
+    "apiRootObservations": "API Server GET / 404 is a separate known unrelated service; original public-UI 404 URL remains unidentified. No new public-UI 404 was observed in these fresh rows.",
+    "ja1440": {
+      "status": "complete current frozen-build row",
+      "routeLoaded": true,
+      "language": "ja",
+      "issues": [],
+      "rowJson": "row-ja-desktop-2026-11-08.json",
+      "screenshot": "93od9m"
+    }
+  },
+  "rows": {
+    "ko": {
+      "360": "matrix UI complete, row-ko-mobile JSON",
+      "1440": "prior full journey preserved; current keyboard/layout audit passed (row-ko-desktop-a11y JSON)"
+    },
+    "en": {
+      "360": "matrix UI complete, row-en-mobile JSON",
+      "1440": "prior full journey preserved; current keyboard/layout audit passed (row-en-desktop-a11y JSON)"
+    },
+    "ja": {
+      "360": "pass on latest Japanese layout fix: Other rotation confirmed; document/body client=scroll=345 at 360px; only contained .st-week scroller (287/876, overflow-x:auto); prior pre-fix partial retained historically",
+      "1440": "complete current frozen-build UI + keyboard row, row-ja-desktop JSON"
+    },
+    "zh-CN": {
+      "360": "complete, row-zh-CN-mobile JSON",
+      "1440": "complete, row-zh-CN-desktop JSON"
+    },
+    "zh-TW": {
+      "360": "complete, row-zh-TW-mobile JSON",
+      "1440": "complete, row-zh-TW-desktop JSON"
+    },
+    "mn": {
+      "360": "complete, row-mn-mobile JSON",
+      "1440": "complete, row-mn-desktop JSON"
+    },
+    "th": {
+      "360": "complete, row-th-mobile JSON",
+      "1440": "complete, row-th-desktop JSON"
+    },
+    "vi": {
+      "360": "complete, row-vi-mobile JSON",
+      "1440": "complete, row-vi-desktop JSON"
+    },
+    "ar": {
+      "360": "complete RTL, row-ar-mobile JSON",
+      "1440": "complete RTL, row-ar-desktop JSON"
+    },
+    "ru": {
+      "360": "complete, row-ru-mobile JSON",
+      "1440": "complete, row-ru-desktop JSON"
+    },
+    "km": {
+      "360": "complete, row-km-mobile JSON",
+      "1440": "complete, row-km-desktop JSON"
+    },
+    "es": {
+      "360": "complete, row-es-mobile JSON",
+      "1440": "complete, row-es-desktop JSON"
+    },
+    "fr": {
+      "360": "complete current frozen-build revalidation; row-fr-mobile-final JSON",
+      "1440": "complete current frozen-build revalidation; row-fr-desktop-final JSON"
+    },
+    "it": {
+      "360": "complete current frozen-build UI; row-it-mobile JSON",
+      "1440": "complete current frozen-build UI; row-it-desktop JSON"
+    },
+    "az": {
+      "360": "complete current frozen-build UI; row-az-mobile JSON",
+      "1440": "complete current frozen-build UI; row-az-desktop JSON"
+    },
+    "postCSSLayoutOnly": {
+      "status": "pass",
+      "evidence": "layout-matrix-2026-11-08.json",
+      "summary": {
+        "status": "pass",
+        "build": "6409 requester-confirmed fixed build",
+        "totalRows": 30,
+        "perViewport": {
+          "desktop": {
+            "viewport": 1440,
+            "rows": 15,
+            "documentBodyClientScroll": "1425/1425",
+            "previewWidth": 1316,
+            "inputHeight": 44,
+            "buttonHeight": 48,
+            "globalOverflowRows": 0,
+            "issueRows": 0
+          },
+          "mobile": {
+            "viewport": 360,
+            "rows": 15,
+            "documentBodyClientScroll": "345/345",
+            "previewWidth": 261,
+            "weekScroller": "287 client / 876 scroll / overflow-x:auto (contained)",
+            "inputHeight": 44,
+            "addButtonWrapLocales": [
+              "vi",
+              "it"
+            ],
+            "wrappedAddHeight": 72,
+            "globalOverflowRows": 0,
+            "issueRows": 0
+          }
+        },
+        "allLocales": [
+          "ko",
+          "en",
+          "ja",
+          "zh-CN",
+          "zh-TW",
+          "mn",
+          "th",
+          "vi",
+          "ar",
+          "ru",
+          "km",
+          "es",
+          "fr",
+          "it",
+          "az"
+        ],
+        "noAddOrLifecycleActions": true,
+        "evidence": "layout-matrix-2026-11-08.json"
+      }
+    }
+  },
+  "other_pending": [],
+  "scope_separation": "Old library QA 17-row set was not rerun or changed.",
+  "comparisonChecks": {
+    "elementary_1_3": "pass at prior checkpoint; not repeated",
+    "elementary_4_6": "pass: 3 text inputs, all maxLength 80; age-elementary-4-6 JSON",
+    "middle": "pass: 3 text inputs, all maxLength 160; age-middle JSON",
+    "high": "pass on current fixed build: preview stayed mounted; authored title/action/scope, both dates, and both conditions persisted across simultaneous→successive; default help followed the updated recommendation; steps were action/scope only; Add left one pending 2026-11-10 task with no auto-run/progress (age-high JSON).",
+    "adult": "pass on current fixed build: owner/dependency/handoff/two materials and waiting checkbox persisted across simultaneous→successive and Add; default help followed recommendation; steps were action/scope only; one waiting task stayed pending with no run/progress (age-adult JSON).",
+    "ko@1440 keyboard-layout": "pass; keyboard Enter/Tab path, no page overflow, 44px fields/48px buttons; row-ko-desktop-a11y JSON",
+    "en@1440 keyboard-layout": "pass; keyboard Enter/Tab path, no page overflow, 44px fields/48px buttons; row-en-desktop-a11y JSON",
+    "sameTargetStrength": "pass: prior planning check preserved; current high-stage check also kept target planning and updated default successive help while preview/fields stayed mounted"
+  },
+  "stopReason": "All requested bounded current-fix checks are complete. Pre-fix high-preview closure is explicitly historical/superseded. No tester source edits or workflow restarts; prior core/locale journeys and legacy QA were not repeated.",
+  "publicRecordFlow": "pass: fresh public record; ko→az translated untouched scope while edited Latin title/action stayed raw; active timer and note survived az→ko; paused run/note survived reload before and after exact downloaded-file restore; initial history count 1 and planChanged=false.",
+  "sourceHistory": "pass: exported public record has historyCount=1 (`최초 계획`), planChanged=false and planConfirmed=false, initial source snapshot present; schema has no explicit version property.",
+  "publicQueryReviewDraftJob": "pass: public query flags did not expose compare or draft-job surface; policy capability is compile-time-only and review=1 is gated off for demo audiences.",
+  "edgeCases": "pass: preview cancel, direct-write+cancel, no-recommendation/unknown-time+cancel, custom minutes 0/1.5/1441 blocked by native constraints; no task/capacity change.",
+  "postCSSLayoutAudit": {
+    "status": "pass",
+    "build": "6409 requester-confirmed fixed build",
+    "totalRows": 30,
+    "perViewport": {
+      "desktop": {
+        "viewport": 1440,
+        "rows": 15,
+        "documentBodyClientScroll": "1425/1425",
+        "previewWidth": 1316,
+        "inputHeight": 44,
+        "buttonHeight": 48,
+        "globalOverflowRows": 0,
+        "issueRows": 0
+      },
+      "mobile": {
+        "viewport": 360,
+        "rows": 15,
+        "documentBodyClientScroll": "345/345",
+        "previewWidth": 261,
+        "weekScroller": "287 client / 876 scroll / overflow-x:auto (contained)",
+        "inputHeight": 44,
+        "addButtonWrapLocales": [
+          "vi",
+          "it"
+        ],
+        "wrappedAddHeight": 72,
+        "globalOverflowRows": 0,
+        "issueRows": 0
+      }
+    },
+    "allLocales": [
+      "ko",
+      "en",
+      "ja",
+      "zh-CN",
+      "zh-TW",
+      "mn",
+      "th",
+      "vi",
+      "ar",
+      "ru",
+      "km",
+      "es",
+      "fr",
+      "it",
+      "az"
+    ],
+    "noAddOrLifecycleActions": true,
+    "evidence": "layout-matrix-2026-11-08.json"
+  },
+  "notRunScopeGaps": [
+    "Full target×strength grid beyond targeted planning/high/adult cases was not exercised in this bounded follow-up; preserved planning same-target pass remains valid."
+  ],
+  "postRestartHelperChoiceAudit": {
+    "status": "pass",
+    "build": "requester-managed post-restart helper-label fix; build ID not observed",
+    "publicLocalePersistence": "pass; ko→az→ko preserved manually selected attention and all three typed fields",
+    "compareStrengthPersistence": "pass; high/planning with dates preserved attention across simultaneous→successive",
+    "helperLabelMatrix": "30 rows; 15 locales × 1440/360; six labels per row; no overflow; 0 issue rows",
+    "evidence": "layout-matrix-2026-11-08.json plus helper-choice-locale-2026-11-08.json and helper-choice-strength-2026-11-08.json",
+    "noAddOrLifecycleActions": true,
+    "noTesterSourceEditsOrRestarts": true,
+    "scopeGapPreserved": "Full target×strength UI grid not expanded; separate 81×5 automatic contracts not touched.",
+    "screenshots": [
+      "rob0gg",
+      "7vunsr",
+      "dlefbv",
+      "8wfbpr"
+    ]
+  }
+}

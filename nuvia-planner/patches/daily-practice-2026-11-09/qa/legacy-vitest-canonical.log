@@ -1,0 +1,77 @@
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Progress: resolved 50, reused 28, downloaded 5, added 0
+Packages: +37
++++++++++++++++++++++++++++++++++++++
+Progress: resolved 60, reused 28, downloaded 8, added 36
+Progress: resolved 60, reused 28, downloaded 9, added 37, done
+
+ RUN  v5.0.5 /home/runner/workspace
+
+ ❯ artifacts/nuvia-ui-review/src/official/tests/adaptiveTraining.test.ts (35 tests | 1 failed) 38ms
+   ❯ PASS adaptive training contract (31)
+     × official results are validated and preserve scores with explicit units 6ms
+ ❯ artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts (3 tests | 2 failed) 26ms
+   × planning requires first-action decision and rationale; changing order invalidates it 17ms
+   × attention has its own start condition, independent of planning answers 2ms
+ ❯ artifacts/nuvia-ui-review/src/official/tests/timeBlockUX.test.ts (3 tests | 1 failed) 68ms
+   ❯ simple timer entry (3)
+     × keeps deliberate step selection for a multi-step task 36ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  artifacts/nuvia-ui-review/src/official/tests/adaptiveTraining.test.ts > PASS adaptive training contract > official results are validated and preserve scores with explicit units
+Error: 1.1 네 영역은 검사 종류에 맞는 하나의 점수 단위를 사용해야 합니다.
+ ❯ validateAssessment artifacts/nuvia-ui-review/src/official/adaptive/engine.ts:62:197
+
+ ❯ artifacts/nuvia-ui-review/src/official/tests/adaptiveTraining.test.ts:35:96
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts > planning requires first-action decision and rationale; changing order invalidates it
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts:5:160
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts > attention has its own start condition, independent of planning answers
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ artifacts/nuvia-ui-review/src/official/tests/cognitiveActivity.test.ts:6:236
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  artifacts/nuvia-ui-review/src/official/tests/timeBlockUX.test.ts > simple timer entry > keeps deliberate step selection for a multi-step task
+AssertionError: expected '<section class="np-card tb-board tb-h…' to contain 'disabled="">15분 시작'
+
+Expected: "disabled="">15분 시작"
+Received: "<section class="np-card tb-board tb-has-blocks tb-assembly" data-testid="time-block-board"><div class="tb-board-heading"><div><span class="np-eyebrow">오늘의 시간 계획</span><h2>시간이 보이는 내 계획</h2><p>오늘 할 만큼 정하고 한 가지만 시작해요.</p></div><button class="tb-quick-add">할 일 추가</button></div><details><summary>이 계획이 나를 돕는 방식</summary><p>여러 과목의 시간·순서를 직접 배치하고 시작할 일을 골라요. 실제 시간은 다음 계획의 참고 자료예요. 점수·집중력·인지능력을 측정하지 않아요. 중단을 누르기 전까지의 시계 경과 시간을 기록하므로 화면 밖에서 쉬었다면 참고해서 해석해 주세요.</p></details><section class="tb-capacity" aria-label="오늘 시간 선반"><div class="tb-capacity-head"><div><span class="np-eyebrow">오늘 시간 선반</span><b>계획 15 / 가능 120분</b></div><label>쓸 수 있는 시간 <input aria-label="오늘 사용 가능 시간" type="number" min="1" max="1440" value="120"/>분</label></div><div class="tb-capacity-strip" role="img" aria-label="완료한 계획 0분, 남은 계획 15분, 비워 둔 시간 105분"><span class="tb-strip-pending" style="flex:15"></span><span class="tb-strip-free" style="flex:105"></span></div><div class="tb-capacity-legend"><span>완료한 계획 <b>0분</b></span><span>남은 계획 <b>15분</b></span><span>빈 시간 <b>105분</b></span></div></section><details class="tb-create"><summary>새 시간 블록 만들기</summary><form><label>할 일<input aria-label="블록 할 일" required="" maxLength="160" placeholder="예: 수학 문제 풀기" value=""/></label><label>몇 분 할까요?<input aria-label="블록 예상 시간" type="number" required="" min="1" max="1440" value="25"/></label><div class="tb-presets" aria-label="추천 시간"><button type="button" aria-pressed="false">10분</button><button type="button" aria-pressed="true">25분</button><button type="button" aria-pressed="false">35분</button><button type="button" aria-pressed="false">45분</button></div><div class="tb-recent" aria-label="최근 과제 다시 입력"><small>최근 과제 다시 쓰기</small><button type="button">수학</button></div><details><summary>과목·범위·날짜 정하기 (선택)</summary><div class="tb-fields"><label>영역<select aria-label="블록 영역"><option selected="">학습</option><option>생활</option><option>업무</option></select></label><label>과목·활동<input aria-label="블록 과목" maxLength="80" placeholder="예: 수학" value=""/></label></div><label>범위 · 오늘 할 분량<input aria-label="블록 범위" maxLength="160" placeholder="예: 문제집 1~20번" value=""/></label><div class="tb-fields"><label>날짜<input aria-label="블록 날짜" type="date" required="" value="2026-11-08"/></label><label>시작 시각<input aria-label="블록 시작 시각" type="time" required="" value="14:57"/></label></div></details><button class="np-primary">할 일 추가</button></form></details><section class="tb-queue" aria-label="시간순 할 일 목록"><h3>할 일 흐름 <small>1개 남음</small></h3><div class="tb-block-list"><article class="tb-mini subject-study selected "><div class="tb-mini-face" style="--block-height:129px;--mobile-block-height:99px" data-block-id="3eee737c-ad62-4ac5-a9ff-8e5dd95e3a60"><button class="tb-drag" title="누른 채 끌어서 순서 바꾸기" aria-label="수학 끌어서 순서 바꾸기">⋮⋮</button><button class="tb-open" aria-current="true"><span class="tb-position">1</span><span title="학습" class="tb-subject tb-study"><span aria-hidden="true">▤</span></span><span class="tb-status">시작 전 · 선택됨</span><b>수학</b><span class="tb-time">19:00</span><span class="tb-duration">15분</span></button><div class="tb-order" aria-label="수학 순서 조정"><button aria-label="수학 위로" disabled="">↑</button><button aria-label="수학 아래로" disabled="">↓</button></div></div><div class="tb-detail-slot" style="grid-row:1 / span 1"><article class="tb-station tb-phase-ready" data-testid="block-station"><div class="tb-station-head"><span title="학습" class="tb-subject tb-study"><span aria-hidden="true">▤</span><span class="tb-subject-label">학습</span></span><span>시작 전</span></div><small>순서 1 / 1 · 2026-11-08 · 19:00 · 계획 15분</small><h3>수학</h3><p class="tb-scope">문제집 1~10번</p><button class="np-primary tb-immediate-start">15분 시작</button><div class="tb-station-shortcuts"><button>계획 수정</button><button>더 보기</button></div><div class="tb-order" aria-label="선택한 할 일 순서"><button disabled="">위로 옮기기</button><button disabled="">아래로 옮기기</button></div><details class="tb-age-tools" data-testid="block-age-upper"><summary>준비·단계 도움</summary><label>지금 할 단계 카드<select aria-label="지금 할 단계 카드"><option value="" selected="">단계를 골라요</option><option value="1c96e4b4-d96c-4145-98f0-b84ee5923d82">문제집 1~10번</option><option value="second">답 확인</option></select></label></details><label class="tb-quick-time">몇 분 할까요?<input aria-label="시작 전 시간" type="number" min="1" max="1440" value="15"/>분</label><p class="np-activity-prompt">오늘 할 분량이나 첫 행동을 정해도 좋고, 바로 시작해도 돼요.</p><details><summary>계획 수정 · 단계·준비물·반복</summary><div class="tb-edit"><label>할 일 이름<input aria-label="블록 이름 수정" maxLength="160" value="수학"/></label><div class="tb-fields"><label>과목·활동<input aria-label="블록 과목 수정" maxLength="80" value=""/></label><label>영역<select><option>학습</option><option>생활</option><option>업무</option></select></label></div><label>범위<input aria-label="블록 범위 수정" maxLength="160" value=""/></label><div class="tb-fields"><label>날짜<input aria-label="블록 날짜 수정" type="date" required="" value="2026-11-08"/></label><label>시작 시각<input aria-label="블록 시작 시각 수정" type="time" value="19:00"/></label><label>예상 시간(분)<input aria-label="블록 시간 수정" type="number" min="1" max="1440" value="15"/></label><label>반복<select aria-label="블록 반복"><option value="none" selected="">반복 없음</option><option value="daily">매일</option><option value="weekdays">평일</option></select></label></div><h4>단계 카드</h4><div class="tb-child"><input type="checkbox" aria-label="문제집 1~10번 단계 완료"/><input aria-label="1번째 블록 단계" maxLength="160" value="문제집 1~10번"/></div><div class="tb-child"><input type="checkbox" aria-label="답 확인 단계 완료"/><input aria-label="2번째 블록 단계" maxLength="160" value="답 확인"/></div><div class="tb-fields"><input aria-label="블록 새 단계" maxLength="160" placeholder="나눌 다음 행동" value=""/><button disabled="">단계 추가</button></div><h4>준비물</h4><div class="tb-fields"><input aria-label="블록 새 준비물" maxLength="160" placeholder="챙길 준비물" value=""/><button disabled="">준비물 추가</button></div></div><div class="tb-presets"><button>오늘로</button><button>내일로</button><button>이번 주로</button></div></details></article></div></article></div><div class="tb-list-end"><span>오늘 남은 시간 105분 · 비워 둬도 괜찮아요</span><button>할 일 추가</button></div></section></section>"
+
+ ❯ artifacts/nuvia-ui-review/src/official/tests/timeBlockUX.test.ts:12:225
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  3 failed | 11 passed (14)
+      Tests  4 failed | 257 passed (261)
+   Start at  14:57:28
+   Duration  5.97s (transform 67%, import 22%, tests 9%, worker 2%)
+
+    Isolate  14 workers spawned · ~412ms startup each (spawn + environment, per file)
+             at least ~2.47s faster with isolate: false — reuses workers across files instead of one per file
+

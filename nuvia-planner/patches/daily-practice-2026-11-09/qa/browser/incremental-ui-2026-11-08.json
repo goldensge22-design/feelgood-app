@@ -1,0 +1,19 @@
+{
+  "scope": "NEW age-aware everyday practice recommendation patch only; live preview /library-demo.html?demo=university",
+  "browser": {"initialRouteLoaded": true, "initialConsoleErrors": [], "viewport": "1440x1000", "locale": "ko"},
+  "completedChecks": [
+    {"id":"preview-no-autocreate", "status":"pass", "details":"Opened practice-open and practice-choice-planning.prepare; preview appeared without task creation."},
+    {"id":"authored-preview-and-helper", "status":"pass", "details":"Authored title QA synthetic planning task, action Write one short outline, scope Draft three bullet points, minutes 15; changed help to attention; values stayed intact."},
+    {"id":"adult-detail-fields", "status":"partial-pass", "details":"Expanded adult practice-age-details; owner/dependency/handoff plus two materials inputs (five text inputs total) and waiting checkbox rendered; fields left empty/unchecked."},
+    {"id":"explicit-add-duplicate-guard", "status":"pass-with-attempt-note", "details":"Explicit practice-add created one 15-minute card. Added state disabled add button. Two extra click attempts timed out on disabled control; snapshot showed exactly one matching card."},
+    {"id":"place-start-run", "status":"pass", "details":"Selected existing card, placed it on desk; placement alone did not start. Explicit start began timer. Pause at 0:06, saved marker QA paused at outline, resumed at 0:07 and route/marker persisted."},
+    {"id":"confirm-completion-and-counts", "status":"pass", "details":"review-run presented completion choice; selected completed and clicked record. Task moved to collection once (15 min). Before record, uses=0/responses=0; after record uses=1/responses=0/unanswered=1."},
+    {"id":"optional-self-report", "status":"pass-with-semantics-note", "details":"Explicit yes, then neutral, then no; stats show one answered task per category as current/latest response, not a cumulative click history: final uses=1 responses=1 yes=0 neutral=0 no=1 unanswered=0."},
+    {"id":"personal-note", "status":"pass", "details":"Saved QA synthetic note: review outline tomorrow.; exact text survived actual backup/restore and page reload."},
+    {"id":"actual-personal-backup-restore", "status":"pass", "details":"Captured actual Playwright download event (NUVIA_studio_my_records.json), saveAs /tmp/studio-practice-personal-backup.json, failure=null; uploaded exact same file via input-restore; app confirmed verified restore; after reload task was present once and note/source/attachment/response persisted."},
+    {"id":"attachment-after-restore", "status":"pass", "details":"Source 작은 준비 계획 세우기, authored task/action/scope, 15 minutes, attention helper, uses=1 responses=1 no=1 persisted after reload."},
+    {"id":"initial-layout-and-console", "status":"pass", "details":"Korean university demo loaded at 1440; initial browser console/page errors empty; screenshots showed no obvious overflow in main workspace. See screenshots x453r6, kfvu9a, fy55l0, ugsnzo, 3of45w, zdh5yl, jy0j86, 30psg2, oign24, ino34w, c5fcie, t8g0s4, 6qwgao, 04ubrf, gt0tbn, 2gz2xr, 383s18, jksjmm, zbn9wa, b6tb0h, 5lgw77, qiqrfv, eb22xe, sge60l, xxntkt, le7w21."}
+  ],
+  "not_yet_tested": ["all 15 locale×1440 and 360 coherent recommendation flows", "locale change while unsaved preview preserves text", "locale change during active timer preserves timer/route", "cancel/direct-write/recommendation-free/unknown-time/invalid-time paths", "all four desktop/mobile overflow, keyboard and 44px accessibility checks", "recommendation compare page all five ages/targets/strength variations", "ordinary demo hidden elementary/draft jobcatalog and production build excludes compare HTML", "incremental screenshot files physically saved (screenshot IDs retained in tool observations only)"],
+  "prior_library_qa": "No prior library rows altered or claimed fixed; unrelated remaining17 rows were not rerun."
+}

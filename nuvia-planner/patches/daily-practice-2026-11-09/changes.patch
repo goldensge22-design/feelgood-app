@@ -1,0 +1,2775 @@
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/practice-compare.html
+@@ -0,0 +1 @@
++<!doctype html><html lang="ko"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Studio practice — internal comparison</title><meta name="robots" content="noindex,nofollow"></head><body><div id="root"></div><script type="module" src="/src/practice-recommendations/Compare.tsx"></script></body></html>
+--- a/artifacts/nuvia-ui-review/src/library-public/domain.ts
++++ b/artifacts/nuvia-ui-review/src/library-public/domain.ts
+@@ -9,7 +9,7 @@
+ }
+ export function validateLibrary(state:PersonalState){
+  if(state.mode!=='personal'||Object.keys(state.studio?.libraryAttachments??{}).length||
+-    Object.values(state.studio?.sources??{}).some(s=>s.snapshot.practiceContext)){
++    Object.values(state.studio?.sources??{}).some(s=>s.snapshot.practiceContext&&!(s.snapshot.practiceContext==='daily-practice'&&state.studio?.practice?.attachments[s.cardId]))){
+   throw Error(libText(localeOf(state),'unavailable'));
+  }
+ }
+--- a/artifacts/nuvia-ui-review/src/library-public/state.ts
++++ b/artifacts/nuvia-ui-review/src/library-public/state.ts
+@@ -24,5 +24,8 @@
+   state.assessmentHistory.some(h=>h.assessment!==null&&JSON.stringify(h.assessment)!==JSON.stringify(labAssessment))){
+   throw Error(libText(localeOf(state),'unavailable'));
+  }
++ for(const a of Object.values(state.studio?.practice?.attachments??{})){
++  if(a.stage!==labAssessment.educationStage||a.basis==='result'&&JSON.stringify(a.source)!==JSON.stringify(labAssessment))throw Error(libText(localeOf(state),'unavailable'));
++ }
+  return state;
+ }
+--- a/artifacts/nuvia-ui-review/src/planner-library/domain.ts
++++ b/artifacts/nuvia-ui-review/src/planner-library/domain.ts
+@@ -61,5 +61,5 @@
+   if(a.confirmedRunId){const r=p.runs.find(r=>r.id===a.confirmedRunId);if(!r||r.cardId!==id||r.phase!=='closed'||Date.parse(r.startedAt)<Date.parse(a.attachedAt)||a.answers.some(x=>!x.trim())||!Number.isFinite(Date.parse(a.confirmedAt))||Date.parse(a.confirmedAt)<Math.max(Date.parse(a.updatedAt),Date.parse(r.startedAt),...r.segments.map(x=>Date.parse(x.end))))return fail(s);}
+   else if(a.confirmedAt)return fail(s);
+  }
+- for(const src of Object.values(s.studio?.sources??{}))if(src.snapshot.practiceContext!==contextOf(s,src.cardId))return fail(s);
++ for(const src of Object.values(s.studio?.sources??{}))if(src.snapshot.practiceContext!==(contextOf(s,src.cardId)??(s.studio?.practice?.attachments[src.cardId]?'daily-practice':undefined)))return fail(s);
+ }
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/Compare.tsx
+@@ -0,0 +1,47 @@
++/** DEV ONLY: no localStorage, no real-result intake, not a production input. */
++import React,{useState} from 'react';
++import {createRoot,type Root} from 'react-dom/client';
++import {createStudio,updateStudio} from '../studio/studio-logic';
++import StudioPage from '../studio/StudioPage';
++import {DEMOS,AXES} from '../official/adaptive/engine';
++import type {Stage,Action,Axis} from '../studio/model';
++import {stages} from './model';
++import {localeOf,locales} from '../studio/i18n/config';
++import {setLocale} from '../studio/i18n/runtime';
++import {text,ageContent} from './i18n';
++import '../studio/personal.css';
++import '../studio/studio.css';
++function fixture(stage:Stage,target:Axis='planning',strength:Axis|'universal'='simultaneous'){
++ const s=createStudio();s.mode='review';s.studio!.stageChosen=true;
++ const p=s.lab.students[s.studentId];p.stage=stage;
++ p.assessment=structuredClone(DEMOS[0]);p.assessment.educationStage=stage;
++ p.assessment.subjectId=p.id;p.assessment.assessmentId='synthetic-'+p.id;
++ for(const axis of AXES)p.assessment.axes[axis].level=axis===target?'low':axis===strength?'high':'mid';
++ p.assessment.supportOrder=[target];p.assessment.strengthOrder=strength==='universal'||strength===target?[]:[strength];
++ return s;
++}
++function Compare(){
++ const [state,setState]=useState(()=>fixture('adult')),[target,setTarget]=useState<Axis>('planning'),[strength,setStrength]=useState<Axis|'universal'>('simultaneous'),[error,setError]=useState('');
++ const locale=localeOf(state),p=state.lab.students[state.studentId];setLocale(locale);
++ document.documentElement.lang=locale;document.documentElement.dir=locale==='ar'?'rtl':'ltr';
++ function reset(stage:Stage,t=target,h=strength){const n=fixture(stage,t,h);n.studio!.locale=locale;setState(n);}
++ function changeStrength(h:Axis|'universal'){
++  setStrength(h);
++  setState(previous=>{
++   const n=structuredClone(previous),fresh=fixture(p.stage,target,h);
++   n.lab.students[n.studentId].assessment=fresh.lab.students[fresh.studentId].assessment;
++   return n;
++  });
++ }
++ function act(a:Action){try{setState(updateStudio(state,a,new Date().toISOString(),true));setError('');return true;}catch(e){setError(String(e));return false;}}
++ return <main className="pm-root st-root"><header className="st-head">
++  <h1>NUVIA PLANNER · QA</h1><div className="st-language"><select aria-label="Language" data-testid="compare-locale" value={locale} onChange={e=>act({type:'studio.locale',locale:e.target.value as typeof locale})}>{locales.map(l=><option key={l} value={l}>{l}</option>)}</select></div>
++ </header><p>{text(locale,'reviewOnly')} · DEV ONLY · temporary synthetic data</p>
++ <div className="pm-grid2">
++ <label>{text(locale,'context')}<select data-testid="compare-stage" value={p.stage} onChange={e=>reset(e.target.value as Stage)}>{stages.map(stage=><option key={stage} value={stage}>{ageContent(locale,stage,'scope')}</option>)}</select></label>
++ <label>{text(locale,'practiceReason')}<select data-testid="compare-target" value={target} onChange={e=>{const t=e.target.value as Axis;setTarget(t);reset(p.stage,t);}}>{AXES.map(a=><option key={a} value={a}>{text(locale,a)}</option>)}</select></label>
++ <label>{text(locale,'strengthReason')}<select data-testid="compare-strength" value={strength} onChange={e=>changeStrength(e.target.value as Axis|'universal')}>{[...AXES,'universal'].map(a=><option key={a} value={a}>{text(locale,a==='universal'?'helpUniversal':'help'+a[0].toUpperCase()+a.slice(1))}</option>)}</select></label>
++ </div>{error&&<p role="alert">{error}</p>}<StudioPage key={p.stage+target} view="plan" state={state} student={p} act={act}/></main>;
++}
++const mount=document.getElementById('root') as HTMLElement&{__practiceRoot?:Root};
++(mount.__practiceRoot??=createRoot(mount)).render(<React.StrictMode><Compare/></React.StrictMode>);
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/PracticeUI.tsx
+@@ -0,0 +1,145 @@
++import {useEffect,useRef,useState} from 'react';
++import type {Action,PersonalState,Stage} from '../studio/model';
++import {recommendations,practiceAttachment,practiceStats} from './domain';
++import {text,content,ageContent} from './i18n';
++import {localeOf} from '../studio/i18n/config';
++import './practice.css';
++import {ageDesign,previewSteps,stepOffset} from './catalog';
++import {label as existingLabel} from '../studio/i18n/runtime';
++import {initialText} from './display';
++
++type Act=(a:Action)=>boolean;
++type Help='planning'|'attention'|'simultaneous'|'successive'|'universal'|'none';
++const HELPS:Help[]=['planning','attention','simultaneous','successive','universal','none'];
++const HELP_KEY:Record<Help,string>={planning:'helpPlanning',attention:'helpAttention',simultaneous:'helpSimultaneous',successive:'helpSuccessive',universal:'helpUniversal',none:'helpNone'};
++const CONTEXTS:[string,string][]=[['생활','life'],['학습','study'],['업무','work']];
++type Rec=ReturnType<typeof recommendations>[number];
++const asList=(v:unknown):string[]=>Array.isArray(v)?v.map(String):typeof v==='string'&&v?[v]:[];
++
++function focusTaskCreator(from:HTMLElement|null){
++ const root=from?.closest('section')??document;
++ const el=root.querySelector<HTMLElement>('[data-testid="task-title"]')??root.querySelector<HTMLElement>('[data-testid="button-open-task"]');
++ el?.focus();
++ if(el?.getAttribute('data-testid')==='button-open-task'){
++  el.click();requestAnimationFrame(()=>root.querySelector<HTMLElement>('[data-testid="task-title"]')?.focus());
++ }
++}
++
++export function HelpPreview({locale,stage,help,title,action,scope,context}:{locale:string;stage:Stage;help:Help;title:string;action:string;scope:string;context:string}){
++ const t=(k:string)=>text(locale,k);
++ const items=asList(ageContent(locale,stage,'items'));
++ const ctx=asList(ageContent(locale,stage,'context'));
++ return <div className="pr-help" data-help={help} data-testid={`practice-help-${help}`}>
++  <p className="st-eye">{t(HELP_KEY[help])}</p>
++  {help==='simultaneous'&&<div className="pr-rel"><div className="pr-node pr-goal"><small>{t('title')}</small><b>{title}</b></div>
++   {items.length>0&&<div className="pr-node"><small>{t('materials')}</small><ul>{items.map(x=><li key={x}>{x}</li>)}</ul></div>}
++   <div className="pr-node"><small>{t('context')}</small><b>{context}</b>{ctx.length>0&&<p className="st-note">{ctx.join(' · ')}</p>}</div></div>}
++  {help==='successive'&&<ol className="pr-seq"><li><small>1</small><span>{action}</span></li><li><small>2</small><span>{scope||t('optional')}</span></li></ol>}
++  {help==='planning'&&<dl className="pr-plan"><div><dt>{t('title')}</dt><dd>{title}</dd></div><div><dt>{t('scope')}</dt><dd>{scope||t('optional')}</dd></div><div><dt>{t('confirm')}</dt><dd>{action}</dd></div></dl>}
++  {help==='attention'&&<p className="pr-first"><small>{t('action')}</small><mark>{action}</mark></p>}
++  {help==='universal'&&<p className="pr-simple">{action}</p>}
++  {help==='none'&&<p className="st-note">{t('helpNone')}</p>}
++ </div>;
++}
++
++function Preview({state,rec,act,onClose}:{state:PersonalState;rec:Rec;act:Act;onClose:()=>void}){
++ const locale=localeOf(state),t=(k:string)=>text(locale,k);
++ const [v,setV]=useState(()=>({title:String(content(locale,rec.id,'title')),action:String(content(locale,rec.id,'action')),scope:ageContent(locale,rec.stage,'scope'),
++  minutes:rec.minutes?String(rec.minutes):'',unknown:!rec.minutes,context:rec.stage==='adult'?'생활':'학습',help:(rec.help as Help)||'none',helpChosen:false,timeChosen:false,scopeChosen:false,titleEdited:false,actionEdited:false,waiting:false,details:Array.from({length:ageDesign[rec.stage].steps},()=>'' )}));
++ useEffect(()=>setV(previous=>({...previous,
++  ...(!previous.titleEdited?{title:content(locale,rec.id,'title')}:{}),
++  ...(!previous.actionEdited?{action:content(locale,rec.id,'action')}:{}),
++  ...(!previous.scopeChosen?{scope:ageContent(locale,rec.stage,'scope')}:{}),
++  ...(!previous.helpChosen?{help:rec.help as Help}:{}),
++ })),[locale,rec.id,rec.stage,rec.help]);
++ const reqId=useRef(crypto.randomUUID()),busy=useRef(false);
++ const [done,setDone]=useState(false),[err,setErr]=useState('');
++ const set=(p:Partial<typeof v>)=>setV(o=>({...o,...p}));
++ const add=()=>{
++  if(busy.current||done)return;setErr('');
++  let minutes:number|null=null;
++  if(!v.unknown){const n=Number(v.minutes);if(!Number.isInteger(n)||n<1||n>1440){setErr('invalidTime');return;}minutes=n;}
++  if(!v.title.trim()||!v.action.trim()){setErr('coreRequired');return;}
++  busy.current=true;
++  const ok=act({type:'practice.add',templateId:rec.id,stage:rec.stage,help:v.help,requestId:reqId.current,
++   provided:{title:!v.titleEdited,firstAction:!v.actionEdited,scope:!v.scopeChosen},
++   ...(rec.stage==='high'?{details:{deadline:v.details[1]}}:rec.stage==='adult'?{details:{owner:v.details[0],dependency:v.details[1],handoff:v.details[2],waiting:v.waiting}}:{}),
++   task:{title:v.title.trim(),firstAction:v.action.trim(),scope:v.scope.trim(),date:rec.stage==='high'&&v.details[0]?v.details[0]:undefined,minutes,activity:v.context,activityExplicit:true,timeChosen:v.timeChosen,scopeChosen:v.scopeChosen,planReviewed:false,materials:v.details.filter(x=>x.trim()).join(' · '),steps:previewSteps(rec.stage,rec.target,v.details),requestId:reqId.current}} as unknown as Action);
++  if(ok)setDone(true);else busy.current=false;
++ };
++ return <div className="pr-preview" data-testid="practice-preview">
++  <p className="st-eye">{t('preview')} · {t(rec.basis==='result'?'resultReason':'generalReason')}</p>
++  <div className="pm-grid2">
++   <label>{t('title')}<input data-testid="practice-title" value={v.title} onChange={e=>set({title:e.target.value,titleEdited:true})}/></label>
++   <label>{t('action')}<input data-testid="practice-action" value={v.action} onChange={e=>set({action:e.target.value,actionEdited:true})}/></label>
++   <label>{t('scope')}<input data-testid="practice-scope" value={v.scope} onChange={e=>set({scope:e.target.value,scopeChosen:true})}/></label>
++   <label>{t('time')}<input data-testid="practice-minutes" type="number" min={1} max={1440} step={1} disabled={v.unknown} value={v.minutes} onChange={e=>set({minutes:e.target.value,timeChosen:true})}/></label>
++  </div>
++  <label className="pm-check"><input type="checkbox" data-testid="practice-unknown" checked={v.unknown} onChange={e=>set({unknown:e.target.checked,timeChosen:true})}/>{t('unknown')}</label>
++  <fieldset><legend>{t('context')}</legend><div className="pm-chips">{CONTEXTS.map(([c,k])=><button type="button" key={c} data-testid={`practice-context-${k}`} aria-pressed={v.context===c} onClick={()=>set({context:c})}>{t(k)}</button>)}</div></fieldset>
++  <fieldset><legend>{t('help')}</legend><div className="pm-chips">{HELPS.map(h=><button type="button" key={h} data-testid={`practice-help-choice-${h}`} aria-pressed={v.help===h} onClick={()=>set({help:h,helpChosen:true})}>{t(HELP_KEY[h])}</button>)}</div>
++   <p className="st-note">{t(HELP_KEY[v.help])}</p></fieldset>
++  <HelpPreview locale={locale} stage={rec.stage} help={v.help} title={v.title} action={v.action} scope={v.scope} context={t(CONTEXTS.find(c=>c[0]===v.context)![1])}/>
++  <details className="pm-fold" data-testid="practice-reason"><summary>{t('reason')}</summary>
++   <h4>{t('practiceReason')} · {t(rec.target)}</h4><p>{t(rec.basis==='result'?'resultReason':'generalReason')}</p>
++   <h4>{t('strengthReason')}</h4><p>{t(HELP_KEY[rec.officialHelp])} → {t(HELP_KEY[v.help])}</p><p>{t('coreRequired')}</p>
++  </details>
++  <p className="pr-confirm"><small>{t('confirm')}</small>{String(content(locale,rec.id,'confirm'))}</p>
++  <p className="st-note pr-safety" data-testid="practice-safety">{t('safety')}</p>
++  <details className="pm-fold" data-testid="practice-age-details"><summary>{t('materials')} · {t('optional')}</summary>
++   <p>{ageContent(locale,rec.stage,'context')}</p>
++   <div className="pm-grid2" data-age={rec.stage}>{v.details.map((value,i)=><label key={i}>{rec.stage==='high'&&i<2?existingLabel(i===0?'날짜':'최종 마감',locale):rec.stage==='adult'&&i<3?existingLabel(['책임자','먼저 끝나야 하는 일','넘겨줄 곳'][i],locale):t(rec.target==='successive'?'action':'materials')+' '+(i-stepOffset(rec.stage)+1)}
++    {rec.stage==='elementary_1_3'&&<svg viewBox="0 0 32 24" width="44" height="32" aria-hidden="true"><path d={i===0?'M4 4h10v16H4zM18 4h10v16H18z':'M5 8h22v13H5zM10 8V3h12v5'} fill="none" stroke="currentColor" strokeWidth="2"/></svg>}
++    <input type={rec.stage==='high'&&i<2?'date':'text'} data-testid={`practice-detail-${i}`} maxLength={rec.stage==='elementary_1_3'?40:rec.stage==='elementary_4_6'?80:rec.stage==='middle'?160:300} value={value} onChange={e=>set({details:v.details.map((x,j)=>j===i?e.target.value:x)})}/>
++   </label>)}</div>
++   {rec.stage==='adult'&&<label className="pm-check"><input type="checkbox" checked={v.waiting} onChange={e=>set({waiting:e.target.checked})}/>{existingLabel('다른 사람을 기다리는 중',locale)}</label>}
++  </details>
++  {rec.stage.startsWith('elementary')&&<p className="st-note">{t('reviewOnly')}</p>}
++  {err&&<p role="alert" data-testid="practice-error">{t(err)}</p>}
++  {done&&<p role="status" data-testid="practice-added">{t('added')}</p>}
++  <div className="st-row"><button className="pm-primary" data-testid="practice-add" disabled={done} onClick={add}>{done?t('added'):t('add')}</button><button data-testid="practice-preview-close" onClick={onClose}>{t('close')}</button></div>
++ </div>;
++}
++
++export default function PracticeRecommendations({state,act}:{state:PersonalState;act:Act}){
++ const locale=localeOf(state),t=(k:string)=>text(locale,k);
++ const recs=recommendations(state);
++ const [order,setOrder]=useState(0),[pick,setPick]=useState<string|null>(null);
++ const here=useRef<HTMLDetailsElement>(null);
++ const two=recs.length?[recs[order%recs.length]]:[];
++ const chosen=recs.find(r=>r.id===pick);
++ const choose=(r:Rec)=>{act({type:'practice.view',templateId:r.id,stage:r.stage} as unknown as Action);setPick(r.id);};
++ return <details ref={here} className="pm-fold pr-entry" data-testid="practice-open"><summary>{t('open')}</summary>
++  <h3>{t('heading')}</h3>
++   {chosen?<Preview key={chosen.id+':'+chosen.stage} state={state} rec={chosen} act={act} onClose={()=>setPick(null)}/>:<>
++   {two.length?<ul className="pr-choices">{two.map(r=><li key={r.id}><button data-testid={`practice-choice-${r.id}`} onClick={()=>choose(r)}>
++    <b>{String(content(locale,r.id,'title'))}</b><span>{String(content(locale,r.id,'action'))}</span>
++     <small>{t('time')}: {new Intl.NumberFormat(locale).format(r.minutes)} · {t(HELP_KEY[r.help])}</small>
++     <small>{t('confirm')}: {content(locale,r.id,'confirm')}</small>
++     <small>{t(r.basis==='result'?'resultReason':'generalReason')}</small></button></li>)}</ul>:<p className="pm-empty">{t('none')}</p>}
++   <div className="st-row">
++     {recs.length>1&&<button data-testid="practice-other" onClick={()=>setOrder(o=>o+1)}>{t('other')}</button>}
++    <button data-testid="practice-write" onClick={()=>focusTaskCreator(here.current)}>{t('write')}</button>
++    <button data-testid="practice-without" onClick={()=>{if(here.current)here.current.open=false;focusTaskCreator(here.current);}}>{t('without')}</button>
++   </div></>}
++ </details>;
++}
++
++export function PracticeAttachment({state,cardId,act}:{state:PersonalState;cardId:string;act:Act}){
++ const locale=localeOf(state),t=(k:string)=>text(locale,k);
++ const a=practiceAttachment(state,cardId);
++ if(!a)return null;
++ const s=practiceStats(state,cardId);
++ const last=a.reports[a.reports.length-1];
++ const respond=(value:'yes'|'neutral'|'no')=>act({type:'practice.respond',cardId,value} as unknown as Action);
++ return <section className="pr-attach" data-testid={`practice-attachment-${cardId}`}>
++   <p className="st-eye">{t('source')} · {content(locale,a.templateId,'title')} · {a.addedAt.slice(0,10)}</p>
++   <dl className="pr-plan"><div><dt>{t('initial')}</dt><dd>{initialText(a,locale,'title')}</dd></div><div><dt>{t('action')}</dt><dd>{initialText(a,locale,'firstAction')}</dd></div>
++    <div><dt>{t('scope')}</dt><dd>{initialText(a,locale,'scope')||t('optional')}</dd></div><div><dt>{t('time')}</dt><dd>{a.initial.minutes>0?a.initial.minutes:t('unknown')}</dd></div></dl>
++   <HelpPreview locale={locale} stage={a.stage} help={a.help as Help} title={initialText(a,locale,'title')} action={initialText(a,locale,'firstAction')} scope={initialText(a,locale,'scope')} context=""/>
++  <dl className="pr-stats" data-testid="practice-stats">{(['uses','responses','yes','neutral','no','unanswered'] as const).map(k=><div key={k}><dt>{t(k==='uses'?'useCount':k==='responses'?'responseCount':k)}</dt><dd data-testid={`practice-stat-${k}`}>{s[k]}</dd></div>)}</dl>
++  {s.uses>0&&<fieldset className="pr-respond"><legend>{t('response')} ({t('optional')})</legend>
++   <div className="pm-chips">{(['yes','neutral','no'] as const).map(x=><button key={x} data-testid={`practice-respond-${x}`} aria-pressed={last?.value===x} onClick={()=>respond(x)}>{t(x)}</button>)}</div>
++   <p className="st-note">{t('noEffect')}</p></fieldset>}
++ </section>;
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/catalog.ts
+@@ -0,0 +1,15 @@
++import type {Stage,Target} from '../studio/model';
++import {templateIds} from './model';
++export const templates=templateIds.map(id=>({id,target:id.split('.')[0] as Target,version:'daily-practice/1',contentReview:'ai-draft',efficacy:'not-established'}));
++export const ageDesign:Record<Stage,{minutes:number;objects:number;steps:number;scope:'picture-and-one-action'|'school-and-short-reason'|'study-and-explanation'|'deadlines-and-conditions'|'life-work-and-transfer'}>={
++ elementary_1_3:{minutes:3,objects:2,steps:2,scope:'picture-and-one-action'},
++ elementary_4_6:{minutes:5,objects:3,steps:3,scope:'school-and-short-reason'},
++ middle:{minutes:7,objects:3,steps:3,scope:'study-and-explanation'},
++ high:{minutes:10,objects:4,steps:4,scope:'deadlines-and-conditions'},
++ adult:{minutes:10,objects:4,steps:5,scope:'life-work-and-transfer'},
++};
++/** Calendar and ownership context are not task-internal action steps. */
++export const stepOffset=(stage:keyof typeof ageDesign)=>stage==='high'?2:stage==='adult'?3:0;
++export function previewSteps(stage:keyof typeof ageDesign,target:string,details:string[]){
++ return target==='successive'?details.slice(stepOffset(stage)).map(v=>v.trim()).filter(Boolean):undefined;
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/display.ts
+@@ -0,0 +1,20 @@
++import type {PersonalState} from '../studio/model';
++import type {Card} from '../enhancement/model';
++import {localeOf} from '../studio/i18n/config';
++import {content,ageContent} from './i18n';
++import type {PracticeAttachment} from './model';
++export function initialText(a:PracticeAttachment,locale:string,field:'title'|'firstAction'|'scope'){
++ const value=a.initial[field];
++ if(!a.provided?.[field])return value;
++ const original=field==='scope'?ageContent(a.creationLocale,a.stage,'scope'):content(a.creationLocale,a.templateId,field==='title'?'title':'action');
++ return value===original?(field==='scope'?ageContent(locale,a.stage,'scope'):content(locale,a.templateId,field==='title'?'title':'action')):value;
++}
++/** Presentation only: authored/edited strings never become translation targets. */
++export function practiceTitle(s:PersonalState,c:Card){
++ return practiceField(s,c,'title');
++}
++export function practiceField(s:PersonalState,c:Card,field:'title'|'firstAction'|'scope'){
++ const a=s.studio?.practice?.attachments[c.id];
++ const pristine=c.history.every(h=>{try{return JSON.parse(h.plan)[field]===a?.initial[field];}catch{return false;}});
++ return a&&pristine&&c[field]===a.initial[field]?initialText(a,localeOf(s),field):c[field];
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/domain.ts
+@@ -0,0 +1,56 @@
++import type {PersonalState} from '../studio/model';
++import {routeFor,student} from '../studio/domain';
++import {localeOf,isLocale} from '../studio/i18n/config';
++import type {PracticeAction,PracticeAttachment,Recommendation} from './model';
++import {VERSION} from './model';
++import {templates,ageDesign} from './catalog';
++import {text} from './i18n';
++import {validateAssessment} from '../official/adaptive/engine';
++export function recommendations(s:PersonalState):Recommendation[]{
++ const p=student(s),r=routeFor(p);
++ if(!ageDesign[p.stage]||p.stage.startsWith('elementary')&&s.mode!=='review')return [];
++ const basis=p.assessment&&r.creditAllowed&&p.assessment.educationStage===p.stage?'result':'general';
++ const target=basis==='result'?r.target:'integrated';
++ // No new cut points, sort orders or score interpretation. Existing core owns rotation.
++ const officialHelp=basis==='result'?routeFor({...p,supportChoice:'official'}).support:'universal';
++ const help=p.supportChoice==='official'?officialHelp:p.supportChoice;
++ return templates.filter(t=>t.target===target).map(t=>({id:t.id,stage:p.stage,target,help,officialHelp,basis,minutes:ageDesign[p.stage].minutes,version:VERSION}));
++}
++export const practiceAttachment=(s:PersonalState,id:string):PracticeAttachment|undefined=>s.studio?.practice?.attachments[id];
++export function practiceStats(s:PersonalState,id:string,month?:string){
++ const a=practiceAttachment(s,id),runs=student(s).runs.filter(r=>r.cardId===id&&r.phase==='closed'&&(!month||(s.entries.find(e=>e.runId===r.id)?.localDate??r.startedAt.slice(0,10)).startsWith(month)));
++ const last=new Map(a?.reports.map(r=>[r.runId,r])??[]);
++ const reports=runs.map(r=>last.get(r.id)).filter(Boolean);
++ return {uses:runs.length,responses:reports.length,yes:reports.filter(r=>r!.value==='yes').length,neutral:reports.filter(r=>r!.value==='neutral').length,no:reports.filter(r=>r!.value==='no').length,unanswered:runs.length-reports.length};
++}
++export function requireRecommendation(s:PersonalState,id:string,stage:string){
++ const found=recommendations(s).find(r=>r.id===id&&r.stage===stage);
++ if(!found)throw Error(text(localeOf(s),'unavailable'));
++ return found;
++}
++export function applyPractice(s:PersonalState,a:Exclude<PracticeAction,{type:'practice.add'}>,at:string){
++ const d=s.studio!;
++ d.practice??={views:[],attachments:{}};
++ if(a.type==='practice.view'){
++  const r=requireRecommendation(s,a.templateId,a.stage);
++  d.practice.views.push({templateId:r.id,stage:r.stage,at});
++  d.practice.views=d.practice.views.slice(-2000);
++ }else{
++  const record=d.practice.attachments[a.cardId],run=student(s).runs.filter(r=>r.cardId===a.cardId&&r.phase==='closed').at(-1);
++  if(!record||!run||!['yes','neutral','no'].includes(a.value))throw Error(text(localeOf(s),'responseAfterRun'));
++  const old=record.reports.at(-1);
++  if(old?.runId===run.id&&old.value===a.value)return;
++  record.reports.push({at,runId:run.id,value:a.value});
++ }
++}
++export function validatePractice(s:PersonalState){
++ for(const [id,a] of Object.entries(s.studio?.practice?.attachments??{})){
++  const p=student(s);
++  if(id!==a.taskId||!p.cards.some(c=>c.id===id)||!isLocale(a.creationLocale)||!templates.some(t=>t.id===a.templateId&&t.target===a.target))throw Error(text(localeOf(s),'invalidBackup'));
++  if(a.basis==='result'){
++   const source=validateAssessment(a.source);
++   if(source.educationStage!==a.stage||routeFor({...p,assessment:source,officialType:undefined,round:a.roundAtSelection,supportChoice:'official'}).target!==a.target)throw Error(text(localeOf(s),'invalidBackup'));
++  }else if(a.source!==null)throw Error(text(localeOf(s),'invalidBackup'));
++  for(const response of a.reports)if(!p.runs.some(r=>r.id===response.runId&&r.cardId===id&&r.phase==='closed'))throw Error(text(localeOf(s),'invalidBackup'));
++ }
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/i18n.ts
+@@ -0,0 +1,25 @@
++import ko from './locales/ko.json';
++import en from './locales/en.json';
++import ja from './locales/ja.json';
++import zhCN from './locales/zh-CN.json';
++import zhTW from './locales/zh-TW.json';
++import mn from './locales/mn.json';
++import th from './locales/th.json';
++import vi from './locales/vi.json';
++import ar from './locales/ar.json';
++import ru from './locales/ru.json';
++import km from './locales/km.json';
++import es from './locales/es.json';
++import fr from './locales/fr.json';
++import it from './locales/it.json';
++import az from './locales/az.json';
++import type {Locale} from '../studio/i18n/config';
++import type {Stage} from '../studio/model';
++export const resources:Record<Locale,Record<string,string>>={ko,en,ja,'zh-CN':zhCN,'zh-TW':zhTW,mn,th,vi,ar,ru,km,es,fr,it,az};
++export function text(locale:string,key:string):string{
++ const value=resources[locale as Locale]?.[key];
++ if(!value)throw Error('Missing practice translation: '+locale+'/'+key);
++ return value;
++}
++export const content=(locale:string,id:string,field:'title'|'action'|'confirm')=>text(locale,id+'.'+field);
++export const ageContent=(locale:string,stage:Stage,field:'items'|'scope'|'context')=>text(locale,stage+'.'+field);
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/ar.json
+@@ -0,0 +1,105 @@
++{
++  "action": "إجراء للقيام به مباشرة",
++  "add": "إضافة إلى مهامي",
++  "added": "تمت الإضافة للرف. يرجى الضغط للبدء بنفسك.",
++  "adult.context": "اختر بين الحياة أو الدراسة أو العمل، واشرح باختصار كيف ستستخدمه في مواقف أخرى.",
++  "adult.items": "مستلزمات الحياة أو العمل، الجدول، المسؤوليات أو المهام المسبقة",
++  "adult.scope": "3-5 خطوات لعملية التحضير أو ربط الظروف الفعلية وتطبيقها في مواقف أخرى",
++  "attention": "شيء واحد فقط الآن",
++  "attention.choose.action": "اختر شيئًا واحدًا والإجراء الذي ستقوم به الآن. إذا خطرت لك أفكار أخرى، احتفظ بها لوقت الحاجة.",
++  "attention.choose.confirm": "تحقق من الشيء الذي اخترته والإجراء الذي قمت به بالفعل. لا تفتعل عوائق.",
++  "attention.choose.title": "اختيار شيء واحد للتركيز عليه الآن",
++  "attention.find.action": "حدد معلومة واحدة تحتاجها الآن، واعثر عليها في المادة، ثم ضع علامة عليها أو انطقها.",
++  "attention.find.confirm": "تحقق من سبب حاجتك لهذه المعلومة المختارة لهذا الإجراء.",
++  "attention.find.title": "العثور على معلومة واحدة تحتاجها",
++  "close": "إغلاق",
++  "confirm": "ما يجب التحقق منه عند الانتهاء",
++  "context": "اختيار الحالة",
++  "coreRequired": "المساعدة هي وسيلة لعرض المعلومات. أنت من يقوم بالاختيار والربط والتحقق من الترتيب بنفسك.",
++  "elementary_1_3.context": "اختر أو ارسم وأنت جالس في مكانك. لا بأس بتقديم شرح بكلمات بسيطة.",
++  "elementary_1_3.items": "رسمان أو 3 أشياء مألوفة",
++  "elementary_1_3.scope": "اختيار شيئين بالرسم وإجراء واحد للقيام به الآن",
++  "elementary_4_6.context": "اختر تحضير الحقيبة أو المكتب كمثال، واذكر الترتيب والسبب اللازمين.",
++  "elementary_4_6.items": "مستلزمات المدرسة للغد أو 3-4 أشياء تحتاج لترتيبها",
++  "elementary_4_6.scope": "تحضير المدرسة في 3-4 خطوات، مع سبب بسيط واحد",
++  "generalReason": "هذا تمرين عام وليس توصية مبنية على فحص. يرجى اختيار النشاط والمساعدة المريحة لك بنفسك.",
++  "heading": "تمرين صغير لتجربته اليوم",
++  "help": "مساعدة معروضة لي",
++  "helpAttention": "التركيز على شيء واحد",
++  "helpNone": "بدون مساعدة إضافية",
++  "helpPlanning": "الأهداف ومعايير الإنجاز",
++  "helpSimultaneous": "خريطة شاملة ومجموعات العلاقات",
++  "helpSuccessive": "جدول الترتيب الحالي والتالي",
++  "helpUniversal": "إرشادات عامة قصيرة",
++  "high.context": "قارن الجدول بالمواعيد النهائية لتعديل الكمية بنفسك واذكر سبب اختيارك.",
++  "high.items": "جدول الدراسة، المواعيد النهائية للمهام، الوقت والظروف المتاحة فعليًا",
++  "high.scope": "مقارنة الموعد النهائي مع شرطين أو أكثر وتعديل الكمية والترتيب لهذا اليوم",
++  "initial": "الخطة عند الاختيار",
++  "integrated": "نشاط متكامل عام",
++  "integrated.small.action": "حدد كمية مهمة صغيرة واحدة وإجراءها الأول، أو راجع الخطة ثم نفذها بنفسك.",
++  "integrated.small.confirm": "تحقق من القرار المخطط له، والتنفيذ الفعلي، وشيء واحد لتغييره في المرة القادمة.",
++  "integrated.small.title": "تخطيط وتجربة مهمة صغيرة واحدة",
++  "integrated.tomorrow.action": "اختر تحضيرًا واحدًا ضروريًا للمرة القادمة، وحدد نطاقه وطريقته، ثم نفذ ما يمكنك القيام به الآن.",
++  "integrated.tomorrow.confirm": "تحقق من الجزء الذي جربته والموقع الذي ستكمل منه لاحقًا.",
++  "integrated.tomorrow.title": "تحضير صغير للمرة القادمة",
++  "invalidBackup": "الرابط بين نشاط التوصية والمهمة الأصلية غير صحيح.",
++  "invalidTime": "يرجى إدخال الوقت المتوقع كعدد صحيح بين 1 و1440 دقيقة أو اختر غير محدد.",
++  "life": "الحياة",
++  "materials": "الأشياء المطلوب اختيارها أو تحضيرها",
++  "middle.context": "اختر التحضير لبدء الدراسة أو حدثًا يوميًا واشرحه باختصار بكلماتك الخاصة.",
++  "middle.items": "مستلزمات الدراسة، حدث يومي عادي، المواد اللازمة",
++  "middle.scope": "كمية التحضير أو حدث يومي في 2-4 خطوات مع شرح قصير",
++  "neutral": "لا أعرف بعد",
++  "no": "لم تكن مفيدة",
++  "noEffect": "سجل التنفيذ والتقارير الذاتية منفصلة. لا تعد دليلاً على تحسن القدرات أو دقة الفحص.",
++  "none": "تقليل المساعدة والبدء مباشرة",
++  "open": "تمارين موصى بها",
++  "optional": "اختياري.. لا بأس إن لم تجب.",
++  "other": "عرض توصيات أخرى",
++  "planning": "تحديد الكمية المناسبة",
++  "planning.prepare.action": "حدد بنفسك الكمية والترتيب والوقت اللازم للتحضير اليوم من بين ما تحتاجه.",
++  "planning.prepare.confirm": "تحقق من الكمية والترتيب والوقت الذي حددته أو سبب التغيير.",
++  "planning.prepare.title": "وضع خطة تحضير صغيرة",
++  "planning.tidy.action": "اختر منطقة واحدة للترتيب، وحدد مداها وترتيبها وكم دقيقة ستقضي فيها.",
++  "planning.tidy.confirm": "تحقق من النطاق المحدد فعليًا والخطة المعدلة.",
++  "planning.tidy.title": "تحديد كمية ترتيب منطقة واحدة",
++  "practiceReason": "الإجراء المراد ممارسته",
++  "preview": "معاينة وتعديل",
++  "reason": "سبب التوصية",
++  "response": "هل كانت هذه الطريقة مفيدة؟",
++  "responseAfterRun": "بعد إنهاء التنفيذ، يمكنك ترك ملاحظة حول المساعدة إذا أردت.",
++  "responseCount": "عدد مرات الإجابة عن المساعدة",
++  "resultReason": "تم استخدام الترتيب الرسمي المدعوم للنتائج المرتبطة والجولة الحالية. لا يتم إعادة حساب الدرجات أو الأنواع.",
++  "reviewOnly": "نشاط للمقارنة الابتدائية.. غير متاح للدخول العام.",
++  "safety": "يرجى الجلوس بأمان للمراقبة أو الرسم. لا تغلق عينيك أثناء التنقل. إذا كنت تشعر بعدم الارتياح، يمكنك اختيار الربط أثناء النظر. اكتب فقط عن الأحداث العادية، ولا تحتاج لكتابة معلومات تخص الآخرين أو ذكريات صعبة. لا يتم التقييم بناءً على الذاكرة أو درجات الفحص.",
++  "scope": "كمية العمل اليوم",
++  "simultaneous": "الربط الشامل",
++  "simultaneous.positions.action": "اجلس بأمان وارسم أو اكتب بعض المواقع المألوفة دون النظر إليها، ثم قارنها بالواقع. يمكنك القيام بذلك أثناء النظر إذا أردت. اشرح العلاقة بين الموقع والشيء والاستخدام.",
++  "simultaneous.positions.confirm": "اربط بين عنصرين أو أكثر في الواقع وتحقق مما يُستخدم وأين وكيف. لا توجد درجات للذاكرة.",
++  "simultaneous.positions.title": "ربط المواقع المألوفة واستخداماتها",
++  "simultaneous.prepare.action": "اربط بين عنصرين أو أكثر من المستلزمات أو المواقع أو الأهداف واشرح العلاقة باختصار.",
++  "simultaneous.prepare.confirm": "تحقق بكلماتك أو رسمك من كيفية استخدام هذه المستلزمات لتحقيق الهدف.",
++  "simultaneous.prepare.title": "تجميع علاقات المستلزمات والأهداف",
++  "source": "مصدر التوصية",
++  "strengthReason": "طريقة مساعدة مصممة وفق نقاط القوة",
++  "study": "الدراسة",
++  "successive": "التجربة خطوة بخطوة",
++  "successive.event.action": "اكتب أو ارسم حدثًا عاديًا وقع بالفعل في 2-5 خطوات. راجع الترتيب وعدله ثم تحقق من خطوة واحدة بنفسك.",
++  "successive.event.confirm": "تحقق من خطوتين أو أكثر وترتيب التقدم الذي تأكدت منه.",
++  "successive.event.title": "ترتيب الأحداث العادية بالتسلسل",
++  "successive.prepare.action": "اكتب عملية التحضير الفعلية في خطوتين أو أكثر، ثم غيّر الترتيب ونفذ خطوة واحدة على الأقل.",
++  "successive.prepare.confirm": "تحقق بتمييز الخطوات المحددة عن الخطوات التي نفذتها فعليًا.",
++  "successive.prepare.title": "تجربة عملية التحضير بالتسلسل",
++  "time": "الوقت المتوقع (بالدقائق)",
++  "title": "عنوان المهمة",
++  "unanswered": "لم تتم الإجابة",
++  "unavailable": "يرجى التحقق مرة أخرى من التوصيات الخاصة بالعمر والجولة الحالية.",
++  "universal": "مساعدة عامة قصيرة",
++  "unknown": "لا أعرف بعد",
++  "useCount": "عدد مرات إنهاء التنفيذ",
++  "viewCount": "سجل الاطلاع على التوصيات",
++  "without": "البدء بدون توصية",
++  "work": "العمل",
++  "write": "كتابة يدوية",
++  "yes": "كانت مفيدة"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/az.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Birbaşa ediləcək hərəkət",
++  "add": "Görüləcək işlərimə əlavə et",
++  "added": "Rəfə əlavə etdim. Başlamaq üçün birbaşa basın.",
++  "adult.context": "Həyat, təhsil və ya iş arasından seçin, digər vəziyyətlərdə necə istifadə olunacağını qısaca izah edin.",
++  "adult.items": "Həyat və iş ləvazimatları, cədvəl, məsuliyyət və ya ilkin tapşırıqlar",
++  "adult.scope": "Hazırlıq prosesinin 3-5 mərhələsi və ya real şərtlərə uyğunlaşdırma və digər vəziyyətlərdə tətbiqi",
++  "attention": "İndi bir əşya",
++  "attention.choose.action": "Bir hədəf və indi ediləcək bir hərəkət seçin. Başqa fikirlər yaranarsa, yalnız lazım olduqda saxlayın.",
++  "attention.choose.confirm": "Seçdiyim hədəfi və həqiqətən etdiyim hərəkəti təsdiqləyirəm. Qəsdən maneə yaratmıram.",
++  "attention.choose.title": "İndi baxılacaq bir hədəf seçin",
++  "attention.find.action": "İndi lazım olan məlumatı müəyyən edin və materialda tapıb işarələyin və ya söyləyin.",
++  "attention.find.confirm": "Seçilmiş məlumatın bu hərəkət üçün niyə lazım olduğunu təsdiqləyirəm.",
++  "attention.find.title": "Lazım olan bir məlumatı tapın",
++  "close": "Bağla",
++  "confirm": "Bitirərkən yoxlanılacaqlar",
++  "context": "Nümunə seçimi",
++  "coreRequired": "Kömək məlumatı göstərmə üsuludur. Seçim, əlaqələndirmə və ardıcıllığın yoxlanılmasını özünüz edirsiniz.",
++  "elementary_1_3.context": "Oturduğunuz yerdə seçin və ya çəkin. Qısa cümlələrlə desəniz də olar.",
++  "elementary_1_3.items": "Şəkil və ya tanış olan 2-3 əşya",
++  "elementary_1_3.scope": "Şəkillə iki şey seçin və indi ediləcək bir hərəkət",
++  "elementary_4_6.context": "Çanta və ya masa hazırlığını nümunə olaraq seçin, lazım olan ardıcıllığı və səbəbini deyin.",
++  "elementary_4_6.items": "Sabah üçün məktəb ləvazimatları və ya nizamlanacaq 3-4 əşya",
++  "elementary_4_6.scope": "Məktəb hazırlığını 3-4 mərhələyə bölün, bir sadə səbəb göstərin",
++  "generalReason": "Bu, yoxlama əsaslı tövsiyə deyil, ümumi məşqdir. Rahat olduğunuz fəaliyyəti və köməyi özünüz seçin.",
++  "heading": "Bu gün ediləcək kiçik məşqlər",
++  "help": "Mənə göstərilən kömək",
++  "helpAttention": "Bir əşyanın vurğulanması",
++  "helpNone": "Əlavə kömək olmadan",
++  "helpPlanning": "Məqsəd və tamamlama meyarları",
++  "helpSimultaneous": "Ümumi xəritə və əlaqəli qruplar",
++  "helpSuccessive": "İndiki və növbəti ardıcıllıq cədvəli",
++  "helpUniversal": "Qısa ümumi təlimat",
++  "high.context": "Cədvəl və son tarixi müqayisə edərək həcmi özünüz tənzimləyin və seçim səbəbinizi qeyd edin.",
++  "high.items": "Təhsil cədvəli, tapşırıq müddəti, real vaxt və şərtlər",
++  "high.scope": "Son tarix və şərtləri müqayisə edərək bugünkü iş həcmini və ardıcıllığını tənzimləyin",
++  "initial": "Seçim zamanı olan plan",
++  "integrated": "Ümumi inteqrasiya olunmuş fəaliyyət",
++  "integrated.small.action": "Kiçik bir işin həcmini və ilk hərəkətini müəyyən edin və ya planı nəzərdən keçirib birbaşa icra edin.",
++  "integrated.small.confirm": "Planın qərarı, icrası və növbəti dəfə dəyişdiriləcək bir məqamı təsdiqləyirəm.",
++  "integrated.small.title": "Kiçik bir işi planlayın və icra edin",
++  "integrated.tomorrow.action": "Növbəti dəfə üçün lazım olan hazırlıqdan birini seçin, əhatə dairəsini və üsulunu müəyyən edin və indi edilə biləcək hissəni görün.",
++  "integrated.tomorrow.confirm": "İndi etdiyim hissəni və növbəti addımı yoxlayıram.",
++  "integrated.tomorrow.title": "Növbəti dəfə üçün kiçik hazırlıq",
++  "invalidBackup": "Tövsiyə olunan fəaliyyət ilə orijinal tapşırıq və icra bir-birinə uyğun gəlmir.",
++  "invalidTime": "Gözlənilən vaxtı 1-1440 dəqiqə arasında bir tam ədəd olaraq daxil edin və ya naməlum seçin.",
++  "life": "Həyat",
++  "materials": "Seçiləcək hədəf və hazırlanacaqlar",
++  "middle.context": "Dərsə başlama hazırlığını və ya gündəlik hadisəni seçin, öz sözlərinizlə qısaca izah edin.",
++  "middle.items": "Dərs ləvazimatları, gündəlik hadisələr və lazım olan materiallar",
++  "middle.scope": "Hazırlıq həcmi və ya gündəlik hadisənin 2-4 mərhələsi və qısa izahı",
++  "neutral": "Hələ bilmirəm",
++  "no": "Köməyi olmadı",
++  "noEffect": "İcra qeydləri və özünü hesabat fərqlidir. Bacarığın artması və ya test dəqiqliyinin əsası deyil.",
++  "none": "Köməyi azaldıb birbaşa et",
++  "open": "Tövsiyə olunan məşq",
++  "optional": "Seçimə bağlıdır · cavab verməsəniz də olar.",
++  "other": "Digər tövsiyələri göstər",
++  "planning": "Görüləcək işin həcmi",
++  "planning.prepare.action": "Lazım olanlardan bu gün hazırlayacağınız həcmi, ardıcıllığı və vaxtı özünüz müəyyən edin.",
++  "planning.prepare.confirm": "Müəyyən edilmiş həcmi, ardıcıllığı, vaxtı və ya dəyişiklik səbəbini təsdiqləyirəm.",
++  "planning.prepare.title": "Kiçik hazırlıq planı qurun",
++  "planning.tidy.action": "Səliqəyə salınacaq bir bölgə seçin və nə qədər, hansı ardıcıllıqla və neçə dəqiqə edəcəyinizi müəyyən edin.",
++  "planning.tidy.confirm": "Həqiqətən seçilmiş əhatəni və tənzimlənmiş planı təsdiqləyirəm.",
++  "planning.tidy.title": "Bir bölgəni tənzimləmək üçün həcm müəyyən edin",
++  "practiceReason": "Məşq ediləcək hərəkət",
++  "preview": "Əvvəlcədən baxın və düzəldin",
++  "reason": "Tövsiyə səbəbi",
++  "response": "Bu üsul kömək etdimi?",
++  "responseAfterRun": "İcranı bitirdikdən sonra istəsəniz köməyin faydalı olub-olmadığını qeyd edə bilərsiniz.",
++  "responseCount": "Köməyin faydalı olub-olmamasına cavab verilmə sayı",
++  "resultReason": "Əlaqəli nəticənin rəsmi dəstək ardıcıllığından və cari dövrədən istifadə etdim. Xal və ya növü yenidən hesablamıram.",
++  "reviewOnly": "İbtidai məktəb müqayisəsi üçün fəaliyyət · ümumi girişdə təqdim olunmur.",
++  "safety": "Oturaraq təhlükəsiz şəkildə müşahidə edin və ya çəkin. Gözlərinizi bağlayıb hərəkət etməyin. Narahat olsanız, baxaraq əlaqələndirməyi seçə bilərsiniz. Yalnız adi hadisələri yazın, başqalarının məlumatlarını və ya ağır xatirələri yazmaya bilərsiniz. Yaddaş və ya test xalları ilə qiymətləndirmirəm.",
++  "scope": "Bu gün ediləcək həcm",
++  "simultaneous": "Ümumi əlaqələndirmə",
++  "simultaneous.positions.action": "Oturaraq təhlükəsiz şəkildə tanış olan bir neçə yeri baxmadan çəkin və ya yazın, sonra reallıqla müqayisə edin. İstəsəniz baxaraq da edə bilərsiniz. Yer, əşya və istifadə əlaqəsini izah edin.",
++  "simultaneous.positions.confirm": "İki və ya daha çox həqiqi elementi əlaqələndirirəm və nəyin harada necə istifadə olunduğunu yoxlayıram. Yaddaş xalı vermirəm.",
++  "simultaneous.positions.title": "Tanış yerləri və istifadəsini əlaqələndirin",
++  "simultaneous.prepare.action": "Ləvazimat, yer və məqsəd arasından iki və ya daha çox həqiqi elementi əlaqələndirin və aralarındakı əlaqəni qısaca izah edin.",
++  "simultaneous.prepare.confirm": "Bu ləvazimatın məqsəd üçün necə istifadə olunduğunu öz sözlərim və ya şəkillə yoxlayıram.",
++  "simultaneous.prepare.title": "Ləvazimat və məqsəd əlaqəsini qruplaşdırın",
++  "source": "Tövsiyə mənbəyi",
++  "strengthReason": "Güclü tərəflərə uyğun kömək üsulu",
++  "study": "Təhsil",
++  "successive": "Mərhələlərlə edin",
++  "successive.event.action": "Artıq baş vermiş adi bir hadisəni 2-5 mərhələdə yazın və ya çəkin. Ardıcıllığı nəzərdən keçirin, düzəldin və bir mərhələni birbaşa yoxlayın.",
++  "successive.event.confirm": "İki və ya daha çox mərhələni və mənim təsdiqlədiyim ardıcıllıq və icra göstəricisini yoxlayıram.",
++  "successive.event.title": "Adi işləri ardıcıllıqla tənzimləyin",
++  "successive.prepare.action": "Real hazırlıq prosesini iki və ya daha çox mərhələdə yazın, ardıcıllığı dəyişdirin və sonra bir və ya daha çox mərhələni icra edin.",
++  "successive.prepare.confirm": "Müəyyən edilmiş mərhələni və həqiqətən icra edilən mərhələni ayıraraq yoxlayıram.",
++  "successive.prepare.title": "Hazırlıq prosesini ardıcıllıqla yerinə yetirin",
++  "time": "Gözlənilən vaxt (dəqiqə)",
++  "title": "İşin başlığı",
++  "unanswered": "Cavab verilməyib",
++  "unavailable": "Cari yaş və dövrəyə dair tövsiyəni yenidən yoxlayın.",
++  "universal": "Qısa ümumi kömək",
++  "unknown": "Hələ bilmirəm",
++  "useCount": "İcranı bitirmə sayı",
++  "viewCount": "Tövsiyəyə baxış qeydi",
++  "without": "Tövsiyəsiz başla",
++  "work": "İş",
++  "write": "Birbaşa yazın",
++  "yes": "Köməyi oldu"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/en.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Action to perform yourself",
++  "add": "Add to my tasks",
++  "added": "Added to the shelf. Please press start yourself.",
++  "adult.context": "Choose from daily life, study, or work, and briefly describe how you would use it in other situations.",
++  "adult.items": "Daily/work supplies, schedule, responsibilities, or prerequisite tasks",
++  "adult.scope": "3-5 preparation steps or connecting actual conditions to other situations",
++  "attention": "One thing at a time",
++  "attention.choose.action": "Choose one target and the action to do now. If other thoughts arise, set them aside only if necessary.",
++  "attention.choose.confirm": "Verify the target you chose and the action you actually took. Do not intentionally create distractions.",
++  "attention.choose.title": "Select one target to focus on now",
++  "attention.find.action": "Decide on one piece of information you need now, then find and mark or state it from the materials.",
++  "attention.find.confirm": "Confirm why the selected information is necessary for this action.",
++  "attention.find.title": "Find one piece of information needed",
++  "close": "Close",
++  "confirm": "Things to check when finished",
++  "context": "Select scenario",
++  "coreRequired": "Help is a way of showing information. You perform the selection, connection, and sequence verification yourself.",
++  "elementary_1_3.context": "Choose or draw from your seat. Explaining in short phrases is also fine.",
++  "elementary_1_3.items": "2-3 drawings or familiar objects",
++  "elementary_1_3.scope": "Select two things with drawings and one action to do now",
++  "elementary_4_6.context": "Pick backpack or desk preparation as an example and state the necessary order and reasons.",
++  "elementary_4_6.items": "3-4 items to prepare for school tomorrow or to organize",
++  "elementary_4_6.scope": "School preparation in 3-4 steps, with one simple reason",
++  "generalReason": "This is a general exercise, not a recommendation based on testing. Please choose the activities and help that feel comfortable to you.",
++  "heading": "Small practice for today",
++  "help": "Help displayed for me",
++  "helpAttention": "Highlight one thing",
++  "helpNone": "Without extra help",
++  "helpPlanning": "Goals and completion criteria",
++  "helpSimultaneous": "Overall map and grouping connections",
++  "helpSuccessive": "Current and next step sequence",
++  "helpUniversal": "Short general guide",
++  "high.context": "Compare schedules and deadlines to adjust the workload yourself, and leave a reason for your choice.",
++  "high.items": "Study schedule, assignment deadlines, and actual available time and conditions",
++  "high.scope": "Compare 2 or more deadlines and conditions, then adjust today's volume and order",
++  "initial": "Plan at the time of selection",
++  "integrated": "General integrated activity",
++  "integrated.small.action": "Decide the volume of one small task and the first action, or review the plan before executing it yourself.",
++  "integrated.small.confirm": "Confirm the plan decision, actual execution, and one thing to change next time.",
++  "integrated.small.title": "Plan and perform one small task",
++  "integrated.tomorrow.action": "Choose one preparation needed for later, define the scope and method, and do the parts you can do now.",
++  "integrated.tomorrow.confirm": "Confirm the part you attempted and the point to continue from next time.",
++  "integrated.tomorrow.title": "One small preparation to do next",
++  "invalidBackup": "The connection between the recommended activity and the original task/execution is incorrect.",
++  "invalidTime": "Please enter the estimated time as an integer between 1-1440 minutes or select 'undecided'.",
++  "life": "Life",
++  "materials": "Target to select/things to prepare",
++  "middle.context": "Choose preparation for study or a daily event and explain it briefly in your own words.",
++  "middle.items": "Study materials, a typical daily event, or necessary resources",
++  "middle.scope": "Volume to prepare or 2-4 steps of a daily event with a short explanation",
++  "neutral": "Not sure yet",
++  "no": "It didn't help",
++  "noEffect": "Execution logs and self-reporting are separate. This is not a basis for ability improvement or test accuracy.",
++  "none": "Reduce help and start immediately",
++  "open": "Recommended practice",
++  "optional": "Optional - you don't have to answer.",
++  "other": "See other recommendations",
++  "planning": "Set the amount to do",
++  "planning.prepare.action": "Decide on the amount, order, and time to prepare today among the necessary things yourself.",
++  "planning.prepare.confirm": "Confirm the amount, order, time, or the reason for any changes.",
++  "planning.prepare.title": "Create a small preparation plan",
++  "planning.tidy.action": "Choose one area to organize and decide the extent, order, and how many minutes to spend.",
++  "planning.tidy.confirm": "Confirm the actual scope decided and any plan adjustments.",
++  "planning.tidy.title": "Set the amount for organizing one area",
++  "practiceReason": "Action to practice",
++  "preview": "Preview and edit",
++  "reason": "Reason for recommendation",
++  "response": "Was this method helpful?",
++  "responseAfterRun": "You can leave feedback on the help after finishing the execution if you wish.",
++  "responseCount": "Number of times you responded to help",
++  "resultReason": "Used the official support sequence and current session of the linked result. It does not recalculate scores or types.",
++  "reviewOnly": "Activity for elementary comparison; not provided for general entry.",
++  "safety": "Sit down safely to observe or draw. Do not move with eyes closed. If uncomfortable, you may choose to look while connecting. Write only about ordinary events; you do not have to record others' information or difficult memories. It is not evaluated by memory or test scores.",
++  "scope": "Amount to do today",
++  "simultaneous": "Connect everything",
++  "simultaneous.positions.action": "Sit safely and draw or write down a few familiar locations without looking, then compare with reality. You may look if you prefer. Explain the relationship between location, object, and use.",
++  "simultaneous.positions.confirm": "Connect two or more actual items and confirm what is used where and how. No memory scores are assigned.",
++  "simultaneous.positions.title": "Connect familiar locations and their uses",
++  "simultaneous.prepare.action": "Connect two or more actual items among materials, locations, and goals, and briefly explain the relationship.",
++  "simultaneous.prepare.confirm": "Confirm how these preparations are used for the goal in your own words or drawings.",
++  "simultaneous.prepare.title": "Group the relationship between preparation and goal",
++  "source": "Recommendation source",
++  "strengthReason": "Help method tailored to strengths",
++  "study": "Study",
++  "successive": "Follow the steps",
++  "successive.event.action": "Write or draw a typical event that has already happened in 2-5 steps. Review/modify the sequence and confirm one step yourself.",
++  "successive.event.confirm": "Verify two or more steps and the sequence/progress marks you confirmed.",
++  "successive.event.title": "Organize ordinary events in order",
++  "successive.prepare.action": "Write the actual preparation process in two or more steps, try changing the order, and then proceed with at least one step.",
++  "successive.prepare.confirm": "Confirm by distinguishing between fixed steps and steps actually performed.",
++  "successive.prepare.title": "Follow the preparation process in order",
++  "time": "Estimated time (minutes)",
++  "title": "Task title",
++  "unanswered": "Unanswered",
++  "unavailable": "Please recheck the recommendations for your current age and session.",
++  "universal": "Short general help",
++  "unknown": "Not sure yet",
++  "useCount": "Number of times execution was completed",
++  "viewCount": "Record of viewing recommendations",
++  "without": "Start without recommendation",
++  "work": "Work",
++  "write": "Write yourself",
++  "yes": "It was helpful"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/es.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Acción a realizar personalmente",
++  "add": "Añadir a mis tareas",
++  "added": "Añadido al estante. Por favor, presione personalmente para comenzar.",
++  "adult.context": "Elija entre vida, estudio o trabajo, y describa brevemente cómo usarlo en otras situaciones.",
++  "adult.items": "Suministros de vida/trabajo, cronograma, tareas responsables o previas",
++  "adult.scope": "3-5 pasos del proceso de preparación o conexión de condiciones reales con otras situaciones",
++  "attention": "Una sola cosa ahora",
++  "attention.choose.action": "Elija un objeto y la acción a realizar ahora. Si surgen otros pensamientos, guárdelos solo si es necesario.",
++  "attention.choose.confirm": "Confirme el objeto elegido y la acción realizada. No cree distracciones intencionalmente.",
++  "attention.choose.title": "Elegir un objeto para observar ahora",
++  "attention.find.action": "Defina la información necesaria ahora, búsquela en el material y señálela o menciónela.",
++  "attention.find.confirm": "Confirme por qué la información seleccionada es necesaria para esta acción.",
++  "attention.find.title": "Encontrar una pieza de información necesaria",
++  "close": "Cerrar",
++  "confirm": "Qué verificar al terminar",
++  "context": "Selección de caso",
++  "coreRequired": "La ayuda es una forma de mostrar información. La selección, conexión y verificación de orden las realiza usted.",
++  "elementary_1_3.context": "Elija o dibuje desde una posición sentada. Puede indicarlo con palabras breves.",
++  "elementary_1_3.items": "2-3 dibujos u objetos familiares",
++  "elementary_1_3.scope": "Elija dos cosas mediante dibujos y una acción para realizar ahora",
++  "elementary_4_6.context": "Elija la preparación de la mochila/escritorio como ejemplo y diga el orden y motivo necesario.",
++  "elementary_4_6.items": "3-4 útiles escolares o artículos para organizar",
++  "elementary_4_6.scope": "Preparación escolar en 3-4 pasos, con un motivo sencillo",
++  "generalReason": "Es un ejercicio general, no una recomendación basada en diagnóstico. Elija la actividad y ayuda cómodamente.",
++  "heading": "Pequeño ejercicio para hoy",
++  "help": "Ayuda mostrada para mí",
++  "helpAttention": "Énfasis en una cosa",
++  "helpNone": "Sin ayuda adicional",
++  "helpPlanning": "Objetivo/Criterios de finalización",
++  "helpSimultaneous": "Mapa general/Conjunto de relaciones",
++  "helpSuccessive": "Tabla de secuencia actual/siguiente",
++  "helpUniversal": "Breve guía común",
++  "high.context": "Compare el cronograma con la fecha límite, ajuste la carga usted mismo y deje el motivo de la elección.",
++  "high.items": "Cronograma de estudio, fecha límite de tareas, tiempo y condiciones disponibles reales",
++  "high.scope": "Compare más de 2 plazos y condiciones, y ajuste el volumen/orden de hoy",
++  "initial": "Plan en el momento de la elección",
++  "integrated": "Actividad integrada general",
++  "integrated.small.action": "Determine el volumen de una tarea pequeña y la primera acción, o revise el plan y ejecútelo personalmente.",
++  "integrated.small.confirm": "Confirme la decisión del plan, la ejecución real y una cosa a cambiar después.",
++  "integrated.small.title": "Planear y realizar una tarea pequeña",
++  "integrated.tomorrow.action": "Elija una preparación necesaria, determine el alcance y método, y haga la parte posible ahora.",
++  "integrated.tomorrow.confirm": "Confirme la parte realizada y la ubicación para continuar después.",
++  "integrated.tomorrow.title": "Una pequeña preparación para hacer después",
++  "invalidBackup": "La conexión entre la actividad recomendada y la tarea/ejecución original no coincide.",
++  "invalidTime": "El tiempo estimado debe ser un número entero de 1-1440 minutos o seleccione indefinido.",
++  "life": "Vida",
++  "materials": "Objeto a elegir/Qué preparar",
++  "middle.context": "Elija la preparación para empezar a estudiar o un evento cotidiano y explíquelo brevemente con sus palabras.",
++  "middle.items": "Materiales de estudio, eventos diarios normales, materiales necesarios",
++  "middle.scope": "Volumen de preparación o 2-4 pasos de eventos diarios y una breve explicación",
++  "neutral": "Aún no lo sé",
++  "no": "No fue de ayuda",
++  "noEffect": "El registro de ejecución y el autorreporte son independientes. No son evidencia de mejora de capacidad ni precisión diagnóstica.",
++  "none": "Reducir ayuda y proceder directamente",
++  "open": "Práctica recomendada",
++  "optional": "Opcional · No es necesario responder.",
++  "other": "Ver otras recomendaciones",
++  "planning": "Determinar la cantidad a hacer",
++  "planning.prepare.action": "Decida personalmente el volumen, orden y tiempo a preparar hoy de lo necesario.",
++  "planning.prepare.confirm": "Confirme el volumen, orden, tiempo determinado o el motivo del cambio.",
++  "planning.prepare.title": "Establecer un plan de pequeña preparación",
++  "planning.tidy.action": "Elija una zona para organizar y decida hasta dónde, en qué orden y cuántos minutos.",
++  "planning.tidy.confirm": "Confirme el rango establecido y el plan ajustado.",
++  "planning.tidy.title": "Determinar la cantidad para organizar una zona",
++  "practiceReason": "Acción a practicar",
++  "preview": "Vista previa y corrección",
++  "reason": "Motivo de la recomendación",
++  "response": "¿Este método fue de ayuda?",
++  "responseAfterRun": "Después de finalizar la ejecución, puede dejar si la ayuda fue útil si lo desea.",
++  "responseCount": "Número de veces que respondió sobre la utilidad de la ayuda",
++  "resultReason": "Se usó el orden de soporte oficial de resultados conectados y la sesión actual. No se recalculan puntajes ni tipos.",
++  "reviewOnly": "Actividad de comparación escolar · No proporcionada para ingreso general.",
++  "safety": "Siéntese de forma segura para observar o dibujar. No cierre los ojos para moverse. Si es incómodo, puede elegir conectar mientras observa. Escriba solo eventos comunes; no es necesario anotar información de otros ni recuerdos difíciles. No se evalúa con puntajes de memoria o diagnóstico.",
++  "scope": "Volumen a realizar hoy",
++  "simultaneous": "Conectar todo",
++  "simultaneous.positions.action": "Siéntese de forma segura, dibuje o escriba algunas ubicaciones familiares sin mirar, luego compare con la realidad. Si lo desea, puede hacerlo mientras mira. Explique la relación entre ubicación, objeto y uso.",
++  "simultaneous.positions.confirm": "Conecte dos o más elementos reales y verifique qué, dónde y cómo se usa. No se otorgan puntajes de memoria.",
++  "simultaneous.positions.title": "Conectar ubicaciones familiares y usos",
++  "simultaneous.prepare.action": "Conecte dos o más elementos reales entre materiales, ubicaciones y objetivos, y explique brevemente su relación.",
++  "simultaneous.prepare.confirm": "Confirme con sus palabras o un dibujo cómo estos materiales se usan para el objetivo.",
++  "simultaneous.prepare.title": "Vincular la relación entre materiales y objetivos",
++  "source": "Fuente de recomendación",
++  "strengthReason": "Método de ayuda adaptado a fortalezas",
++  "study": "Estudio",
++  "successive": "Realizar según pasos",
++  "successive.event.action": "Escriba o dibuje un evento cotidiano ocurrido en 2-5 pasos. Revise/corrija el orden y verifique un paso personalmente.",
++  "successive.event.confirm": "Verifique más de dos pasos y el orden/indicador de progreso que revisó.",
++  "successive.event.title": "Organizar eventos cotidianos en orden",
++  "successive.prepare.action": "Escriba el proceso real de preparación en dos o más pasos, cambie el orden y proceda al menos un paso.",
++  "successive.prepare.confirm": "Verifique distinguiendo entre los pasos confirmados y los pasos realmente realizados.",
++  "successive.prepare.title": "Realizar el proceso de preparación según pasos",
++  "time": "Tiempo estimado (minutos)",
++  "title": "Título de la tarea",
++  "unanswered": "Sin respuesta",
++  "unavailable": "Por favor, verifique nuevamente las recomendaciones para la edad/sesión actual.",
++  "universal": "Breve ayuda común",
++  "unknown": "Aún no lo sé",
++  "useCount": "Número de veces que completó la ejecución",
++  "viewCount": "Registro de haber visto recomendaciones",
++  "without": "Comenzar sin recomendaciones",
++  "work": "Trabajo",
++  "write": "Redactar personalmente",
++  "yes": "Fue de ayuda"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/fr.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Action à entreprendre",
++  "add": "Ajouter à ma liste de tâches",
++  "added": "Ajouté à votre étagère. Veuillez appuyer sur le bouton pour commencer.",
++  "adult.context": "Choisissez entre vie quotidienne, apprentissage ou travail, et expliquez brièvement l'utilisation dans d'autres situations.",
++  "adult.items": "Fournitures, calendrier, responsabilités ou tâches préalables",
++  "adult.scope": "3 à 5 étapes de préparation ou connexion aux conditions réelles et application à d'autres situations",
++  "attention": "Une seule chose maintenant",
++  "attention.choose.action": "Choisissez une cible et l'action à accomplir. Si d'autres pensées surviennent, mettez-les de côté si nécessaire.",
++  "attention.choose.confirm": "Vérifiez la cible choisie et l'action réellement effectuée. Ne créez pas de distractions intentionnellement.",
++  "attention.choose.title": "Choisir une cible sur laquelle se concentrer",
++  "attention.find.action": "Déterminez une information nécessaire, puis repérez-la ou nommez-la dans le matériel.",
++  "attention.find.confirm": "Vérifiez pourquoi l'information sélectionnée est nécessaire pour cette action.",
++  "attention.find.title": "Trouver une information nécessaire",
++  "close": "Fermer",
++  "confirm": "À vérifier lors de la conclusion",
++  "context": "Choisir un scénario",
++  "coreRequired": "L'aide est une manière de visualiser les informations. Vous gérez vous-même la sélection, la connexion et la vérification des étapes.",
++  "elementary_1_3.context": "Choisissez ou dessinez depuis votre siège. Une explication courte à l'oral suffit.",
++  "elementary_1_3.items": "2 ou 3 dessins ou objets familiers",
++  "elementary_1_3.scope": "Sélectionner deux éléments par le dessin et une action à faire",
++  "elementary_4_6.context": "Choisissez la préparation d'un cartable ou d'un bureau, et énoncez l'ordre nécessaire ainsi que la raison.",
++  "elementary_4_6.items": "3 ou 4 fournitures scolaires ou objets à ranger",
++  "elementary_4_6.scope": "Préparer l'école en 3 ou 4 étapes, avec une raison simple",
++  "generalReason": "Il s'agit d'exercices généraux et non de recommandations basées sur des examens. Choisissez vous-même vos activités et aides.",
++  "heading": "Petit exercice du jour",
++  "help": "Aide proposée",
++  "helpAttention": "Mise en avant d'un élément",
++  "helpNone": "Sans aide supplémentaire",
++  "helpPlanning": "Objectifs et critères de complétion",
++  "helpSimultaneous": "Vue d'ensemble et relations",
++  "helpSuccessive": "Tableau de séquence actuel et suivant",
++  "helpUniversal": "Instruction commune courte",
++  "high.context": "Comparez votre emploi du temps et vos échéances pour ajuster vous-même la charge et noter la raison de votre choix.",
++  "high.items": "Calendrier d'apprentissage, échéances, temps disponible réel et conditions",
++  "high.scope": "Comparer au moins deux échéances et conditions, ajuster la charge et l'ordre du jour",
++  "initial": "Plan au moment de la sélection",
++  "integrated": "Activité intégrée générale",
++  "integrated.small.action": "Déterminez la charge d'une petite tâche et la première action, ou examinez le plan avant exécution.",
++  "integrated.small.confirm": "Vérifiez la décision du plan, l'exécution réelle et un élément à modifier pour la suite.",
++  "integrated.small.title": "Planifier et réaliser une petite tâche",
++  "integrated.tomorrow.action": "Choisissez une préparation nécessaire, définissez la portée et la méthode, puis réalisez la partie faisable maintenant.",
++  "integrated.tomorrow.confirm": "Vérifiez la partie réalisée et la position pour la suite.",
++  "integrated.tomorrow.title": "Une petite préparation pour la suite",
++  "invalidBackup": "La connexion entre l'activité recommandée et la tâche ou l'exécution originale est incorrecte.",
++  "invalidTime": "Le temps prévu doit être un entier entre 1 et 1440 minutes ou \"non défini\".",
++  "life": "Vie quotidienne",
++  "materials": "Cibles à choisir et choses à préparer",
++  "middle.context": "Choisissez une préparation d'étude ou un événement quotidien et expliquez-le brièvement avec vos propres mots.",
++  "middle.items": "Matériel d'étude, événement ordinaire, documents nécessaires",
++  "middle.scope": "Charge de préparation ou 2 à 4 étapes d'un événement quotidien avec une courte explication",
++  "neutral": "Je ne sais pas encore",
++  "no": "Cela n'a pas été utile",
++  "noEffect": "L'historique d'exécution et l'auto-déclaration sont distincts. Cela ne constitue pas une base pour améliorer les capacités ou la précision des tests.",
++  "none": "Réduire l'aide et commencer immédiatement",
++  "open": "Exercice recommandé",
++  "optional": "Optionnel, ne pas répondre est possible.",
++  "other": "Voir d'autres recommandations",
++  "planning": "Définir la charge de travail",
++  "planning.prepare.action": "Déterminez vous-même la charge, l'ordre et le temps nécessaires pour aujourd'hui.",
++  "planning.prepare.confirm": "Vérifiez la charge, l'ordre et le temps définis ou la raison du changement.",
++  "planning.prepare.title": "Établir un plan de préparation simple",
++  "planning.tidy.action": "Choisissez une zone à ranger et définissez l'étendue, l'ordre et la durée.",
++  "planning.tidy.confirm": "Vérifiez la zone réelle et le plan ajusté.",
++  "planning.tidy.title": "Définir la charge pour ranger une zone",
++  "practiceReason": "Action à pratiquer",
++  "preview": "Visualiser et modifier",
++  "reason": "Raison de la recommandation",
++  "response": "Cette méthode a-t-elle été utile ?",
++  "responseAfterRun": "Une fois l'exécution terminée, vous pouvez laisser un avis sur l'aide si vous le souhaitez.",
++  "responseCount": "Nombre de réponses sur l'utilité de l'aide",
++  "resultReason": "Utilisation de l'ordre de support officiel et de la session actuelle. Les scores ou types ne sont pas recalculés.",
++  "reviewOnly": "Activité de comparaison pour l'école élémentaire, non fournie pour l'accès général.",
++  "safety": "Asseyez-vous en toute sécurité pour observer ou dessiner. Ne vous déplacez pas les yeux fermés. Si cela est inconfortable, vous pouvez choisir de regarder tout en reliant. Écrivez seulement sur des événements banals, il n'est pas nécessaire de noter des informations sur autrui ou des souvenirs pénibles. Aucune évaluation par score de mémoire ou test.",
++  "scope": "Charge pour aujourd'hui",
++  "simultaneous": "Connecter l'ensemble",
++  "simultaneous.positions.action": "Asseyez-vous en toute sécurité et dessinez ou listez plusieurs lieux familiers sans regarder, puis comparez avec la réalité. Si vous préférez, vous pouvez regarder. Expliquez la relation entre le lieu, l'objet et son utilisation.",
++  "simultaneous.positions.confirm": "Reliez au moins deux éléments réels et vérifiez ce qui est utilisé, où et comment. Aucun score de mémoire n'est attribué.",
++  "simultaneous.positions.title": "Relier les lieux familiers et leurs usages",
++  "simultaneous.prepare.action": "Reliez au moins deux éléments réels parmi le matériel, le lieu ou l'objectif, et expliquez brièvement la relation.",
++  "simultaneous.prepare.confirm": "Vérifiez par vos propres mots ou un dessin comment ce matériel est utilisé pour l'objectif.",
++  "simultaneous.prepare.title": "Lier les fournitures et les objectifs",
++  "source": "Source de la recommandation",
++  "strengthReason": "Méthode d'aide adaptée aux points forts",
++  "study": "Apprentissage",
++  "successive": "Procéder étape par étape",
++  "successive.event.action": "Notez ou dessinez un événement banal survenu en 2 à 5 étapes. Examinez, modifiez l'ordre et vérifiez une étape vous-même.",
++  "successive.event.confirm": "Vérifiez au moins deux étapes ainsi que l'ordre et le marquage de progression que vous avez validés.",
++  "successive.event.title": "Organiser des événements banals par ordre",
++  "successive.prepare.action": "Listez le processus de préparation réel en au moins deux étapes, changez l'ordre, puis exécutez au moins une étape.",
++  "successive.prepare.confirm": "Vérifiez les étapes en distinguant celles qui sont confirmées de celles qui ont été réellement réalisées.",
++  "successive.prepare.title": "Réaliser le processus de préparation dans l'ordre",
++  "time": "Temps estimé (minutes)",
++  "title": "Titre de la tâche",
++  "unanswered": "Sans réponse",
++  "unavailable": "Veuillez vérifier à nouveau les recommandations pour l'âge et la session actuels.",
++  "universal": "Courte aide commune",
++  "unknown": "Je ne sais pas encore",
++  "useCount": "Nombre de fois où l'exécution a été terminée",
++  "viewCount": "Historique des recommandations consultées",
++  "without": "Commencer sans recommandation",
++  "work": "Travail",
++  "write": "Écrire soi-même",
++  "yes": "C'était utile"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/it.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Azione da compiere direttamente",
++  "add": "Aggiungi alle mie cose da fare",
++  "added": "Aggiunto allo scaffale. Premi direttamente per iniziare.",
++  "adult.context": "Scegli tra vita quotidiana, studio o lavoro; descrivi brevemente come usarlo in altre situazioni.",
++  "adult.items": "Materiali per vita/lavoro, programma, responsabilità o attività propedeutiche",
++  "adult.scope": "Processo di preparazione in 3-5 passaggi o applicazione di condizioni reali ad altre situazioni",
++  "attention": "Una cosa alla volta",
++  "attention.choose.action": "Scegli un obiettivo e l'azione da compiere ora. Se arrivano altri pensieri, conservali solo se necessario.",
++  "attention.choose.confirm": "Verifica l'obiettivo scelto e l'azione effettivamente svolta. Non creare ostacoli intenzionalmente.",
++  "attention.choose.title": "Scegli un obiettivo su cui concentrarti ora",
++  "attention.find.action": "Stabilisci un'informazione necessaria ora e trovala o indicala nei materiali.",
++  "attention.find.confirm": "Verifica perché l'informazione scelta è necessaria per questa azione.",
++  "attention.find.title": "Trova un'informazione necessaria",
++  "close": "Chiudi",
++  "confirm": "Cosa verificare al termine",
++  "context": "Scelta del caso",
++  "coreRequired": "L'aiuto è un modo per mostrare le informazioni. La scelta, il collegamento e la verifica della sequenza spettano a te.",
++  "elementary_1_3.context": "Scegli o disegna stando seduto. Va bene anche spiegare con parole brevi.",
++  "elementary_1_3.items": "2-3 disegni o oggetti familiari",
++  "elementary_1_3.scope": "Scegli due cose tramite disegni e un'azione da compiere ora",
++  "elementary_4_6.context": "Scegli come esempio la preparazione della borsa o della scrivania e spiega la sequenza e il motivo necessari.",
++  "elementary_4_6.items": "3-4 materiali scolastici per domani o oggetti da riordinare",
++  "elementary_4_6.scope": "Preparazione scolastica in 3-4 passaggi, con un motivo semplice",
++  "generalReason": "Questo è un esercizio generale, non una raccomandazione basata su test. Scegli le attività e l'aiuto che preferisci.",
++  "heading": "Piccolo esercizio da provare oggi",
++  "help": "Aiuto mostrato per me",
++  "helpAttention": "Enfatizzare una cosa",
++  "helpNone": "Senza aiuto aggiuntivo",
++  "helpPlanning": "Obiettivo e criteri di completamento",
++  "helpSimultaneous": "Mappa generale e relazioni di gruppo",
++  "helpSuccessive": "Tabella sequenziale attuale/successiva",
++  "helpUniversal": "Breve guida comune",
++  "high.context": "Confronta programma e scadenze per regolare autonomamente il volume e annotare il motivo della scelta.",
++  "high.items": "Programma di studio, scadenze dei compiti, tempo e condizioni effettivamente disponibili",
++  "high.scope": "Confronta almeno due scadenze e condizioni per regolare il volume e la sequenza di oggi",
++  "initial": "Piano al momento della scelta",
++  "integrated": "Attività integrata generale",
++  "integrated.small.action": "Stabilisci il volume e la prima azione per una piccola attività o esegui direttamente dopo aver rivisto il piano.",
++  "integrated.small.confirm": "Verifica la decisione del piano, l'esecuzione effettiva e una cosa da cambiare la prossima volta.",
++  "integrated.small.title": "Pianificare e svolgere una piccola attività",
++  "integrated.tomorrow.action": "Scegli una preparazione necessaria per il futuro, stabilisci l'ambito e il metodo, poi svolgi la parte fattibile ora.",
++  "integrated.tomorrow.confirm": "Verifica la parte svolta ora e il punto da cui riprendere.",
++  "integrated.tomorrow.title": "Una piccola preparazione per il futuro",
++  "invalidBackup": "Il collegamento tra l'attività consigliata e l'esecuzione originale non è corretto.",
++  "invalidTime": "Inserisci il tempo stimato come numero intero da 1 a 1440 minuti o seleziona indefinito.",
++  "life": "Vita quotidiana",
++  "materials": "Obiettivo da scegliere/cosa preparare",
++  "middle.context": "Scegli la preparazione per iniziare lo studio o un evento quotidiano e spiegalo brevemente con parole tue.",
++  "middle.items": "Materiali per lo studio, evento quotidiano ordinario, materiali necessari",
++  "middle.scope": "Volume di preparazione o evento quotidiano in 2-4 passaggi e breve spiegazione",
++  "neutral": "Non lo so ancora",
++  "no": "Non è stato d'aiuto",
++  "noEffect": "La registrazione dell'esecuzione e l'autovalutazione sono separate. Non sono prove di miglioramento delle capacità o di precisione del test.",
++  "none": "Ridurre l'aiuto e procedere subito",
++  "open": "Esercizio consigliato",
++  "optional": "Opzionale · Non è necessario rispondere.",
++  "other": "Vedi altri consigli",
++  "planning": "Decidere quanto fare",
++  "planning.prepare.action": "Decidi personalmente il volume, la sequenza e il tempo da preparare oggi tra le cose necessarie.",
++  "planning.prepare.confirm": "Verifica il volume, la sequenza, il tempo deciso o il motivo della modifica.",
++  "planning.prepare.title": "Creare un piano di preparazione",
++  "planning.tidy.action": "Scegli una zona da riordinare e decidi fin dove, in che ordine e per quanti minuti farlo.",
++  "planning.tidy.confirm": "Verifica l'ambito effettivo e il piano regolato.",
++  "planning.tidy.title": "Decidere quanto riordinare una zona",
++  "practiceReason": "Azione da esercitare",
++  "preview": "Vedere in anteprima e correggere",
++  "reason": "Motivo della raccomandazione",
++  "response": "Questo metodo è stato utile?",
++  "responseAfterRun": "Dopo aver terminato l'esecuzione, se lo desideri, puoi lasciare un feedback sull'aiuto ricevuto.",
++  "responseCount": "Numero di risposte sull'aiuto",
++  "resultReason": "Utilizzato il PASS di supporto ufficiale per i risultati collegati e il turno attuale. I punteggi o i tipi non vengono ricalcolati.",
++  "reviewOnly": "Attività per confronto elementare · Non fornito per l'accesso generale.",
++  "safety": "Osserva o disegna stando seduto in sicurezza. Non muoverti a occhi chiusi. Se ti senti a disagio, puoi scegliere di collegare guardando. Scrivi solo eventi ordinari, non è necessario scrivere informazioni su altri o ricordi difficili. Non valutiamo con punteggi di memoria o test.",
++  "scope": "Volume da fare oggi",
++  "simultaneous": "Collegare tutto insieme",
++  "simultaneous.positions.action": "Standosene seduti in sicurezza, disegna o scrivi alcune posizioni familiari senza guardare, poi confronta con la realtà. Se vuoi, puoi farlo guardando. Spiega la relazione tra posizione, oggetto e uso.",
++  "simultaneous.positions.confirm": "Collega almeno due elementi reali e verifica cosa viene usato, dove e come. Non assegniamo punteggi di memoria.",
++  "simultaneous.positions.title": "Collegare posizioni familiari e usi",
++  "simultaneous.prepare.action": "Collega almeno due elementi reali tra materiali, posizioni o obiettivi e spiega brevemente la loro relazione.",
++  "simultaneous.prepare.confirm": "Verifica come questi materiali vengono usati per l'obiettivo con parole tue o disegni.",
++  "simultaneous.prepare.title": "Legare la relazione tra materiali e obiettivo",
++  "source": "Fonte del consiglio",
++  "strengthReason": "Metodo di aiuto adattato ai punti di forza",
++  "study": "Studio",
++  "successive": "Provare seguendo i passaggi",
++  "successive.event.action": "Scrivi o disegna un evento ordinario già accaduto in 2-5 passaggi. Rivedi e correggi la sequenza e verifica personalmente un passaggio.",
++  "successive.event.confirm": "Verifica almeno due passaggi e la sequenza/indicazione di avanzamento che hai controllato.",
++  "successive.event.title": "Riordinare eventi ordinari in sequenza",
++  "successive.prepare.action": "Scrivi il processo di preparazione reale in almeno due passaggi, cambia l'ordine e poi procedi per almeno un passaggio.",
++  "successive.prepare.confirm": "Verifica distinguendo i passaggi confermati da quelli effettivamente eseguiti.",
++  "successive.prepare.title": "Provare il processo di preparazione in sequenza",
++  "time": "Tempo stimato (minuti)",
++  "title": "Titolo dell'attività",
++  "unanswered": "Senza risposta",
++  "unavailable": "Ricontrolla i consigli per l'età/turno attuale.",
++  "universal": "Breve aiuto comune",
++  "unknown": "Non lo so ancora",
++  "useCount": "Numero di esecuzioni completate",
++  "viewCount": "Record di consultazione dei consigli",
++  "without": "Iniziare senza consigli",
++  "work": "Lavoro",
++  "write": "Scrivi direttamente",
++  "yes": "È stato d'aiuto"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/ja.json
+@@ -0,0 +1,105 @@
++{
++  "action": "実行するアクション",
++  "add": "ToDoに追加",
++  "added": "リストに追加しました。開始ボタンを押してください。",
++  "adult.context": "生活・学習・仕事から選び、別の場面での活用方法を簡潔に説明してください。",
++  "adult.items": "生活用品・仕事の準備物、スケジュール、担当分、または先行タスク",
++  "adult.scope": "準備プロセス3～5段階、または具体的な条件の関連付けと別場面への応用",
++  "attention": "今ひとつだけ",
++  "attention.choose.action": "対象をひとつ選び、今すべき行動を決めます。別の考えが浮かんだら、必要な時まで記録しておきましょう。",
++  "attention.choose.confirm": "選んだ対象と実際に行った行動を確認します。あえて邪魔な要素は作りません。",
++  "attention.choose.title": "今注目する対象をひとつ選ぶ",
++  "attention.find.action": "今必要な情報をひとつ決め、資料から見つけてマークするか口に出してください。",
++  "attention.find.confirm": "選んだ情報が今回の行動になぜ必要なのかを確認します。",
++  "attention.find.title": "必要な情報をひとつ見つける",
++  "close": "閉じる",
++  "confirm": "完了時に確認すること",
++  "context": "事例を選択",
++  "coreRequired": "サポートとは情報を提示する方法です。選択・関連付け・順序確認はご自身で行ってください。",
++  "elementary_1_3.context": "座ったままで選ぶか、絵に描いてみましょう。短い言葉で伝えても構いません。",
++  "elementary_1_3.items": "絵や身の回りにあるもの2～3個",
++  "elementary_1_3.scope": "絵で2つ選び、今する行動をひとつ決める",
++  "elementary_4_6.context": "カバンや机の準備を例に選び、必要な順序と理由を話してみましょう。",
++  "elementary_4_6.items": "明日の学校の準備物や整理するもの3～4個",
++  "elementary_4_6.scope": "学校の準備を3～4段階で考え、理由をひとつ簡潔に述べる",
++  "generalReason": "検査に基づく推奨ではなく、一般的な練習です。やりやすい活動とサポートを自由に選んでください。",
++  "heading": "今日の小さな練習",
++  "help": "自分へのヒント",
++  "helpAttention": "ひとつに注目",
++  "helpNone": "追加サポートなし",
++  "helpPlanning": "目標・完了基準",
++  "helpSimultaneous": "全体マップ・関連付け",
++  "helpSuccessive": "現在・次の順序表",
++  "helpUniversal": "短い共通案内",
++  "high.context": "予定と締め切りを比較し、自分で分量を調整して選択理由を残しましょう。",
++  "high.items": "学習予定・課題期限・実際に使える時間と条件",
++  "high.scope": "期限と条件を2つ以上比較し、今日の分量や順序を調整する",
++  "initial": "選択時の計画",
++  "integrated": "一般的な統合活動",
++  "integrated.small.action": "小さなタスクひとつの分量と最初のアクションを決め、計画を確認してから実行します。",
++  "integrated.small.confirm": "計画の決定・実際の実行・次に変えるべき点を確認します。",
++  "integrated.small.title": "小さなタスクを計画して実行する",
++  "integrated.tomorrow.action": "次に必要な準備をひとつ選び、範囲と方法を決めて、今できる範囲で進めます。",
++  "integrated.tomorrow.confirm": "今回行った部分と、次に続く箇所を確認します。",
++  "integrated.tomorrow.title": "次に向けた小さな準備",
++  "invalidBackup": "推奨活動と、実際の課題や実行内容の関連が一致しません。",
++  "invalidTime": "予想時間は1～1440分の整数で入力するか、未定を選択してください。",
++  "life": "生活",
++  "materials": "選ぶ対象・準備物",
++  "middle.context": "勉強の準備や日常の出来事を選び、自分の言葉で簡潔に説明してみましょう。",
++  "middle.items": "勉強の準備物・平凡な日常の出来事・必要な資料",
++  "middle.scope": "準備する分量、または日常の出来事を2～4段階で短く説明する",
++  "neutral": "まだわかりません",
++  "no": "役に立ちませんでした",
++  "noEffect": "実行記録と自己評価は別です。能力向上や検査の正確性の根拠ではありません。",
++  "none": "サポートを減らしてすぐに開始",
++  "open": "おすすめの練習",
++  "optional": "任意項目・回答しなくても大丈夫です。",
++  "other": "他の推奨を見る",
++  "planning": "こなせる分量を決める",
++  "planning.prepare.action": "必要なものの中から、今日準備する分量・順序・時間を自分で決めます。",
++  "planning.prepare.confirm": "決めた分量・順序・時間、または変更した理由を確認します。",
++  "planning.prepare.title": "小さな準備の計画を立てる",
++  "planning.tidy.action": "整理するエリアをひとつ選び、どこまで・どんな順序で・何分やるか決めます。",
++  "planning.tidy.confirm": "実際に決めた範囲と調整した計画を確認します。",
++  "planning.tidy.title": "エリアを決めて整理する",
++  "practiceReason": "練習する行動",
++  "preview": "事前に確認して修正",
++  "reason": "推奨理由",
++  "response": "この方法は役に立ちましたか？",
++  "responseAfterRun": "実行後に、必要であればヒントの有効性を残すことができます。",
++  "responseCount": "ヒントの有効性に回答した回数",
++  "resultReason": "関連付けられた結果の公式な支援手順と、現在の回数を使用しました。点数やタイプは再計算しません。",
++  "reviewOnly": "小学生比較用活動・一般エントリには提供しません。",
++  "safety": "安全に座って観察するか、描いてください。目を閉じての移動は禁止です。不快な場合は見ながらつなげることを選択してください。平凡な出来事のみを記述し、他人の情報や苦しい記憶は書かなくても大丈夫です。記憶力や検査スコアで評価することはありません。",
++  "scope": "今日やる分量",
++  "simultaneous": "全体をつなげる",
++  "simultaneous.positions.action": "安全に座り、慣れ親しんだ場所をいくつか見ずに描くか書き出し、実際と比べます。見ながらでも構いません。場所・物・使い道の関係を説明します。",
++  "simultaneous.positions.confirm": "実際の項目を2つ以上つなげ、何がどこでどう使われるかを確認します。記憶スコアは付けません。",
++  "simultaneous.positions.title": "場所と用途をつなげる",
++  "simultaneous.prepare.action": "準備物・場所・目標のうち、実際の項目を2つ以上つなげ、その関係を簡潔に説明します。",
++  "simultaneous.prepare.confirm": "準備物が目標にどう使われるかを、言葉か絵で確認します。",
++  "simultaneous.prepare.title": "準備物と目標の関係をまとめる",
++  "source": "推奨ソース",
++  "strengthReason": "強みに合わせたサポート方法",
++  "study": "学習",
++  "successive": "段階通りに進める",
++  "successive.event.action": "過去にあった平凡な出来事を2～5段階で書き出すか描きます。順序を検討・修正し、ひとつの段階を実際に確認します。",
++  "successive.event.confirm": "2つ以上の段階と、自分が確認した順序・進行状況を確認します。",
++  "successive.event.title": "平凡な出来事を順序立てる",
++  "successive.prepare.action": "実際の準備プロセスを2つ以上の段階で書き出し、順序を入れ替えてみた後、ひとつ以上の段階を進めます。",
++  "successive.prepare.confirm": "確定した段階と実際に進行した段階を区別して確認します。",
++  "successive.prepare.title": "準備プロセスを手順通り進める",
++  "time": "予想時間(分)",
++  "title": "ToDoのタイトル",
++  "unanswered": "未回答",
++  "unavailable": "現在の年齢・回数の推奨事項を再確認してください。",
++  "universal": "短い共通ヒント",
++  "unknown": "まだわかりません",
++  "useCount": "実行完了回数",
++  "viewCount": "推奨記録の閲覧回数",
++  "without": "推奨なしで開始",
++  "work": "仕事",
++  "write": "直接入力",
++  "yes": "役に立ちました"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/km.json
+@@ -0,0 +1,105 @@
++{
++  "action": "សកម្មភាពដែលត្រូវធ្វើដោយផ្ទាល់",
++  "add": "បន្ថែមទៅក្នុងកិច្ចការរបស់ខ្ញុំ",
++  "added": "បានបន្ថែមទៅក្នុងធ្នើ។ សូមចុចដោយផ្ទាល់ដើម្បីចាប់ផ្តើម។",
++  "adult.context": "ជ្រើសរើសរវាងជីវិត ការសិក្សា ឬការងារ ហើយពន្យល់យ៉ាងខ្លីពីរបៀបប្រើប្រាស់ក្នុងស្ថានភាពផ្សេងទៀត។",
++  "adult.items": "របស់របរសម្រាប់ជីវិត ឬការងារ កាលវិភាគ ការទទួលខុសត្រូវ ឬការងារដែលត្រូវធ្វើមុន",
++  "adult.scope": "ដំណើរការរៀបចំ ៣-៥ ជំហាន ឬការតភ្ជាប់លក្ខខណ្ឌជាក់ស្តែងទៅនឹងស្ថានភាពផ្សេងៗ",
++  "attention": "ផ្ដោតលើរឿងមួយនៅពេលនេះ",
++  "attention.choose.action": "ជ្រើសរើសគោលដៅមួយ និងសកម្មភាពដែលត្រូវធ្វើឥឡូវនេះ។ បើមានគំនិតផ្សេង កត់ទុកត្រឹមតែពេលចាំបាច់ប៉ុណ្ណោះ។",
++  "attention.choose.confirm": "ពិនិត្យមើលគោលដៅដែលបានជ្រើសរើស និងសកម្មភាពដែលបានធ្វើជាក់ស្តែង។ កុំបង្កើតការរំខានដោយចេតនា។",
++  "attention.choose.title": "ជ្រើសរើសគោលដៅមួយដើម្បីមើលនៅពេលនេះ",
++  "attention.find.action": "កំណត់ព័ត៌មានមួយដែលចាំបាច់នៅពេលនេះ ហើយរកមើលក្នុងឯកសាររួចសម្គាល់ ឬនិយាយវាចេញមក។",
++  "attention.find.confirm": "ពិនិត្យមើលថាហេតុអ្វីបានជាព័ត៌មានដែលបានជ្រើសរើសមានសារៈសំខាន់សម្រាប់សកម្មភាពនេះ។",
++  "attention.find.title": "រកមើលព័ត៌មានមួយដែលចាំបាច់",
++  "close": "បិទ",
++  "confirm": "អ្វីដែលត្រូវពិនិត្យនៅពេលបញ្ចប់",
++  "context": "ជ្រើសរើសករណី",
++  "coreRequired": "ជំនួយគឺជាវិធីបង្ហាញព័ត៌មាន។ អ្នកត្រូវជ្រើសរើស តភ្ជាប់ និងពិនិត្យលំដាប់ដោយខ្លួនឯង។",
++  "elementary_1_3.context": "ជ្រើសរើស ឬគូររូបនៅនឹងកន្លែងអង្គុយ។ ប្រាប់ដោយពាក្យខ្លីៗក៏បាន។",
++  "elementary_1_3.items": "រូបភាព ឬរបស់របរដែលស្គាល់ចំនួន ២-៣",
++  "elementary_1_3.scope": "ជ្រើសរើសរបស់ពីរតាមរយៈរូបភាព និងសកម្មភាពមួយដែលត្រូវធ្វើឥឡូវនេះ",
++  "elementary_4_6.context": "ជ្រើសរើសឧទាហរណ៍ដូចជាការរៀបចំកាបូប ឬតុ ហើយនិយាយពីលំដាប់ និងហេតុផលចាំបាច់។",
++  "elementary_4_6.items": "របស់សម្រាប់ទៅសាលារៀនថ្ងៃស្អែក ឬរបស់ចំនួន ៣-៤ ដែលត្រូវរៀបចំ",
++  "elementary_4_6.scope": "ការរៀបចំទៅសាលារៀនក្នុង ៣-៤ ជំហាន និងហេតុផលសាមញ្ញមួយ",
++  "generalReason": "នេះជាការហាត់សមទូទៅ មិនមែនជាអនុសាសន៍ផ្អែកលើការធ្វើតេស្តទេ។ សូមជ្រើសរើសសកម្មភាព និងជំនួយដែលអ្នកស្រួលចិត្ត។",
++  "heading": "ការហាត់សមតូចមួយសម្រាប់ថ្ងៃនេះ",
++  "help": "ជំនួយដែលបង្ហាញដល់ខ្ញុំ",
++  "helpAttention": "សង្កត់ធ្ងន់លើរឿងមួយ",
++  "helpNone": "ដោយគ្មានជំនួយបន្ថែម",
++  "helpPlanning": "គោលដៅ និងលក្ខណៈវិនិច្ឆ័យនៃការបញ្ចប់",
++  "helpSimultaneous": "ផែនទីទាំងមូល និងការភ្ជាប់ទំនាក់ទំនង",
++  "helpSuccessive": "តារាងលំដាប់បច្ចុប្បន្ន និងបន្ទាប់",
++  "helpUniversal": "ការណែនាំទូទៅខ្លីៗ",
++  "high.context": "ប្រៀបធៀបកាលវិភាគ និងថ្ងៃកំណត់ ដើម្បីកែសម្រួលបរិមាណដោយខ្លួនឯង ហើយកត់ត្រាពីហេតុផលនៃការជ្រើសរើស។",
++  "high.items": "កាលវិភាគសិក្សា ការកំណត់ពេលវេលាកិច្ចការ និងពេលវេលាជាក់ស្តែងដែលអាចប្រើបាន",
++  "high.scope": "ប្រៀបធៀបការកំណត់ពេលវេលា និងលក្ខខណ្ឌចាប់ពី ២ ឡើងទៅ ហើយកែសម្រួលបរិមាណ និងលំដាប់សម្រាប់ថ្ងៃនេះ",
++  "initial": "ផែនការនៅពេលជ្រើសរើស",
++  "integrated": "សកម្មភាពរួមបញ្ចូលទូទៅ",
++  "integrated.small.action": "កំណត់បរិមាណនៃកិច្ចការតូចមួយ និងសកម្មភាពដំបូង ឬត្រួតពិនិត្យផែនការ រួចអនុវត្តដោយផ្ទាល់។",
++  "integrated.small.confirm": "ពិនិត្យការសម្រេចចិត្តលើផែនការ ការអនុវត្តជាក់ស្តែង និងរឿងមួយដែលត្រូវផ្លាស់ប្តូរនៅពេលក្រោយ។",
++  "integrated.small.title": "រៀបចំផែនការ និងអនុវត្តកិច្ចការតូចមួយ",
++  "integrated.tomorrow.action": "ជ្រើសរើសការរៀបចំមួយដែលចាំបាច់សម្រាប់ថ្ងៃក្រោយ កំណត់វិសាលភាព និងវិធីសាស្ត្រ ហើយអនុវត្តផ្នែកដែលធ្វើបាននៅពេលនេះ។",
++  "integrated.tomorrow.confirm": "ពិនិត្យផ្នែកដែលបានអនុវត្តនៅពេលនេះ និងចំណុចដែលត្រូវបន្តនៅពេលក្រោយ។",
++  "integrated.tomorrow.title": "ការរៀបចំតូចមួយសម្រាប់ថ្ងៃក្រោយ",
++  "invalidBackup": "ការតភ្ជាប់រវាងសកម្មភាពដែលបានណែនាំ និងកិច្ចការដើម ឬការអនុវត្តមិនត្រឹមត្រូវ។",
++  "invalidTime": "សូមបញ្ចូលពេលវេលាដែលរំពឹងទុកជាលេខចំនួនគត់ពី ១-១៤៤០ នាទី ឬជ្រើសរើសមិនទាន់កំណត់។",
++  "life": "ជីវិត",
++  "materials": "គោលដៅជ្រើសរើស និងរបស់ដែលត្រូវរៀបចំ",
++  "middle.context": "ជ្រើសរើសការរៀបចំចាប់ផ្តើមការសិក្សា ឬព្រឹត្តិការណ៍ប្រចាំថ្ងៃ ហើយពន្យល់វាខ្លីៗដោយប្រើពាក្យផ្ទាល់ខ្លួន។",
++  "middle.items": "សម្ភារៈសិក្សា ព្រឹត្តិការណ៍ប្រចាំថ្ងៃធម្មតា ឬឯកសារចាំបាច់",
++  "middle.scope": "បរិមាណដែលត្រូវរៀបចំ ឬព្រឹត្តិការណ៍ប្រចាំថ្ងៃចំនួន ២-៤ ជំហាន និងការពន្យល់ខ្លីៗ",
++  "neutral": "មិនទាន់ដឹងនៅឡើយទេ",
++  "no": "មិនមានជំនួយទេ",
++  "noEffect": "កំណត់ត្រាការអនុវត្ត និងការរាយការណ៍ដោយខ្លួនឯងគឺដាច់ដោយឡែកពីគ្នា។ វាមិនមែនជាមូលដ្ឋានសម្រាប់ការបង្កើនសមត្ថភាព ឬភាពត្រឹមត្រូវនៃការធ្វើតេស្តនោះទេ។",
++  "none": "កាត់បន្ថយជំនួយហើយធ្វើភ្លាមៗ",
++  "open": "សកម្មភាពដែលបានណែនាំ",
++  "optional": "ជម្រើស - មិនចាំបាច់ឆ្លើយតបក៏បាន។",
++  "other": "មើលអនុសាសន៍ផ្សេងទៀត",
++  "planning": "កំណត់បរិមាណឱ្យសមល្មម",
++  "planning.prepare.action": "កំណត់បរិមាណ លំដាប់ និងពេលវេលាដែលត្រូវរៀបចំថ្ងៃនេះដោយផ្ទាល់។",
++  "planning.prepare.confirm": "ពិនិត្យបរិមាណ លំដាប់ ពេលវេលាដែលបានកំណត់ ឬហេតុផលដែលបានផ្លាស់ប្តូរ។",
++  "planning.prepare.title": "ការរៀបចំផែនការតូចមួយ",
++  "planning.tidy.action": "ជ្រើសរើសកន្លែងមួយដើម្បីរៀបចំ ហើយកំណត់ថារៀបចំដល់ណា រៀបចំតាមលំដាប់ណា និងរយៈពេលប៉ុន្មាននាទី។",
++  "planning.tidy.confirm": "ពិនិត្យវិសាលភាពដែលបានកំណត់ជាក់ស្តែង និងផែនការដែលបានកែសម្រួល។",
++  "planning.tidy.title": "កំណត់បរិមាណសម្រាប់ការរៀបចំកន្លែងមួយ",
++  "practiceReason": "សកម្មភាពដែលត្រូវហាត់សម",
++  "preview": "មើលជាមុននិងកែសម្រួល",
++  "reason": "ហេតុផលនៃអនុសាសន៍",
++  "response": "តើវិធីនេះមានប្រយោជន៍ដែរឬទេ?",
++  "responseAfterRun": "ក្រោយពីបញ្ចប់ការអនុវត្ត អ្នកអាចទុកមតិយោបល់អំពីជំនួយប្រសិនបើអ្នកចង់។",
++  "responseCount": "ចំនួនដងដែលបានឆ្លើយតបអំពីជំនួយ",
++  "resultReason": "បានប្រើលំដាប់ជំនួយផ្លូវការនៃលទ្ធផលដែលបានភ្ជាប់ និងជុំបច្ចុប្បន្ន។ មិនមានការគណនាពិន្ទុ ឬប្រភេទឡើងវិញទេ។",
++  "reviewOnly": "សកម្មភាពសម្រាប់ប្រៀបធៀបនៅបឋមសិក្សា - មិនផ្តល់ឱ្យសម្រាប់ការចូលរួមទូទៅទេ។",
++  "safety": "សូមអង្គុយដោយសុវត្ថិភាពដើម្បីសង្កេត ឬគូរ។ កុំបិទភ្នែកពេលធ្វើចលនា។ បើមិនស្រួល អ្នកអាចជ្រើសរើសការតភ្ជាប់ដោយមើលផ្ទាល់បាន។ សរសេរតែព្រឹត្តិការណ៍ធម្មតា ហើយមិនចាំបាច់សរសេរព័ត៌មានរបស់អ្នកដទៃ ឬការចងចាំដែលពិបាកនោះទេ។ មិនមានការវាយតម្លៃដោយពិន្ទុនៃការចងចាំ ឬការធ្វើតេស្តទេ។",
++  "scope": "បរិមាណដែលត្រូវធ្វើថ្ងៃនេះ",
++  "simultaneous": "ការតភ្ជាប់ទាំងមូល",
++  "simultaneous.positions.action": "អង្គុយដោយសុវត្ថិភាព ហើយគូរ ឬកត់ត្រាទីតាំងដែលស្គាល់មួយចំនួនដោយមិនចាំបាច់មើល រួចប្រៀបធៀបជាមួយការពិត។ បើចង់ អ្នកអាចមើលទៅតាមបាន។ ពន្យល់ពីទំនាក់ទំនងនៃទីតាំង វត្ថុ និងការប្រើប្រាស់។",
++  "simultaneous.positions.confirm": "តភ្ជាប់របស់របរជាក់ស្តែងចាប់ពីពីរឡើងទៅ ហើយពិនិត្យមើលថាអ្វីនៅទីណា និងប្រើប្រាស់ដោយរបៀបណា។ មិនមានការដាក់ពិន្ទុការចងចាំទេ។",
++  "simultaneous.positions.title": "ការតភ្ជាប់ទីតាំង និងការប្រើប្រាស់ដែលស្គាល់",
++  "simultaneous.prepare.action": "តភ្ជាប់វត្ថុជាក់ស្តែងចាប់ពីពីរឡើងទៅ រវាងសម្ភារៈ ទីតាំង និងគោលដៅ រួចពន្យល់ទំនាក់ទំនងនោះខ្លីៗ។",
++  "simultaneous.prepare.confirm": "ពិនិត្យតាមរយៈពាក្យសម្តី ឬគំនូររបស់អ្នកថា តើសម្ភារៈនេះត្រូវបានប្រើសម្រាប់គោលដៅនោះយ៉ាងដូចម្តេច។",
++  "simultaneous.prepare.title": "ការតភ្ជាប់ទំនាក់ទំនងរវាងសម្ភារៈ និងគោលដៅ",
++  "source": "ប្រភពនៃអនុសាសន៍",
++  "strengthReason": "វិធីសាស្រ្តជំនួយដែលសម្របតាមចំណុចខ្លាំង",
++  "study": "ការសិក្សា",
++  "successive": "ការអនុវត្តតាមលំដាប់",
++  "successive.event.action": "សរសេរ ឬគូរព្រឹត្តិការណ៍ធម្មតាដែលធ្លាប់បានកើតឡើងក្នុង ២-៥ ជំហាន។ ត្រួតពិនិត្យ និងកែសម្រួលលំដាប់ រួចអនុវត្តមួយជំហានដោយផ្ទាល់។",
++  "successive.event.confirm": "ពិនិត្យជំហានចាប់ពីពីរឡើងទៅ និងលំដាប់ ឬសញ្ញាសម្គាល់ការរីកចម្រើនដែលអ្នកបានពិនិត្យ។",
++  "successive.event.title": "ការរៀបចំព្រឹត្តិការណ៍ធម្មតាឱ្យមានលំដាប់",
++  "successive.prepare.action": "សរសេរដំណើរការរៀបចំជាក់ស្តែងក្នុងជំហានចាប់ពីពីរឡើងទៅ ប្តូរលំដាប់ រួចអនុវត្តចាប់ពីមួយជំហានឡើងទៅ។",
++  "successive.prepare.confirm": "បែងចែកជំហានដែលបានកំណត់ និងជំហានដែលបានអនុវត្តជាក់ស្តែងដើម្បីពិនិត្យមើល។",
++  "successive.prepare.title": "ការអនុវត្តដំណើរការរៀបចំតាមលំដាប់",
++  "time": "ពេលវេលារំពឹងទុក (នាទី)",
++  "title": "ចំណងជើងកិច្ចការ",
++  "unanswered": "មិនបានឆ្លើយតប",
++  "unavailable": "សូមពិនិត្យមើលអនុសាសន៍សម្រាប់អាយុ និងជុំបច្ចុប្បន្នម្តងទៀត។",
++  "universal": "ជំនួយទូទៅខ្លីៗ",
++  "unknown": "មិនទាន់ដឹងនៅឡើយទេ",
++  "useCount": "ចំនួនដងដែលបានបញ្ចប់ការអនុវត្ត",
++  "viewCount": "កំណត់ត្រាការពិនិត្យមើលអនុសាសន៍",
++  "without": "ចាប់ផ្តើមដោយគ្មានអនុសាសន៍",
++  "work": "ការងារ",
++  "write": "សរសេរដោយផ្ទាល់",
++  "yes": "មានប្រយោជន៍"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/ko.json
+@@ -0,0 +1,18 @@
++{
++ "open":"추천 연습","heading":"오늘 해볼 작은 연습","close":"닫기","other":"다른 추천 보기","write":"직접 작성","without":"추천 없이 시작","preview":"미리 보고 고치기","title":"할 일 제목","action":"직접 할 행동","scope":"오늘 할 분량","time":"예상 시간(분)","unknown":"아직 모르겠어요","context":"사례 선택","life":"생활","study":"학습","work":"업무","help":"나에게 보여주는 도움","reason":"추천 이유","practiceReason":"연습할 행동","strengthReason":"강점에 맞춘 도움 방식","resultReason":"연결된 결과의 공식 지원 순서와 현재 회차를 사용했어요. 점수나 유형을 다시 계산하지 않아요.","generalReason":"검사 기반 추천이 아닌 일반 연습입니다. 편한 활동과 도움을 직접 골라 주세요.","coreRequired":"도움은 정보를 보여주는 방식입니다. 선택·연결·순서 확인은 본인이 합니다.","add":"내 할 일에 추가","added":"선반에 추가했어요. 시작은 직접 눌러 주세요.","confirm":"마무리할 때 확인할 것","materials":"고를 대상·준비할 것","reviewOnly":"초등 비교용 활동 · 일반 진입에는 제공하지 않아요.","safety":"안전하게 앉아서 관찰하거나 그리세요. 눈을 감고 이동하지 않아요. 불편하면 보면서 연결하기를 선택해도 됩니다. 평범한 사건만 쓰고 타인의 정보나 힘든 기억은 적지 않아도 됩니다. 기억·검사 점수로 평가하지 않아요.","viewCount":"추천을 살펴본 기록","useCount":"실행을 마친 횟수","responseCount":"도움 여부에 답한 횟수","yes":"도움이 됐어요","neutral":"아직 모르겠어요","no":"도움이 되지 않았어요","unanswered":"응답하지 않음","response":"이 방법이 도움이 됐나요?","optional":"선택 사항 · 답하지 않아도 괜찮아요.","noEffect":"실행 기록과 자기보고는 별개입니다. 능력 향상이나 검사 정확성의 근거가 아닙니다.","planning":"할 만큼 정하기","attention":"지금 한 가지","simultaneous":"전체 연결하기","successive":"단계대로 해보기","integrated":"일반 통합 활동","universal":"짧은 공통 도움","none":"도움 줄이고 바로 하기","helpPlanning":"목표·완료 기준","helpAttention":"한 가지 강조","helpSimultaneous":"전체 지도·관계 묶음","helpSuccessive":"현재·다음 순서표","helpUniversal":"짧은 공통 안내","helpNone":"추가 도움 없이","invalidTime":"예상 시간은 1~1440분의 정수로 입력하거나 미정을 선택하세요.","initial":"선택 당시의 계획","source":"추천 출처","unavailable":"현재 연령·회차의 추천을 다시 확인해 주세요.","responseAfterRun":"실행을 끝낸 뒤 원하면 도움 여부를 남길 수 있어요.","invalidBackup":"추천 활동과 원본 과제·실행의 연결이 맞지 않습니다.",
++ "planning.prepare.title":"작은 준비 계획 세우기","planning.prepare.action":"필요한 것 중 오늘 준비할 분량·순서·시간을 직접 정해요.","planning.prepare.confirm":"정한 분량·순서·시간 또는 바꾼 이유를 확인해요.",
++ "planning.tidy.title":"한 구역 정리할 만큼 정하기","planning.tidy.action":"정리할 구역 한 곳을 고르고 어디까지·어떤 순서로·몇 분 할지 정해요.","planning.tidy.confirm":"실제 정한 범위와 조정한 계획을 확인해요.",
++ "attention.choose.title":"지금 볼 대상 하나 고르기","attention.choose.action":"대상 하나와 지금 할 행동을 고르세요. 다른 생각이 생기면 필요할 때만 보관해요.","attention.choose.confirm":"내가 고른 대상과 실제로 한 행동을 확인해요. 방해를 일부러 만들지 않아요.",
++ "attention.find.title":"필요한 정보 한 가지 찾기","attention.find.action":"지금 필요한 정보를 하나 정하고 자료에서 찾아 표시하거나 말해요.","attention.find.confirm":"선택한 정보가 이번 행동에 왜 필요한지 확인해요.",
++ "simultaneous.positions.title":"익숙한 위치와 쓰임 연결하기","simultaneous.positions.action":"안전하게 앉아 익숙한 위치 몇 개를 보지 않고 그리거나 적은 뒤 실제와 비교해요. 원하면 보면서 해도 됩니다. 위치·물건·쓰임의 관계를 설명해요.","simultaneous.positions.confirm":"실제 항목 둘 이상을 연결하고 무엇이 어디서 어떻게 쓰이는지 확인해요. 기억 점수는 매기지 않아요.",
++ "simultaneous.prepare.title":"준비물과 목표 관계 묶기","simultaneous.prepare.action":"준비물·위치·목표 중 실제 항목 둘 이상을 연결하고 그 관계를 짧게 설명해요.","simultaneous.prepare.confirm":"이 준비물이 목표에 어떻게 쓰이는지 내 말이나 그림으로 확인해요.",
++ "successive.event.title":"평범한 일을 순서대로 정리하기","successive.event.action":"이미 있었던 평범한 사건을 2~5단계로 적거나 그려요. 순서를 검토·수정하고 한 단계를 직접 확인해요.","successive.event.confirm":"둘 이상의 단계와 내가 확인한 순서·진행 표시를 확인해요.",
++ "successive.prepare.title":"준비 과정 순서대로 해보기","successive.prepare.action":"실제 준비 과정을 둘 이상의 단계로 적고 순서를 바꿔 본 뒤 한 단계 이상 진행해요.","successive.prepare.confirm":"확정한 단계와 실제로 진행한 단계를 구분해 확인해요.",
++ "integrated.small.title":"작은 일 하나 계획하고 해보기","integrated.small.action":"작은 일 하나의 분량과 첫 행동을 정하거나 계획을 검토한 뒤 직접 실행해요.","integrated.small.confirm":"계획 결정·실제 실행·다음에 바꿀 한 가지를 확인해요.",
++ "integrated.tomorrow.title":"다음에 할 작은 준비 하나","integrated.tomorrow.action":"다음에 필요한 준비 하나를 골라 범위와 방법을 정하고 이번에 할 수 있는 부분을 해봐요.","integrated.tomorrow.confirm":"이번에 해본 부분과 다음에 이어갈 위치를 확인해요.",
++ "elementary_1_3.items":"그림이나 익숙한 물건 2~3개","elementary_1_3.scope":"그림으로 두 가지를 고르고 지금 할 행동 하나","elementary_1_3.context":"앉은 자리에서 고르거나 그려요. 짧은 말로 알려줘도 괜찮아요.",
++ "elementary_4_6.items":"내일 학교 준비물이나 정리할 물건 3~4개","elementary_4_6.scope":"학교 준비를 3~4단계로, 간단한 이유 한 가지","elementary_4_6.context":"가방·책상 준비를 예로 고르고 필요한 순서와 이유를 말해요.",
++ "middle.items":"공부 준비물·평범한 하루 사건·필요한 자료","middle.scope":"준비할 분량 또는 하루 사건 2~4단계와 짧은 설명","middle.context":"공부 시작 준비나 일상 사건을 골라 내 말로 짧게 설명해요.",
++ "high.items":"학습 일정·과제 마감·실제 가용 시간과 조건","high.scope":"마감과 조건 2개 이상을 비교하고 오늘 분량·순서 조정","high.context":"일정과 마감을 비교해 스스로 분량을 조정하고 선택 이유를 남겨요.",
++ "adult.items":"생활·업무 준비물, 일정, 담당 또는 선행 작업","adult.scope":"준비 과정 3~5단계 또는 실제 조건 연결과 다른 상황 적용","adult.context":"생활·학습·업무 중 고르고, 다른 상황에서는 어떻게 쓸지 짧게 설명해요."
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/mn.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Биелүүлэх үйлдэл",
++  "add": "Миний хийх ажилд нэмэх",
++  "added": "Жагсаалтад нэмлээ. Эхлэхдээ өөрөө дарна уу.",
++  "adult.context": "Амьдрал, сургалт, ажлаас сонгоод, бусад нөхцөлд хэрхэн ашиглах талаар товч тайлбарлана уу.",
++  "adult.items": "Амьдрал·ажлын хэрэглэгдэхүүн, хуваарь, хариуцах эсвэл өмнөх ажил",
++  "adult.scope": "Бэлтгэл үйл явцын 3~5 алхам эсвэл бодит нөхцөл байдалтай холбож бусад нөхцөлд хэрэглэх",
++  "attention": "Одоогоор нэг зүйл",
++  "attention.choose.action": "Нэг зүйлийг сонгоод одоо хийх үйлдлээ сонгоно уу. Өөр бодол орж ирвэл хэрэгтэй үед нь хадгална уу.",
++  "attention.choose.confirm": "Сонгосон зүйл болон бодитоор хийсэн үйлдлээ баталгаажуулна уу. Саад учруулахыг зориуд бүү хий.",
++  "attention.choose.title": "Анхаарах нэг зүйлийг сонгох",
++  "attention.find.action": "Одоогоор хэрэгтэй нэг мэдээллийг сонгож, материалаас хайж тэмдэглэх эсвэл хэлнэ үү.",
++  "attention.find.confirm": "Сонгосон мэдээлэл энэ үйлдэлд яагаад хэрэгтэйг баталгаажуулна уу.",
++  "attention.find.title": "Хэрэгтэй нэг мэдээллийг олох",
++  "close": "Хаах",
++  "confirm": "Дуусгах үед шалгах зүйл",
++  "context": "Жишээ сонгох",
++  "coreRequired": "Тусламж нь мэдээллийг үзүүлэх арга юм. Сонгох·холбох·дарааллыг шалгахыг өөрөө хийнэ.",
++  "elementary_1_3.context": "Суусан газраасаа сонгох эсвэл зурах. Товчхон хэлсэн ч болно.",
++  "elementary_1_3.items": "Зураг эсвэл танил 2~3 зүйл",
++  "elementary_1_3.scope": "Зургаар хоёр зүйлийг сонгоод одоо хийх нэг үйлдэл",
++  "elementary_4_6.context": "Цүнх·ширээний бэлтгэлийг жишээ болгон сонгож, хэрэгтэй дараалал болон шалтгаанаа хэлнэ үү.",
++  "elementary_4_6.items": "Маргаашийн хичээлийн бэлтгэл эсвэл цэгцлэх 3~4 зүйл",
++  "elementary_4_6.scope": "Хичээлийн бэлтгэлийг 3~4 алхмаар, энгийн нэг шалтгаан",
++  "generalReason": "Энэ нь оношилгоонд суурилсан зөвлөмж биш, ердийн дасгал юм. Тав тухтай үйл ажиллагаа болон тусламжаа өөрөө сонгоно уу.",
++  "heading": "Өнөөдөр хийх жижиг дасгал",
++  "help": "Өөртөө үзүүлэх тусламж",
++  "helpAttention": "Нэг зүйлийг онцлох",
++  "helpNone": "Нэмэлт тусламжгүйгээр",
++  "helpPlanning": "Зорилго·дуусгах шалгуур",
++  "helpSimultaneous": "Бүхэлд нь зураглах·холбоо хамаарал",
++  "helpSuccessive": "Одоогийн·дараагийн дарааллын хүснэгт",
++  "helpUniversal": "Товч нийтлэг заавар",
++  "high.context": "Хуваарь болон эцсийн хугацааг харьцуулан өөрөө ачааллаа тохируулж, сонгосон шалтгаанаа үлдээгээрэй.",
++  "high.items": "Сургалтын хуваарь·даалгаврын хугацаа·бодит боломжит хугацаа ба нөхцөл",
++  "high.scope": "Хугацаа ба нөхцөл 2-оос илүүг харьцуулж, өнөөдрийн ачаалал·дарааллыг тохируулах",
++  "initial": "Сонгох үеийн төлөвлөгөө",
++  "integrated": "Ердийн нэгдсэн үйл ажиллагаа",
++  "integrated.small.action": "Жижиг ажлын ачаалал болон анхны үйлдлийг тогтоох эсвэл төлөвлөгөөгөө шалгасны дараа шууд хэрэгжүүлнэ.",
++  "integrated.small.confirm": "Төлөвлөгөөний шийдвэр·бодит хэрэгжилт·дараа нь өөрчлөх нэг зүйлийг шалгана уу.",
++  "integrated.small.title": "Жижиг ажил төлөвлөж хийж үзэх",
++  "integrated.tomorrow.action": "Дараа хэрэгтэй бэлтгэлийн нэгийг сонгож, хүрээ болон аргаа тогтоогоод одоо хийж чадах хэсгээ хийнэ.",
++  "integrated.tomorrow.confirm": "Одоо хийж үзсэн хэсэг болон дараа үргэлжлүүлэх байршлаа шалгана уу.",
++  "integrated.tomorrow.title": "Дараа хийх жижиг бэлтгэл",
++  "invalidBackup": "Зөвлөмж болгосон үйл ажиллагаа болон эх даалгавар·хэрэгжилтийн холбоос таарахгүй байна.",
++  "invalidTime": "Тооцоолсон хугацааг 1~1440 минутын бүхэл тоогоор оруулах эсвэл тодорхой бусыг сонгоно уу.",
++  "life": "Амьдрал",
++  "materials": "Сонгох зүйл·бэлтгэх зүйл",
++  "middle.context": "Хичээл эхлэх бэлтгэл эсвэл өдөр тутмын үйл явдлаас сонгоод өөрийн үгээр товч тайлбарлана уу.",
++  "middle.items": "Хичээлийн бэлтгэл·энгийн өдрийн үйл явдал·хэрэгтэй материал",
++  "middle.scope": "Бэлтгэх ачаалал эсвэл өдрийн үйл явдлын 2~4 алхам болон товч тайлбар",
++  "neutral": "Одоохондоо мэдэхгүй байна",
++  "no": "Тусламж болоогүй",
++  "noEffect": "Хэрэгжилтийн тэмдэглэл болон өөрийн үнэлгээ нь тусдаа юм. Чадвар сайжрах эсвэл шинжилгээний үнэн зөвийн үндэслэл биш.",
++  "none": "Тусламжаа багасгаад шууд хийх",
++  "open": "Зөвлөмж дасгал",
++  "optional": "Сонголт · хариулах албагүй.",
++  "other": "Бусад зөвлөмжийг үзэх",
++  "planning": "Хийх хэмжээгээ тогтоох",
++  "planning.prepare.action": "Хэрэгтэй зүйлсээс өнөөдөр бэлтгэх хэмжээ·дараалал·хугацааг өөрөө тогтооно уу.",
++  "planning.prepare.confirm": "Тогтоосон хэмжээ·дараалал·хугацаа эсвэл өөрчилсөн шалтгаанаа шалгана уу.",
++  "planning.prepare.title": "Жижиг бэлтгэлийн төлөвлөгөө гаргах",
++  "planning.tidy.action": "Цэгцлэх нэг хэсгээ сонгоод хаана хүртэл·ямар дарааллаар·хэдэн минут хийхээ тогтооно уу.",
++  "planning.tidy.confirm": "Бодитоор тогтоосон хүрээ болон тохируулсан төлөвлөгөөгөө шалгана уу.",
++  "planning.tidy.title": "Нэг хэсгийг цэгцлэх хэмжээг тогтоох",
++  "practiceReason": "Дасгал хийх үйлдэл",
++  "preview": "Урьдчилан харж засах",
++  "reason": "Зөвлөмжийн шалтгаан",
++  "response": "Энэ арга тус болсон уу?",
++  "responseAfterRun": "Хэрэгжүүлж дууссаны дараа хүсвэл тусламж хэрэгтэй байсан эсэхээ үлдээж болно.",
++  "responseCount": "Тусламж хэрэгтэй эсэхэд хариулсан тоо",
++  "resultReason": "Холбогдох үр дүнгийн албан ёсны дэмжлэгийн дараалал болон одоогийн ээлжийг ашигласан. Оноо эсвэл төрлийг дахин тооцоолохгүй.",
++  "reviewOnly": "Бага сургуулийн харьцуулах үйл ажиллагаа · энгийн нэвтрэлтэд олгохгүй.",
++  "safety": "Аюулгүй сууж ажиглах эсвэл зураарай. Нүдээ аниад явах хэрэггүй. Эвгүй байвал харж байгаад холбохыг сонгож болно. Зөвхөн энгийн үйл явдлыг бичиж, бусдын мэдээлэл эсвэл хэцүү дурсамжийг бичих албагүй. Дурсамж·шинжилгээний оноогоор үнэлэхгүй.",
++  "scope": "Өнөөдөр хийх хэмжээ",
++  "simultaneous": "Бүхэлд нь холбох",
++  "simultaneous.positions.action": "Аюулгүй сууж, танил хэдэн байршлыг харахгүйгээр зурах эсвэл бичсэний дараа бодит байдалтай харьцуулна уу. Хүсвэл харж хийж болно. Байршил·эд зүйл·ашиглалтын хамаарлыг тайлбарлана уу.",
++  "simultaneous.positions.confirm": "Бодит хоёр болон түүнээс дээш зүйлийг холбож, юуг хаана яаж ашигладгийг шалгана уу. Дурсамжийн оноо өгөхгүй.",
++  "simultaneous.positions.title": "Танил байршил болон ашиглалтыг холбох",
++  "simultaneous.prepare.action": "Бэлтгэл·байршил·зорилгоос бодит хоёр болон түүнээс дээш зүйлийг холбож, тэр хамаарлаа товч тайлбарлана уу.",
++  "simultaneous.prepare.confirm": "Энэ бэлтгэл зорилгодоо яаж ашиглагдахыг өөрийн үгээр эсвэл зургаар шалгана уу.",
++  "simultaneous.prepare.title": "Бэлтгэл болон зорилгын хамаарлыг багцлах",
++  "source": "Зөвлөмжийн эх сурвалж",
++  "strengthReason": "Давуу талд нийцүүлсэн тусламжийн арга",
++  "study": "Сургалт",
++  "successive": "Алхам дараалан хийж үзэх",
++  "successive.event.action": "Аль хэдийн тохиолдсон энгийн үйл явдлыг 2~5 алхмаар бичих эсвэл зурах. Дарааллыг шалгах·засварлах болон нэг алхмыг өөрөө шалгана уу.",
++  "successive.event.confirm": "Хоёр болон түүнээс дээш алхам болон миний шалгасан дараалал·явцын тэмдэглэгээг шалгана уу.",
++  "successive.event.title": "Энгийн ажлыг дарааллаар нь цэгцлэх",
++  "successive.prepare.action": "Бодит бэлтгэл үйл явцыг хоёр болон түүнээс дээш алхмаар бичиж, дарааллыг нь сольж үзсэний дараа нэг алхам эсвэл түүнээс илүүг явуулна уу.",
++  "successive.prepare.confirm": "Баталгаажуулсан алхам болон бодитоор явуулсан алхмыг ялгаж шалгана уу.",
++  "successive.prepare.title": "Бэлтгэл үйл явцыг дарааллаар нь хийж үзэх",
++  "time": "Тооцоолсон хугацаа(мин)",
++  "title": "Хийх ажлын нэр",
++  "unanswered": "Хариулаагүй",
++  "unavailable": "Одоогийн нас·ээлжийн зөвлөмжийг дахин шалгана уу.",
++  "universal": "Товч нийтлэг тусламж",
++  "unknown": "Одоохондоо мэдэхгүй байна",
++  "useCount": "Хэрэгжүүлж дуусгасан тоо",
++  "viewCount": "Зөвлөмжийг үзсэн тэмдэглэл",
++  "without": "Зөвлөмжгүйгээр эхлэх",
++  "work": "Ажил",
++  "write": "Өөрөө бичих",
++  "yes": "Тусламж болсон"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/ru.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Действие для выполнения",
++  "add": "Добавить в мой список дел",
++  "added": "Добавлено на полку. Нажмите, чтобы начать.",
++  "adult.context": "Выберите из категорий: быт, учеба или работа, и кратко опишите применение в других ситуациях.",
++  "adult.items": "Принадлежности для быта/работы, расписание, обязанности или подготовительные задачи",
++  "adult.scope": "3–5 этапов подготовки или связь условий с применением в других ситуациях",
++  "attention": "Одно дело сейчас",
++  "attention.choose.action": "Выберите один объект и действие, которое нужно выполнить. Если появятся другие мысли, отложите их, если нужно.",
++  "attention.choose.confirm": "Подтвердите выбор объекта и выполненное действие. Не создавайте помехи специально.",
++  "attention.choose.title": "Выбор одного объекта для рассмотрения",
++  "attention.find.action": "Выберите одну нужную информацию, найдите ее в материалах, отметьте или озвучьте.",
++  "attention.find.confirm": "Подтвердите, почему выбранная информация важна для этого действия.",
++  "attention.find.title": "Поиск одной нужной части информации",
++  "close": "Закрыть",
++  "confirm": "Что проверить при завершении",
++  "context": "Выбор примера",
++  "coreRequired": "Подсказка — это способ отображения информации. Выбор, связывание и проверку последовательности вы выполняете сами.",
++  "elementary_1_3.context": "Выберите или нарисуйте, сидя на месте. Можно объяснить короткими фразами.",
++  "elementary_1_3.items": "2–3 рисунка или знакомых предмета",
++  "elementary_1_3.scope": "Выбор двух предметов на рисунке и одно действие для выполнения сейчас",
++  "elementary_4_6.context": "Выберите пример с подготовкой сумки или стола, назовите нужную последовательность и причину.",
++  "elementary_4_6.items": "3–4 предмета для школы или для уборки",
++  "elementary_4_6.scope": "Подготовка к школе в 3–4 этапа, одна простая причина",
++  "generalReason": "Это общая практика, а не рекомендации на основе тестов. Пожалуйста, сами выберите удобную активность и подсказку.",
++  "heading": "Сегодняшнее небольшое упражнение",
++  "help": "Подсказка для меня",
++  "helpAttention": "Выделение одной детали",
++  "helpNone": "Без дополнительной помощи",
++  "helpPlanning": "Цель и критерии завершения",
++  "helpSimultaneous": "Общая карта и связи объектов",
++  "helpSuccessive": "Текущий и следующий этапы",
++  "helpUniversal": "Краткая общая инструкция",
++  "high.context": "Сравните расписание и сроки, отрегулируйте объем самостоятельно и укажите причину выбора.",
++  "high.items": "Учебный план, дедлайны заданий, реальное время и условия",
++  "high.scope": "Сравнение 2+ условий и сроков, корректировка объема и порядка на сегодня",
++  "initial": "План на момент выбора",
++  "integrated": "Общая интегрированная активность",
++  "integrated.small.action": "Определите объем для одного небольшого дела и первый шаг или выполните его после проверки плана.",
++  "integrated.small.confirm": "Подтвердите решение, выполнение и один шаг для изменения в будущем.",
++  "integrated.small.title": "Планирование и выполнение небольшого дела",
++  "integrated.tomorrow.action": "Выберите одну будущую подготовку, определите объем, метод и выполните доступную часть сейчас.",
++  "integrated.tomorrow.confirm": "Подтвердите выполненную часть и то, с чего начнете в следующий раз.",
++  "integrated.tomorrow.title": "Одна небольшая подготовка к будущему",
++  "invalidBackup": "Связь между рекомендованной активностью, исходным заданием и выполнением нарушена.",
++  "invalidTime": "Ожидаемое время должно быть целым числом от 1 до 1440 минут, либо выберите 'не определено'.",
++  "life": "Быт",
++  "materials": "Объекты и приготовления",
++  "middle.context": "Выберите подготовку к учебе или событие дня и объясните кратко своими словами.",
++  "middle.items": "Учебные принадлежности, событие дня, нужные материалы",
++  "middle.scope": "Объем подготовки или событие дня в 2–4 этапа с кратким пояснением",
++  "neutral": "Еще не знаю",
++  "no": "Не помогло",
++  "noEffect": "Записи выполнения и самоотчет разделены. Это не является подтверждением развития способностей или точности тестов.",
++  "none": "Уменьшить помощь и начать сразу",
++  "open": "Рекомендуемое упражнение",
++  "optional": "Необязательно. Можно не отвечать.",
++  "other": "Посмотреть другие рекомендации",
++  "planning": "Определить объем работы",
++  "planning.prepare.action": "Самостоятельно определите объем, последовательность и время для подготовки на сегодня.",
++  "planning.prepare.confirm": "Подтвердите объем, последовательность, время или причину изменений.",
++  "planning.prepare.title": "Создание плана подготовки",
++  "planning.tidy.action": "Выберите одну зону, определите границы, последовательность и время на уборку.",
++  "planning.tidy.confirm": "Подтвердите выбранные границы и скорректированный план.",
++  "planning.tidy.title": "Определение объема уборки зоны",
++  "practiceReason": "Действие для практики",
++  "preview": "Предварительный просмотр и исправление",
++  "reason": "Причина рекомендации",
++  "response": "Помог ли этот метод?",
++  "responseAfterRun": "После завершения можно оставить отзыв о полезности помощи.",
++  "responseCount": "Количество ответов о полезности помощи",
++  "resultReason": "Использована официальная последовательность поддержки, привязанная к результату. Баллы или типы не пересчитываются.",
++  "reviewOnly": "Активность для сравнения в начальной школе. Не доступна для общего входа.",
++  "safety": "Безопасно наблюдайте или рисуйте сидя. Не закрывайте глаза при движении. Если неудобно, можно выбирать связывание с визуализацией. Описывайте только обычные события, не обязательно записывать информацию о других людях или тяжелые воспоминания. Память и баллы тестов не оцениваются.",
++  "scope": "Объем на сегодня",
++  "simultaneous": "Связывание целого",
++  "simultaneous.positions.action": "Безопасно сидя, попробуйте нарисовать или записать знакомые места, не подглядывая, затем сравните с реальностью. Можно делать и с просмотром. Объясните связи между местом, предметом и применением.",
++  "simultaneous.positions.confirm": "Свяжите 2+ реальных пункта и проверьте, что, где и как используется. Баллы памяти не выставляются.",
++  "simultaneous.positions.title": "Связь знакомых мест и их использования",
++  "simultaneous.prepare.action": "Свяжите 2+ реальных пункта из списка: материалы, место, цель, и кратко объясните связь.",
++  "simultaneous.prepare.confirm": "Подтвердите словами или рисунком, как эти материалы используются для достижения цели.",
++  "simultaneous.prepare.title": "Связывание материалов и целей",
++  "source": "Источник рекомендации",
++  "strengthReason": "Способ помощи, адаптированный к сильным сторонам",
++  "study": "Учеба",
++  "successive": "Поэтапное выполнение",
++  "successive.event.action": "Запишите или нарисуйте обычное событие в 2–5 этапов. Проверьте последовательность и подтвердите один шаг.",
++  "successive.event.confirm": "Подтвердите 2+ этапа и отмеченную последовательность.",
++  "successive.event.title": "Поэтапная организация обычного дела",
++  "successive.prepare.action": "Запишите процесс реальной подготовки в 2+ этапа, измените порядок и выполните минимум один этап.",
++  "successive.prepare.confirm": "Подтвердите разделение утвержденных и выполненных этапов.",
++  "successive.prepare.title": "Поэтапная подготовка",
++  "time": "Ожидаемое время (мин)",
++  "title": "Заголовок дела",
++  "unanswered": "Не отвечено",
++  "unavailable": "Пожалуйста, проверьте рекомендации для текущего возраста и этапа.",
++  "universal": "Краткая общая помощь",
++  "unknown": "Еще не знаю",
++  "useCount": "Количество завершенных выполнений",
++  "viewCount": "Количество просмотров рекомендаций",
++  "without": "Начать без рекомендаций",
++  "work": "Работа",
++  "write": "Написать самому",
++  "yes": "Помогло"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/th.json
+@@ -0,0 +1,105 @@
++{
++  "action": "สิ่งที่ต้องทำด้วยตัวเอง",
++  "add": "เพิ่มลงในรายการสิ่งที่ต้องทำของฉัน",
++  "added": "เพิ่มลงในชั้นวางแล้ว โปรดกดเริ่มด้วยตัวเอง",
++  "adult.context": "เลือกจากชีวิตประจำวัน การเรียน หรือการทำงาน และอธิบายสั้นๆ ถึงวิธีใช้ในสถานการณ์อื่นๆ",
++  "adult.items": "อุปกรณ์สำหรับชีวิตประจำวันหรือการทำงาน ตารางเวลา ความรับผิดชอบ หรืองานที่ต้องทำก่อน",
++  "adult.scope": "ขั้นตอนการเตรียมการ 3-5 ขั้นตอน หรือการประยุกต์ใช้กับเงื่อนไขจริงในสถานการณ์อื่น",
++  "attention": "จดจ่อกับสิ่งเดียวในตอนนี้",
++  "attention.choose.action": "เลือกเป้าหมายหนึ่งอย่างและสิ่งที่ต้องทำตอนนี้ หากมีความคิดอื่นแทรกเข้ามา ให้เก็บไว้ก่อนเมื่อจำเป็น",
++  "attention.choose.confirm": "ยืนยันเป้าหมายที่เลือกและสิ่งที่ทำจริง ไม่ต้องพยายามสร้างสิ่งรบกวนขึ้นมา",
++  "attention.choose.title": "เลือกสิ่งเดียวที่ต้องดูในตอนนี้",
++  "attention.find.action": "กำหนดข้อมูลที่จำเป็นในตอนนี้แล้วค้นหาในเอกสารเพื่อระบุหรือบอกต่อ",
++  "attention.find.confirm": "ยืนยันว่าทำไมข้อมูลที่เลือกถึงจำเป็นสำหรับกิจกรรมนี้",
++  "attention.find.title": "ค้นหาข้อมูลที่จำเป็นหนึ่งอย่าง",
++  "close": "ปิด",
++  "confirm": "สิ่งที่ต้องตรวจสอบเมื่อทำเสร็จ",
++  "context": "เลือกกรณีตัวอย่าง",
++  "coreRequired": "ความช่วยเหลือเป็นเพียงวิธีนำเสนอข้อมูล ส่วนการเลือก การเชื่อมโยง และการตรวจสอบลำดับ คุณต้องทำด้วยตัวเอง",
++  "elementary_1_3.context": "เลือกหรือวาดจากตำแหน่งที่นั่งอยู่ บอกด้วยคำสั้นๆ ก็ได้",
++  "elementary_1_3.items": "รูปภาพหรือสิ่งของที่คุ้นเคย 2-3 อย่าง",
++  "elementary_1_3.scope": "เลือกสองอย่างจากรูปภาพและกิจกรรมที่ต้องทำตอนนี้หนึ่งอย่าง",
++  "elementary_4_6.context": "เลือกตัวอย่างเช่นการจัดกระเป๋าหรือโต๊ะเรียน แล้วบอกลำดับที่จำเป็นและเหตุผล",
++  "elementary_4_6.items": "อุปกรณ์การเรียนสำหรับวันพรุ่งนี้หรือสิ่งของที่ต้องจัด 3-4 อย่าง",
++  "elementary_4_6.scope": "การจัดเตรียมสำหรับการเรียนใน 3-4 ขั้นตอน พร้อมเหตุผลสั้นๆ หนึ่งข้อ",
++  "generalReason": "นี่คือการฝึกฝนทั่วไป ไม่ใช่คำแนะนำจากการตรวจสอบ โปรดเลือกกิจกรรมและความช่วยเหลือที่สะดวกด้วยตัวเอง",
++  "heading": "แบบฝึกหัดเล็กๆ ที่จะลองทำในวันนี้",
++  "help": "ความช่วยเหลือที่แสดงให้ฉันเห็น",
++  "helpAttention": "เน้นย้ำสิ่งเดียว",
++  "helpNone": "โดยไม่มีความช่วยเหลือเพิ่มเติม",
++  "helpPlanning": "เป้าหมายและเกณฑ์ความสำเร็จ",
++  "helpSimultaneous": "คำแนะนำโดยรวมและความสัมพันธ์ของกลุ่ม",
++  "helpSuccessive": "ตารางลำดับปัจจุบันและถัดไป",
++  "helpUniversal": "คำแนะนำทั่วไปแบบสั้น",
++  "high.context": "เปรียบเทียบตารางเวลากับกำหนดส่งเพื่อปรับปริมาณงานด้วยตัวเองและระบุเหตุผลในการเลือก",
++  "high.items": "ตารางเรียน กำหนดส่งงาน เวลาและเงื่อนไขที่มีอยู่จริง",
++  "high.scope": "เปรียบเทียบกำหนดส่งและเงื่อนไขตั้งแต่สองรายการขึ้นไป แล้วปรับปริมาณงานและลำดับในวันนี้",
++  "initial": "แผนงาน ณ ตอนที่เลือก",
++  "integrated": "กิจกรรมบูรณาการทั่วไป",
++  "integrated.small.action": "กำหนดปริมาณงานเล็กๆ หนึ่งอย่างและขั้นตอนแรก หรือทบทวนแผนก่อนลงมือทำจริง",
++  "integrated.small.confirm": "ตรวจสอบการตัดสินใจในแผน การดำเนินการจริง และสิ่งหนึ่งที่จะปรับปรุงในครั้งต่อไป",
++  "integrated.small.title": "วางแผนและทำกิจกรรมเล็กๆ หนึ่งอย่าง",
++  "integrated.tomorrow.action": "เลือกการเตรียมการที่จำเป็นสำหรับครั้งถัดไป กำหนดขอบเขตและวิธีการ แล้วทำในส่วนที่สามารถทำได้ในตอนนี้",
++  "integrated.tomorrow.confirm": "ตรวจสอบส่วนที่ลองทำและจุดที่จะเชื่อมต่อไปในครั้งถัดไป",
++  "integrated.tomorrow.title": "การเตรียมการเล็กๆ สำหรับครั้งถัดไป",
++  "invalidBackup": "กิจกรรมที่แนะนำไม่สอดคล้องกับงานหรือการปฏิบัติจริง",
++  "invalidTime": "โปรดป้อนเวลาที่คาดหวังเป็นจำนวนเต็ม 1-1440 นาที หรือเลือกยังไม่กำหนด",
++  "life": "ชีวิตประจำวัน",
++  "materials": "สิ่งที่จะเลือกหรือสิ่งที่ต้องเตรียม",
++  "middle.context": "เลือกการเตรียมตัวเริ่มเรียนหรือเหตุการณ์ในชีวิตประจำวัน แล้วอธิบายสั้นๆ ด้วยคำพูดของตัวเอง",
++  "middle.items": "อุปกรณ์การเรียน เหตุการณ์ในวันปกติ ข้อมูลที่จำเป็น",
++  "middle.scope": "ปริมาณงานที่ต้องเตรียมหรือเหตุการณ์ในวันหนึ่งใน 2-4 ขั้นตอน พร้อมคำอธิบายสั้นๆ",
++  "neutral": "ยังไม่แน่ใจ",
++  "no": "ไม่ได้รับความช่วยเหลือ",
++  "noEffect": "บันทึกการปฏิบัติจริงและการรายงานตนเองแยกจากกัน ไม่ใช่หลักฐานของการเพิ่มขีดความสามารถหรือความแม่นยำในการทดสอบ",
++  "none": "ลดความช่วยเหลือและทำทันที",
++  "open": "แบบฝึกหัดแนะนำ",
++  "optional": "ทางเลือก ไม่จำเป็นต้องตอบ",
++  "other": "ดูคำแนะนำอื่นๆ",
++  "planning": "กำหนดปริมาณให้เหมาะสม",
++  "planning.prepare.action": "กำหนดปริมาณ ลำดับ และเวลาที่ต้องเตรียมในวันนี้ด้วยตัวเอง",
++  "planning.prepare.confirm": "ตรวจสอบปริมาณ ลำดับ เวลาที่กำหนด หรือเหตุผลที่เปลี่ยนแปลง",
++  "planning.prepare.title": "วางแผนการเตรียมการเล็กๆ",
++  "planning.tidy.action": "เลือกพื้นที่หนึ่งแห่งที่จะจัดระเบียบ และกำหนดว่าจะจัดถึงตรงไหน ลำดับใด และใช้เวลากี่นาที",
++  "planning.tidy.confirm": "ตรวจสอบขอบเขตที่กำหนดจริงและแผนที่ปรับเปลี่ยน",
++  "planning.tidy.title": "กำหนดปริมาณที่จะจัดในหนึ่งพื้นที่",
++  "practiceReason": "พฤติกรรมที่ต้องฝึกฝน",
++  "preview": "ดูตัวอย่างและแก้ไข",
++  "reason": "เหตุผลที่แนะนำ",
++  "response": "วิธีนี้ช่วยได้หรือไม่",
++  "responseAfterRun": "หลังจากทำเสร็จสิ้น คุณสามารถเลือกทิ้งความช่วยเหลือไว้ได้หากต้องการ",
++  "responseCount": "จำนวนครั้งที่ตอบเรื่องความช่วยเหลือ",
++  "resultReason": "ใช้ลำดับการสนับสนุนที่เป็นทางการของผลลัพธ์ที่เชื่อมโยงกันและรอบปัจจุบัน ไม่มีการคำนวณคะแนนหรือประเภทใหม่",
++  "reviewOnly": "กิจกรรมสำหรับการเปรียบเทียบในระดับประถม ไม่ได้มีไว้สำหรับการใช้งานทั่วไป",
++  "safety": "โปรดสังเกตหรือวาดอย่างปลอดภัยในขณะนั่ง ไม่ควรหลับตาขณะเคลื่อนไหว หากรู้สึกไม่สะดวก สามารถเลือกดูขณะเชื่อมโยงได้ เขียนเพียงเหตุการณ์ทั่วไป ไม่จำเป็นต้องจดบันทึกข้อมูลของผู้อื่นหรือความทรงจำที่เจ็บปวด ไม่มีการประเมินผลด้วยคะแนนความจำหรือการทดสอบ",
++  "scope": "ปริมาณงานในวันนี้",
++  "simultaneous": "เชื่อมโยงทั้งหมดเข้าด้วยกัน",
++  "simultaneous.positions.action": "นั่งอย่างปลอดภัย วาดหรือจดตำแหน่งที่คุ้นเคยหลายจุดโดยไม่ดู แล้วเปรียบเทียบกับของจริง หากต้องการสามารถดูขณะทำได้ อธิบายความสัมพันธ์ของตำแหน่ง สิ่งของ และการใช้งาน",
++  "simultaneous.positions.confirm": "เชื่อมโยงรายการของจริงตั้งแต่สองอย่างขึ้นไป และตรวจสอบว่าอะไรถูกใช้ที่ไหนและอย่างไร ไม่มีการให้คะแนนความจำ",
++  "simultaneous.positions.title": "เชื่อมโยงตำแหน่งที่คุ้นเคยกับการใช้งาน",
++  "simultaneous.prepare.action": "เชื่อมโยงสิ่งของจริงตั้งแต่สองอย่างขึ้นไปจากอุปกรณ์ ตำแหน่ง หรือเป้าหมาย แล้วอธิบายความสัมพันธ์นั้นสั้นๆ",
++  "simultaneous.prepare.confirm": "ตรวจสอบด้วยคำพูดหรือภาพวาดของตัวเองว่าอุปกรณ์นี้ถูกใช้เพื่อเป้าหมายอย่างไร",
++  "simultaneous.prepare.title": "เชื่อมโยงอุปกรณ์กับเป้าหมาย",
++  "source": "แหล่งที่มาของคำแนะนำ",
++  "strengthReason": "รูปแบบความช่วยเหลือที่ปรับให้เหมาะกับจุดแข็ง",
++  "study": "การเรียน",
++  "successive": "ลองทำตามลำดับ",
++  "successive.event.action": "เขียนหรือวาดเหตุการณ์ทั่วไปที่เคยเกิดขึ้นใน 2-5 ขั้นตอน ตรวจสอบและแก้ไขลำดับ แล้วยืนยันขั้นตอนหนึ่งด้วยตัวเอง",
++  "successive.event.confirm": "ตรวจสอบขั้นตอนมากกว่าสองขั้นและสัญลักษณ์ลำดับ/ความคืบหน้าที่ฉันได้ยืนยันไว้",
++  "successive.event.title": "จัดระเบียบเหตุการณ์ทั่วไปตามลำดับ",
++  "successive.prepare.action": "จดบันทึกขั้นตอนการเตรียมการจริงเป็น 2 ขั้นตอนขึ้นไป ลองสลับลำดับ แล้วทำตามอย่างน้อยหนึ่งขั้นตอน",
++  "successive.prepare.confirm": "ตรวจสอบและแยกแยะระหว่างขั้นตอนที่กำหนดไว้กับขั้นตอนที่ดำเนินการจริง",
++  "successive.prepare.title": "ลองทำตามขั้นตอนการเตรียมการตามลำดับ",
++  "time": "เวลาที่คาดหวัง (นาที)",
++  "title": "ชื่อสิ่งที่ต้องทำ",
++  "unanswered": "ยังไม่ได้ตอบ",
++  "unavailable": "โปรดตรวจสอบคำแนะนำสำหรับช่วงอายุและรอบปัจจุบันอีกครั้ง",
++  "universal": "ความช่วยเหลือทั่วไปแบบสั้น",
++  "unknown": "ยังไม่แน่ใจ",
++  "useCount": "จำนวนครั้งที่ทำสำเร็จ",
++  "viewCount": "บันทึกการดูคำแนะนำ",
++  "without": "เริ่มโดยไม่มีคำแนะนำ",
++  "work": "การทำงาน",
++  "write": "เขียนด้วยตัวเอง",
++  "yes": "ความช่วยเหลือเป็นประโยชน์"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/vi.json
+@@ -0,0 +1,105 @@
++{
++  "action": "Hành động trực tiếp thực hiện",
++  "add": "Thêm vào việc cần làm của tôi",
++  "added": "Đã thêm vào kệ. Hãy nhấn trực tiếp để bắt đầu.",
++  "adult.context": "Chọn giữa sinh hoạt, học tập, công việc và mô tả ngắn gọn cách sử dụng trong các tình huống khác.",
++  "adult.items": "Đồ dùng sinh hoạt/công việc, lịch trình, người phụ trách hoặc việc ưu tiên",
++  "adult.scope": "Quy trình chuẩn bị 3~5 bước hoặc kết nối điều kiện thực tế và áp dụng vào tình huống khác",
++  "attention": "Một việc lúc này",
++  "attention.choose.action": "Chọn một đối tượng và hành động cần thực hiện bây giờ. Nếu có suy nghĩ khác, hãy lưu lại chỉ khi cần thiết.",
++  "attention.choose.confirm": "Xác nhận đối tượng đã chọn và hành động đã thực hiện thực tế. Không cố ý tạo ra sự xao nhãng.",
++  "attention.choose.title": "Chọn một đối tượng cần xem bây giờ",
++  "attention.find.action": "Xác định một thông tin cần thiết lúc này, sau đó tìm và đánh dấu hoặc nói ra từ tài liệu.",
++  "attention.find.confirm": "Xác nhận lý do thông tin đã chọn cần thiết cho hành động này.",
++  "attention.find.title": "Tìm một thông tin cần thiết",
++  "close": "Đóng",
++  "confirm": "Điều cần xác nhận khi kết thúc",
++  "context": "Chọn tình huống",
++  "coreRequired": "Sự hỗ trợ là cách hiển thị thông tin. Việc lựa chọn, kết nối và xác nhận thứ tự là do bạn tự thực hiện.",
++  "elementary_1_3.context": "Chọn hoặc vẽ tại chỗ ngồi. Nói ngắn gọn cũng không sao.",
++  "elementary_1_3.items": "2~3 hình vẽ hoặc đồ vật quen thuộc",
++  "elementary_1_3.scope": "Chọn hai thứ bằng hình vẽ và một hành động thực hiện bây giờ",
++  "elementary_4_6.context": "Lấy ví dụ việc chuẩn bị cặp sách hoặc bàn học, nói ra thứ tự và lý do cần thiết.",
++  "elementary_4_6.items": "3~4 đồ dùng học tập ngày mai hoặc đồ vật cần sắp xếp",
++  "elementary_4_6.scope": "Chuẩn bị đi học theo 3~4 bước, nêu một lý do đơn giản",
++  "generalReason": "Đây là bài tập thông thường, không phải gợi ý dựa trên kiểm tra. Hãy tự chọn hoạt động và sự hỗ trợ phù hợp.",
++  "heading": "Bài tập nhỏ để thực hiện hôm nay",
++  "help": "Hỗ trợ hiển thị cho tôi",
++  "helpAttention": "Nhấn mạnh một việc",
++  "helpNone": "Không cần hỗ trợ thêm",
++  "helpPlanning": "Mục tiêu và tiêu chuẩn hoàn thành",
++  "helpSimultaneous": "Sơ đồ tổng thể và nhóm mối quan hệ",
++  "helpSuccessive": "Bảng thứ tự hiện tại và tiếp theo",
++  "helpUniversal": "Hướng dẫn chung ngắn gọn",
++  "high.context": "So sánh lịch trình và thời hạn để tự điều chỉnh khối lượng công việc và ghi lại lý do chọn lựa.",
++  "high.items": "Lịch học, hạn nộp bài, thời gian và điều kiện thực tế",
++  "high.scope": "So sánh từ 2 điều kiện và thời hạn trở lên, sau đó điều chỉnh khối lượng và thứ tự hôm nay",
++  "initial": "Kế hoạch lúc lựa chọn",
++  "integrated": "Hoạt động tích hợp chung",
++  "integrated.small.action": "Xác định khối lượng và hành động đầu tiên của một việc nhỏ, hoặc xem xét kế hoạch rồi tự thực hiện.",
++  "integrated.small.confirm": "Xác nhận quyết định kế hoạch, quá trình thực hiện thực tế và một điều cần thay đổi lần sau.",
++  "integrated.small.title": "Lập kế hoạch và thực hiện một việc nhỏ",
++  "integrated.tomorrow.action": "Chọn một sự chuẩn bị cần thiết cho lần tới, xác định phạm vi và cách thực hiện, rồi làm phần có thể làm bây giờ.",
++  "integrated.tomorrow.confirm": "Xác nhận phần đã thực hiện và vị trí để tiếp tục lần sau.",
++  "integrated.tomorrow.title": "Một sự chuẩn bị nhỏ cho lần tới",
++  "invalidBackup": "Kết nối giữa hoạt động gợi ý và nhiệm vụ/thực hiện gốc không khớp.",
++  "invalidTime": "Thời gian dự kiến phải là số nguyên từ 1~1440 phút hoặc chọn chưa xác định.",
++  "life": "Sinh hoạt",
++  "materials": "Đối tượng cần chọn và chuẩn bị",
++  "middle.context": "Chọn sự chuẩn bị bắt đầu học tập hoặc sự kiện hàng ngày và mô tả ngắn gọn bằng lời của bạn.",
++  "middle.items": "Đồ dùng học tập, sự kiện hàng ngày bình thường, tài liệu cần thiết",
++  "middle.scope": "Khối lượng chuẩn bị hoặc 2~4 bước của sự kiện hàng ngày cùng mô tả ngắn",
++  "neutral": "Chưa biết",
++  "no": "Không hữu ích",
++  "noEffect": "Ghi chép thực hiện và tự báo cáo là riêng biệt. Không phải là căn cứ để nâng cao năng lực hay độ chính xác của kiểm tra.",
++  "none": "Giảm hỗ trợ và thực hiện ngay",
++  "open": "Bài tập gợi ý",
++  "optional": "Tùy chọn · Không trả lời cũng không sao.",
++  "other": "Xem các gợi ý khác",
++  "planning": "Xác định khối lượng thực hiện",
++  "planning.prepare.action": "Tự xác định khối lượng, thứ tự và thời gian cần chuẩn bị hôm nay trong số các việc cần thiết.",
++  "planning.prepare.confirm": "Xác nhận khối lượng, thứ tự, thời gian đã chọn hoặc lý do thay đổi.",
++  "planning.prepare.title": "Lập kế hoạch chuẩn bị nhỏ",
++  "planning.tidy.action": "Chọn một khu vực cần dọn dẹp, xác định phạm vi, thứ tự và thời gian bao lâu.",
++  "planning.tidy.confirm": "Xác nhận phạm vi thực tế và kế hoạch đã điều chỉnh.",
++  "planning.tidy.title": "Xác định mức độ dọn dẹp cho một khu vực",
++  "practiceReason": "Hành động luyện tập",
++  "preview": "Xem trước và chỉnh sửa",
++  "reason": "Lý do gợi ý",
++  "response": "Cách này có hữu ích không?",
++  "responseAfterRun": "Sau khi hoàn thành, bạn có thể để lại ý kiến về sự hỗ trợ nếu muốn.",
++  "responseCount": "Số lần trả lời về việc hỗ trợ",
++  "resultReason": "Đã sử dụng thứ tự hỗ trợ chính thức của kết quả liên kết và lượt hiện tại. Không tính lại điểm số hay loại hình.",
++  "reviewOnly": "Hoạt động so sánh cho cấp tiểu học · Không cung cấp cho truy cập chung.",
++  "safety": "Hãy ngồi an toàn để quan sát hoặc vẽ. Không được nhắm mắt khi di chuyển. Nếu thấy bất tiện, bạn có thể chọn vừa nhìn vừa kết nối. Chỉ viết về các sự kiện bình thường, không cần viết về thông tin người khác hoặc những ký ức khó khăn. Không đánh giá bằng điểm số trí nhớ hay kiểm tra.",
++  "scope": "Khối lượng làm hôm nay",
++  "simultaneous": "Kết nối tổng thể",
++  "simultaneous.positions.action": "Ngồi an toàn, vẽ hoặc viết ra vài vị trí quen thuộc mà không cần nhìn, sau đó so sánh với thực tế. Có thể vừa nhìn vừa làm nếu muốn. Giải thích mối quan hệ giữa vị trí, đồ vật và cách sử dụng.",
++  "simultaneous.positions.confirm": "Kết nối từ hai mục thực tế trở lên và xác nhận cái gì được sử dụng ở đâu như thế nào. Không tính điểm trí nhớ.",
++  "simultaneous.positions.title": "Kết nối vị trí và cách sử dụng quen thuộc",
++  "simultaneous.prepare.action": "Kết nối từ hai mục thực tế trở lên trong số đồ chuẩn bị, vị trí, mục tiêu và giải thích ngắn gọn mối quan hệ đó.",
++  "simultaneous.prepare.confirm": "Xác nhận bằng lời hoặc hình vẽ về cách sử dụng đồ chuẩn bị này cho mục tiêu.",
++  "simultaneous.prepare.title": "Nhóm mối quan hệ giữa đồ chuẩn bị và mục tiêu",
++  "source": "Nguồn gợi ý",
++  "strengthReason": "Cách hỗ trợ phù hợp với thế mạnh",
++  "study": "Học tập",
++  "successive": "Thực hiện theo từng bước",
++  "successive.event.action": "Viết hoặc vẽ lại một sự kiện bình thường đã xảy ra thành 2~5 bước. Kiểm tra/chỉnh sửa thứ tự và tự xác nhận một bước.",
++  "successive.event.confirm": "Xác nhận từ hai bước trở lên cùng thứ tự và ký hiệu tiến trình đã xác nhận.",
++  "successive.event.title": "Sắp xếp việc bình thường theo thứ tự",
++  "successive.prepare.action": "Viết quy trình chuẩn bị thực tế thành từ hai bước trở lên, sau đó thay đổi thứ tự và thực hiện ít nhất một bước.",
++  "successive.prepare.confirm": "Xác nhận bằng cách phân biệt bước đã xác định và bước đã thực hiện thực tế.",
++  "successive.prepare.title": "Thực hiện quy trình chuẩn bị theo thứ tự",
++  "time": "Thời gian dự kiến (phút)",
++  "title": "Tiêu đề việc cần làm",
++  "unanswered": "Chưa trả lời",
++  "unavailable": "Vui lòng kiểm tra lại gợi ý cho độ tuổi/lượt hiện tại.",
++  "universal": "Hỗ trợ chung ngắn gọn",
++  "unknown": "Chưa biết",
++  "useCount": "Số lần đã thực hiện xong",
++  "viewCount": "Lịch sử đã xem gợi ý",
++  "without": "Bắt đầu không cần gợi ý",
++  "work": "Công việc",
++  "write": "Tự viết",
++  "yes": "Rất hữu ích"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/zh-CN.json
+@@ -0,0 +1,105 @@
++{
++  "action": "要采取的直接行动",
++  "add": "添加到我的待办事项",
++  "added": "已添加到清单。请手动点击开始。",
++  "adult.context": "从生活、学习、工作中选择，并简要说明在其他情境下如何使用。",
++  "adult.items": "生活或工作用品、日程、负责人或先行任务",
++  "adult.scope": "准备过程的3~5个步骤，或实际条件关联及其他情境应用",
++  "attention": "当前只关注一件事",
++  "attention.choose.action": "选择一个对象和当前要采取的行动。如果有其他想法，仅在必要时记录即可。",
++  "attention.choose.confirm": "确认自己选择的对象和实际采取的行动。不要故意制造干扰。",
++  "attention.choose.title": "选择一个当前关注的对象",
++  "attention.find.action": "确定一个当前需要的信息，并在资料中找到它，进行标记或口述。",
++  "attention.find.confirm": "确认所选信息对于本次行动的必要性。",
++  "attention.find.title": "查找一个必要的信息",
++  "close": "关闭",
++  "confirm": "完成时确认事项",
++  "context": "选择案例",
++  "coreRequired": "协助是展示信息的方式。选择、关联和顺序确认由本人完成。",
++  "elementary_1_3.context": "在座位上选择或画出来。用简短的话语告知也可以。",
++  "elementary_1_3.items": "2~3个图画或熟悉的物品",
++  "elementary_1_3.scope": "通过图画选择两样东西，以及当前要进行的一个行动",
++  "elementary_4_6.context": "以整理书包或桌面为例，说明需要的顺序和原因。",
++  "elementary_4_6.items": "3~4件明天的学校用品或待整理物品",
++  "elementary_4_6.scope": "将学校准备工作分为3~4个步骤，说明一个简单的理由",
++  "generalReason": "这是基于常规练习而非评估的建议。请直接选择舒适的活动和协助方式。",
++  "heading": "今天的小练习",
++  "help": "提供的协助方式",
++  "helpAttention": "强调单一事项",
++  "helpNone": "无需额外协助",
++  "helpPlanning": "目标与完成标准",
++  "helpSimultaneous": "整体导向与关系归类",
++  "helpSuccessive": "当前与下一步顺序表",
++  "helpUniversal": "简短的通用指南",
++  "high.context": "通过比较日程与截止日期，自主调整任务量，并备注选择理由。",
++  "high.items": "学习进度、任务截止日期、实际可用时间和条件",
++  "high.scope": "对比两个以上的截止日期和条件，调整今天的任务量与顺序",
++  "initial": "选择时的计划",
++  "integrated": "综合练习活动",
++  "integrated.small.action": "确定一件小事的任务量和首个动作，或者在审核计划后直接执行。",
++  "integrated.small.confirm": "确认计划决策、实际执行情况，以及下次可以改进的一个点。",
++  "integrated.small.title": "计划并执行一件小事",
++  "integrated.tomorrow.action": "选择一个下次所需的准备工作，确定范围和方法，并执行当前能做的部分。",
++  "integrated.tomorrow.confirm": "确认本次完成的部分以及下次连接的位置。",
++  "integrated.tomorrow.title": "下次的一个小准备",
++  "invalidBackup": "推荐活动与原始任务或执行之间的关联不匹配。",
++  "invalidTime": "预计时间应为1~1440分钟的整数，或选择待定。",
++  "life": "生活",
++  "materials": "待选对象与准备事项",
++  "middle.context": "选择学习准备或日常生活事件，用自己的话简短说明。",
++  "middle.items": "学习用品、平凡的日常事件、所需资料",
++  "middle.scope": "准备的任务量或日常事件的2~4个步骤及简短说明",
++  "neutral": "还不清楚",
++  "no": "没有帮助",
++  "noEffect": "执行记录与自我报告是独立的。不作为能力提升或评估准确性的依据。",
++  "none": "减少协助，直接开始",
++  "open": "推荐练习",
++  "optional": "可选项目 · 不回答也可以。",
++  "other": "查看其他推荐",
++  "planning": "确定适量任务",
++  "planning.prepare.action": "直接确定所需物品中今天准备的任务量、顺序和时间。",
++  "planning.prepare.confirm": "确认设定的任务量、顺序、时间或更改的原因。",
++  "planning.prepare.title": "制定准备计划",
++  "planning.tidy.action": "选择一个要整理的区域，确定范围、顺序和所需时间。",
++  "planning.tidy.confirm": "确认实际设定的范围和调整后的计划。",
++  "planning.tidy.title": "确定区域整理量",
++  "practiceReason": "练习行为",
++  "preview": "预览并修改",
++  "reason": "推荐原因",
++  "response": "此方法有帮助吗？",
++  "responseAfterRun": "执行结束后，可根据需要留下是否提供协助的反馈。",
++  "responseCount": "回答协助有效性的次数",
++  "resultReason": "使用了关联结果的官方支持顺序和当前轮次。不会重新计算分数或类型。",
++  "reviewOnly": "小学比较用活动 · 不向常规入口提供。",
++  "safety": "请安全坐着观察或绘画。不要闭眼移动。如果感到不适，可以选择看着来进行关联。只需记录平凡事件，无需记录他人信息或沉重记忆。不会通过记忆或测试分数进行评估。",
++  "scope": "今天完成的任务量",
++  "simultaneous": "整体关联",
++  "simultaneous.positions.action": "安全坐好，在不看的情况下画出或写下几个熟悉的位置，然后与实际情况进行对比。如愿意，也可以看着进行。说明位置、物品与用途之间的关系。",
++  "simultaneous.positions.confirm": "关联两个以上的实际项目，并确认何物、何地、如何使用。不计算记忆分数。",
++  "simultaneous.positions.title": "关联熟悉的位置与用途",
++  "simultaneous.prepare.action": "在准备物品、位置、目标中关联两个以上的实际项目，并简要说明其关系。",
++  "simultaneous.prepare.confirm": "用自己的话或图画确认该准备物品如何用于目标。",
++  "simultaneous.prepare.title": "绑定准备物品与目标的关系",
++  "source": "推荐来源",
++  "strengthReason": "针对优势定制的协助方式",
++  "study": "学习",
++  "successive": "按步骤执行",
++  "successive.event.action": "将已发生的平凡事件记录或画成2~5个步骤。检查并修改顺序，然后亲自确认其中一个步骤。",
++  "successive.event.confirm": "确认两个以上的步骤以及自己确认的顺序和进度标记。",
++  "successive.event.title": "按顺序整理平凡事件",
++  "successive.prepare.action": "将实际准备过程记录为两个以上的步骤，调整顺序后，执行至少一个步骤。",
++  "successive.prepare.confirm": "区分确定步骤和实际执行步骤进行确认。",
++  "successive.prepare.title": "按顺序执行准备过程",
++  "time": "预计时间（分钟）",
++  "title": "待办标题",
++  "unanswered": "未回答",
++  "unavailable": "请重新确认当前年龄或轮次的推荐。",
++  "universal": "简短通用协助",
++  "unknown": "还不清楚",
++  "useCount": "完成执行的次数",
++  "viewCount": "查看推荐的记录",
++  "without": "无需推荐，直接开始",
++  "work": "工作",
++  "write": "直接撰写",
++  "yes": "有帮助"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/locales/zh-TW.json
+@@ -0,0 +1,105 @@
++{
++  "action": "要進行的具體行動",
++  "add": "加入我的待辦事項",
++  "added": "已加入列表。請手動按下開始。",
++  "adult.context": "從生活、學習、工作清單中選擇，並簡述如何在其他情境中使用。",
++  "adult.items": "生活或工作所需用品、日程、負責事項或前置作業",
++  "adult.scope": "準備過程的 3~5 個步驟，或連結實際條件與應用於其他情境",
++  "attention": "專注於當下一件事",
++  "attention.choose.action": "選擇一個目標與當下要做的行動。若產生其他念頭，僅在需要時保留即可。",
++  "attention.choose.confirm": "確認自己選擇的目標與實際執行的行動。不刻意製造干擾。",
++  "attention.choose.title": "選擇一個當下要專注的目標",
++  "attention.find.action": "選定一項必要的資訊，在資料中標示出來或說出來。",
++  "attention.find.confirm": "確認選定的資訊為何是此次行動所必要的。",
++  "attention.find.title": "尋找一項必要資訊",
++  "close": "關閉",
++  "confirm": "完成時需要確認的事項",
++  "context": "選擇案例",
++  "coreRequired": "協助是一種呈現資訊的方式。選擇、連結與順序確認皆由本人完成。",
++  "elementary_1_3.context": "坐在位置上選擇或畫出來。用簡短的話說明也可以。",
++  "elementary_1_3.items": "圖畫或熟悉的物品 2~3 個",
++  "elementary_1_3.scope": "透過圖畫選擇兩樣事物，以及現在要進行的一個行動",
++  "elementary_4_6.context": "以整理書包或書桌為例，說明所需的順序與理由。",
++  "elementary_4_6.items": "明日學校用品或需整理的物品 3~4 個",
++  "elementary_4_6.scope": "將學校準備工作分為 3~4 個步驟，並提供一項簡單的理由",
++  "generalReason": "此為一般性練習，非基於診斷的建議。請依照個人需求選擇活動與協助方式。",
++  "heading": "今日的小練習",
++  "help": "提供給我的協助",
++  "helpAttention": "專注於一項重點",
++  "helpNone": "無需額外協助",
++  "helpPlanning": "目標與完成標準",
++  "helpSimultaneous": "整體地圖與關聯性組合",
++  "helpSuccessive": "當前與後續順序表",
++  "helpUniversal": "簡短的通用指引",
++  "high.context": "對照日程與截止期限，自行調整份量並留下選擇理由。",
++  "high.items": "學習日程、作業期限、實際可用時間與條件",
++  "high.scope": "對照兩項以上的期限與條件，並調整今日份量與順序",
++  "initial": "規劃時的初始計畫",
++  "integrated": "一般綜合活動",
++  "integrated.small.action": "決定一件小事的份量與首要行動，檢視計畫後直接執行。",
++  "integrated.small.confirm": "確認計畫決定、實際執行情形以及下一步可改善之處。",
++  "integrated.small.title": "規劃並執行一件小事",
++  "integrated.tomorrow.action": "選擇一項接下來需要的準備工作，確定範圍與方法，並執行當下可完成的部分。",
++  "integrated.tomorrow.confirm": "確認已執行部分以及下一步銜接的位置。",
++  "integrated.tomorrow.title": "接下來的小準備",
++  "invalidBackup": "推薦活動與原始任務或執行內容不符。",
++  "invalidTime": "預計時間請輸入 1~1440 分鐘之間的整數，或選擇未定。",
++  "life": "生活",
++  "materials": "選擇目標與準備物品",
++  "middle.context": "選擇學習前的準備或日常事件，並用自己的話簡短說明。",
++  "middle.items": "學習用品、平凡的日常事件、必要資料",
++  "middle.scope": "準備份量或日常事件的 2~4 個步驟與簡短說明",
++  "neutral": "還不確定",
++  "no": "沒有幫助",
++  "noEffect": "執行記錄與個人回報為獨立事項。不作為能力提升或診斷準確性的依據。",
++  "none": "減少協助並直接開始",
++  "open": "推薦練習",
++  "optional": "選項 · 不回答也沒關係。",
++  "other": "查看其他推薦",
++  "planning": "決定執行份量",
++  "planning.prepare.action": "在必要事項中，自行決定今日的準備份量、順序與時間。",
++  "planning.prepare.confirm": "確認所定的份量、順序、時間或調整的理由。",
++  "planning.prepare.title": "制定小型的準備計畫",
++  "planning.tidy.action": "選定一個要整理的區域，決定整理範圍、順序與所需分鐘數。",
++  "planning.tidy.confirm": "確認實際決定的範圍與調整後的計畫。",
++  "planning.tidy.title": "決定一個區域的整理份量",
++  "practiceReason": "練習的行動",
++  "preview": "預覽並修改",
++  "reason": "推薦原因",
++  "response": "這個方法有幫助嗎？",
++  "responseAfterRun": "執行結束後，若願意可留下對該協助的回饋。",
++  "responseCount": "對協助進行回饋的次數",
++  "resultReason": "使用了關聯結果的官方支援順序與當前次數。不重新計算分數或類型。",
++  "reviewOnly": "小學比較用活動 · 一般入口不提供。",
++  "safety": "請安全地坐著觀察或作畫。請勿閉眼走動。若感到不適，可選擇邊看邊連結。僅紀錄一般事件，無須紀錄他人資訊或沉重的回憶。不以記憶或測驗分數進行評估。",
++  "scope": "今日份量",
++  "simultaneous": "整體連結",
++  "simultaneous.positions.action": "安全地坐下，嘗試不看實物繪製或列出熟悉的幾個位置，再與實際對照。若願意也可看著做。說明位置、物品與用途之間的關係。",
++  "simultaneous.positions.confirm": "連結兩項以上的實際項目，確認其位置、用途與使用方式。不進行記憶評分。",
++  "simultaneous.positions.title": "連結熟悉位置與其用途",
++  "simultaneous.prepare.action": "在準備物品、位置、目標中連結兩項以上實際項目，並簡述其關聯。",
++  "simultaneous.prepare.confirm": "透過自己的話或圖畫，確認該準備物品如何應用於目標上。",
++  "simultaneous.prepare.title": "連結準備物品與目標關係",
++  "source": "推薦來源",
++  "strengthReason": "根據個人強項調整的協助方式",
++  "study": "學習",
++  "successive": "按步驟執行",
++  "successive.event.action": "將過去發生的平凡事件分為 2~5 個步驟寫下或畫出。檢視並修正順序後，親自確認其中一個步驟。",
++  "successive.event.confirm": "確認兩項以上的步驟，以及親自確認過的順序與執行標記。",
++  "successive.event.title": "按順序整理平凡事件",
++  "successive.prepare.action": "將實際準備過程列為兩個以上的步驟，嘗試調整順序後執行其中至少一個步驟。",
++  "successive.prepare.confirm": "區分並確認確定的步驟與實際執行的步驟。",
++  "successive.prepare.title": "按步驟執行準備過程",
++  "time": "預計時間（分鐘）",
++  "title": "待辦事項名稱",
++  "unanswered": "未回答",
++  "unavailable": "請重新確認目前年齡與回次的建議。",
++  "universal": "簡短的通用協助",
++  "unknown": "還不確定",
++  "useCount": "完成執行的次數",
++  "viewCount": "瀏覽推薦的記錄",
++  "without": "不透過推薦直接開始",
++  "work": "工作",
++  "write": "自行填寫",
++  "yes": "很有幫助"
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/model.ts
+@@ -0,0 +1,34 @@
++import {z} from 'zod';
++import type {Stage,Target,Axis} from '../studio/model';
++import type {TaskInput} from '../studio/task-plan';
++export type Help=Axis|'universal'|'none';
++export const VERSION='daily-practice/1';
++export const templateIds=['planning.prepare','planning.tidy','attention.choose','attention.find','simultaneous.positions','simultaneous.prepare','successive.event','successive.prepare','integrated.small','integrated.tomorrow'] as const;
++export const stages=['elementary_1_3','elementary_4_6','middle','high','adult'] as const;
++export interface Recommendation {id:typeof templateIds[number];stage:Stage;target:Target;help:Help;officialHelp:Help;basis:'result'|'general';minutes:number;version:string}
++export interface PracticeAttachment {
++ taskId:string;templateId:string;stage:Stage;target:Target;help:Help;officialHelp:Help;basis:'result'|'general';
++ version:string;creationLocale:string;addedAt:string;source?:unknown;roundAtSelection:number;
++ initial:{title:string;scope:string;firstAction:string;minutes:number};
++ provided?:{title:boolean;firstAction:boolean;scope:boolean};
++ supportChoiceAtAdd?:Axis|'official'|'none';
++ reports:{at:string;runId:string;value:'yes'|'neutral'|'no'}[];
++}
++const help=z.enum(['planning','attention','simultaneous','successive','universal','none']);
++export const practiceSchema=z.object({
++ views:z.array(z.object({templateId:z.enum(templateIds),stage:z.enum(stages),at:z.string().datetime()}).strict()).max(2000),
++ attachments:z.record(z.string(),z.object({
++  taskId:z.string().min(1),templateId:z.enum(templateIds),stage:z.enum(stages),
++  target:z.enum(['planning','attention','simultaneous','successive','integrated']),help,officialHelp:help,
++  basis:z.enum(['result','general']),version:z.literal(VERSION),creationLocale:z.string(),addedAt:z.string().datetime(),source:z.unknown(),roundAtSelection:z.number().int().min(0),
++  initial:z.object({title:z.string(),scope:z.string(),firstAction:z.string(),minutes:z.number().min(0)}).strict(),
++  provided:z.object({title:z.boolean(),firstAction:z.boolean(),scope:z.boolean()}).strict().optional(),
++  supportChoiceAtAdd:z.enum(['planning','attention','simultaneous','successive','official','none']).optional(),
++  reports:z.array(z.object({at:z.string().datetime(),runId:z.string(),value:z.enum(['yes','neutral','no'])}).strict()),
++ }).strict()),
++}).strict();
++export type PracticeData=z.infer<typeof practiceSchema>;
++export type PracticeAction=
++ |{type:'practice.view';templateId:string;stage:Stage}
++ |{type:'practice.add';templateId:string;stage:Stage;help:Help;requestId:string;task:TaskInput;provided?:{title:boolean;firstAction:boolean;scope:boolean};details?:{deadline?:string;owner?:string;dependency?:string;handoff?:string;waiting?:boolean}}
++ |{type:'practice.respond';cardId:string;value:'yes'|'neutral'|'no'};
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/practice.css
+@@ -0,0 +1,24 @@
++.pr-entry,.pr-attach{min-width:0;margin-block:12px}
++.pr-entry h3{margin-block:8px}
++.pr-choices{list-style:none;padding:0;margin:0 0 10px;display:grid;grid-template-columns:minmax(0,1fr);gap:8px;min-inline-size:0}
++.pr-choices>li{min-inline-size:0}
++.pr-choices button{display:grid;gap:4px;inline-size:100%;min-inline-size:0;min-block-size:44px;text-align:start;padding:10px 12px;overflow-wrap:break-word;word-break:normal}
++html:is([lang="ko"],[lang="mn"]) .pr-choices button{word-break:keep-all}
++.pr-choices small,.pr-confirm small,.pr-first small,.pr-node small{opacity:.75;display:block}
++.pr-preview,.pr-attach{display:grid;gap:10px;min-width:0}
++.pr-preview button,.pr-attach button,.pr-entry summary{min-block-size:44px}
++.pr-preview input,.pr-preview label{min-width:0}
++.pr-help{border-inline-start:3px solid var(--t-sky,currentColor);padding-inline-start:12px;display:grid;gap:8px;min-width:0}
++.pr-rel{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:8px}
++.pr-node{border:1px solid color-mix(in srgb,currentColor 18%,transparent);border-radius:8px;padding:8px;min-width:0;overflow-wrap:break-word}
++.pr-node ul{margin:0;padding-inline-start:18px}
++.pr-seq{list-style:none;padding:0;margin:0;display:grid;gap:6px}
++.pr-seq li{display:flex;gap:10px;align-items:baseline;min-width:0}
++.pr-seq small{font-weight:700;min-inline-size:1.5em}
++.pr-plan,.pr-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:6px 12px;margin:0}
++.pr-plan dt,.pr-stats dt{font-size:.8em;opacity:.75}
++.pr-plan dd,.pr-stats dd{margin:0;overflow-wrap:break-word;min-width:0}
++.pr-first mark{background:color-mix(in srgb,var(--t-orange,#b8601f) 20%,transparent);padding:2px 4px;border-radius:4px}
++.pr-simple{font-size:1.05em;margin:0}
++.pr-safety{border-block-start:1px dashed color-mix(in srgb,currentColor 25%,transparent);padding-block-start:8px}
++.pr-respond{border:0;padding:0}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/report.ts
+@@ -0,0 +1,15 @@
++import type {PersonalState} from '../studio/model';
++import {practiceStats} from './domain';
++import {practiceTitle} from './display';
++import {text} from './i18n';
++import {localeOf} from '../studio/i18n/config';
++const esc=(x:unknown)=>String(x??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
++export function practiceReport(s:PersonalState,month:string){
++ const t=(k:string)=>esc(text(localeOf(s),k)),p=s.lab.students[s.studentId];
++ const records=Object.values(s.studio?.practice?.attachments??{}).filter(a=>a.addedAt.slice(0,7)===month||p.runs.some(r=>r.cardId===a.taskId&&r.startedAt.slice(0,7)===month));
++ if(!records.length)return '';
++ return `<section><h2>${t('heading')}</h2><p>${t('noEffect')}</p>${records.map(a=>{
++  const c=p.cards.find(c=>c.id===a.taskId)!,q=practiceStats(s,a.taskId,month);
++  return `<h3>${esc(practiceTitle(s,c))}</h3><p>${t('useCount')}: ${q.uses} · ${t('responseCount')}: ${q.responses} · ${t('yes')}: ${q.yes} · ${t('neutral')}: ${q.neutral} · ${t('no')}: ${q.no} · ${t('unanswered')}: ${q.unanswered}</p>`;
++ }).join('')}</section>`;
++}
+--- /dev/null
++++ b/artifacts/nuvia-ui-review/src/practice-recommendations/translation-status.json
+@@ -0,0 +1,27 @@
++{
++  "schema": "practice-translation-review/1",
++  "source": "ko",
++  "keyCount": 103,
++  "locales": [
++    "ko",
++    "en",
++    "ja",
++    "zh-CN",
++    "zh-TW",
++    "mn",
++    "th",
++    "vi",
++    "ar",
++    "ru",
++    "km",
++    "es",
++    "fr",
++    "it",
++    "az"
++  ],
++  "status": "ai-draft",
++  "nativeSpeakerReviewed": false,
++  "contentProfessionalReview": false,
++  "efficacyEstablished": false,
++  "runtimeAI": false
++}--- a/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/CardDetail.tsx
+@@ -9,6 +9,9 @@
+ import SplitPlanner from './SplitPlanner';
+ import {demoCardLabels} from './i18n/demo-copy';
+ import {LibraryAttachmentPanel} from '../planner-library/LibraryUI';
++import {PracticeAttachment} from '../practice-recommendations/PracticeUI';
++import {practiceAttachment} from '../practice-recommendations/domain';
++import {practiceField,practiceTitle} from '../practice-recommendations/display';
+ 
+ const KINDS:Record<string,string[]>={middle:['숙제','복습','시험 준비','수행평가'],high:['내신 시험','수행평가','모의고사','복습'],adult:['과제','프로젝트','진로','업무','생활']};
+ const PREP:Record<string,string[]>={middle:['수학 문제 10개','영어 단어 한 묶음','국어 교과서 2쪽','내일 준비물 챙기기']};
+@@ -16,6 +19,7 @@
+ export default function CardDetail({state,student,card,act}:{state:PersonalState;student:Student;card:Card;act:(a:Action)=>boolean}){
+  const cmd=(command:Record<string,unknown>)=>act({type:'legacy',command:command as never});
+  const route=routeFor(student);
++ const practice=practiceAttachment(state,card.id);
+  const meta:Partial<Meta>=state.meta[card.id]??{};
+  const open=student.runs.find(r=>r.phase!=='closed');
+  const busy=!!open,own=open?.cardId===card.id;
+@@ -35,7 +39,8 @@
+  const dirtyCore=fa!==card.firstAction||scope!==card.scope;
+  return <div className="pm-detail" data-testid={`detail-${card.id}`}>
+   <LibraryAttachmentPanel key={card.id} state={state} cardId={card.id} act={act}/>
+-  {!own&&<div className="st-current-action"><small>지금 할 한 가지</small><p>{card.firstAction||'시작하면서 할 행동을 정해도 괜찮아요.'}</p></div>}
++   <PracticeAttachment key={`pr-${card.id}`} state={state} cardId={card.id} act={act}/>
++  {!own&&<div className="st-current-action"><small>지금 할 한 가지</small><p>{practiceField(state,card,'firstAction')||'시작하면서 할 행동을 정해도 괜찮아요.'}</p></div>}
+   <button className="pm-primary pm-big st-start" data-testid="start" disabled={busy||card.status==='done'} onClick={()=>{if(dirtyCore&&!cmd({type:'card.update',cardId:card.id,changes:{firstAction:fa,scope}}))return;cmd({type:'run.start',cardId:card.id});}}>{card.status==='done'?'완료한 과제':own?(open!.phase==='paused'?'멈춘 실행 · 위에서 이어가기':open!.phase==='review'?'돌아보기 작성 중':'이 과제 실행 중'):busy?'다른 과제 실행 중':'바로 시작'}</button>
+   <details className="pm-fold st-editor" data-testid={`edit-panel-${card.id}`}><summary aria-label={demoCardLabels(state,card).edit}>수정</summary>
+   <div className="pm-grid2">
+@@ -50,7 +55,7 @@
+   <details className="pm-fold st-help"><summary>활동·도움·종류 (필요할 때)</summary>
+   <Activity key={`${card.id}-${route.target}`} card={card} target={route.target} round={student.round} act={act}/>
+ 
+-  <HelpView student={student} card={card} meta={meta} act={act}/>
++  <HelpView student={student} card={practice?{...card,title:practiceTitle(state,card),firstAction:practiceField(state,card,'firstAction'),scope:practiceField(state,card,'scope')}:card} meta={meta} act={act} selectedHelp={practice&&student.supportChoice===practice.supportChoiceAtAdd?practice.help:undefined}/>
+ 
+   {KINDS[stage]&&card.domain==='학습'&&<><h4>어떤 종류인가요 (선택)</h4><div className="pm-chips">{KINDS[stage].map(k=><button key={k} className="pm-chip" aria-pressed={meta.kind===k} onClick={()=>act({type:'meta',cardId:card.id,changes:{kind:meta.kind===k?'':k}})}>{k}</button>)}</div></>}
+ 
+--- a/artifacts/nuvia-ui-review/src/studio/HelpView.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/HelpView.tsx
+@@ -22,12 +22,12 @@
+  return <p>짧게: {card.firstAction||'첫 행동 하나'}부터 {card.minutes}분.</p>;
+ }
+ 
+-export default function HelpView({student,card,meta,act}:{student:Student;card:Card;meta:Partial<Meta>;act:(a:Action)=>boolean}){
++export default function HelpView({student,card,meta,act,selectedHelp}:{student:Student;card:Card;meta:Partial<Meta>;act:(a:Action)=>boolean;selectedHelp?:Axis|'universal'|'none'}){
+  const route=routeFor(student);
+  const planned=meta.helpPreference;
+- const support=student.supportChoice==='official'&&planned&&planned!=='official'?planned as Axis|'universal'|'none':route.support;
++ const support=selectedHelp??(student.supportChoice==='official'&&planned&&planned!=='official'?planned as Axis|'universal'|'none':route.support);
+  const set=(changes:Record<string,unknown>)=>act({type:'legacy',command:{type:'student.settings',changes} as never});
+- const source=planned&&student.supportChoice==='official'?'본인이 수락한 다음 달 도움':student.assessment?'합성 검사 입력 예시':student.supportChoice==='official'?'검사 미연결 · 일반 연습 예시':'직접 고른 도움';
++ const source=selectedHelp?'직접 고른 도움':planned&&student.supportChoice==='official'?'본인이 수락한 다음 달 도움':student.assessment?'합성 검사 입력 예시':student.supportChoice==='official'?'검사 미연결 · 일반 연습 예시':'직접 고른 도움';
+  return <div className="pm-panel integrated" data-testid="help-view">
+   <p className="pm-eye">추천 도움 · {supportNames[support]} · {source}</p>
+   {student.reduceHelp?<details className="pm-fold"><summary>도움 줄이는 중 · 펼쳐 보기</summary><Presentation support={support} card={card} meta={meta}/></details>:<Presentation support={support} card={card} meta={meta}/>}
+--- a/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/RunPanel.tsx
+@@ -1,4 +1,5 @@
+ import {useEffect,useState} from 'react';
++import {practiceField} from '../practice-recommendations/display';
+ import {elapsed,remaining} from '../enhancement/domain';
+ import type {Run,Student} from '../enhancement/model';
+ import type {Action,PersonalState} from './model';
+@@ -18,7 +19,7 @@
+  const sec=Math.floor(elapsed(run)/1000);
+  return <section className={`pm-now ${run.phase}${cardId?' st-run-in':''}`} aria-label="지금 실행" data-testid="run-panel">
+   <p className="pm-eye">{run.phase==='running'?'지금 하는 중':run.phase==='paused'?'이 과제를 잠시 멈췄어요':'실행 돌아보기'}</p>
+-  <div className="pm-now-title">{card?.firstAction||(card&&state?demoCardText(state,card,'title'):card?.title)||'지금 할 행동'}</div>
++  <div className="pm-now-title">{card?.firstAction?(state?practiceField(state,card,'firstAction'):card.firstAction):(card&&state?demoCardText(state,card,'title'):card?.title)||'지금 할 행동'}</div>
+   {card?.firstAction&&<p className="st-run-task">과제: {state?demoCardText(state,card,'title'):card.title}</p>}
+   {run.flag&&<p>이어서 볼 자리: <b>{run.flag}</b></p>}
+   {run.budgetMinutes>0&&run.phase==='running'&&remaining(run)===0&&<p className="pm-banner warn">예정한 시간이 지났어요. 계속하거나 끝내고 돌아볼 수 있어요. 자동으로 완료 처리하지 않습니다.</p>}
+--- a/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx
++++ b/artifacts/nuvia-ui-review/src/studio/StudioPage.tsx
+@@ -11,6 +11,7 @@
+ import RunPanel from './RunPanel';
+ import SubjectSymbol,{subjectVisual} from './SubjectSymbol';
+ import DailyNote from './DailyNote';
++import PracticeRecommendations from '../practice-recommendations/PracticeUI';
+ 
+ type Act=(a:Action)=>boolean;
+ const TONES:[Tone,string][]=[['blue','파랑'],['purple','보라'],['orange','주황'],['sky','하늘']];
+@@ -77,6 +78,7 @@
+       {today_.length?<ul className="st-tags st-stack">{today_.map((c,i)=>tag(c,i))}</ul>:<p className="pm-empty">선반이 비어 있어요. 아래에서 할 일을 추가해 보세요.</p>}
+       {later.length>0&&<details className="pm-fold" data-testid="details-later"><summary>다른 날 {later.length}개 전체 보기</summary><ul className="st-tags">{later.map(c=>tag(c))}</ul></details>}
+      </details>
++     <PracticeRecommendations state={state} act={act}/>
+      <TaskCreator state={state} act={act}/>
+     </section>
+     {sel&&sel.id!==desk?.id&&<section className="st-block st-picked" aria-label="고른 네임택" data-testid="section-selected">
+@@ -156,7 +158,8 @@
+  return <div className="pm-page">
+   <section className="st-block" aria-label="할 일 추가" data-testid="section-add">
+    <p className="st-eye">계획 · {today}</p><h2>선반에 올릴 할 일</h2>
+-   <TaskCreator state={state} act={act}/>
++   <PracticeRecommendations state={state} act={act}/>
++    <TaskCreator state={state} act={act}/>
+   </section>
+   <section className="st-block" aria-label="하루 분량" data-testid="section-capacity">
+    <div className="st-row" style={{justifyContent:'space-between'}}>
+--- a/artifacts/nuvia-ui-review/src/studio/i18n/demo-copy.ts
++++ b/artifacts/nuvia-ui-review/src/studio/i18n/demo-copy.ts
+@@ -4,6 +4,7 @@
+ import {demoText} from './demo-resources';
+ import {currentLocale,label,t} from './runtime';
+ import {publicLibrary,publicAudience} from '../../library-public/policy';
++import {practiceTitle} from '../../practice-recommendations/display';
+ 
+ export const currentAudience=()=>audienceFrom(typeof location==='undefined'?'':location.search)??(publicLibrary?publicAudience(typeof location==='undefined'?'':location.search):null);
+ // Identify the original fixture by its source, initial-plan timestamp and exact values.
+@@ -17,7 +18,7 @@
+ }
+ export function demoCardText(state:PersonalState,card:Card,field:'title'|'subject',audience:Audience|null=currentAudience()){
+  return audience&&isDemoSample(state,card,audience)
+-  ?demoText(`${audience}${field==='title'?'Title':'Subject'}`):card[field];
++  ?demoText(`${audience}${field==='title'?'Title':'Subject'}`):field==='title'?practiceTitle(state,card):card[field];
+ }
+ // Attribute strings need explicit localization of nested label values too.
+ // Never interpolate the raw fixture title or a canonical Korean tone into an aria name.
+--- a/artifacts/nuvia-ui-review/src/studio/model.ts
++++ b/artifacts/nuvia-ui-review/src/studio/model.ts
+@@ -3,6 +3,7 @@
+ import type {StudioData,StudioAction} from './studio-model';
+ import type {TaskInput} from './task-plan';
+ import type {LibraryAction} from '../planner-library/model';
++import type {PracticeAction} from '../practice-recommendations/model';
+ export type {Target,Axis,Stage,LegacyCommand};
+ export type Status='performed'|'skipped'|'unobserved';
+ export interface Meta {kind:string;examDate:string;weeklyScope:string;materials:string;nextPosition:string;output:string;difficulty:string;proposal?:string;originDraft?:string;helpPreference?:string}
+@@ -10,7 +11,7 @@
+ export interface Entry {id:string;practiceId:string;runId:string;axis:Target;status:Status;localDate:string;originalDate:string;enteredAt:string;cardTitle:string;proof:string[];optionalAttention:string;output:string;feeling:string;difficulty:string;assessment:unknown;corrections:{at:string;from:string;to:string;reason:string}[]}
+ export interface Draft {id:string;fromMonth:string;toMonth:string;axis:Target;count:number;chunk:string;method:string;help:string;date:string;reasons:string[];baseline:{count:number;chunk:string;method:string;help:string};status:'pending'|'accepted'|'deferred';createdAt:string;acceptedAt?:string;cardIds:string[]}
+ export interface PersonalState {schema:'nuvia-personal-monthly-1';mode:'personal'|'review';workspaceId:string;studentId:'student-a';lab:LabState;meta:Record<string,Meta>;agreements:Agreement[];entries:Entry[];drafts:Draft[];onboarding:boolean;lastSeen:string;recovery:boolean;assessmentHistory:{at:string;source:string;assessment:unknown}[];insights?:Insights;studio?:StudioData}
+-export type Action = StudioAction|InsightsAction|LibraryAction
++export type Action = StudioAction|InsightsAction|LibraryAction|PracticeAction
+  |{type:'legacy';command:LegacyCommand}
+  |({type:'create';kind?:string}&TaskInput)
+  |{type:'meta';cardId:string;changes:Partial<Meta>}
+--- a/artifacts/nuvia-ui-review/src/studio/persistence.ts
++++ b/artifacts/nuvia-ui-review/src/studio/persistence.ts
+@@ -1,4 +1,5 @@
+ import {z} from 'zod';
++import {validatePractice} from '../practice-recommendations/domain';
+ import {validateStudioLab} from './task-plan';
+ import {validateAssessment} from '../official/adaptive/engine';
+ import {student} from './monthly';
+@@ -22,6 +23,7 @@
+  if(workspaceId&&n.workspaceId!==workspaceId)throw Error('다른 개인 검토 공간의 자료입니다.');
+  unique(n.agreements.map(g=>g.id));unique(n.entries.map(g=>g.id));unique(n.entries.map(g=>g.runId));unique(n.drafts.map(g=>g.id));
+  const p=student(n);
++ validatePractice(n);
+  for(const e of n.entries){
+   const r=p.runs.find(r=>r.id===e.runId);
+   const fixture=n.mode==='review'&&e.runId.startsWith('fixture-')&&e.proof.some(x=>x.includes('합성'));
+--- a/artifacts/nuvia-ui-review/src/studio/report.ts
++++ b/artifacts/nuvia-ui-review/src/studio/report.ts
+@@ -3,6 +3,7 @@
+ import {AXIS_NAMES} from '../enhancement/model';
+ import {baselineHTML,changeHTML} from './insight-report';
+ import {draftStatusLabel} from './i18n/assessment-labels';
++import {practiceReport} from '../practice-recommendations/report';
+ export interface ReportFields {summary:boolean;evidence:boolean;methods:boolean;outputs:boolean;assessment?:boolean}
+ const esc=(s:unknown)=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]!));
+ export function reportHTML(s:PersonalState,month:string,fields:ReportFields):string{
+@@ -20,6 +21,7 @@
+  }
+  if(fields.evidence)body+=section('영역별 목표·수행·근거',rows.map(r=>`<h3>${esc(AXIS_NAMES[r.axis])} · ${r.performed}/${r.denominator}회 · ${r.displayRate}</h3><p>${esc(r.label)}${r.provisional?' · 진행 중인 월의 잠정값':''} · 관찰 ${r.observedDays}일 · 추가 수행 ${r.extra}회 · 명시 건너뜀 ${r.skipped} · 미확인 ${r.unobserved} · 상황상 해당 없음 ${r.notApplicable}(보관/복귀에 한함)</p><p>기본 분모는 최초 합의입니다. 변경 목표는 앞으로 남은 계획이며 과거 실적에 소급 적용하지 않습니다.</p><ul>${r.versions.map(v=>{const revised=stats(s,month,r.axis,v.id);return `<li>${esc(v.at)}: ${v.previousId?'이후 남은':'최초'} ${v.count}회 / ${esc(v.reason)} · 이 기준 수행 ${revised.performed}/${revised.denominator}회 · ${revised.displayRate}</li>`;}).join('')}</ul><ol>${r.evidence.map(e=>`<li>${esc(e.localDate)} · ${esc(e.cardTitle)} · ${esc(e.status==='performed'?'수행 확인':e.status==='skipped'?'명시 건너뜀':'미확인')}<ul>${e.proof.map(p=>'<li>'+esc(p)+'</li>').join('')}</ul>${e.corrections.map(c=>`<p>정정 ${esc(c.from)} → ${esc(c.to)}: ${esc(c.reason)} (${esc(c.at)})</p>`).join('')}</li>`).join('')}</ol>`).join(''));
+  body+=changeHTML(s,month,areas(s),fields.evidence,fields.methods);
++ if(fields.methods)body+=practiceReport(s,month);
+  if(fields.methods)body+=section('기존 개인 방법 메모 — 사용 횟수와 별개',p.methods.map(m=>`<p>${esc(m.name)} · ${m.helpful==='yes'?'도움 됨':m.helpful==='no'?'도움되지 않음':'모르겠음'}. 기존 단일 메모이며 응답 변경 이력을 추정하지 않습니다.</p>`).join('')||'<p>기존 방법 메모 없음</p>');
+  if(fields.outputs)body+=section('실제 적용 결과와 선택적 자기보고',s.entries.filter(e=>e.localDate.startsWith(month)).map(e=>`<p>${esc(e.cardTitle)} · 본인이 적은 산출물: ${esc(e.output||'미입력')} · 느낌: ${esc(e.feeling||'미입력')}</p>`).join('')+'<p>과제 산출물은 자기기록이며 외부 확인이나 효과 입증이 아닙니다. 외부 수행 확인 서버는 미연결입니다.</p>');
+  body+='</section>';
+--- a/artifacts/nuvia-ui-review/src/studio/roadmap.ts
++++ b/artifacts/nuvia-ui-review/src/studio/roadmap.ts
+@@ -18,7 +18,7 @@
+   if(!months.size)months.add(monthOf(c.date||localDate(new Date(at))));
+   for(const month of months){
+    const id=`${month}:${c.id}`;seen.add(id);const m=s.meta[c.id];
+-   const snapshot:SourceSnapshot={...(contextOf(s,c.id)?{practiceContext:contextOf(s,c.id)}:{}),title:c.title,subject:c.subject,kind:m?.kind??'',goal:c.goal,scope:c.scope,firstAction:c.firstAction,minutes:c.minutes,date:c.date,startTime:d.placements[c.id]?.timeSet===false?'':c.startTime,output:m?.output??'',materials:m?.materials??'',
++   const snapshot:SourceSnapshot={...(contextOf(s,c.id)?{practiceContext:contextOf(s,c.id)}:d.practice?.attachments[c.id]?{practiceContext:'daily-practice' as const}:{}),title:c.title,subject:c.subject,kind:m?.kind??'',goal:c.goal,scope:c.scope,firstAction:c.firstAction,minutes:c.minutes,date:c.date,startTime:d.placements[c.id]?.timeSet===false?'':c.startTime,output:m?.output??'',materials:m?.materials??'',
+     changes:changes.filter(h=>monthOf(localDate(new Date(h.at)))===month),
+     runs:runs.filter(r=>runMonth(r)===month).map(r=>({id:r.id,practiceId:r.practiceId,at:r.startedAt,closed:r.phase==='closed',completed:r.completion==='yes',returns:r.returns,reflection:r.reflection,actualMs:r.phase==='closed'?elapsed(r):0,nextPosition:r.flag}))};
+    const old=d.sources[id];
+--- a/artifacts/nuvia-ui-review/src/studio/studio-logic.ts
++++ b/artifacts/nuvia-ui-review/src/studio/studio-logic.ts
+@@ -8,6 +8,8 @@
+ import {t} from './i18n/runtime';
+ import {applyLibrary} from '../planner-library/domain';
+ import {libText} from '../planner-library/i18n';
++import {applyPractice,requireRecommendation} from '../practice-recommendations/domain';
++import {text as practiceText} from '../practice-recommendations/i18n';
+ export const freshStudio=():StudioData=>({placements:{},selectedId:'',deskId:'',archiveReminders:true,appearance:'ivory',lastNoticeSession:'',sources:{},experiences:[]});
+ export const studioOf=(s:PersonalState):StudioData=>s.studio??freshStudio();
+ export const placement=(s:PersonalState,id:string):Placement=>studioOf(s).placements[id]??{place:student(s).cards.find(c=>c.id===id)?.status==='done'?'collection':'shelf',tone:'blue'};
+@@ -35,6 +37,42 @@
+  });
+ }
+ export function updateStudio(state:PersonalState,a:Action,at=new Date().toISOString(),review=false):PersonalState{
++ if(a.type==='practice.add'){
++  if(!a.requestId||a.requestId!==a.task.requestId||!['planning','attention','simultaneous','successive','universal','none'].includes(a.help))throw Error(practiceText(localeOf(state),'unavailable'));
++  const prior=state.studio?.creations?.[a.requestId];
++  if(prior){
++   const old=state.studio?.practice?.attachments[prior];
++   if(old?.templateId!==a.templateId)throw Error(practiceText(localeOf(state),'unavailable'));
++   return state;
++  }
++  const r=requireRecommendation(state,a.templateId,a.stage);
++  const n=updateStudio(state,{...a.task,type:'create'},at,review);
++  const id=n.studio!.creations![a.requestId],c=student(n).cards.find(c=>c.id===id)!;
++  if(a.details){
++   for(const key of ['deadline','owner','dependency','handoff'] as const){
++    const value=a.details[key];if(value===undefined)continue;
++    if(typeof value!=='string'||value.length>300||key==='deadline'&&value!==''&&!validDate(value))throw Error(practiceText(localeOf(state),'unavailable'));
++    c[key]=value;
++   }
++   if(a.details.waiting!==undefined){if(typeof a.details.waiting!=='boolean')throw Error(practiceText(localeOf(state),'unavailable'));c.waiting=a.details.waiting;}
++   // These fields belong to the initial, not-yet-persisted creation.
++   if(c.history[0])c.history[0].plan=planSnapshot(c);
++  }
++  n.studio!.practice??={views:[],attachments:{}};
++  n.studio!.practice.attachments[id]={
++   taskId:id,templateId:r.id,stage:r.stage,target:r.target,help:a.help,officialHelp:r.officialHelp,basis:r.basis,
++   version:'daily-practice/1',creationLocale:localeOf(state),addedAt:at,roundAtSelection:student(state).round,
++   source:r.basis==='result'?structuredClone(student(state).assessment):null,
++   initial:{title:c.title,scope:c.scope,firstAction:c.firstAction,minutes:c.minutes},reports:[],
++   provided:a.provided??{title:false,firstAction:false,scope:false},
++   supportChoiceAtAdd:student(state).supportChoice,
++  };
++  // Only replace this brand-new task's provisional source before its first save.
++  // Existing task/source/history records are untouched; retries returned above.
++  for(const [key,source] of Object.entries(n.studio!.sources??{}))if(source.cardId===id)delete n.studio!.sources![key];
++  syncRoadmap(n,at);
++  return n;
++ }
+  if(a.type==='library.create'){
+   const n=updateStudio(state,{...a.task,type:'create'},at,review);
+   const id=a.task.requestId?n.studio?.creations?.[a.task.requestId]:student(n).cards.at(-1)?.id;
+@@ -52,7 +90,8 @@
+  const open=()=>p.runs.find(r=>r.phase!=='closed');
+  const movable=(id:string)=>{card(id);const r=open();if(r&&r.cardId!==id)throw Error('현재 실행을 중단·종료한 뒤 다른 과제로 바꿔 주세요.');};
+  if(a.type==='legacy'&&a.command.type==='language'&&isLocale(a.command.language))d.locale=a.command.language;
+- if(a.type.startsWith('library.'))applyLibrary(n,a as Parameters<typeof applyLibrary>[1],at,review);
++ if(a.type==='practice.view'||a.type==='practice.respond')applyPractice(n,a,at);
++ else if(a.type.startsWith('library.'))applyLibrary(n,a as Parameters<typeof applyLibrary>[1],at,review);
+  else if(a.type.startsWith('roadmap.'))applyRoadmap(n,a as never,at);
+  else switch(a.type){
+   case 'studio.note':
+@@ -155,6 +194,15 @@
+     }
+    }
+    n=baseUpdate(n,a,at,review);n.studio??=freshStudio();
++   if(a.type==='legacy'&&a.command.type==='run.start'){
++    const cardId=a.command.cardId,source=n.studio.practice?.attachments[cardId];
++    const r=student(n).runs.find(r=>r.cardId===cardId&&r.phase==='running');
++    if(source&&r&&!student(state).runs.some(old=>old.id===r.id)&&student(n).supportChoice===source.supportChoiceAtAdd){
++     r.support=source.help;
++     // This is the initial choice, not an in-run method change.
++     r.supportHistory=[{at,support:source.help,reduced:student(n).reduceHelp}];
++    }
++   }
+    if(a.type==='review.fixture'||a.type==='review.insights-example')n.studio=freshStudio();
+    if(a.type==='legacy'&&a.command.type==='card.update'){
+     const cardId=a.command.cardId,old=student(state).cards.find(c=>c.id===cardId),changed=student(n).cards.find(c=>c.id===cardId);
+--- a/artifacts/nuvia-ui-review/src/studio/studio-model.ts
++++ b/artifacts/nuvia-ui-review/src/studio/studio-model.ts
+@@ -1,4 +1,5 @@
+ import {z} from 'zod';
++import {practiceSchema,type PracticeData} from '../practice-recommendations/model';
+ import {attachmentSchema,type Attachment} from '../planner-library/model';
+ import {locales,type Locale} from './i18n/config';
+ import type {TaskInput,Activity} from './task-plan';
+@@ -20,6 +21,7 @@
+ export interface Sentence {id:string;text:string;experienceId:string;sourceId:string;sourceVersion:number;field:ExperienceField;confirmed:boolean;selected:boolean;edited:boolean}
+ export interface RoadDraft {id:string;key:string;createdAt:string;sentences:Sentence[]}
+ export interface StudioData {
++ practice?:PracticeData;
+  libraryAttachments?:Record<string,Attachment>;
+  dailyNotes?:Record<string,{text:string;updatedAt:string}>;
+  locale?:Locale;
+@@ -46,6 +48,7 @@
+ const text=z.string().max(20000),id=z.string().min(1).max(200),stamp=z.string().datetime();
+ const snapshot=z.object({practiceContext:z.enum(['simulation','daily-practice']).optional(),title:text,subject:text,kind:text,goal:text,scope:text,firstAction:text,minutes:z.number().min(0),date:text,startTime:text,output:text,materials:text,changes:z.array(z.object({at:stamp,reason:text}).strict()),runs:z.array(z.object({id,practiceId:id,at:stamp,closed:z.boolean(),completed:z.boolean(),returns:z.number().int().min(0),reflection:text,actualMs:z.number().min(0),nextPosition:text}).strict())}).strict();
+ export const studioSchema=z.object({
++ practice:practiceSchema.optional(),
+  libraryAttachments:z.record(z.string(),attachmentSchema).optional(),
+  dailyNotes:z.record(z.string().refine(x=>/^\d{4}-\d{2}-\d{2}$/.test(x)&&Number.isFinite(Date.parse(x))&&new Date(x+'T12:00:00Z').toISOString().slice(0,10)===x),z.object({text,updatedAt:stamp}).strict()).optional(),
+  locale:z.enum(locales).optional(),
+--- a/artifacts/nuvia-ui-review/vite.library-public.config.ts
++++ b/artifacts/nuvia-ui-review/vite.library-public.config.ts
+@@ -16,7 +16,7 @@
+     if(['/','/index.html','/studio.html','/demo.html'].includes(pathname)){
+      res.statusCode=302;res.setHeader('Location','./library-demo.html'+new URL(req.url??'/', 'http://local').search);res.end();return;
+     }
+-    if((pathname.endsWith('.html')&&pathname!=='/library-demo.html')||
++    if((pathname.endsWith('.html')&&pathname!=='/library-demo.html'&&pathname!=='/practice-compare.html')||
+        /(?:^|\/)(?:api|docs|tools|handoff)(?:\/|$)/.test(pathname)||
+        /\/planner-library\/(?:catalog|domain|LibraryUI)/.test(pathname)||
+        /\/src\/(?:career-review|official|enhancement|personal)/.test(pathname)&&!pathname.endsWith('.ts')&&!pathname.endsWith('.tsx')||
+--- /dev/null
++++ b/docs/STUDIO_DAILY_PRACTICE_HANDOFF.md
+@@ -0,0 +1,105 @@
++# 연령별 일상 추천 연습 — 개발자 인계
++
++## 상태와 범위
++
++- 수정 전 Replit 소스 기준: `e1209da854493369e664d8922509390d55a7f34f`.
++- 기존 Studio에 추가하는 검토용 패치다. 정식 플래너·D-CAS·결과지·BrainMap·GitHub/main·공개 게시를 변경하지 않는다.
++- 현재 개발 진입: `/library-demo.html?demo=university` → 계획 → 할 일 추가 근처 **추천 연습**.
++- 5연령 합성 비교: `/practice-compare.html`. 개발 서버 전용이다. 연령/목표 전환은 그 비교 공간만 초기화하지만 강점만 바꾸면 입력·과제를 유지한다. 저장/실제 결과 입력/서버 전송이 없고 생산 빌드 입력에도 포함하지 않는다.
++- 대학/학교/기업 가상 데모의 기존 경고·15언어 선택기·독립 브라우저 저장소를 유지한다.
++- 실제 결과 서버, 로그인, 기기간 동기화, 개인정보 서버, 외부 AI 추천을 새로 연결하지 않았다.
++
++## 기존 기능 점검과 재사용
++
++기존 코드에는 `routeFor`의 공식 수준·지원/강점 순서·회차 해석, `TaskCreator`와 `updateStudio(create)`의
++과제 생성, 기존 타이머/일시정지·깃발 복귀/실행 종료·완료 구분, 월간 근거·로드맵·메모·백업이 있었다.
++직무/일상 라이브러리는 한국어 검토 전용 미승인 콘텐츠였으며 일반 사용자에게 공개할 수 없었다.
++새 추천은 이 카탈로그를 우회 공개하지 않는 별도 일상 활동 템플릿이다.
++
++`practice.add`가 기존 create를 호출하므로 별도 플래너·타이머·월간 산식을 만들지 않는다.
++카드 선택/미리보기/추가로 실행을 시작하거나 완료·목표 수행을 인정하지 않는다.
++원래 기본 분량·시간은 `timeChosen=false`, `scopeChosen=false`, `planReviewed=false`다.
++사용자의 실제 편집 또는 기존 행동 확인 뒤 실행 종료가 있어야 기존 회차 근거에 반영된다.
++중복 requestId는 같은 기존 과제를 돌려주며 추가 클릭으로 복제하지 않는다.
++최초 추가의 세부 설정/도움 선택은 최초 계획·최초 도움으로 기록한다. 이를 실행 중 방법 변경이나
++사후 계획 수정으로 부풀리지 않는다. 이 보정은 새 과제 생성에만 적용하며 기존 저장 기록은 다시 쓰지 않는다.
++
++## 콘텐츠 수와 검토 상태
++
++- 독립 원본: **10개**, 목표별 2개.
++- 연령: **5개**, 각 원본의 연령별 입력/범위 변형 **50개**.
++- 새로운 진단 유형 50개나 81개 독립 훈련이 아니다.
++- 계획: 작은 준비 계획 / 한 구역 정리 범위.
++- 주의: 지금 볼 대상 하나 / 필요한 정보 하나.
++- 관계 연결: 익숙한 위치·쓰임 / 준비물·목표.
++- 순서: 평범한 사건 재구성 / 실제 준비 과정.
++- 통합: 작은 일 계획·실행 / 다음 준비.
++- 콘텐츠·번역은 AI 초안이다. 전문가/원어민 검수 또는 효과 검증 완료로 승격하지 않는다.
++
++첫 화면은 현재 목표 후보 1개를 보여주고 **다른 추천 보기**로 두 번째 후보를 고른다.
++사용자는 직접 작성/추천 없이 시작으로 기존 입력을 사용할 수 있다.
++시간·분량·사례·6개 도움 선택은 명시적 추가 전 미리보기에서 변경한다.
++
++### 실제 연령별 입력 차이
++
++| 연령 | 범위와 선택 입력 |
++| --- | --- |
++| 초1~3 | 익숙한 그림/물건, 2개 그림 표찰·짧은 입력(40자), 행동 하나 |
++| 초4~6 | 학교 준비·간단한 이유, 3개 짧은 입력(80자) |
++| 중학생 | 공부 준비/일상 사건/준비물, 3개 입력(160자)과 짧은 설명 안내 |
++| 고등학생 | 일정·최종 마감 날짜 입력 2개와 조건/분량 입력 |
++| 대학·성인 | 책임자·선행작업·인계 입력, 대기 선택, 전이 설명 |
++
++순서 활동에서 달력 날짜·담당·선행작업·인계 값은 실행 단계가 아니다.
++고등학생은 날짜 뒤의 행동 필드, 성인은 역할 필드 뒤의 행동 필드만 단계 후보로 넘긴다.
++후보 단계도 기존 단계 확정과 직접 진행 표시를 거쳐야 한다.
++
++초등은 기존 일반 진입을 확대하지 않고 review 모드 비교에서만 추천한다.
++일반 후보를 만들기 위해 성인 실제 프로필을 초등으로 재분류하지 않는다.
++모든 추가 입력은 접힌 선택 영역이며 기본 제목·행동만으로 미리보기를 진행할 수 있다.
++
++## 결과·도움·기록 경계
++
++검증된 기존 결과의 선언된 수준/순서와 기존 `routeFor`를 사용한다. 점수 컷이나 점수 단위를 새로 만들지 않는다.
++공식 복수 지원 순서가 없거나 결과가 무효이면 통합 일반 활동과 자기선택 도움으로 후퇴한다.
++검사 미연결도 검사 추천처럼 표시하지 않고 통합 일반 활동을 준다.
++강점 순서가 없으면 기존 공통 도움을 사용한다. 강점 없음/동률에서 강점을 꾸미지 않는다.
++도움은 목표·완료 기준 / 한 가지 강조 / 관계 묶음 / 현재·다음 순서 / 공통 / 줄이기다.
++활동 목표와 강점 정보 제시를 구분하며 정답·연결·완료 체크를 대신 만들지 않는다.
++
++추천 출처, 선택 당시 검사 스냅샷·회차·목표·강점 도움·사용자 도움·연령·언어·초기 입력을 보존한다.
++검사/언어 변경으로 기존 기록을 재분류하지 않는다.
++저장 원문은 번역하지 않는다. 제품 기본값은 provenance와 편집 이력을 확인한 표시 경계에서만 현지화한다.
++같은 말을 직접 입력/수정한 경우는 보수적으로 원문으로 표시한다.
++미리보기 언어 전환도 수정하지 않은 제품 기본값만 갱신하며 학생이 적은 문장·날짜·시간·도움 선택은 유지한다.
++
++열람 기록 / 과제 추가 / 종료한 실제 실행 / 선택적 도움 자기보고는 서로 다른 기록이다.
++응답 변경 이력을 남기되 보고서 응답 수는 실행별 최신 응답 1개이며 미응답도 따로 표시한다.
++실행 횟수는 목표 수행 횟수가 아니다. 월간 수행률/분모/다음 달 초안 승인 규칙은 바꾸지 않는다.
++로드맵은 기존 원본 연결·버전·재확인 규칙을 재사용하며 일상 연습 문맥만 붙인다.
++메모·생각 보관함 전문은 새 리포트나 공용 라이브러리에 넣지 않는다.
++
++## 안전과 다국어
++
++눈을 감고 이동하는 활동은 없다. 앉아서 익숙한 위치를 적거나 그린 뒤 비교하고,
++불편하면 관찰하면서 연결하는 선택을 제공한다. 기억 점수·PASS 점수·능력 향상률을 만들지 않는다.
++사건은 평범한 2~5단계만 다루고 타인 정보·사적인 사건·힘든 기억은 요구하지 않는다.
++
++신규 103키×15언어를 별도 locale 파일로 추가했다. 기존 번역값은 재생성하지 않았다.
++상태는 `src/practice-recommendations/translation-status.json`에 내부 기록하며 일반 화면에 검수 메타데이터를 넣지 않는다.
++기술 검사는 문법/키/문자권/표시/동작 검사이며 원어민의 자연스러움 검수를 대체하지 않는다.
++
++## 적용·중단·되돌리기
++
++1. 개발자 최신 결과/서버 연동 브랜치와 이 기준을 비교한다. 현재 Replit과 최신 GitHub가 같다고 가정하지 않는다.
++2. 현재 소스·원본 브라우저 백업을 별도로 보존하고 작업 브랜치에서만 적용한다.
++3. 패치의 BEFORE 해시 또는 신규 파일 경로가 다르면 중단한다. 통째로 덮어쓰지 않는다.
++4. 신규 폴더와 Studio의 최소 연결 변경을 검토한다. 공식 결과 파일은 변경 목록에 있으면 안 된다.
++5. 기존/신규 회귀와 실제 브라우저 검수를 실행한 뒤 사용자 검토를 받는다. 공개 게시 별도 승인.
++6. 되돌릴 때 변경 파일을 보존한 원본으로 되돌리고 신규 파일만 제거한다. localStorage를 삭제/이관하지 않는다.
++7. 신규 practice 필드가 생긴 백업을 필드 미지원 과거 앱에 그대로 넣으면 거부될 수 있다.
++   과거 앱을 위해 데이터를 자동 삭제/변환하지 말고 이 패치와 함께 보존한다. 구형 필드 없는 백업은 새 앱에서 계속 지원한다.
++8. 소스 롤백 검증은 별도 빈 브라우저 프로필에서 한다. 호환성을 확인하기 전에 신규 기록이 있는 같은
++   저장 공간을 구형 앱으로 열지 않는다. 현재 백업과 구버전용 원래 백업을 모두 보존하고 임의 변환하지 않는다.
++
++검수 상세와 미확인 사항은 `STUDIO_DAILY_PRACTICE_QA.md`를 따른다.
+--- /dev/null
++++ b/docs/STUDIO_DAILY_PRACTICE_QA.md
+@@ -0,0 +1,108 @@
++# 일상 추천 연습 패치 QA
++
++## 완료 판정
++
++신규 추천 기능의 자동 검사와 대표 전체 여정, 15언어 화면/추가 흐름은 통과했다.
++마지막 도움 선택 버튼의 올바른 명칭/수동 선택 유지 변경도 재검수 통과했다.
++신규 패치는 기술 검수 완료로 인계하되, 전체 기존 테스트 통과·공개 승인·전문/원어민 검수 완료를 뜻하지 않는다.
++과거 미완료 검수와 신규 검수는 별도로 보존한다.
++
++## 실행한 자동 검사
++
++로그: `generated-artifacts/studio-practice/automatic.log`, `practice-expanded.log`.
++
++- 신규 6,409 assertions: 81조합×5연령의 목표/공식 도움 일치·회차 선택,
++  15언어 키/일반 UI 원문 잔존, 생성/중복/자동 시작·수행 없음, 실행·중단·복귀·종료,
++  응답 변경/미응답 분리, 백업 왕복, 검사/개인 원문 보존, 달력/역할과 실제 단계 분리.
++  신규 연결의 실제 필수 행동 후 순환은 대표 사례를 검사하며, 아래 기존 Studio 검사는
++  81조합의 실제 행동 근거와 두 차례 순환을 별도로 검사한다. 81×5 전부를 브라우저로 실행했다는 뜻은 아니다.
++- 기존 Studio 1,392, 라이브러리 3,479, 일일 메모 365, 알림 545, 데모 언어 1,606,
++  진로 연결 6,077, 공개 경계 361, 빌드 HTTP 19 검사 통과.
++- TypeScript, 기존 다중 화면 빌드, 공개 전용 빌드 통과.
++- 큰 JS 청크 경고는 남는다. 이를 타입/빌드 실패로 세거나 성능 검증 완료로 표현하지 않는다.
++- 기존 전체 검토 빌드의 classic `compare-storage.js` 비모듈 번들 경고도 남는다. 보호된 이전 화면은 수정하지 않았다.
++- 기존 기준 Vitest를 문서의 정규 명령으로 재실행했다: 14파일 중 11통과/3실패, 261중257통과/4실패, 종료1.
++  기존 `STUDIO_CAREER_REVIEW_ISSUE_TRIAGE.md`의 4건과 분리해 읽어야 하며 이번 기능으로 해결됐다고 보고하지 않는다.
++  먼저 package 내부 `exec vitest`를 시도했지만 그 패키지에 runner가 없어 종료254였다.
++  의존성/lockfile을 수정하지 않고 기존 문서의 임시 runner 명령으로 재검증했다.
++
++## 신규 테스트 중 바로잡은 항목
++
++- 합성 fixture의 subject/assessment ID를 기존 개인 저장 계약에 맞춰 수정했다.
++- 새 일상 문맥의 로드맵 검증을 명시적으로 허용하되 미승인 직무 첨부 제한은 유지했다.
++- 보고서의 HTML escape를 실제 문자열 그대로 검증하도록 테스트 기대 표현을 보정했다.
++- 추천에서 선택한 도움을 실제 과제 표시/실행 support와 연결하고 기존의 이후 자기선택 도움도 존중했다.
++- 제품 기본값과 학생 작성 원문을 구분하는 provenance/편집 이력 경계를 추가했다.
++- 일본어 Other 후보의 grid 최소폭/CJK 줄바꿈을 수정해 360px의 15px 가로 넘침을 해소했다.
++- 강점만 변경할 때 비교 화면을 재생성하던 동작을 없애 날짜·조건·작성 문장과 같은 목표를 유지했다.
++- 날짜·역할을 순서 단계로 오인하지 않게 했고 초기 설정을 거짓 계획/도움 변경으로 세지 않는다.
++- 빌드 도중 Go/esbuild의 OS thread 한도 오류가 한 번 발생했다. 원문 로그를 보존했으며
++  해당 명령의 병렬도만 `GOMAXPROCS=2`로 제한해 통과했다. 플랜/결제/시스템 한도는 변경하지 않았다.
++
++## 브라우저 계획과 증거
++
++범위를 구분한다:
++
++- 15언어×1440/360: 추천 열기/다른 후보/미리보기/수정/명시적 추가, 현지어 제품 문구·접근성·RTL·넘침·콘솔.
++- 대표 전체 실행: 한국어/영어 데스크톱, 일본어 360px에서 실제 시작/멈춤/깃발/복귀/종료/완료·응답.
++  모든 언어에서 전체 기존 타이머·백업 여정을 반복했다고 주장하지 않는다.
++- 한국어/영어 데스크톱의 실제 개인 백업 다운로드/파일 복원/새로고침.
++  최종 코드에서도 새 공개 기록으로 21,987바이트의 실제 다운로드 파일을 복원하고
++  0:42에 멈춘 실행·9:18 남은 시간·메모·한 개 과제·초기 이력 1건을 확인했다.
++- 5연령 입력: 저학년2/40자/SVG, 고학년3/80자, 중학생3/160자,
++  고등학생 date/date/text/text, 성인5개+대기 선택. 고등학생/성인의 강점 변경 후 작성값 유지와 명시적 추가 확인.
++- 고등학생의 11월10일 계획은 11월8일이 아니라 실제 선택한 11월10일 카드에서 확인했다.
++  최초 locator의 날짜 범위 오류는 제품 결함과 구분한다.
++- 취소/직접 작성 취소/추천 없이·시간 미정 취소/잘못된 시간 0·1.5·1441에서 신규 과제 없음.
++- `review/qa/board/stage/jobcatalog/draftJob` 쿼리로 공개 체험의 검토/미승인 직무 UI가 열리지 않음.
++- 최종 CSS 뒤 읽기 전용 화면 감사는 15언어×두 크기 전부 document/body 초과폭 0.
++  360px의 화면 너비는 360, 실제 client/scroll 너비는 345/345(스크롤바 제외)였다.
++  주간 스트립 287/876은 내부 스크롤이며 문서 넘침이 아니다.
++  입력44px, 대부분 버튼48px, 긴 베트남어/이탈리아어 추가 버튼72px은 줄바꿈 후 잘림 없이 보였다.
++- 마지막 도움 버튼은 목표 활동 이름이 아니라 실제 도움 방식 이름을 사용한다.
++  수동으로 고른 강조 도움은 ko→az→ko 및 강점 변경 후에도 유지됐고 제목·행동·분량·날짜도 보존됐다.
++  변경 뒤 30조합의 도움 라벨/문서 폭/오류를 다시 확인했다. 몽골어 등 긴 도움 라벨은
++  세로로 최대96px까지 줄바꿈된다. 이를 44px 높이로 강제 잘라내지 않았다.
++
++| 언어 | 1440px 신규 흐름/화면 | 360px 신규 흐름/화면 |
++|---|---|---|
++| ko | 통과 | 통과 |
++| en | 통과 | 통과 |
++| ja | 통과 | 가로 넘침 수정 후 통과 |
++| zh-CN | 통과 | 통과 |
++| zh-TW | 통과 | 통과 |
++| mn | 통과 | 통과 |
++| th | 통과 | 통과 |
++| vi | 통과 | 통과 |
++| ar | 통과·RTL | 통과·RTL |
++| ru | 통과 | 통과 |
++| km | 통과 | 통과 |
++| es | 통과 | 통과 |
++| fr | 최종 코드 재검수 통과 | 최종 코드 재검수 통과 |
++| it | 통과 | 통과 |
++| az | 통과 | 통과 |
++
++증거는 `generated-artifacts/studio-practice/qa/`의 locale별 행, `layout-matrix-2026-11-08.json`,
++`helper-choice-locale-2026-11-08.json`, `helper-choice-strength-2026-11-08.json`,
++연령/공개 경계/백업 메타 보고서와 `incremental-qa.md`에 있다.
++원본 평문 백업 파일은 개발자 소스 ZIP에 넣지 않는다.
++
++## 검수 환경 사건과 남은 한계
++
++개발 중 HMR로 비교 상태가 중단된 기록을 보존한다. 소스를 동결한 뒤 새 context로 재검수했다.
++명시적 workflow 재시작 직전의 오래된 탭 WebSocket disconnect는 새 페이지의 결함과 구분했고
++완료한 조합을 삭제하거나 미실행을 통과로 만들지 않았다.
++
++초기의 UI 404는 URL/시점이 포착되지 않아 원인을 확정하지 않는다.
++별도 API 서비스의 GET `/` 404와 혼동하지 않는다. 최종 신규 화면의 page/console/HTTP/request error는 관측되지 않았다.
++
++전체 목표×강점 UI 격자를 전부 수동 반복하지 않았다. 해당 계약의 자동 검사와 대표 강점 비교가 근거다.
++원어민 번역 검수·전문 콘텐츠/효과 검증·실제 학생 독립 사용/장기 추적·실제 결과 서버/인증·기기간 동기화는 미검증 또는 미연결이다.
++
++## 기존 미해결 QA — 승계
++
++기존 라이브러리 패치의 13/30 전체 여정과 백업 경계 수정 재검수 증거는 보존한다.
++그 작업의 나머지 17조합·호환 링크 렌더링/hash·설정의 분수 픽셀 넘침/아랍어 잘림 검수는
++이번 신규 기능의 자동 검사로 대체하지 않는다.
++기존 보고서 sandbox 차단 콘솔 관측도 별도다. 보호를 느슨하게 하지 않는다.
++이전 문서: `STUDIO_LIBRARY_PUBLIC_QA.md`, `generated-artifacts/studio-library-public/qa/results-fixed.json`.
+--- /dev/null
++++ b/tools/nuvia-studio/package-practice.py
+@@ -0,0 +1,121 @@
++"""Additive daily-practice source candidate; no Git index or browser records touched."""
++import ast
++import difflib
++import hashlib
++import json
++from pathlib import Path
++import subprocess
++import zipfile
++
++ROOT = Path(__file__).resolve().parents[2]
++BASE = "e1209da854493369e664d8922509390d55a7f34f"
++OUT = ROOT / "generated-artifacts/studio-practice"
++
++
++def git(*args):
++    return subprocess.check_output(["git", *args], cwd=ROOT)
++
++
++def sha(data):
++    return hashlib.sha256(data).hexdigest()
++
++
++def main():
++    gate = json.loads((OUT / "QA_STATUS.json").read_text())
++    ready = gate.get("complete") is True
++    old = set(git("ls-tree", "-r", "--name-only", BASE).decode().splitlines())
++    candidates = set(git("diff", "--name-only", BASE).decode().splitlines())
++    candidates |= set(git("ls-files", "--others", "--exclude-standard").decode().splitlines())
++    names = sorted(n for n in candidates if n.startswith((
++        "artifacts/nuvia-ui-review/", "docs/STUDIO_DAILY_PRACTICE_",
++        "tools/nuvia-studio/practice-", "tools/nuvia-studio/run-practice-",
++        "tools/nuvia-studio/package-practice.",
++    )) and (ROOT / n).is_file())
++    blobs, rows, patch = {}, [], []
++    for name in names:
++        if any(p in {"node_modules", "dist", ".git", ".cache"} or p.startswith(".env") for p in Path(name).parts):
++            raise SystemExit("Excluded path " + name)
++        data = (ROOT / name).read_bytes()
++        before = git("show", BASE + ":" + name) if name in old else None
++        if data == before:
++            continue
++        rows.append({"path": name, "before": sha(before) if before is not None else None, "after": sha(data)})
++        blobs["payload/" + name] = data
++        patch += list(difflib.unified_diff(
++            before.decode().splitlines(True) if before is not None else [],
++            data.decode().splitlines(True),
++            fromfile="a/" + name if before is not None else "/dev/null",
++            tofile="b/" + name))
++    source_hash = sha(json.dumps(rows, sort_keys=True, separators=(",", ":")).encode())
++    blobs["SOURCE_MANIFEST.json"] = json.dumps({
++        "baseCommit": BASE, "headAtPackaging": git("rev-parse", "HEAD").decode().strip(),
++        "sourceFingerprintSha256": source_hash, "files": rows,
++        "scope": "additive source only; not a full checkout; no deployment",
++        "qaComplete": ready,
++    }, ensure_ascii=False, indent=2).encode()
++    blobs["changes.patch"] = "".join(patch).encode()
++    # Reuse the existing all-file preflight / external backup helper verbatim.
++    tree = ast.parse((ROOT / "tools/nuvia-studio/package-library-public.py").read_text())
++    template = next(n.value for n in tree.body if isinstance(n, ast.Assign)
++                    and any(isinstance(t, ast.Name) and t.id == "APPLY" for t in n.targets))
++    blobs["apply.py"] = ast.literal_eval(template).encode()
++    blobs["README.txt"] = (
++        "NUVIA daily-practice additive source REVIEW CANDIDATE — NOT PUBLISHED\n"
++        f"QA complete: {ready}; inspect QA_STATUS.json and handoff/QA documents, not filename alone.\n"
++        f"Base: {BASE}\nSource fingerprint SHA256: {source_hash}\n"
++        "This is NOT a full repository. Apply to a matching checkout on a work branch only.\n"
++        "Do NOT overwrite a newer developer integration. Any hash/new-path conflict must stop.\n"
++        "Preflight covers changed files only; unchanged result/server dependencies still need developer review.\n"
++        "Dry-run: python apply.py --root /path/to/checkout\n"
++        "Apply: python apply.py --root /path/to/checkout --apply --backup /outside/checkout/backup\n"
++        "Rollback: restore modified originals from that backup; remove only newly added listed paths.\n"
++        "No browser storage clear/migration. Old backup import stays supported by the new patch;\n"
++        "new practice-bearing backups may not import into an older app. Preserve them, never strip records.\n"
++        "Build prerequisites are the original workspace pnpm lock/config; no new package added.\n"
++        "QA/dev comparison: /practice-compare.html (not a production entry).\n"
++        "Ordinary preview: /library-demo.html?demo=university -> Plan -> Recommended practice.\n"
++        "Excluded: personal/browser/backups, secrets/.env, node_modules, builds/caches/.git,\n"
++        "other apps, unchanged official result/legacy sources, old artifacts and private records.\n"
++        "AI draft translations/content are NOT native/professionally reviewed or efficacy validated.\n"
++        "All dependencies and unchanged source must come from your baseline checkout.\n"
++    ).encode()
++    for p in OUT.glob("*.log"):
++        blobs["qa/" + p.name] = p.read_bytes()
++    for name in ("QA_STATUS.json", "automatic-summary.json"):
++        blobs["qa/" + name] = (OUT / name).read_bytes()
++    blobs["qa/LEGACY_ISSUE_TRIAGE.md"] = (ROOT / "docs/STUDIO_CAREER_REVIEW_ISSUE_TRIAGE.md").read_bytes()
++    for p in (OUT / "qa").rglob("*"):
++        if p.is_file() and p.suffix in {".md", ".json", ".mjs", ".js", ".jpg", ".png"}:
++            if p.name.startswith(("NUVIA_", "studio-practice-personal-backup")) or ".backup." in p.name:
++                continue
++            if p.suffix == ".json" and not p.name.startswith((
++                "row-", "matrix-", "incremental-", "compare-", "summary-", "coverage-",
++                "keyboard-", "boundary-", "targeted-", "final-", "extra-",
++                "age-", "public-", "qa-public-record-",
++                "helper-",
++            )):
++                continue  # No raw browser-storage/download/backup payloads.
++            if p.stat().st_size < 2_000_000:
++                blobs["qa/browser/" + str(p.relative_to(OUT / "qa"))] = p.read_bytes()
++    for p in (OUT / "screenshots").glob("*.jpg"):
++        blobs["screenshots/" + p.name] = p.read_bytes()
++    blobs["FILES.txt"] = ("\n".join(sorted([*blobs, "FILES.txt", "SHA256SUMS.txt"])) + "\n").encode()
++    blobs["SHA256SUMS.txt"] = "".join(f"{sha(data)}  {name}\n" for name, data in sorted(blobs.items())).encode()
++    target = OUT / ("NUVIA_STUDIO_DAILY_PRACTICE_REVIEW_PATCH.zip" if ready
++                    else "NUVIA_STUDIO_DAILY_PRACTICE_QA_INCOMPLETE.zip")
++    with zipfile.ZipFile(target, "w", zipfile.ZIP_DEFLATED) as z:
++        for name, data in sorted(blobs.items()):
++            z.writestr(name, data)
++    with zipfile.ZipFile(target) as z:
++        assert z.testzip() is None
++        for name, data in blobs.items():
++            assert z.read(name) == data
++    result = {"path": str(target.relative_to(ROOT)), "bytes": target.stat().st_size,
++              "sha256": sha(target.read_bytes()), "sourceFiles": len(rows),
++              "sourceFingerprintSha256": source_hash, "qaComplete": ready}
++    (OUT / "package.json").write_text(json.dumps(result, indent=2))
++    print(json.dumps(result, indent=2))
++
++
++if __name__ == "__main__":
++    main()
+--- /dev/null
++++ b/tools/nuvia-studio/practice-check.ts
+@@ -0,0 +1,113 @@
++import assert from 'node:assert/strict';
++import fs from 'node:fs';
++import {createStudio,updateStudio} from '../../artifacts/nuvia-ui-review/src/studio/studio-logic';
++import {student,routeFor} from '../../artifacts/nuvia-ui-review/src/studio/domain';
++import {validate,exportBackup,importBackup} from '../../artifacts/nuvia-ui-review/src/studio/persistence';
++import {DEMOS,AXES} from '../../artifacts/nuvia-ui-review/src/official/adaptive/engine';
++import {recommendations,practiceStats} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/domain';
++import {resources,content,text,ageContent} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/i18n';
++import {stages,templateIds} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/model';
++import {practiceReport} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/report';
++import {practiceTitle} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/display';
++import {locales} from '../../artifacts/nuvia-ui-review/src/studio/i18n/config';
++import {label,setLocale} from '../../artifacts/nuvia-ui-review/src/studio/i18n/runtime';
++import {previewSteps} from '../../artifacts/nuvia-ui-review/src/practice-recommendations/catalog';
++let count=0;const ok=(f:()=>void)=>{f();count++;},at='2026-10-24T10:00:00.000Z';
++function fixture(stage:typeof stages[number]='adult'){
++ const s=createStudio(at);s.mode='review';const p=student(s);
++ p.stage=stage;p.assessment=structuredClone(DEMOS[0]);p.assessment.educationStage=stage;p.assessment.subjectId=p.id;p.assessment.assessmentId='synthetic-'+p.id;return s;
++}
++for(const stage of stages)for(let combo=0;combo<81;combo++){
++ let bits=combo;const s=fixture(stage),p=student(s);
++ for(const axis of AXES){p.assessment!.axes[axis].level=(['low','mid','high'] as const)[bits%3];bits=Math.floor(bits/3);}
++ p.assessment!.supportOrder=AXES.filter(a=>p.assessment!.axes[a].level==='low').reverse();
++ p.assessment!.strengthOrder=AXES.filter(a=>p.assessment!.axes[a].level==='high').reverse();
++ const before=JSON.stringify(s);
++ for(let round=0;round<Math.max(2,p.assessment!.supportOrder.length*2);round++){
++  p.round=round;const expected=routeFor(p),recs=recommendations(s);
++  ok(()=>assert.equal(recs.length,2));ok(()=>assert(recs.every(r=>r.target===expected.target&&r.officialHelp===expected.support&&r.stage===stage&&r.basis==='result')));
++ }
++ p.round=0;ok(()=>assert.equal(JSON.stringify(s),before));
++}
++for(const locale of locales){
++ if(locale==='ko'){
++  ok(()=>assert.deepEqual(previewSteps('high','successive',['2026-11-10','2026-11-12','first action','second action']),['first action','second action']));
++  ok(()=>assert.deepEqual(previewSteps('adult','successive',['owner','dependency','handoff','first action','second action']),['first action','second action']));
++  ok(()=>assert.deepEqual(previewSteps('middle','successive',['first',' ','third']),['first','third']));
++  ok(()=>assert.equal(previewSteps('high','planning',['date','date','condition','condition']),undefined));
++ }
++ setLocale(locale);
++ for(const key of ['날짜','최종 마감','책임자','먼저 끝나야 하는 일','넘겨줄 곳','다른 사람을 기다리는 중'])if(locale!=='ko')ok(()=>assert(!/[가-힣]/.test(String(label(key,locale)))));
++ const keys=Object.keys(resources.ko).sort();ok(()=>assert.deepEqual(Object.keys(resources[locale]).sort(),keys));
++ for(const key of keys){
++  const value=text(locale,key);ok(()=>assert(value.trim().length>0&&!/<\/?\w|https?:\/\//.test(value)));
++  if(locale!=='ko')ok(()=>assert(!/[가-힣]/.test(value)));
++ }
++ const s=fixture();s.studio!.locale=locale;const rec=recommendations(s)[0],requestId=crypto.randomUUID();
++ let n=updateStudio(s,{type:'practice.view',templateId:rec.id,stage:rec.stage},at,true);
++ ok(()=>assert.equal(student(n).cards.length,0));ok(()=>assert.equal(student(n).round,0));
++ const a={type:'practice.add' as const,templateId:rec.id,stage:rec.stage,help:'successive' as const,requestId,provided:{title:true,firstAction:true,scope:true},
++  task:{title:content(locale,rec.id,'title'),firstAction:content(locale,rec.id,'action'),scope:ageContent(locale,rec.stage,'scope'),minutes:rec.minutes,requestId,timeChosen:false,scopeChosen:false,planReviewed:false}};
++  n=validate(updateStudio(n,{...a,details:{owner:'QA owner',dependency:'prior step',waiting:true}},at,true));const id=student(n).cards[0].id;
++ ok(()=>assert.equal(student(n).cards.length,1));ok(()=>assert.equal(student(n).runs.length,0));
++ ok(()=>assert.equal(student(n).cards[0].evidence.planConfirmed,false));ok(()=>assert.equal(student(n).cards[0].evidence.planChanged,false));
++  ok(()=>assert.equal(student(n).cards[0].history.length,1));
++  ok(()=>assert.equal(Object.values(n.studio!.sources!).find(source=>source.cardId===id)!.version,1));
++ ok(()=>assert.equal(student(n).round,0));ok(()=>assert.equal(n.entries.length,0));ok(()=>assert.equal(n.agreements.length,0));
++ ok(()=>assert.equal(updateStudio(n,a,at,true),n));
++ n=updateStudio(n,{type:'studio.place',cardId:id},at,true);
++ n=updateStudio(n,{type:'legacy',command:{type:'run.start',cardId:id}},at,true);
++  let r=student(n).runs[0];ok(()=>assert.equal(r.support,'successive'));ok(()=>assert.equal(r.supportHistory.length,1));
++ n=updateStudio(n,{type:'legacy',command:{type:'run.pause',runId:r.id}},'2026-10-24T10:00:08.000Z',true);
++ n=updateStudio(n,{type:'legacy',command:{type:'run.flag',runId:r.id,flag:'authored checkpoint'}},'2026-10-24T10:00:08.000Z',true);
++ n=updateStudio(n,{type:'legacy',command:{type:'run.resume',runId:r.id}},'2026-10-24T10:00:12.000Z',true);
++ n=updateStudio(n,{type:'legacy',command:{type:'run.review',runId:r.id}},'2026-10-24T10:00:20.000Z',true);
++ n=updateStudio(n,{type:'legacy',command:{type:'run.close',runId:r.id,completion:'yes'}},'2026-10-24T10:00:21.000Z',true);
++ ok(()=>assert.equal(student(n).round,0));ok(()=>assert.equal(n.entries[0].status,'unobserved'));
++ ok(()=>assert.equal(practiceStats(n,id).uses,1));ok(()=>assert.equal(practiceStats(n,id).unanswered,1));
++ for(const value of ['yes','neutral','no'] as const)n=updateStudio(n,{type:'practice.respond',cardId:id,value},'2026-10-24T10:00:22.000Z',true);
++ ok(()=>assert.equal(practiceStats(n,id).responses,1));ok(()=>assert.equal(practiceStats(n,id).no,1));
++ ok(()=>assert.equal(n.studio!.practice!.attachments[id].reports.length,3));
++ n=validate(n);const backup=await exportBackup(n,'personal'),restored=await importBackup(backup,n);
++ ok(()=>assert.deepEqual(restored.studio!.practice,n.studio!.practice));
++ ok(()=>assert(practiceReport(n,'2026-10').replace(/&#39;/g,"'").replace(/&quot;/g,'"').replace(/&amp;/g,'&').includes(text(locale,'noEffect'))));
++ ok(()=>assert.equal(practiceReport(n,'2026-09'),''));
++ const other=structuredClone(n);other.studio!.locale=locale==='ko'?'en':'ko';
++ ok(()=>assert.equal(practiceTitle(other,student(other).cards[0]),content(other.studio!.locale,rec.id,'title')));
++ student(other).cards[0].title='student authored';ok(()=>assert.equal(practiceTitle(other,student(other).cards[0]),'student authored'));
++ ok(()=>assert.deepEqual(n.studio!.practice!.attachments[id].source,student(s).assessment));
++}
++{
++ let s=fixture();student(s).assessment!.axes.attention.level='low';
++ student(s).assessment!.supportOrder=['planning','attention'];
++ const rec=recommendations(s)[0],requestId=crypto.randomUUID();
++ const a={type:'practice.add' as const,templateId:rec.id,stage:rec.stage,help:rec.help,requestId,task:{title:'actual learner task',scope:'two actual materials',firstAction:'pick one actual item',minutes:5,requestId,timeChosen:false}};
++ s=updateStudio(s,a,at,true);const id=student(s).cards[0].id;
++ s=updateStudio(s,{type:'legacy',command:{type:'card.plan',cardId:id}},at,true);
++ s=updateStudio(s,{type:'studio.place',cardId:id},at,true);
++ s=updateStudio(s,{type:'legacy',command:{type:'run.start',cardId:id}},at,true);
++ const run=student(s).runs[0];
++ s=updateStudio(s,{type:'legacy',command:{type:'run.review',runId:run.id}},'2026-10-24T10:01:00.000Z',true);
++ s=updateStudio(s,{type:'legacy',command:{type:'run.close',runId:run.id,completion:'yes'}},'2026-10-24T10:01:01.000Z',true);
++ ok(()=>assert.equal(student(s).round,1));ok(()=>assert.equal(s.entries[0].status,'performed'));
++ ok(()=>assert(recommendations(s).every(r=>r.target==='attention')));
++ ok(()=>assert.equal(updateStudio(s,a,at,true),s));ok(()=>assert.equal(student(validate(JSON.parse(JSON.stringify(s)))).round,1));
++}
++for(const stage of stages){
++ const s=fixture(stage);s.mode='personal';
++ ok(()=>assert.equal(recommendations(s).length,stage.startsWith('elementary')?0:2));
++}
++for(const kind of ['none','missing-order','invalid','tie','all-low','all-mid','all-high']){
++ const s=fixture(),p=student(s);
++ if(kind==='none')p.assessment=null;
++ if(kind==='invalid')p.assessment!.axes.planning.unit='mixed-unit';
++ if(kind==='missing-order'||kind==='all-low'){for(const axis of AXES)p.assessment!.axes[axis].level='low';p.assessment!.supportOrder=kind==='all-low'?[...AXES]:undefined;}
++ if(kind==='all-mid'||kind==='all-high')for(const axis of AXES)p.assessment!.axes[axis].level=kind==='all-mid'?'mid':'high';
++ if(kind==='tie'){p.assessment!.axes.attention.level='high';p.assessment!.strengthOrder=undefined;}
++ const r=recommendations(s);ok(()=>assert.equal(r.length,2));ok(()=>assert.equal(student(s).round,0));
++ if(['none','missing-order','invalid'].includes(kind))ok(()=>assert(r.every(x=>x.basis==='general'&&x.target==='integrated')));
++}
++ok(()=>assert.equal(templateIds.length,10));ok(()=>assert.equal(templateIds.length*stages.length,50));
++fs.mkdirSync('generated-artifacts/studio-practice',{recursive:true});
++fs.writeFileSync('generated-artifacts/studio-practice/automatic-summary.json',JSON.stringify({assertions:count,locales:locales.length,combinations:81,ages:5,templates:10,ageVariants:50,browser:false},null,2));
++console.log(`PASS daily practice ${count} assertions: 81×5 age contracts; 15 locales; create/run/backup/provenance/no auto credit.`);
+--- /dev/null
++++ b/tools/nuvia-studio/run-practice-check.mjs
+@@ -0,0 +1,8 @@
++import {createRequire} from 'node:module';
++import {spawnSync} from 'node:child_process';
++import fs from 'node:fs';
++const require=createRequire(new URL('../../artifacts/nuvia-ui-review/package.json',import.meta.url));
++const {build}=createRequire(require.resolve('vite'))('esbuild');
++fs.mkdirSync('generated-artifacts/studio-practice',{recursive:true});
++await build({entryPoints:['tools/nuvia-studio/practice-check.ts'],bundle:true,platform:'node',format:'esm',outfile:'generated-artifacts/studio-practice/check.mjs'});
++process.exitCode=spawnSync(process.execPath,['generated-artifacts/studio-practice/check.mjs'],{stdio:'inherit'}).status??1;

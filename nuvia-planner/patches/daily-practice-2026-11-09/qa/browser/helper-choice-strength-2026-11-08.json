@@ -1,0 +1,37 @@
+{
+  "build": "requester-managed post-restart helper-label fix; build ID not observed",
+  "route": "/practice-compare.html",
+  "scope": "high-stage DEV-only manual choice survives source-strength change; no Add/start",
+  "before": {
+    "stage": "high",
+    "target": "planning",
+    "strength": "simultaneous",
+    "dates": [
+      "2026-11-10",
+      "2026-11-12"
+    ]
+  },
+  "manualChoice": {
+    "id": "practice-help-choice-attention",
+    "label": "한 가지 강조",
+    "pressed": true
+  },
+  "after": {
+    "stage": "high",
+    "target": "planning",
+    "strength": "successive",
+    "dates": [
+      "2026-11-10",
+      "2026-11-12"
+    ],
+    "previewRemainedOpen": true,
+    "onlyPressed": [
+      "practice-help-choice-attention"
+    ],
+    "capacity": "0 completed; 0 planned; 90 free"
+  },
+  "issues": [],
+  "addClicked": false,
+  "taskCount": 0,
+  "screenshot": "dlefbv"
+}

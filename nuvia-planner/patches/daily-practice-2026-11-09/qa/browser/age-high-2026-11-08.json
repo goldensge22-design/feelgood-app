@@ -1,0 +1,89 @@
+{
+  "route": "/practice-compare.html (DEV-only)",
+  "build": "6409 requester-confirmed fixed build",
+  "stage": "high",
+  "status": "pass on current fixed build",
+  "locale": "ko",
+  "currentFixValidation": {
+    "target": "planning",
+    "strengthBefore": "simultaneous",
+    "strengthAfter": "successive",
+    "targetUnchanged": true,
+    "previewStayedOpen": true,
+    "defaultHelp": {
+      "before": "practice-help-choice-simultaneous (not manually selected)",
+      "after": "practice-help-choice-successive",
+      "followedUpdatedRecommendation": true
+    },
+    "authored": {
+      "title": "QA-high-date-persist",
+      "action": "Compare two deadlines and choose one action",
+      "scope": "Complete one concrete step before the earlier date"
+    },
+    "ageDetails": [
+      {
+        "id": "practice-detail-0",
+        "type": "date",
+        "value": "2026-11-10"
+      },
+      {
+        "id": "practice-detail-1",
+        "type": "date",
+        "value": "2026-11-12"
+      },
+      {
+        "id": "practice-detail-2",
+        "type": "text",
+        "value": "QA condition A"
+      },
+      {
+        "id": "practice-detail-3",
+        "type": "text",
+        "value": "QA condition B"
+      }
+    ],
+    "valuesPersistedAfterStrengthChange": true,
+    "successiveHelpSteps": [
+      "Compare two deadlines and choose one action",
+      "Complete one concrete step before the earlier date"
+    ],
+    "onlyActionAndScopeBecameSteps": true,
+    "datesAndConditionsExcludedFromSteps": true,
+    "add": {
+      "explicitlyClickedOnce": true,
+      "confirmation": "선반에 추가했어요. 시작은 직접 눌러 주세요.",
+      "disabledAfterAdd": true,
+      "taskAppearedOnce": true,
+      "taskDate": "2026-11-10",
+      "status": "pending; not started",
+      "runPanelAbsent": true,
+      "selectedPlanDate": "2026-11-08",
+      "selectedDateCounters": "0 done / 0 planned / 90 available"
+    },
+    "pageIssues": []
+  },
+  "historicalPreFixBehavior": {
+    "status": "superseded by current fix; not current behavior",
+    "priorBuild": "two fresh pre-fix contexts",
+    "observation": "changing strength simultaneous→successive unmounted the high preview; no task/counter change and no page issues. Persistence after reopening was not assessed, so no data-loss claim is made.",
+    "oldAttemptValues": {
+      "title": "QA-high-date-persist",
+      "date": "2026-11-10",
+      "deadline": "2026-11-12",
+      "conditions": [
+        "QA high condition A",
+        "QA high condition B"
+      ]
+    },
+    "screenshots": [
+      "yurkfm",
+      "480wlw"
+    ]
+  },
+  "testNote": "The first post-Add card locator targeted the selected 2026-11-08 day and timed out; direct read-only DOM/AX inspection confirmed the single item on 2026-11-10. This was a test-locator scope issue, not an app failure.",
+  "screenshots": [
+    "gbu8do",
+    "xp1caf",
+    "49jvqi"
+  ]
+}
