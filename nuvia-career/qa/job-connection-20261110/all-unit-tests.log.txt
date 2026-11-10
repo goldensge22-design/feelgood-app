@@ -1,0 +1,40 @@
+✔ conflict recovery remaps dependencies without overwriting server records (1.28ms)
+✔ recovering an edited imported experience never creates duplicate source imports (0.2475ms)
+✔ report reader preserves supplied job order and never fills the list (0.2026ms)
+✔ four processing strategies remain separate from generic skill labels (0.1832ms)
+✔ job source scope mismatches are explicit and never silently blended (2.8127ms)
+✔ official and public source labels need a reference and matching company/job before student review (0.3294ms)
+✔ student review is bound to the company, role, question, selected experience and experience contents (0.5609ms)
+✔ editing notes clears review, but untouched review stays available for its exact context (0.3297ms)
+✔ returning edited experience details to the old text does not revive an earlier review (0.7463ms)
+✔ immutable version captures only selected experiences and restores notes into a new draft (4.1566ms)
+✔ job coach asks about missing concrete duty, relationship, principle and future use without generating content (0.9694ms)
+✔ source kind stays a user-selected label and does not promote synthetic or unconfirmed experience (0.1824ms)
+✔ an older experience keeps context unknown unless a student explicitly chooses one (0.1394ms)
+✔ all 15 locales contain every interface key and preserve placeholders (23.9745ms)
+✔ locale aliases and RTL locale identity remain explicit (0.2322ms)
+✔ every literal UI translation reference has a defined source key (17.8226ms)
+✔ every provenance key has all 15 non-empty translations (1.0962ms)
+✔ report adapter keeps supplied order and never fills (0.8302ms)
+✔ synthetic seeds are explicit, distinct and exclude private notes (0.2127ms)
+✔ synthetic seeds localize for all 14 non-Korean locales and keep structure (0.5911ms)
+✔ public path is explicit and preserves other product routes (1.1867ms)
+✔ synthetic client demo cannot become an account workspace; normal auth remains unchanged (0.256ms)
+✔ legacy experiences remain unclassified and missing STAR details are never invented (1.9871ms)
+✔ planner-selected fields are reused instead of asked again (0.2637ms)
+✔ simulation keeps its context and asks separately about received support and independent choices (0.2803ms)
+✔ a fully described story gets one reflection question, not a score or verified badge (0.2163ms)
+✔ motivation, values and plans retain the existing question flow unless the student opts into STAR (1.2212ms)
+✔ motivation, values and future-plan prompts are recognized in all supported UI languages (1.7285ms)
+✔ restoring a historical draft edits only its sidecar snapshot; the saved version stays unchanged (0.5275ms)
+✔ a response remains valid during edits and language changes in the same workspace (1.1259ms)
+✔ an outstanding reply cannot modify another account or a guest workspace (0.2062ms)
+✔ leaving and returning to the same identity still rejects the old session reply (0.2771ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 965.0861

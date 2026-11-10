@@ -1,7 +1,7 @@
 import { FlaskConical, HardDrive, ShieldAlert } from 'lucide-react';
 import type { CareerExperience } from '@workspace/api-client-react';
 import { useI18n } from '@/lib/i18n';
-import { appExpMeta, metaOf, sourceStatusOf, useSidecar, type ExpMeta, type Nature, type SourceStatus } from '@/lib/provenance';
+import { appExpMeta, metaOf, sourceStatusOf, useSidecar, type ExpMeta, type ExperienceContext, type Nature, type SourceStatus } from '@/lib/provenance';
 import { cn } from '@/lib/utils';
 
 const NATURE_STYLE: Record<Nature, string> = {
@@ -15,11 +15,21 @@ export function NatureBadge({ nature, testId }: { nature: Nature; testId?: strin
   return <span className={cn('inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold', NATURE_STYLE[nature])} data-testid={testId}>{t(`pv.nt.${nature}`)}</span>;
 }
 
+function contextLabel(context: ExperienceContext) {
+  const key = context === 'daily_activity' ? 'daily'
+    : context === 'class_simulation' ? 'classSimulation'
+      : context === 'job_experience' ? 'jobExperience'
+        : context === 'synthetic_example' ? 'synthetic' : 'unknown';
+  return `joblink.context.${key}`;
+}
+
 export function MetaBadges({ e, m, status, compact }: { e: CareerExperience; m: ExpMeta; status: SourceStatus | null; compact?: boolean }) {
   const { t } = useI18n();
   return (
     <div className="flex flex-wrap items-center gap-1.5" data-testid={`badges-prov-${e.id}`}>
       <NatureBadge nature={m.nature} testId={`badge-nature-${e.id}`} />
+      <span className="rounded-full border border-muted-foreground/20 bg-muted px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+        data-testid={`badge-experience-context-${e.id}`}>{t(contextLabel(m.experienceContext ?? (m.synthetic ? 'synthetic_example' : 'unknown')))}</span>
       <span className="rounded-full border border-blue/30 bg-blue-soft px-2 py-0.5 text-[10px] font-medium text-blue" data-testid={`badge-cardtype-${e.id}`}>
         {m.cardType ? t(`pv.ct.${m.cardType}`) : t('pv.ct.unset')}
       </span>

@@ -18,6 +18,9 @@ import { STRENGTHS, activityVersion, safeUrl, uid, strengthTranslationKey } from
 import { useToast } from '@/hooks/use-toast';
 import { EmptyState, NextSteps, OriginalContent, PageHeader, StrengthChip, WorkspaceGate, useCriterionText } from '@/components/common';
 import { cn } from '@/lib/utils';
+import { invalidateJobConnectionReviews, metaOf, setExpMeta, setStarNotes, useSidecar, type ExperienceContext } from '@/lib/provenance';
+import { storyValues, type StarStoryValues } from '@/lib/star-story';
+import { StarStoryFields } from '@/components/provenance/star-story-fields';
 
 const blank = (criterionIds: string[] = []): CareerExperience => ({
   id: uid('exp'), title: '', action: '', result: '', learning: '', strengths: [], criterionIds, confirmed: false, source: 'manual',
@@ -31,6 +34,21 @@ export function permissionOf(e: CareerExperience, s: CareerState): string | null
   }
   if (e.permissionStatus && e.permissionStatus !== 'current') return e.permissionStatus;
   return null;
+}
+
+function StarSummary({ e, meta }: { e: CareerExperience; meta: ReturnType<typeof metaOf> }) {
+  const { t } = useI18n();
+  const story = storyValues(e, meta);
+  if (!story.situation && !story.roleGoal) return null;
+  return (
+    <div className="mt-3 border-t pt-3" data-testid={`summary-star-${e.id}`}>
+      <dl className="space-y-2 text-sm">
+        {story.situation && <div><dt className="text-[11px] font-semibold text-muted-foreground">{t('star.field.situation')}</dt><dd><OriginalContent as="div" className="whitespace-pre-wrap">{story.situation}</OriginalContent></dd></div>}
+        {story.roleGoal && <div><dt className="text-[11px] font-semibold text-muted-foreground">{t('star.field.roleGoal')}</dt><dd><OriginalContent as="div" className="whitespace-pre-wrap">{story.roleGoal}</OriginalContent></dd></div>}
+      </dl>
+      <p className="mt-2 text-[11px] text-muted-foreground">{t('star.deviceNote')}</p>
+    </div>
+  );
 }
 
 export function StrengthPicker({ value, onChange }: { value: string[]; onChange: (v: string[]) => void }) {
@@ -67,12 +85,15 @@ export function CriterionPicker({ criteria, value, onChange }: { criteria: Caree
   );
 }
 
-function ExperienceDialog({ open, initial, criteria, onClose, onSave }: {
-  open: boolean; initial: CareerExperience | null; criteria: CareerCriterion[]; onClose: () => void; onSave: (e: CareerExperience) => void;
+function ExperienceDialog({ open, initial, initialStar, initialContext, criteria, onClose, onSave }: {
+  open: boolean; initial: CareerExperience | null; initialStar: StarStoryValues; initialContext: ExperienceContext; criteria: CareerCriterion[]; onClose: () => void; onSave: (e: CareerExperience, star: StarStoryValues, context: ExperienceContext) => boolean;
 }) {
   const { t } = useI18n();
   const [d, setD] = useState<CareerExperience>(initial ?? blank());
-  useEffect(() => { if (initial) setD(initial); }, [initial]);
+  const [star, setStar] = useState<StarStoryValues>(initialStar);
+  const [context, setContext] = useState<ExperienceContext>(initialContext);
+  const [saveError, setSaveError] = useState(false);
+  useEffect(() => { if (initial) setD(initial); setContext(initialContext); }, [initial, initialContext]);
   const set = <K extends keyof CareerExperience>(k: K, v: CareerExperience[K]) => setD((p) => ({ ...p, [k]: v }));
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
@@ -88,6 +109,25 @@ function ExperienceDialog({ open, initial, criteria, onClose, onSave }: {
               <p className="text-xs text-muted-foreground">{t(`field.${k}.help`)}</p>
               <Textarea id={`exp-${k}`} dir="auto" rows={3} className="mt-1.5" maxLength={20000} value={d[k]} onChange={(e) => set(k, e.target.value)} data-testid={`input-exp-${k}`} /></div>
           ))}
+          <section className="space-y-3 rounded-xl border border-blue/20 bg-blue/5 p-4" data-testid="section-star-experience">
+            <div>
+              <h3 className="text-sm font-semibold">{t('star.archiveTitle')}</h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t('star.archiveNote')}</p>
+            </div>
+            <StarStoryFields value={star} onChange={setStar} testPrefix="archive-star" includeCoreFields={false} />
+            {saveError && <p role="alert" className="text-xs text-destructive">{t('star.archiveSaveError')}</p>}
+          </section>
+          <div className="space-y-2">
+            <label htmlFor="exp-context" className="text-sm font-medium">{t('joblink.contextTitle')}</label>
+            <p className="text-xs leading-relaxed text-muted-foreground">{t('joblink.contextNote')}</p>
+            <select id="exp-context" value={context} onChange={(event) => setContext(event.target.value as ExperienceContext)}
+              className="min-h-11 w-full rounded-lg border bg-card px-3 text-sm" data-testid="select-exp-context">
+              {(['daily_activity', 'class_simulation', 'job_experience', 'unknown'] as const).map((value) => {
+                const key = value === 'daily_activity' ? 'daily' : value === 'class_simulation' ? 'classSimulation' : value === 'job_experience' ? 'jobExperience' : 'unknown';
+                return <option key={value} value={value}>{t(`joblink.context.${key}`)}</option>;
+              })}
+            </select>
+          </div>
           <div><Label>{t('exp.strengths')}</Label><p className="mb-2 text-xs text-muted-foreground">{t('exp.strengthsHelp')}</p><StrengthPicker value={d.strengths} onChange={(v) => set('strengths', v)} /></div>
           <div><Label>{t('exp.criteria')}</Label><p className="mb-2 text-xs text-muted-foreground">{t('exp.criteriaHelp')}</p><CriterionPicker criteria={criteria} value={d.criterionIds} onChange={(v) => set('criterionIds', v)} /></div>
           <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-lg border border-primary/30 bg-primary/5 p-3">
@@ -97,7 +137,7 @@ function ExperienceDialog({ open, initial, criteria, onClose, onSave }: {
         </div>
         <DialogFooter className="gap-2">
           <Button variant="outline" className="min-h-11" onClick={onClose}>{t('common.cancel')}</Button>
-          <Button className="min-h-11" disabled={!d.title.trim()} onClick={() => onSave(d)} data-testid="button-save-exp">{t('common.save')}</Button>
+           <Button className="min-h-11" disabled={!d.title.trim()} onClick={() => { setSaveError(false); if (!onSave(d, star, context)) setSaveError(true); }} data-testid="button-save-exp">{t('common.save')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -105,7 +145,8 @@ function ExperienceDialog({ open, initial, criteria, onClose, onSave }: {
 }
 
 export default function ExperiencesPage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+  const { data: sidecar, patch } = useSidecar();
   const { update, setSelectedExpId, selectedExpId } = useWorkspace();
   const ctext = useCriterionText();
   const search = useSearch();
@@ -159,6 +200,7 @@ export default function ExperiencesPage() {
                 <div className="grid gap-4 md:grid-cols-2">
                   {list.map((e) => {
                     const perm = permissionOf(e, state);
+                    const expMeta = metaOf(sidecar, e.id);
                     const url = safeUrl(e.sourceUrl);
                     const usedIn = state.applications.filter((a) => a.experienceIds.includes(e.id)).length;
                     return (
@@ -177,6 +219,7 @@ export default function ExperiencesPage() {
                              <div key={k}><dt className="text-[11px] font-semibold text-muted-foreground">{t(`field.${k}`)}</dt><dd><OriginalContent as="div" className="whitespace-pre-wrap leading-relaxed">{e[k]}</OriginalContent></dd></div>
                           ))}
                         </dl>
+                        <StarSummary e={e} meta={expMeta} />
                         {e.strengths.length > 0 && <div className="mt-3 flex flex-wrap gap-1.5">{e.strengths.map((s) => <StrengthChip key={s} value={s} />)}</div>}
                         {e.criterionIds.length > 0 && (
                           <div className="mt-2 flex flex-wrap gap-1.5">{e.criterionIds.map((id) => { const c = state.criteria.find((x) => x.id === id); return <span key={id} className="rounded border px-1.5 py-0.5 text-[11px] text-muted-foreground">{c ? ctext(c).title : id}</span>; })}</div>
@@ -195,8 +238,27 @@ export default function ExperiencesPage() {
                   })}
                 </div>
               )}
-              <ExperienceDialog open={!!editing} initial={editing} criteria={state.criteria} onClose={() => setEditing(null)}
-                onSave={(d) => {
+              <ExperienceDialog key={editing?.id ?? 'closed'} open={!!editing} initial={editing}
+                initialStar={editing ? storyValues(editing, metaOf(sidecar, editing.id)) : { action: '', result: '', learning: '' }}
+                initialContext={editing ? metaOf(sidecar, editing.id).experienceContext ?? 'unknown' : 'unknown'}
+                criteria={state.criteria} onClose={() => setEditing(null)}
+                onSave={(d, star, context) => {
+                  const previous = storyValues(d, metaOf(sidecar, d.id));
+                  const previousExperience = state.experiences.find((item) => item.id === d.id);
+                  const starChanged = (['situation', 'roleGoal', 'selectionReason', 'resultEvidence'] as const)
+                    .some((key) => (star[key] ?? '') !== (previous[key] ?? ''));
+                  const previousContext = metaOf(sidecar, d.id).experienceContext ?? 'unknown';
+                  const experienceChanged = !!previousExperience && (
+                    previousExperience.title !== d.title || previousExperience.action !== d.action
+                    || previousExperience.result !== d.result || previousExperience.learning !== d.learning
+                  );
+                  if ((starChanged || context !== previousContext || experienceChanged) && !patch((current) => {
+                    let next = current;
+                    if (starChanged) next = setStarNotes(next, d.id, star);
+                    if (context !== previousContext) next = setExpMeta(next, d.id, { experienceContext: context, origin: metaOf(next, d.id).origin ?? d.source });
+                    if (experienceChanged) next = invalidateJobConnectionReviews(next, { experienceId: d.id });
+                    return next;
+                  })) return false;
                   update((s) => {
                     const valid = new Set(s.criteria.map((c) => c.id));
                     const clean = { ...d, criterionIds: d.criterionIds.filter((x) => valid.has(x)) };
@@ -205,6 +267,7 @@ export default function ExperiencesPage() {
                   });
                   setEditing(null);
                   toast({ title: t('common.saved') });
+                  return true;
                 }} />
               <AlertDialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
                 <AlertDialogContent>

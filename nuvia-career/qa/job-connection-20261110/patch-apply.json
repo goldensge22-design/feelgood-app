@@ -1,0 +1,507 @@
+{
+  "checkedAt": "2026-11-10T06:06:37.917988+00:00",
+  "baseline": "b2afd61bdc34818e529985e994b743969a7cd7c4",
+  "gitApplyCheck": true,
+  "actualApply": true,
+  "contentMatches": true,
+  "verifiedFiles": 95,
+  "lineEndings": "Text CRLF/LF normalized where applicable; binary exact bytes verified",
+  "textPathsWithEolNormalization": [
+    "nuvia-career/docs/nuvia-job-connection-handoff.md",
+    "nuvia-career/qa/job-connection-20261110/STATUS.json",
+    "nuvia-career/qa/job-connection-20261110/all-unit-tests.log.txt",
+    "nuvia-career/qa/job-connection-20261110/browser-run-1.json",
+    "nuvia-career/qa/job-connection-20261110/browser-run-2.json",
+    "nuvia-career/qa/job-connection-20261110/browser-run-3.json",
+    "nuvia-career/qa/job-connection-20261110/browser-run-4.json",
+    "nuvia-career/qa/job-connection-20261110/browser-summary.json",
+    "nuvia-career/qa/job-connection-20261110/build.log.txt",
+    "nuvia-career/qa/job-connection-20261110/download-checksums.json",
+    "nuvia-career/qa/job-connection-20261110/host-overlay/artifacts/api-server/qa-local-server.ts",
+    "nuvia-career/qa/job-connection-20261110/host-overlay/scripts/src/qa-local-job-connection.ts",
+    "nuvia-career/qa/job-connection-20261110/host-overlay/scripts/src/qa-local-job-documents.ts",
+    "nuvia-career/qa/job-connection-20261110/source-equality.json",
+    "nuvia-career/qa/job-connection-20261110/source-manifest.json",
+    "nuvia-career/qa/job-connection-20261110/typecheck.log.txt",
+    "nuvia-career/scripts/src/nuvia-star-story-localization-document-qa.ts",
+    "nuvia-career/scripts/src/nuvia-star-story-localization-qa.ts"
+  ],
+  "scope": "entire staged app/QA/docs patch before adding this verification record and final status; final patch rechecked separately",
+  "files": [
+    {
+      "path": "nuvia-career/AGENTS.md",
+      "gitBlobSha256": "9c8e213d4b8af46745d2b80f833d2541802a128a6f6b3c15485629571be9bb83",
+      "appliedSha256": "9c8e213d4b8af46745d2b80f833d2541802a128a6f6b3c15485629571be9bb83"
+    },
+    {
+      "path": "nuvia-career/README.md",
+      "gitBlobSha256": "d2a1be2fe1b18b99d32efac5bb6c9ea26fd3de75a839770478cf6fba9d7b9dea",
+      "appliedSha256": "d2a1be2fe1b18b99d32efac5bb6c9ea26fd3de75a839770478cf6fba9d7b9dea"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/badges.tsx",
+      "gitBlobSha256": "71ecc24b5866f8e919a488e7bd3569438fb54916252c7d8cdbd44f6595d1a884",
+      "appliedSha256": "71ecc24b5866f8e919a488e7bd3569438fb54916252c7d8cdbd44f6595d1a884"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/context-coach.tsx",
+      "gitBlobSha256": "1e4ec80ecb6103f133e97ff409c68a2f465e31a3dc74cc13c45d05b5f970b151",
+      "appliedSha256": "1e4ec80ecb6103f133e97ff409c68a2f465e31a3dc74cc13c45d05b5f970b151"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/experience-detail.tsx",
+      "gitBlobSha256": "4f430a5163aa12f701acd446b3cd0eac383794f4d7387e94ee97177b36894cba",
+      "appliedSha256": "4f430a5163aa12f701acd446b3cd0eac383794f4d7387e94ee97177b36894cba"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/experience-story-help.tsx",
+      "gitBlobSha256": "23fee944731fae4d569665a95d9f245060422d470add4bfb9e7b2359bd242e94",
+      "appliedSha256": "23fee944731fae4d569665a95d9f245060422d470add4bfb9e7b2359bd242e94"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/job-connection-notes.tsx",
+      "gitBlobSha256": "2c05801f43a3ddc19874019c7a3758da8355f6f9389e4053569543012a9fd7fa",
+      "appliedSha256": "2c05801f43a3ddc19874019c7a3758da8355f6f9389e4053569543012a9fd7fa"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/star-story-fields.tsx",
+      "gitBlobSha256": "ff5e44cc13153d78f7439cec874f36dd23839c21f90ae57b7cab4cc0db88536d",
+      "appliedSha256": "ff5e44cc13153d78f7439cec874f36dd23839c21f90ae57b7cab4cc0db88536d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/synthetic-actions.ts",
+      "gitBlobSha256": "2b32f5716a85841a6c20d8890d66db510cff26f89b7749f2180e5b745a39d243",
+      "appliedSha256": "2b32f5716a85841a6c20d8890d66db510cff26f89b7749f2180e5b745a39d243"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/version-provenance.tsx",
+      "gitBlobSha256": "71025442b55b9543d381909e4905da1865e8fdcab0c49c65f2eca59b5a80a2aa",
+      "appliedSha256": "71025442b55b9543d381909e4905da1865e8fdcab0c49c65f2eca59b5a80a2aa"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/i18n.tsx",
+      "gitBlobSha256": "b27bd82103414fbe309c15f5d91e872b91a88ef8f40660513a1baa685114050c",
+      "appliedSha256": "b27bd82103414fbe309c15f5d91e872b91a88ef8f40660513a1baa685114050c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/job-connection-messages.ts",
+      "gitBlobSha256": "b3feb49065780cf37d681eef0d6544541988f914bacbbf917887ea53738d9d9f",
+      "appliedSha256": "b3feb49065780cf37d681eef0d6544541988f914bacbbf917887ea53738d9d9f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/job-connection.test.ts",
+      "gitBlobSha256": "f72a215bcb32a4a6cd8c8da32bfba0bf417a4a4f03b01b387b7668be6d5ea8d4",
+      "appliedSha256": "f72a215bcb32a4a6cd8c8da32bfba0bf417a4a4f03b01b387b7668be6d5ea8d4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/locales.test.ts",
+      "gitBlobSha256": "f912a9973d2f1afac64ff9021df2989f2274ad96f4eac2350ddc330ab2932c49",
+      "appliedSha256": "f912a9973d2f1afac64ff9021df2989f2274ad96f4eac2350ddc330ab2932c49"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/provenance-messages.ts",
+      "gitBlobSha256": "4b1d3d9eead91b6af24088f357dcf1e6b8789a4055446e3b0e6fb3cee30115bf",
+      "appliedSha256": "4b1d3d9eead91b6af24088f357dcf1e6b8789a4055446e3b0e6fb3cee30115bf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/provenance.ts",
+      "gitBlobSha256": "9b107cb822736e9a778bfcd532e71a81d58bc5adb5f2f9611bfb44354b5bf948",
+      "appliedSha256": "9b107cb822736e9a778bfcd532e71a81d58bc5adb5f2f9611bfb44354b5bf948"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/star-story-messages.ts",
+      "gitBlobSha256": "074b2b187121177db709770f708e7ac283af699a74d17cc8d6900015b14e41dd",
+      "appliedSha256": "074b2b187121177db709770f708e7ac283af699a74d17cc8d6900015b14e41dd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/star-story.test.ts",
+      "gitBlobSha256": "a168d63e07cde8473901a7c92b1569dcb6e8d021b3729b557ab5b66b6bc359a8",
+      "appliedSha256": "a168d63e07cde8473901a7c92b1569dcb6e8d021b3729b557ab5b66b6bc359a8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/star-story.ts",
+      "gitBlobSha256": "b52b0dc94e3246e4a64efbcbc1847b9394eed00f6673a53984df930f565f19ac",
+      "appliedSha256": "b52b0dc94e3246e4a64efbcbc1847b9394eed00f6673a53984df930f565f19ac"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/experiences.tsx",
+      "gitBlobSha256": "21890848284c5fb47e1a719e45a183b245ba78bf1ff7ba374b1098a261a03635",
+      "appliedSha256": "21890848284c5fb47e1a719e45a183b245ba78bf1ff7ba374b1098a261a03635"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/questions.tsx",
+      "gitBlobSha256": "d94fbeb565fdd34adaf4139b1ae8041167ba39903f9f70c56374321ae9fc3cec",
+      "appliedSha256": "d94fbeb565fdd34adaf4139b1ae8041167ba39903f9f70c56374321ae9fc3cec"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/write.tsx",
+      "gitBlobSha256": "8122d885cd7191a1a413ebb833f077f20021dcbdffaec833532ec2a67703c0b1",
+      "appliedSha256": "8122d885cd7191a1a413ebb833f077f20021dcbdffaec833532ec2a67703c0b1"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-job-connection-handoff.md",
+      "gitBlobSha256": "204c31ea7abb483dee0cf8aefa5ae191dd4447037e2b0ff86582c32d6227622b",
+      "appliedSha256": "0857ef67ae4cc9aa11f2b0a7392b142b3435ec0b441ef97f4e6989de49ebc1b0"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-job-connection-rules.md",
+      "gitBlobSha256": "615a1a35b15f2e0556b358d8b80e1be784c3edbb62eaa9bbe17674d733fd138a",
+      "appliedSha256": "615a1a35b15f2e0556b358d8b80e1be784c3edbb62eaa9bbe17674d733fd138a"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-star-story-patch.md",
+      "gitBlobSha256": "6053ba7521379e6e1a2e1fb317bb0354f92cd7b2c1e7ba4bcd9739253104acb5",
+      "appliedSha256": "6053ba7521379e6e1a2e1fb317bb0354f92cd7b2c1e7ba4bcd9739253104acb5"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/QA-REPORT.md",
+      "gitBlobSha256": "ee3d554843d2b6817d528dfd2ca3a459dde70378fb440ecf213b5c8f3f828796",
+      "appliedSha256": "ee3d554843d2b6817d528dfd2ca3a459dde70378fb440ecf213b5c8f3f828796"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/STATUS.json",
+      "gitBlobSha256": "da9773d786e8b12e03577c3e6a226904a9dfc6e09a64e21f895eadf87ca2184f",
+      "appliedSha256": "7358ad9496095a5832a528b7026dcd3a30d08165e5563c99a1db73a7e65d8907"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/all-unit-tests.log.txt",
+      "gitBlobSha256": "cf67005311f96252063524d7c68e482c4922b61dc1b4d698252e24b44f45aaf3",
+      "appliedSha256": "37a77b8d506b57977e63a870fd5a669cae14f828b015c62d04509f27da4a3aca"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/ar-360.jpg",
+      "gitBlobSha256": "ac3a4ad1db09b7e8164b589f283dcf9794cf2ca7405ee9827518c8adde27f508",
+      "appliedSha256": "ac3a4ad1db09b7e8164b589f283dcf9794cf2ca7405ee9827518c8adde27f508"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/browser-run-1.json",
+      "gitBlobSha256": "2aa64a98180bf32b563aee1d02dd75945e3ab36812cc2a6440a3641c093ee952",
+      "appliedSha256": "a14c64929e1a90dba5cbab5461d7bb4c454d90290ce0b6946b83962f44d1839a"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/browser-run-2.json",
+      "gitBlobSha256": "f7464832e833c871527aeb29c392a32c5e9fc0fccd62ba8e1c4721b287add536",
+      "appliedSha256": "3a1560f7bfcf38e2e534cd86c688d497d6958533300dfa9eb7be060f16e1e4fc"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/browser-run-3.json",
+      "gitBlobSha256": "ae0b25d219b476e1fe6447095909845adaf22b67e7193199a789bf737929c2c2",
+      "appliedSha256": "468f273dd12c7f730deb3c6ae83c7e39f8d9589c4fb65d3e13f08fabd6ca3d19"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/browser-run-4.json",
+      "gitBlobSha256": "49cd6ece2a4dc6e1330e8340200e641c49ebe8b6f84d9487c8357c0e1890abcc",
+      "appliedSha256": "335520b926f2e37258efe5eaf60eebeb7e3d26ddc0e632d8f8426e21192fb3e7"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/browser-summary.json",
+      "gitBlobSha256": "cdd23b5784352e550fa69edae5d4a54644713cd62492f77e02390e759541e77d",
+      "appliedSha256": "fa21074f30966509f85ae91a1010e57b92c9c07582e50792f9b1ab68133a08b2"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/build.log.txt",
+      "gitBlobSha256": "138cbdabdb91c9dd67dea796045cfd4dc5007ed9c0a14a9fa8471e2623d2d2e4",
+      "appliedSha256": "f88f0b0f0c948314f4f8b123b53af62318ec44428dd7d1a31b59523208032e11"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/document-checks.json",
+      "gitBlobSha256": "b808ecbe6abce89ed2aa355fc9dee22ea47e41a2dda26600cb44fe61021389a3",
+      "appliedSha256": "b808ecbe6abce89ed2aa355fc9dee22ea47e41a2dda26600cb44fe61021389a3"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/download-checksums.json",
+      "gitBlobSha256": "d2415c6ba0e1dba96019ff5debe71bb9ac28dddb60b1ba3c8545c1b5483e912c",
+      "appliedSha256": "1b0acb0596e74a676064898923d54d1fcb8b0613c5464117032407336564573c"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ar.docx",
+      "gitBlobSha256": "eb43d311542765ddf5fe02e482b20cec17552cb56f446ed220a364529ef57356",
+      "appliedSha256": "eb43d311542765ddf5fe02e482b20cec17552cb56f446ed220a364529ef57356"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ar.hwpx",
+      "gitBlobSha256": "85235041aa2102dc8dbf8b9107e8ec7b2a3fd596d0d1ecac4c407379a320b56c",
+      "appliedSha256": "85235041aa2102dc8dbf8b9107e8ec7b2a3fd596d0d1ecac4c407379a320b56c"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ar.txt",
+      "gitBlobSha256": "234a9f674788dc11c5c621b4aa4e5370f0f04af4bdf11be3c25f992c346e41fe",
+      "appliedSha256": "234a9f674788dc11c5c621b4aa4e5370f0f04af4bdf11be3c25f992c346e41fe"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/az.docx",
+      "gitBlobSha256": "28094f8fdf3235ce9f2fb978455fc9c853f8374c3232ee0d3c2db8e8aed085b8",
+      "appliedSha256": "28094f8fdf3235ce9f2fb978455fc9c853f8374c3232ee0d3c2db8e8aed085b8"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/az.hwpx",
+      "gitBlobSha256": "f0ecc5fb998f401958ccb8a623eaeee689e4a02df157efa8083d233fd9823a8e",
+      "appliedSha256": "f0ecc5fb998f401958ccb8a623eaeee689e4a02df157efa8083d233fd9823a8e"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/az.txt",
+      "gitBlobSha256": "642d576797a336c0d8413aa2ab160589df3f4dd5173df28c7fdd9536b7d3089b",
+      "appliedSha256": "642d576797a336c0d8413aa2ab160589df3f4dd5173df28c7fdd9536b7d3089b"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/en.docx",
+      "gitBlobSha256": "bce2df4a46625c4b75305c02db98d75b0c61dad950d8440a3a866fadab3612d6",
+      "appliedSha256": "bce2df4a46625c4b75305c02db98d75b0c61dad950d8440a3a866fadab3612d6"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/en.hwpx",
+      "gitBlobSha256": "78c913a1f8ad5a554836d73ae9423429f40a67baa133e45d4cc67823c8d2dee3",
+      "appliedSha256": "78c913a1f8ad5a554836d73ae9423429f40a67baa133e45d4cc67823c8d2dee3"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/en.txt",
+      "gitBlobSha256": "786faa4e7d5623d4f60e4eeac70e996f429faac28d140ced5581a39242f8bdc2",
+      "appliedSha256": "786faa4e7d5623d4f60e4eeac70e996f429faac28d140ced5581a39242f8bdc2"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/es.docx",
+      "gitBlobSha256": "19c57005715f5679b8d67338082484de444620b64a19e86612a31bcd61f89b6e",
+      "appliedSha256": "19c57005715f5679b8d67338082484de444620b64a19e86612a31bcd61f89b6e"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/es.hwpx",
+      "gitBlobSha256": "80883a8f0f6ed7b5b5e56aecdf987d4e5bdf69224c74f8a3fded26c54b7b7dc8",
+      "appliedSha256": "80883a8f0f6ed7b5b5e56aecdf987d4e5bdf69224c74f8a3fded26c54b7b7dc8"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/es.txt",
+      "gitBlobSha256": "482cb20a042ba87af4f2d100c61a2e83866bfa0894709ab8d88bfed3ac3835e8",
+      "appliedSha256": "482cb20a042ba87af4f2d100c61a2e83866bfa0894709ab8d88bfed3ac3835e8"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/fr.docx",
+      "gitBlobSha256": "4febf44ca95f2fbf2a4a30021e804657536ff2c9952ca8c38650f42f9de4e2a2",
+      "appliedSha256": "4febf44ca95f2fbf2a4a30021e804657536ff2c9952ca8c38650f42f9de4e2a2"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/fr.hwpx",
+      "gitBlobSha256": "a260de0849cc55e874495ed0778d17628361ece6bbd3b95d64cd55add1472a4b",
+      "appliedSha256": "a260de0849cc55e874495ed0778d17628361ece6bbd3b95d64cd55add1472a4b"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/fr.txt",
+      "gitBlobSha256": "a5cd75aef50cc14d1aab3ac24949bc65eab6a035bcd5b90b13ef71d56f5f9964",
+      "appliedSha256": "a5cd75aef50cc14d1aab3ac24949bc65eab6a035bcd5b90b13ef71d56f5f9964"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/it.docx",
+      "gitBlobSha256": "06b84200857a6b85c3153d5a984ca4b4d10b5c811262a7598bc29091eeb7ce1f",
+      "appliedSha256": "06b84200857a6b85c3153d5a984ca4b4d10b5c811262a7598bc29091eeb7ce1f"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/it.hwpx",
+      "gitBlobSha256": "31dac79e74974656b1d046b1be1597ff5d6abab7d7ada75d5c894a44c97ba3a6",
+      "appliedSha256": "31dac79e74974656b1d046b1be1597ff5d6abab7d7ada75d5c894a44c97ba3a6"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/it.txt",
+      "gitBlobSha256": "7ac85737eb4e2d47aae69ba556e2fc39fbb27412c14bff4ad36d23c3b243e14b",
+      "appliedSha256": "7ac85737eb4e2d47aae69ba556e2fc39fbb27412c14bff4ad36d23c3b243e14b"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ja.docx",
+      "gitBlobSha256": "593057421341278fa79909a789d3d6f9c68329172a18e2ff7fff4df0756e8ab9",
+      "appliedSha256": "593057421341278fa79909a789d3d6f9c68329172a18e2ff7fff4df0756e8ab9"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ja.hwpx",
+      "gitBlobSha256": "3fc0211ee62ab9257439748307c08afe92e15cc5fddb5c0e00d42d2b20e36a49",
+      "appliedSha256": "3fc0211ee62ab9257439748307c08afe92e15cc5fddb5c0e00d42d2b20e36a49"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ja.txt",
+      "gitBlobSha256": "fb8139c024ba8b3334e9433b0a2d103505bdb13e9d9375aa0488f680d714c189",
+      "appliedSha256": "fb8139c024ba8b3334e9433b0a2d103505bdb13e9d9375aa0488f680d714c189"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/km.docx",
+      "gitBlobSha256": "a9d0c56ab5317ba866629d8708322049ce664b0210823196ac9a9de4a0975448",
+      "appliedSha256": "a9d0c56ab5317ba866629d8708322049ce664b0210823196ac9a9de4a0975448"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/km.hwpx",
+      "gitBlobSha256": "df66aa1eaff4d05639772c4e5cb3ec0ab34b4cae13936d42c036726bcae11266",
+      "appliedSha256": "df66aa1eaff4d05639772c4e5cb3ec0ab34b4cae13936d42c036726bcae11266"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/km.txt",
+      "gitBlobSha256": "b81d5d27ad029704e34508934b2d90911f44f5d50d74f3aa19e816f0ba2b1f58",
+      "appliedSha256": "b81d5d27ad029704e34508934b2d90911f44f5d50d74f3aa19e816f0ba2b1f58"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ko.docx",
+      "gitBlobSha256": "fe20bc7eb6cf79691b8b5ac0c4557d54d952a0c14e5cc56801f88da86ef96ee9",
+      "appliedSha256": "fe20bc7eb6cf79691b8b5ac0c4557d54d952a0c14e5cc56801f88da86ef96ee9"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ko.hwpx",
+      "gitBlobSha256": "2934e032b1239853117f8bcabb19b528d049136ca11e81c931a39483169f78f0",
+      "appliedSha256": "2934e032b1239853117f8bcabb19b528d049136ca11e81c931a39483169f78f0"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ko.txt",
+      "gitBlobSha256": "6dcc6905f587a3ac908efacf59f4dd6f41c94e763adcbbf8b65329a44a6f9a68",
+      "appliedSha256": "6dcc6905f587a3ac908efacf59f4dd6f41c94e763adcbbf8b65329a44a6f9a68"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/mn.docx",
+      "gitBlobSha256": "dccc02620f01936d0b43dc76758b68def24d49099976c0ee043ad6f33649c4ea",
+      "appliedSha256": "dccc02620f01936d0b43dc76758b68def24d49099976c0ee043ad6f33649c4ea"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/mn.hwpx",
+      "gitBlobSha256": "2af7e940de40908c66c2c2b55f22a4ecba5534e685238f036b320cf4cf4fe92a",
+      "appliedSha256": "2af7e940de40908c66c2c2b55f22a4ecba5534e685238f036b320cf4cf4fe92a"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/mn.txt",
+      "gitBlobSha256": "295b72875c6b392774e5bf9a71205992784521c548714704cc567b4b359d6496",
+      "appliedSha256": "295b72875c6b392774e5bf9a71205992784521c548714704cc567b4b359d6496"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ru.docx",
+      "gitBlobSha256": "829ac87ed08af96bf1bce9094c29480251961d90629623d0668969ee4c01ff92",
+      "appliedSha256": "829ac87ed08af96bf1bce9094c29480251961d90629623d0668969ee4c01ff92"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ru.hwpx",
+      "gitBlobSha256": "fa84f23b2b14a4db82c1ec3846f458dc1c9ae168e44ddaf145417a61ba85a939",
+      "appliedSha256": "fa84f23b2b14a4db82c1ec3846f458dc1c9ae168e44ddaf145417a61ba85a939"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/ru.txt",
+      "gitBlobSha256": "4661852d3e9aef16aa0f9a34e4a5a087ef9ca49c39ff70406db55d1f3782cd30",
+      "appliedSha256": "4661852d3e9aef16aa0f9a34e4a5a087ef9ca49c39ff70406db55d1f3782cd30"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/th.docx",
+      "gitBlobSha256": "050345df7dbba9fe3826b38bbfb299f736d482dce4c1de6cf410deaa752220ad",
+      "appliedSha256": "050345df7dbba9fe3826b38bbfb299f736d482dce4c1de6cf410deaa752220ad"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/th.hwpx",
+      "gitBlobSha256": "7dffcf7aeeda8522af726d90ab9a8ac52ed55cbe1bae549126118aaf64d7cb1b",
+      "appliedSha256": "7dffcf7aeeda8522af726d90ab9a8ac52ed55cbe1bae549126118aaf64d7cb1b"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/th.txt",
+      "gitBlobSha256": "7922691b935fce9e9901ab453ce06dc252d837b8c56148e4548a55e5d5adabf8",
+      "appliedSha256": "7922691b935fce9e9901ab453ce06dc252d837b8c56148e4548a55e5d5adabf8"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/vi.docx",
+      "gitBlobSha256": "f97af0d4dbebcd4600f476d58735df817705a486ba26dc9d420c33b89e07db34",
+      "appliedSha256": "f97af0d4dbebcd4600f476d58735df817705a486ba26dc9d420c33b89e07db34"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/vi.hwpx",
+      "gitBlobSha256": "f98a237e1b88903fe22f766b77a25a8b59adbdddf86d9ac4e0a8ff4b56afc4be",
+      "appliedSha256": "f98a237e1b88903fe22f766b77a25a8b59adbdddf86d9ac4e0a8ff4b56afc4be"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/vi.txt",
+      "gitBlobSha256": "ff66026aab885c1af50caa20d38821e6c6f74d0426266744c38957335f66152a",
+      "appliedSha256": "ff66026aab885c1af50caa20d38821e6c6f74d0426266744c38957335f66152a"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-CN.docx",
+      "gitBlobSha256": "5d60e6acf8d03c2385b990fd5e8da8ab86478b44a8fe544717a1058e1c719a11",
+      "appliedSha256": "5d60e6acf8d03c2385b990fd5e8da8ab86478b44a8fe544717a1058e1c719a11"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-CN.hwpx",
+      "gitBlobSha256": "a7a4f80e01ffd2878eace43e4919381236e2ba0e6f6ea2030d68695a4e01ab29",
+      "appliedSha256": "a7a4f80e01ffd2878eace43e4919381236e2ba0e6f6ea2030d68695a4e01ab29"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-CN.txt",
+      "gitBlobSha256": "b3362ccc22b34fc431ca91d30876c97d23041a04cca37876e61e613cc3ac010f",
+      "appliedSha256": "b3362ccc22b34fc431ca91d30876c97d23041a04cca37876e61e613cc3ac010f"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-TW.docx",
+      "gitBlobSha256": "780d788e08daf3a9fb5694a8f4a6b7043eb7383adac64187a1883d5acf9ecfa9",
+      "appliedSha256": "780d788e08daf3a9fb5694a8f4a6b7043eb7383adac64187a1883d5acf9ecfa9"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-TW.hwpx",
+      "gitBlobSha256": "60c5bb1b5baa1d055cb62b9db1072b608dd4d0968e8291ff66a73103c31a805d",
+      "appliedSha256": "60c5bb1b5baa1d055cb62b9db1072b608dd4d0968e8291ff66a73103c31a805d"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/downloads/zh-TW.txt",
+      "gitBlobSha256": "5a61a9c69b211e43f4247f54b07fc6c77d731bd7268ded446051a29c90392ecd",
+      "appliedSha256": "5a61a9c69b211e43f4247f54b07fc6c77d731bd7268ded446051a29c90392ecd"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/en-1440.jpg",
+      "gitBlobSha256": "0e24eb61d61c159c083e6ac14bfab427c6776170f61cedbe55a3ba92cd4ee30e",
+      "appliedSha256": "0e24eb61d61c159c083e6ac14bfab427c6776170f61cedbe55a3ba92cd4ee30e"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/host-overlay/artifacts/api-server/qa-local-server.ts",
+      "gitBlobSha256": "5421ac598788117bc2600ccac7ba38b7a7b6574e640c8a939a085ab090bf3262",
+      "appliedSha256": "da72a42df85a9f11ecebf3aa505c6e32d8175f2a73c0873022d3c44b1f8af0d2"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/host-overlay/scripts/src/qa-local-job-connection.ts",
+      "gitBlobSha256": "0dfc7408d5ab85f5cf57ef6bd021f9a449c71ca90822e3840eb45225c6938b45",
+      "appliedSha256": "dabfedcd8ac066407dae09ebd769d8c99bb0c0765aaf30340878fd0000e2213b"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/host-overlay/scripts/src/qa-local-job-documents.ts",
+      "gitBlobSha256": "03c147d3610f6ade9fd5193dcc8134c69352910c200969aef2e0dc44756d9b99",
+      "appliedSha256": "cd10bbfd953c2e762e017639b3acac2d0b2c47bd6d55c177770a043bbafa428a"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/ko-360.jpg",
+      "gitBlobSha256": "ccebbdc1c0a79b75a4dabd2daeca65096e396888b2691eebedc4a04a4ab2fe93",
+      "appliedSha256": "ccebbdc1c0a79b75a4dabd2daeca65096e396888b2691eebedc4a04a4ab2fe93"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/qa-runner-typecheck.log.txt",
+      "gitBlobSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "appliedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/source-equality.json",
+      "gitBlobSha256": "65e20c32eef95e5f447bae5fcf7ef63558ae4e1d99b20fccac4a58f358435678",
+      "appliedSha256": "a99e2df964c7667a72dfead21157d6cb657abbc25290f62af4eaaa4b4457d4c5"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/source-manifest.json",
+      "gitBlobSha256": "6f0b09ad3ec90c07a2a94b159e10500fdb598e6d1931e25a62769b3fef141979",
+      "appliedSha256": "7faf71aae7c187a70a3fdf637bd7e07786219d7cf2b4daf4d1e6e116b1ace02f"
+    },
+    {
+      "path": "nuvia-career/qa/job-connection-20261110/typecheck.log.txt",
+      "gitBlobSha256": "2dea66a0476802b29f75b257226890b4953d101a5034fdec25b9da491426203c",
+      "appliedSha256": "b66dcd7a98b36b3f27b858a492c3a38d762b24d3c7af09142f3da0b4f6243d21"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-browser-qa.ts",
+      "gitBlobSha256": "7b744b4c180317a96b6756c725fbe1d3faa41bd76d763a822971c52792ad8f46",
+      "appliedSha256": "7b744b4c180317a96b6756c725fbe1d3faa41bd76d763a822971c52792ad8f46"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-document-qa.ts",
+      "gitBlobSha256": "0ce23fe773ce661793ed4a3a99c4511e5a016db15321939398751dd1ec1f76aa",
+      "appliedSha256": "0ce23fe773ce661793ed4a3a99c4511e5a016db15321939398751dd1ec1f76aa"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-localization-document-qa.ts",
+      "gitBlobSha256": "4db20841207548b4c6eda7bbc7403738a33ab0d05d766992568775cc03888438",
+      "appliedSha256": "7b2d57412320a48de4d55e576bdd19f00d2a9b5958cb144ef8f514d4cf5d213e"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-localization-qa.ts",
+      "gitBlobSha256": "59d5b1444cefe1d16c351a71ed5114116d6f189391599144daa2b31fb49e525e",
+      "appliedSha256": "6073a21607fdabac5be4e7a5b2c5a9d815cfec91d989a8ba792136df7223c9cd"
+    }
+  ]
+}

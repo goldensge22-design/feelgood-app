@@ -19,6 +19,10 @@ import { SaveIndicator } from '@/components/shell';
 import { AppTabs, useSelectedApp } from '@/pages/questions';
 import { permissionOf } from '@/pages/experiences';
 import { cn } from '@/lib/utils';
+import { appExpMeta } from '@/lib/provenance';
+import { storyValues } from '@/lib/star-story';
+import { ExperienceStoryHelp } from '@/components/provenance/experience-story-help';
+import { JobConnectionNotesPanel } from '@/components/provenance/job-connection-notes';
 
 export function VersionDialog({ app, open, onClose }: { app: CareerApplication; open: boolean; onClose: () => void }) {
   const { t } = useI18n();
@@ -55,8 +59,9 @@ export function VersionDialog({ app, open, onClose }: { app: CareerApplication; 
 }
 
 function Workbench({ state, app }: { state: CareerState; app: CareerApplication }) {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { update } = useWorkspace();
+  const { data: sidecar } = useSidecar();
   const ctext = useCriterionText();
   const [verOpen, setVerOpen] = useState(false);
   const count = countChars(app.text, app.countSpaces);
@@ -97,10 +102,16 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
           </div>
           {over && <p role="alert" className="border-t bg-destructive/5 px-4 py-3 text-sm text-destructive">{t('w.overLimit')}</p>}
         </div>
+        {exps.map((experience) => (
+          <div key={`${app.id}:${experience.id}`} className="space-y-3">
+            <ExperienceStoryHelp experience={experience} appId={app.id} />
+            <JobConnectionNotesPanel app={app} experience={experience} />
+          </div>
+        ))}
       </section>
 
       <aside className="space-y-4">
-        <ContextCoach key={`${app.id}|${exps.map((e) => e.id).join('|')}`} exps={exps} appId={app.id} />
+        <ContextCoach key={`${app.id}|${app.question}|${app.job}|${exps.map((e) => e.id).join('|')}`} exps={exps} app={app} />
         <div className="surface p-5">
           <p className="text-sm font-semibold">{t('w.criteriaSnapshot')}</p>
           {crits.length === 0 ? <p className="mt-2 text-xs text-muted-foreground">{t('w.noCriteria')}</p> : crits.map((c) => (
@@ -120,6 +131,13 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
                 {(['action', 'result', 'learning'] as const).map((k) => e[k] && (
                   <div key={k} className="mt-2"><p className="text-[11px] font-semibold text-muted-foreground">{t(`field.${k}`)}</p><OriginalContent as="p" className="whitespace-pre-wrap text-sm leading-relaxed">{e[k]}</OriginalContent></div>
                 ))}
+                {(() => {
+                  const story = storyValues(e, appExpMeta(sidecar, app.id, e.id));
+                  return <>
+                    {story.situation && <div className="mt-2"><p className="text-[11px] font-semibold text-muted-foreground">{t('star.field.situation')}</p><OriginalContent as="p" className="whitespace-pre-wrap text-sm">{story.situation}</OriginalContent></div>}
+                    {story.roleGoal && <div className="mt-2"><p className="text-[11px] font-semibold text-muted-foreground">{t('star.field.roleGoal')}</p><OriginalContent as="p" className="whitespace-pre-wrap text-sm">{story.roleGoal}</OriginalContent></div>}
+                  </>;
+                })()}
                 {url && <a href={url} target="_blank" rel="noreferrer noopener" className="mt-2 inline-flex min-h-10 items-center gap-1 text-xs text-blue">{t('exp.openSource')} <ExternalLink className="h-3 w-3" /></a>}
                 {e.source === 'local_activity' && e.sourceId && <Link href={`/activities#${encodeURIComponent(e.sourceId)}`} className="mt-2 inline-flex min-h-11 items-center gap-1 text-xs text-blue">{t('exp.openSource')}</Link>}
               </details>

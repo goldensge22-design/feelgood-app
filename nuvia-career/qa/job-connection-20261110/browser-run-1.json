@@ -1,0 +1,1645 @@
+{
+  "checkedAt": "2026-11-10T06:02:03.474Z",
+  "origin": "http://127.0.0.1:4191",
+  "sourceCommit": "bd181075f5a301d4f19bc340e571d2494bfdc819",
+  "sourceFingerprint": "009dae383348ce24f4940798e8f837bb98a1541af1f2e6c6506322bdbd5d5aae",
+  "sourceFiles": [
+    "artifacts/nuvia-career/package.json",
+    "artifacts/nuvia-career/src/App.tsx",
+    "artifacts/nuvia-career/src/components/common.tsx",
+    "artifacts/nuvia-career/src/components/error-boundary.tsx",
+    "artifacts/nuvia-career/src/components/provenance/badges.tsx",
+    "artifacts/nuvia-career/src/components/provenance/context-coach.tsx",
+    "artifacts/nuvia-career/src/components/provenance/experience-detail.tsx",
+    "artifacts/nuvia-career/src/components/provenance/experience-story-help.tsx",
+    "artifacts/nuvia-career/src/components/provenance/fact-checklist.tsx",
+    "artifacts/nuvia-career/src/components/provenance/job-connection-notes.tsx",
+    "artifacts/nuvia-career/src/components/provenance/match-panel.tsx",
+    "artifacts/nuvia-career/src/components/provenance/missing-evidence.tsx",
+    "artifacts/nuvia-career/src/components/provenance/report-order-view.tsx",
+    "artifacts/nuvia-career/src/components/provenance/star-story-fields.tsx",
+    "artifacts/nuvia-career/src/components/provenance/synthetic-actions.ts",
+    "artifacts/nuvia-career/src/components/provenance/synthetic-preview.tsx",
+    "artifacts/nuvia-career/src/components/provenance/version-provenance.tsx",
+    "artifacts/nuvia-career/src/components/shell.tsx",
+    "artifacts/nuvia-career/src/components/ui/accordion.tsx",
+    "artifacts/nuvia-career/src/components/ui/alert-dialog.tsx",
+    "artifacts/nuvia-career/src/components/ui/alert.tsx",
+    "artifacts/nuvia-career/src/components/ui/aspect-ratio.tsx",
+    "artifacts/nuvia-career/src/components/ui/avatar.tsx",
+    "artifacts/nuvia-career/src/components/ui/badge.tsx",
+    "artifacts/nuvia-career/src/components/ui/breadcrumb.tsx",
+    "artifacts/nuvia-career/src/components/ui/button-group.tsx",
+    "artifacts/nuvia-career/src/components/ui/button.tsx",
+    "artifacts/nuvia-career/src/components/ui/calendar.tsx",
+    "artifacts/nuvia-career/src/components/ui/card.tsx",
+    "artifacts/nuvia-career/src/components/ui/carousel.tsx",
+    "artifacts/nuvia-career/src/components/ui/chart.tsx",
+    "artifacts/nuvia-career/src/components/ui/checkbox.tsx",
+    "artifacts/nuvia-career/src/components/ui/collapsible.tsx",
+    "artifacts/nuvia-career/src/components/ui/command.tsx",
+    "artifacts/nuvia-career/src/components/ui/context-menu.tsx",
+    "artifacts/nuvia-career/src/components/ui/dialog.tsx",
+    "artifacts/nuvia-career/src/components/ui/drawer.tsx",
+    "artifacts/nuvia-career/src/components/ui/dropdown-menu.tsx",
+    "artifacts/nuvia-career/src/components/ui/empty.tsx",
+    "artifacts/nuvia-career/src/components/ui/field.tsx",
+    "artifacts/nuvia-career/src/components/ui/form.tsx",
+    "artifacts/nuvia-career/src/components/ui/hover-card.tsx",
+    "artifacts/nuvia-career/src/components/ui/input-group.tsx",
+    "artifacts/nuvia-career/src/components/ui/input-otp.tsx",
+    "artifacts/nuvia-career/src/components/ui/input.tsx",
+    "artifacts/nuvia-career/src/components/ui/item.tsx",
+    "artifacts/nuvia-career/src/components/ui/kbd.tsx",
+    "artifacts/nuvia-career/src/components/ui/label.tsx",
+    "artifacts/nuvia-career/src/components/ui/menubar.tsx",
+    "artifacts/nuvia-career/src/components/ui/navigation-menu.tsx",
+    "artifacts/nuvia-career/src/components/ui/pagination.tsx",
+    "artifacts/nuvia-career/src/components/ui/popover.tsx",
+    "artifacts/nuvia-career/src/components/ui/progress.tsx",
+    "artifacts/nuvia-career/src/components/ui/radio-group.tsx",
+    "artifacts/nuvia-career/src/components/ui/resizable.tsx",
+    "artifacts/nuvia-career/src/components/ui/scroll-area.tsx",
+    "artifacts/nuvia-career/src/components/ui/select.tsx",
+    "artifacts/nuvia-career/src/components/ui/separator.tsx",
+    "artifacts/nuvia-career/src/components/ui/sheet.tsx",
+    "artifacts/nuvia-career/src/components/ui/sidebar.tsx",
+    "artifacts/nuvia-career/src/components/ui/skeleton.tsx",
+    "artifacts/nuvia-career/src/components/ui/slider.tsx",
+    "artifacts/nuvia-career/src/components/ui/sonner.tsx",
+    "artifacts/nuvia-career/src/components/ui/spinner.tsx",
+    "artifacts/nuvia-career/src/components/ui/switch.tsx",
+    "artifacts/nuvia-career/src/components/ui/table.tsx",
+    "artifacts/nuvia-career/src/components/ui/tabs.tsx",
+    "artifacts/nuvia-career/src/components/ui/textarea.tsx",
+    "artifacts/nuvia-career/src/components/ui/toast.tsx",
+    "artifacts/nuvia-career/src/components/ui/toaster.tsx",
+    "artifacts/nuvia-career/src/components/ui/toggle-group.tsx",
+    "artifacts/nuvia-career/src/components/ui/toggle.tsx",
+    "artifacts/nuvia-career/src/components/ui/tooltip.tsx",
+    "artifacts/nuvia-career/src/hooks/use-mobile.tsx",
+    "artifacts/nuvia-career/src/hooks/use-toast.ts",
+    "artifacts/nuvia-career/src/index.css",
+    "artifacts/nuvia-career/src/lib/auth-locales/az.ts",
+    "artifacts/nuvia-career/src/lib/auth-locales/build.ts",
+    "artifacts/nuvia-career/src/lib/auth-locales/km.ts",
+    "artifacts/nuvia-career/src/lib/career.test.ts",
+    "artifacts/nuvia-career/src/lib/career.ts",
+    "artifacts/nuvia-career/src/lib/i18n.tsx",
+    "artifacts/nuvia-career/src/lib/job-connection-messages.ts",
+    "artifacts/nuvia-career/src/lib/job-connection.test.ts",
+    "artifacts/nuvia-career/src/lib/locales.test.ts",
+    "artifacts/nuvia-career/src/lib/locales/ar.ts",
+    "artifacts/nuvia-career/src/lib/locales/az.ts",
+    "artifacts/nuvia-career/src/lib/locales/es.ts",
+    "artifacts/nuvia-career/src/lib/locales/fr.ts",
+    "artifacts/nuvia-career/src/lib/locales/it.ts",
+    "artifacts/nuvia-career/src/lib/locales/ja.ts",
+    "artifacts/nuvia-career/src/lib/locales/km.ts",
+    "artifacts/nuvia-career/src/lib/locales/mn.ts",
+    "artifacts/nuvia-career/src/lib/locales/ru.ts",
+    "artifacts/nuvia-career/src/lib/locales/th.ts",
+    "artifacts/nuvia-career/src/lib/locales/vi.ts",
+    "artifacts/nuvia-career/src/lib/locales/zh-CN.ts",
+    "artifacts/nuvia-career/src/lib/locales/zh-TW.ts",
+    "artifacts/nuvia-career/src/lib/messages.ts",
+    "artifacts/nuvia-career/src/lib/provenance-messages.ts",
+    "artifacts/nuvia-career/src/lib/provenance.test.ts",
+    "artifacts/nuvia-career/src/lib/provenance.ts",
+    "artifacts/nuvia-career/src/lib/public-demo.test.ts",
+    "artifacts/nuvia-career/src/lib/public-demo.ts",
+    "artifacts/nuvia-career/src/lib/report-order.ts",
+    "artifacts/nuvia-career/src/lib/star-story-messages.ts",
+    "artifacts/nuvia-career/src/lib/star-story.test.ts",
+    "artifacts/nuvia-career/src/lib/star-story.ts",
+    "artifacts/nuvia-career/src/lib/synthetic-records.ts",
+    "artifacts/nuvia-career/src/lib/synthetic-seed-i18n.ts",
+    "artifacts/nuvia-career/src/lib/utils.ts",
+    "artifacts/nuvia-career/src/lib/workspace-scope.test.ts",
+    "artifacts/nuvia-career/src/lib/workspace-scope.ts",
+    "artifacts/nuvia-career/src/lib/workspace.tsx",
+    "artifacts/nuvia-career/src/main.tsx",
+    "artifacts/nuvia-career/src/pages/activities.tsx",
+    "artifacts/nuvia-career/src/pages/connections.tsx",
+    "artifacts/nuvia-career/src/pages/criteria.tsx",
+    "artifacts/nuvia-career/src/pages/experiences.tsx",
+    "artifacts/nuvia-career/src/pages/export.tsx",
+    "artifacts/nuvia-career/src/pages/journey.tsx",
+    "artifacts/nuvia-career/src/pages/not-found.tsx",
+    "artifacts/nuvia-career/src/pages/overview.tsx",
+    "artifacts/nuvia-career/src/pages/questions.tsx",
+    "artifacts/nuvia-career/src/pages/versions.tsx",
+    "artifacts/nuvia-career/src/pages/write.tsx",
+    "artifacts/nuvia-career/vite.config.ts",
+    "scripts/src/nuvia-star-story-localization-qa.ts"
+  ],
+  "scope": "synthetic public-demo sessions; browser-local storage only; no account, external integrations or real user data",
+  "combinations": 45,
+  "planned": 45,
+  "passed": 41,
+  "failed": 4,
+  "results": [
+    {
+      "locale": "ko",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1329.6875,
+          "width": 86.3125,
+          "height": 44
+        },
+        "lang": "ko",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ko",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 657.6875,
+          "width": 86.3125,
+          "height": 44
+        },
+        "lang": "ko",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ko",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 261.6875,
+          "width": 86.3125,
+          "height": 44
+        },
+        "lang": "ko",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1302/2036)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "en",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1320.0625,
+          "width": 95.9375,
+          "height": 44
+        },
+        "lang": "en",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "en",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 648.0625,
+          "width": 95.9375,
+          "height": 44
+        },
+        "lang": "en",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "en",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 252.0625,
+          "width": 95.9375,
+          "height": 44
+        },
+        "lang": "en",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1451/2185)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ja",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1324,
+          "width": 92,
+          "height": 44
+        },
+        "lang": "ja",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ja",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 652,
+          "width": 92,
+          "height": 44
+        },
+        "lang": "ja",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ja",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 256,
+          "width": 92,
+          "height": 44
+        },
+        "lang": "ja",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1405/2139)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-CN",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1310,
+          "width": 106,
+          "height": 44
+        },
+        "lang": "zh-CN",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-CN",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 638,
+          "width": 106,
+          "height": 44
+        },
+        "lang": "zh-CN",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-CN",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 242,
+          "width": 106,
+          "height": 44
+        },
+        "lang": "zh-CN",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1305/2039)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1310,
+          "width": 106,
+          "height": 44
+        },
+        "lang": "zh-TW",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 638,
+          "width": 106,
+          "height": 44
+        },
+        "lang": "zh-TW",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "zh-TW",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\\n' +\n+     '\\n' +\n+     '(code=\"failed_to_load_clerk_js\")\\n' +\n+     '\\n'\n+ ]\n- []\n",
+      "url": "http://127.0.0.1:4191/demo/export?space=example&lang=zh-TW",
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1305/2039)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": [
+        "Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\n\n(code=\"failed_to_load_clerk_js\")\n\n"
+      ]
+    },
+    {
+      "locale": "mn",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1315.15625,
+          "width": 100.84375,
+          "height": 44
+        },
+        "lang": "mn",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 882/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "mn",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 643.15625,
+          "width": 100.84375,
+          "height": 44
+        },
+        "lang": "mn",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 860/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "mn",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 247.15625,
+          "width": 100.84375,
+          "height": 44
+        },
+        "lang": "mn",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1543/2277)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "th",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1344.453125,
+          "width": 71.546875,
+          "height": 44
+        },
+        "lang": "th",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 911/1829)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "th",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 672.453125,
+          "width": 71.546875,
+          "height": 44
+        },
+        "lang": "th",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 889/1829)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "th",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 276.453125,
+          "width": 71.546875,
+          "height": 44
+        },
+        "lang": "th",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1381/2115)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "vi",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1301.328125,
+          "width": 114.671875,
+          "height": 44
+        },
+        "lang": "vi",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "vi",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 629.328125,
+          "width": 114.671875,
+          "height": 44
+        },
+        "lang": "vi",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "vi",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 233.328125,
+          "width": 114.671875,
+          "height": 44
+        },
+        "lang": "vi",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1417/2151)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ar",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1329.515625,
+          "width": 86.484375,
+          "height": 44
+        },
+        "lang": "ar",
+        "dir": "rtl"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ar",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 657.515625,
+          "width": 86.484375,
+          "height": 44
+        },
+        "lang": "ar",
+        "dir": "rtl"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ar",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 261.515625,
+          "width": 86.484375,
+          "height": 44
+        },
+        "lang": "ar",
+        "dir": "rtl"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1310/2044)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ru",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1314.1875,
+          "width": 101.8125,
+          "height": 44
+        },
+        "lang": "ru",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 930/1848)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "ru",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\\n' +\n+     '\\n' +\n+     '(code=\"failed_to_load_clerk_js\")\\n' +\n+     '\\n'\n+ ]\n- []\n",
+      "url": "http://127.0.0.1:4191/demo/export?space=example&lang=ru",
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 908/1848)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": [
+        "Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\n\n(code=\"failed_to_load_clerk_js\")\n\n"
+      ]
+    },
+    {
+      "locale": "ru",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 246.1875,
+          "width": 101.8125,
+          "height": 44
+        },
+        "lang": "ru",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1646/2380)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "km",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1348.453125,
+          "width": 67.546875,
+          "height": 44
+        },
+        "lang": "km",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 955/1873)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "km",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 676.453125,
+          "width": 67.546875,
+          "height": 44
+        },
+        "lang": "km",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 933/1873)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "km",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 280.453125,
+          "width": 67.546875,
+          "height": 44
+        },
+        "lang": "km",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1438/2172)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "es",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1314.875,
+          "width": 101.125,
+          "height": 44
+        },
+        "lang": "es",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 882/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "es",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 642.875,
+          "width": 101.125,
+          "height": 44
+        },
+        "lang": "es",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 860/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "es",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 246.875,
+          "width": 101.125,
+          "height": 44
+        },
+        "lang": "es",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1530/2264)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "fr",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1312.125,
+          "width": 103.875,
+          "height": 44
+        },
+        "lang": "fr",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 882/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "fr",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\\n' +\n+     '\\n' +\n+     '(code=\"failed_to_load_clerk_js\")\\n' +\n+     '\\n'\n+ ]\n- []\n",
+      "url": "http://127.0.0.1:4191/demo/export?space=example&lang=fr",
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 860/1800)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": [
+        "Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\n\n(code=\"failed_to_load_clerk_js\")\n\n"
+      ]
+    },
+    {
+      "locale": "fr",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 244.125,
+          "width": 103.875,
+          "height": 44
+        },
+        "lang": "fr",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1539/2273)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "it",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1319.890625,
+          "width": 96.109375,
+          "height": 44
+        },
+        "lang": "it",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "it",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 647.890625,
+          "width": 96.109375,
+          "height": 44
+        },
+        "lang": "it",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "it",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "failed",
+      "error": "AssertionError [ERR_ASSERTION]: Expected values to be strictly deep-equal:\n+ actual - expected\n\n+ [\n+   'Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\\n' +\n+     '\\n' +\n+     '(code=\"failed_to_load_clerk_js\")\\n' +\n+     '\\n'\n+ ]\n- []\n",
+      "url": "http://127.0.0.1:4191/demo/export?space=example&lang=it",
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1519/2253)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": [
+        "Clerk: Failed to load Clerk JS, failed to load script: https://qa.invalid/npm/@clerk/clerk-js@6/dist/clerk.browser.js\n\n(code=\"failed_to_load_clerk_js\")\n\n"
+      ]
+    },
+    {
+      "locale": "az",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 1440,
+        "scrollWidth": 1440,
+        "selector": {
+          "x": 1290.265625,
+          "width": 125.734375,
+          "height": 44
+        },
+        "lang": "az",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 863/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "az",
+      "viewport": {
+        "width": 768,
+        "height": 1024
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 768,
+        "scrollWidth": 768,
+        "selector": {
+          "x": 618.265625,
+          "width": 125.734375,
+          "height": 44
+        },
+        "lang": "az",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 841/1781)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    },
+    {
+      "locale": "az",
+      "viewport": {
+        "width": 360,
+        "height": 800
+      },
+      "status": "passed",
+      "dimensions": {
+        "width": 360,
+        "scrollWidth": 360,
+        "selector": {
+          "x": 222.265625,
+          "width": 125.734375,
+          "height": 44
+        },
+        "lang": "az",
+        "dir": "ltr"
+      },
+      "checks": [
+        "synthetic actual/simulation nature and activity-card type render separately in selected locale",
+        "manual activity keeps student-selected context separate from actual nature and retains S/T content",
+        "legacy experience with missing S/T still opens and can be left unchanged",
+        "experience dialog supports labeled keyboard focus and scrolling (scroll 1453/2187)",
+        "job duty, shared action, source scope/version, learning and next use save per application; review is explicit and separate",
+        "company mismatch blocks review; changing an application and reverting it does not revive review; old version remains immutable",
+        "optional helper opens only on request; localized single-question coach does not change student draft",
+        "rapid locale switching and reload preserve route, draft, selected experience and device-only STAR notes",
+        "device-storage failure retains localized form input and retry recovers",
+        "localized motivation coach remains default and STAR is an explicit reversible choice",
+        "versions remain immutable, compare correctly and restore as a new draft",
+        "copy/TXT/DOCX/HWPX download; simulated context stays in authored text and STAR notes are excluded"
+      ],
+      "browserErrors": []
+    }
+  ]
+}

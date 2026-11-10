@@ -17,7 +17,7 @@ import { CriterionPicker } from '@/pages/experiences';
 import { cn } from '@/lib/utils';
 import { MatchPanel } from '@/components/provenance/match-panel';
 import { ProvenanceBadges } from '@/components/provenance/badges';
-import { appExpMeta, useSidecar } from '@/lib/provenance';
+import { appExpMeta, invalidateJobConnectionReviews, useSidecar } from '@/lib/provenance';
 
 export function AppTabs({ state }: { state: CareerState }) {
   const { t } = useI18n();
@@ -46,11 +46,20 @@ export function useSelectedApp(state: CareerState | null) {
 
 function Editor({ state, app }: { state: CareerState; app: CareerApplication }) {
   const { t } = useI18n();
-  const { data: provenance } = useSidecar();
+  const { data: provenance, patch: patchSidecar } = useSidecar();
   const { update, selectedExpId, setSelectedExpId, setSelectedAppId } = useWorkspace();
   const ctext = useCriterionText();
   const [, setLocation] = useLocation();
-  const patch = (p: Partial<CareerApplication>) => update((s) => ({ ...s, applications: s.applications.map((a) => (a.id === app.id ? { ...a, ...p } : a)) }));
+  const patch = (p: Partial<CareerApplication>) => {
+    const selectedChanged = p.experienceIds !== undefined &&
+      [...p.experienceIds].sort().join('\u0000') !== [...app.experienceIds].sort().join('\u0000');
+    const linkContextChanged = (p.company !== undefined && p.company !== app.company)
+      || (p.job !== undefined && p.job !== app.job)
+      || (p.question !== undefined && p.question !== app.question)
+      || selectedChanged;
+    if (linkContextChanged) patchSidecar((s) => invalidateJobConnectionReviews(s, { appId: app.id }));
+    update((s) => ({ ...s, applications: s.applications.map((a) => (a.id === app.id ? { ...a, ...p } : a)) }));
+  };
 
   const suggestions = state.experiences
     .filter((e) => provenance.apps[app.id]?.requirement !== 'actual' || appExpMeta(provenance, app.id, e.id).nature === 'actual')

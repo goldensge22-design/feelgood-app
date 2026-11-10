@@ -25,7 +25,7 @@ export function addSyntheticExperience(seed: SyntheticSeed, revision: number, up
     strengths: seed.strengths, criterionIds: [], confirmed: false, source: 'example',
   };
   const ok = patch((s) => setExpMeta(s, id, {
-    nature: seed.nature, cardType: seed.cardType, origin: 'example', synthetic: true, syntheticKey: seed.key, seedLocale: seed.locale ?? 'ko', sourceRevision: revision,
+    nature: seed.nature, experienceContext: 'synthetic_example', cardType: seed.cardType, origin: 'example', synthetic: true, syntheticKey: seed.key, seedLocale: seed.locale ?? 'ko', sourceRevision: revision,
     planner: input as PlannerInput, plannerFields: ALL_INPUT_FIELDS.filter((f) => include.includes(f)), factConsent: consent, usageConsent: consent, consentAt: new Date().toISOString(),
     selectedJob: seed.selectedJob, practiceAction: seed.practiceAction, checkCriterion: seed.checkCriterion,
     strengthStrategy: seed.strengthStrategy, supportProvided: seed.supportProvided, independentSteps: seed.independentSteps, observedEvidence: seed.observedEvidence,

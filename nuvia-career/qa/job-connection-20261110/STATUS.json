@@ -1,0 +1,31 @@
+{
+  "status": "frontend_qa_passed_with_integration_exclusions",
+  "unitTests": {
+    "passed": 32,
+    "failed": 0
+  },
+  "typecheck": true,
+  "frontendBuild": true,
+  "browser": {
+    "passed": 45,
+    "failed": 0,
+    "notRun": 0,
+    "checks": 540
+  },
+  "documents": {
+    "locales": 15,
+    "formats": [
+      "txt",
+      "docx",
+      "hwpx"
+    ],
+    "contentAndStructure": true
+  },
+  "nativeOfficeOpen": "unverified: Windows UI helper errors before observing QA document open; no document failure established",
+  "realLogin": false,
+  "plannerResultServerIntegration": false,
+  "nativeLanguageReview": false,
+  "publicRedeployment": false,
+  "patchApply": "passed: clean baseline application; text equivalent with CRLF/LF normalized and binary bytes exact",
+  "githubPush": "verify remote HEAD after commit; not inferred from QA"
+}

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState, t
 import { KEYS } from '@/lib/career';
 import { MESSAGES, PARTIAL } from '@/lib/messages';
 import { PROV_MESSAGES, PROV_PARTIAL } from '@/lib/provenance-messages';
+import { STAR_MESSAGES, STAR_PARTIAL } from '@/lib/star-story-messages';
 import { clientStorage } from '@/lib/public-demo';
 
 export const LOCALES = [
@@ -95,11 +96,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (key: string, vars?: Vars) => {
-      const entry = MESSAGES[key] ?? PROV_MESSAGES[key];
+      const entry = STAR_MESSAGES[key] ?? MESSAGES[key] ?? PROV_MESSAGES[key];
       let s: string;
       if (locale === 'ko') s = entry?.[0] ?? key;
       else if (locale === 'en') s = entry?.[1] ?? key;
-      else s = PARTIAL[locale]?.[key] ?? PROV_PARTIAL[locale]?.[key] ?? entry?.[1] ?? key; // never Korean fallback
+        else s = STAR_PARTIAL[locale]?.[key] ?? PARTIAL[locale]?.[key] ?? PROV_PARTIAL[locale]?.[key] ?? entry?.[1] ?? key; // never Korean fallback
       if (vars) for (const [k, v] of Object.entries(vars)) s = s.split(`{${k}}`).join(String(v));
       return s;
     },

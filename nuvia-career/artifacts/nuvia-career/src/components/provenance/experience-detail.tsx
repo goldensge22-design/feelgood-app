@@ -12,6 +12,7 @@ import { metaOf, setExpMeta, sourceStatusOf, useSidecar, type CardType, type Exp
 import { findSeed, localizeSeed, seedInput } from '@/lib/synthetic-records';
 import { addSyntheticExperience } from '@/components/provenance/synthetic-actions';
 import { cn } from '@/lib/utils';
+import { storyValues } from '@/lib/star-story';
 
 function Choice<T extends string>({ label, options, value, onChange, disabled, testId }: {
   label: string; options: { v: T; label: string }[]; value: T | undefined; onChange: (v: T) => void; disabled?: boolean; testId: string;
@@ -46,6 +47,7 @@ export function ExperienceDetail({ e, onClose }: { e: CareerExperience; onClose:
   const { toast } = useToast();
   const { data, patch } = useSidecar();
   const m: ExpMeta = metaOf(data, e.id);
+  const star = storyValues(e, m);
   const status = sourceStatusOf(data, m);
   const raw = findSeed(m.syntheticKey);
   // New-copy content follows the CURRENT UI language; the stored record keeps its original copy.
@@ -63,6 +65,16 @@ export function ExperienceDetail({ e, onClose }: { e: CareerExperience; onClose:
         </DialogHeader>
         <MetaBadges e={e} m={m} status={status} />
         {legacy && <p className="text-xs text-muted-foreground" data-testid="text-legacy-note">{t('pv.legacyNote')}</p>}
+        <div className="space-y-2 rounded-lg border bg-muted/30 p-3">
+          <Choice label={t('joblink.contextTitle')} testId="radio-experience-context"
+            value={m.experienceContext ?? (m.synthetic ? 'synthetic_example' : 'unknown')} disabled={m.synthetic}
+            options={(['daily_activity', 'class_simulation', 'job_experience', 'synthetic_example', 'unknown'] as const).map((v) => ({
+              v,
+              label: t(`joblink.context.${v === 'daily_activity' ? 'daily' : v === 'class_simulation' ? 'classSimulation' : v === 'job_experience' ? 'jobExperience' : v === 'synthetic_example' ? 'synthetic' : 'unknown'}`),
+            }))}
+            onChange={(v) => set({ experienceContext: v, origin: m.origin ?? e.source })} />
+          <p className="text-xs leading-relaxed text-muted-foreground">{t('joblink.contextNote')}</p>
+        </div>
 
         {status && (
           <div className="rounded-lg border border-warn/40 bg-warn-soft p-3 text-sm text-warn" role="alert" data-testid={`status-source-${e.id}`}>
@@ -108,6 +120,18 @@ export function ExperienceDetail({ e, onClose }: { e: CareerExperience; onClose:
             <Field k="pv.f.changed" v={m.planner.changed} />
           </>}
         </dl>
+        {(star.situation || star.roleGoal || star.selectionReason || star.resultEvidence) && (
+          <section className="space-y-3 rounded-lg border border-blue/20 bg-blue/5 p-3" data-testid={`detail-star-${e.id}`}>
+            <h3 className="text-sm font-semibold">{t('star.detailTitle')}</h3>
+            <dl className="space-y-3">
+              {star.situation && <Field k="star.field.situation" v={star.situation} />}
+              {star.roleGoal && <Field k="star.field.roleGoal" v={star.roleGoal} />}
+              {star.selectionReason && <Field k="star.field.selectionReason" v={star.selectionReason} />}
+              {star.resultEvidence && <Field k="star.field.resultEvidence" v={star.resultEvidence} />}
+            </dl>
+            <p className="text-[11px] text-muted-foreground">{t('star.deviceNote')}</p>
+          </section>
+        )}
         {m.synthetic && (
           <p className="text-xs text-muted-foreground" data-testid="text-consent-record">
             {t('pv.factConsent')} {m.factConsent ? t('pv.alreadyIn') : '—'} · {t('pv.usageConsent')} {m.usageConsent ? t('pv.alreadyIn') : '—'}

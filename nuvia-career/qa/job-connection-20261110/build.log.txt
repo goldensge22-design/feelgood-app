@@ -1,0 +1,36 @@
+$ vite build --config vite.config.ts
+vite v7.3.7 building client environment for production...
+transforming...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/label.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/select.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/sheet.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/dropdown-menu.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 2399 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/index.html                     1.50 kB │ gzip:   0.70 kB
+dist/public/demo-info/zh-TW.html           5.01 kB │ gzip:   2.62 kB
+dist/public/demo-info/zh-CN.html           5.02 kB │ gzip:   2.60 kB
+dist/public/demo-info/en.html              5.21 kB │ gzip:   2.37 kB
+dist/public/demo-info/ja.html              5.37 kB │ gzip:   2.67 kB
+dist/public/demo-info/it.html              5.38 kB │ gzip:   2.43 kB
+dist/public/demo-info/ko.html              5.41 kB │ gzip:   2.62 kB
+dist/public/demo-info/index.html           5.41 kB │ gzip:   2.62 kB
+dist/public/demo-info/es.html              5.43 kB │ gzip:   2.42 kB
+dist/public/demo-info/az.html              5.48 kB │ gzip:   2.52 kB
+dist/public/demo-info/fr.html              5.53 kB │ gzip:   2.45 kB
+dist/public/demo-info/vi.html              5.85 kB │ gzip:   2.59 kB
+dist/public/demo-info/ar.html              6.14 kB │ gzip:   2.62 kB
+dist/public/demo-info/ru.html              6.82 kB │ gzip:   2.81 kB
+dist/public/demo-info/mn.html              6.83 kB │ gzip:   2.76 kB
+dist/public/demo-info/th.html              7.73 kB │ gzip:   2.73 kB
+dist/public/demo-info/km.html              7.95 kB │ gzip:   2.78 kB
+dist/public/assets/index-CGsMuvy9.css    116.31 kB │ gzip:  19.79 kB
+dist/public/assets/index-DCpnRIid.js   2,585.71 kB │ gzip: 704.21 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 5.70s
