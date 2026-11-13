@@ -1,0 +1,44 @@
+{
+  "verifiedAt": "2026-11-12T23:13:19.360Z",
+  "passed": true,
+  "errors": [],
+  "sourceFingerprint": "5aab898a50b48eb3bc63fc9960777b65dae42c198e00b57b04e9f504935949a6",
+  "productFilesMatched": 654,
+  "qaFilesHashed": 65,
+  "matrixSummary": {
+    "screen": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:57.525Z",
+      "finishedAt": "2026-11-12T22:55:13.860Z"
+    },
+    "conflict": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:58.028Z",
+      "finishedAt": "2026-11-12T22:48:07.873Z"
+    },
+    "positionAndTitle": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:58.113Z",
+      "finishedAt": "2026-11-12T22:47:19.922Z"
+    }
+  },
+  "windowsSuites": 17,
+  "changedSinceWindows": [
+    "SOURCE_NOTE.md",
+    "docs/STUDIO_TIMED_DECISION_FINAL_HANDOFF.md",
+    "docs/STUDIO_TIMED_DECISION_P2_LAYOUT_HANDOFF.md",
+    "docs/STUDIO_TIMED_DECISION_PORTABLE_INSTALL.md",
+    "tools/nuvia-studio/package-timed-decision.py"
+  ],
+  "manifestMethod": "Original preserved c954 ordered manifest + exact before/after3-file delta; reconstructed SHA256 must equal5aab actual-run fingerprint. Final and Windows654 product hashes compared individually.",
+  "evidenceOrigin": "Replit Chromium actual runs independently audited; Windows install/build17suites and ko/az/ar360 browser independently executed. Not45Windows reruns.",
+  "limitations": [
+    "OperatingSSO/DB/results/finalLAB1.3 not connected",
+    "Native language editorial and physical devices/printer not certified",
+    "Initial historical404 URL unknown, not reproduced in follow-up",
+    "Windows file-upload backup roundtrip not newly executed"
+  ]
+}

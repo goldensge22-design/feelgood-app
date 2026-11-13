@@ -1,0 +1,75 @@
+{
+  "date": "2026-11-13",
+  "status": "planner_isolated_implementation_and_15locale_qa_complete_handoff_ready",
+  "rulesVersion": "2026-11-12.10",
+  "contractRequirementsVersion": "timed-decision-card/1.3",
+  "localBranch": "codex/nuvia-planner-library-integration",
+  "localHead": "567e6b51dc4372fca647745db3166ab540058673",
+  "replitBaseHead": "8058a288bbc3d1410488f71354fd1190e8afe30e",
+  "replitFinalLocalHead": "732ac15b2e4a79959e0c0e4f3deedf39638b3d31",
+  "productFingerprint": "5aab898a50b48eb3bc63fc9960777b65dae42c198e00b57b04e9f504935949a6",
+  "sourceSHA256": "f6f32ca047bb3dafca263fc1b27aad8f6a527b05d24c7f3f8ade888d8aad7bb6",
+  "patchSHA256": "3976bd15f99df77a3ed1e61b97e21238b2acaa042b06b35085f47c2bca0683ca",
+  "koreanIsolatedQaComplete": true,
+  "all15LocaleBrowserQaComplete": true,
+  "browserMatrices": {
+    "screen": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:57.525Z",
+      "finishedAt": "2026-11-12T22:55:13.860Z"
+    },
+    "conflict": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:58.028Z",
+      "finishedAt": "2026-11-12T22:48:07.873Z"
+    },
+    "positionAndTitle": {
+      "count": 45,
+      "passed": true,
+      "startedAt": "2026-11-12T22:46:58.113Z",
+      "finishedAt": "2026-11-12T22:47:19.922Z"
+    }
+  },
+  "windowsIndependent": {
+    "cleanInstall": true,
+    "nativeFamilies": 4,
+    "typecheck": true,
+    "normalBuild": true,
+    "publicBuild": true,
+    "regressionSuites": 17,
+    "manual360": [
+      "ko",
+      "az",
+      "ar"
+    ]
+  },
+  "independentPackage": {
+    "sourceFiles": 815,
+    "internalHashes": 814,
+    "standalonePatchFiles": 130,
+    "appliedSourceExactMatch": true,
+    "productFiles": 654
+  },
+  "openP0": 0,
+  "openP1": 0,
+  "openP2": 0,
+  "actualLabIntegrationVerified": false,
+  "actualFinalLab13Verified": false,
+  "providedLab12SyntheticContractVerified": true,
+  "productionPersistenceVerified": false,
+  "nativeSpeakerReviewComplete": false,
+  "realPhysicalDevicesVerified": false,
+  "photoUploadInScope": false,
+  "deployed": false,
+  "githubPushed": false,
+  "mainMerged": false,
+  "publicUrlReplaced": false,
+  "initialHistorical404": "not reproduced; original request URL and root cause remain unknown",
+  "largeBundleWarning": true,
+  "windowsUploadBackupRoundtrip": "not newly verified; Replit synthetic browser roundtrip evidence retained separately",
+  "developerLatestBranchConflicts": "14 predecessor differences previously known; latest integration branch not provided; never force-overwrite",
+  "entryDocument": "final-handoff/START_HERE_개발자_인수.md",
+  "verifiedAt": "2026-11-12T23:17:06.033Z"
+}
