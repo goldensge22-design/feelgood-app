@@ -1,0 +1,50 @@
+{
+  "run": {
+    "id": "xk3g3qkj-voice-final",
+    "target": "https://546ebb1e-3eed-447d-99fc-f558586d3f51-00-1hmnxial7hba6.pike.replit.dev/",
+    "identity": "same synthetic Clerk account used in the earlier runs (email and user ID redacted)",
+    "scope": "narrow final check of the two voice fixes and the coach codec guard. No source edits, no deploy. Prior exports, version saves and mobile journeys not repeated.",
+    "startedAt": "2026-11-14T15:56Z",
+    "finishedAt": "2026-11-14T16:00Z",
+    "labels": {
+      "MOCK": "page.route response for /api/career/ai-assist used for voice requests only, contract-valid (sent before this run's live call)",
+      "LIVE_MODEL": "one real POST /api/career/ai-assist, task coach, no route interception",
+      "UI": "browser interaction and localStorage structure read (no text values)"
+    },
+    "preserved": [
+      "browser-korean.json (original FAIL report, unchanged)",
+      "browser-korean-retest.json (first retest, unchanged by this run)"
+    ]
+  },
+  "summary": {
+    "verdict": "PASS",
+    "counts": { "PASS": 9, "FAIL": 0, "UNRUN": 1, "OBSERVATION": 2 },
+    "unrun": ["NATIVE-WORD-HANCOM (native Word/Hancom open of the DOCX/HWPX exports; out of this browser scope)"]
+  },
+  "checklist": [
+    { "id": "VF-PURPOSE-DEFAULT", "label": "UI", "check": "Purpose input shows the localized alias, not a raw key, when no rule exists", "result": "PASS", "at": "2026-11-14T15:58Z", "observed": "input-ai-style-purpose value '자소서 작성' (alias of ai.purposeEssay)." },
+    { "id": "VF-BLANK-PURPOSE-SAVE", "label": "UI+MOCK", "check": "Blank purpose cleared intentionally, then 규칙 저장: rule stored with the default purpose", "result": "PASS", "at": "2026-11-14T15:59Z", "observed": "Stored voiceRules[0].purpose = 'essay' after save (confirmed false); after confirm confirmed true, purpose 'essay', enabled true." },
+    { "id": "VF-BLUR-RESTORE", "label": "UI", "check": "Empty purpose input restores to the default on blur", "result": "PASS", "at": "2026-11-14T15:59Z", "observed": "value '' while empty, '자소서 작성' after Tab." },
+    { "id": "VF-CONFIRM-VOICE-INCLUDES-RULE", "label": "MOCK", "check": "After confirm, a voice request with purpose essay includes 1 matching rule", "result": "PASS", "at": "2026-11-14T15:59Z", "observed": "Outgoing voice request: voiceRules 1, voiceSources 1." },
+    { "id": "VF-SCOPE-OTHER-PURPOSE", "label": "MOCK", "check": "Rule with purpose essay excluded for another purpose (letter)", "result": "PASS", "at": "2026-11-14T16:00Z", "observed": "purpose letter: voiceRules 0. purpose essay: voiceRules 1." },
+    { "id": "VF-NO-RAW-KEY-LABELS", "label": "UI", "check": "No raw purpose key (nav.write, ai.purposeEssay) or raw 'essay' in generated AI panel text or input values", "result": "PASS", "at": "2026-11-14T16:00Z", "observed": "Panel innerText contains none of ['nav.write','essay','ai.purposeEssay']; no input value equals 'nav.write' or 'essay'. Candidate cards and the rule row show '자소서 작성'. Scope: the AI writing panel only." },
+    { "id": "VF-RESET-KEEPS-SAMPLE", "label": "UI", "check": "Reset rules clears rules and keeps the own voice sample", "result": "PASS", "at": "2026-11-14T16:00Z", "observed": "After reset: voiceRules 0, voiceExamples 1, sample checkbox still present and checked in the UI." },
+    { "id": "VF-COACH-LIVE-CODEC", "label": "LIVE_MODEL", "check": "One real coach POST on the final client codec: response validates and renders; body unchanged", "result": "PASS", "at": "2026-11-14T16:00Z", "observed": "Request task coach; HTTP 200; response keys task, sourceFingerprint, coachQuestion, candidates, feedback, voiceRules, notice; no status-ai-failed, status-ai-stale, or status-ai-timeout. Rendered coach question '수정본을 실제 안내문에 반영하거나 신청자에게 사용했나요? 그렇다면 그 뒤 확인된 반응이나 변화는 무엇이었나요?' in result-ai-coach. Editor body before and after: '' (unchanged)." },
+    { "id": "VF-COACH-CALL-COUNT", "label": "LIVE_MODEL", "check": "Exactly one live coach POST in this run", "result": "PASS", "at": "2026-11-14T16:00Z", "note": "Two earlier clicks on AI에 질문 did not send a request (button disabled: first with no fact selected, then after consent reset). No POST was sent by them." },
+    { "id": "VF-SAMPLE-PURPOSE-NORMALIZED", "label": "UI", "check": "Pre-existing voice sample purpose is normalized on read", "result": "OBSERVATION", "at": "2026-11-14T15:58Z", "note": "Stored sample purpose is 'essay' after the reset (normalized). Not a regression." },
+    { "id": "VF-RULE-REVIEW-STATE", "label": "UI", "check": "Legacy blank-purpose rules require review before use", "result": "OBSERVATION", "at": "2026-11-14T15:58Z", "note": "Not exercised in this run (no legacy blank-purpose rule exists in the current profile). Source reads them as unconfirmed and disabled; not verified in the browser." },
+    { "id": "NATIVE-WORD-HANCOM", "label": "UI", "check": "Native Word / Hancom open of the exported DOCX/HWPX", "result": "UNRUN", "at": "2026-11-14T16:00Z", "note": "Out of this browser scope. The earlier TXT export checks are not repeated." }
+  ],
+  "defectsOpen": [],
+  "defectsClosed": [
+    { "id": "DEF-VOICE-PURPOSE-BLANK", "status": "FIXED (verified)", "evidence": "VF-BLANK-PURPOSE-SAVE, VF-CONFIRM-VOICE-INCLUDES-RULE, VF-SCOPE-OTHER-PURPOSE" },
+    { "id": "DEF-PURPOSE-LABEL", "status": "FIXED (verified in AI panel)", "evidence": "VF-NO-RAW-KEY-LABELS" }
+  ],
+  "cleanup": {
+    "note": "Voice rules reset to 0; own voice sample kept. The coach request was a real LIVE_MODEL call and saved nothing (body still empty)."
+  },
+  "files": {
+    "original": "browser-korean.json (unchanged)",
+    "firstRetest": "browser-korean-retest.json (unchanged by this run)"
+  }
+}

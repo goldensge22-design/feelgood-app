@@ -4,6 +4,8 @@ import { loadJSON, saveJSON } from '@/lib/career';
 import { useWorkspace } from '@/lib/workspace';
 import { toast } from '@/hooks/use-toast';
 import { PROV_MESSAGES, PROV_PARTIAL } from '@/lib/provenance-messages';
+import type { CareerAiAssistResponse } from '@workspace/api-client-react';
+import { normalizeAiPurpose, normalizeStoredAiRule, safeAiHistory, validateAiResponse } from './ai-response';
 
 /**
  * Frontend-only provenance sidecar (pending a developer API).
@@ -96,6 +98,42 @@ export interface AppMeta {
   jobLinks?: Record<string, JobConnectionNotes>;
 }
 
+export interface AiCoachAnswer {
+  id: string;
+  question: string;
+  answer: string;
+  experienceIds: string[];
+  at: string;
+}
+
+export interface AiVoiceExample {
+  id: string;
+  text: string;
+  kind: 'user_original' | 'user_edited';
+  language: string;
+  purpose: string;
+  confirmedByUser: true;
+}
+
+export interface AiVoiceRule {
+  id: string;
+  aspect: string;
+  text: string;
+  language: string;
+  purpose: string;
+  enabled: boolean;
+  confirmed: boolean;
+  example?: string;
+}
+
+export interface AiSuggestionRecord {
+  id: string;
+  task: CareerAiAssistResponse['task'];
+  sourceFingerprint: string;
+  createdAt: string;
+  response: CareerAiAssistResponse;
+}
+
 export interface Sidecar {
   v: 1;
   exps: Record<string, ExpMeta>;
@@ -103,11 +141,21 @@ export interface Sidecar {
   apps: Record<string, AppMeta>;
   versions: Record<string, VersionSnap>;
   synthetic: { ack: boolean; sources: Record<string, { revision: number; status: SourceStatus }> };
+  /** AI answers, voice preferences and suggestions are device-local and never part of essay/export payloads. */
+  ai: {
+    answers: Record<string, AiCoachAnswer[]>;
+    voiceExamples: AiVoiceExample[];
+    voiceRules: AiVoiceRule[];
+    history: Record<string, AiSuggestionRecord[]>;
+  };
 }
 
 export const SIDECAR_PREFIX = 'nuvia:provenance:v1:';
 export const sidecarKey = (ctx: string) => `${SIDECAR_PREFIX}${ctx}`;
-export const emptySidecar = (): Sidecar => ({ v: 1, exps: {}, apps: {}, versions: {}, synthetic: { ack: false, sources: {} } });
+export const emptySidecar = (): Sidecar => ({
+  v: 1, exps: {}, apps: {}, versions: {}, synthetic: { ack: false, sources: {} },
+  ai: { answers: {}, voiceExamples: [], voiceRules: [], history: {} },
+});
 const EMPTY = emptySidecar();
 export const LEGACY_META: ExpMeta = { localOnly: true, nature: 'unconfirmed' };
 
@@ -121,11 +169,46 @@ function read(key: string): Sidecar {
     const raw = loadJSON<Partial<Sidecar>>(key);
     const base = emptySidecar();
     s = raw && raw.v === 1
-      ? { ...base, ...raw, v: 1, exps: raw.exps ?? {}, apps: raw.apps ?? {}, versions: raw.versions ?? {}, synthetic: { ...base.synthetic, ...(raw.synthetic ?? {}) } }
+      ? {
+        ...base, ...raw, v: 1,
+        exps: raw.exps ?? {}, apps: raw.apps ?? {}, versions: raw.versions ?? {},
+        synthetic: { ...base.synthetic, ...(raw.synthetic ?? {}) },
+        ai: {
+          ...base.ai, ...(raw.ai ?? {}), history: safeAiHistory(raw.ai?.history),
+          voiceExamples: Array.isArray(raw.ai?.voiceExamples) ? raw.ai.voiceExamples.map(item => ({ ...item, purpose: normalizeAiPurpose(item.purpose) })) : [],
+          voiceRules: Array.isArray(raw.ai?.voiceRules) ? raw.ai.voiceRules.map(normalizeStoredAiRule) : [],
+        },
+      }
       : base;
     cache.set(key, s);
   }
   return s;
+}
+
+export function saveAiCoachAnswer(sc: Sidecar, appId: string, answer: AiCoachAnswer): Sidecar {
+  const current = sc.ai.answers[appId] ?? [];
+  return {
+    ...sc,
+    ai: { ...sc.ai, answers: { ...sc.ai.answers, [appId]: [...current, answer].slice(-30) } },
+  };
+}
+
+export function saveAiVoiceExample(sc: Sidecar, example: AiVoiceExample): Sidecar {
+  if (sc.ai.voiceExamples.some((item) => item.id === example.id)) return sc;
+  return { ...sc, ai: { ...sc.ai, voiceExamples: [...sc.ai.voiceExamples, example].slice(-30) } };
+}
+
+export function saveAiVoiceRules(sc: Sidecar, rules: AiVoiceRule[]): Sidecar {
+  return { ...sc, ai: { ...sc.ai, voiceRules: rules.slice(-50) } };
+}
+
+export function appendAiSuggestion(sc: Sidecar, appId: string, record: AiSuggestionRecord): Sidecar {
+  const response = validateAiResponse(record.response);
+  const current = sc.ai.history[appId] ?? [];
+  return {
+    ...sc,
+    ai: { ...sc.ai, history: { ...sc.ai.history, [appId]: [...current, { ...record, response }].slice(-20) } },
+  };
 }
 
 function notifySaveFailed() {

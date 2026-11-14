@@ -644,6 +644,234 @@ export const ExportCareerDocumentResponse = zod.unknown()
 
 
 /**
+ * Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+ * @summary Generate consented, account-scoped writing assistance
+ */
+export const requestCareerAiAssistanceBodyLocaleMax = 20;
+
+export const requestCareerAiAssistanceBodyWritingLanguageMax = 100;
+
+export const requestCareerAiAssistanceBodySourceFingerprintMax = 200;
+
+export const requestCareerAiAssistanceBodyCoachPromptMax = 2000;
+
+export const requestCareerAiAssistanceBodyApplicationCompanyMax = 500;
+
+export const requestCareerAiAssistanceBodyApplicationJobMax = 500;
+
+export const requestCareerAiAssistanceBodyApplicationQuestionMax = 5000;
+
+export const requestCareerAiAssistanceBodyApplicationBodyMax = 20000;
+
+export const requestCareerAiAssistanceBodyStrengthsItemNameMax = 200;
+
+export const requestCareerAiAssistanceBodyStrengthsItemInterpretationMax = 2000;
+
+export const requestCareerAiAssistanceBodyStrengthsItemRecommendationReasonMax = 2000;
+
+export const requestCareerAiAssistanceBodyStrengthsMax = 4;
+
+export const requestCareerAiAssistanceBodyExperiencesItemTitleMax = 500;
+
+export const requestCareerAiAssistanceBodyExperiencesItemSourceMax = 100;
+
+export const requestCareerAiAssistanceBodyExperiencesItemSourceVersionMax = 200;
+
+export const requestCareerAiAssistanceBodyExperiencesItemSourceTitleMax = 500;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceTitleMax = 500;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceCompanyMax = 500;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceJobMax = 500;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceVersionMax = 200;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceAsOfMax = 100;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSpecificDutyMax = 2000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionSharedActionMax = 2000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionLearnedPrincipleMax = 2000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemJobConnectionFutureApplicationMax = 2000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsSituationMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsRoleGoalMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsActionMax = 5000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsSelectionReasonMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsChangedMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsResultMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsLearningMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsResultEvidenceMax = 3000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsSupportProvidedMax = 2000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsIndependentStepsItemMax = 1000;
+
+export const requestCareerAiAssistanceBodyExperiencesItemFieldsIndependentStepsMax = 20;
+
+export const requestCareerAiAssistanceBodyExperiencesMax = 10;
+
+export const requestCareerAiAssistanceBodyUserAnswersItemQuestionMax = 1000;
+
+export const requestCareerAiAssistanceBodyUserAnswersItemAnswerMax = 3000;
+
+export const requestCareerAiAssistanceBodyUserAnswersMax = 12;
+
+export const requestCareerAiAssistanceBodyVoiceSourcesItemTextMax = 5000;
+
+export const requestCareerAiAssistanceBodyVoiceSourcesMax = 6;
+
+export const requestCareerAiAssistanceBodyVoiceRulesItemAspectMax = 100;
+
+export const requestCareerAiAssistanceBodyVoiceRulesItemRuleMax = 1000;
+
+export const requestCareerAiAssistanceBodyVoiceRulesMax = 20;
+
+
+
+export const RequestCareerAiAssistanceBody = zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "locale": zod.string().max(requestCareerAiAssistanceBodyLocaleMax),
+  "writingLanguage": zod.string().max(requestCareerAiAssistanceBodyWritingLanguageMax),
+  "sourceFingerprint": zod.string().min(1).max(requestCareerAiAssistanceBodySourceFingerprintMax),
+  "confirmed": zod.boolean(),
+  "factsConfirmed": zod.boolean(),
+  "coachPrompt": zod.string().max(requestCareerAiAssistanceBodyCoachPromptMax),
+  "application": zod.object({
+  "company": zod.string().max(requestCareerAiAssistanceBodyApplicationCompanyMax),
+  "job": zod.string().max(requestCareerAiAssistanceBodyApplicationJobMax),
+  "question": zod.string().max(requestCareerAiAssistanceBodyApplicationQuestionMax),
+  "body": zod.string().max(requestCareerAiAssistanceBodyApplicationBodyMax)
+}),
+  "strengths": zod.array(zod.object({
+  "name": zod.string().max(requestCareerAiAssistanceBodyStrengthsItemNameMax),
+  "interpretation": zod.string().max(requestCareerAiAssistanceBodyStrengthsItemInterpretationMax),
+  "recommendationReason": zod.string().max(requestCareerAiAssistanceBodyStrengthsItemRecommendationReasonMax)
+})).max(requestCareerAiAssistanceBodyStrengthsMax),
+  "experiences": zod.array(zod.object({
+  "title": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemTitleMax),
+  "nature": zod.enum(['actual', 'simulation', 'unconfirmed']),
+  "context": zod.enum(['daily_activity', 'class_simulation', 'job_experience', 'synthetic_example', 'unknown']),
+  "cardType": zod.union([zod.literal('daily_application'),zod.literal('job_scenario'),zod.literal(null)]).nullable(),
+  "source": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemSourceMax),
+  "sourceVersion": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemSourceVersionMax),
+  "sourceTitle": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemSourceTitleMax),
+  "jobConnection": zod.object({
+  "sourceKind": zod.enum(['official_material', 'job_posting', 'company_public', 'educational_inference', 'unverified']),
+  "sourceTitle": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceTitleMax),
+  "sourceCompany": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceCompanyMax),
+  "sourceJob": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceJobMax),
+  "sourceVersion": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceVersionMax),
+  "sourceAsOf": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSourceAsOfMax),
+  "specificDuty": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSpecificDutyMax),
+  "sharedAction": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionSharedActionMax),
+  "learnedPrinciple": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionLearnedPrincipleMax),
+  "futureApplication": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemJobConnectionFutureApplicationMax),
+  "reviewed": zod.boolean()
+}).nullable(),
+  "fields": zod.object({
+  "situation": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsSituationMax),
+  "roleGoal": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsRoleGoalMax),
+  "action": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsActionMax),
+  "selectionReason": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsSelectionReasonMax),
+  "changed": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsChangedMax),
+  "result": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsResultMax),
+  "learning": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsLearningMax),
+  "resultEvidence": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsResultEvidenceMax),
+  "supportProvided": zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsSupportProvidedMax),
+  "independentSteps": zod.array(zod.string().max(requestCareerAiAssistanceBodyExperiencesItemFieldsIndependentStepsItemMax)).max(requestCareerAiAssistanceBodyExperiencesItemFieldsIndependentStepsMax)
+})
+})).max(requestCareerAiAssistanceBodyExperiencesMax),
+  "userAnswers": zod.array(zod.object({
+  "question": zod.string().max(requestCareerAiAssistanceBodyUserAnswersItemQuestionMax),
+  "answer": zod.string().max(requestCareerAiAssistanceBodyUserAnswersItemAnswerMax)
+})).max(requestCareerAiAssistanceBodyUserAnswersMax),
+  "voiceSources": zod.array(zod.object({
+  "text": zod.string().max(requestCareerAiAssistanceBodyVoiceSourcesItemTextMax),
+  "kind": zod.enum(['user_original', 'user_edited'])
+})).max(requestCareerAiAssistanceBodyVoiceSourcesMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(requestCareerAiAssistanceBodyVoiceRulesItemAspectMax),
+  "rule": zod.string().max(requestCareerAiAssistanceBodyVoiceRulesItemRuleMax),
+  "enabled": zod.boolean()
+})).max(requestCareerAiAssistanceBodyVoiceRulesMax)
+})
+
+export const requestCareerAiAssistanceResponseSourceFingerprintMax = 200;
+
+export const requestCareerAiAssistanceResponseCoachQuestionMax = 2000;
+
+export const requestCareerAiAssistanceResponseCandidatesItemTextMax = 5000;
+
+export const requestCareerAiAssistanceResponseCandidatesItemRationaleMax = 2000;
+
+export const requestCareerAiAssistanceResponseCandidatesItemSourceFactsItemMax = 500;
+
+export const requestCareerAiAssistanceResponseCandidatesItemSourceFactsMax = 10;
+
+export const requestCareerAiAssistanceResponseCandidatesItemStrengthConnectionMax = 1000;
+
+export const requestCareerAiAssistanceResponseCandidatesItemCautionMax = 1000;
+
+export const requestCareerAiAssistanceResponseCandidatesMax = 3;
+
+export const requestCareerAiAssistanceResponseFeedbackItemCategoryMax = 100;
+
+export const requestCareerAiAssistanceResponseFeedbackItemNoteMax = 1000;
+
+export const requestCareerAiAssistanceResponseFeedbackItemEvidenceMax = 500;
+
+export const requestCareerAiAssistanceResponseFeedbackMax = 12;
+
+export const requestCareerAiAssistanceResponseVoiceRulesItemAspectMax = 100;
+
+export const requestCareerAiAssistanceResponseVoiceRulesItemRuleMax = 1000;
+
+export const requestCareerAiAssistanceResponseVoiceRulesItemExampleMax = 500;
+
+export const requestCareerAiAssistanceResponseVoiceRulesMax = 12;
+
+export const requestCareerAiAssistanceResponseNoticeMax = 1000;
+
+
+
+export const RequestCareerAiAssistanceResponse = zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "sourceFingerprint": zod.string().max(requestCareerAiAssistanceResponseSourceFingerprintMax),
+  "coachQuestion": zod.string().max(requestCareerAiAssistanceResponseCoachQuestionMax),
+  "candidates": zod.array(zod.object({
+  "text": zod.string().max(requestCareerAiAssistanceResponseCandidatesItemTextMax),
+  "rationale": zod.string().max(requestCareerAiAssistanceResponseCandidatesItemRationaleMax),
+  "sourceFacts": zod.array(zod.string().max(requestCareerAiAssistanceResponseCandidatesItemSourceFactsItemMax)).max(requestCareerAiAssistanceResponseCandidatesItemSourceFactsMax),
+  "strengthConnection": zod.string().max(requestCareerAiAssistanceResponseCandidatesItemStrengthConnectionMax),
+  "caution": zod.string().max(requestCareerAiAssistanceResponseCandidatesItemCautionMax)
+})).max(requestCareerAiAssistanceResponseCandidatesMax),
+  "feedback": zod.array(zod.object({
+  "category": zod.string().max(requestCareerAiAssistanceResponseFeedbackItemCategoryMax),
+  "note": zod.string().max(requestCareerAiAssistanceResponseFeedbackItemNoteMax),
+  "evidence": zod.string().max(requestCareerAiAssistanceResponseFeedbackItemEvidenceMax)
+})).max(requestCareerAiAssistanceResponseFeedbackMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(requestCareerAiAssistanceResponseVoiceRulesItemAspectMax),
+  "rule": zod.string().max(requestCareerAiAssistanceResponseVoiceRulesItemRuleMax),
+  "example": zod.string().max(requestCareerAiAssistanceResponseVoiceRulesItemExampleMax),
+  "confidence": zod.enum(['tentative', 'repeated'])
+})).max(requestCareerAiAssistanceResponseVoiceRulesMax),
+  "notice": zod.string().max(requestCareerAiAssistanceResponseNoticeMax)
+})
+
+
+/**
  * Returns server health status
  * @summary Health check
  */

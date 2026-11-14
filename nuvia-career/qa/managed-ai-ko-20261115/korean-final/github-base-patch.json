@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-11-14T16:10:14.587095+00:00",
+  "githubBase": "f051942eef7487157c5ad1bfea6125f068bc0ae2",
+  "sourceCommit": "b82c46342cf9e03b24b94ff7e66f109b0ec39201",
+  "runtimeSourceFingerprintSha256": "85bc33120b1654c694544b70a11e142abe9be10b1af9b8937aad5d801ac100d0",
+  "patchFile": "github-f051942-korean-ai.patch",
+  "patchSha256": "e21936829bd62d602b2d609ae7a4f89b3e91b44b1140cf7df6d81aae830c64c2",
+  "applyAt": "goldensge22-design/feelgood-app repository root",
+  "programPrefix": "nuvia-career/",
+  "sourceFilesCompared": 249,
+  "protectedRuleFilesCompared": 3,
+  "gitApplyCheck": "pass",
+  "freshCopyApply": "pass",
+  "allExpectedHashesMatch": true,
+  "scope": "Synthetic offline copy of the read GitHub source subset, not a remote push or full repository checkout",
+  "instructions": [
+    "Use a new local work branch from the verified handoff branch; do not overwrite main.",
+    "If remote base is no longer f051942, inspect differences first; never force apply.",
+    "At repository root: git apply --check github-f051942-korean-ai.patch",
+    "Then: git apply github-f051942-korean-ai.patch; inspect diff and commit/push with your existing authorized account.",
+    "Do not also apply the alternative bd181075 or 7802fa3 patches.",
+    "No database migration, production access or public deployment is part of this patch."
+  ]
+}

@@ -110,6 +110,34 @@ paths:
                 format: binary
         "422":
           description: Fact confirmation required or unsupported format
+  /career/ai-assist:
+    post:
+      operationId: requestCareerAiAssistance
+      summary: Generate consented, account-scoped writing assistance
+      description: Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerAiAssistInput"
+      responses:
+        "200":
+          description: AI-generated questions, candidate wording, feedback, or voice-rule suggestions
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerAiAssistResponse"
+        "400":
+          description: Invalid or over-sized request
+        "401":
+          description: Authentication required
+        "409":
+          description: The user's consent confirmation is missing
+        "429":
+          description: Account or provider rate limit reached
+        "503":
+          description: Managed AI is not configured or temporarily unavailable
   /healthz:
     get:
       operationId: healthCheck
@@ -309,6 +337,182 @@ components:
           type: string
           enum: [txt, docx, hwpx]
         confirmed: { type: boolean }
+    CareerAiAssistInput:
+      type: object
+      additionalProperties: false
+      required: [task, locale, writingLanguage, sourceFingerprint, confirmed, factsConfirmed, coachPrompt, application, strengths, experiences, userAnswers, voiceSources, voiceRules]
+      properties:
+        task:
+          type: string
+          enum: [coach, draft, voice, analyze]
+        locale: { type: string, maxLength: 20 }
+        writingLanguage: { type: string, maxLength: 100 }
+        sourceFingerprint: { type: string, minLength: 1, maxLength: 200 }
+        confirmed: { type: boolean }
+        factsConfirmed: { type: boolean }
+        coachPrompt: { type: string, maxLength: 2000 }
+        application:
+          type: object
+          additionalProperties: false
+          required: [company, job, question, body]
+          properties:
+            company: { type: string, maxLength: 500 }
+            job: { type: string, maxLength: 500 }
+            question: { type: string, maxLength: 5000 }
+            body: { type: string, maxLength: 20000 }
+        strengths:
+          type: array
+          maxItems: 4
+          items:
+            type: object
+            additionalProperties: false
+            required: [name, interpretation, recommendationReason]
+            properties:
+              name: { type: string, maxLength: 200 }
+              interpretation: { type: string, maxLength: 2000 }
+              recommendationReason: { type: string, maxLength: 2000 }
+        experiences:
+          type: array
+          maxItems: 10
+          items:
+            type: object
+            additionalProperties: false
+            required: [title, nature, context, cardType, source, sourceVersion, sourceTitle, fields, jobConnection]
+            properties:
+              title: { type: string, maxLength: 500 }
+              nature:
+                type: string
+                enum: [actual, simulation, unconfirmed]
+              context:
+                type: string
+                enum: [daily_activity, class_simulation, job_experience, synthetic_example, unknown]
+              cardType:
+                type: [string, "null"]
+                enum: [daily_application, job_scenario, null]
+              source: { type: string, maxLength: 100 }
+              sourceVersion: { type: string, maxLength: 200 }
+              sourceTitle: { type: string, maxLength: 500 }
+              jobConnection:
+                type: [object, "null"]
+                additionalProperties: false
+                required: [sourceKind, sourceTitle, sourceCompany, sourceJob, sourceVersion, sourceAsOf, specificDuty, sharedAction, learnedPrinciple, futureApplication, reviewed]
+                properties:
+                  sourceKind:
+                    type: string
+                    enum: [official_material, job_posting, company_public, educational_inference, unverified]
+                  sourceTitle: { type: string, maxLength: 500 }
+                  sourceCompany: { type: string, maxLength: 500 }
+                  sourceJob: { type: string, maxLength: 500 }
+                  sourceVersion: { type: string, maxLength: 200 }
+                  sourceAsOf: { type: string, maxLength: 100 }
+                  specificDuty: { type: string, maxLength: 2000 }
+                  sharedAction: { type: string, maxLength: 2000 }
+                  learnedPrinciple: { type: string, maxLength: 2000 }
+                  futureApplication: { type: string, maxLength: 2000 }
+                  reviewed: { type: boolean }
+              fields:
+                type: object
+                additionalProperties: false
+                required: [situation, roleGoal, action, selectionReason, changed, result, learning, resultEvidence, supportProvided, independentSteps]
+                properties:
+                  situation: { type: string, maxLength: 3000 }
+                  roleGoal: { type: string, maxLength: 3000 }
+                  action: { type: string, maxLength: 5000 }
+                  selectionReason: { type: string, maxLength: 3000 }
+                  changed: { type: string, maxLength: 3000 }
+                  result: { type: string, maxLength: 3000 }
+                  learning: { type: string, maxLength: 3000 }
+                  resultEvidence: { type: string, maxLength: 3000 }
+                  supportProvided: { type: string, maxLength: 2000 }
+                  independentSteps:
+                    type: array
+                    maxItems: 20
+                    items: { type: string, maxLength: 1000 }
+        userAnswers:
+          type: array
+          maxItems: 12
+          items:
+            type: object
+            additionalProperties: false
+            required: [question, answer]
+            properties:
+              question: { type: string, maxLength: 1000 }
+              answer: { type: string, maxLength: 3000 }
+        voiceSources:
+          type: array
+          maxItems: 6
+          items:
+            type: object
+            additionalProperties: false
+            required: [text, kind]
+            properties:
+              text: { type: string, maxLength: 5000 }
+              kind:
+                type: string
+                enum: [user_original, user_edited]
+        voiceRules:
+          type: array
+          maxItems: 20
+          items:
+            type: object
+            additionalProperties: false
+            required: [aspect, rule, enabled]
+            properties:
+              aspect: { type: string, maxLength: 100 }
+              rule: { type: string, maxLength: 1000 }
+              enabled: { type: boolean }
+    CareerAiAssistResponse:
+      type: object
+      additionalProperties: false
+      required: [task, sourceFingerprint, coachQuestion, candidates, feedback, voiceRules, notice]
+      properties:
+        task:
+          type: string
+          enum: [coach, draft, voice, analyze]
+        sourceFingerprint: { type: string, maxLength: 200 }
+        coachQuestion: { type: string, maxLength: 2000 }
+        candidates:
+          type: array
+          maxItems: 3
+          items:
+            type: object
+            additionalProperties: false
+            required: [text, rationale, sourceFacts, strengthConnection, caution]
+            properties:
+              text: { type: string, maxLength: 5000 }
+              rationale: { type: string, maxLength: 2000 }
+              sourceFacts:
+                type: array
+                maxItems: 10
+                items: { type: string, maxLength: 500 }
+              strengthConnection: { type: string, maxLength: 1000 }
+              caution: { type: string, maxLength: 1000 }
+        feedback:
+          type: array
+          maxItems: 12
+          items:
+            type: object
+            additionalProperties: false
+            required: [category, note, evidence]
+            properties:
+              category: { type: string, maxLength: 100 }
+              note: { type: string, maxLength: 1000 }
+              evidence: { type: string, maxLength: 500 }
+        voiceRules:
+          type: array
+          maxItems: 12
+          items:
+            type: object
+            additionalProperties: false
+            required: [aspect, rule, example, confidence]
+            properties:
+              aspect: { type: string, maxLength: 100 }
+              rule: { type: string, maxLength: 1000 }
+              example: { type: string, maxLength: 500 }
+              confidence:
+                type: string
+                enum: [tentative, repeated]
+        notice: { type: string, maxLength: 1000 }
     HealthStatus:
       type: object
       properties:

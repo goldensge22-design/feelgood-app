@@ -25,6 +25,8 @@ import type {
 } from '@tanstack/react-query';
 
 import type {
+  CareerAiAssistInput,
+  CareerAiAssistResponse,
   CareerExportInput,
   CareerOverview,
   CareerState,
@@ -686,6 +688,95 @@ const {mutation: mutationOptions, request: requestOptions} = options ?
         TContext
       > => {
       return useMutation(getExportCareerDocumentMutationOptions(options), queryClient);
+    }
+
+export const getRequestCareerAiAssistanceUrl = () => {
+
+
+
+
+  return `/api/career/ai-assist`
+}
+
+/**
+ * Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+ * @summary Generate consented, account-scoped writing assistance
+ */
+export const requestCareerAiAssistance = async (careerAiAssistInput: CareerAiAssistInput, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiAssistResponse> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<CareerAiAssistResponse>(getRequestCareerAiAssistanceUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(careerAiAssistInput)
+  }
+);}
+
+
+
+
+
+export const getRequestCareerAiAssistanceMutationKey = () => ['requestCareerAiAssistance'] as const;
+
+export const getRequestCareerAiAssistanceMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof requestCareerAiAssistance>>, TError,RequestCareerAiAssistanceMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof requestCareerAiAssistance>>, TError,RequestCareerAiAssistanceMutationVariables, TContext> => {
+
+const mutationKey = getRequestCareerAiAssistanceMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof requestCareerAiAssistance>>, RequestCareerAiAssistanceMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  requestCareerAiAssistance(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RequestCareerAiAssistanceMutationResult = NonNullable<Awaited<ReturnType<typeof requestCareerAiAssistance>>>
+    export type RequestCareerAiAssistanceMutationBody = BodyType<CareerAiAssistInput>
+    export type RequestCareerAiAssistanceMutationError = ErrorType<void>
+    export type RequestCareerAiAssistanceMutationVariables = {data: BodyType<CareerAiAssistInput>}
+
+    /**
+ * @summary Generate consented, account-scoped writing assistance
+ */
+export const useRequestCareerAiAssistance = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof requestCareerAiAssistance>>, TError,RequestCareerAiAssistanceMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof requestCareerAiAssistance>>,
+        TError,
+        RequestCareerAiAssistanceMutationVariables,
+        TContext
+      > => {
+      return useMutation(getRequestCareerAiAssistanceMutationOptions(options), queryClient);
     }
 
 export const getHealthCheckUrl = () => {

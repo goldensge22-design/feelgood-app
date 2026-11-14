@@ -237,6 +237,274 @@ export interface CareerExportInput {
   confirmed: boolean;
 }
 
+export type CareerAiAssistInputTask = typeof CareerAiAssistInputTask[keyof typeof CareerAiAssistInputTask];
+
+
+export const CareerAiAssistInputTask = {
+  coach: 'coach',
+  draft: 'draft',
+  voice: 'voice',
+  analyze: 'analyze',
+} as const;
+
+export type CareerAiAssistInputApplication = {
+  /** @maxLength 500 */
+  company: string;
+  /** @maxLength 500 */
+  job: string;
+  /** @maxLength 5000 */
+  question: string;
+  /** @maxLength 20000 */
+  body: string;
+};
+
+export type CareerAiAssistInputStrengthsItem = {
+  /** @maxLength 200 */
+  name: string;
+  /** @maxLength 2000 */
+  interpretation: string;
+  /** @maxLength 2000 */
+  recommendationReason: string;
+};
+
+export type CareerAiAssistInputExperiencesItemNature = typeof CareerAiAssistInputExperiencesItemNature[keyof typeof CareerAiAssistInputExperiencesItemNature];
+
+
+export const CareerAiAssistInputExperiencesItemNature = {
+  actual: 'actual',
+  simulation: 'simulation',
+  unconfirmed: 'unconfirmed',
+} as const;
+
+export type CareerAiAssistInputExperiencesItemContext = typeof CareerAiAssistInputExperiencesItemContext[keyof typeof CareerAiAssistInputExperiencesItemContext];
+
+
+export const CareerAiAssistInputExperiencesItemContext = {
+  daily_activity: 'daily_activity',
+  class_simulation: 'class_simulation',
+  job_experience: 'job_experience',
+  synthetic_example: 'synthetic_example',
+  unknown: 'unknown',
+} as const;
+
+/**
+ * @nullable
+ */
+export type CareerAiAssistInputExperiencesItemCardType = typeof CareerAiAssistInputExperiencesItemCardType[keyof typeof CareerAiAssistInputExperiencesItemCardType] | null;
+
+
+export const CareerAiAssistInputExperiencesItemCardType = {
+  daily_application: 'daily_application',
+  job_scenario: 'job_scenario',
+} as const;
+
+export type CareerAiAssistInputExperiencesItemJobConnectionSourceKind = typeof CareerAiAssistInputExperiencesItemJobConnectionSourceKind[keyof typeof CareerAiAssistInputExperiencesItemJobConnectionSourceKind];
+
+
+export const CareerAiAssistInputExperiencesItemJobConnectionSourceKind = {
+  official_material: 'official_material',
+  job_posting: 'job_posting',
+  company_public: 'company_public',
+  educational_inference: 'educational_inference',
+  unverified: 'unverified',
+} as const;
+
+/**
+ * @nullable
+ */
+export type CareerAiAssistInputExperiencesItemJobConnection = {
+  sourceKind: CareerAiAssistInputExperiencesItemJobConnectionSourceKind;
+  /** @maxLength 500 */
+  sourceTitle: string;
+  /** @maxLength 500 */
+  sourceCompany: string;
+  /** @maxLength 500 */
+  sourceJob: string;
+  /** @maxLength 200 */
+  sourceVersion: string;
+  /** @maxLength 100 */
+  sourceAsOf: string;
+  /** @maxLength 2000 */
+  specificDuty: string;
+  /** @maxLength 2000 */
+  sharedAction: string;
+  /** @maxLength 2000 */
+  learnedPrinciple: string;
+  /** @maxLength 2000 */
+  futureApplication: string;
+  reviewed: boolean;
+} | null;
+
+export type CareerAiAssistInputExperiencesItemFields = {
+  /** @maxLength 3000 */
+  situation: string;
+  /** @maxLength 3000 */
+  roleGoal: string;
+  /** @maxLength 5000 */
+  action: string;
+  /** @maxLength 3000 */
+  selectionReason: string;
+  /** @maxLength 3000 */
+  changed: string;
+  /** @maxLength 3000 */
+  result: string;
+  /** @maxLength 3000 */
+  learning: string;
+  /** @maxLength 3000 */
+  resultEvidence: string;
+  /** @maxLength 2000 */
+  supportProvided: string;
+  /**
+     * @maxItems 20
+     * @items.maxLength 1000
+     */
+  independentSteps: string[];
+};
+
+export type CareerAiAssistInputExperiencesItem = {
+  /** @maxLength 500 */
+  title: string;
+  nature: CareerAiAssistInputExperiencesItemNature;
+  context: CareerAiAssistInputExperiencesItemContext;
+  /** @nullable */
+  cardType: CareerAiAssistInputExperiencesItemCardType;
+  /** @maxLength 100 */
+  source: string;
+  /** @maxLength 200 */
+  sourceVersion: string;
+  /** @maxLength 500 */
+  sourceTitle: string;
+  /** @nullable */
+  jobConnection: CareerAiAssistInputExperiencesItemJobConnection;
+  fields: CareerAiAssistInputExperiencesItemFields;
+};
+
+export type CareerAiAssistInputUserAnswersItem = {
+  /** @maxLength 1000 */
+  question: string;
+  /** @maxLength 3000 */
+  answer: string;
+};
+
+export type CareerAiAssistInputVoiceSourcesItemKind = typeof CareerAiAssistInputVoiceSourcesItemKind[keyof typeof CareerAiAssistInputVoiceSourcesItemKind];
+
+
+export const CareerAiAssistInputVoiceSourcesItemKind = {
+  user_original: 'user_original',
+  user_edited: 'user_edited',
+} as const;
+
+export type CareerAiAssistInputVoiceSourcesItem = {
+  /** @maxLength 5000 */
+  text: string;
+  kind: CareerAiAssistInputVoiceSourcesItemKind;
+};
+
+export type CareerAiAssistInputVoiceRulesItem = {
+  /** @maxLength 100 */
+  aspect: string;
+  /** @maxLength 1000 */
+  rule: string;
+  enabled: boolean;
+};
+
+export interface CareerAiAssistInput {
+  task: CareerAiAssistInputTask;
+  /** @maxLength 20 */
+  locale: string;
+  /** @maxLength 100 */
+  writingLanguage: string;
+  /**
+     * @minLength 1
+     * @maxLength 200
+     */
+  sourceFingerprint: string;
+  confirmed: boolean;
+  factsConfirmed: boolean;
+  /** @maxLength 2000 */
+  coachPrompt: string;
+  application: CareerAiAssistInputApplication;
+  /** @maxItems 4 */
+  strengths: CareerAiAssistInputStrengthsItem[];
+  /** @maxItems 10 */
+  experiences: CareerAiAssistInputExperiencesItem[];
+  /** @maxItems 12 */
+  userAnswers: CareerAiAssistInputUserAnswersItem[];
+  /** @maxItems 6 */
+  voiceSources: CareerAiAssistInputVoiceSourcesItem[];
+  /** @maxItems 20 */
+  voiceRules: CareerAiAssistInputVoiceRulesItem[];
+}
+
+export type CareerAiAssistResponseTask = typeof CareerAiAssistResponseTask[keyof typeof CareerAiAssistResponseTask];
+
+
+export const CareerAiAssistResponseTask = {
+  coach: 'coach',
+  draft: 'draft',
+  voice: 'voice',
+  analyze: 'analyze',
+} as const;
+
+export type CareerAiAssistResponseCandidatesItem = {
+  /** @maxLength 5000 */
+  text: string;
+  /** @maxLength 2000 */
+  rationale: string;
+  /**
+     * @maxItems 10
+     * @items.maxLength 500
+     */
+  sourceFacts: string[];
+  /** @maxLength 1000 */
+  strengthConnection: string;
+  /** @maxLength 1000 */
+  caution: string;
+};
+
+export type CareerAiAssistResponseFeedbackItem = {
+  /** @maxLength 100 */
+  category: string;
+  /** @maxLength 1000 */
+  note: string;
+  /** @maxLength 500 */
+  evidence: string;
+};
+
+export type CareerAiAssistResponseVoiceRulesItemConfidence = typeof CareerAiAssistResponseVoiceRulesItemConfidence[keyof typeof CareerAiAssistResponseVoiceRulesItemConfidence];
+
+
+export const CareerAiAssistResponseVoiceRulesItemConfidence = {
+  tentative: 'tentative',
+  repeated: 'repeated',
+} as const;
+
+export type CareerAiAssistResponseVoiceRulesItem = {
+  /** @maxLength 100 */
+  aspect: string;
+  /** @maxLength 1000 */
+  rule: string;
+  /** @maxLength 500 */
+  example: string;
+  confidence: CareerAiAssistResponseVoiceRulesItemConfidence;
+};
+
+export interface CareerAiAssistResponse {
+  task: CareerAiAssistResponseTask;
+  /** @maxLength 200 */
+  sourceFingerprint: string;
+  /** @maxLength 2000 */
+  coachQuestion: string;
+  /** @maxItems 3 */
+  candidates: CareerAiAssistResponseCandidatesItem[];
+  /** @maxItems 12 */
+  feedback: CareerAiAssistResponseFeedbackItem[];
+  /** @maxItems 12 */
+  voiceRules: CareerAiAssistResponseVoiceRulesItem[];
+  /** @maxLength 1000 */
+  notice: string;
+}
+
 export interface HealthStatus {
   status: string;
 }

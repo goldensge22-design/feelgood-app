@@ -1,0 +1,1588 @@
+{
+  "createdAt": "2026-11-14T16:10:57.166732+00:00",
+  "baseCommit": "bd181075f5a301d4f19bc340e571d2494bfdc819",
+  "sourceCommit": "b82c46342cf9e03b24b94ff7e66f109b0ec39201",
+  "worktreeModified": false,
+  "runtimeSourceFingerprintSha256": "85bc33120b1654c694544b70a11e142abe9be10b1af9b8937aad5d801ac100d0",
+  "sourceFiles": [
+    {
+      "path": ".gitignore",
+      "bytes": 767,
+      "sha256": "01521c7722d08c084414d67536b96f8bffc6d4da317efd0bbb65c798f7ceb6dd"
+    },
+    {
+      "path": ".replitignore",
+      "bytes": 253,
+      "sha256": "329e6018344c4e53faac908a2bf6b07673a410b6528a2ab2987fac82dff60c31"
+    },
+    {
+      "path": "artifacts/api-server/.replit-artifact/artifact.toml",
+      "bytes": 784,
+      "sha256": "e461708bfe50f6eb964fa755cf0c6ba813c19392be055d5ef96c729aa0173539"
+    },
+    {
+      "path": "artifacts/api-server/build.mjs",
+      "bytes": 3570,
+      "sha256": "189e53e73c9cd37a9b97acb7b301da679028a8440a4d123132fa7a59ec542b10"
+    },
+    {
+      "path": "artifacts/api-server/package.json",
+      "bytes": 1056,
+      "sha256": "58437ec1a347128e7fd6abea405075afb0d311d747a500eae32f0cfddf19feab"
+    },
+    {
+      "path": "artifacts/api-server/src/app.ts",
+      "bytes": 1456,
+      "sha256": "c0ee2befc83c064bb79a25b30cadc501b0c349e35e231ba860534647e85d36c5"
+    },
+    {
+      "path": "artifacts/api-server/src/index.ts",
+      "bytes": 511,
+      "sha256": "9c1f296e0008006b40d766ee436697e43ef99cf907f2c7afe9a6cd2d6c118d3c"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/assets/LICENSE-python-hwpx.txt",
+      "bytes": 9688,
+      "sha256": "fee6f3e30bfe064913de5de0bbe42e1fb2467958ee458199a192bde5e36c0875"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/assets/README.md",
+      "bytes": 699,
+      "sha256": "dd224e60357dd074ab761975d38a78423c33f18468cabcf10f837ed8f888fe6c"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/assets/skeleton.hwpx",
+      "bytes": 7490,
+      "sha256": "c91fb77a9933a3e5645a25778e2d2b99e98137ed99572a5d1dd29ef0c0fd4c98"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-ai.ts",
+      "bytes": 9702,
+      "sha256": "b26292fc794c8256e54382c3487b846fc536344a7b5d73e1158c884fcdbe37cf"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-data.ts",
+      "bytes": 6548,
+      "sha256": "14b727bbf855304e67a248b12d706cf7336b01735abb6152c240751e9dd4ba2d"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-export.ts",
+      "bytes": 1029,
+      "sha256": "be20a4900703e3cba9b9e1b4a0356702ec77eb862e64ba3ab3bfd129fa85c165"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-hwpx.test.ts",
+      "bytes": 3162,
+      "sha256": "5cfaa67df34a0c7f8064666aa3628ae18aea9ca4290ec9eebe78940a647c25f0"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-hwpx.ts",
+      "bytes": 4963,
+      "sha256": "d1ad9cbfeeda1f4ec5b7504946d7c0d96bfbf73606cc6552a84ea2efe4a54ffe"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-ncs.ts",
+      "bytes": 1890,
+      "sha256": "62d832b584c27775e437788361bae837dfe0f392f81fba29cbe56469e40535fc"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-store.test.ts",
+      "bytes": 2900,
+      "sha256": "572cdd20b8572edd4e24e0b044fc5c385c455d87729becff4249ad1862159b2b"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-store.ts",
+      "bytes": 3612,
+      "sha256": "baf5bb538190c347b4edef641a924c104af9d4254330f25770c327663763e364"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-validation.ts",
+      "bytes": 3820,
+      "sha256": "35880b4bd35661fcd9da975d79d6893a39a85a50c5d26ef2cf7c17524e82c40b"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career.test.ts",
+      "bytes": 4945,
+      "sha256": "028793142d3c03b0e2ce3294650f473310a2a076d239f6a4b353074e6b214caa"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/logger.ts",
+      "bytes": 421,
+      "sha256": "29e1ca75036fe917595a3a74fd450857d845836fe0625c30b9caa02df4acba62"
+    },
+    {
+      "path": "artifacts/api-server/src/middlewares/.gitkeep",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "artifacts/api-server/src/middlewares/clerkProxyMiddleware.ts",
+      "bytes": 5931,
+      "sha256": "4709696f6020bc6f869ec9becc2e332c1522724bd17cc42937c31bfe95b6d2ab"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/career-ai.ts",
+      "bytes": 2871,
+      "sha256": "05d18c1016386aea4aa2558880c86b51ec1d18f94bea9b853d0ec74acc62bd87"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/career.ts",
+      "bytes": 5225,
+      "sha256": "4e06824c95c54bc3d008fa0fc6901cd270ffd0034eb81371107e154927f71777"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/health.ts",
+      "bytes": 288,
+      "sha256": "0386ceddb4ff4bff220af72ca38a62191ad95a2f41fd619df3bb9ceffce03db2"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/index.ts",
+      "bytes": 304,
+      "sha256": "347653cd8410f2151967dc71d60852abfa2440271212e888d4aec3f9b53b6536"
+    },
+    {
+      "path": "artifacts/api-server/tsconfig.json",
+      "bytes": 335,
+      "sha256": "aa300909ccd1d4282761b5d6549a174717b663bb56cb0f59d107d4b3d96cb009"
+    },
+    {
+      "path": "artifacts/nuvia-career/.replit-artifact/artifact.toml",
+      "bytes": 815,
+      "sha256": "1e413ba79c8da0d1b4eec0d4e18f3a0be609ca4eebeae8d504a82f529794fd13"
+    },
+    {
+      "path": "artifacts/nuvia-career/components.json",
+      "bytes": 434,
+      "sha256": "3a5d5af62f05e6e3de6c5085f31ed4f49273d57cfeae4d69d00a2568c91f54f9"
+    },
+    {
+      "path": "artifacts/nuvia-career/index.html",
+      "bytes": 1402,
+      "sha256": "7d89a9632f4d5638b0f8ab87bcd6695b4d43181336ec5830fea6386b2a7aad26"
+    },
+    {
+      "path": "artifacts/nuvia-career/package.json",
+      "bytes": 2903,
+      "sha256": "06e228d85ef39e74ec7ff52fb54dae1ef238c365e66cff2b0070824effc0a16d"
+    },
+    {
+      "path": "artifacts/nuvia-career/public-guide.ts",
+      "bytes": 18003,
+      "sha256": "fa6d936bc4d606b081e158235471b8554696f3b5672ab87707254f4bc25e1560"
+    },
+    {
+      "path": "artifacts/nuvia-career/public/favicon.svg",
+      "bytes": 163,
+      "sha256": "8ffbde9092b1fa4de97c9481b76f518b131268c82e7c555041925225b1dab6e0"
+    },
+    {
+      "path": "artifacts/nuvia-career/public/logo.svg",
+      "bytes": 472,
+      "sha256": "12b7a80fec1fd2fc52531237dc2190c57adf2664f3cf5879809b97fd12cc60ca"
+    },
+    {
+      "path": "artifacts/nuvia-career/public/robots.txt",
+      "bytes": 45,
+      "sha256": "7cb9e1d5e032eaaf93b165ed4ed61cd8ea77cf84b04af7cceb94f454c17b26df"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/App.tsx",
+      "bytes": 9824,
+      "sha256": "55afc2bc5bed07f6e2900bc6b28f252ed91cda6ae443b077bd0a4a36897a8f65"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ai-writing-assistant.tsx",
+      "bytes": 52366,
+      "sha256": "a199650a197e69811f579a17239a4bca5b71af8014e34656ae3a794f662a8657"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/common.tsx",
+      "bytes": 8162,
+      "sha256": "819c16ad3d22f79d2c02875aac504aea57d4b86a0c6ff47d0644c28aba1ffe33"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/error-boundary.tsx",
+      "bytes": 2542,
+      "sha256": "2f92916aadfae328d687233fe1ae0b60b7f4a715793128981621ccb8ae62ed82"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/badges.tsx",
+      "bytes": 3698,
+      "sha256": "71ecc24b5866f8e919a488e7bd3569438fb54916252c7d8cdbd44f6595d1a884"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/context-coach.tsx",
+      "bytes": 4258,
+      "sha256": "1e4ec80ecb6103f133e97ff409c68a2f465e31a3dc74cc13c45d05b5f970b151"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/experience-detail.tsx",
+      "bytes": 9170,
+      "sha256": "4f430a5163aa12f701acd446b3cd0eac383794f4d7387e94ee97177b36894cba"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/experience-story-help.tsx",
+      "bytes": 3535,
+      "sha256": "23fee944731fae4d569665a95d9f245060422d470add4bfb9e7b2359bd242e94"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/fact-checklist.tsx",
+      "bytes": 2292,
+      "sha256": "bbfd953598a0e0e57b060f85a5362985af1c669683a5f5e1cb9c23e580027b67"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/job-connection-notes.tsx",
+      "bytes": 9517,
+      "sha256": "2c05801f43a3ddc19874019c7a3758da8355f6f9389e4053569543012a9fd7fa"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/match-panel.tsx",
+      "bytes": 3449,
+      "sha256": "d2f3d0439dbf4a02e7c94acafc12b9e65e02a957a5ac8886789be6826f4a7244"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/missing-evidence.tsx",
+      "bytes": 2886,
+      "sha256": "e889eed464c3bdf6c63955586e35d1d5ea934fa7ce55856c6b292ca328d61aa4"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/report-order-view.tsx",
+      "bytes": 1970,
+      "sha256": "9b0e2d268265c5ee5ac0a62620e2ed86de467e95a44d88f08b22c4fbb95c8378"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/star-story-fields.tsx",
+      "bytes": 1947,
+      "sha256": "ff5e44cc13153d78f7439cec874f36dd23839c21f90ae57b7cab4cc0db88536d"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/synthetic-actions.ts",
+      "bytes": 2433,
+      "sha256": "2b32f5716a85841a6c20d8890d66db510cff26f89b7749f2180e5b745a39d243"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/synthetic-preview.tsx",
+      "bytes": 11830,
+      "sha256": "88da8142953af845b0c8116361a62451e59dc13c5d2e1bd7be60674fedadc566"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/provenance/version-provenance.tsx",
+      "bytes": 4700,
+      "sha256": "71025442b55b9543d381909e4905da1865e8fdcab0c49c65f2eca59b5a80a2aa"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/shell.tsx",
+      "bytes": 16834,
+      "sha256": "3fe86fa22e1532f42945827f6e7720dc6131c4b238c1442bbb5f95bac97b6900"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/accordion.tsx",
+      "bytes": 2013,
+      "sha256": "8e4230a3e6d38bfab7b02f00f9e948c8c4038432c5b1bf2d0ea44dc8b5ce09cc"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/alert-dialog.tsx",
+      "bytes": 4447,
+      "sha256": "d76901a06e6881e94aa3847fde2602ee6f6ddc9f4cace9fa238627a5572bd24e"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/alert.tsx",
+      "bytes": 1609,
+      "sha256": "695369ea4d1ba4438dcedacaa8059b08b6463ac93170360f3bd42b983b7608e9"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/aspect-ratio.tsx",
+      "bytes": 143,
+      "sha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/avatar.tsx",
+      "bytes": 1431,
+      "sha256": "429f5e82fc3dcf265625650176f16ff9b35e55826183e1f1b2d4dc2a338f9b15"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/badge.tsx",
+      "bytes": 1528,
+      "sha256": "ba6f51e428a520f54e600fded4ea030a8099fa6a9a7b7110af8dca34795415d1"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/breadcrumb.tsx",
+      "bytes": 2735,
+      "sha256": "44b4de47f806eec0e3de5130f0399e83700eaf0bc8deb47af5ffda2bb11eb3f1"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/button-group.tsx",
+      "bytes": 2222,
+      "sha256": "b89025c11d08652597cb46b097d3e04658ad2c383bf81ed445c8182c0ed1b260"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/button.tsx",
+      "bytes": 2370,
+      "sha256": "9c20a340ca0c948d0164158eff44fca2e26343c8ee387ffc22f9cd677c59d27d"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/calendar.tsx",
+      "bytes": 7607,
+      "sha256": "1cdd1e62797356fe62f61f5521fcf0da8e3570b1120868ccca2b48370157fe46"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/card.tsx",
+      "bytes": 1856,
+      "sha256": "9fed39a53303c12fa6ac6f5f8813c1683e2198df9ee067cffbdfe69044cf3e4f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/carousel.tsx",
+      "bytes": 6288,
+      "sha256": "4ae2f69bc2c1ce33c60b23ddc5382f4b93882dac07c2d18cce32fb148ff52c48"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/chart.tsx",
+      "bytes": 10846,
+      "sha256": "ac747c83483d742e207426a193ba5e2cf639fa18cd819c1f12d12329520c6c12"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/checkbox.tsx",
+      "bytes": 1038,
+      "sha256": "6b9e336fa42475bbb2ad4d76478afb8d2555e6e26bac245b9ccde62a9a033adc"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/collapsible.tsx",
+      "bytes": 335,
+      "sha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/command.tsx",
+      "bytes": 4918,
+      "sha256": "d8fb66e44f9f8de558f6a94c781f3d890871d76dbabcda64e6fab3c917b3237d"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/context-menu.tsx",
+      "bytes": 7446,
+      "sha256": "bdff38b45a6010e3db808c099c799bd61e6aca619378074e7b14b63c1291e4c9"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/dialog.tsx",
+      "bytes": 3905,
+      "sha256": "9127cdccf6a29dab7b3316bca7eb8c87087e73c44b8179c642ad9ad7960dad6c"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/drawer.tsx",
+      "bytes": 3029,
+      "sha256": "152bc340ad982e84f851e3bc1a6b8e7ffd0151a7445c6ecf1b1e3e13cbc19210"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/dropdown-menu.tsx",
+      "bytes": 7646,
+      "sha256": "a79d5419ee174de35880340aef44d67847cee54846c058e02ac4a846b603c60f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/empty.tsx",
+      "bytes": 2410,
+      "sha256": "48824b1b37bd406fa74f48db726a4f1d70cf88db5b3432f7b1d59f584f1c5dad"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/field.tsx",
+      "bytes": 6079,
+      "sha256": "c3787ffb045354e9f18e70d94890627caea94939a226e49c1e6cedee84a1e9e1"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/form.tsx",
+      "bytes": 4232,
+      "sha256": "1960463b09152760fdd99ca3eb16187408d064c7599ed66384b42d1613d3a3a3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/hover-card.tsx",
+      "bytes": 1245,
+      "sha256": "e0b4e3f0126757a8eb5c6e436c8c041c049430abe9a2eb84b10154144b31c29c"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/input-group.tsx",
+      "bytes": 4993,
+      "sha256": "f4befbf9bf8ebd755b267c4db2b396be296adb95acca5c3fba54f6495bdedebd"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/input-otp.tsx",
+      "bytes": 2160,
+      "sha256": "b4891335e70920518cfbdef2aeb399f61477fbc4b3ffe3b8a2938f19074164cc"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/input.tsx",
+      "bytes": 775,
+      "sha256": "03ac1648171bd5ad90dbc03e9ebff9a9cc77708bcc53bdac914b80eeebfe3032"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/item.tsx",
+      "bytes": 4519,
+      "sha256": "4a84cda22d692ee176f5128517a4003a63d11f907df445e7586ef034c88e8772"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/kbd.tsx",
+      "bytes": 867,
+      "sha256": "4348a7a06a715e9e9673602cbb9ed89a6a4c6cbdd457d4c03db0f23a139d19eb"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/label.tsx",
+      "bytes": 733,
+      "sha256": "fbc0c7db4221227941271a004bf71db5067aee9d8668f3351d91113cd5934c8c"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/menubar.tsx",
+      "bytes": 8655,
+      "sha256": "26dbbf36e4ffd87aab74e61dd1e3613f0c640988479679d53bacd8dbd15cc891"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/navigation-menu.tsx",
+      "bytes": 5150,
+      "sha256": "222020e1ac703ce01700d6e8822c6263932bc71c481d724b8ef53ccaae8ad63f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/pagination.tsx",
+      "bytes": 2772,
+      "sha256": "dd65d2e59226a3f384014b596ae701aef50f130cb3061f4657e81c588587b8da"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/popover.tsx",
+      "bytes": 1351,
+      "sha256": "dc574442536873c8aa88733c348503c4599ad6ed0fc9898fd25406d94e095cca"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/progress.tsx",
+      "bytes": 799,
+      "sha256": "74223bcccf7ca2ed026d197476abbe3d48fbc531c40f4252445f56954a270c75"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/radio-group.tsx",
+      "bytes": 1421,
+      "sha256": "8155d32dea5d4ddea2048b6d12f83fe4805d9bc87c97b994dbb0d040981334f2"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/resizable.tsx",
+      "bytes": 1733,
+      "sha256": "8e73dfb8b582944364d73b64ed03378016f20f7251f15f880dcf0fb140e1ad41"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/scroll-area.tsx",
+      "bytes": 1650,
+      "sha256": "73f5dedda781e5285092ea269f747378dbad8d95631eab638e15b3c31595dc59"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/select.tsx",
+      "bytes": 5556,
+      "sha256": "e63627f13a2075e94d3bc2f733e5ce5249cdaac08c3132a0e167c28638dbdde7"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/separator.tsx",
+      "bytes": 764,
+      "sha256": "2b129347f918742bf006099f7f56a9be373250de2ecc3ad201297563e3d1f807"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/sheet.tsx",
+      "bytes": 4307,
+      "sha256": "ef2ae35ccab1252c4eee56e67e9f1b2499b5bbfb3ae39037d8d4be39915c272f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/sidebar.tsx",
+      "bytes": 21969,
+      "sha256": "de7566e708ba8bf34cb4a78fc018c784315c9d7a16d70e66255f8c72caf9d1db"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/skeleton.tsx",
+      "bytes": 269,
+      "sha256": "d78130b2e311a750e7bb524e66e3af4c04e2ab02b04fd68539c1afd0bbb47152"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/slider.tsx",
+      "bytes": 1043,
+      "sha256": "ecac74b8f3a044ba7a9e4eb0bdbfdf48be92483a32d2c414c5078c9f38e1f369"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/sonner.tsx",
+      "bytes": 902,
+      "sha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/spinner.tsx",
+      "bytes": 334,
+      "sha256": "4458ea392b32f439cd4c64b9593846f339370fa1295c04f9003f05c1f3386689"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/switch.tsx",
+      "bytes": 1155,
+      "sha256": "f81bc9b5ce2d6a92b6b2f1f3376c0489f30f7073081a1d9d6c56553880f44c58"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/table.tsx",
+      "bytes": 2881,
+      "sha256": "dd29f5ef260af67ed09c84505495e3fddbad14009e3b3ce689d0c354ffaf55d3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/tabs.tsx",
+      "bytes": 1890,
+      "sha256": "320609101fbaa6cccda0b899154cb510fa322926cfdbaf07e33b79c00c83fcd6"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/textarea.tsx",
+      "bytes": 655,
+      "sha256": "63fb699771afe60c5073ed50e1a042d7d7f21eefd12d15bcb750cf3230985011"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/toast.tsx",
+      "bytes": 4871,
+      "sha256": "04d4ef720079342e2f4380c22683f1544bd8e93a581fb55e447458f04a6127d5"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/toaster.tsx",
+      "bytes": 777,
+      "sha256": "d34c7cd51482ddd5703a13378d9ac69b3459a304581e42f56ac2c696e53163ac"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/toggle-group.tsx",
+      "bytes": 1767,
+      "sha256": "6d7aca86245edf5d0a8f6f3ed73bd19316f4865425891eabccd6f3e37e59519e"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/toggle.tsx",
+      "bytes": 1494,
+      "sha256": "5800d2099224ef90892e8c1d972d2a0964391c33cd43d7f5c6abf5cd42e023e1"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ui/tooltip.tsx",
+      "bytes": 1277,
+      "sha256": "e3c6ea9d4ecd62881af33564e25be013d35a8a7fa78475a6dcc98a06c7f894eb"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/hooks/use-mobile.tsx",
+      "bytes": 585,
+      "sha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/hooks/use-toast.ts",
+      "bytes": 3952,
+      "sha256": "12cce940e597e1d597f7063131acd19658d25e924904308bf719bde17b67e351"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/index.css",
+      "bytes": 11851,
+      "sha256": "4455523672363390dbfc363670dee484befa13085e3b4f67c3b4e6a3fa7628d2"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-assist.ts",
+      "bytes": 4657,
+      "sha256": "44635aff792626d2227a7f26b2baf6750bfcdb3124217c8779e7a22130055113"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-assistant-messages.ts",
+      "bytes": 115997,
+      "sha256": "8f22af71dfb977c1d11c29dc7414b167d28e35b60886f16fdbf96a5ab9afeb54"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-response.ts",
+      "bytes": 1777,
+      "sha256": "27bec890eccea9115e53180a9b31f0d3a57a0196a037ce4d8c77f8c6ea470c1b"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/auth-locales/az.ts",
+      "bytes": 28641,
+      "sha256": "ec0e4eeca58c1ab90712349ef6f6f24b3992fa950e982816a44d11ee0bab65f3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/auth-locales/build.ts",
+      "bytes": 850,
+      "sha256": "c88203216957f0206c7276531f8907f03dacce7e1b402b0e83fdb6321cbb87e8"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/auth-locales/km.ts",
+      "bytes": 45560,
+      "sha256": "37a1ef1c56781619d3ede2d58ef6d3029328cb6bdf2fa3e992d9dd2affc63a48"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/career.test.ts",
+      "bytes": 3058,
+      "sha256": "493dd730b413af0384b6af6b44eb24401cc0b3ca4bd98dcc4f32956b18e1f509"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/career.ts",
+      "bytes": 8121,
+      "sha256": "7353f64ebf7228dfcc981a3683c8f4d61fe1186303174cd54c25a2d732f6dc11"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/i18n.tsx",
+      "bytes": 5092,
+      "sha256": "b27bd82103414fbe309c15f5d91e872b91a88ef8f40660513a1baa685114050c"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/job-connection-messages.ts",
+      "bytes": 56790,
+      "sha256": "b3feb49065780cf37d681eef0d6544541988f914bacbbf917887ea53738d9d9f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/job-connection.test.ts",
+      "bytes": 8706,
+      "sha256": "f72a215bcb32a4a6cd8c8da32bfba0bf417a4a4f03b01b387b7668be6d5ea8d4"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales.test.ts",
+      "bytes": 3672,
+      "sha256": "f912a9973d2f1afac64ff9021df2989f2274ad96f4eac2350ddc330ab2932c49"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/ar.ts",
+      "bytes": 28043,
+      "sha256": "05e1369216a169287a64e2a79d749e93262c832633fb83a2176a3cd34b25409b"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/az.ts",
+      "bytes": 23290,
+      "sha256": "1e72de1ec98320fee3c6fda83b0524146b3792b293c0c56a2cf5e09bf9527618"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/es.ts",
+      "bytes": 23083,
+      "sha256": "fa029f269452ddcbd5946f03975b999679aeb00227a8de64ff8d0e60ad715210"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/fr.ts",
+      "bytes": 24032,
+      "sha256": "579f56d75fe6051a79685687b7cd69d9b565fa37ee64ec7ea82668a5a5629062"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/it.ts",
+      "bytes": 22733,
+      "sha256": "a0317ea7f820eeceddd6cf743d964c543efdd17a6dff6ac35ff27651d348f078"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/ja.ts",
+      "bytes": 24967,
+      "sha256": "085c74446e05a35a81a168edd8274ec2e9690ae163175977e3100b5756e21ca3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/km.ts",
+      "bytes": 43246,
+      "sha256": "f2d945942fa2183f7e2cc9d2205ede6f286ec0bb07f74c7b8544b65028e183cb"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/mn.ts",
+      "bytes": 32247,
+      "sha256": "9f227499d0f359e0baabc6732d584c01f79ebb2387fef1e76cf765f2a735f7d3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/ru.ts",
+      "bytes": 32938,
+      "sha256": "2def0c90939748aa7df90b57db80062b3f200f2a94bc7db2d20008aa9e7e8d01"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/th.ts",
+      "bytes": 40993,
+      "sha256": "24ceb768ac84bca3d0612f928890457642df9c36145e93e90e1544f0324c7278"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/vi.ts",
+      "bytes": 25414,
+      "sha256": "f9e1f4ca21efc1d30699169012297f2f88d980081f1f40432165a1679548fb6f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/zh-CN.ts",
+      "bytes": 20262,
+      "sha256": "debe21c069d0e061e5ea8920b8dacee89f50d5ac0b33adbb660f780ed4a57fb3"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/locales/zh-TW.ts",
+      "bytes": 20217,
+      "sha256": "885402f40081e8930df30b54daeb84304806964a1baff876e64559163cff7d28"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/messages.ts",
+      "bytes": 65981,
+      "sha256": "0e5fe957e2e0ce682f0457eb5222caa892864cd020264e6c5a22ece9fce2f0a5"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/provenance-messages.ts",
+      "bytes": 94643,
+      "sha256": "4b1d3d9eead91b6af24088f357dcf1e6b8789a4055446e3b0e6fb3cee30115bf"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/provenance.test.ts",
+      "bytes": 2198,
+      "sha256": "a95ab1fad3ef34e0babd84d2c3bfc51f7ab019f3659a59f8324aaadefd0dc83b"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/provenance.ts",
+      "bytes": 21420,
+      "sha256": "e9decc89dd704508bfd0a0404e4ce2a142c1737a8754ffb6a28b894467ea233f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/public-demo.test.ts",
+      "bytes": 794,
+      "sha256": "a8e4795914adb2f75eda8a345d82095e10e3232a75c09129b69cb747d3a1c26d"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/public-demo.ts",
+      "bytes": 1088,
+      "sha256": "f6df9dae1c3ec4d8ef4fa66fd05ce1457907a01162c27c199af6782d8dd1f7d5"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/report-order.ts",
+      "bytes": 1434,
+      "sha256": "b0967885e50cc25914828beedfbe09918cf9d50c492064cda8059b6155f58a4b"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/star-story-messages.ts",
+      "bytes": 55269,
+      "sha256": "074b2b187121177db709770f708e7ac283af699a74d17cc8d6900015b14e41dd"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/star-story.test.ts",
+      "bytes": 5523,
+      "sha256": "a168d63e07cde8473901a7c92b1569dcb6e8d021b3729b557ab5b66b6bc359a8"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/star-story.ts",
+      "bytes": 9763,
+      "sha256": "b52b0dc94e3246e4a64efbcbc1847b9394eed00f6673a53984df930f565f19ac"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/synthetic-records.ts",
+      "bytes": 5902,
+      "sha256": "5b292b6ccad604fb7e284fd7012a0b3a0b4e40978af425fea9cc448dfb48496f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/synthetic-seed-i18n.ts",
+      "bytes": 37911,
+      "sha256": "77a0b321691bf51ba9b8528d055b1cff7b72f707f7faca452c728e132e39a233"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/utils.ts",
+      "bytes": 170,
+      "sha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/workspace-scope.test.ts",
+      "bytes": 1111,
+      "sha256": "79ca4b2202699d7605f2c86ad4480e1db83c9a81524bfd4637f1741157d6f19b"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/workspace-scope.ts",
+      "bytes": 531,
+      "sha256": "6d545b1f8550a12ba5b24165fd02828cfa18c8e04a2cf3d5a329037d8b9b7be4"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/workspace.tsx",
+      "bytes": 18090,
+      "sha256": "c4811df092cd281d0eba140aefc42c6fe7abca4d4e062c241aecc730acf3b2c0"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/main.tsx",
+      "bytes": 446,
+      "sha256": "e7e03b61f962dc1787ea029d4941424475455366b5a4f079c8fcb4f5df4d076c"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/activities.tsx",
+      "bytes": 18163,
+      "sha256": "877d2ed7cfef1cb39ad7412dc9aa53b70e53b4f9b4c8262ee7e124f96c00090a"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/connections.tsx",
+      "bytes": 4065,
+      "sha256": "ba3b3a42f16bfee487b8b510bf7dfa1b5af134086fe62dda2c8b0ad52ecc778f"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/criteria.tsx",
+      "bytes": 8268,
+      "sha256": "59d0abe40b1f49afe03d2fc5f75fdec10586914148cc12cf118abe438d0a2f82"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/experiences.tsx",
+      "bytes": 21599,
+      "sha256": "21890848284c5fb47e1a719e45a183b245ba78bf1ff7ba374b1098a261a03635"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/export.tsx",
+      "bytes": 9476,
+      "sha256": "0db986f540ebde30097654ddcfebb903d9f57a98413f2f8446698ea68cfeb9ea"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/journey.tsx",
+      "bytes": 3415,
+      "sha256": "33b8b1ff99df8305cb1918cafd506776f8526a2599127e8ebd8aa80cabbed85a"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/not-found.tsx",
+      "bytes": 882,
+      "sha256": "92be4a5bc3f07a36725bd57d0a86d7d8e908b1e530ffcaaa1a32c09b19a72ea4"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/overview.tsx",
+      "bytes": 10148,
+      "sha256": "0b9c7bdb4d487a928daf657eeba5f8e566630131ae4df040d598c07567dcd4c0"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/questions.tsx",
+      "bytes": 11368,
+      "sha256": "d94fbeb565fdd34adaf4139b1ae8041167ba39903f9f70c56374321ae9fc3cec"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/versions.tsx",
+      "bytes": 5471,
+      "sha256": "20eb1e749e4101183d943589ef825105d8f3fa687459e4c615ac4d6fbd35f6c4"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/write.tsx",
+      "bytes": 22570,
+      "sha256": "55fcb275303ba7b140421524a0611dd27e5866a054fb769effc826c8624b41d6"
+    },
+    {
+      "path": "artifacts/nuvia-career/tsconfig.json",
+      "bytes": 520,
+      "sha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9"
+    },
+    {
+      "path": "artifacts/nuvia-career/vite.config.ts",
+      "bytes": 1907,
+      "sha256": "39ee1a7d90ba0b1d5423f53b97ae31162b5ef60f60f4c4fc3039b29969c16573"
+    },
+    {
+      "path": "docs/nuvia-job-connection-rules.md",
+      "bytes": 5692,
+      "sha256": "2786654988df54e9536280ceccf0c476e4b38a5bad6ba6f73c903028bc0b54db"
+    },
+    {
+      "path": "docs/nuvia-korean-final-qa.md",
+      "bytes": 10585,
+      "sha256": "176aeb36b944ea65fac3c64cd958eb386f03dc1a4d9e2eed133cb602e65605f0"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-handoff.md",
+      "bytes": 9986,
+      "sha256": "bd5a5a90794298836463f32260e54eabb909e33c22fc640ae70334465d484dae"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-qa.md",
+      "bytes": 10348,
+      "sha256": "09e5c607813b973398c751d6b8a83486dda543d376b361ae6f9eee71b9951941"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-spec.md",
+      "bytes": 7674,
+      "sha256": "ab4fd410623058f4da9014a3c8c1dbc3e3cd596605245d85e1705ce648f0324a"
+    },
+    {
+      "path": "docs/nuvia-star-story-patch.md",
+      "bytes": 9021,
+      "sha256": "49ae71e8df6452b07c410785d363d5365c36ae6d00958801b4af9d93cd531395"
+    },
+    {
+      "path": "lib/api-client-react/package.json",
+      "bytes": 265,
+      "sha256": "ae70f97a12d1f7e7cbb291b5ffd1d6893f0d7a0ff7721a21e615d47bccfad789"
+    },
+    {
+      "path": "lib/api-client-react/src/custom-fetch.ts",
+      "bytes": 11377,
+      "sha256": "3a5605ea89571cca7ea9412a230a40954e3a3f1d94d7a566271480165bf5e03c"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "bytes": 12572,
+      "sha256": "1b7b341eca1799ff3567b855c007bfc6425f88ec58c9ac0dc87c1252bce8b780"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "bytes": 33057,
+      "sha256": "7d7ebb799c46f5266bd79c43a2d7e7cbad0e1c96d3050cadc3b55400447d26be"
+    },
+    {
+      "path": "lib/api-client-react/src/index.ts",
+      "bytes": 194,
+      "sha256": "7974b36e3973a8d0c403589bcf8d8aca7547c5c42c4b73924d05f49de18809e5"
+    },
+    {
+      "path": "lib/api-client-react/tsconfig.json",
+      "bytes": 267,
+      "sha256": "a00fda842228e3478705abcf2c76d9641f5d6263cd5d2df0b613d5379088ad73"
+    },
+    {
+      "path": "lib/api-spec/openapi.yaml",
+      "bytes": 18727,
+      "sha256": "bd25c1e35be89b3d0f61594dbcd5a1d2cf5d97b09e0338979a0067853bdaf394"
+    },
+    {
+      "path": "lib/api-spec/orval.config.ts",
+      "bytes": 2101,
+      "sha256": "890c6604f36abcb05dd31bfc278cc8f6f47cfb6aaede2bbd39312514c3221732"
+    },
+    {
+      "path": "lib/api-spec/package.json",
+      "bytes": 228,
+      "sha256": "15dacbf426eae69915fc57094cbd0345a198aa0f305eb0ff33915ac17de04dd0"
+    },
+    {
+      "path": "lib/api-zod/package.json",
+      "bytes": 189,
+      "sha256": "07009861b2ba8decccb4e9d78d743cb7273bd91915231b5eb1463b296efca13e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/api.ts",
+      "bytes": 40954,
+      "sha256": "d05fee553b728e140419ff839a72591ccdaeb00b994bf1eb2db87015136beb78"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerActivity.ts",
+      "bytes": 776,
+      "sha256": "a5a1bcdda6067ff49d6052964c74d3d060b927bceb16e8c588d8d962e4a25dba"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerActivityStatus.ts",
+      "bytes": 381,
+      "sha256": "221485f013017860b1994562300e77fcb4cb0e09c3e043a7e2f6d404bc27088e"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInput.ts",
+      "bytes": 1522,
+      "sha256": "abfbb679a9dee2a2bfbfb86af7c7272b2cc68684daeb0e3836e194cefd9c5952"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputApplication.ts",
+      "bytes": 339,
+      "sha256": "aa8bbb12744767b071b4bc79a9fcfa944b5c850d4acf2c0f6a78f245bee37dfb"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItem.ts",
+      "bytes": 1231,
+      "sha256": "9461feb5a50a173640f4e055a39509c8d7e4b3411d15b274491d7509cc5b77a0"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemCardType.ts",
+      "bytes": 461,
+      "sha256": "fb4594608395ca8dc815e56395af24f4ec5c1e994bf555379610dba39d1391e7"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemContext.ts",
+      "bytes": 531,
+      "sha256": "5e22dfb287ebe6b305b9cfbda9935c2d03fc858c984f95d43d76cdcb8621cf22"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemFields.ts",
+      "bytes": 694,
+      "sha256": "d637ae8cf9cbe6ddf0fb95d4940ea48e0b25f6acc820144164f4e52a17956975"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemJobConnection.ts",
+      "bytes": 892,
+      "sha256": "de80447880e6d64866bbafb1d6ff970dae71201695b2447b3391ed4b4ee6d664"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemJobConnectionSourceKind.ts",
+      "bytes": 605,
+      "sha256": "601ce5faa53ca765ce4d70d464d9b192cb9c5c751199339726feac3ceedd2e81"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemNature.ts",
+      "bytes": 429,
+      "sha256": "6d1da4400cecf2b2f1b88eefc59ef1210cb97690b750653e19ab99e2fbec8729"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputStrengthsItem.ts",
+      "bytes": 320,
+      "sha256": "4a5ffc83ede490d2a00066cc777927c61452fcfd1e4a0d1abca153832ed87cf0"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputTask.ts",
+      "bytes": 359,
+      "sha256": "cefb65ac1e35b2111f969fc35ccde96fd1997ea6d6f56191ddb02e4660e6ffba"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputUserAnswersItem.ts",
+      "bytes": 262,
+      "sha256": "cf1b91ebb012350eb8323624229acd28590b994836485992737c32d6c26554ef"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceRulesItem.ts",
+      "bytes": 276,
+      "sha256": "3b7f49d301d0e7f6b3edb720c7fef9dc6ded7fc2250c11407db5d0bb218c9723"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceSourcesItem.ts",
+      "bytes": 371,
+      "sha256": "3fa829b0cda02fcb7d678171e470256634080f7d2f4966b67bf01e8be58baf68"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceSourcesItemKind.ts",
+      "bytes": 411,
+      "sha256": "b87e47285483ef2a261c561df2faa0878203a6c4ea3c8357a6beef32ab0d2f2a"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponse.ts",
+      "bytes": 945,
+      "sha256": "f0243e970ea89cb11dd0dff39f2e6a7af0cf3f3457c08bddd260ddc105f2debc"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseCandidatesItem.ts",
+      "bytes": 449,
+      "sha256": "25e3f1a20719afef3491b363cf444b604b1172eef2a35f5766b13f427bb47a6c"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseFeedbackItem.ts",
+      "bytes": 303,
+      "sha256": "da498ecdffcb293d1e974c59b6913336a4801db96b913b72d8eb34c963455542"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseTask.ts",
+      "bytes": 371,
+      "sha256": "9caee035a884b807e0f21f80c0ea3e2202e45f668c4def07ec57a9795b480ead"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseVoiceRulesItem.ts",
+      "bytes": 484,
+      "sha256": "36774c31f340889f425df440788fb62cbc90c9a4b4abaf02b9f506b587710a80"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseVoiceRulesItemConfidence.ts",
+      "bytes": 425,
+      "sha256": "dee7f2db422c0ee54d901a9edcae62bea170b383f70f54ff67a0c59941874454"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerApplication.ts",
+      "bytes": 568,
+      "sha256": "a74b79fe48b8b9da6e48d21c146a351ace6881d749087dad8c422a009fce8381"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerCriterion.ts",
+      "bytes": 410,
+      "sha256": "c844a0dcc8beb8b509056e361c37f6f54ed7ef655985d431522e8f027aab3dcc"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerCriterionSourceType.ts",
+      "bytes": 445,
+      "sha256": "21590969d0ea9fe57ce7a316632052ff6e39dd0edb3929d5cccaa69e6a5b5806"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerExperience.ts",
+      "bytes": 764,
+      "sha256": "03e0f5d55e2c8f9612ef7779cec057d5f25d8ab3a324933bc27bbc4db5068933"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerExperiencePermissionStatus.ts",
+      "bytes": 435,
+      "sha256": "f6bcef5de6ec35d7c3ed8ba0113ed6b80adc0c786cc06bc6f5813c9830ea3fa8"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerExperienceSource.ts",
+      "bytes": 379,
+      "sha256": "a8a1edbdf198719ae58e6434b5d6cb426730a7a41f9f75e2a23f5ba05748623f"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerExportInput.ts",
+      "bytes": 461,
+      "sha256": "3ea244a528267cfef4b976a9621313e866f5e7554e3a0de991026ccdfc61a6f6"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerExportInputFormat.ts",
+      "bytes": 329,
+      "sha256": "a49b0965f92a491ccafa854dc281a14c15d3bc4486ee6e3fddaa58afc20a1499"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerIntegration.ts",
+      "bytes": 409,
+      "sha256": "2d0a23c185c411541a42b6d51f3812f199ac4db89ccaa9c3335bbc148bdfe033"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerIntegrationId.ts",
+      "bytes": 327,
+      "sha256": "a44988be89ea48d388cb309b90ebcc0e620cd5b7c8b3aff07138484027486b01"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerIntegrationStatus.ts",
+      "bytes": 429,
+      "sha256": "84543356a44700fe9c0483e71f949340b197e72f6404aa91c437227e7270610c"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerOverview.ts",
+      "bytes": 344,
+      "sha256": "0c69d913f777216b322c99aae50034814f79b8b8eacbb701cb191fda2d96349a"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerState.ts",
+      "bytes": 773,
+      "sha256": "d0573ae0dfa45cccc53d4a81b9cef691485dea00cc8397b088514fb85b5fcf42"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerStateInput.ts",
+      "bytes": 270,
+      "sha256": "7b29f9b034085e08e1b3f3b2a41d984956c1236be2873e6a4392cb9e674fa0ed"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerStateReport.ts",
+      "bytes": 208,
+      "sha256": "e66e63b58feb3df6a0d249e576a0b255d011c56eae6fe1534732772673461d64"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerVersion.ts",
+      "bytes": 414,
+      "sha256": "a13a2bd04550bcc9a3216f4ac43311b4cefa7f5acab82b02a914dd563c2f1364"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerVersionInput.ts",
+      "bytes": 313,
+      "sha256": "df5b14659f3c319e289e7f08e6bed1f5e4c5893a7f51ffb632b0d51b656e0fa6"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerWorkspace.ts",
+      "bytes": 268,
+      "sha256": "53f37d02161fa714698475f048d1c959790e3134cb2f6f74cf587b2be2dcc71f"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/healthStatus.ts",
+      "bytes": 172,
+      "sha256": "cbf343355d947ee2a2fc7c6ff659866f5620a9fd2f1c84de981041f5b4aefc87"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/index.ts",
+      "bytes": 2082,
+      "sha256": "04ed2700f0b4262c0cc766eea52fcd3ce0c328bfb19f98f779d9d30c42f49681"
+    },
+    {
+      "path": "lib/api-zod/src/index.ts",
+      "bytes": 68,
+      "sha256": "effb7d33b5df99004c9b1a840944516ca3ad65cbcd3ae2fcc717c505814ce039"
+    },
+    {
+      "path": "lib/api-zod/tsconfig.json",
+      "bytes": 221,
+      "sha256": "bb52c0e8b13e658570a208d946cb874fdf2b8d990f7c228f96fb24254c9c5a95"
+    },
+    {
+      "path": "lib/db/drizzle.config.ts",
+      "bytes": 352,
+      "sha256": "57862221556f24a1accd28b283876930c403ad7c86b79d87cfb5c9c200ba6258"
+    },
+    {
+      "path": "lib/db/package.json",
+      "bytes": 578,
+      "sha256": "b3a3034936a6c5251cf1d8d9bdbde1471580db520456dd2af27a8f42208fd2c5"
+    },
+    {
+      "path": "lib/db/src/index.ts",
+      "bytes": 416,
+      "sha256": "fc285bc83108137ba57c4c2774a35053e3c25fda1292c3d7a16a57d43dd9679c"
+    },
+    {
+      "path": "lib/db/src/schema/career.ts",
+      "bytes": 853,
+      "sha256": "c6a44aaf49674a9517c95f990f3165dac322d8a7367d30ee6ed8a8bf4a70164f"
+    },
+    {
+      "path": "lib/db/src/schema/index.ts",
+      "bytes": 759,
+      "sha256": "040f6ee3286f379323749f307de249ac873bf009ab1540060410a4af530a717e"
+    },
+    {
+      "path": "lib/db/tsconfig.json",
+      "bytes": 244,
+      "sha256": "69c976d11de35f0ac391934625beeccdd1b2689ba5d0f14c54b5384d4c30a9c9"
+    },
+    {
+      "path": "package.json",
+      "bytes": 650,
+      "sha256": "3817428a1443050a428fc819596fe07e153f863f8fed3d368685e2a10e196036"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "bytes": 220737,
+      "sha256": "5d5992cbd0b8bb41be81073af5b2082845d9b982183275b3ab667ace7ec6ee8f"
+    },
+    {
+      "path": "pnpm-workspace.yaml",
+      "bytes": 6793,
+      "sha256": "9b698a8784609f86c0850c71da84d64fd0c2ae6519fae3a4ab04d784064aa12e"
+    },
+    {
+      "path": "replit.md",
+      "bytes": 6689,
+      "sha256": "19c39372835f2fa643ea860906b042b867c8073ef5f7b99b7e50a9d2d6320bcb"
+    },
+    {
+      "path": "scripts/package.json",
+      "bytes": 336,
+      "sha256": "5d9ff719aa4632bd116daebb2a738d261c014527c9938f26fe3775c0ab8fe732"
+    },
+    {
+      "path": "scripts/src/nuvia-ai-contract-check.ts",
+      "bytes": 6294,
+      "sha256": "22e3ae11957e96308fdf830070f7e4602debd366f0180b8d1a4b6400c187a585"
+    },
+    {
+      "path": "scripts/src/nuvia-korean-ai-qa.ts",
+      "bytes": 6751,
+      "sha256": "ab7141a30cfe09386b4be1ca9fb2c8e5a69c2fa5113cde50b640a4bb5c612e50"
+    },
+    {
+      "path": "scripts/src/nuvia-managed-ai-smoke.ts",
+      "bytes": 5785,
+      "sha256": "5361161d1ea59702422c688d80a67aa69d41dc57111f209bb231d73761495358"
+    },
+    {
+      "path": "scripts/src/package-nuvia-ai.py",
+      "bytes": 13729,
+      "sha256": "fecd4ba4dd8376898ff9be3e9ee7739accb6474654fe34bddf66eb87480508b5"
+    },
+    {
+      "path": "scripts/src/verify-nuvia-github-patch.py",
+      "bytes": 4646,
+      "sha256": "4f04cf27ef7403f47e44a0cf26c7cc31a35b8ca8a987a125f996d5381a1c1125"
+    },
+    {
+      "path": "scripts/tsconfig.json",
+      "bytes": 157,
+      "sha256": "636dea76ed898c62e56d6657ed97bb3edc85feb0ea8256b5198849d5c6cf462a"
+    },
+    {
+      "path": "tsconfig.base.json",
+      "bytes": 692,
+      "sha256": "2dfaa6f6168f618e0e6deff048c17e4f5f73d59325bd935d471905ae6773585c"
+    },
+    {
+      "path": "tsconfig.json",
+      "bytes": 236,
+      "sha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef"
+    }
+  ],
+  "changedFiles": [
+    {
+      "path": "artifacts/api-server/package.json",
+      "beforeSha256": "f38002c08a1d8d9ffb49ec37171e7723dad44c76611406a0323f8d62b3f9d10c",
+      "afterSha256": "58437ec1a347128e7fd6abea405075afb0d311d747a500eae32f0cfddf19feab",
+      "change": "modified"
+    },
+    {
+      "path": "artifacts/api-server/src/lib/career-ai.ts",
+      "beforeSha256": null,
+      "afterSha256": "b26292fc794c8256e54382c3487b846fc536344a7b5d73e1158c884fcdbe37cf",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/career-ai.ts",
+      "beforeSha256": null,
+      "afterSha256": "05d18c1016386aea4aa2558880c86b51ec1d18f94bea9b853d0ec74acc62bd87",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/api-server/src/routes/index.ts",
+      "beforeSha256": "e0e4754f185af701456c027d8e663459abc44c2eb85310e6cff5b857c1e8d0da",
+      "afterSha256": "347653cd8410f2151967dc71d60852abfa2440271212e888d4aec3f9b53b6536",
+      "change": "modified"
+    },
+    {
+      "path": "artifacts/nuvia-career/package.json",
+      "beforeSha256": "402b365fb4727866d14f3428ed986fccb842814c6a3b056298b5cfa2a47327b4",
+      "afterSha256": "06e228d85ef39e74ec7ff52fb54dae1ef238c365e66cff2b0070824effc0a16d",
+      "change": "modified"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/components/ai-writing-assistant.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a199650a197e69811f579a17239a4bca5b71af8014e34656ae3a794f662a8657",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-assist.ts",
+      "beforeSha256": null,
+      "afterSha256": "44635aff792626d2227a7f26b2baf6750bfcdb3124217c8779e7a22130055113",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-assistant-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "8f22af71dfb977c1d11c29dc7414b167d28e35b60886f16fdbf96a5ab9afeb54",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/ai-response.ts",
+      "beforeSha256": null,
+      "afterSha256": "27bec890eccea9115e53180a9b31f0d3a57a0196a037ce4d8c77f8c6ea470c1b",
+      "change": "added"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/lib/provenance.ts",
+      "beforeSha256": "9b107cb822736e9a778bfcd532e71a81d58bc5adb5f2f9611bfb44354b5bf948",
+      "afterSha256": "e9decc89dd704508bfd0a0404e4ce2a142c1737a8754ffb6a28b894467ea233f",
+      "change": "modified"
+    },
+    {
+      "path": "artifacts/nuvia-career/src/pages/write.tsx",
+      "beforeSha256": "8122d885cd7191a1a413ebb833f077f20021dcbdffaec833532ec2a67703c0b1",
+      "afterSha256": "55fcb275303ba7b140421524a0611dd27e5866a054fb769effc826c8624b41d6",
+      "change": "modified"
+    },
+    {
+      "path": "docs/nuvia-job-connection-rules.md",
+      "beforeSha256": "615a1a35b15f2e0556b358d8b80e1be784c3edbb62eaa9bbe17674d733fd138a",
+      "afterSha256": "2786654988df54e9536280ceccf0c476e4b38a5bad6ba6f73c903028bc0b54db",
+      "change": "modified"
+    },
+    {
+      "path": "docs/nuvia-korean-final-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "176aeb36b944ea65fac3c64cd958eb386f03dc1a4d9e2eed133cb602e65605f0",
+      "change": "added"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "bd5a5a90794298836463f32260e54eabb909e33c22fc640ae70334465d484dae",
+      "change": "added"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "09e5c607813b973398c751d6b8a83486dda543d376b361ae6f9eee71b9951941",
+      "change": "added"
+    },
+    {
+      "path": "docs/nuvia-managed-ai-spec.md",
+      "beforeSha256": null,
+      "afterSha256": "ab4fd410623058f4da9014a3c8c1dbc3e3cd596605245d85e1705ce648f0324a",
+      "change": "added"
+    },
+    {
+      "path": "docs/nuvia-star-story-patch.md",
+      "beforeSha256": "6053ba7521379e6e1a2e1fb317bb0354f92cd7b2c1e7ba4bcd9739253104acb5",
+      "afterSha256": "49ae71e8df6452b07c410785d363d5365c36ae6d00958801b4af9d93cd531395",
+      "change": "modified"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.schemas.ts",
+      "beforeSha256": "ccd35111b8bf4b610f5542f13b5a6acfc129124bbd02fafd5fc2fb214d321de0",
+      "afterSha256": "1b7b341eca1799ff3567b855c007bfc6425f88ec58c9ac0dc87c1252bce8b780",
+      "change": "modified"
+    },
+    {
+      "path": "lib/api-client-react/src/generated/api.ts",
+      "beforeSha256": "14a25c0f54615830fa600fde91921bd15403d2ebc859e344a6c4be5a08c131d7",
+      "afterSha256": "7d7ebb799c46f5266bd79c43a2d7e7cbad0e1c96d3050cadc3b55400447d26be",
+      "change": "modified"
+    },
+    {
+      "path": "lib/api-spec/openapi.yaml",
+      "beforeSha256": "ea64c4864fda868a2d4e2fb1e3f8ba8ff2e56e422797624b1cdaa8739f219794",
+      "afterSha256": "bd25c1e35be89b3d0f61594dbcd5a1d2cf5d97b09e0338979a0067853bdaf394",
+      "change": "modified"
+    },
+    {
+      "path": "lib/api-zod/src/generated/api.ts",
+      "beforeSha256": "8e93be7403eb83a29f810143c80bdde88aec27fe5d10cf4829c45fa23be19ad2",
+      "afterSha256": "d05fee553b728e140419ff839a72591ccdaeb00b994bf1eb2db87015136beb78",
+      "change": "modified"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInput.ts",
+      "beforeSha256": null,
+      "afterSha256": "abfbb679a9dee2a2bfbfb86af7c7272b2cc68684daeb0e3836e194cefd9c5952",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputApplication.ts",
+      "beforeSha256": null,
+      "afterSha256": "aa8bbb12744767b071b4bc79a9fcfa944b5c850d4acf2c0f6a78f245bee37dfb",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "9461feb5a50a173640f4e055a39509c8d7e4b3411d15b274491d7509cc5b77a0",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemCardType.ts",
+      "beforeSha256": null,
+      "afterSha256": "fb4594608395ca8dc815e56395af24f4ec5c1e994bf555379610dba39d1391e7",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemContext.ts",
+      "beforeSha256": null,
+      "afterSha256": "5e22dfb287ebe6b305b9cfbda9935c2d03fc858c984f95d43d76cdcb8621cf22",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemFields.ts",
+      "beforeSha256": null,
+      "afterSha256": "d637ae8cf9cbe6ddf0fb95d4940ea48e0b25f6acc820144164f4e52a17956975",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemJobConnection.ts",
+      "beforeSha256": null,
+      "afterSha256": "de80447880e6d64866bbafb1d6ff970dae71201695b2447b3391ed4b4ee6d664",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemJobConnectionSourceKind.ts",
+      "beforeSha256": null,
+      "afterSha256": "601ce5faa53ca765ce4d70d464d9b192cb9c5c751199339726feac3ceedd2e81",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputExperiencesItemNature.ts",
+      "beforeSha256": null,
+      "afterSha256": "6d1da4400cecf2b2f1b88eefc59ef1210cb97690b750653e19ab99e2fbec8729",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputStrengthsItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "4a5ffc83ede490d2a00066cc777927c61452fcfd1e4a0d1abca153832ed87cf0",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputTask.ts",
+      "beforeSha256": null,
+      "afterSha256": "cefb65ac1e35b2111f969fc35ccde96fd1997ea6d6f56191ddb02e4660e6ffba",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputUserAnswersItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "cf1b91ebb012350eb8323624229acd28590b994836485992737c32d6c26554ef",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceRulesItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "3b7f49d301d0e7f6b3edb720c7fef9dc6ded7fc2250c11407db5d0bb218c9723",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceSourcesItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "3fa829b0cda02fcb7d678171e470256634080f7d2f4966b67bf01e8be58baf68",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistInputVoiceSourcesItemKind.ts",
+      "beforeSha256": null,
+      "afterSha256": "b87e47285483ef2a261c561df2faa0878203a6c4ea3c8357a6beef32ab0d2f2a",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponse.ts",
+      "beforeSha256": null,
+      "afterSha256": "f0243e970ea89cb11dd0dff39f2e6a7af0cf3f3457c08bddd260ddc105f2debc",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseCandidatesItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "25e3f1a20719afef3491b363cf444b604b1172eef2a35f5766b13f427bb47a6c",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseFeedbackItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "da498ecdffcb293d1e974c59b6913336a4801db96b913b72d8eb34c963455542",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseTask.ts",
+      "beforeSha256": null,
+      "afterSha256": "9caee035a884b807e0f21f80c0ea3e2202e45f668c4def07ec57a9795b480ead",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseVoiceRulesItem.ts",
+      "beforeSha256": null,
+      "afterSha256": "36774c31f340889f425df440788fb62cbc90c9a4b4abaf02b9f506b587710a80",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/careerAiAssistResponseVoiceRulesItemConfidence.ts",
+      "beforeSha256": null,
+      "afterSha256": "dee7f2db422c0ee54d901a9edcae62bea170b383f70f54ff67a0c59941874454",
+      "change": "added"
+    },
+    {
+      "path": "lib/api-zod/src/generated/types/index.ts",
+      "beforeSha256": "9f93a90658d8065e26b8611e648debbc26e60d25d993f4bb851a315ffe8e88f3",
+      "afterSha256": "04ed2700f0b4262c0cc766eea52fcd3ce0c328bfb19f98f779d9d30c42f49681",
+      "change": "modified"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "beforeSha256": "d5f03a16b4389392e23ef97e5871383a33f1b61c06de99556dccbd85c18654bd",
+      "afterSha256": "5d5992cbd0b8bb41be81073af5b2082845d9b982183275b3ab667ace7ec6ee8f",
+      "change": "modified"
+    },
+    {
+      "path": "replit.md",
+      "beforeSha256": "b18a0603e51335b6837ae26e5c68c27596d4e496a8d6cf7d5c0928812ba5446a",
+      "afterSha256": "19c39372835f2fa643ea860906b042b867c8073ef5f7b99b7e50a9d2d6320bcb",
+      "change": "modified"
+    },
+    {
+      "path": "scripts/src/nuvia-ai-contract-check.ts",
+      "beforeSha256": null,
+      "afterSha256": "22e3ae11957e96308fdf830070f7e4602debd366f0180b8d1a4b6400c187a585",
+      "change": "added"
+    },
+    {
+      "path": "scripts/src/nuvia-korean-ai-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "ab7141a30cfe09386b4be1ca9fb2c8e5a69c2fa5113cde50b640a4bb5c612e50",
+      "change": "added"
+    },
+    {
+      "path": "scripts/src/nuvia-managed-ai-smoke.ts",
+      "beforeSha256": null,
+      "afterSha256": "5361161d1ea59702422c688d80a67aa69d41dc57111f209bb231d73761495358",
+      "change": "added"
+    },
+    {
+      "path": "scripts/src/package-nuvia-ai.py",
+      "beforeSha256": null,
+      "afterSha256": "fecd4ba4dd8376898ff9be3e9ee7739accb6474654fe34bddf66eb87480508b5",
+      "change": "added"
+    },
+    {
+      "path": "scripts/src/verify-nuvia-github-patch.py",
+      "beforeSha256": null,
+      "afterSha256": "4f04cf27ef7403f47e44a0cf26c7cc31a35b8ca8a987a125f996d5381a1c1125",
+      "change": "added"
+    }
+  ],
+  "patchSha256": "f766f608315061cceacc22f7ce4375c6c5f395d45d4fc1cd02478ebb276ad75d",
+  "patchCopyCheck": {
+    "status": "pass",
+    "appliedAgainst": "bd181075f5a301d4f19bc340e571d2494bfdc819",
+    "changedFiles": 50,
+    "filesMatched": 249
+  },
+  "incrementalPatchCopyCheck": {
+    "status": "pass",
+    "appliedAgainst": "7802fa308256dc8320d2d2cadf5bc369a7b29e21",
+    "changedFiles": 17,
+    "filesMatched": 249,
+    "sha256": "3783c88eedc42a9aed90cec73e1bc9592556bec9b02c491d7ce66f14bd456647"
+  },
+  "excluded": [
+    "secret values/.env",
+    "real user records/DB dumps",
+    "browser sessions/cookies/HAR",
+    "node_modules/cache/.git",
+    "old generated-artifacts",
+    "other LAB/planner projects"
+  ],
+  "publication": "not performed",
+  "githubPush": "not performed",
+  "remoteVerification": null,
+  "deliveryGate": "Korean implementation, new real-model QA, GitHub work-branch save and remote/file comparison, then Korean delivery. See final QA results; archive creation alone never completes the gate.",
+  "remoteRuleReference": {
+    "repository": "goldensge22-design/feelgood-app",
+    "branch": "codex/nuvia-career-handoff-20261027",
+    "commit": "f051942eef7487157c5ad1bfea6125f068bc0ae2",
+    "evidence": "independently read through authorized GitHub connection as the pre-update rules/spec base; not itself evidence of new AI source upload"
+  }
+}

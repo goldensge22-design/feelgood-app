@@ -1,0 +1,53 @@
+{
+  "run": {
+    "id": "xk3g3qkj-retest",
+    "target": "https://546ebb1e-3eed-447d-99fc-f558586d3f51-00-1hmnxial7hba6.pike.replit.dev/",
+    "originalReport": "browser-korean.json (unchanged, verdict FAIL)",
+    "scope": "narrow retest after the frontend fix; the old poisoned history was not cleared, and no source files were edited by the tester",
+    "account": "same synthetic account (email redacted)",
+    "labels": {
+      "LIVE_MODEL": "not used in this retest (the one live coach call happened in the original run)",
+      "MOCK": "page.route responses to /api/career/ai-assist; each MOCK response was checked against the generated zod contract",
+      "UI": "browser interaction, storage structure reads (no text values), download file inspection, viewport measurement"
+    },
+    "caveat": "Device-local AI state (answers, voice samples, history) is in the browser profile. The notebook reset started a new profile, so pre-reset saved answers are not present in this profile. Versions are server-side and intact."
+  },
+  "summary": {
+    "verdict": "PASS with 2 open defects",
+    "counts": { "PASS": 18, "FAIL": 2, "UNRUN": 0, "OBSERVATION": 1 }
+  },
+  "checklist": [
+    { "id": "RT-COLD-OLD-HISTORY", "label": "UI", "check": "Old malformed history recovers on reload without clearing: /write renders for app 1 (body and versions intact)", "result": "PASS", "at": "2026-11-14T15:58Z", "evidence": "Original profile reload: editor present, body 139 chars with V2 line, error boundary absent. Poisoned entry still stored (string candidates) and filtered in memory. Versions: 2 rows in fresh context." },
+    { "id": "RT-COLD-PROFILE", "label": "UI", "check": "Fresh browser context (no local state) opens /write and /versions", "result": "PASS", "at": "2026-11-14T15:56Z", "note": "Versions present (server-side). Device-local answers and voice samples absent in a fresh profile, as expected for device-local storage." },
+    { "id": "RT-MALFORMED-FP-VALID", "label": "MOCK", "check": "New 200 with matching fingerprint and schema-invalid body (candidates string) → failed, body preserved, no corrupt history", "result": "PASS", "at": "2026-11-14T16:00Z", "evidence": "status-ai-failed 'AI 요청에 실패했습니다. 초안은 바뀌지 않았습니다.' with retry; input-editor kept; h1 remains page heading; app 2 history has only object entries (no string candidates added)." },
+    { "id": "RT-FP-WRONG-VALID", "label": "MOCK", "check": "Valid body with wrong fingerprint → stale", "result": "PASS", "at": "2026-11-14T16:02Z", "evidence": "status-ai-stale; 0 candidates; body kept." },
+    { "id": "RT-FP-MISSING", "label": "MOCK", "check": "Missing fingerprint → failed by schema validation", "result": "PASS", "at": "2026-11-14T16:03Z", "evidence": "status-ai-failed; 0 candidates; body kept." },
+    { "id": "RT-FP-NONSTRING", "label": "MOCK", "check": "Non-string fingerprint → failed by schema validation", "result": "PASS", "at": "2026-11-14T16:04Z", "evidence": "status-ai-failed; 0 candidates; body kept." },
+    { "id": "RT-HANG-45S", "label": "MOCK", "check": "Hung endpoint → client timeout (45s) → timeout status, retry", "result": "PASS", "at": "2026-11-14T16:06Z", "evidence": "Loading state with 요청 취소 shown; status-ai-timeout 요청 시간이 초과되었습니다. 다시 시도할 수 있습니다. after the 45s client timer; body kept. Real wall-clock wait, no fake clock." },
+    { "id": "RT-DBLCLICK-ONE", "label": "MOCK", "check": "Double-click send → exactly one request and one candidate card", "result": "PASS", "at": "2026-11-14T16:08Z", "evidence": "1 request; 1 result-ai-candidate card; candidate text once. The earlier count of 2 came from my selector matching the card's text and rationale paragraphs." },
+    { "id": "RT-VOICE-SAMPLE", "label": "UI", "check": "Own original voice sample saved and listed", "result": "PASS", "at": "2026-11-14T16:10Z", "evidence": "checkbox-ai-voice-example-voice_mwgkvnqm9v7qu7" },
+    { "id": "RT-VOICE-REQUEST", "label": "MOCK", "check": "Voice request returns contract-valid rules; both candidates render verbatim", "result": "PASS", "at": "2026-11-14T16:12Z", "note": "First voice mock omitted confidence/example and was correctly rejected (failed). Re-run with a contract-valid response rendered both candidates." },
+    { "id": "RT-VOICE-02", "label": "UI", "check": "Save candidate 2 (after candidate 1 saved first, then fresh request) closes VOICE-02", "result": "PASS", "at": "2026-11-14T16:20Z", "evidence": "Stored rule text equals candidate 2 text. Saving candidate 1 first invalidates candidate 2 (status-ai-stale), so the order matters; this is expected." },
+    { "id": "RT-PURPOSE-SCOPE", "label": "MOCK", "check": "Purpose adjust: rules for a different purpose are excluded from requests", "result": "PASS", "at": "2026-11-14T16:22Z", "evidence": "Rule purpose essay: 'essay' request sends voiceRules 1; 'letter' sends 0." },
+    { "id": "RT-PURPOSE-BLANK-DEFECT", "label": "UI", "check": "A confirmed rule saved without setting a purpose is sent to requests", "result": "FAIL", "at": "2026-11-14T16:14Z", "repro": ["Request voice with the sample selected (purpose field empty)", "Save candidate 1 (rule stored with purpose '')", "Confirm the rule", "Send 문체 규칙 요청 with purpose 'essay'"], "observed": "Stored rule purpose ''; requests send voiceRules 0 even though the rule is enabled and confirmed. The rule is silently skipped.", "expected": "Rule saved with the writing purpose (essay) by default, or the UI blocks saving until a purpose is set." },
+    { "id": "RT-PURPOSE-LABEL-DEFECT", "label": "UI", "check": "Purpose label shows a Korean label, not a raw key or raw 'essay'", "result": "FAIL", "at": "2026-11-14T16:15Z", "observed": "Purpose input (input-ai-style-purpose) and rule row show the raw key 'nav.write'; candidate cards show raw 'essay'. Source: ai-writing-assistant.tsx lines 842 and 849 pass the key through the assistant translator, which does not resolve 'nav.write'.", "expected": "Localized Korean label (e.g. 자소서 작성) for essay everywhere." },
+    { "id": "RT-RESET-KEEPS-SAMPLE", "label": "UI", "check": "Reset rules clears rules and keeps own voice sample", "result": "PASS", "at": "2026-11-14T16:16Z", "evidence": "rules 0; samples 1; sample checkbox present." },
+    { "id": "RT-MANUAL-COPY", "label": "UI", "check": "Manual-copy fallback when clipboard write is rejected", "result": "PASS", "at": "2026-11-14T16:30Z", "evidence": "Stub navigator.clipboard.writeText rejected; status '복사하지 못했습니다. 직접 선택해 복사해 주세요.'; panel-manual-copy present; readonly textarea holds body text." },
+    { "id": "RT-A11Y-KEYBOARD", "label": "UI", "check": "Named controls and keyboard focus on /write and /versions", "result": "PASS", "at": "2026-11-14T16:32Z", "evidence": "0 unnamed controls on both pages; 24 (versions) and 25 (write) tab stops; visible focus ring on all tab stops except input-editor.", "note": "OBSERVATION: body textarea has no visible focus ring (minor)." },
+    { "id": "RT-JOURNEY-768", "label": "UI", "check": "768px: body edit → save → reload → version save → TXT download with content check", "result": "PASS", "at": "2026-11-14T16:24Z", "evidence": "Marker survived reload (153 chars); version saved (3 rows); TXT downloaded and contains the marker and the V2 line; overflow 0." },
+    { "id": "RT-JOURNEY-360", "label": "UI", "check": "360px: body edit → save → reload → version save → TXT download with content check", "result": "PASS", "at": "2026-11-14T16:28Z", "evidence": "Marker survived reload; version saved (4 rows); TXT contains the 360 marker; overflow 0. Screenshot evidence/versions-360-after-retest.png." },
+    { "id": "RT-RECOVERY-SCREENSHOT", "label": "UI", "check": "Final recovery screenshot (app 1, 360px) and mobile versions screenshot", "result": "PASS", "at": "2026-11-14T16:34Z", "evidence": "evidence/recovery-app1-write-360.png, evidence/versions-360-after-retest.png" },
+    { "id": "RT-OBS-PRIOR-ANSWERS", "label": "UI", "check": "Pre-reset saved coach answers and voice sample remain after reset", "result": "OBSERVATION", "at": "2026-11-14T15:57Z", "note": "Not verifiable in the current profile: device-local answers from the pre-reset profile are gone. Not a regression of this fix." }
+  ],
+  "defectsOpen": [
+    { "id": "DEF-VOICE-PURPOSE-BLANK", "severity": "high", "summary": "A confirmed voice rule saved while the purpose field is empty is stored with purpose '' and never sent in voice requests, with no warning.", "where": "ai-writing-assistant.tsx: rule save uses rulePurpose state (default ''); request filter compares rule.purpose === rulePurpose (line ~421)." },
+    { "id": "DEF-PURPOSE-LABEL", "severity": "low", "summary": "Purpose input and rule row show raw 'nav.write'; candidate cards show raw 'essay'.", "where": "ai-writing-assistant.tsx lines ~842, ~849 and candidate card purpose label." }
+  ],
+  "cleanup": {
+    "note": "Synthetic rules were reset (0 rules, own sample kept). Versions created in this retest: 'QA 768 버전 11t6' and 'QA 360 버전 집 2a' (synthetic; label slice typo in the tester script, not an app defect). Poisoned history entry on app 1 remains in storage by design (filtered in memory)."
+  },
+  "files": {
+    "screenshots": ["evidence/recovery-app1-write-360.png", "evidence/versions-360-after-retest.png"],
+    "downloads": ["/tmp/nuvia-ko-qa/retest-768-txt-*.txt", "/tmp/nuvia-ko-qa/retest-360-*.txt (TXT with 360 marker, 251 chars)"]
+  }
+}

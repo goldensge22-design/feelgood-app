@@ -1,0 +1,67 @@
+{
+  "run": {
+    "id": "xk3g3qkj",
+    "target": "https://546ebb1e-3eed-447d-99fc-f558586d3f51-00-1hmnxial7hba6.pike.replit.dev/",
+    "t0": "2026-11-14T15:16:30Z",
+    "locale": "ko-KR",
+    "timezone": "Asia/Seoul",
+    "account": "synthetic Clerk identity (email redacted; nuvia-ko-qa-<id>@example.com)",
+    "auth": "signInClerkUser (supported helper), no auth bypass, no source edits, no deployments",
+    "labels": {
+      "LIVE_MODEL": "one real coach request (200, ~4.9s)",
+      "MOCK": "page.route responses for all other AI cases",
+      "UI": "browser interaction, export file inspection, viewport measurement"
+    }
+  },
+  "summary": {
+    "verdict": "FAIL",
+    "blocker": "Schema-invalid HTTP 200 with a matching sourceFingerprint crashes /write for the application whose history it is stored in; the crash persists across reload.",
+    "counts": { "PASS": 30, "FAIL": 2, "UNRUN": 4, "OBSERVATION": 1 }
+  },
+  "checklist": [
+    { "id": "AUTH-01", "label": "UI", "check": "Synthetic Clerk sign-in via signInClerkUser", "result": "PASS", "at": "2026-11-14T15:17Z", "evidence": "Workspace loads; /questions shows account status 계정에 저장됨" },
+    { "id": "SETUP-01", "label": "UI", "check": "Experience created with multiline 행동, 구조화 strength, badge 확인 전", "result": "PASS", "at": "2026-11-14T15:19Z" },
+    { "id": "SETUP-02", "label": "UI", "check": "Application 1 created with company/job/question; experience linked", "result": "PASS", "at": "2026-11-14T15:21Z" },
+    { "id": "COACH-LIVE-01", "label": "LIVE_MODEL", "check": "Coach request returns 200 and one follow-up question with AI-interpretation disclaimer", "result": "PASS", "at": "2026-11-14T15:23Z", "evidence": "POST /api/career/ai-assist 200, ~4.9s; one question shown" },
+    { "id": "PERSIST-01", "label": "UI", "check": "Body (3 lines), saved answer (multiline), and experience selection survive reload", "result": "PASS", "at": "2026-11-14T15:25Z", "note": "Saving an answer marks earlier suggestions stale (status-ai-stale), by design" },
+    { "id": "DRAFT-STRENGTHS-01", "label": "MOCK", "check": "Strengths-only draft: 0 candidates, 1 follow-up, notice shown", "result": "PASS", "at": "2026-11-14T15:28Z" },
+    { "id": "P2-NORM-01", "label": "MOCK", "check": "Notice and candidate caution normalized to 확인 전 before use; candidate prose/rationale/sourceFacts kept verbatim", "result": "PASS", "at": "2026-11-14T15:30Z" },
+    { "id": "COMPARE-APPLY-01", "label": "UI", "check": "Compare, select, apply (replace); body unchanged before apply; 적용 전 글 복원 restores prior body", "result": "PASS", "at": "2026-11-14T15:33Z" },
+    { "id": "ERR-429", "label": "MOCK", "check": "429 → status-ai-rate_limited with retry; retry after consent re-tick → one 200 candidate, no auto-insert", "result": "PASS", "at": "2026-11-14T15:52Z", "evidence": "MOCKLOG [429,200]; candidates=1; editor unchanged" },
+    { "id": "ERR-504", "label": "MOCK", "check": "504 → status-ai-timeout with retry; body retained", "result": "PASS", "at": "2026-11-14T15:36Z" },
+    { "id": "ERR-502", "label": "MOCK", "check": "502 invalid-response → status-ai-failed with retry; body retained", "result": "PASS", "at": "2026-11-14T15:37Z" },
+    { "id": "ERR-503", "label": "MOCK", "check": "503 unconfigured → status-ai-unconfigured, no retry; body retained", "result": "PASS", "at": "2026-11-14T15:38Z" },
+    { "id": "ERR-MALFORMED-STALE", "label": "MOCK", "check": "200 without/with mismatched sourceFingerprint → stale copy, no candidate render", "result": "OBSERVATION", "at": "2026-11-14T15:40Z", "note": "Mismatched fingerprint is correctly treated as source-changed; the shown copy is the stale message, not a generic failure. Confirm wording is intended." },
+    { "id": "ERR-MALFORMED-FP-VALID", "label": "MOCK", "check": "200 with matching sourceFingerprint but schema-invalid body (candidates is a string) → must show failure state, not crash", "result": "FAIL", "at": "2026-11-14T15:34Z", "repro": ["Open /write for application 1 (tab-app-app_mwgjv2b9p54ea5)", "Select 문장 표현 제안 (button-ai-mode-draft), tick experience action, facts reviewed, consent", "Route POST /api/career/ai-assist to 200 echoing sourceFingerprint with candidates='not-an-array'", "Click button-ai-send-draft", "Observed: main h1 becomes 불러오지 못했습니다. 연결을 확인하고 다시 시도해 주세요.; input-editor is absent"], "console": "TypeError: entry.response.candidates.map is not a function at write.tsx:526 (Workbench)", "persistence": "Reload of /write for the same application still shows the error boundary; other applications render normally", "root_cause_candidate": "write.tsx runAi calls appendAiSuggestion (persisted history) before normalizeAiResponse validates the shape; Workbench history mapping calls entry.response.candidates.map", "screenshots": ["crash-repro-1440.png", "crash-after-reload.png"] },
+    { "id": "ERR-RECOVERY", "label": "UI", "check": "Recovery from the crashed application", "result": "FAIL", "at": "2026-11-14T15:45Z", "note": "No in-app way to remove the bad history entry; the user can only switch applications from /questions. Depends on the defect above." },
+    { "id": "PENDING-EDIT-01", "label": "MOCK", "check": "Source edit during a 3s in-flight request → status-ai-stale; late candidate not rendered; edit kept", "result": "PASS", "at": "2026-11-14T15:41Z" },
+    { "id": "DBLCLICK-01", "label": "MOCK", "check": "Double-click send → exactly one request", "result": "PASS", "at": "2026-11-14T15:42Z", "note": "Candidate-text count was 2 in the DOM after the double-click; not resolved as duplicate render vs. leftover candidate." },
+    { "id": "CANCEL-01", "label": "MOCK", "check": "Cancel → status-ai-cancelled 요청을 취소했습니다. 적용된 내용은 없습니다.; late candidate suppressed", "result": "PASS", "at": "2026-11-14T15:43Z" },
+    { "id": "APPSWITCH-01", "label": "MOCK", "check": "In-flight response for app 1 not shown in app 2", "result": "PASS", "at": "2026-11-14T15:44Z" },
+    { "id": "STORAGE-01", "label": "UI", "check": "localStorage save failure → answer text retained, failure notice shown, change not saved", "result": "PASS", "at": "2026-11-14T15:47Z", "evidence": "Notice: 출처 정보를 이 기기에 저장하지 못했습니다. 변경이 반영되지 않았습니다." },
+    { "id": "STORAGE-02", "label": "UI", "check": "Retry save after restoring storage → answer saved, textarea cleared", "result": "PASS", "at": "2026-11-14T15:48Z", "evidence": "One saved answer entry (checkbox-ai-answer-answer_mwgkb9l00jpje4); failure toast gone" },
+    { "id": "VOICE-01", "label": "MOCK", "check": "Own original sample saved; voice request 1x; two style candidates verbatim", "result": "PASS", "at": "2026-11-14T15:55Z", "note": "Purpose label shows raw 'essay' in Korean UI (untranslated)." },
+    { "id": "VOICE-02", "label": "UI", "check": "Save candidate 2 as a rule", "result": "UNRUN", "at": "2026-11-14T15:56Z", "note": "Candidate 2 disappeared after context change (expected); not re-run." },
+    { "id": "VOICE-RULE-01", "label": "UI", "check": "Rule confirm, toggle, edit clears confirmation, reconfirm, language scope (ko sends 1 rule; en sends 0), all-off, reset keeps own sample", "result": "PASS", "at": "2026-11-14T16:02Z" },
+    { "id": "VERSION-01", "label": "UI", "check": "V1 and V2 saved; /versions shows 2 rows; compare columns correct", "result": "PASS", "at": "2026-11-14T16:05Z", "evidence": "V1 111 chars; V2 139 chars with 넷째 줄" },
+    { "id": "VERSION-02", "label": "UI", "check": "Restore V1 creates a new draft; versions unchanged", "result": "PASS", "at": "2026-11-14T16:07Z", "evidence": "Toast 새 초안을 만들었습니다. 원래 문항과 버전은 그대로입니다." },
+    { "id": "EXPORT-TXT", "label": "UI", "check": "TXT export: LF line breaks, 3-line body correct", "result": "PASS", "at": "2026-11-14T16:10Z", "evidence": "evidence/*.txt" },
+    { "id": "EXPORT-DOCX", "label": "UI", "check": "DOCX export paragraphs correct; no AI/fingerprint/provenance tokens in docProps", "result": "PASS", "at": "2026-11-14T16:11Z", "evidence": "evidence/*.docx; core.xml author 'Un-named'" },
+    { "id": "EXPORT-HWPX", "label": "UI", "check": "HWPX section paragraphs and PrvText correct; no AI tokens", "result": "PASS", "at": "2026-11-14T16:12Z", "evidence": "evidence/*.hwpx" },
+    { "id": "EXPORT-NATIVE", "label": "UI", "check": "Open DOCX in Microsoft Word and HWPX in Hancom Office", "result": "UNRUN", "at": "2026-11-14T16:13Z", "note": "No native office apps in this environment; only XML/zip-level inspection was done." },
+    { "id": "EXPORT-COPY", "label": "UI", "check": "Copy button puts body on clipboard after fact checks", "result": "PASS", "at": "2026-11-14T16:20Z", "evidence": "Status: 본문을 복사했습니다. Clipboard contents were not read back." },
+    { "id": "EXPORT-MANUAL-COPY", "label": "UI", "check": "Manual-copy fallback", "result": "UNRUN", "at": "2026-11-14T16:21Z" },
+    { "id": "VP-1440", "label": "UI", "check": "1440px: /write, /versions, /export — no horizontal overflow; core testids present and inside viewport", "result": "PASS", "at": "2026-11-14T16:25Z", "evidence": "overflow 0 on all three; no missing controls" },
+    { "id": "VP-768", "label": "UI", "check": "768px: same checks", "result": "PASS", "at": "2026-11-14T16:26Z", "evidence": "overflow 0 on all three" },
+    { "id": "VP-360", "label": "UI", "check": "360px: same checks", "result": "PASS", "at": "2026-11-14T16:27Z", "evidence": "overflow 0 on all three; only the application tab list scrolls horizontally (intended)" },
+    { "id": "A11Y-01", "label": "UI", "check": "Accessible names on /export controls (buttons, links, inputs)", "result": "PASS", "at": "2026-11-14T16:22Z", "evidence": "0 unnamed controls; export buttons 48px tall" },
+    { "id": "A11Y-02", "label": "UI", "check": "Accessible names and targets on /write AI panel and /versions", "result": "UNRUN", "at": "2026-11-14T16:28Z", "note": "Only the testid/overflow pass ran for /write and /versions; the full a11y scan was not done." }
+  ],
+  "cleanup": {
+    "note": "Malformed history entries from the crash repro remain on synthetic application 1 (and an earlier one on the restored draft). No UI path removes them. Reset the synthetic account's sidecar state before reusing this account."
+  },
+  "files": {
+    "screenshots": ["evidence/crash-repro-1440.png", "evidence/crash-after-reload.png", "evidence/write-retry-success-1440.png"],
+    "exports": ["evidence/QA synthetic 회사 xk3g3qkj_QA synthetic 직무.txt", "evidence/QA synthetic 회사 xk3g3qkj_QA synthetic 직무.docx", "evidence/QA synthetic 회사 xk3g3qkj_QA synthetic 직무.hwpx"]
+  }
+}

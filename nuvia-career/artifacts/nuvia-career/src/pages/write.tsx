@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { ExternalLink, PenLine, Save, ShieldAlert } from 'lucide-react';
 import { ContextCoach } from '@/components/provenance/context-coach';
@@ -19,10 +19,20 @@ import { SaveIndicator } from '@/components/shell';
 import { AppTabs, useSelectedApp } from '@/pages/questions';
 import { permissionOf } from '@/pages/experiences';
 import { cn } from '@/lib/utils';
-import { appExpMeta } from '@/lib/provenance';
+import { appExpMeta, jobConnectionFingerprint, jobConnectionOf, sourceStatusOf } from '@/lib/provenance';
 import { storyValues } from '@/lib/star-story';
 import { ExperienceStoryHelp } from '@/components/provenance/experience-story-help';
 import { JobConnectionNotesPanel } from '@/components/provenance/job-connection-notes';
+import { AIWritingAssistant } from '@/components/ai-writing-assistant';
+import type { AIWritingAnswer, AIWritingCandidate, AIWritingExperience, AIWritingStyleRule, AIWritingVoiceExample } from '@/components/ai-writing-assistant';
+import { requestCareerAiAssistance } from '@workspace/api-client-react';
+import { appendAiSuggestion, saveAiCoachAnswer, saveAiVoiceExample, saveAiVoiceRules } from '@/lib/provenance';
+import type { AiCoachAnswer, AiSuggestionRecord, AiVoiceExample, AiVoiceRule } from '@/lib/provenance';
+import { buildAiInput, aiContextFingerprint, normalizeAiResponse } from '@/lib/ai-assist';
+import { validateAiResponse } from '@/lib/ai-response';
+import { uid, readReport } from '@/lib/career';
+import { PUBLIC_DEMO } from '@/lib/public-demo';
+import { aiTranslator } from '@/lib/ai-assistant-messages';
 
 export function VersionDialog({ app, open, onClose }: { app: CareerApplication; open: boolean; onClose: () => void }) {
   const { t } = useI18n();
@@ -60,18 +70,156 @@ export function VersionDialog({ app, open, onClose }: { app: CareerApplication; 
 
 function Workbench({ state, app }: { state: CareerState; app: CareerApplication }) {
   const { t, locale } = useI18n();
-  const { update } = useWorkspace();
-  const { data: sidecar } = useSidecar();
+  const { toast } = useToast();
+  const aiT = aiTranslator(locale, t);
+  const { update, mode } = useWorkspace();
+  const { data: sidecar, patch } = useSidecar();
   const ctext = useCriterionText();
   const [verOpen, setVerOpen] = useState(false);
+  const priorBodyRef = useRef<{ appId: string; body: string } | null>(null);
   const count = countChars(app.text, app.countSpaces);
   const over = app.limit > 0 && count > app.limit;
   const exps = state.experiences.filter((e) => app.experienceIds.includes(e.id));
   const crits = state.criteria.filter((c) => app.criterionIds.includes(c.id));
   const writingLang = LOCALES.find((l) => l.id === app.writingLanguage);
+  const report = readReport(state.report);
+  const aiStrengths = (report?.axes ?? []).map((axis) => ({
+    id: axis.key,
+    label: axis.label,
+    originalInterpretation: axis.description,
+    recommendationBasis: axis.strategy,
+  })).filter((item) => item.label || item.originalInterpretation || item.recommendationBasis);
+  const aiExperiences: AIWritingExperience[] = exps.map((experience) => {
+    const meta = appExpMeta(sidecar, app.id, experience.id);
+    const story = storyValues(experience, meta);
+    const jobLink = jobConnectionOf(sidecar, app.id, experience.id);
+    const syntheticStatus = sourceStatusOf(sidecar, meta);
+    const permission = permissionOf(experience, state) ||
+      (syntheticStatus === 'source_changed' ? 'changed' : syntheticStatus === 'failed' ? 'unverified' : syntheticStatus);
+    const jobFingerprint = jobLink
+      ? jobConnectionFingerprint(app, experience, jobLink, meta.nature, meta.experienceContext, story)
+      : '';
+    return {
+      id: experience.id,
+      title: experience.title,
+      provenance: meta.nature,
+      context: meta.experienceContext,
+      cardType: meta.cardType,
+      source: experience.source,
+      sourceVersion: meta.sourceRevision ? String(meta.sourceRevision) : '',
+      sourceTitle: jobLink?.sourceTitle ?? '',
+      sourceVersionTitle: jobLink?.sourceTitle ?? '',
+      blockedReason: permission ? t(`perm.${permission}`) : undefined,
+      action: experience.action,
+      result: experience.result,
+      learning: experience.learning,
+      star: story,
+      planner: meta.planner ? {
+        selectedAction: meta.planner.selectedAction,
+        reason: meta.planner.selectionReason,
+        changes: meta.planner.changed,
+        result: meta.planner.result,
+        learning: meta.planner.learning,
+        selectedJob: meta.selectedJob,
+        practiceAction: meta.practiceAction,
+        checkCriterion: meta.checkCriterion,
+        strengthStrategy: meta.strengthStrategy,
+        supportProvided: meta.supportProvided,
+        independentSteps: meta.independentSteps?.join('\n'),
+        observedEvidence: meta.observedEvidence,
+      } : {
+        selectedJob: meta.selectedJob,
+        practiceAction: meta.practiceAction,
+        checkCriterion: meta.checkCriterion,
+        strengthStrategy: meta.strengthStrategy,
+        supportProvided: meta.supportProvided,
+        independentSteps: meta.independentSteps?.join('\n'),
+        observedEvidence: meta.observedEvidence,
+      },
+      jobConnection: jobLink ? {
+        sourceKind: jobLink.sourceKind,
+        sourceTitle: jobLink.sourceTitle ?? '',
+        sourceCompany: jobLink.sourceCompany ?? '',
+        sourceJob: jobLink.sourceJob ?? '',
+        sourceVersion: jobLink.sourceVersion ?? '',
+        sourceAsOf: jobLink.sourceAsOf ?? '',
+        specificDuty: jobLink.specificDuty,
+        sharedAction: jobLink.sharedAction,
+        learnedPrinciple: jobLink.learnedPrinciple,
+        futureApplication: jobLink.futureApplication,
+        reviewed: !!jobLink.reviewedAt && jobLink.reviewedFingerprint === jobFingerprint,
+      } : undefined,
+    };
+  });
+  const selectedExperienceIds = new Set(exps.map((item) => item.id));
+  const aiAnswers = (sidecar.ai.answers[app.id] ?? [])
+    .filter((item) => item.experienceIds.length === 0 || item.experienceIds.some((id) => selectedExperienceIds.has(id)))
+    .map((item) => ({
+    id: item.id, question: item.question, answer: item.answer, experienceIds: item.experienceIds,
+    }));
+  const aiVoiceExamples: AIWritingVoiceExample[] = sidecar.ai.voiceExamples.map((item) => ({
+    id: item.id, text: item.text, kind: item.kind === 'user_edited' ? 'user_edit' : 'user_original',
+    language: item.language, purpose: item.purpose,
+  }));
+  const aiRules: AIWritingStyleRule[] = sidecar.ai.voiceRules.map((item) => ({
+    id: item.id, text: item.text, language: item.language, purpose: item.purpose,
+    enabled: item.enabled, confirmed: item.confirmed, aspect: item.aspect, example: item.example,
+  }));
+  const currentContext = JSON.stringify({ app: {
+    id: app.id, company: app.company, job: app.job, question: app.question, text: app.text,
+    writingLanguage: app.writingLanguage, experienceIds: app.experienceIds, criterionIds: app.criterionIds,
+  }, report: state.report, criteria: crits, exps: aiExperiences, aiLocalState: {
+    answers: aiAnswers, voiceExamples: sidecar.ai.voiceExamples, voiceRules: sidecar.ai.voiceRules,
+  }, locale });
+  const contextRef = useRef(currentContext);
+  const lastAiContext = useRef('');
+  contextRef.current = currentContext;
+  const runAi = async (action: import('@/components/ai-writing-assistant').AIWritingAction, payload: import('@/components/ai-writing-assistant').AIWritingPayload, signal: AbortSignal) => {
+    if (mode !== 'account' || PUBLIC_DEMO) throw Object.assign(new Error('AI is available only for signed-in accounts.'), { code: 'AI_NOT_CONFIGURED' });
+    const requestedContext = contextRef.current;
+    const fingerprint = aiContextFingerprint(requestedContext, payload, locale);
+    const response = validateAiResponse(await requestCareerAiAssistance(buildAiInput(action, payload, locale, fingerprint), { signal }));
+    if (response.task !== action) throw Object.assign(new Error('AI_INVALID_RESPONSE'), { code: 'AI_INVALID_RESPONSE' });
+    if (signal.aborted) throw Object.assign(new Error('Cancelled'), { code: 'CANCELLED' });
+    if (contextRef.current !== requestedContext || response.sourceFingerprint !== fingerprint) {
+      throw Object.assign(new Error('The source changed. Please review and try again.'), { code: 'STALE' });
+    }
+    const normalized = normalizeAiResponse(response,
+      action === 'voice' ? payload.application.writingLanguage || app.writingLanguage : app.writingLanguage,
+      payload.voiceExamples[0]?.purpose || 'essay');
+    const saved = patch((current) => appendAiSuggestion(current, app.id, {
+      id: uid('ai'), task: response.task, sourceFingerprint: fingerprint,
+      createdAt: new Date().toISOString(), response,
+    } satisfies AiSuggestionRecord));
+    lastAiContext.current = requestedContext;
+    return saved ? normalized : { ...normalized, notice: aiT('ai.historySaveFailed') };
+  };
+  const applyAiCandidate = (candidate: AIWritingCandidate, choice: 'replace' | 'append') => {
+    if (lastAiContext.current !== contextRef.current) {
+      toast({ title: aiT('ai.stale'), variant: 'destructive' });
+      return;
+    }
+    priorBodyRef.current = { appId: app.id, body: app.text };
+    const next = choice === 'replace' ? candidate.text : app.text ? `${app.text}\n\n${candidate.text}` : candidate.text;
+    update((current) => ({ ...current, applications: current.applications.map((item) => item.id === app.id ? { ...item, text: next } : item) }));
+  };
+  const saveAiAnswer = (answer: Omit<AIWritingAnswer, 'id'>) => {
+    return patch((current) => saveAiCoachAnswer(current, app.id, { ...answer, id: uid('answer'), at: new Date().toISOString() }));
+  };
+  const saveAiExample = (example: Omit<AIWritingVoiceExample, 'id'>) => {
+    const record: AiVoiceExample = {
+      id: uid('voice'), text: example.text, kind: example.kind === 'user_edit' ? 'user_edited' : 'user_original',
+      language: example.language ?? app.writingLanguage, purpose: example.purpose ?? 'essay', confirmedByUser: true,
+    };
+    return patch((current) => saveAiVoiceExample(current, record));
+  };
+  const saveAiRules = (rules: AIWritingStyleRule[]) => patch((current) => saveAiVoiceRules(current, rules.map((rule): AiVoiceRule => ({
+    id: rule.id, aspect: rule.aspect || 'style', text: rule.text, language: rule.language, purpose: rule.purpose, example: rule.example,
+    enabled: rule.enabled, confirmed: rule.confirmed,
+  }))));
 
   return (
-    <div className="mt-5 grid gap-6 xl:grid-cols-[1fr_340px]">
+    <div className="mt-5 grid min-w-0 grid-cols-[minmax(0,1fr)] gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
       <section className="min-w-0 space-y-4">
         <div className="surface p-5">
           <p className="eyebrow text-muted-foreground">{t('w.questionOriginal')}</p>
@@ -110,7 +258,36 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
         ))}
       </section>
 
-      <aside className="space-y-4">
+      <aside className="min-w-0 space-y-4 break-words">
+        <AIWritingAssistant
+          key={app.id}
+          contextKey={currentContext}
+          history={(sidecar.ai.history[app.id] ?? []).map((entry) => ({
+            id: entry.id, createdAt: entry.createdAt, question: entry.response.coachQuestion,
+            candidates: entry.response.candidates.map((candidate) => candidate.text),
+          }))}
+          t={aiT}
+          application={{ company: app.company, job: app.job, question: app.question, writingLanguage: app.writingLanguage, existingBody: app.text }}
+          strengths={aiStrengths}
+          experiences={aiExperiences}
+          answers={aiAnswers}
+          voiceExamples={aiVoiceExamples}
+          styleRules={aiRules}
+          availability={mode === 'account' && !PUBLIC_DEMO}
+          onRequest={runAi}
+          onApply={applyAiCandidate}
+          onRestorePriorBody={() => {
+            const prior = priorBodyRef.current;
+            if (prior?.appId !== app.id) return;
+            update((current) => ({ ...current, applications: current.applications.map((item) => item.id === app.id ? { ...item, text: prior.body } : item) }));
+            priorBodyRef.current = null;
+          }}
+          onSaveStyleRules={saveAiRules}
+          onConfirmStyleRule={(ruleId) => patch((current) => saveAiVoiceRules(current, current.ai.voiceRules.map((rule) => rule.id === ruleId ? { ...rule, confirmed: true } : rule)))}
+          onClearStyleRules={() => patch((current) => saveAiVoiceRules(current, []))}
+          onSaveAnswer={saveAiAnswer}
+          onSaveVoiceExample={saveAiExample}
+        />
         <ContextCoach key={`${app.id}|${app.question}|${app.job}|${exps.map((e) => e.id).join('|')}`} exps={exps} app={app} />
         <div className="surface p-5">
           <p className="text-sm font-semibold">{t('w.criteriaSnapshot')}</p>

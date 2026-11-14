@@ -1,0 +1,435 @@
+{
+  "generatedAt": "2026-11-14T16:03:36.847386+00:00",
+  "scope": "22 user-required Korean acceptance scenarios, NOT 45 multilingual journeys, NOT raw execution count",
+  "counts": {
+    "pass": 22,
+    "fail": 0,
+    "unrun": 0
+  },
+  "scenarios": [
+    {
+      "id": "KO-01",
+      "scenario": "두 개인의 같은 문항 문장 차이",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "person-a-same-question"
+        },
+        {
+          "file": "model",
+          "id": "person-b-same-question"
+        },
+        {
+          "file": "model",
+          "id": "two-person-candidates-differ"
+        }
+      ]
+    },
+    {
+      "id": "KO-02",
+      "scenario": "강점 해석만 있고 행동 없음",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "strengths-only-no-action"
+        },
+        {
+          "file": "model",
+          "id": "missing-evidence-coach"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "DRAFT-STRENGTHS-01"
+        }
+      ]
+    },
+    {
+      "id": "KO-03",
+      "scenario": "직접 경험만으로 문장 제안",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "direct-experience-only"
+        }
+      ]
+    },
+    {
+      "id": "KO-04",
+      "scenario": "실제와 모의 맥락 보존",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "actual-simulation-mixed"
+        }
+      ]
+    },
+    {
+      "id": "KO-05",
+      "scenario": "수정 기록의 이전 결과 배제",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "modified-record-no-old-outcome"
+        }
+      ]
+    },
+    {
+      "id": "KO-06",
+      "scenario": "본인 원문 화법 후보와 성격 단정 배제",
+      "kind": "LIVE_MODEL",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "model",
+          "id": "voice-original-no-personality"
+        }
+      ]
+    },
+    {
+      "id": "KO-07",
+      "scenario": "화법 확인·수정·개별/전체 해제·초기화와 용도",
+      "kind": "UI_MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "VOICE-RULE-01"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-VOICE-02"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-CONFIRM-VOICE-INCLUDES-RULE"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-SCOPE-OTHER-PURPOSE"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-RESET-KEEPS-SAMPLE"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-BLANK-PURPOSE-SAVE"
+        }
+      ]
+    },
+    {
+      "id": "KO-08",
+      "scenario": "동일 브라우저 답변·본문 새로고침 보존",
+      "kind": "UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "PERSIST-01"
+        }
+      ]
+    },
+    {
+      "id": "KO-09",
+      "scenario": "버전 비교·이전 버전에서 새 초안·원본 불변",
+      "kind": "UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "VERSION-01"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "VERSION-02"
+        }
+      ]
+    },
+    {
+      "id": "KO-10",
+      "scenario": "후보 비교·명시적 적용·이전 본문 복원",
+      "kind": "UI_MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "COMPARE-APPLY-01"
+        }
+      ]
+    },
+    {
+      "id": "KO-11",
+      "scenario": "TXT·복사·실패 대안·DOCX·HWPX",
+      "kind": "UI_DOWNLOAD_READBACK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "EXPORT-TXT"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "EXPORT-DOCX"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "EXPORT-HWPX"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "EXPORT-COPY"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-MANUAL-COPY"
+        }
+      ]
+    },
+    {
+      "id": "KO-12",
+      "scenario": "자료 수정·지원서 전환 후 늦은 응답 차단",
+      "kind": "MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "PENDING-EDIT-01"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "APPSWITCH-01"
+        }
+      ]
+    },
+    {
+      "id": "KO-13",
+      "scenario": "취소·중복 요청·재시도",
+      "kind": "MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "CANCEL-01"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-DBLCLICK-ONE"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "ERR-429"
+        }
+      ]
+    },
+    {
+      "id": "KO-14",
+      "scenario": "제한·시간 초과·설정 없음·잘못된 응답",
+      "kind": "MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "ERR-429"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "ERR-504"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "ERR-502"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "ERR-503"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-HANG-45S"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-MALFORMED-FP-VALID"
+        }
+      ]
+    },
+    {
+      "id": "KO-15",
+      "scenario": "기기 저장 실패와 재시도",
+      "kind": "MOCK",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "STORAGE-01"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "STORAGE-02"
+        }
+      ]
+    },
+    {
+      "id": "KO-16",
+      "scenario": "한국어 영문 상태어·용도 라벨·원문 보존",
+      "kind": "UI_MOCK_UNIT",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "P2-NORM-01"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-NO-RAW-KEY-LABELS"
+        }
+      ]
+    },
+    {
+      "id": "KO-17",
+      "scenario": "한국어 PC1440 핵심 여정",
+      "kind": "UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean.json",
+          "id": "VP-1440"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "VERSION-01"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "EXPORT-TXT"
+        }
+      ]
+    },
+    {
+      "id": "KO-18",
+      "scenario": "한국어 태블릿768 수정·저장·버전·TXT",
+      "kind": "UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-JOURNEY-768"
+        }
+      ]
+    },
+    {
+      "id": "KO-19",
+      "scenario": "한국어 모바일360 수정·저장·버전·TXT",
+      "kind": "UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-JOURNEY-360"
+        }
+      ]
+    },
+    {
+      "id": "KO-20",
+      "scenario": "오염된 AI 이력 초기화 없이 복구·새 응답 검증",
+      "kind": "UI_MOCK_UNIT",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-COLD-OLD-HISTORY"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-MALFORMED-FP-VALID"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-FP-WRONG-VALID"
+        },
+        {
+          "file": "browser-korean-retest.json",
+          "id": "RT-FP-MISSING"
+        }
+      ]
+    },
+    {
+      "id": "KO-21",
+      "scenario": "기존 공백 화법 규칙 재확인·비활성 호환",
+      "kind": "UNIT",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "adapter-check.log",
+          "source": "scripts/src/nuvia-ai-contract-check.ts",
+          "assertion": "normalizeStoredAiRule retains text and resets confirmation/enabled only for blank purpose"
+        }
+      ]
+    },
+    {
+      "id": "KO-22",
+      "scenario": "최종 응답 검증 경로의 실제 인증 AI 코치",
+      "kind": "LIVE_MODEL_UI",
+      "status": "pass",
+      "evidence": [
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-COACH-LIVE-CODEC"
+        },
+        {
+          "file": "browser-korean-voice-final.json",
+          "id": "VF-COACH-CALL-COUNT"
+        },
+        {
+          "file": "browser-korean.json",
+          "id": "AUTH-01"
+        }
+      ]
+    }
+  ],
+  "actualModelUniqueCases": {
+    "pass": 9,
+    "fail": 0,
+    "requests": 9,
+    "note": "8 initial calls, one targeted re-request after assertion correction; one comparison needs no call"
+  },
+  "separateUnrun": [
+    "Microsoft Word native DOCX opening",
+    "Hancom native HWPX/DOCX opening",
+    "Native-speaker review",
+    "Operational D-CAS/planner/companyLAB authentication, central SSO, permanent AI-sidecar server storage"
+  ],
+  "nonblockingObservation": [
+    "Body textarea focus ring was reported as weak/not visible; no full WCAG certification performed."
+  ],
+  "reportFileWrittenAt": {
+    "browser-korean.json": "2026-11-14T15:38:06.033774+00:00",
+    "browser-korean-retest.json": "2026-11-14T15:54:12.029780+00:00",
+    "browser-korean-voice-final.json": "2026-11-14T16:00:25.021839+00:00"
+  },
+  "timeNote": "Per-case times in tester reports are tester-provided; host file timestamps above anchor report completion.",
+  "localSourceCommit": "9b1a9650680ee1cdfbac55067bd4a539d86e2598",
+  "runtimeSourceFingerprintSha256": "85bc33120b1654c694544b70a11e142abe9be10b1af9b8937aad5d801ac100d0",
+  "modelHelperSha256": "b26292fc794c8256e54382c3487b846fc536344a7b5d73e1158c884fcdbe37cf",
+  "finalSourceDeltaNote": "After browser final, the identical legacy rule migration was extracted into a pure function and assertions executed; frontend typecheck/build passed. Other browser-tested paths and model helper unchanged.",
+  "sourceVersionAlignment": {
+    "functionalSourceCommit": "9b1a9650680ee1cdfbac55067bd4a539d86e2598",
+    "deliverySourceCommit": "b82c46342cf9e03b24b94ff7e66f109b0ec39201",
+    "runtimeSourceUnchanged": true,
+    "deliveryOnlyChanges": [
+      "docs/nuvia-managed-ai-handoff.md",
+      "scripts/src/package-nuvia-ai.py",
+      "scripts/src/verify-nuvia-github-patch.py"
+    ]
+  }
+}
