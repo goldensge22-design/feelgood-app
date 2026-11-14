@@ -1,0 +1,192 @@
+{
+  "generatedAt": "2026-11-07T15:42:18.046Z",
+  "sourceSha256": "a03ba2bb733698ca39d11f94aca2a8c2d43ae18d094faf09a9f838016f2d7c3c",
+  "suites": [
+    {
+      "name": "core",
+      "passed": 28,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:25.022Z"
+    },
+    {
+      "name": "legacy",
+      "passed": 21,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:26.182Z"
+    },
+    {
+      "name": "existing-browser",
+      "passed": 11,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:43.830Z"
+    },
+    {
+      "name": "language-regression",
+      "passed": 203,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:27.394Z"
+    },
+    {
+      "name": "u09-regression",
+      "passed": 212,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:28.678Z"
+    },
+    {
+      "name": "new-logic",
+      "passed": 44,
+      "failed": 0,
+      "started": "2026-11-07T15:40:28.891Z",
+      "ended": "2026-11-07T15:40:30.026Z"
+    },
+    {
+      "name": "new-browser",
+      "passed": 45,
+      "failed": 0,
+      "started": "2026-11-07T15:40:43.936Z",
+      "ended": "2026-11-07T15:41:24.694Z"
+    }
+  ],
+  "passed": 564,
+  "failed": 0,
+  "build": "pass (large bundle warning retained)",
+  "typecheck": "pass",
+  "previousEvidence": {
+    "pdfs": 168,
+    "pages": 718,
+    "status": "historical, not a full rerun"
+  },
+  "thisRun": {
+    "newSummaryPdfs": [
+      {
+        "lang": "ko",
+        "file": "ko-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "en",
+        "file": "en-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "ja",
+        "file": "ja-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "zh-CN",
+        "file": "zh-CN-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "zh-TW",
+        "file": "zh-TW-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "mn",
+        "file": "mn-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "th",
+        "file": "th-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "vi",
+        "file": "vi-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "ar",
+        "file": "ar-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "ru",
+        "file": "ru-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "km",
+        "file": "km-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "es",
+        "file": "es-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "fr",
+        "file": "fr-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "it",
+        "file": "it-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      },
+      {
+        "lang": "az",
+        "file": "az-result-summary.pdf",
+        "pages": 1,
+        "expectedRevision": 6,
+        "ok": true
+      }
+    ],
+    "existingScenarioPdfs": [
+      {
+        "file": "main-class-blank.pdf",
+        "pages": 90
+      },
+      {
+        "file": "main-private-comparison.pdf",
+        "pages": 1
+      },
+      {
+        "file": "main-one-student-mixed.pdf",
+        "pages": 5
+      }
+    ],
+    "totalPdfs": 18,
+    "totalPages": 111
+  },
+  "limits": [
+    "Local fictional demo only; no external service, AI or real authentication integration",
+    "No native-speaker or educational efficacy approval",
+    "Only English and Arabic new summary first pages visually reviewed; not all pages or physical printers",
+    "Three diagnostic human-signoff placeholders are not three automated failures",
+    "Initial test harness selector/wrapped-text comparisons corrected; incorrect Arabic screenshot locale assertion corrected and rerun"
+  ],
+  "evidenceDirectory": "generated-artifacts/lesson-lab-report-history-qa"
+}

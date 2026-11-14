@@ -1,0 +1,54 @@
+import assert from 'node:assert/strict';
+import fs from 'node:fs/promises';
+import path from 'node:path';
+import { createServer } from 'vite';
+const root=path.resolve(import.meta.dirname,'..');
+const out=path.resolve(root,'../../generated-artifacts/lesson-lab-qa');
+await fs.mkdir(out,{recursive:true});
+const started=new Date().toISOString(),checks=[];
+const check=(name,fn)=>{try{fn();checks.push({name,ok:true});console.log('PASS',name)}catch(e){checks.push({name,ok:false,error:String(e)});console.error('FAIL',name,e.message)}};
+const server=await createServer({root,configFile:false,logLevel:'error',appType:'custom',server:{middlewareMode:true,hmr:false},optimizeDeps:{noDiscovery:true},resolve:{alias:{'@':path.join(root,'src')}}});
+try{
+ const engine=await server.ssrLoadModule('/src/lib/studio/index.ts');
+ const ml=await server.ssrLoadModule('/src/lib/material-language.ts');
+ const tx=await server.ssrLoadModule('/src/i18n/tx.ts');
+ const authored=await server.ssrLoadModule('/src/i18n/authored.ts');
+ const fmt=await server.ssrLoadModule('/src/i18n/format.ts');
+ const content=await server.ssrLoadModule('/src/i18n/content/index.ts');
+ const s=JSON.parse(await fs.readFile('/tmp/lesson-lab-studio-fixture.json','utf8'));
+ s.studio.actor={role:'teacher',id:'teacher-demo'};
+ const original=JSON.stringify(s),wid=s.personalWorksheets[0].id,pid=s.plannerActivities.find(x=>x.id.startsWith('studio-planner-')).id;
+ const languages=['ko','en','ja','zh-CN','zh-TW','mn','th','vi','ar','ru','km','es','fr','it','az'];
+ const pagePatterns={ko:'학생 3쪽 중 1쪽',en:'Page 1 of 3',ja:'全3ページ中1ページ目','zh-CN':'第 1 页，共 3 页','zh-TW':'第 1 頁，共 3 頁',mn:'Нийт 3 хуудасны 1-р хуудас',th:'หน้า 1 จากทั้งหมด 3 หน้า',vi:'Trang 1 trên tổng số 3 trang',ar:'صفحة ١ من ٣',ru:'Страница 1 из 3',km:'ទំព័រទី 1 នៃ 3 ទំព័រ',es:'Página 1 de 3',fr:'Page 1 sur 3',it:'Pagina 1 di 3',az:'Səhifə 1 / 3'};
+ for(const lang of languages){
+  tx.setTxLang(lang);
+  const pack=JSON.parse(await fs.readFile(path.join(root,'src/i18n/content/generated',`${lang==='ko'?'en':lang}.json`),'utf8'));
+  check(lang+' all 54 educational documents have translated prose',()=>{const leaves=o=>typeof o==='string'?[o]:o&&typeof o==='object'?Object.values(o).flatMap(leaves):[];assert.equal(Object.keys(pack.worksheets).length,36);assert.equal(Object.keys(pack.lessons).length,18);assert.equal(leaves(pack).filter(text=>/[가-힣]/.test(text.replace(/수업설계LAB|한서대학교|한서대|새빛/g,''))).length,0)});
+  check(lang+' all 12 families differ in reading/tasks/help/output across three stages',()=>{for(let n=1;n<=12;n++){const docs=['M','H','U'].map(prefix=>pack.worksheets[prefix+String(n).padStart(2,'0')]);for(const field of['reading','actions','supports','deliverable'])assert.equal(new Set(docs.map(x=>JSON.stringify(x[field]))).size,3,`${n} ${field}`)}});
+  check(lang+' numeric and accessibility placeholders preserved',()=>{const vars=text=>[...text.matchAll(/\{(\d+|hotkey)\}/g)].map(x=>x[1]).sort().join(',');if(lang!=='ko')for(const dictionary of[tx.authoredDictionaries().ui[lang],tx.authoredDictionaries().jobs[lang]])for(const[k,v]of Object.entries(dictionary))assert.equal(vars(k),vars(v),k)});
+  check(lang+' 18/36 packs + three stages',()=>{assert.equal(content.coverage(lang).ws,36);assert.equal(content.coverage(lang).lessons,18)});
+  const p=ml.previewMaterialLanguage(s,wid,'worksheet',lang);
+  check(lang+' worksheet authored body and protected quote',()=>{assert.equal(p.untranslated.length,0,p.untranslated.join('\n'));assert.equal(p.fields.goal,s.personalWorksheets[0].fields.goal);assert.equal(p.fields.job,s.personalWorksheets[0].fields.job);assert.ok(p.fields.reading.includes(s.studio.courses[0].readingCandidates));if(lang!=='ko')assert.notEqual(p.fields.title,s.personalWorksheets[0].fields.title)});
+  const a=ml.previewMaterialLanguage(s,pid,'card',lang);
+  check(lang+' basic planner app-generated selection reason is translated, not student text',()=>{const basic=s.plannerActivities.find(x=>x.id.startsWith('basic-practice-')),p=ml.previewMaterialLanguage(s,basic.id,'card',lang);assert.equal(p.untranslated.length,0);assert.equal(p.fields.reason,tx.tx(lang,'플래너 기본 사용을 실제 활동으로 연습'));assert.equal(p.fields.goal,basic.fields.goal);assert.equal(p.fields.firstAction,basic.fields.firstAction)});
+  check(lang+' planner instructions and original student goal',()=>{assert.equal(a.untranslated.length,0,a.untranslated.join('\n'));assert.equal(a.fields.firstAction,s.plannerActivities.find(x=>x.id===pid).fields.firstAction);if(lang!=='ko')assert.ok(a.changedKeys.includes('steps'))});
+  check(lang+' append-only language version, execution unchanged',()=>{const n=ml.applyMaterialLanguage(s,p);const next=n.personalWorksheets.find(x=>x.id===wid),old=s.personalWorksheets[0];assert.equal(next.versions.length,old.versions.length+1);assert.deepEqual(next.versions.slice(0,-1),old.versions);assert.deepEqual(n.studio.writings,s.studio.writings);assert.deepEqual(n.studio.facts,s.studio.facts);assert.deepEqual(n.plannerActivities,s.plannerActivities)});
+  check(lang+' teacher-edited app-like text remains original through two versions',()=>{const edited=structuredClone(s);edited.personalWorksheets[0].fields.reading='과정';const preview=ml.previewMaterialLanguage(edited,wid,'worksheet',lang);assert.equal(preview.fields.reading,'과정');assert.ok(preview.preservedKeys.includes('reading'));const n=ml.applyMaterialLanguage(edited,preview);assert.equal(ml.previewMaterialLanguage(n,wid,'worksheet','en').fields.reading,'과정')});
+  check(lang+' current/total page first-middle-last',()=>{assert.equal(tx.T('학생 {0}쪽 중 {1}쪽',3,1),pagePatterns[lang]);for(const current of[1,2,3]){const label=tx.T('학생 {0}쪽 중 {1}쪽',3,current);assert.ok(!/\{\d+\}/.test(label));assert.ok(label.includes(fmt.formatNumber(current,lang)))}});
+  check(lang+' timestamps UTC, date input preserved',()=>{const date=s.studio.courses[0].startDate;assert.ok(fmt.formatDateTime('2026-11-04T22:00:00Z',lang).includes('UTC'));assert.ok(fmt.formatDate(date,lang).includes('UTC'));assert.equal(s.studio.courses[0].startDate,date)});
+  check(lang+' day/month first session and preset totals',()=>{for(const period of['day','month','two-month']){const n=engine.createCourse({...s,lang},{...engine.defaultCourse('university'),period,preset:'300-counseling',testMinutes:11});const c=n.studio.courses[0],rows=engine.buildAgenda(c);assert.equal(rows[0].session,0);assert.ok(engine.formatOffset(rows[0].start,c).includes(tx.T('{0}회차',1)));assert.equal(engine.courseStats(c).total,period==='day'?311:c.sessions*c.sessionMinutes+11)}});
+  check(lang+' presentation never changes original state',()=>assert.equal(JSON.stringify(s),original));
+ }
+ check('English one/two plural agreement + Course terminology',()=>{assert.equal(tx.tx('en','가상 학생 {0}명 생성',1),'Create 1 virtual student');assert.equal(tx.tx('en','가상 학생 {0}명 생성',2),'Create 2 virtual students');assert.equal(tx.tx('en','과정'),'Course')});
+ check('English optional plurals and time units use real singular/plural',()=>{assert.equal(tx.tx('en','{0}장',1),'1 page');assert.equal(tx.tx('en','{0}장',2),'2 pages');assert.equal(tx.tx('en','{0}명 선택',1),'1 person selected');assert.equal(tx.tx('en','총 {0}분',1),'Total 1 minute');assert.equal(tx.tx('en','총 {0}분',2),'Total 2 minutes')});
+ check('Counseling consultation is distinct from mock interview in all language labels',()=>{assert.match(tx.tx('en','면담 준비표'),/consultation/i);assert.doesNotMatch(tx.tx('en','면담 준비표'),/interview/i);for(const lang of languages)assert.notEqual(tx.tx(lang,'면담 준비표'),tx.tx(lang,'모의면접 회고표'))});
+ check('Historical app-owned translation aliases resolve to corrected terminology',()=>{assert.equal(authored.displayAppText('Interview preparation sheet','en','en'),tx.tx('en','면담 준비표'));assert.equal(authored.displayAppText('Interview preparation sheet','en','ar'),tx.tx('ar','면담 준비표'))});
+ check('Word wrapping does not slice priorities or combining marks',()=>{const lines=fmt.printLines('Report on problem hypotheses alternatives priorities verification methods and limitations.',42,'en');assert.ok(lines.some(x=>x.includes('priorities')));assert.ok(!lines.some(x=>/prioriti$/.test(x)))});
+ check('Stale preview rejected without replacing source versions',()=>{const p=ml.previewMaterialLanguage(s,wid,'worksheet','en'),n=structuredClone(s);n.personalWorksheets[0].versions.push({...n.personalWorksheets[0].versions.at(-1),version:99});assert.throws(()=>ml.applyMaterialLanguage(n,p))});
+ check('Arabic fictional proper name is retained, not a translation failure',()=>{const key=Object.keys(tx.authoredDictionaries().ui.ar).find(x=>x.includes('새빛도서관')),n=structuredClone(s);n.personalWorksheets[0].fields.reading=key;n.personalWorksheets[0].generated.reading=key;const p=ml.previewMaterialLanguage(n,wid,'worksheet','ar');assert.equal(p.untranslated.length,0);assert.ok(p.fields.reading.includes('새빛'));assert.ok(p.fields.reading.includes('مكتبة'))});
+ check('Booking before V1/after revision deadline and empty V1 is blocked',()=>{const n=structuredClone(s),w=n.studio.writings[0],c=n.studio.courses[0];n.studio.actor={role:'student',id:w.studentId};assert.throws(()=>engine.bookSlot(n,w.id,'counselor-demo',0));assert.throws(()=>engine.bookSlot(n,w.id,'counselor-demo',99999));w.versions=[];assert.throws(()=>engine.bookSlot(n,w.id,'counselor-demo',210))});
+ const result={version:'1.5 QA correction',started,ended:new Date().toISOString(),passed:checks.filter(x=>x.ok).length,failed:checks.filter(x=>!x.ok).length,checks};
+ await fs.writeFile(path.join(out,'language-regressions.json'),JSON.stringify(result,null,2));
+ console.log(JSON.stringify({passed:result.passed,failed:result.failed}));
+ if(result.failed)process.exitCode=1;
+}finally{await server.close()}

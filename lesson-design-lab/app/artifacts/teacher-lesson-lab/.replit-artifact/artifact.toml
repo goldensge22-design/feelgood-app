@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "수업설계LAB"
+description = "FeelGood 교사용 진로 수업 설계 도구. 세 교육단계별 18개 수업안과 36종 활동지, 가상 학생별 직군·직무 활동카드와 캠프 운영 및 인쇄를 지원하며 원본 규칙과 연동 대기 상태를 명확히 관리합니다."
+version = "1.0.0"
+id = "artifacts/teacher-lesson-lab"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18882
+
+[services.development]
+run = "pnpm --filter @workspace/teacher-lesson-lab run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/teacher-lesson-lab", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/teacher-lesson-lab/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18882"
+BASE_PATH = "/"

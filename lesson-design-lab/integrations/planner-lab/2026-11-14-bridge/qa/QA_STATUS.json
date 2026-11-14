@@ -1,0 +1,51 @@
+{
+  "status": "local_implementation_and_synthetic_qa_passed_production_integration_pending",
+  "httpTests": {
+    "passed": 24,
+    "failed": 0,
+    "transport": "real_loopback_http_with_synthetic_lab_responses",
+    "storage": "SQLite restart persistence and revision history"
+  },
+  "contentRouting": {
+    "profiles": 4,
+    "languages": 15,
+    "combinations": 60,
+    "realAiGeneration": false,
+    "linguisticQa": false
+  },
+  "ui": {
+    "strictTypecheck": true,
+    "bundle": true,
+    "fullPreviousAppBuild": false,
+    "language": "ko",
+    "browserFlow": [
+      "personal workspace without camp code",
+      "choose job",
+      "receive 3 candidates",
+      "select 1 and register",
+      "write actions and reflection",
+      "start server timer",
+      "save",
+      "reload and reopen",
+      "edit and resave"
+    ]
+  },
+  "library": {
+    "sync": "passed",
+    "verify": "passed",
+    "profiles": 124,
+    "majors": 47,
+    "cardConfigurationsChecked": 2232,
+    "expertValidated": false
+  },
+  "notVerified": [
+    "production deployment",
+    "actual SSO broker",
+    "actual owned TOP5 source",
+    "real LAB AI provider",
+    "PostgreSQL integration runtime",
+    "legacy planner calendar/statistics mapping",
+    "AI essay transmission",
+    "new 15-locale UI translation"
+  ]
+}

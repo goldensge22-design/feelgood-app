@@ -1,0 +1,46 @@
+PASS actual results screen preserves empty first/middle ranks
+PASS teacher sees previous full report cards and original material basis revision
+PASS single UI save 81 keeps latest inputs and all existing documents/V1/V2
+PASS save 81: navigation/reload preserves current revision and history
+PASS single UI save 82 keeps latest inputs and all existing documents/V1/V2
+PASS save 82: navigation/reload preserves current revision and history
+PASS blocked storage changes neither committed memory nor current/history, retains latest draft and error
+PASS reload after failed save retains old committed report plus unsaved new input
+PASS retry commits current/history together exactly once, existing versions and originals unchanged
+PASS invalid score cannot add history or replace current report
+PASS ko: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS ko: actual summary preview/PDF original ranks, source and current revision match
+PASS en: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS en: actual summary preview/PDF original ranks, source and current revision match
+PASS ja: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS ja: actual summary preview/PDF original ranks, source and current revision match
+PASS zh-CN: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS zh-CN: actual summary preview/PDF original ranks, source and current revision match
+PASS zh-TW: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS zh-TW: actual summary preview/PDF original ranks, source and current revision match
+PASS mn: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS mn: actual summary preview/PDF original ranks, source and current revision match
+PASS th: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS th: actual summary preview/PDF original ranks, source and current revision match
+PASS vi: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS vi: actual summary preview/PDF original ranks, source and current revision match
+PASS ar: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS ar: actual summary preview/PDF original ranks, source and current revision match
+PASS ru: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS ru: actual summary preview/PDF original ranks, source and current revision match
+PASS km: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS km: actual summary preview/PDF original ranks, source and current revision match
+PASS es: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS es: actual summary preview/PDF original ranks, source and current revision match
+PASS fr: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS fr: actual summary preview/PDF original ranks, source and current revision match
+PASS it: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS it: actual summary preview/PDF original ranks, source and current revision match
+PASS az: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+PASS az: actual summary preview/PDF original ranks, source and current revision match
+PASS ar 1280px results/history: direction verified, inputs and selector accessible, no page overflow
+PASS ar 360px results/history: direction verified, inputs and selector accessible, no page overflow
+PASS en 1280px results/history: direction verified, inputs and selector accessible, no page overflow
+PASS en 360px results/history: direction verified, inputs and selector accessible, no page overflow
+PASS legacy browser load/edit/reload archives only observed original with unknown previous save time
+45 browser checks; 0 failed; 15 PDFs

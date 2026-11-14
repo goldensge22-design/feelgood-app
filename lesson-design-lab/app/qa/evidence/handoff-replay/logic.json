@@ -1,0 +1,182 @@
+{
+  "started": "2026-11-05T11:05:25.671Z",
+  "ended": "2026-11-05T11:05:27.500Z",
+  "checks": [
+    {
+      "name": "first save creates v1, no invented earlier history or input mutation",
+      "ok": true
+    },
+    {
+      "name": "blank first and middle ranks remain 1/2/3/4/5",
+      "ok": true
+    },
+    {
+      "name": "second save archives exact previous scores/scale/type/ranks/source",
+      "ok": true
+    },
+    {
+      "name": "third save retains v1 and v2 with different unique snapshot IDs",
+      "ok": true
+    },
+    {
+      "name": "save does not modify existing students/materials/cards/originals/V1/V2",
+      "ok": true
+    },
+    {
+      "name": "invalid score rejects whole mutation including history",
+      "ok": true
+    },
+    {
+      "name": "reload normalization preserves exact current report and history",
+      "ok": true
+    },
+    {
+      "name": "current summary print preserves rank/scale/source and saved revision",
+      "ok": true
+    },
+    {
+      "name": "loading legacy report does not fabricate history or save date",
+      "ok": true
+    },
+    {
+      "name": "first legacy edit archives only observed original, earlier timestamp unknown",
+      "ok": true
+    },
+    {
+      "name": "current support uses latest confirmed type, not archived type",
+      "ok": true
+    },
+    {
+      "name": "candidate rank is original fourth place despite earlier gaps",
+      "ok": true
+    },
+    {
+      "name": "selected mission keeps exact earlier report and material IDs after result change",
+      "ok": true
+    },
+    {
+      "name": "old unrecorded basis and explicitly absent report are different",
+      "ok": true
+    },
+    {
+      "name": "ko: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "ko: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "en: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "en: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "ja: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "ja: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "zh-CN: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "zh-TW: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "mn: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "mn: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "th: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "th: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "vi: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "vi: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "ar: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "ar: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "ru: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "ru: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "km: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "km: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "es: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "es: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "fr: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "fr: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "it: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "it: printed rank and untouched source/reason originals",
+      "ok": true
+    },
+    {
+      "name": "az: all seven new report labels provided, no Korean fallback",
+      "ok": true
+    },
+    {
+      "name": "az: printed rank and untouched source/reason originals",
+      "ok": true
+    }
+  ]
+}

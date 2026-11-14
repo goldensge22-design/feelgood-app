@@ -1,0 +1,56 @@
+{
+  "started": "2026-11-05T10:35:42.947Z",
+  "ended": "2026-11-05T10:35:51.633Z",
+  "checks": [
+    {
+      "name": "actual results screen preserves empty first/middle ranks",
+      "ok": true
+    },
+    {
+      "name": "teacher sees previous full report cards and original material basis revision",
+      "ok": true
+    },
+    {
+      "name": "single UI save 81 keeps latest inputs and all existing documents/V1/V2",
+      "ok": true
+    },
+    {
+      "name": "save 81: navigation/reload preserves current revision and history",
+      "ok": true
+    },
+    {
+      "name": "single UI save 82 keeps latest inputs and all existing documents/V1/V2",
+      "ok": true
+    },
+    {
+      "name": "save 82: navigation/reload preserves current revision and history",
+      "ok": true
+    },
+    {
+      "name": "blocked storage changes neither committed memory nor current/history, retains latest draft and error",
+      "ok": true
+    },
+    {
+      "name": "reload after failed save retains old committed report plus unsaved new input",
+      "ok": true
+    },
+    {
+      "name": "retry commits current/history together exactly once, existing versions and originals unchanged",
+      "ok": true
+    },
+    {
+      "name": "invalid score cannot add history or replace current report",
+      "ok": true
+    },
+    {
+      "name": "ko: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload",
+      "ok": true
+    },
+    {
+      "name": "browser execution",
+      "ok": false,
+      "error": "AssertionError [ERR_ASSERTION]: The input did not match the regular expression /QA source 82/. Input:\n\n'본인 결과 요약     가상-1                                       v6 · summary-course-mw3epvrp-f5ki-st-mw3epvrq-9rl9\\n' +\n  '가상 개인 미션 과정 · 본인 결과 요약\\n' +\n  '연결:   수정 시각: 2026. 11. 5. 오전 10:35 · UTC\\n' +\n  '본인 결과 요약 · 별도 개인 자료\\n' +\n  'P/A/S/Q 정답률\\n' +\n  'P: 99 / A: 62 / S: 83 / Q: 54\\n' +\n  '원본 유형: LLLL\\n' +\n  'QA 원본 검사 / 2026-11-05 / QA scale 82 / QA\\n' +\n  'source 82\\n' +\n  'TOP5 원본 순서\\n' +\n  '1. 미입력 —\\n' +\n  '2. QA-RANK-2 — 원문 순위 2\\n' +\n  '3. 미입력 — 빈 중간 원문\\n' +\n  '4. QA-RANK-4 — 원문 순위 4\\n' +\n  '5. QA-RANK-5 — 원문 순위 5\\n' +\n  '저장 버전\\n' +\n  'v6 · 2026. 11. 5. 오전 10:35 · UTC\\n' +\n  '\\n' +\n  '\\n' +\n  '\\n' +\n  '\\n' +\n  '가상-1                                       학생 1쪽 중 1쪽                                                  #1\\n' +\n  '\\f'\n"
+    }
+  ],
+  "pdfs": []
+}

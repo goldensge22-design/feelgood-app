@@ -1,0 +1,45 @@
+PASS first save creates v1, no invented earlier history or input mutation
+PASS blank first and middle ranks remain 1/2/3/4/5
+PASS second save archives exact previous scores/scale/type/ranks/source
+PASS third save retains v1 and v2 with different unique snapshot IDs
+PASS save does not modify existing students/materials/cards/originals/V1/V2
+PASS invalid score rejects whole mutation including history
+PASS reload normalization preserves exact current report and history
+PASS current summary print preserves rank/scale/source and saved revision
+PASS loading legacy report does not fabricate history or save date
+PASS first legacy edit archives only observed original, earlier timestamp unknown
+PASS current support uses latest confirmed type, not archived type
+PASS candidate rank is original fourth place despite earlier gaps
+PASS selected mission keeps exact earlier report and material IDs after result change
+PASS old unrecorded basis and explicitly absent report are different
+PASS ko: all seven new report labels provided, no Korean fallback
+PASS ko: printed rank and untouched source/reason originals
+PASS en: all seven new report labels provided, no Korean fallback
+PASS en: printed rank and untouched source/reason originals
+PASS ja: all seven new report labels provided, no Korean fallback
+PASS ja: printed rank and untouched source/reason originals
+PASS zh-CN: all seven new report labels provided, no Korean fallback
+PASS zh-CN: printed rank and untouched source/reason originals
+PASS zh-TW: all seven new report labels provided, no Korean fallback
+PASS zh-TW: printed rank and untouched source/reason originals
+PASS mn: all seven new report labels provided, no Korean fallback
+PASS mn: printed rank and untouched source/reason originals
+PASS th: all seven new report labels provided, no Korean fallback
+PASS th: printed rank and untouched source/reason originals
+PASS vi: all seven new report labels provided, no Korean fallback
+PASS vi: printed rank and untouched source/reason originals
+PASS ar: all seven new report labels provided, no Korean fallback
+PASS ar: printed rank and untouched source/reason originals
+PASS ru: all seven new report labels provided, no Korean fallback
+PASS ru: printed rank and untouched source/reason originals
+PASS km: all seven new report labels provided, no Korean fallback
+PASS km: printed rank and untouched source/reason originals
+PASS es: all seven new report labels provided, no Korean fallback
+PASS es: printed rank and untouched source/reason originals
+PASS fr: all seven new report labels provided, no Korean fallback
+PASS fr: printed rank and untouched source/reason originals
+PASS it: all seven new report labels provided, no Korean fallback
+PASS it: printed rank and untouched source/reason originals
+PASS az: all seven new report labels provided, no Korean fallback
+PASS az: printed rank and untouched source/reason originals
+44 checks; 0 failed

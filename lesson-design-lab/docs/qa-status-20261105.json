@@ -1,0 +1,50 @@
+{
+  "checkedAtUtc": "2026-11-05T10:44:25.7389695Z",
+  "replId": "18e270a4-04b0-4056-971c-02cc8e11c84b",
+  "technicalQaComplete": true,
+  "overallProductionQaComplete": false,
+  "scope": "Current browser-local demo implementation; no production integrations, server authorization, native-language human approval or real-printer approval",
+  "finalRunKst": "2026-11-05 19:40:12 - 19:40:59",
+  "sourceSha256Abbreviated": "c06dfd24...6488e74",
+  "finalExecutedChecks": {
+    "core": 28,
+    "regression": 21,
+    "mainBrowser": 11,
+    "languageRegression": 203,
+    "u09Regression": 212,
+    "newReportLogic": 44,
+    "newBrowserLanguagePrint": 45,
+    "totalChecksAndCheckpoints": 564,
+    "failures": 0
+  },
+  "latestPdfEvidence": {
+    "pages": 111,
+    "description": "15 languages of result summaries:15 files/15 pages; existing scenarios:3 files/96 pages",
+    "files": 18
+  },
+  "previousPdfEvidence": {
+    "pages": 718,
+    "description": "Earlier revision evidence, not counted as full rerun of final revision",
+    "files": 168
+  },
+  "finalFixes": [
+    "Blank TOP5 ranks preserved across screen, candidates, summary and print",
+    "Previous report snapshots and selected mission provenance preserved; unknown history not fabricated"
+  ],
+  "directBrowserEvidence": [
+    "P71 v1 preserved after P73 v2 save and reload",
+    "Empty ranks 1/3/4 preserved; jobs remain at 2/5",
+    "Personal summary matches v2 and original ranks",
+    "Korean/English UI and original values retained",
+    "Preview running verified"
+  ],
+  "ruleComparison": "12-item comparison complete; detected two gaps fixed in local implementation scope",
+  "unresolvedDetectedTechnicalDefects": 0,
+  "previewRunning": true,
+  "remainingOutsideTechnicalScope": [
+    "Native-speaker and education-expert semantic review",
+    "Full-page visual approval and physical-printer validation",
+    "Real external integrations and production authentication/authorization"
+  ],
+  "published": false
+}
