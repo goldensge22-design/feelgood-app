@@ -28,10 +28,17 @@ const cases = [
       for (const [major,count] of cases) {
         await page.locator('#majorSelect').selectOption(major);
         assert.equal(await page.locator('#majorSelect').inputValue(), major);
-        assert.equal(await page.locator('#pf-jobcards [data-career-profile-id]').count(), count, `${width}px ${major}`);
+        assert.equal(await page.evaluate(major => window.DCasAviationRanking.getJobs(major).length, major), count);
+        assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 5, `${width}px ${major} TOP5`);
+        const ranked=await page.evaluate(major=>window.DCasJobEngine.rankJobsForMajor(window.DCasAdultEngine.PROFILE.scores,major,window.JOB_POOL).slice(0,5).map(x=>x.job.label_ko),major);
+        assert.deepEqual(await page.locator('#pf-jobcards h4').allTextContents(),ranked);
+        const envelope=await page.evaluate(()=>window.DCasLabTop5Bridge.getEnvelope());
+        assert.deepEqual(envelope.topJobs.map(x=>x.label),ranked);
+        assert.equal(envelope.sourceMajor,major);
+        assert.ok(await page.locator('#pf-jobskillcards .req-row').count()>0,'ranked competency rows retained');
         assert.equal(await page.locator('#fg-aviation-lecture-roles [data-lecture-role-id]').count(), 15);
         assert.equal(await page.locator('#fg-aviation-lecture-roles [data-lecture-competency-id]').count(), 9);
-        assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 0, 'unranked exploration has no ranking');
+        assert.ok(!(await page.locator('#pf-jobs-h2').innerText()).includes('진로 탐색'),'TOP5 title must not be replaced by exploration');
         assert.match(await page.locator('#pf-jobs-h2').innerText(), /직무|진로|항공|공항/);
       }
       await page.evaluate(() => showSection(6));
@@ -68,12 +75,12 @@ const cases = [
         for (const lang of supported.filter(lang => lang!=='ko')) {
           await page.evaluate(lang => window.FeelGoodReportI18n.setLocale(lang), lang);
           assert.equal(await page.locator('#majorSelect').inputValue(), '항공교통물류학과');
-          assert.equal(await page.locator('#pf-jobcards [data-career-job-id]').count(), 5, `${lang} legacy translated examples`);
+          assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 5, `${lang} TOP5 preserved; new role translations pending`);
           assert.equal(await page.locator('#fg-aviation-lecture-roles').count(), 0, `${lang} Korean-only lecture content hidden`);
           assert.equal(await page.locator('#fg-aviation-security-profiles').count(), 0);
         }
         await page.evaluate(() => window.FeelGoodReportI18n.setLocale('ko'));
-        assert.equal(await page.locator('#pf-jobcards [data-career-profile-id]').count(), 29);
+        assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 5);
         assert.equal(await page.locator('#fg-aviation-lecture-roles [data-lecture-role-id]').count(), 15);
       }
       assert.deepEqual(errors, [], `${width}px browser errors`);
@@ -84,7 +91,7 @@ const cases = [
         assert.equal(pdf.subarray(0,5).toString(), '%PDF-');
         assert.ok(pdf.length>10000, 'print output should contain report content');
       }
-      console.log(`PASS ${width}px: three majors 29/20/29, security TOP5 + 18, lecture 15, no page errors or overflow`);
+      console.log(`PASS ${width}px: three majors 29/20/29 -> TOP5 and LAB order, security TOP5 + 18, lecture 15, no page errors or overflow`);
       await page.close();
     }
   } finally { await browser.close(); }

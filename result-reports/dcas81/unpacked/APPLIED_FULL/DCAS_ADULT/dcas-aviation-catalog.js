@@ -1,7 +1,7 @@
 /** Official career fields are not psychometric requirements. */
 (function(g){
   'use strict';
-  const VERSION='aviation-careers-2026-11-17.1';
+  const VERSION='aviation-major-top5-2026-11-17.1';
   const CATALOG={
   "aviation-security": {
     "id": "aviation-security",
@@ -39,7 +39,7 @@
       "https://www.emiratesgroupcareers.com/search-and-apply/129"
     ],
     "checkedAt": "2026-11-08",
-    "mode": "exploration-unranked",
+    "mode": "major-ranked",
     "basis": "official-career-fields-with-editorial-role-examples",
     "passRequirements": null
   },
@@ -62,7 +62,7 @@
       "https://www.hanseoatl.com/page/sub1_3"
     ],
     "checkedAt": "2026-11-08",
-    "mode": "exploration-unranked",
+    "mode": "major-ranked",
     "basis": "official-career-fields-with-editorial-role-examples",
     "passRequirements": null
   },
@@ -87,7 +87,7 @@
       "https://www.hanseo.ac.kr/sub/info.do?m=030416&page=030416&s=hs"
     ],
     "checkedAt": "2026-11-08",
-    "mode": "exploration-unranked",
+    "mode": "major-ranked",
     "basis": "official-career-fields-with-editorial-role-examples",
     "passRequirements": null
   }
@@ -122,9 +122,9 @@
       const custom=select.querySelector('option[value="__custom__"]');
       select.insertBefore(group,custom?.closest('optgroup')||custom||null);
     }
-    group.label=t.nav||'진로 탐색';
+    group.label=g.DCasAviationRanking?.text.group||t.nav;
     const selected=select.value;
-    Object.values(CATALOG).filter(c=>c.mode==='exploration-unranked').forEach(c=>{
+    Object.values(CATALOG).filter(c=>c.id!=='aviation-security').forEach(c=>{
       const value=c.aliases[0];
       let option=Array.from(select.options).find(o=>o.value===value);
       if(!option){option=document.createElement('option');option.value=value;}
@@ -135,9 +135,7 @@
     if(selected)select.value=selected;
     const countNote=Array.from(document.querySelectorAll('#major .picker-note')).find(e=>e.textContent.includes('61개 학과')||e.dataset.fgAviationCount==='');
     if(countNote){
-      setElement(countNote,lang==='ko'
-        ? '전체 9개 계열 · 64개 학과 중 선택할 수 있어요(기타 직접 입력 포함). 학과별 직무는 탐색 경로이며 개인 적합도 순위가 아닙니다.'
-        : t.note);
+      setElement(countNote,g.DCasAviationRanking.text.count);
       countNote.dataset.fgAviationCount='';
     }
   }
@@ -198,6 +196,7 @@
     const name=majorOf(p);
     const c=resolve(name);if(!c)return;
     if(c.mode==='existing-interim-ranking'){renderSecurityProfiles(c);renderLectureRoles();return;}
+    if(c.mode==='major-ranked'){renderLectureRoles();return;}
     const lang=locale();
     const normalized=lang==='zh-CN'?'zh':lang;
     const t=g.DCasAviationLocales[normalized]||g.DCasAviationLocales.ko;
@@ -246,7 +245,7 @@
     document.querySelectorAll('[data-fg-guidance="aviation"]').forEach(e=>{delete e.dataset.fgGuidance;e.removeAttribute('lang');e.removeAttribute('dir');});
     g.__DCAS_CAREER_EXPLORATION__=null;
   }
-  g.DCasAviationCatalog=Object.freeze({version:VERSION,resolve,isUnranked:unranked,getCareerContext,render,beforeRender,refreshNavigation,ensureMajorOptions});
+  g.DCasAviationCatalog=Object.freeze({version:VERSION,catalog:CATALOG,resolve,isUnranked:unranked,getCareerContext,render,beforeRender,refreshNavigation,ensureMajorOptions});
   if(g.document){
     if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',ensureMajorOptions,{once:true});
     else ensureMajorOptions();

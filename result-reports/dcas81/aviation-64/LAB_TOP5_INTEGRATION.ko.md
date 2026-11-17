@@ -22,7 +22,7 @@
 1. 기존 인증으로 결과지 소유자와 LAB의 동일 사용자·수업을 서버에서 확인한다. 브라우저가 보낸 사용자 ID·수업 ID를 권한 근거로 삼지 않는다.
 2. LAB의 현재 공개 직무 카탈로그에서 각 원본 직무명을 **정확한 이름/검증된 alias**로 대조한다. 일치할 때만 LAB `jobId`를 붙인다. 숫자형 D-CAS `sourceJobIds`는 LAB 직무 ID가 아니다. 미연결 항목도 원문 `label`과 순서를 보존한다.
 3. LAB `GET /api/lab/results`의 기존 `areas`, `temperament`, `preferences` 등을 읽고 보존한다. LAB `PUT /api/lab/results`는 레코드 전체를 교체하므로 `topJobs`만 담아 PUT하면 기존 학생 정보가 사라진다. 기존 TOP5가 학생 수정본이면 차이를 보여주고 명시적 교체 확인을 받는다.
-4. 같은 사용자·수업 권한으로 `PUT /api/lab/results`에 완전한 `SaveMyResultsBody`를 저장한 뒤 `GET /api/lab/results`로 배열 순서·이름을 재확인한다. 성공일 때만 `{ok:true, labUrl:"https://lab.feel-good.io/"}`를 결과지에 돌려준다. 실패는 `ok:false`로 반환하고 결과지 화면을 유지한다.
+4. 같은 사용자·수업 권한으로 `PUT /api/lab/results`에 완전한 `SaveMyResultsBody`를 저장한 뒤 `GET /api/lab/results`로 배열 순서·이름을 재확인한다. 성공일 때만 `{ok:true, labUrl:"https://nuvia.feel-good.io/lab/company/"}`를 결과지에 돌려준다. 실패는 `ok:false`로 반환하고 결과지 화면을 유지한다.
 5. 기업LAB `/api/lab/recommendations`는 등록된 LAB `jobId`가 있는 항목만 회사 관계를 보여준다. 미등록 항목은 원문 이름을 남기고 ‘직무 카탈로그와 연결 안 됨’으로 표시하는 현재 계약을 유지한다.
 6. 플래너는 LAB에서 학생이 관심 방향/직무를 **선택·확인한 뒤** 기존 `direction-handoff/1.0`이나 검증된 카드 등록 계약을 통해 연결한다. TOP5 전송만으로 플래너 활동·성취·경험을 자동 생성하지 않는다.
 
@@ -34,3 +34,7 @@
 - 재전송은 중복 레코드를 만들지 않는다. 실패/타임아웃에서는 성공 표시와 LAB 이동을 하지 않는다.
 - LAB에서 학생이 직무를 선택한 뒤 플래너의 승인된 방향/카드로 전달한 경우에만 플래너 기록이 생긴다.
 - 운영 서버·기업LAB·플래너의 실제 URL, 인증, 저장, 이동을 한 사용자로 끝까지 확인한다. GitHub 정적 브라우저 QA는 이 통합 검사를 대신하지 않는다.
+
+## 신규 3개 학과 수정
+
+major-ranked에서 계산된 29/20/29개 후보의 상위 5개가 동일한 buildEnvelope로 전달된다. sourceJobIds의 aviation-profile:: 접두사는 결과지 내부 식별자이며 LAB jobId와 자동 동치가 아니다. 서버의 공개 직무 카탈로그에 정확한 이름/검증된 alias가 존재할 때만 연결한다. competency_profile_id 역시 LAB 등록 직무 ID라는 보장은 없다. 미등록 직무는 원문과 순서를 보존한다.

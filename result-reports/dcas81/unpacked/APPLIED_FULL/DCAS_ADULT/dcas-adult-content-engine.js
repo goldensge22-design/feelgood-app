@@ -185,7 +185,7 @@
       const alreadyRegistered = global.DCasJobEngine && global.DCasJobEngine.MAJOR_TO_NCS_MIDDLE[PROFILE.majorName];
       const aviation = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(PROFILE.majorName);
       if (aviation) {
-        global.DCasJobEngine.registerMajor(PROFILE.majorName, 'career-exploration::' + aviation.id);
+        global.DCasJobEngine.registerMajor(PROFILE.majorName, 'aviation-major::' + aviation.id);
       } else if (alreadyRegistered) {
         // 항공보안학과처럼 복수 직무군이 명시된 전공은 단일 키워드 추정값으로 덮어쓰지 않는다.
       } else if (global.DCasJobEngine && global.DCasMajor47 && global.DCasMajor47.CATALOG[PROFILE.majorName]) {
@@ -485,7 +485,8 @@
       if (label) label.textContent = s[k] + '%';
     });
 
-    if (!SHOW_MAJOR_REQUIREMENT || typeof window.DCAS_MAJOR_REQUIREMENTS === 'undefined') {
+    const rankedAviation = global.DCasAviationCatalog?.resolve(majorName)?.mode === 'major-ranked';
+    if ((!SHOW_MAJOR_REQUIREMENT && !rankedAviation) || typeof window.DCAS_MAJOR_REQUIREMENTS === 'undefined') {
       // 패치: 학과 요구치 데이터가 아직 감수 전이라 실제 적합도를 계산할 수 없는데,
       // 기존엔 샘플 87%가 마치 실제 개인화 결과처럼 그대로 노출되고 있었음 — 정직한 안내문으로 교체
       const gaugeCircle0 = document.querySelector('#major .gauge-circle');

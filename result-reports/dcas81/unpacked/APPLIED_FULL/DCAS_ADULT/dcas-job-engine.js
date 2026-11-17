@@ -43,7 +43,7 @@
     const known = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(majorName);
     if (known) {
       MAJOR_TO_NCS_MIDDLE[majorName] = known.id === 'aviation-security'
-        ? ['공공행정·치안(항공보안)', '공공행정·치안(산업보안)'] : 'career-exploration::' + known.id;
+        ? ['공공행정·치안(항공보안)', '공공행정·치안(산업보안)'] : 'aviation-major::' + known.id;
       return;
     }
     MAJOR_TO_NCS_MIDDLE[majorName] = ncsMiddle;
@@ -88,6 +88,13 @@
   function rankJobsForMajor(userScores, majorName, JOB_POOL) {
     const known = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(majorName);
     if (known && known.mode === 'exploration-unranked') return null;
+    if (known && known.mode === 'major-ranked') {
+      if (!['P','A','S','Q'].every(k=>typeof userScores?.[k]==='number'&&Number.isFinite(userScores[k])&&userScores[k]>=0&&userScores[k]<=100)) return null;
+      const jobs = global.DCasAviationRanking?.getJobs(majorName);
+      if (!jobs?.length) return null;
+      return jobs.map(job=>({job,fit:computeFit(userScores,job.pass_profile),reason:buildReasonText(userScores,job)}))
+        .sort((a,b)=>b.fit-a.fit||a.job.id.localeCompare(b.job.id,'en'));
+    }
     if (known) majorName = '항공보안학과';
     const ncsMiddle = MAJOR_TO_NCS_MIDDLE[majorName];
     if (!ncsMiddle) return null; // 매핑 안 된 학과 — 2단계에서 채워야 함
