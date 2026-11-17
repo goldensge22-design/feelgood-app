@@ -536,6 +536,11 @@
 <script src="dcas-profile81-bank.js"></script>
 <script src="dcas-profile81-unique-names.js"></script>
 <script src="dcas-combo-bank.js"></script>
+<script src="dcas-aviation-catalog.locales.js"></script>
+<script src="dcas-aviation-jobs-ko.js"></script>
+<script src="dcas-aviation-catalog.js"></script>
+<script src="dcas-lab-top5.locales.js"></script>
+<script src="dcas-lab-top5-bridge.js"></script>
 <script src="dcas-job-engine.js"></script>
 <script src="dcas-major-requirements.js"></script>
 <script src="dcas-jobs-major47.js"></script>
@@ -1180,6 +1185,7 @@ function renderToc(){
   document.getElementById('sidebarList').innerHTML = html;
   document.getElementById('tocTitle').textContent = TOC_TITLE;
   if (window.DCasWorkContext) window.DCasWorkContext.refreshNavigation();
+  if (window.DCasAviationCatalog) window.DCasAviationCatalog.refreshNavigation();
 }
 
 function render(){
@@ -1205,6 +1211,7 @@ function updateStepper(){
   document.getElementById('nextBtn').disabled = currentIndex===SECTION_IDS.length-1;
   document.getElementById('stepperProgressFill').style.width = (((currentIndex+1)/SECTION_IDS.length)*100)+'%';
   if (window.DCasWorkContext) window.DCasWorkContext.refreshNavigation();
+  if (window.DCasAviationCatalog) window.DCasAviationCatalog.refreshNavigation();
 }
 
 /* Swipe left/right on the report body to move between sections (mobile) */
@@ -1361,8 +1368,9 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
 
   function applyCustomMajor(typedName, forcedNcsMiddle, forcedLabel) {
     if (!typedName || !window.DCasJobEngine) return;
-    let ncsMiddle = forcedNcsMiddle;
-    let matchedLabel = forcedLabel;
+    const aviation = window.DCasAviationCatalog && window.DCasAviationCatalog.resolve(typedName);
+    let ncsMiddle = aviation ? 'career-exploration::' + aviation.id : forcedNcsMiddle;
+    let matchedLabel = aviation ? typedName : forcedLabel;
     if (!ncsMiddle) {
       // 패치: 신규 47개 학과 카탈로그를 먼저 검색하고, 없으면 기존 공공서비스·사범교육 계열 검색
       const guess47 = guessMajor47(typedName);
@@ -1379,8 +1387,9 @@ if (typeof DCasAdultEngine !== 'undefined') { DCasAdultEngine.render(); }
     }
     window.DCasJobEngine.registerMajor(typedName, ncsMiddle);
     if (customHint) customHint.textContent = '✅ "' + typedName + '"' + (hasBatchimLocal(typedName) ? '을' : '를') + ' "' + matchedLabel + '" 분야 직무 데이터를 기준으로 추천했어요. (자동 추정이 틀렸다면 아래에서 분야를 바로 바꿀 수 있어요)';
+    if (aviation && customHint) customHint.textContent = '';
     // 자동 추정이어도 항상 수동 재선택 가능하도록 fallback을 계속 보여주고 현재 매칭값을 표시
-    if (customFallback) { customFallback.style.display = 'block'; customFallback.value = ncsMiddle; }
+    if (customFallback) { customFallback.style.display = aviation ? 'none' : 'block'; customFallback.value = aviation ? '' : ncsMiddle; }
     // applyJobs()/applyMajorGauge() 등은 majorSelect.value를 그대로 학과명으로 읽으므로,
     // "기타" 옵션의 value·text를 입력한 학과명으로 임시 치환한 뒤 렌더를 돌리고 복원한다.
     let hiddenOpt = majorSelect.querySelector('option[value="__custom__"]');

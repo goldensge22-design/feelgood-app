@@ -40,6 +40,12 @@
    * 정상 동작하게 된다. */
   function registerMajor(majorName, ncsMiddle) {
     if (!majorName || !ncsMiddle) return;
+    const known = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(majorName);
+    if (known) {
+      MAJOR_TO_NCS_MIDDLE[majorName] = known.id === 'aviation-security'
+        ? ['공공행정·치안(항공보안)', '공공행정·치안(산업보안)'] : 'career-exploration::' + known.id;
+      return;
+    }
     MAJOR_TO_NCS_MIDDLE[majorName] = ncsMiddle;
   }
 
@@ -80,6 +86,9 @@
 
   /* ===== 학과 선택 → 순위 매긴 직무 배열 (1회 계산, 이후 재사용) ===== */
   function rankJobsForMajor(userScores, majorName, JOB_POOL) {
+    const known = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(majorName);
+    if (known && known.mode === 'exploration-unranked') return null;
+    if (known) majorName = '항공보안학과';
     const ncsMiddle = MAJOR_TO_NCS_MIDDLE[majorName];
     if (!ncsMiddle) return null; // 매핑 안 된 학과 — 2단계에서 채워야 함
     const ncsMiddles = Array.isArray(ncsMiddle) ? ncsMiddle : [ncsMiddle];
