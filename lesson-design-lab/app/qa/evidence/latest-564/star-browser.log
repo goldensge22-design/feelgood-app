@@ -1,0 +1,48 @@
+PASS before V1: help accessible, optional fields empty, note print/share default off
+PASS one question at a time; optional situation may be skipped to role
+PASS motivation + automatic mode uses purpose coach, never forced STAR
+PASS manual notes save with blank situation/role; do not autofill essay or facts
+PASS closed/skipped help still allows free V1 draft without falsely verified facts
+PASS student directly saves V2, original V1 kept and no new experience fabricated
+PASS ko: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS en: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS ja: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS zh-CN: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS zh-TW: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS mn: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS th: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS vi: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS ar: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS ru: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS km: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS es: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS fr: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS it: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS az: switch + reload preserves raw notes/purpose/job/question/V1/V2/caret, correct direction
+PASS student switching and reentry isolate independent notes and drafts
+PASS storage failure leaves saved note/history unchanged, no false new revision
+PASS teacher private-note print excludes student memo without separate sharing/print opt-ins
+PASS two selected students: optional three worksheets append in bundle preview
+PASS ko: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS en: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS ja: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS zh-CN: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS zh-TW: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS mn: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS th: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS vi: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS ar: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS ru: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS km: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS es: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS fr: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS it: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS az: real PDF of experience/writing-check/revision worksheets, raw note preserved
+PASS all language changes invalidate prior preview and print confirmation
+PASS ko: actual A5x2 planner + A4 writing worksheet mixed PDF
+PASS en: actual A5x2 planner + A4 writing worksheet mixed PDF
+PASS ar: actual A5x2 planner + A4 writing worksheet mixed PDF
+PASS en: 360px helper usable, no document horizontal overflow, screenshot
+PASS ar: 360px helper usable, no document horizontal overflow, screenshot
+PASS desktop optional helper actual screenshot
+47 checks; 0 failed; 18 PDFs

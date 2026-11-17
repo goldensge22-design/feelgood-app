@@ -1,0 +1,120 @@
+{
+  "patchVersion": "2026-11-14.1",
+  "basePlannerFingerprint": "5aab898a50b48eb3bc63fc9960777b65dae42c198e00b57b04e9f504935949a6",
+  "basePlannerReplitCommit": "732ac15b2e4a79959e0c0e4f3deedf39638b3d31",
+  "labInspectedCommit": "1b2429a08aedea943a8e2499a30137805d3e77d0",
+  "rulesAddendum": "2026-11-14.1",
+  "files": [
+    {
+      "path": "artifacts/nuvia-ui-review/src/planner-lab/planner-lab.css",
+      "sha256": "214caaa2f740ef745984138b67ab7434436fd5775427493c4608153f7a950187",
+      "bytes": 1001
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/planner-lab/PlannerLabRecommendations.tsx",
+      "sha256": "53f7ddd5954443943bb39b3eb16c373d1ce8ff9707c3a9fbc81afab6be019f48",
+      "bytes": 14028
+    },
+    {
+      "path": "artifacts/nuvia-ui-review/src/studio/StudioApp.tsx",
+      "sha256": "7f2e97d91a95f38dcc70d9a65a84c2bacf58fe81f35ffc25179c38dfd1707835",
+      "bytes": 13503,
+      "baseSHA256": "efe337dd68cfa446d1bde17ac5ccdcae32168e21a73ad65b445ce5026a5c3891"
+    },
+    {
+      "path": "library/competency/backlog.json",
+      "sha256": "1941afbf38183cc9bd613641210a8f0834e18e2cbaa50674a9b5bab8024ef8e2",
+      "bytes": 58113
+    },
+    {
+      "path": "library/competency/catalog.json",
+      "sha256": "f356d65d2cf158f2cd1401281ada149822b5fdd5cdb3ba1cf874bd2122b4c181",
+      "bytes": 5626993
+    },
+    {
+      "path": "library/competency/runtime/cases.mjs",
+      "sha256": "dfa17e803c3b08161e9b165d9ed3f5d2832573464570b17448379906ddc59bfc",
+      "bytes": 25145
+    },
+    {
+      "path": "library/competency/runtime/catalog.mjs",
+      "sha256": "638509b27dc0b4733a20c4e5e5d7c5ff92b630dd6a8972868b0dba786cbea3ef",
+      "bytes": 3489897
+    },
+    {
+      "path": "library/competency/runtime/major-resolver.mjs",
+      "sha256": "afa7809bf284638ec908d049daead792aa838ca55b8004c63ba00de500c8b814",
+      "bytes": 1499
+    },
+    {
+      "path": "library/competency/runtime/planner-lab-bridge.mjs",
+      "sha256": "2f68a6bdd70c30c4d1ef35287cd12e43fb2aaa4d04339ac280fc6f0721840118",
+      "bytes": 9311
+    },
+    {
+      "path": "library/competency/runtime/planner-lab-http.mjs",
+      "sha256": "2b9218c9724f3d2f49f73b82da1f67915c59614c86432c55059fb68a5f45c1ea",
+      "bytes": 3885
+    },
+    {
+      "path": "library/competency/runtime/planner-lab-mount.mjs",
+      "sha256": "80568b6f9f419acccc8ba8f822ddc55d8b59f63b636421a60f22ff4d1dcfc2c1",
+      "bytes": 1135
+    },
+    {
+      "path": "library/competency/runtime/planner-lab-pg-store.mjs",
+      "sha256": "ac3254ce27fe30709cc294ab5f7eb70ee39aa060cb3bf3bd8a5097cda224f8fe",
+      "bytes": 3456
+    },
+    {
+      "path": "library/competency/runtime/planner-lab-store.mjs",
+      "sha256": "65e1f7e868532e4544ac0dbeaa52c09d2b29096c56481cacb373d9679b4a5cf4",
+      "bytes": 2964
+    },
+    {
+      "path": "library/competency/runtime/practice.mjs",
+      "sha256": "4d7d738ef986c9fbb2f643865a8de13848b63635a8715430aeb74da00a7e5efb",
+      "bytes": 14728
+    },
+    {
+      "path": "library/competency/sync.mjs",
+      "sha256": "9e01654edc3e4c6887dd088f6e3b8d6db6d8016dd2a9851ea260e3524d1e2900",
+      "bytes": 1082
+    },
+    {
+      "path": "library/competency/verify.mjs",
+      "sha256": "756014d3a0c7cc60fd901d8c76efcab2742cb3bc9adfc84a9692612a01547112",
+      "bytes": 1691
+    },
+    {
+      "path": "library/competency/운영규칙서.txt",
+      "sha256": "090e870cee6b0561767c433694c3912aae11d8eb1c4309b5cd5a50c0918c528a",
+      "bytes": 28483
+    },
+    {
+      "path": "server/planner-lab/planner-lab-bridge.mjs",
+      "sha256": "2f68a6bdd70c30c4d1ef35287cd12e43fb2aaa4d04339ac280fc6f0721840118",
+      "bytes": 9311
+    },
+    {
+      "path": "server/planner-lab/planner-lab-http.mjs",
+      "sha256": "2b9218c9724f3d2f49f73b82da1f67915c59614c86432c55059fb68a5f45c1ea",
+      "bytes": 3885
+    },
+    {
+      "path": "server/planner-lab/planner-lab-mount.mjs",
+      "sha256": "80568b6f9f419acccc8ba8f822ddc55d8b59f63b636421a60f22ff4d1dcfc2c1",
+      "bytes": 1135
+    },
+    {
+      "path": "server/planner-lab/planner-lab-pg-store.mjs",
+      "sha256": "ac3254ce27fe30709cc294ab5f7eb70ee39aa060cb3bf3bd8a5097cda224f8fe",
+      "bytes": 3456
+    },
+    {
+      "path": "server/planner-lab/planner-lab-store.mjs",
+      "sha256": "65e1f7e868532e4544ac0dbeaa52c09d2b29096c56481cacb373d9679b4a5cf4",
+      "bytes": 2964
+    }
+  ]
+}
