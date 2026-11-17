@@ -1,0 +1,125 @@
+import { assert, base, context, enter, goto, workspace, snap, check, finish, noOverflow } from './nuvia-browser-utils.mjs';
+const c1 = await context(360);
+const p = await c1.newPage();
+const title = `가상 복구 검증 ${Date.now()}`;
+let id;
+await check('browser-save-503-input-preserved-refresh-retry', async () => {
+  await enter(p, 'parent', '/planner?child=demo-teen&lang=en');
+  if (!await p.getByTestId('form-plan').count()) await p.getByTestId('button-new-plan').click();
+  await p.getByTestId('input-plan-title').fill(title);
+  await p.getByTestId('input-plan-steps').fill('Fictional first step\nFictional second step');
+  let failed = false;
+  const handler = async route => {
+    if (route.request().method() === 'POST' && !failed) {
+      failed = true;
+      await route.fulfill({ status: 503, contentType: 'application/json', body: '{"error":"simulated_failure"}' });
+    } else await route.continue();
+  };
+  await p.route('**/api/nuvia/subjects/demo-teen', handler);
+  const before = await workspace(p, 'demo-teen');
+  await p.getByTestId('button-plan-save').click();
+  await p.getByTestId('form-plan').getByTestId('status-error').waitFor();
+  assert.equal(await p.getByTestId('input-plan-title').inputValue(), title);
+  assert.equal((await workspace(p, 'demo-teen')).version, before.version);
+  await snap(p, 'save-failed-input-kept');
+  await p.reload();
+  await p.getByTestId('input-plan-title').waitFor();
+  assert.equal(await p.getByTestId('input-plan-title').inputValue(), title);
+  await p.unroute('**/api/nuvia/subjects/demo-teen', handler);
+  await p.getByTestId('button-plan-save').click();
+  await p.getByTestId('form-plan').waitFor({ state: 'detached' });
+  const plans = (await workspace(p, 'demo-teen')).plans.filter(x => x.title === title);
+  assert.equal(plans.length, 1);
+  id = plans[0].id;
+});
+await check('two-independent-browser-sessions-same-server-progress', async () => {
+  assert.ok(id);
+  await p.getByTestId(`button-start-${id}`).click();
+  await p.getByTestId(`button-next-${id}`).click();
+  await p.waitForTimeout(1500);
+  await p.getByTestId(`button-pause-${id}`).click();
+  await p.getByTestId(`button-resume-${id}`).waitFor();
+  const first = (await workspace(p, 'demo-teen')).plans.find(x => x.id === id);
+  const c2 = await context(1440);
+  const p2 = await c2.newPage();
+  await enter(p2, 'parent', `/planner?child=demo-teen&activity=${id}&lang=en`);
+  const second = (await workspace(p2, 'demo-teen')).plans.find(x => x.id === id);
+  assert.equal(second.step, first.step);
+  assert.equal(second.elapsed, first.elapsed);
+  assert.equal(await p2.getByTestId(`text-timer-${id}`).innerText(), await p.getByTestId(`text-timer-${id}`).innerText());
+  await p2.getByTestId(`button-resume-${id}`).click();
+  await p2.getByTestId(`button-pause-${id}`).click();
+  await p2.getByTestId(`button-resume-${id}`).waitFor();
+  await p.reload();
+  await p.getByTestId(`button-resume-${id}`).waitFor();
+  await snap(p2, 'second-independent-session-1440');
+  await c2.close();
+  return { independentCookies: true, step: first.step, elapsed: first.elapsed, physicalDevices: false };
+});
+await check('language-switch-active-timer-child-route-and-draft-preserved', async () => {
+  assert.ok(id);
+  await p.getByTestId(`button-resume-${id}`).click();
+  await p.getByTestId(`button-pause-${id}`).waitFor();
+  await p.getByTestId('button-new-plan').click();
+  await p.getByTestId('input-plan-title').fill('Fictional unsaved input');
+  const before = (await workspace(p, 'demo-teen')).plans.find(x => x.id === id);
+  for (const lang of ['ar', 'km', 'th', 'en']) {
+    await p.getByTestId('select-language').selectOption(lang);
+    assert.equal(await p.getByTestId('input-plan-title').inputValue(), 'Fictional unsaved input');
+    assert.equal(new URL(p.url()).pathname, '/planner');
+    assert.equal(new URL(p.url()).searchParams.get('child'), 'demo-teen');
+    assert.equal(new URL(p.url()).searchParams.get('activity'), id);
+    await noOverflow(p);
+    const after = (await workspace(p, 'demo-teen')).plans.find(x => x.id === id);
+    assert.equal(after.startedAt, before.startedAt);
+    assert.equal(after.step, before.step);
+  }
+  await p.reload();
+  await p.getByTestId('input-plan-title').waitFor();
+  assert.equal(await p.getByTestId('input-plan-title').inputValue(), 'Fictional unsaved input');
+  await p.getByTestId(`button-pause-${id}`).click();
+  await p.getByTestId(`button-resume-${id}`).waitFor();
+});
+await check('revoked-session-relogin-restores-destination-child-lang-input', async () => {
+  assert.ok(id);
+  const dest = new URL(p.url()).pathname + new URL(p.url()).search;
+  // Revoke the real review session cookie server-side; next browser save sees 401.
+  await p.request.delete(`${base}/api/nuvia/session`);
+  await p.getByTestId('input-plan-steps').fill('Fictional preserved steps');
+  await p.getByTestId('button-plan-save').click();
+  await p.getByTestId('link-gate-review').waitFor();
+  const href = await p.getByTestId('link-gate-review').getAttribute('href');
+  assert.equal(new URL(href, base).searchParams.get('returnTo'), dest);
+  await p.getByTestId('link-gate-review').click();
+  await p.getByTestId('radio-account-parent').click();
+  await p.getByTestId('checkbox-ack').check();
+  await p.getByTestId('button-enter').click();
+  await p.waitForURL(u => u.pathname === '/planner');
+  await p.getByTestId('input-plan-title').waitFor();
+  assert.equal(await p.getByTestId('input-plan-title').inputValue(), 'Fictional unsaved input');
+  assert.equal(await p.getByTestId('input-plan-steps').inputValue(), 'Fictional preserved steps');
+  assert.equal(new URL(p.url()).searchParams.get('activity'), id);
+  assert.equal(new URL(p.url()).searchParams.get('child'), 'demo-teen');
+  assert.equal(new URL(p.url()).searchParams.get('lang'), 'en');
+  await p.getByTestId('button-plan-cancel').click();
+});
+await check('keyboard-navigation-and-control-accessible-names', async () => {
+  await goto(p, '/planner?child=demo-teen&lang=en');
+  if (await p.getByTestId('form-plan').count()) await p.getByTestId('button-plan-cancel').click();
+  await p.getByTestId('button-new-plan').click();
+  const missing = await p.locator('button,input,select,textarea,a').evaluateAll(els => els.filter(e => {
+    if (!e.getBoundingClientRect().width || e.closest('[aria-hidden="true"]')) return false;
+    const named = e.getAttribute('aria-label') || e.getAttribute('aria-labelledby') || (e.labels && [...e.labels].some(l => l.textContent.trim())) || e.textContent.trim() || (e instanceof HTMLInputElement && ['submit','button'].includes(e.type) && e.value);
+    return !named;
+  }).map(e => e.outerHTML.slice(0, 220)));
+  assert.deepEqual(missing, []);
+  await p.getByTestId('input-plan-title').focus();
+  await p.keyboard.type('Fictional keyboard plan');
+  await p.keyboard.press('Tab');
+  assert.equal(await p.evaluate(() => document.activeElement?.getAttribute('data-testid')), 'input-plan-steps');
+  await p.keyboard.type('Fictional keyboard steps');
+  await p.getByTestId('button-plan-save').focus();
+  await p.keyboard.press('Enter');
+  await p.getByTestId('form-plan').waitFor({ state: 'detached' });
+});
+await finish('recovery');

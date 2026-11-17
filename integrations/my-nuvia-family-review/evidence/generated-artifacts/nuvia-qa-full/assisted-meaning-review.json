@@ -1,0 +1,375 @@
+{
+  "at": "2026-11-06T12:00:25.629Z",
+  "type": "automated-assisted-not-native",
+  "reviews": [
+    {
+      "language": "ko",
+      "limitations": "This review is an automated assisted translation check of the provided Korean content against the requested criteria. It is not a native human review. Some context regarding specific user workflows or nuances may require further verification.",
+      "reviewedKeyCount": 216,
+      "suspectedIssues": []
+    },
+    {
+      "language": "en",
+      "limitations": "This review is performed via machine-assisted analysis focusing on intent, tone, and logical consistency. It does not replace native speaker review or actual end-to-end UX testing in a live environment. Content was fully parsed; no truncation observed.",
+      "reviewedKeyCount": 204,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "The term 'Ended' for '끝냄' might be confused with 'completed'. Consider 'Stopped' or 'Finished' to ensure clear distinction from 'status.completed' (돌아봄).",
+          "severity": "low"
+        },
+        {
+          "key": "status.completed",
+          "reason": "The translation 'Looked back' is descriptive but deviates from common status terminology. Given the context of '돌아봄', 'Reflected' or 'Completed' may be more intuitive if they align with the program flow.",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "language": "ja",
+      "limitations": "The content contains placeholders for AI terminology in keys related to story composition which may cause user confusion regarding the non-AI nature of the platform. The review is performed via automated analysis and assumes the Korean source is the source of truth for intent.",
+      "reviewedKeyCount": 272,
+      "suspectedIssues": [
+        {
+          "key": "nav.story",
+          "reason": "The translation 'AI自己PR' (AI Self-Introduction) implies AI generation, which conflicts with the 'no live AI' requirement stated in the source and documentation, even if it is a template feature.",
+          "severity": "medium"
+        },
+        {
+          "key": "story.title",
+          "reason": "Consistent with nav.story, 'AI自己PR' contradicts the 'no live AI' requirement.",
+          "severity": "medium"
+        },
+        {
+          "key": "status.paused",
+          "reason": "Translates to 'Pause' (一時停止), which is acceptable, but ensure it distinguishes clearly from 'Stop' (終了) as per the design requirements.",
+          "severity": "low"
+        },
+        {
+          "key": "status.ended",
+          "reason": "Translates to 'End' (終了), which is correct for the intent to finalize a task without necessarily completing a reflection.",
+          "severity": "low"
+        },
+        {
+          "key": "status.completed",
+          "reason": "Translates to 'Reflected' (振り返り済み), accurately capturing the 'complete' status vs 'end' status.",
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "language": "zh-CN",
+      "limitations": "The review was conducted as an automated assisted review, not a native speaker review. Content was evaluated against provided constraints and source text. UI context for some status keys (e.g., 'completed' vs 'ended') is inferred from the Korean source.",
+      "reviewedKeyCount": 269,
+      "suspectedIssues": [
+        {
+          "key": "status.completed",
+          "reason": "The translation '已回顾' (Reviewed) aligns with '돌아봄' but needs to ensure clear functional distinction from 'ended' (status.ended/act.end) to match the Korean intent that 'completed' implies a reflective state, not just a task status.",
+          "severity": "minor"
+        },
+        {
+          "key": "story.sub",
+          "reason": "The phrase '不是真实AI撰写' is accurate, but '不是真实AI撰写' might imply AI exists elsewhere; consider '不涉及任何AI功能' to strictly align with the 'no live AI claim' requirement.",
+          "severity": "minor"
+        },
+        {
+          "key": "review.notice",
+          "reason": "Ensure that '没有真实的FeelGood登录、FeelGood同步或AI' is consistently communicated as 'fixed help/no AI' across all UI strings to avoid confusion with generative AI.",
+          "severity": "minor"
+        }
+      ]
+    },
+    {
+      "language": "zh-TW",
+      "limitations": "The review was conducted as an automated assisted translation review focusing on semantic intent and UX constraints. Native linguistic nuance verification was not performed. The review assumes 'status.completed' refers specifically to the 'Reflection' state.",
+      "reviewedKeyCount": 242,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "The Korean '끝냄' (End) vs '돌아봄' (Completed) distinction is critical. Ensure '已結束' accurately represents the end of an activity and does not imply completion of the retrospective/reflection process.",
+          "severity": "medium"
+        },
+        {
+          "key": "status.completed",
+          "reason": "The translation '已回顧' refers to 'having reflected'. Ensure this correctly maps to 'completed' status in the context of the user interface where a user completes the reflection phase.",
+          "severity": "medium"
+        },
+        {
+          "key": "act.end",
+          "reason": "Ensure the button intent for 'End' (act.end) remains distinct from 'Reflect' (act.reflect) to prevent users from accidentally finishing without reflecting.",
+          "severity": "medium"
+        },
+        {
+          "key": "story.title",
+          "reason": "The key uses 'AI自傳'. Given the requirement to explicitly state no live AI is used, consider clarifying to ensure 'AI' prefix in the UI doesn't mislead users despite the disclaimers.",
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "language": "mn",
+      "limitations": "The translation relies on machine-assisted tools; while terminology is consistent, some nuances regarding 'AI' branding and specific action button intents (end vs complete) require manual verification against the system flow.",
+      "reviewedKeyCount": 236,
+      "suspectedIssues": [
+        {
+          "key": "nav.story",
+          "reason": "The translation 'AI өөрийн танилцуулга' implies AI involvement in the feature name, which contradicts the 'no live AI' requirement.",
+          "severity": "medium"
+        },
+        {
+          "key": "story.title",
+          "reason": "Consistent with nav.story, includes 'AI' in the title while the context specifies it is a sentence template, not AI.",
+          "severity": "medium"
+        },
+        {
+          "key": "act.end",
+          "reason": "Translation 'Дуусгах' might be ambiguous compared to '끝내기' (stop/finish) vs '돌아봄' (complete/reflect). Ensure it refers to ending the activity, not completing the goal.",
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "language": "th",
+      "limitations": "Review is an automated assisted translation check using the provided Korean source and Thai target dictionary. This is not a native human review. Structural integrity of the JSON was verified.",
+      "reviewedKeyCount": 266,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "Translated as 'จบแล้ว' (Finished). Ensure this clearly distinguishes from 'status.completed' ('ทบทวนแล้ว' - Reviewed/Reflected) to avoid user confusion regarding task status.",
+          "severity": "minor"
+        },
+        {
+          "key": "hist.sub",
+          "reason": "The translation uses 'โมเดลสมมุติเพื่อการศึกษา' (educational hypothetical model). Ensure it strictly avoids any implication of being a diagnostic or achievement measurement tool, aligning with the prohibition of such claims.",
+          "severity": "moderate"
+        },
+        {
+          "key": "review.notice",
+          "reason": "The phrase 'ไม่มี AI จริง' (No real AI) is present. Confirm this sufficiently prevents 'live AI' claims as requested.",
+          "severity": "moderate"
+        }
+      ]
+    },
+    {
+      "language": "vi",
+      "limitations": "Automated review; context is based on provided dictionary keys; does not replace linguistic native review.",
+      "reviewedKeyCount": 236,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "Source '끝냄' (Finish) vs '돌아봄' (Completed). Target 'Đã kết thúc' (Ended/Finished) captures completion well, but ensure semantic distinction from 'status.completed' ('Đã nhìn lại') is maintained as per button intent.",
+          "severity": "minor"
+        },
+        {
+          "key": "act.end",
+          "reason": "Button intent check: 'Kết thúc' is standard, ensure users distinguish this from 'Tạm dừng' (Pause).",
+          "severity": "minor"
+        },
+        {
+          "key": "hist.sub",
+          "reason": "Requires careful framing to avoid 'real history' claims; current phrasing 'Mô hình giả định dùng cho học tập' (Hypothetical model for learning) is good.",
+          "severity": "minor"
+        }
+      ]
+    },
+    {
+      "language": "ar",
+      "limitations": "Review is limited to assisted translation inspection. No live browser testing or full localization context validation was performed. The translation of 'AI' terminology remains a point of ambiguity based on the strict instruction to avoid 'live AI' claims.",
+      "reviewedKeyCount": 272,
+      "suspectedIssues": [
+        {
+          "key": "nav.story",
+          "reason": "Translated as 'AI introduction message' which may conflict with the 'no live AI' requirement. Better to use a neutral term like 'Activity Story' consistent with 'story.childTitle'.",
+          "severity": "medium"
+        },
+        {
+          "key": "story.title",
+          "reason": "Retains 'AI' in the translation. The Korean source uses 'AI 자소서' but the instructions emphasize 'no live AI claim'. Suggesting a label that avoids the term 'AI' entirely.",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "language": "Russian",
+      "limitations": "This review was performed via machine-assisted analysis against the Korean source text. It does not replace native speaker verification. UI components like buttons were reviewed for functional intent (end vs complete), but runtime behavior was not simulated.",
+      "reviewedKeyCount": 218,
+      "suspectedIssues": [
+        {
+          "key": "err.active_run",
+          "reason": "The translation uses 'поставьте его на паузу' (pause it) or 'завершите' (finish). Need to ensure the Korean source intent '끝내 주세요' (end) is distinct from 'complete' (돌아봄) contextually.",
+          "severity": "medium"
+        },
+        {
+          "key": "role.self",
+          "reason": "Used 'Сам(а)' to maintain gender-neutrality, which is correct, but consistent check is required across all 'f.' entries.",
+          "severity": "low"
+        },
+        {
+          "key": "chk.timer",
+          "reason": "Translation 'завершение — не выполнение' correctly captures '끝내기는 완료가 아님', matching intent to differentiate 'end' from 'complete'.",
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "language": "km",
+      "limitations": "The review was conducted as an automated assisted review, not a native speaker review. Nuances in Khmer terminology for educational status and hypothetical modeling require verification by a native speaker. The content provided was fully analyzed.",
+      "reviewedKeyCount": 204,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "Translated as 'finished' (បានបញ្ចប់), which may be ambiguous compared to the source 'ended' (끝냄). Ensure consistency with 'status.completed' (돌아봄/បានក្រឡេកមើលវិញ) to maintain the distinction between task end and reflection completion.",
+          "severity": "low"
+        },
+        {
+          "key": "status.completed",
+          "reason": "The term '돌아봄' implies reflection or review. The translation 'បានក្រឡេកមើលវិញ' describes the action of looking back, but in a status context, it is wordy compared to the concise Korean term.",
+          "severity": "medium"
+        },
+        {
+          "key": "act.end",
+          "reason": "Translated as 'បញ្ចប់' (End/Finish). Ensure this does not conflict with the state of a completed task.",
+          "severity": "low"
+        },
+        {
+          "key": "story.sub",
+          "reason": "Includes 'គ្មាន AI ពិតសរសេរទេ' (No real AI writes this). While accurate to instructions, ensure the tone remains neutral and educational as per the 'hypothetical education model' requirement.",
+          "severity": "low"
+        }
+      ]
+    },
+    {
+      "language": "es",
+      "limitations": "The translation was evaluated for meaning and intent using automated review. It is not a native review and may contain nuance or gender-sensitivity errors in Spanish phrasing.",
+      "reviewedKeyCount": 268,
+      "suspectedIssues": [
+        {
+          "key": "role.parent",
+          "reason": "Uses gendered term 'Madre/padre' which might conflict with the goal of gender-neutral wording.",
+          "severity": "minor"
+        },
+        {
+          "key": "acct.parent",
+          "reason": "Uses gendered term 'Madre/padre' instead of a neutral role term.",
+          "severity": "minor"
+        },
+        {
+          "key": "reflect.parentNote",
+          "reason": "Uses gendered term 'madre o padre' instead of neutral terminology.",
+          "severity": "minor"
+        },
+        {
+          "key": "obs.title",
+          "reason": "Uses gendered term 'madre/padre' instead of neutral terminology.",
+          "severity": "minor"
+        },
+        {
+          "key": "obs.body",
+          "reason": "Uses gendered term 'madre o padre' instead of neutral terminology.",
+          "severity": "minor"
+        },
+        {
+          "key": "story.parent",
+          "reason": "Uses gendered term 'Madre o padre' instead of neutral terminology.",
+          "severity": "minor"
+        },
+        {
+          "key": "cmp.parent.see",
+          "reason": "Uses gendered term 'madre/padre' instead of neutral terminology.",
+          "severity": "minor"
+        },
+        {
+          "key": "cmp.parent.write",
+          "reason": "Uses gendered term 'madre/padre' instead of neutral terminology.",
+          "severity": "minor"
+        }
+      ]
+    },
+    {
+      "language": "fr",
+      "limitations": "The review was conducted as an automated assisted review, not a native speaker review. Nuances in button terminology (end/complete/pause) may require functional verification within the app interface. The content disclaimer regarding AI has been verified as present.",
+      "reviewedKeyCount": 204,
+      "suspectedIssues": [
+        {
+          "key": "act.end",
+          "reason": "The translation 'Terminer' may conflict with 'status.ended' ('Terminée'). The source distinguishes 'end' vs 'complete' (status.completed/돌아봄). Ensure 'Terminer' clearly maps to ending an activity rather than final completion/reflection.",
+          "severity": "medium"
+        },
+        {
+          "key": "status.ended",
+          "reason": "Translated as 'Terminée'. Ensure it remains distinct from 'status.completed' ('Revue') to match the source's progression logic.",
+          "severity": "low"
+        },
+        {
+          "key": "status.completed",
+          "reason": "Translated as 'Revue'. While distinct from 'Terminée', verify if 'Revue' (as in 'reviewed') is the intended semantic equivalent for '돌아봄' (reflected upon).",
+          "severity": "low"
+        },
+        {
+          "key": "act.pause",
+          "reason": "Translated as 'Pause'. The button intent is likely a command to pause; confirm consistency with 'status.paused' ('En pause').",
+          "severity": "low"
+        },
+        {
+          "key": "story.sub",
+          "reason": "Uses 'Aucune vraie IA n'écrit' (No real AI writes). This matches the requirement to avoid claiming live AI, but 'Lettre de présentation IA' in the title might still imply AI generation. Consider if 'IA' in the title is acceptable given the disclaimer.",
+          "severity": "medium"
+        }
+      ]
+    },
+    {
+      "language": "it",
+      "limitations": "Review is based on automated assessment of meaning, intent, and terminology consistency. Native speaker nuances and specific UI overflow issues were not tested.",
+      "reviewedKeyCount": 269,
+      "suspectedIssues": [
+        {
+          "key": "status.ended",
+          "reason": "Korean '끝냄' (end) vs 'completed' distinction is subtle; 'Terminata' in Italian is correct, but ensure user understands it is distinct from 'Ripensata' (completed).",
+          "severity": "minor"
+        },
+        {
+          "key": "status.completed",
+          "reason": "The Italian 'Ripensata' is a creative translation for the Korean '돌아봄' (reflective completion). It matches the app intent but is semantically unusual for an activity status.",
+          "severity": "minor"
+        },
+        {
+          "key": "story.sub",
+          "reason": "The phrase 'Nessuna vera IA scrive' is good, but ensure it avoids sounding like an AI claim. It explicitly states 'Nessuna vera IA' which is aligned.",
+          "severity": "medium"
+        },
+        {
+          "key": "chk.real",
+          "reason": "The Italian translation 'Vero accesso FeelGood, sincronizzazione e IA' may be interpreted as a claim that these features exist. It should explicitly negate them in the target language to match the Korean source intent of 'no' (null/absent).",
+          "severity": "minor"
+        },
+        {
+          "key": "age.child",
+          "reason": "Italian gendered nouns (Bambino/a) used. Consider if a neutral solution like 'Infanzia' is preferred, though this fits the persona requirements.",
+          "severity": "minor"
+        }
+      ]
+    },
+    {
+      "language": "Azerbaijani (az)",
+      "limitations": "The review was conducted as an assisted translation check. It is not a native-speaker review. Contextual nuances regarding educational models were inspected, but physical UI/UX flow behavior cannot be verified.",
+      "reviewedKeyCount": 240,
+      "suspectedIssues": [
+        {
+          "key": "chk.real",
+          "reason": "The translation translates the requirement to 'have' real integration, potentially causing confusion since the app specifically excludes it. It should state that there is no real integration, consistent with other keys like review.notice.",
+          "severity": "high"
+        },
+        {
+          "key": "act.end",
+          "reason": "Translated as 'Bitir' (End/Finish). Given the instruction to distinguish between 'end', 'complete', and 'pause', 'Bitir' is correct for 'end', but ensure consistency with 'status.ended' which is also 'Bitib'.",
+          "severity": "medium"
+        },
+        {
+          "key": "status.completed",
+          "reason": "Translated as 'Geri baxılıb' (Reflected/Reviewed). Ensure this aligns with the Korean '돌아봄' (Self-reflection), as it describes the state of having completed the reflection step.",
+          "severity": "medium"
+        }
+      ]
+    }
+  ]
+}

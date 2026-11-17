@@ -1,0 +1,10 @@
+# Preserve imported source and evidence bytes used by the SHA-256 manifests.
+source/** -text
+evidence/** -text
+patches/** -text
+# Imported logs, diff context and generated files retain original whitespace.
+evidence/** -whitespace
+patches/*.patch -whitespace
+source/lib/api-client-react/src/generated/** -whitespace
+source/lib/api-zod/src/generated/** -whitespace
+source/lib/api-spec/openapi.yaml -whitespace

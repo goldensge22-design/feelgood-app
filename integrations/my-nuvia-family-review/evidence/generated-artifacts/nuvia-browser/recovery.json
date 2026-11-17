@@ -1,0 +1,33 @@
+{
+  "executedAt": "2026-11-06T12:21:10.304Z",
+  "environment": "development; fictional shared accounts only",
+  "browser": "152.0.7977.64",
+  "results": [
+    {
+      "name": "browser-save-503-input-preserved-refresh-retry",
+      "status": "PASS"
+    },
+    {
+      "name": "two-independent-browser-sessions-same-server-progress",
+      "status": "PASS",
+      "detail": {
+        "independentCookies": true,
+        "step": 1,
+        "elapsed": 1,
+        "physicalDevices": false
+      }
+    },
+    {
+      "name": "language-switch-active-timer-child-route-and-draft-preserved",
+      "status": "PASS"
+    },
+    {
+      "name": "revoked-session-relogin-restores-destination-child-lang-input",
+      "status": "PASS"
+    },
+    {
+      "name": "keyboard-navigation-and-control-accessible-names",
+      "status": "PASS"
+    }
+  ]
+}
