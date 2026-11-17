@@ -146,6 +146,11 @@
     const ids=data?.majorProfileIds?.[c.id]||[];
     return ids.map(id=>({id,label:data.namesKo?.[id]})).filter(item=>item.label);
   }
+  function majorOf(p){
+    const select=g.document&&document.getElementById('majorSelect');
+    const value=select&&select.value;
+    return value&&value!=='__custom__'?value:(p?.majorName||'');
+  }
   function renderSecurityProfiles(c){
     document.getElementById('fg-aviation-security-profiles')?.remove();
     if(locale()!=='ko'||c.id!=='aviation-security')return;
@@ -190,8 +195,7 @@
     if(!g.document||!g.DCasAdultEngine)return;
     const p=g.DCasAdultEngine.PROFILE;
     if(p.workContext&&p.workContext.status==='employed')return;
-    const select=document.getElementById('majorSelect');
-    const name=select&&select.value!=='__custom__'?select.value:p.majorName;
+    const name=majorOf(p);
     const c=resolve(name);if(!c)return;
     if(c.mode==='existing-interim-ranking'){renderSecurityProfiles(c);renderLectureRoles();return;}
     const lang=locale();
@@ -227,7 +231,7 @@
   function refreshNavigation(){
     if(!g.document||!g.DCasAdultEngine)return;
     const p=g.DCasAdultEngine.PROFILE;if(p.workContext?.status==='employed')return;
-    const c=resolve(p.majorName);if(!c||c.mode!=='exploration-unranked')return;
+    const c=resolve(majorOf(p));if(!c||c.mode!=='exploration-unranked')return;
     const lang=g.FeelGoodReportI18n?.getLocale()||g.__REPORT_LOCALE__||'ko';
     const t=g.DCasAviationLocales[lang==='zh-CN'?'zh':lang]||g.DCasAviationLocales.ko;
     document.querySelectorAll('.toc-item[data-idx="6"] .label').forEach(e=>setElement(e,t.nav));
