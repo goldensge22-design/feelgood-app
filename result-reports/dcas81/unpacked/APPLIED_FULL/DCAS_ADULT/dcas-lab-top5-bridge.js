@@ -24,7 +24,7 @@
     };
   }
   function validLabUrl(value){
-    try{const url=new URL(value);return url.protocol==='https:'&&url.hostname==='lab.feel-good.io'&&
+    try{const url=new URL(value);return url.protocol==='https:'&&((url.hostname==='lab.feel-good.io')||(url.hostname==='nuvia.feel-good.io'&&/^\/lab\/company(?:\/|$)/.test(url.pathname)))&&
       !url.username&&!url.password&&!url.hash&&
       [...url.searchParams.keys()].every(key=>key==='lang')?url.href:null;}catch{return null;}
   }

@@ -1,29 +1,34 @@
-# D-CAS 성인 항공 전공·직무 한국어 패치
+# D-CAS 성인 학과별 직무 TOP5 수정 패치
 
-## 사용 범위
+2026-11-17 수정: 이전 패치는 신규 3개 학과를 exploration-unranked로 처리하여 TOP5 계산을 건너뛰고 탐색 목록을 대신 표시했다. 이 동작은 성인 결과지의 학과별 직무 TOP5 요구사항과 달라 수정했다.
 
-- 결과지: `../unpacked/APPLIED_FULL/DCAS_ADULT/adult.work.html` 및 같은 폴더의 항공 catalog/locale/jobs 파일.
-- 기존 항공보안학과의 추정 직무 10개와 개인별 TOP5 계산은 유지한다. 이 패치의 18개 항공보안 관련 직무는 **순위와 별도인 탐색 목록**이다.
-- 항공교통물류학과 29개, 항공외국어학과 20개, 공항행정학과 29개의 관련 직무를 선택 학과에서 한국어로 모두 보여준다. 네 학과의 고유 직무는 총 64개이고 학과 연결은 96건이다. 이 64개에 임의 PASS 요구점수나 적합도를 부여하지 않는다.
-- 강의 슬라이드에서 확인한 추가 산업 직무 15개와 일반 준비 역량 9개는 학과별 추천과 별도의 공통 탐색 영역으로 표시한다. 출처와 해석 한계는 `lecture-supplement.ko.json`에 기록했다.
-- 기존 15개 언어의 5개 직무 예시 번역은 보존한다. **64개 전체 직무와 강의 보충 자료의 새 화면은 한국어만 완료**되었다. 다른 언어에서 64개가 번역 완료된 것으로 표시하지 않는다.
+## 적용 흐름
 
-## 자료 계약
+선택 학과 → 해당 학과 후보 직무 → 기존 PASS 부족분 계산식 → 개인 TOP5 → 동일한 순서와 명칭을 LAB 전달 데이터로 구성한다.
 
-`dcas-aviation-jobs-ko.js`는 정적 자료이며 `window.DCasAviationJobProfiles`로 제공된다. 생성기는 `../../tools/build-aviation-jobs-ko.mjs`다. 원천은 LAB의 competency catalog 버전과 한국어 직무 라벨이며, 생성 결과 안에 각각 SHA-256이 남는다. 원본 5.6 MB catalog는 이 결과지 저장소에 중복 복사하지 않았다. `lecture-supplement.ko.json`에는 PDF 자체 대신 페이지별 출처 정보와 추가 항목만 기록했다.
+| 학과 | 순위 계산 대상 | 표시 |
+|---|---:|---|
+| 항공교통물류학과 | 29 | TOP5 |
+| 항공외국어학과 | 20 | TOP5 |
+| 공항행정학과 | 29 | TOP5 |
+| 항공보안학과 | 기존 10 | 기존 TOP5 유지 |
 
-기존 개인별 TOP5의 LAB 전달 버튼과 데이터 계약은 `LAB_TOP5_INTEGRATION.ko.md`를 따른다. 결과지는 TOP5를 만들지만 운영 서버가 동일 학생·수업 인증으로 LAB에 저장하는 어댑터를 제공해야 전송된다. 어댑터가 없으면 전송 성공을 표시하지 않는다.
+[전체 직무 후보 및 누락 대조 결과](CANDIDATE_COVERAGE.ko.md): 3개 학과의 연결 78개(고유 직무 55개)를 최신 기준 라이브러리와 ID·명칭 단위로 대조했다. 누락은 0개이며 강의자료의 추가 직무 15개도 참고 목록에 보존했다.
 
-서버 연결 시 선택 학과의 `value`(예: `항공교통물류학과`)를 기존 `PROFILE.majorName`에 전달하면 된다. 직무 프로필 ID는 `DCasAviationCatalog.getCareerContext(majorName).profileIds`로 조회할 수 있다. `mode: exploration-unranked`는 개인 순위·적합도 아님을 뜻한다. 항공보안학과는 기존 `mode: existing-interim-ranking`과 TOP5를 보존한다. 실제 서버 점수·사용자 식별·결과 저장 계약은 변경하지 않았다.
+성인 결과지의 표지·역량매칭·실행계획·자소서 문장은 동일한 rankedJobs를 사용한다. 학과를 바꾼 뒤에도 탐색 레이어가 TOP5 카드·제목·목차를 덮어쓰지 않는다. 재직중 직무 선택 흐름은 그대로 유지한다. 강의 보충 목록은 TOP5 하단의 참고 자료다.
 
-## QA
+## 계산 기준과 내부 추적
 
-`node result-reports/tools/verify-aviation-korean-browser.cjs`는 실제 HTML을 Chrome에서 열어 360/768/1440px 전공 선택, 직무 29/20/29건, 항공보안 TOP5+18건, 추가 직무 15건, 일반 역량 9건, 실제 화면 표시, 15개 언어 전환 시 기존 번역 예시 보존, 가로 넘침, 콘솔 오류와 PDF 생성 여부를 확인한다. TOP5 버튼은 연결 없음 상태와 모의 서버 어댑터를 각각 검사한다.
+추정값을 운영 기준으로 사용하고 추후 전문가가 갱신한다는 사용자 지시를 따른다. dcas-aviation-ranking.js는 기존 47개 학과 직무 모델에서 활동 방식이 관련된 내부 PASS 벡터를 재사용한다. 이 대응은 편집상 추정이며 항공 직무 실증 규준이 아니다. 모든 직무에 estimate_template_id, estimate_template_label, estimate_version과 operational_status를 보존한다. 같은 직무가 여러 학과에 있어도 요구벡터·안정 ID는 동일하다. 직무 간 임의 미세 가산점은 넣지 않으며 동점은 안정 ID 순으로 정렬한다. 빈 점수·문자열·NaN·범위 밖 점수로 순위를 생성하지 않는다.
 
-추가로 `node result-reports/tools/adult-aviation-jobs.test.cjs`, `node result-reports/tools/validate-reports.mjs`, `node result-reports/tools/validate-report-locales.mjs`를 실행한다. PDF 생성 확인은 시각적 교정·서버 인쇄 설정 검증을 대신하지 않는다.
+학과 게이지의 3개 신규 벡터는 기존 산업공학과·영어영문학과·행정학과를 각각 임시 대응한다. 전문가 확인은 미완료이고, 계산 실행 검증을 과학적 타당성 검증으로 보고하지 않는다. 자격·면허 안내는 결과지에서 유지한다. P/A/S/Q H/M/L 및 S/Q 우세형 기준은 변경하지 않았다.
 
-## 운영 반영 경계
+## 언어와 검증 범위
 
-이 GitHub 후보본은 운영 서버의 `reportV2DcasAviationCatalog.js` 또는 서버가 전달하는 전공 옵션의 원본이 아니다. 운영 코드에서 세 전공을 등록하고 한국어 직무 자료를 로드한 뒤 실제 사용자 결과지로 재검수해야 한다. 기업LAB은 별도 저장소이며 이 결과지 패치만으로 기업 카드가 운영 화면에 반영되지 않는다. `lecture-supplement.ko.json`의 회사 7곳과 일반 역량은 LAB의 정체성/출처 계약을 따라 별도 연결한다.
+신규 직무 명칭·설명은 한국어 우선이다. 기존 15개 locale 파일은 보존했다. 신규 레이어의 나머지 14개 언어는 needs-review이며 원문 한국어 fallback은 번역 완료로 계산하지 않는다. 기존 locale validator 통과는 신규 직무의 15개 언어 번역 완료를 뜻하지 않는다.
 
-운영 서버의 두 JS 파일 로딩 순서와 필수 검수 항목은 `SERVER_INTEGRATION.ko.md`에 정리했다.
+검증: adult-aviation-top5.test.cjs에서 3개 학과 × 81개 점수 조합, 29/20/29 후보 수, 점수에 따른 TOP5 변화, 경계·누락·비정상 입력·별칭·LAB 전달 순서를 확인했다. verify-aviation-korean-browser.cjs에서 360/768/1440px 실제 HTML의 TOP5·역량표·전달 데이터와 PDF 생성, 언어 전환 시 선택 유지·순위 보존을 확인했다. 항공보안 기존 10개 직무 회귀와 원본 4종 보존 검사도 수행했다.
+
+## 운영 상태
+
+GitHub 수정본과 AWS 운영본은 별개다. 실제 service.feel-good.io 결과지는 2026-11-17 확인 시 신규 3개 학과가 없었다. 제공된 AWS 키 인증은 성공했으나 EC2·SSM 조회는 권한 거부됐다. 이후 사용자가 백엔드 master push → Jenkins 운영 자동 배포, devel push → 개발 서버 자동 반영 계약을 제공했다. AWS 직접 접근 없이도 이 경로로 배포할 수 있으므로 직접 접속 권한 부족과 CI/CD 가능 여부를 구분한다. 백엔드 remote·Jenkins job은 아직 식별하지 못했고 이번 패치는 운영 배포하지 않았다. LAB 서버 저장 어댑터도 아직 연결되지 않았다. [백엔드 배포 규칙](../../../docs/BACKEND_DEPLOYMENT_RULES.md), SERVER_INTEGRATION.ko.md와 LAB_TOP5_INTEGRATION.ko.md를 따른다.
