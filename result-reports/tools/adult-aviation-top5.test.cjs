@@ -12,11 +12,21 @@ for(const [major,count] of majors){
  const rank=s=>g.DCasJobEngine.rankJobsForMajor(s,major,[]);
  const pool=g.DCasAviationRanking.getJobs(major);
  assert.equal(pool.length,count);assert.equal(new Set(pool.map(j=>j.id)).size,count);
+ const expectedIds=Array.from(g.DCasAviationJobProfiles.majorProfileIds[config.id]);
+ assert.deepEqual(Array.from(pool,j=>j.competency_profile_id).sort(),expectedIds.slice().sort(),'Every registered major profile must enter the candidate pool');
+ if(process.argv[2]){
+   const source=JSON.parse(fs.readFileSync(process.argv[2],'utf8'));
+   const department={'aviation-transport':'traffic','aviation-language':'language','airport-administration':'administration'}[config.id];
+   const profiles=source.profiles.filter(p=>p.departments.includes(department));
+   assert.deepEqual(profiles.map(p=>p.id).sort(),expectedIds.slice().sort(),'Report candidates must match the supplied canonical catalog without omissions or extras');
+   for(const p of profiles)assert.equal(g.DCasAviationJobProfiles.namesKo[p.id],p.name,'Source label must be preserved');
+ }
  assert.ok(pool.every(j=>j.attr_source==='editorial-proxy-estimate'&&j.estimate_template_id));
  assert.notDeepEqual(Array.from(rank(highPS).slice(0,5),x=>x.job.id),Array.from(rank(highAQ).slice(0,5),x=>x.job.id),'TOP5 must respond to the PASS profile');
  for(const P of [40,65,90])for(const A of [40,65,90])for(const S of [40,65,90])for(const Q of [40,65,90]){
    const scores={P,A,S,Q},ranked=rank(scores);
    assert.equal(ranked.length,count);assert.equal(new Set(ranked.slice(0,5).map(x=>x.job.id)).size,5);
+   assert.deepEqual(Array.from(ranked,r=>r.job.competency_profile_id).sort(),expectedIds.slice().sort(),'Ranking must retain every candidate, including non-TOP5 jobs');
    assert.ok(ranked.every((r,i)=>Number.isFinite(r.fit)&&r.fit>=0&&r.fit<=100&&(!i||ranked[i-1].fit>=r.fit)));
    const envelope=g.DCasLabTop5Bridge.buildEnvelope({majorName:major},ranked);
    assert.deepEqual(Array.from(envelope.topJobs,x=>x.label),Array.from(ranked.slice(0,5),x=>x.job.label_ko));
