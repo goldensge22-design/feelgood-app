@@ -120,7 +120,7 @@
       group=document.createElement('optgroup');
       group.dataset.fgAviationMajors='';
       const custom=select.querySelector('option[value="__custom__"]');
-      select.insertBefore(group,custom?.closest('optgroup')||null);
+      select.insertBefore(group,custom?.closest('optgroup')||custom||null);
     }
     group.label=t.nav||'진로 탐색';
     const selected=select.value;
@@ -171,7 +171,7 @@
     if(locale()!=='ko'||!Array.isArray(roles)||!roles.length)return;
     const host=document.getElementById('fg-aviation-security-profiles')||document.getElementById('pf-jobcards');
     if(!host)return;
-    const section=document.createElement('section');
+    const section=document.createElement('div');
     section.id='fg-aviation-lecture-roles';
     section.dataset.fgGuidance='aviation';
     section.style.cssText='margin-top:20px;padding:16px;border:1px solid #d9e3f4;border-radius:12px;overflow-wrap:anywhere;break-inside:avoid';

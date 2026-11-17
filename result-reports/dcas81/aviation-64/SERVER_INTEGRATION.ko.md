@@ -6,10 +6,11 @@
 
 1. `../unpacked/APPLIED_FULL/DCAS_ADULT/dcas-aviation-jobs-ko.js`를 운영 결과지의 정적 JS 자산에 추가한다. 64개 직무와 96개 학과 연결, 강의 직무 15개와 공통 역량 9개의 **한국어 탐색 자료**다.
 2. 같은 폴더의 `dcas-aviation-catalog.js`를 현재 운영 `reportV2DcasAviationCatalog.js`와 비교해 교체한다. 운영 고유의 다른 패치가 있으면 지우지 말고 이 파일의 `majorOf`, `ensureMajorOptions`, `render`, `beforeRender`, `refreshNavigation` 계약을 합친다.
-3. 스크립트는 기존 `reportV2DcasAviationCatalogLocales.js` 다음, 성인 결과지 엔진 실행 전 순서로 **jobs-ko → catalog**를 로드한다. `window.DCasAviationJobProfiles`가 없으면 새 64개 목록은 표시되지 않는다.
+3. 2026-11-17 인증된 결과지 응답에서 확인한 순서는 `reportV2DcasAviationCatalogLocales.js` → `reportV2DcasAviationCatalog.js` → `reportV2DcasAdultModeText.js` → `reportV2DcasAdultV.js`다. 기존 locale 다음에 **jobs-ko → catalog** 순서가 되도록 `reportV2DcasAviationJobsKo.js` 로딩을 한 줄 추가한다. `window.DCasAviationJobProfiles`가 없으면 새 64개 목록은 표시되지 않는다. 사용자별 HTML 응답이나 인증값은 GitHub에 저장하지 않았다.
 4. `majorSelect`의 선택 `value`를 `PROFILE.majorName` 또는 현재 선택값으로 유지하고, 변경 후 기존 결과지 렌더 함수를 호출한다. 후보 코드의 `majorOf()`는 서버처럼 `PROFILE.majorName`이 없는 경우에도 선택값을 읽는다.
 5. 기존 항공보안 10개 임시 추정 직무와 TOP5 계산은 유지한다. 새 18개 항공보안 직무와 강의의 15개 직무는 별도 **무순위 탐색 목록**이다. 3개 신규 전공의 29/20/29개도 개인 적합도 퍼센트로 변환하지 않는다.
 6. 재직중 선택 시에는 기존 직무 전환 흐름을 유지한다. `workContext.status === 'employed'`일 때 이 전공 탐색 레이어가 직무 매칭을 덮어쓰지 않는다.
+7. 한국어 TOP5 연결을 위해 `dcas-lab-top5.locales.js` → `dcas-lab-top5-bridge.js`도 성인 엔진 전 로드한다. 운영 엔진의 `rankedJobs`가 확정된 뒤 `DCasLabTop5Bridge.render(PROFILE, rankedJobs)`를 호출한다. 기존 성인 결과지 외부 코드에서 이 두 파일의 로드와 호출을 확인해야 한다. `LAB_TOP5_INTEGRATION.ko.md`의 서버 저장 계약을 함께 적용한다.
 
 ## 실제 서비스 검수
 

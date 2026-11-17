@@ -34,12 +34,34 @@ const cases = [
         assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 0, 'unranked exploration has no ranking');
         assert.match(await page.locator('#pf-jobs-h2').innerText(), /직무|진로|항공|공항/);
       }
+      await page.evaluate(() => showSection(6));
+      assert.ok(await page.locator('#fg-aviation-lecture-roles').isVisible(), `${width}px lecture list visible`);
+      await page.evaluate(() => showSection(5));
       await page.locator('#majorSelect').selectOption('항공보안학과');
+      await page.evaluate(() => showSection(6));
       assert.equal(await page.locator('#pf-jobcards .rank-medal').count(), 5, 'existing TOP5 remains');
       assert.equal(await page.locator('#fg-aviation-security-profiles [data-career-profile-id]').count(), 18);
       assert.equal(await page.locator('#fg-aviation-lecture-roles [data-lecture-role-id]').count(), 15);
       assert.equal(await page.locator('#fg-aviation-lecture-roles [data-lecture-competency-id]').count(), 9);
+      assert.ok(await page.locator('#fg-lab-top5-bridge').isVisible(), `${width}px LAB handoff visible`);
+      assert.equal(await page.locator('#fg-lab-top5-bridge button').count(), 0, 'no false automatic transfer without server adapter');
+      assert.match(await page.locator('#fg-lab-top5-bridge [role=status]').innerText(), /전송되지 않았습니다/);
+      if (width===768) {
+        await page.evaluate(() => {
+          window.FeelGoodLabBridge={saveTop5:async envelope=>{window.__sentLabTop5=envelope;return {ok:true};}};
+          window.DCasAdultEngine.render();
+          showSection(6);
+        });
+        await page.locator('#fg-lab-top5-bridge button').click();
+        const sent=await page.evaluate(() => window.__sentLabTop5);
+        assert.equal(sent.testName, 'D-CAS');
+        assert.equal(sent.topJobs.length, 5);
+        assert.equal(sent.sourceJobIds.length, 5);
+        assert.ok(sent.topJobs.every(job => job.label && !('jobId' in job)), 'LAB IDs must be resolved by the authenticated server');
+        assert.ok(!JSON.stringify(sent).includes('scores'), 'score data must not be sent by this bridge');
+      }
       if (width===360) {
+        await page.evaluate(() => showSection(5));
         await page.locator('#majorSelect').selectOption('항공교통물류학과');
         const supported=await page.evaluate(() => window.FeelGoodReportI18n.supportedLocales);
         assert.equal(supported.length, 15);

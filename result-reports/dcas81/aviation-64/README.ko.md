@@ -12,11 +12,13 @@
 
 `dcas-aviation-jobs-ko.js`는 정적 자료이며 `window.DCasAviationJobProfiles`로 제공된다. 생성기는 `../../tools/build-aviation-jobs-ko.mjs`다. 원천은 LAB의 competency catalog 버전과 한국어 직무 라벨이며, 생성 결과 안에 각각 SHA-256이 남는다. 원본 5.6 MB catalog는 이 결과지 저장소에 중복 복사하지 않았다. `lecture-supplement.ko.json`에는 PDF 자체 대신 페이지별 출처 정보와 추가 항목만 기록했다.
 
+기존 개인별 TOP5의 LAB 전달 버튼과 데이터 계약은 `LAB_TOP5_INTEGRATION.ko.md`를 따른다. 결과지는 TOP5를 만들지만 운영 서버가 동일 학생·수업 인증으로 LAB에 저장하는 어댑터를 제공해야 전송된다. 어댑터가 없으면 전송 성공을 표시하지 않는다.
+
 서버 연결 시 선택 학과의 `value`(예: `항공교통물류학과`)를 기존 `PROFILE.majorName`에 전달하면 된다. 직무 프로필 ID는 `DCasAviationCatalog.getCareerContext(majorName).profileIds`로 조회할 수 있다. `mode: exploration-unranked`는 개인 순위·적합도 아님을 뜻한다. 항공보안학과는 기존 `mode: existing-interim-ranking`과 TOP5를 보존한다. 실제 서버 점수·사용자 식별·결과 저장 계약은 변경하지 않았다.
 
 ## QA
 
-`node result-reports/tools/verify-aviation-korean-browser.cjs`는 실제 HTML을 Chrome에서 열어 360/768/1440px 전공 선택, 직무 29/20/29건, 항공보안 TOP5+18건, 추가 직무 15건, 일반 역량 9건, 15개 언어 전환 시 기존 번역 예시 보존, 가로 넘침, 콘솔 오류와 PDF 생성 여부를 확인한다.
+`node result-reports/tools/verify-aviation-korean-browser.cjs`는 실제 HTML을 Chrome에서 열어 360/768/1440px 전공 선택, 직무 29/20/29건, 항공보안 TOP5+18건, 추가 직무 15건, 일반 역량 9건, 실제 화면 표시, 15개 언어 전환 시 기존 번역 예시 보존, 가로 넘침, 콘솔 오류와 PDF 생성 여부를 확인한다. TOP5 버튼은 연결 없음 상태와 모의 서버 어댑터를 각각 검사한다.
 
 추가로 `node result-reports/tools/adult-aviation-jobs.test.cjs`, `node result-reports/tools/validate-reports.mjs`, `node result-reports/tools/validate-report-locales.mjs`를 실행한다. PDF 생성 확인은 시각적 교정·서버 인쇄 설정 검증을 대신하지 않는다.
 

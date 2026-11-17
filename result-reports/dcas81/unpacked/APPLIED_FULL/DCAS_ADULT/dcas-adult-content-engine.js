@@ -960,6 +960,7 @@
     }
     applyProfile81();
     if (global.DCasAviationCatalog) global.DCasAviationCatalog.render();
+    if (global.DCasLabTop5Bridge) global.DCasLabTop5Bridge.render(PROFILE, rankedJobs);
   }
 
   // SECTIONS가 이미 DOM에 꽂힌 뒤(render() 호출 후) 실행되도록,
