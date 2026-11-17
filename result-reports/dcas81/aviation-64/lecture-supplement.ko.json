@@ -1,0 +1,53 @@
+{
+  "version": "aviation-lecture-supplement/2026-11-17.1",
+  "language": "ko",
+  "source": {
+    "title": "Take off your Career 강의 슬라이드",
+    "sha256": "2bef60ceb19b044e6a4266613e37649bff5196ff513cb4d3f925e560fc6bc380",
+    "reviewedPages": [9, 10, 11, 16, 17, 18, 20, 21, 22, 45, 58, 59, 60, 73],
+    "handling": "강의자료의 직무명·기업명·역량 주제만 요약. 원본 PDF는 재배포하지 않음. 채용·자격·검사점수의 확정 근거가 아님."
+  },
+  "status": "korean-exploration-only",
+  "additionalRoles": [
+    {"id":"lecture-pilot","nameKo":"조종사","pages":[10,11]},
+    {"id":"lecture-aircraft-maintenance","nameKo":"항공정비사·운항정비사","pages":[10,11]},
+    {"id":"lecture-catering-loader","nameKo":"기내식탑재원","pages":[10]},
+    {"id":"lecture-ground-handler","nameKo":"지상조업원","pages":[10]},
+    {"id":"lecture-cargo-loader","nameKo":"화물적재원","pages":[10]},
+    {"id":"lecture-drone-developer","nameKo":"드론개발자","pages":[10,14]},
+    {"id":"lecture-jet-engine-maintenance","nameKo":"제트엔진정비사","pages":[10]},
+    {"id":"lecture-aircraft-parts","nameKo":"항공기 부품 제조·정비","pages":[10]},
+    {"id":"lecture-apron-control","nameKo":"계류장통제원","pages":[10]},
+    {"id":"lecture-safety-inspector","nameKo":"항공안전감독관","pages":[10]},
+    {"id":"lecture-cabin-cleaning","nameKo":"기내청소원","pages":[10]},
+    {"id":"lecture-screening-supervisor","nameKo":"보안검색감독자","pages":[17,22]},
+    {"id":"lecture-fire-rescue","nameKo":"공항 방재·구조소방","pages":[17,18]},
+    {"id":"lecture-wildlife-control","nameKo":"공항 야생동물통제","pages":[17]},
+    {"id":"lecture-facility-maintenance","nameKo":"공항 시설·시스템 유지관리","pages":[20,45]}
+  ],
+  "roleFamiliesMentioned": [
+    {"nameKo":"출입국·세관·검역","page":10,"note":"복수 기관의 업무군. 단일 직무·채용처로 합치지 않음."},
+    {"nameKo":"공항 건설·운영·항공운송·지상조업·화물특송·드론/UAM","pages":[8,14,15],"note":"산업 영역. 직무 프로필 또는 기업 수로 합산하지 않음."}
+  ],
+  "companiesToAddToLab": [
+    {"name":"가덕도신공항건설공단","websiteHost":"g-airport.or.kr","sourceUrl":"https://www.g-airport.or.kr/kor/content.do?key=2409020041","slidePages":[16,19,22],"scope":"공항 건설사업 추진 기관"},
+    {"name":"인천공항시설관리","websiteHost":"airportfc.co.kr","sourceUrl":"https://www.airportfc.co.kr/?act=info.page&pcode=sub1_1","slidePages":[20,45],"scope":"인천공항 시설·운송·기계·전기·정보통신 운영"},
+    {"name":"인천국제공항보안","websiteHost":"airportsc.kr","sourceUrl":"https://airportsc.kr/","slidePages":[20,45],"scope":"별도 법인인 공항 보안서비스 기업. 인천국제공항공사와 구분"},
+    {"name":"인천공항운영서비스","websiteHost":"airportos.co.kr","sourceUrl":"https://www.airportos.co.kr/?act=info.page&pcode=company","slidePages":[20,45],"scope":"터미널·교통·시설 운영과 여객서비스"},
+    {"name":"KAC공항서비스","websiteHost":"kacas.kr","sourceUrl":"https://www.kacas.kr/business/outline.php","slidePages":[20,45],"scope":"공항 시설 운영·유지보수 서비스"},
+    {"name":"남부공항서비스","websiteHost":"sairports.kr","sourceUrl":"https://www.sairports.kr/","slidePages":[20,45],"scope":"남부권 공항의 시설 운영·유지보수와 고객지원"},
+    {"name":"FedEx Korea","websiteHost":"fedex.com","sourceUrl":"https://www.fedex.com/ko-kr/about/facts.html","slidePages":[22,26],"scope":"항공·지상 특송 운송 네트워크"}
+  ],
+  "lectureCompetencies": [
+    {"id":"communication","nameKo":"의사소통","practiceKo":"보고서·공문을 읽고 핵심을 설명하기","pages":[58,60]},
+    {"id":"numeracy","nameKo":"수리","practiceKo":"표·그래프와 수량 비교하기","pages":[58,60]},
+    {"id":"problem-solving","nameKo":"문제해결","practiceKo":"규정·조건을 적용하고 대안을 검토하기","pages":[58,60]},
+    {"id":"resource-management","nameKo":"자원관리","practiceKo":"시간·비용·인력의 제약을 비교하기","pages":[58,60]},
+    {"id":"interpersonal","nameKo":"대인관계·협업","practiceKo":"역할을 확인하고 근거를 전달하기","pages":[58,59,73]},
+    {"id":"self-management","nameKo":"자기관리","practiceKo":"준비·수행·회고 계획을 세우기","page":59},
+    {"id":"digital","nameKo":"디지털·정보 활용","practiceKo":"자료의 출처와 수치를 검토하기","pages":[58,59,60]},
+    {"id":"work-ethics","nameKo":"직업윤리·공공성","practiceKo":"규정·권한과 안전을 우선 확인하기","pages":[58,59,73]},
+    {"id":"safety","nameKo":"산업안전보건 의식","practiceKo":"작업 전 위험과 보고 경로를 확인하기","page":59}
+  ],
+  "interpretation": "직무명은 일반 진로 탐색 자료이며 개인 PASS 점수로 적격성·합격 가능성·순위를 산정하지 않는다. 기업 소개의 현재 채용 및 자격 조건은 각 기관의 최신 공고에서 확인한다. 역량 항목은 강의의 일반 준비 주제이며 검사 결과의 진단 축으로 추가하지 않는다."
+}

@@ -183,7 +183,10 @@
       // 알려진 47개 학과/확장 분야면 기존 직무 자료에 연결하고, 알 수 없는 전공이면
       // "매칭 데이터 미연결" 상태를 명시적으로 보여준다.
       const alreadyRegistered = global.DCasJobEngine && global.DCasJobEngine.MAJOR_TO_NCS_MIDDLE[PROFILE.majorName];
-      if (alreadyRegistered) {
+      const aviation = global.DCasAviationCatalog && global.DCasAviationCatalog.resolve(PROFILE.majorName);
+      if (aviation) {
+        global.DCasJobEngine.registerMajor(PROFILE.majorName, 'career-exploration::' + aviation.id);
+      } else if (alreadyRegistered) {
         // 항공보안학과처럼 복수 직무군이 명시된 전공은 단일 키워드 추정값으로 덮어쓰지 않는다.
       } else if (global.DCasJobEngine && global.DCasMajor47 && global.DCasMajor47.CATALOG[PROFILE.majorName]) {
         global.DCasJobEngine.registerMajor(PROFILE.majorName, '전공진로::' + PROFILE.majorName);
@@ -925,12 +928,14 @@
   }
 
   function render(nextProfile) {
+    if (global.DCasAviationCatalog) global.DCasAviationCatalog.beforeRender();
     if (global.DCasWorkContext) global.DCasWorkContext.beforeRender();
     if (nextProfile && typeof nextProfile === 'object') {
       Object.assign(PROFILE, nextProfile);
       if (nextProfile.scores) PROFILE.scores = Object.assign({}, nextProfile.scores);
       if (nextProfile.testDate) PROFILE.testDate = Object.assign({}, nextProfile.testDate);
     }
+    if (global.DCasAviationCatalog) global.DCasAviationCatalog.ensureMajorOptions();
     applyIdentity();
     applyScores();
     applyCombo();
@@ -954,6 +959,7 @@
       applyExpert(d, rankedJobs);
     }
     applyProfile81();
+    if (global.DCasAviationCatalog) global.DCasAviationCatalog.render();
   }
 
   // SECTIONS가 이미 DOM에 꽂힌 뒤(render() 호출 후) 실행되도록,
