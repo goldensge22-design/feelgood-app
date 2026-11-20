@@ -105,6 +105,8 @@ URL의 `lang` parameter를 바꿀 때 기존 path, 다른 query parameter, hash�
 
 ## 기존 기능과 외부 연동 보호
 
+모든 사용자 진입·저장·로그인 복귀·새로고침 경로 작업 전 `docs/ROUTE_DESTINATION_CONTRACT.md`를 읽고 출처/대상/권한/locale/목적지 계약을 확인한다. 대상값 누락 시 HOME·MY NUVIA·성인 화면으로 임의 이동하지 않는다. 같은 요청의 대상값 복원 또는 명시적 대상 확인을 제공하고, 옛 링크와 사용자에게 실패한 실제 브라우저 경로까지 검수한다. 정상 링크 하나의 성공을 모든 경로 완료로 보고하지 않는다.
+
 수정 전 route, query parameter, API, localStorage/cookie, 사용자 흐름, locale 처리, 결과지 링크와 데이터 구조를 확인한다. 검증되지 않은 전체 rewrite, 정상 기능/route/key 삭제, 사용자 데이터 초기화, 연동값 변경을 하지 않는다.
 
 결과 데이터는 가능한 `UI → adapter → normalized data → report/API data`로 분리한다. mock은 production adapter와 명확히 구분한다. 사용하지 않는 것처럼 보여도 외부 계약의 Planning, Attention, Simultaneous, Sequential, IQ, 인지특성, 81유형, 연령/교육단계, result/user/test ID 및 기타 필드를 임의 삭제·개명하지 않는다.
