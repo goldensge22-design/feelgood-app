@@ -58,6 +58,8 @@
 
 ## 구현 전 확인과 완료 조건
 
+최신 개발본의 이식·배포 전에는 `docs/UPSTREAM_RELEASE_SYNC_RULES.md`를 반드시 읽는다. 이전 ZIP이나 로컬 사본을 최신으로 간주하지 말고 Replit/GitHub의 추가 수정, 미커밋 변경, 제거 항목을 현재 운영본과 대조한다. 원본 버전·확보 시각·파일 해시와 QA 빌드를 기록하고 배포 직전 다시 대조한다. 이미 제거한 UI가 되살아나는 회귀 검사를 포함한다. 실제 원본 화면에서 저장 → 올바른 대상 이동 → 내용 표시 → 새로고침·재접속 보존까지 검증하지 않은 상태를 연동 완료라고 보고하지 않는다. 최신 원본 미확보·운영 경로 미검증은 명시적인 미완료다.
+
 기존 프로그램을 수정하기 전에 해당 프로그램의 locale manifest, 언어 선택/저장/URL 처리, fallback, 번역 상태, 이미지/TTS, 결과지 연동을 확인한다. 정상 배포본이나 기존 locale code를 임의로 삭제·변경하지 않는다.
 
 언어 변경은 새 세션 시작이 아니다. 가능한 한 current route/page/chapter, selected tab/activity/answers, form input, game progress, timer state, result/report context, user/session identifier를 그대로 유지한다. locale 변경을 이유로 `localStorage`, `sessionStorage`, activity progress, answers, profile, PASS/report data, timer를 초기화하지 않는다. 기술상 reload가 필요하면 변경 전 상태를 저장하고 동일 위치와 진행 상태로 복원한다.
