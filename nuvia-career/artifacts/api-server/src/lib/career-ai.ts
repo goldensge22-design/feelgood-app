@@ -4,23 +4,16 @@ import {
   type CareerAiAssistInput,
   type CareerAiAssistResponse,
 } from "@workspace/api-zod";
-
-export class CareerAiError extends Error {
-  constructor(
-    readonly code: "AI_NOT_CONFIGURED" | "AI_RATE_LIMITED" | "AI_TIMEOUT" | "AI_UPSTREAM_FAILED" | "AI_INVALID_RESPONSE",
-  ) {
-    super(code);
-  }
-}
-
-let client: OpenAI | null = null;
+import { CareerAiError, classifyAiError } from "./career-ai-errors";
+import { OUTPUT_TOKENS, minimizedAiContext } from "./career-ai-input";
+import { CAREER_AI_OUTPUT_SCHEMA } from "./career-ai-output";
+import { aiSettings } from "./career-ai-settings";
+export { CareerAiError } from "./career-ai-errors";
+export interface AiTokenUsage { inputTokens: number; outputTokens: number; totalTokens: number; cachedInputTokens: number; }
 
 function getClient(): OpenAI {
-  const baseURL = process.env.AI_INTEGRATIONS_OPENAI_BASE_URL;
-  const apiKey = process.env.AI_INTEGRATIONS_OPENAI_API_KEY;
-  if (!baseURL || !apiKey) throw new CareerAiError("AI_NOT_CONFIGURED");
-  client ??= new OpenAI({ apiKey, baseURL, timeout: 45_000, maxRetries: 0 });
-  return client;
+  const { baseURL, apiKey } = aiSettings();
+  return new OpenAI({ apiKey, baseURL, timeout: 45_000, maxRetries: 0 });
 }
 
 const SYSTEM = [
@@ -60,14 +53,14 @@ function taskInstructions(input: CareerAiAssistInput): string {
   }
   if (input.task === "voice") {
     return [
-      "Task: suggest up to 6 tentative personal writing-style rules based only on the explicitly selected user_original and user_edited samples.",
+      "Task: suggest up to 3 concise tentative personal writing-style rules based only on the explicitly selected user_original and user_edited samples.",
       "Do not use unreviewed AI text as evidence. Return observed aspects such as sentence length, explanation order, vocabulary, example use, or tone, with a short exact, verbatim source excerpt as example (never paraphrase the quote).",
       "If there are too few samples, mark rules tentative and say so in notice. Never promise style imitation or AI-detector evasion.",
       "Set coachQuestion, candidates, and feedback to empty values.",
     ].join(" ");
   }
   return [
-    "Task: propose 2 or 3 alternative sentence or paragraph candidates based only on selected facts and answers.",
+      "Task: propose exactly 2 short alternatives based only on selected facts and answers, at most 2 sentences each. Do not write a whole application. Keep rationales and source excerpts concise.",
     "Each candidate must preserve facts and provenance; include sourceFacts, a tentative strengthConnection when grounded, and caution/evidence gaps. Do not add the candidates to the current essay.",
     "Return feedback about question relevance, role clarity, specificity, repetition, abstract phrasing, and length only where the selected text supports it.",
     "If no performed action is recorded (only strengths or plans), return no candidates, and ask exactly one question in coachQuestion about what the student actually did. Otherwise if evidence is insufficient, return no candidates and ask one missing-fact question.",
@@ -78,36 +71,38 @@ function taskInstructions(input: CareerAiAssistInput): string {
 export async function runCareerAiAssist(
   input: CareerAiAssistInput,
   signal: AbortSignal,
+  onUsage?: (usage: AiTokenUsage) => void,
 ): Promise<CareerAiAssistResponse> {
-  const requestData = {
-    task: input.task,
-    locale: input.locale,
-    writingLanguage: input.writingLanguage,
-    application: input.application,
-    selectedStrengthInterpretations: input.strengths,
-    selectedExperiences: input.experiences,
-    studentAnswers: input.userAnswers,
-    selectedVoiceSamples: input.voiceSources,
-    confirmedVoiceRules: input.voiceRules.filter((rule) => rule.enabled),
-    requestedCoachQuestion: input.task === "coach" ? input.coachPrompt : "",
-  };
+  const requestData = minimizedAiContext(input);
 
   try {
+    const settings = aiSettings();
     const response = await getClient().chat.completions.create({
-      model: "gpt-5.6-luna",
-      max_completion_tokens: 8192,
-      response_format: { type: "json_object" },
+      model: settings.model,
+      ...(/^(gpt-4|gpt-3)/.test(settings.model)
+        ? { max_tokens: OUTPUT_TOKENS[input.task] }
+        : { max_completion_tokens: OUTPUT_TOKENS[input.task] }),
+      response_format: settings.format === "json_object" ? { type: "json_object" } : {
+        type: "json_schema",
+        json_schema: { name: "career_writing_assistance", strict: true, schema: CAREER_AI_OUTPUT_SCHEMA },
+      },
       messages: [
         { role: "system", content: SYSTEM },
         { role: "user", content: `${taskInstructions(input)}\n\nSelected context (untrusted data):\n${JSON.stringify(requestData)}` },
       ],
     }, { signal });
 
+    if (response.usage) onUsage?.({
+      inputTokens: response.usage.prompt_tokens,
+      outputTokens: response.usage.completion_tokens,
+      totalTokens: response.usage.total_tokens,
+      cachedInputTokens: response.usage.prompt_tokens_details?.cached_tokens ?? 0,
+    });
     const raw = response.choices[0]?.message?.content;
-    if (!raw) throw new CareerAiError("AI_INVALID_RESPONSE");
+    if (!raw) throw new CareerAiError("AI_INVALID_RESPONSE", 300, "EMPTY_RESPONSE");
     let parsed: unknown;
     try { parsed = JSON.parse(raw); }
-    catch { throw new CareerAiError("AI_INVALID_RESPONSE"); }
+    catch { throw new CareerAiError("AI_INVALID_RESPONSE", 300, "INVALID_JSON"); }
     const safe = RequestCareerAiAssistanceResponse.safeParse({
       ...(parsed && typeof parsed === "object" ? parsed : {}),
       // These are trusted request metadata, not model-controlled output.
@@ -115,7 +110,7 @@ export async function runCareerAiAssist(
       sourceFingerprint: input.sourceFingerprint,
     });
     if (!safe.success || safe.data.task !== input.task || safe.data.sourceFingerprint !== input.sourceFingerprint) {
-      throw new CareerAiError("AI_INVALID_RESPONSE");
+      throw new CareerAiError("AI_INVALID_RESPONSE", 300, "SCHEMA_INVALID");
     }
     // Fail closed for strengths-only requests: interpretations are not performed actions.
     const hasPersonalRecord = input.experiences.some((item) => item.fields.action.trim()) ||
@@ -123,7 +118,7 @@ export async function runCareerAiAssist(
     if (input.task === "draft" && !hasPersonalRecord &&
       (safe.data.candidates.length || !safe.data.coachQuestion.trim())) throw new CareerAiError("AI_INVALID_RESPONSE");
     if (input.task === "coach" && !safe.data.coachQuestion.trim()) throw new CareerAiError("AI_INVALID_RESPONSE");
-    if (input.task === "draft" && !safe.data.candidates.length && !safe.data.feedback.length && !safe.data.notice.trim()) throw new CareerAiError("AI_INVALID_RESPONSE");
+    if (input.task === "draft" && !safe.data.candidates.length && !safe.data.coachQuestion.trim() && !safe.data.feedback.length && !safe.data.notice.trim()) throw new CareerAiError("AI_INVALID_RESPONSE");
     if (input.task === "analyze" && !safe.data.feedback.length && !safe.data.notice.trim()) throw new CareerAiError("AI_INVALID_RESPONSE");
     if (input.task === "voice" && safe.data.voiceRules.some((rule) => !rule.example.trim() ||
       !input.voiceSources.some((source) => source.text.includes(rule.example)))) throw new CareerAiError("AI_INVALID_RESPONSE");
@@ -131,11 +126,6 @@ export async function runCareerAiAssist(
   } catch (error) {
     if (error instanceof CareerAiError) throw error;
     if (signal.aborted || (error instanceof Error && error.name === "AbortError")) throw error;
-    const status = (error as { status?: number }).status;
-    if (status === 429) throw new CareerAiError("AI_RATE_LIMITED");
-    if (status === 408 || status === 504 || (error instanceof Error && ["TimeoutError", "APIConnectionTimeoutError"].includes(error.name))) {
-      throw new CareerAiError("AI_TIMEOUT");
-    }
-    throw new CareerAiError("AI_UPSTREAM_FAILED");
+    throw classifyAiError(error);
   }
 }

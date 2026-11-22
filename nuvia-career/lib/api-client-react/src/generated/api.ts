@@ -27,14 +27,22 @@ import type {
 import type {
   CareerAiAssistInput,
   CareerAiAssistResponse,
+  CareerAiJobStatus,
   CareerExportInput,
+  CareerLabJob,
+  CareerLabQuery,
   CareerOverview,
   CareerState,
   CareerStateInput,
   CareerVersion,
   CareerVersionInput,
   CareerWorkspace,
-  HealthStatus
+  GetOriginalEnterprise200,
+  HealthStatus,
+  OriginalEnterpriseScenarioRequest,
+  PreviewOriginalEnterpriseScenario200,
+  ReviewStoryInput,
+  ReviewStoryJob
 } from './api.schemas';
 
 import { customFetch } from '../custom-fetch';
@@ -63,6 +71,369 @@ const withQueryKey = <T extends object, K>(query: T, queryKey: K): T & { queryKe
   }
   return result;
 };
+
+export const getSearchCareerLabUrl = () => {
+
+
+
+
+  return `/api/career/lab-search`
+}
+
+/**
+ * Signed-in, opt-in search for public company and job sources; never accepts assessment or activity data.
+ */
+export const searchCareerLab = async (careerLabQuery: CareerLabQuery, options?: Parameters<typeof customFetch>[1]): Promise<CareerLabJob> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<CareerLabJob>(getSearchCareerLabUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(careerLabQuery)
+  }
+);}
+
+
+
+
+
+export const getSearchCareerLabMutationKey = () => ['searchCareerLab'] as const;
+
+export const getSearchCareerLabMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchCareerLab>>, TError,SearchCareerLabMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof searchCareerLab>>, TError,SearchCareerLabMutationVariables, TContext> => {
+
+const mutationKey = getSearchCareerLabMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof searchCareerLab>>, SearchCareerLabMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  searchCareerLab(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type SearchCareerLabMutationResult = NonNullable<Awaited<ReturnType<typeof searchCareerLab>>>
+    export type SearchCareerLabMutationBody = BodyType<CareerLabQuery>
+    export type SearchCareerLabMutationError = ErrorType<void>
+    export type SearchCareerLabMutationVariables = {data: BodyType<CareerLabQuery>}
+
+    export const useSearchCareerLab = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof searchCareerLab>>, TError,SearchCareerLabMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof searchCareerLab>>,
+        TError,
+        SearchCareerLabMutationVariables,
+        TContext
+      > => {
+      return useMutation(getSearchCareerLabMutationOptions(options), queryClient);
+    }
+
+export const getGetCareerLabJobUrl = (id: string,) => {
+
+
+
+
+  return `/api/career/lab-search/${id}`
+}
+
+export const getCareerLabJob = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<CareerLabJob> => {
+
+  return customFetch<CareerLabJob>(getGetCareerLabJobUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetCareerLabJobQueryKey = (id: string,) => {
+    return [
+    `/api/career/lab-search/${id}`
+    ] as const;
+    }
+
+
+export const getGetCareerLabJobQueryOptions = <TData = Awaited<ReturnType<typeof getCareerLabJob>>, TError = ErrorType<void>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCareerLabJobQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCareerLabJob>>> = ({ signal }) => getCareerLabJob(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCareerLabJobQueryResult = NonNullable<Awaited<ReturnType<typeof getCareerLabJob>>>
+export type GetCareerLabJobQueryError = ErrorType<void>
+
+
+export function useGetCareerLabJob<TData = Awaited<ReturnType<typeof getCareerLabJob>>, TError = ErrorType<void>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerLabJob>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerLabJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerLabJob<TData = Awaited<ReturnType<typeof getCareerLabJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerLabJob>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerLabJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerLabJob<TData = Awaited<ReturnType<typeof getCareerLabJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetCareerLabJob<TData = Awaited<ReturnType<typeof getCareerLabJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerLabJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCareerLabJobQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetOriginalEnterpriseUrl = () => {
+
+
+
+
+  return `/api/career/original-enterprise`
+}
+
+/**
+ * Authenticated read of the original Enterprise LAB's reference catalogue; not a live vacancy feed.
+ */
+export const getOriginalEnterprise = async ( options?: Parameters<typeof customFetch>[1]): Promise<GetOriginalEnterprise200> => {
+
+  return customFetch<GetOriginalEnterprise200>(getGetOriginalEnterpriseUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetOriginalEnterpriseQueryKey = () => {
+    return [
+    `/api/career/original-enterprise`
+    ] as const;
+    }
+
+
+export const getGetOriginalEnterpriseQueryOptions = <TData = Awaited<ReturnType<typeof getOriginalEnterprise>>, TError = ErrorType<unknown>>( options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetOriginalEnterpriseQueryKey();
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getOriginalEnterprise>>> = ({ signal }) => getOriginalEnterprise({ signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetOriginalEnterpriseQueryResult = NonNullable<Awaited<ReturnType<typeof getOriginalEnterprise>>>
+export type GetOriginalEnterpriseQueryError = ErrorType<unknown>
+
+
+export function useGetOriginalEnterprise<TData = Awaited<ReturnType<typeof getOriginalEnterprise>>, TError = ErrorType<unknown>>(
+  options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOriginalEnterprise>>,
+          TError,
+          Awaited<ReturnType<typeof getOriginalEnterprise>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetOriginalEnterprise<TData = Awaited<ReturnType<typeof getOriginalEnterprise>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getOriginalEnterprise>>,
+          TError,
+          Awaited<ReturnType<typeof getOriginalEnterprise>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetOriginalEnterprise<TData = Awaited<ReturnType<typeof getOriginalEnterprise>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetOriginalEnterprise<TData = Awaited<ReturnType<typeof getOriginalEnterprise>>, TError = ErrorType<unknown>>(
+  options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getOriginalEnterprise>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetOriginalEnterpriseQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getPreviewOriginalEnterpriseScenarioUrl = () => {
+
+
+
+
+  return `/api/career/original-enterprise`
+}
+
+/**
+ * Generate an original rule-based practice preview for a signed-in account; does not record execution or call AI.
+ */
+export const previewOriginalEnterpriseScenario = async (originalEnterpriseScenarioRequest: OriginalEnterpriseScenarioRequest, options?: Parameters<typeof customFetch>[1]): Promise<PreviewOriginalEnterpriseScenario200> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<PreviewOriginalEnterpriseScenario200>(getPreviewOriginalEnterpriseScenarioUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(originalEnterpriseScenarioRequest)
+  }
+);}
+
+
+
+
+
+export const getPreviewOriginalEnterpriseScenarioMutationKey = () => ['previewOriginalEnterpriseScenario'] as const;
+
+export const getPreviewOriginalEnterpriseScenarioMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>, TError,PreviewOriginalEnterpriseScenarioMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>, TError,PreviewOriginalEnterpriseScenarioMutationVariables, TContext> => {
+
+const mutationKey = getPreviewOriginalEnterpriseScenarioMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>, PreviewOriginalEnterpriseScenarioMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  previewOriginalEnterpriseScenario(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type PreviewOriginalEnterpriseScenarioMutationResult = NonNullable<Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>>
+    export type PreviewOriginalEnterpriseScenarioMutationBody = BodyType<OriginalEnterpriseScenarioRequest>
+    export type PreviewOriginalEnterpriseScenarioMutationError = ErrorType<unknown>
+    export type PreviewOriginalEnterpriseScenarioMutationVariables = {data: BodyType<OriginalEnterpriseScenarioRequest>}
+
+    export const usePreviewOriginalEnterpriseScenario = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>, TError,PreviewOriginalEnterpriseScenarioMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof previewOriginalEnterpriseScenario>>,
+        TError,
+        PreviewOriginalEnterpriseScenarioMutationVariables,
+        TContext
+      > => {
+      return useMutation(getPreviewOriginalEnterpriseScenarioMutationOptions(options), queryClient);
+    }
 
 export const getGetCareerOverviewUrl = () => {
 
@@ -147,6 +518,186 @@ export function useGetCareerOverview<TData = Awaited<ReturnType<typeof getCareer
  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
 
   const queryOptions = getGetCareerOverviewQueryOptions(options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getStartReviewStoryUrl = () => {
+
+
+
+
+  return `/api/career/review-story`
+}
+
+/**
+ * Authenticated, explicitly consented writing help for selected review material. No account workspace or database writes.
+ */
+export const startReviewStory = async (reviewStoryInput: ReviewStoryInput, options?: Parameters<typeof customFetch>[1]): Promise<ReviewStoryJob> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<ReviewStoryJob>(getStartReviewStoryUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(reviewStoryInput)
+  }
+);}
+
+
+
+
+
+export const getStartReviewStoryMutationKey = () => ['startReviewStory'] as const;
+
+export const getStartReviewStoryMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startReviewStory>>, TError,StartReviewStoryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof startReviewStory>>, TError,StartReviewStoryMutationVariables, TContext> => {
+
+const mutationKey = getStartReviewStoryMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof startReviewStory>>, StartReviewStoryMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  startReviewStory(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type StartReviewStoryMutationResult = NonNullable<Awaited<ReturnType<typeof startReviewStory>>>
+    export type StartReviewStoryMutationBody = BodyType<ReviewStoryInput>
+    export type StartReviewStoryMutationError = ErrorType<unknown>
+    export type StartReviewStoryMutationVariables = {data: BodyType<ReviewStoryInput>}
+
+    export const useStartReviewStory = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof startReviewStory>>, TError,StartReviewStoryMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof startReviewStory>>,
+        TError,
+        StartReviewStoryMutationVariables,
+        TContext
+      > => {
+      return useMutation(getStartReviewStoryMutationOptions(options), queryClient);
+    }
+
+export const getGetReviewStoryUrl = (id: string,) => {
+
+
+
+
+  return `/api/career/review-story/${id}`
+}
+
+export const getReviewStory = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<ReviewStoryJob> => {
+
+  return customFetch<ReviewStoryJob>(getGetReviewStoryUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetReviewStoryQueryKey = (id: string,) => {
+    return [
+    `/api/career/review-story/${id}`
+    ] as const;
+    }
+
+
+export const getGetReviewStoryQueryOptions = <TData = Awaited<ReturnType<typeof getReviewStory>>, TError = ErrorType<unknown>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetReviewStoryQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getReviewStory>>> = ({ signal }) => getReviewStory(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetReviewStoryQueryResult = NonNullable<Awaited<ReturnType<typeof getReviewStory>>>
+export type GetReviewStoryQueryError = ErrorType<unknown>
+
+
+export function useGetReviewStory<TData = Awaited<ReturnType<typeof getReviewStory>>, TError = ErrorType<unknown>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewStory>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewStory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewStory<TData = Awaited<ReturnType<typeof getReviewStory>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getReviewStory>>,
+          TError,
+          Awaited<ReturnType<typeof getReviewStory>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetReviewStory<TData = Awaited<ReturnType<typeof getReviewStory>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+
+export function useGetReviewStory<TData = Awaited<ReturnType<typeof getReviewStory>>, TError = ErrorType<unknown>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getReviewStory>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetReviewStoryQueryOptions(id,options)
 
   const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
 
@@ -699,7 +1250,7 @@ export const getRequestCareerAiAssistanceUrl = () => {
 }
 
 /**
- * Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+ * Uses only explicitly selected fields. Account-bound encrypted results are reused for up to five hours in shared PostgreSQL. Durable HMAC-keyed dispatch records and shared limits prevent automatic duplicate generation across workers and restarts. Uncertain dispatches are not automatically reclaimed. No plaintext prompts or originals are stored in coordination tables.
  * @summary Generate consented, account-scoped writing assistance
  */
 export const requestCareerAiAssistance = async (careerAiAssistInput: CareerAiAssistInput, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiAssistResponse> => {
@@ -777,6 +1328,370 @@ export const useRequestCareerAiAssistance = <TError = ErrorType<void>,
         TContext
       > => {
       return useMutation(getRequestCareerAiAssistanceMutationOptions(options), queryClient);
+    }
+
+export const getCreateCareerAiJobUrl = () => {
+
+
+
+
+  return `/api/career/ai-jobs`
+}
+
+/**
+ * @summary Accept consented AI work without holding a long HTTP connection
+ */
+export const createCareerAiJob = async (careerAiAssistInput: CareerAiAssistInput, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiJobStatus> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return customFetch<CareerAiJobStatus>(getCreateCareerAiJobUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(careerAiAssistInput)
+  }
+);}
+
+
+
+
+
+export const getCreateCareerAiJobMutationKey = () => ['createCareerAiJob'] as const;
+
+export const getCreateCareerAiJobMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareerAiJob>>, TError,CreateCareerAiJobMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof createCareerAiJob>>, TError,CreateCareerAiJobMutationVariables, TContext> => {
+
+const mutationKey = getCreateCareerAiJobMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof createCareerAiJob>>, CreateCareerAiJobMutationVariables> = (props) => {
+          const {data} = props ?? {};
+
+          return  createCareerAiJob(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CreateCareerAiJobMutationResult = NonNullable<Awaited<ReturnType<typeof createCareerAiJob>>>
+    export type CreateCareerAiJobMutationBody = BodyType<CareerAiAssistInput>
+    export type CreateCareerAiJobMutationError = ErrorType<void>
+    export type CreateCareerAiJobMutationVariables = {data: BodyType<CareerAiAssistInput>}
+
+    /**
+ * @summary Accept consented AI work without holding a long HTTP connection
+ */
+export const useCreateCareerAiJob = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof createCareerAiJob>>, TError,CreateCareerAiJobMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof createCareerAiJob>>,
+        TError,
+        CreateCareerAiJobMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCreateCareerAiJobMutationOptions(options), queryClient);
+    }
+
+export const getGetCareerAiJobByClientUrl = (clientId: string,) => {
+
+
+
+
+  return `/api/career/ai-jobs/by-client/${clientId}`
+}
+
+/**
+ * @summary Recover an accepted request even if its acknowledgement was lost
+ */
+export const getCareerAiJobByClient = async (clientId: string, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiJobStatus> => {
+
+  return customFetch<CareerAiJobStatus>(getGetCareerAiJobByClientUrl(clientId),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetCareerAiJobByClientQueryKey = (clientId: string,) => {
+    return [
+    `/api/career/ai-jobs/by-client/${clientId}`
+    ] as const;
+    }
+
+
+export const getGetCareerAiJobByClientQueryOptions = <TData = Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError = ErrorType<void>>(clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCareerAiJobByClientQueryKey(clientId);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCareerAiJobByClient>>> = ({ signal }) => getCareerAiJobByClient(clientId, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: clientId !== null && clientId !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCareerAiJobByClientQueryResult = NonNullable<Awaited<ReturnType<typeof getCareerAiJobByClient>>>
+export type GetCareerAiJobByClientQueryError = ErrorType<void>
+
+
+export function useGetCareerAiJobByClient<TData = Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError = ErrorType<void>>(
+ clientId: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerAiJobByClient>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerAiJobByClient>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerAiJobByClient<TData = Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError = ErrorType<void>>(
+ clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerAiJobByClient>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerAiJobByClient>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerAiJobByClient<TData = Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError = ErrorType<void>>(
+ clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Recover an accepted request even if its acknowledgement was lost
+ */
+
+export function useGetCareerAiJobByClient<TData = Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError = ErrorType<void>>(
+ clientId: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJobByClient>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCareerAiJobByClientQueryOptions(clientId,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getGetCareerAiJobUrl = (id: string,) => {
+
+
+
+
+  return `/api/career/ai-jobs/${id}`
+}
+
+/**
+ * @summary Read only the authenticated owner's accepted job
+ */
+export const getCareerAiJob = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiJobStatus> => {
+
+  return customFetch<CareerAiJobStatus>(getGetCareerAiJobUrl(id),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+
+
+export const getGetCareerAiJobQueryKey = (id: string,) => {
+    return [
+    `/api/career/ai-jobs/${id}`
+    ] as const;
+    }
+
+
+export const getGetCareerAiJobQueryOptions = <TData = Awaited<ReturnType<typeof getCareerAiJob>>, TError = ErrorType<void>>(id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+) => {
+
+const {query: queryOptions, request: requestOptions} = options ?? {};
+
+  const queryKey =  queryOptions?.queryKey ?? getGetCareerAiJobQueryKey(id);
+
+
+
+    const queryFn: QueryFunction<Awaited<ReturnType<typeof getCareerAiJob>>> = ({ signal }) => getCareerAiJob(id, { signal, ...requestOptions });
+
+
+
+
+
+   return  { queryKey, queryFn, enabled: id !== null && id !== undefined, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData> & { queryKey: DataTag<QueryKey, TData, TError> }
+}
+
+export type GetCareerAiJobQueryResult = NonNullable<Awaited<ReturnType<typeof getCareerAiJob>>>
+export type GetCareerAiJobQueryError = ErrorType<void>
+
+
+export function useGetCareerAiJob<TData = Awaited<ReturnType<typeof getCareerAiJob>>, TError = ErrorType<void>>(
+ id: string, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData>> & Pick<
+        DefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerAiJob>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerAiJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  DefinedUseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerAiJob<TData = Awaited<ReturnType<typeof getCareerAiJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData>> & Pick<
+        UndefinedInitialDataOptions<
+          Awaited<ReturnType<typeof getCareerAiJob>>,
+          TError,
+          Awaited<ReturnType<typeof getCareerAiJob>>
+        > , 'initialData'
+      >, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+export function useGetCareerAiJob<TData = Awaited<ReturnType<typeof getCareerAiJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+  ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> }
+/**
+ * @summary Read only the authenticated owner's accepted job
+ */
+
+export function useGetCareerAiJob<TData = Awaited<ReturnType<typeof getCareerAiJob>>, TError = ErrorType<void>>(
+ id: string, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof getCareerAiJob>>, TError, TData>>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient
+ ):  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> } {
+
+  const queryOptions = getGetCareerAiJobQueryOptions(id,options)
+
+  const query = useQuery(queryOptions, queryClient) as  UseQueryResult<TData, TError> & { queryKey: DataTag<QueryKey, TData, TError> };
+
+  return withQueryKey(query, queryOptions.queryKey);
+}
+
+
+
+
+
+
+
+export const getCancelCareerAiJobUrl = (id: string,) => {
+
+
+
+
+  return `/api/career/ai-jobs/${id}`
+}
+
+/**
+ * @summary Cancel undispatched work; dispatched work may still be billed and finish
+ */
+export const cancelCareerAiJob = async (id: string, options?: Parameters<typeof customFetch>[1]): Promise<CareerAiJobStatus> => {
+
+  return customFetch<CareerAiJobStatus>(getCancelCareerAiJobUrl(id),
+  {
+    ...options,
+    method: 'DELETE'
+
+
+  }
+);}
+
+
+
+
+
+export const getCancelCareerAiJobMutationKey = () => ['cancelCareerAiJob'] as const;
+
+export const getCancelCareerAiJobMutationOptions = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof cancelCareerAiJob>>, TError,CancelCareerAiJobMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof cancelCareerAiJob>>, TError,CancelCareerAiJobMutationVariables, TContext> => {
+
+const mutationKey = getCancelCareerAiJobMutationKey();
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof cancelCareerAiJob>>, CancelCareerAiJobMutationVariables> = (props) => {
+          const {id} = props ?? {};
+
+          return  cancelCareerAiJob(id,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type CancelCareerAiJobMutationResult = NonNullable<Awaited<ReturnType<typeof cancelCareerAiJob>>>
+
+    export type CancelCareerAiJobMutationError = ErrorType<void>
+    export type CancelCareerAiJobMutationVariables = {id: string}
+
+    /**
+ * @summary Cancel undispatched work; dispatched work may still be billed and finish
+ */
+export const useCancelCareerAiJob = <TError = ErrorType<void>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof cancelCareerAiJob>>, TError,CancelCareerAiJobMutationVariables, TContext>, request?: SecondParameter<typeof customFetch>}
+ , queryClient?: QueryClient): UseMutationResult<
+        Awaited<ReturnType<typeof cancelCareerAiJob>>,
+        TError,
+        CancelCareerAiJobMutationVariables,
+        TContext
+      > => {
+      return useMutation(getCancelCareerAiJobMutationOptions(options), queryClient);
     }
 
 export const getHealthCheckUrl = () => {

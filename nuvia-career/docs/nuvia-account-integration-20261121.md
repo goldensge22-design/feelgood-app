@@ -1,0 +1,27 @@
+# NUVIA Replit: authenticated workspace integration
+
+## Working data path
+
+Signed-in users open `/home` and set a **screen preference**. It is persisted per account, not age verification, access authorization, a guardian link, or a teacher role. The old writing/criterion/version/experience routes and the older local storyboard remain accessible as distinct supporting screens. The public `/demo/review` continues to use a separate fictional browser store and is not used as a source for accounts.
+
+- `/report` states that an authoritative result is not connected. No fabricated scores, rankings or interpretation are written to accounts. The Career API's rejection of client-supplied external reports and planner imports remains in place.
+- `/planner` mounts the original Studio components (shelf, desk, time, timer, private daily note and completed work). The only changes to the vendored files are the injected account storage and making their privacy labels/capabilities match that storage. Native UI is retained. An explicit selection copies a short exact note excerpt, or a user-entered description of their own workbench activity, into the same workspace's existing local-activity and confirmed-experience records. A user chooses self-reported action or imagined thought exercise. This records neither an independently confirmed observation nor an achieved job result. Other notes are not selected into a story. Changed note versions are detected, and re-confirming the same reference updates the current selection without deleting prior snapshots.
+- `/lab` for youth accepts a self-chosen career interest/keyword without substituting synthetic official material. `/lab` for adults uses the existing authenticated GPT web search against public inputs; a person explicitly chooses one source-backed keyword and its excerpt, URL and observation time. This is this application's endpoint, not an API call to a different Replit project. No result sheet or activity is sent to that search API. Changing the keyword does not overwrite the editor.
+- `/storyboard` uses the same application's existing account draft and immutable snapshot endpoints. Both roles use three steps. Rule-based previews are labelled as such; existing AI assistance remains available in the older adult writing editor. A preview does not edit the user's text without selection. The saved version can be opened as a new copy or exported; the content of the older draft remains available. Switching screen preference preserves role-specific story drafts and versions; the person's workbench stays in the same authenticated account.
+
+## Storage and change control
+
+No SQL/schema changes. The OpenAPI additions are optional fields in the existing workspace JSONB and in application JSON snapshots. The existing server obtains the owner from Clerk, uses an owner-scoped revision compare/update and rejects stale writes. It does not accept a client-supplied owner. A network failure leaves what the person typed in the editor and uses the pre-existing account-keyed local recovery mechanism; until the server acknowledges a write it is not marked saved. On conflict the server's story/workbench are preserved and alternate copies are kept rather than overwritten. Browser recovery is not encryption or a safe shared-device policy. No new secret, Clerk configuration, production operation or automatic database migration.
+
+Deploying an **older server binary** after users have saved new fields would make older API validation strip those optional fields on write. Before any future release/rollback, check the client/server version pair and retain a backup. This change is not permission to publish or access production.
+
+## Pending counterside access for direct integration
+
+| Service | Confirmed reference, not a live API | Needed before implementing real cross-app transfer |
+|---|---|---|
+| D-CAS / central identity | Central app `FEELGOOD-Co-LTD/nuvia` / `https://nuvia.feel-good.io` (recorded reference) | Authorized development endpoint plus test identity, server-side account/subject mapping, owner-checked read-only result response with original report, interpretation and TOP5 versions, and consent/withdrawal state. |
+| NUVIA PLANNER — ImpassionedWindyHardware | `https://replit.com/replid/3fbdef46-a3e0-40cb-a926-036c82ed4b47` | Approved development API or common origin with verified session exchange. Confirm the original `GET/PUT /api/v1/planner/workspace` contract, If-Match revisions, and an ownership-checked read/attach endpoint for individually selected records with canonical source ID/version and consent. No editor URL as API; no browser-store sharing. |
+| 기업·직무탐색 LAB — LonePinkSpheres | `https://replit.com/replid/9180b529-621d-4547-8da5-54fa03c9800b` | Approved test API and service/session audience, immutable selected material ID/version, public excerpt and source date, consent/withdrawal. Confirm whether `/api/lab-inbox` remains the counterpart for voluntarily handed-off directions or whether the counterpart has a newer contract. |
+| Official youth resources | No approved external endpoint established | Source list, permission to reuse, versions, and authority to call in development. |
+
+Do not pass cookies, tokens, actual reports or names via project URLs. Exercise reconnect/ownership/withdrawal with two independent approved Replit accounts and synthetic sources. The unconnected external portions remain work for direct integration once the counterpart contracts are confirmed, not a claim of working production integration.

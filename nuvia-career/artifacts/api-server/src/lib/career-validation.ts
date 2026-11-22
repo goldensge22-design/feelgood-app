@@ -8,6 +8,54 @@ export class CareerValidationError extends Error {}
 // never by a client-provided badge or URL.
 export function validateCareerState(state: CareerState): void {
   if (state.report !== null) throw new CareerValidationError("REPORT_CONNECTOR_REQUIRED");
+  const integrated = state.integrated;
+  for(const source of [integrated?.companySource,...(integrated?.recoveredCompanySources??[])])
+    if (source && (!safeSourceUrl(source.url) || !source.keyword.trim() || !Number.isFinite(Date.parse(source.observedAt))))
+      throw new CareerValidationError("INVALID_SOURCE_URL");
+  for(const raw of [integrated?.youthLab,integrated?.youthLabRecovery]){
+    if(raw===undefined)continue;
+    try{
+      const value=JSON.parse(raw);
+      if(value?.v!==1||!Array.isArray(value.tests)||value.tests.length>1||
+        value.tests.some((entry:{name?:string;date?:string;results?:string;features?:string;inputMethod?:string;strengths?:{kind?:string}[]})=>
+          entry.name!==''||entry.date!==''||entry.results!==''||entry.features!==''||entry.inputMethod!=='manual'||
+          !Array.isArray(entry.strengths)||entry.strengths.some(x=>x.kind!=='self'))||
+        !Array.isArray(value.activities)||!Array.isArray(value.reflections)||!Array.isArray(value.story?.versions))
+        throw Error('INVALID_YOUTH_LAB_DRAFT');
+    }catch{throw new CareerValidationError("INVALID_YOUTH_LAB_DRAFT");}
+  }
+  const handoffIds=new Set<string>();
+  for(const item of integrated?.labHandoffs??[]){
+    if(handoffIds.has(item.id)||!item.title.trim()||!item.excerpt.trim()||
+        !Number.isFinite(Date.parse(item.approvedAt))||
+        (item.revokedAt&&!Number.isFinite(Date.parse(item.revokedAt)))||
+        (item.url&&!safeSourceUrl(item.url)))
+      throw new CareerValidationError("INVALID_LAB_HANDOFF");
+    if(item.sourceSnapshot){
+      try{
+        const card=JSON.parse(item.sourceSnapshot);
+        if(item.audience!=='adult'||item.purpose!=='simulation'||
+          item.sourceId!==`scenario:${card.commonCardId}`||item.sourceVersion!==card.contentVersion||
+          typeof card.id!=='string'||!Array.isArray(card.sections)||!Array.isArray(card.officialFacts)||
+          card.officialFacts.some((fact:{url?:string})=>!fact.url||!safeSourceUrl(fact.url)))
+          throw Error("INVALID_LAB_SCENARIO");
+      }catch{throw new CareerValidationError("INVALID_LAB_SCENARIO");}
+    }
+    handoffIds.add(item.id);
+  }
+  for (const raw of [integrated?.planner, integrated?.plannerRecovery]) {
+    if (raw === undefined) continue;
+    try {
+      const studio = JSON.parse(raw);
+      if (studio.schema !== "nuvia-personal-monthly-1" || studio.mode !== "personal" ||
+          studio.studentId !== "student-a" || typeof studio.workspaceId !== "string" ||
+          !studio.lab?.students?.["student-a"] ||
+          Object.values(studio.lab.students).some((learner) => !!(learner as {assessment?:unknown})?.assessment) ||
+          !Array.isArray(studio.assessmentHistory) ||
+          studio.assessmentHistory.length !== 0 || studio.insights?.currentAssessment)
+        throw new Error("not an unlinked personal planner");
+    } catch { throw new CareerValidationError("INVALID_ACCOUNT_PLANNER"); }
+  }
   for (const collection of [state.experiences, state.activities, state.applications, state.criteria]) {
     if (collection.some((x) => !x.id.trim()))
       throw new CareerValidationError("EMPTY_ID");
@@ -60,6 +108,10 @@ export function validateCareerState(state: CareerState): void {
       throw new CareerValidationError("MISSING_EXPERIENCE");
     if (application.criterionIds.some((id) => !criterionIds.has(id)))
       throw new CareerValidationError("MISSING_CRITERION");
+  }
+  for (const id of [integrated?.adultStoryId, integrated?.youthStoryId]) {
+    if (id && !state.applications.some((a) => a.id === id))
+      throw new CareerValidationError("MISSING_STORY_DRAFT");
   }
 }
 

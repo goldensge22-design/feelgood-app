@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { CareerApplicationIntegratedAudience } from './careerApplicationIntegratedAudience';
 
 export interface CareerApplication {
   /** @maxLength 100 */
@@ -27,4 +28,12 @@ export interface CareerApplication {
   criterionIds: string[];
   /** @maxLength 100000 */
   text: string;
+  /** @maxLength 5000 */
+  integratedThought?: string;
+  integratedAudience?: CareerApplicationIntegratedAudience;
+  /**
+     * @maxItems 20
+     * @items.maxLength 1000
+     */
+  integratedEvidence?: string[];
 }

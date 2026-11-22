@@ -1,4 +1,5 @@
-import { useCallback, useSyncExternalStore } from 'react';
+import { useCallback, useMemo, useSyncExternalStore } from 'react';
+import { receivedExperienceMeta } from './received-provenance';
 import type { CareerApplication, CareerExperience, CareerState } from '@workspace/api-client-react';
 import { loadJSON, saveJSON } from '@/lib/career';
 import { useWorkspace } from '@/lib/workspace';
@@ -6,6 +7,9 @@ import { toast } from '@/hooks/use-toast';
 import { PROV_MESSAGES, PROV_PARTIAL } from '@/lib/provenance-messages';
 import type { CareerAiAssistResponse } from '@workspace/api-client-react';
 import { normalizeAiPurpose, normalizeStoredAiRule, safeAiHistory, validateAiResponse } from './ai-response';
+import { REVIEW_DEMO } from './public-demo';
+import { REVIEW_RECORD_ID } from './review-demo-fixture';
+import { REVIEW_CARD_ID } from './review-planner-model';
 
 /**
  * Frontend-only provenance sidecar (pending a developer API).
@@ -158,6 +162,10 @@ export const emptySidecar = (): Sidecar => ({
 });
 const EMPTY = emptySidecar();
 export const LEGACY_META: ExpMeta = { localOnly: true, nature: 'unconfirmed' };
+export const REVIEW_RECORD_META: ExpMeta = {
+  localOnly: true, nature: 'simulation', experienceContext: 'class_simulation',
+  cardType: 'job_scenario', origin: 'example', synthetic: true,
+};
 
 const cache = new Map<string, Sidecar>();
 const listeners = new Set<() => void>();
@@ -223,10 +231,23 @@ function notifySaveFailed() {
 export function __resetSidecarCache() { cache.clear(); }
 
 export function useSidecar() {
-  const { mode, userId, authLoaded } = useWorkspace();
+  const { mode, userId, authLoaded, state } = useWorkspace();
   const ctx = !authLoaded ? null : mode === 'account' ? (userId ? `account:${userId}` : null) : mode;
   const key = ctx ? sidecarKey(ctx) : null;
   const data = useSyncExternalStore(subscribe, () => (key ? read(key) : EMPTY));
+  // Read only the active account's received records. This overlay neither
+  // changes the server contract nor re-labels planner records as manual input.
+  const receivedData = useMemo(() => {
+    if (!key || !state) return data;
+    let exps = data.exps;
+    for (const experience of state.experiences) {
+      const received = receivedExperienceMeta(experience);
+      if (!received) continue;
+      if (exps === data.exps) exps = { ...data.exps };
+      exps[experience.id] = { ...LEGACY_META, ...data.exps[experience.id], ...received, localOnly: true };
+    }
+    return exps === data.exps ? data : { ...data, exps };
+  }, [key, data, state]);
   const patch = useCallback((fn: (s: Sidecar) => Sidecar) => {
     if (!key) return false;
     const next = fn(read(key));
@@ -236,10 +257,11 @@ export function useSidecar() {
     else notifySaveFailed();
     return ok;
   }, [key]);
-  return { ctx, data, patch, ready: !!key };
+  return { ctx, data: receivedData, patch, ready: !!key };
 }
 
 export function metaOf(sc: Sidecar, id: string): ExpMeta {
+  if (REVIEW_DEMO && (id === REVIEW_RECORD_ID || REVIEW_CARD_ID.test(id))) return REVIEW_RECORD_META;
   return sc.exps[id] ?? LEGACY_META;
 }
 

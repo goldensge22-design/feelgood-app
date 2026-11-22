@@ -9,11 +9,13 @@ import type { CareerActivity } from './careerActivity';
 import type { CareerApplication } from './careerApplication';
 import type { CareerCriterion } from './careerCriterion';
 import type { CareerExperience } from './careerExperience';
+import type { CareerIntegratedWorkspace } from './careerIntegratedWorkspace';
 import type { CareerStateReport } from './careerStateReport';
 
 export interface CareerState {
   /** @maxLength 500 */
   selectedJob: string;
+  integrated?: CareerIntegratedWorkspace;
   /** @nullable */
   report: CareerStateReport;
   /** @maxItems 200 */

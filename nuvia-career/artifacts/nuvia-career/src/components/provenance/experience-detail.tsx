@@ -13,6 +13,7 @@ import { findSeed, localizeSeed, seedInput } from '@/lib/synthetic-records';
 import { addSyntheticExperience } from '@/components/provenance/synthetic-actions';
 import { cn } from '@/lib/utils';
 import { storyValues } from '@/lib/star-story';
+import { receivedExperienceMeta } from '@/lib/received-provenance';
 
 function Choice<T extends string>({ label, options, value, onChange, disabled, testId }: {
   label: string; options: { v: T; label: string }[]; value: T | undefined; onChange: (v: T) => void; disabled?: boolean; testId: string;
@@ -98,10 +99,10 @@ export function ExperienceDetail({ e, onClose }: { e: CareerExperience; onClose:
         )}
 
         <div className="grid gap-4 sm:grid-cols-2">
-          <Choice label={t('pv.nature')} testId="radio-nature" value={m.nature} disabled={m.synthetic}
+          <Choice label={t('pv.nature')} testId="radio-nature" value={m.nature} disabled={m.synthetic || !!receivedExperienceMeta(e)}
             options={(['actual', 'simulation', 'unconfirmed'] as const).map((v) => ({ v, label: t(`pv.nt.${v}`) }))}
             onChange={(v) => set({ nature: v, origin: m.origin ?? e.source })} />
-          <Choice label={t('pv.cardType')} testId="radio-cardtype" value={m.cardType} disabled={m.synthetic}
+          <Choice label={t('pv.cardType')} testId="radio-cardtype" value={m.cardType} disabled={m.synthetic || !!receivedExperienceMeta(e)?.cardType}
             options={(['daily_application', 'job_scenario'] as const).map((v) => ({ v, label: t(`pv.ct.${v}`) }))}
             onChange={(v) => set({ cardType: v, origin: m.origin ?? e.source })} />
         </div>

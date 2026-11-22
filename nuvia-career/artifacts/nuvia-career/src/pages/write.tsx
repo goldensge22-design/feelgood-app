@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'wouter';
 import { ExternalLink, PenLine, Save, ShieldAlert } from 'lucide-react';
 import { ContextCoach } from '@/components/provenance/context-coach';
@@ -25,7 +25,7 @@ import { ExperienceStoryHelp } from '@/components/provenance/experience-story-he
 import { JobConnectionNotesPanel } from '@/components/provenance/job-connection-notes';
 import { AIWritingAssistant } from '@/components/ai-writing-assistant';
 import type { AIWritingAnswer, AIWritingCandidate, AIWritingExperience, AIWritingStyleRule, AIWritingVoiceExample } from '@/components/ai-writing-assistant';
-import { requestCareerAiAssistance } from '@workspace/api-client-react';
+import { contextHash, ticketKey, readTicket, persistTicket, forgetTicket, receiveJob, cancelTicket, type AiTicket } from '@/lib/ai-job-client';
 import { appendAiSuggestion, saveAiCoachAnswer, saveAiVoiceExample, saveAiVoiceRules } from '@/lib/provenance';
 import type { AiCoachAnswer, AiSuggestionRecord, AiVoiceExample, AiVoiceRule } from '@/lib/provenance';
 import { buildAiInput, aiContextFingerprint, normalizeAiResponse } from '@/lib/ai-assist';
@@ -72,7 +72,7 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
   const { t, locale } = useI18n();
   const { toast } = useToast();
   const aiT = aiTranslator(locale, t);
-  const { update, mode } = useWorkspace();
+  const { update, mode, userId } = useWorkspace();
   const { data: sidecar, patch } = useSidecar();
   const ctext = useCriterionText();
   const [verOpen, setVerOpen] = useState(false);
@@ -170,29 +170,61 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
     writingLanguage: app.writingLanguage, experienceIds: app.experienceIds, criterionIds: app.criterionIds,
   }, report: state.report, criteria: crits, exps: aiExperiences, aiLocalState: {
     answers: aiAnswers, voiceExamples: sidecar.ai.voiceExamples, voiceRules: sidecar.ai.voiceRules,
-  }, locale });
+  } });
   const contextRef = useRef(currentContext);
   const lastAiContext = useRef('');
   contextRef.current = currentContext;
+  const recoveryKey = userId ? ticketKey(userId, app.id) : '';
+  const [pending, setPending] = useState<AiTicket | null>(null);
+  const pendingRef = useRef<AiTicket | null>(null);
+  useEffect(() => {
+    const previous = pendingRef.current;
+    if (previous) forgetTicket(recoveryKey, previous.clientId);
+    pendingRef.current = null; setPending(null);
+    let disposed = false;
+    const timer = window.setTimeout(() => {
+      void contextHash(currentContext).then(hash => {
+        if (disposed || !recoveryKey) return;
+        const ticket = readTicket(recoveryKey);
+        if (ticket?.contextHash === hash) { pendingRef.current = ticket; setPending(ticket); }
+        else if (ticket) { forgetTicket(recoveryKey, ticket.clientId); pendingRef.current = null; setPending(null); }
+      });
+    }, 300);
+    return () => { disposed = true; window.clearTimeout(timer); };
+  }, [recoveryKey, currentContext]);
+  const finishAi = (raw: import('@workspace/api-client-react').CareerAiAssistResponse, ticket: AiTicket, requestedContext: string, signal: AbortSignal) => {
+    const response = validateAiResponse(raw);
+    if (signal.aborted) throw Object.assign(new Error('Cancelled'), { code: 'CANCELLED' });
+    if (contextRef.current !== requestedContext || response.sourceFingerprint !== ticket.fingerprint) throw Object.assign(new Error('STALE'), { code: 'STALE' });
+    if (response.task !== ticket.action) throw Object.assign(new Error('AI_INVALID_RESPONSE'), { code: 'AI_INVALID_RESPONSE' });
+    const normalized = normalizeAiResponse(response, ticket.language, ticket.purpose);
+    const saved = patch(current => appendAiSuggestion(current, app.id, {
+      id: uid('ai'), task: response.task, sourceFingerprint: ticket.fingerprint, createdAt: new Date().toISOString(), response,
+    } satisfies AiSuggestionRecord));
+    lastAiContext.current = requestedContext;
+    if (saved) {
+      forgetTicket(recoveryKey, ticket.clientId); pendingRef.current = null;
+      // Let the component receive the resolved result before clearing its
+      // resume effect; otherwise effect cleanup can abort a completed result.
+      window.setTimeout(() => setPending(current => current?.clientId === ticket.clientId ? null : current), 0);
+    }
+    return saved ? normalized : { ...normalized, notice: aiT('ai.historySaveFailed') };
+  };
   const runAi = async (action: import('@/components/ai-writing-assistant').AIWritingAction, payload: import('@/components/ai-writing-assistant').AIWritingPayload, signal: AbortSignal) => {
     if (mode !== 'account' || PUBLIC_DEMO) throw Object.assign(new Error('AI is available only for signed-in accounts.'), { code: 'AI_NOT_CONFIGURED' });
     const requestedContext = contextRef.current;
     const fingerprint = aiContextFingerprint(requestedContext, payload, locale);
-    const response = validateAiResponse(await requestCareerAiAssistance(buildAiInput(action, payload, locale, fingerprint), { signal }));
-    if (response.task !== action) throw Object.assign(new Error('AI_INVALID_RESPONSE'), { code: 'AI_INVALID_RESPONSE' });
-    if (signal.aborted) throw Object.assign(new Error('Cancelled'), { code: 'CANCELLED' });
-    if (contextRef.current !== requestedContext || response.sourceFingerprint !== fingerprint) {
-      throw Object.assign(new Error('The source changed. Please review and try again.'), { code: 'STALE' });
+    const ticket: AiTicket = { clientId: crypto.randomUUID(), contextHash: await contextHash(requestedContext),
+      fingerprint, action, experienceIds: payload.experiences.map(e => e.id),
+      language: action === 'voice' ? payload.application.writingLanguage || app.writingLanguage : app.writingLanguage,
+      purpose: payload.voiceExamples[0]?.purpose || 'essay' };
+    if (signal.aborted || contextRef.current !== requestedContext) throw Object.assign(new Error('STALE'), { code: 'STALE' });
+    persistTicket(recoveryKey, ticket); pendingRef.current = ticket; setPending(ticket);
+    try { return finishAi(await receiveJob(ticket, recoveryKey, signal, buildAiInput(action, payload, locale, fingerprint)), ticket, requestedContext, signal); }
+    catch (e) {
+      if (!signal.aborted) { forgetTicket(recoveryKey, ticket.clientId); pendingRef.current = null; setPending(null); }
+      throw e;
     }
-    const normalized = normalizeAiResponse(response,
-      action === 'voice' ? payload.application.writingLanguage || app.writingLanguage : app.writingLanguage,
-      payload.voiceExamples[0]?.purpose || 'essay');
-    const saved = patch((current) => appendAiSuggestion(current, app.id, {
-      id: uid('ai'), task: response.task, sourceFingerprint: fingerprint,
-      createdAt: new Date().toISOString(), response,
-    } satisfies AiSuggestionRecord));
-    lastAiContext.current = requestedContext;
-    return saved ? normalized : { ...normalized, notice: aiT('ai.historySaveFailed') };
   };
   const applyAiCandidate = (candidate: AIWritingCandidate, choice: 'replace' | 'append') => {
     if (lastAiContext.current !== contextRef.current) {
@@ -275,6 +307,20 @@ function Workbench({ state, app }: { state: CareerState; app: CareerApplication 
           styleRules={aiRules}
           availability={mode === 'account' && !PUBLIC_DEMO}
           onRequest={runAi}
+          resumeKey={pending?.clientId}
+          resumeExperienceIds={pending?.experienceIds}
+          onResume={async signal => {
+            const ticket = pendingRef.current;
+            if (!ticket) throw Object.assign(new Error('STALE'), { code: 'STALE' });
+            const requestedContext = contextRef.current;
+            if (await contextHash(requestedContext) !== ticket.contextHash) throw Object.assign(new Error('STALE'), { code: 'STALE' });
+            return finishAi(await receiveJob(ticket, recoveryKey, signal), ticket, requestedContext, signal);
+          }}
+          onCancelRequest={() => {
+            const ticket = pendingRef.current;
+            if (ticket) { forgetTicket(recoveryKey, ticket.clientId); void cancelTicket(ticket); }
+            pendingRef.current = null; setPending(null);
+          }}
           onApply={applyAiCandidate}
           onRestorePriorBody={() => {
             const prior = priorBodyRef.current;
@@ -342,7 +388,7 @@ export default function WritePage() {
         ) : (
           <>
             <AppTabs state={s} />
-            {app && <Workbench state={s} app={app} />}
+            {app && <Workbench key={app.id} state={s} app={app} />}
           </>
         )}
       </WorkspaceGate>

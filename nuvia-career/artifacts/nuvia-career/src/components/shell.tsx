@@ -1,9 +1,9 @@
-import { useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { Link, useLocation } from 'wouter';
 import { motion } from 'framer-motion';
 import { useClerk, useUser } from '@clerk/react';
 import {
-  Archive, Check, ClipboardList, Download, FileClock, FlaskConical, Globe, HardDrive, LayoutDashboard,
+  Archive, BookOpenText, Check, ClipboardList, Download, FileClock, FlaskConical, Globe, HardDrive, LayoutDashboard,
   ListChecks, LogIn, LogOut, Map, Menu, PenLine, PlugZap, Route as RouteIcon, Sparkles, TriangleAlert, User,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,12 +15,15 @@ import { formatDate } from '@/lib/career';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { PUBLIC_DEMO, clearPublicDemo } from '@/lib/public-demo';
+import { useSidecar } from '@/lib/provenance';
+import { loadStoryboard } from '@/lib/storyboard';
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
 
 const PRIMARY = [
   { href: '/?view=summary', match: '/', key: 'nav.overview', icon: LayoutDashboard },
   { href: '/journey', match: '/journey', key: 'nav.journey', icon: Map },
+  { href: '/storyboard', match: '/storyboard', key: 'db.nav', icon: BookOpenText },
 ];
 const MAIN = [
   { href: '/experiences', key: 'nav.experiences', icon: Archive },
@@ -168,7 +171,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
           active ? 'bg-sidebar-accent text-sidebar-accent-foreground' : 'text-sidebar-foreground/80 hover:bg-muted hover:text-foreground',
         )}
         aria-current={active ? 'page' : undefined}
-        data-testid={`link-nav-${n.key.split('.')[1]}`}
+        data-testid={`link-nav-${n.key === 'db.nav' ? 'storyboard' : n.key.split('.')[1]}`}
       >
         {active && <motion.span layoutId="nav-active" className="absolute inset-y-2 start-0 w-[3px] rounded-full bg-blue" />}
         <Icon className={cn('h-[18px] w-[18px] shrink-0', active ? 'text-blue' : 'text-muted-foreground group-hover:text-foreground')} />
@@ -183,6 +186,7 @@ function NavList({ onNavigate }: { onNavigate?: () => void }) {
       {MAIN.map(item)}
       <p className="eyebrow mb-1 mt-5 px-3 text-muted-foreground">{t('nav.groupMore')}</p>
       {SECONDARY.map(item)}
+      <SavedVault onNavigate={onNavigate} />
     </nav>
   );
 }
@@ -200,7 +204,7 @@ function ModeSwitch() {
           <button
             key={m}
             onClick={() => { if (m !== mode && !hasUnsaved()) setLocalMode(m); }}
-            className={cn('min-h-10 rounded-md text-xs font-semibold', mode === m ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground')}
+            className={cn('min-h-11 rounded-md text-xs font-semibold', mode === m ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground')}
             aria-pressed={mode === m}
             data-testid={`button-mode-${m}`}
           >
@@ -209,7 +213,7 @@ function ModeSwitch() {
         ))}
       </div>
       <p className="mt-2 text-[11px] leading-snug text-muted-foreground">{t(mode === 'demo' ? 'mode.demoHelp' : 'mode.guestHelp')}</p>
-      <Link href="/sign-in" className="mt-3 flex min-h-10 items-center justify-center gap-1.5 rounded-lg border text-xs font-semibold hover:bg-muted" data-testid="link-sidebar-sign-in">
+      <Link href="/sign-in" className="mt-3 flex min-h-11 items-center justify-center gap-1.5 rounded-lg border text-xs font-semibold hover:bg-muted" data-testid="link-sidebar-sign-in">
         <LogIn className="h-3.5 w-3.5" /> {t('auth.signInToSave')}
       </Link>
     </div>
@@ -278,7 +282,7 @@ function Banners() {
 export function AppShell({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(false);
   const [location] = useLocation();
-  const { t, dir } = useI18n();
+  const { t, dir, locale } = useI18n();
   return (
     <div className="min-h-[100dvh] bg-background">
       <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:m-2 focus:rounded focus:bg-card focus:p-2">{t('common.skip')}</a>
@@ -322,6 +326,13 @@ export function AppShell({ children }: { children: ReactNode }) {
         <main id="main" className="min-w-0 flex-1 px-4 pb-20 pt-5 md:px-8 lg:px-12">
           <div className="mx-auto max-w-5xl">
             <Banners />
+            {(location === '/' || location === '/storyboard') && (
+              <a href={`${basePath}/demo/review?lang=${locale}`} data-testid="link-open-review-demo"
+                className="mt-3 inline-flex min-h-11 items-center gap-2 rounded-lg border bg-card px-3 text-sm font-semibold text-blue">
+                <BookOpenText className="h-4 w-4" aria-hidden />{locale === 'ko' ? '강점 스토리보드 데모 체험' : 'Try the Strength Storyboard demo'}
+              </a>
+            )}
+            <StageStrip />
             <motion.div key={location} initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }} className="pt-6">
               {children}
             </motion.div>
@@ -339,5 +350,110 @@ function ModeBadgeLight() {
     <span className="inline-flex items-center gap-1.5 rounded-full bg-navy px-3 py-1 text-xs font-semibold text-white">
       <Sparkles className="h-3 w-3" /> {t(`mode.${mode}`)}
     </span>
+  );
+}
+
+const STAGES = [
+  { href: '/?view=summary', key: 'db.stage1', match: ['/journey'], exact: '/' },
+  { href: '/criteria', key: 'db.stage2', match: ['/criteria', '/questions'] },
+  { href: '/storyboard', key: 'db.nav', match: ['/storyboard', '/experiences', '/activities', '/write', '/versions', '/export'] },
+];
+
+/** Reads only the SAVED storyboard for the current scope; unsaved edits never leak here. */
+function useSavedStoryContext() {
+  const { ctx } = useSidecar();
+  const { state } = useWorkspace();
+  const [location] = useLocation();
+  const [tick, setTick] = useState(0);
+  useEffect(() => {
+    const h = () => setTick((n) => n + 1);
+    window.addEventListener('nuvia:storyboard-saved', h);
+    window.addEventListener('storage', h);
+    return () => { window.removeEventListener('nuvia:storyboard-saved', h); window.removeEventListener('storage', h); };
+  }, []);
+  return useMemo(() => {
+    void tick; void location;
+    if (!ctx) return null;
+    try {
+      const d = loadStoryboard(ctx);
+      const activity = state?.experiences.find((e) => e.id === d.experienceId)?.title ?? '';
+      return { company: d.company, job: d.job, keyword: d.keyword, activity };
+    } catch { return null; }
+  }, [ctx, state, tick, location]);
+}
+
+/** Compact three-stage strip. Links stay inside this app; they are not remote LAB/planner pages. */
+function StageStrip() {
+  const { t } = useI18n();
+  const [location] = useLocation();
+  const saved = useSavedStoryContext();
+  const currentIdx = STAGES.findIndex((s) => s.exact === location || s.match.some((m) => location.startsWith(m)));
+  const items = saved ? ([['sb.company', saved.company], ['sb.job', saved.job], ['sb.keyword', saved.keyword], ['sb.activity', saved.activity]] as const).filter(([, v]) => v.trim()) : [];
+  return (
+    <div className="mt-2 space-y-1.5">
+      <nav aria-label={STAGES.map(s => t(s.key)).join(' → ')} className="min-w-0 max-w-full" data-testid="nav-stage-strip">
+        <ol className="flex flex-wrap items-center gap-1 text-xs">
+          {STAGES.map((s, i) => {
+            const current = i === currentIdx;
+            return (
+              <li key={s.href} className="flex min-w-0 max-w-full items-center gap-1">
+                <Link
+                  href={s.href}
+                  aria-current={current ? 'step' : undefined}
+                  className={cn(
+                    'inline-flex min-h-11 min-w-0 items-center gap-1.5 rounded-full px-3 font-semibold transition-colors',
+                    current ? 'bg-navy text-white' : 'border bg-card text-muted-foreground hover:text-foreground',
+                  )}
+                  data-testid={`link-stage-${i + 1}`}
+                >
+                  <span className={cn('flex h-5 w-5 items-center justify-center rounded-full text-[10px]', current ? 'bg-primary text-white' : 'bg-muted')}>{i + 1}</span>
+                  {t(s.key)}
+                  {i === 1 && <span className="sr-only">({t('db.stage2Note')})</span>}
+                  {current && <span className="sr-only">({t('sb.current')})</span>}
+                </Link>
+                {i < STAGES.length - 1 && <span aria-hidden className="h-px w-4 bg-border" />}
+              </li>
+            );
+          })}
+        </ol>
+      </nav>
+      {currentIdx === 1 && <p className="text-[11px] text-muted-foreground" data-testid="text-stage2-note">{t('db.stage2Note')}</p>}
+      {items.length > 0 && !location.startsWith('/storyboard') && (
+        <dl className="flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted-foreground" data-testid="text-saved-context">
+          {items.map(([k, v]) => (
+            <div key={k} className="flex min-w-0 gap-1"><dt className="font-semibold">{t(k)}</dt><dd className="break-words text-foreground" dir="auto">{v}</dd></div>
+          ))}
+        </dl>
+      )}
+    </div>
+  );
+}
+
+const VAULT = [
+  { href: '/criteria', key: 'nav.criteria' },
+  { href: '/experiences', key: 'nav.experiences' },
+  { href: '/activities', key: 'nav.activities' },
+  { href: '/storyboard', key: 'db.nav' },
+  { href: '/versions', key: 'nav.versions' },
+];
+
+/** Local links only, plus the saved story context. No remote saved items are listed. */
+function SavedVault({ onNavigate }: { onNavigate?: () => void }) {
+  const { t } = useI18n();
+  const saved = useSavedStoryContext();
+  const ctxItems = saved ? [saved.company, saved.job, saved.keyword, saved.activity].filter((v) => v.trim()) : [];
+  return (
+    <details className="group mt-5 rounded-lg border bg-card" data-testid="details-saved-vault">
+      <summary className="flex min-h-11 cursor-pointer list-none items-center gap-2 px-3 text-[13px] font-semibold">
+        <Archive className="h-4 w-4 text-primary" /> <span className="flex-1">{t('db.vault')}</span>
+        <span aria-hidden className="text-muted-foreground transition-transform group-open:rotate-90">›</span>
+      </summary>
+      <div className="border-t px-2 pb-2 pt-1">
+        {ctxItems.length > 0 && <p className="px-2 py-1.5 text-[11px] text-muted-foreground" dir="auto" data-testid="text-vault-context">{ctxItems.join(' · ')}</p>}
+        {VAULT.map((v) => (
+          <Link key={v.href} href={v.href} onClick={onNavigate} className="flex min-h-11 items-center rounded-md px-2 text-[13px] hover:bg-muted" data-testid={`link-vault-${v.href.slice(1)}`}>{t(v.key)}</Link>
+        ))}
+      </div>
+    </details>
   );
 }

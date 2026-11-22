@@ -8,6 +8,67 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Review-only brand accents; signed-in application and public guide are unchanged. */
+.review-brand {
+  --background: 213 50% 98%;
+  --primary: 212 67% 40%;
+  --primary-foreground: 0 0% 100%;
+  --ring: 212 63% 49%;
+}
+.review-brand [data-testid="header-review"] {
+  border-top: 3px solid #2E75CC;
+}
+
+/* Keep the original Studio in charge of vertical scrolling and its fixed
+   mobile controls; the review shell stays still. Short/landscape screens retain
+   normal document scrolling rather than squeezing the Studio below a usable height. */
+@media (max-width: 639px) and (min-height: 680px) {
+  .review-planner-shell {
+    display: flex;
+    flex-direction: column;
+    height: calc(100dvh - var(--review-preview-offset, 0px));
+    min-height: 0;
+    overflow: clip;
+  }
+  .review-planner-shell > :is(header, nav) { flex: none; }
+  .review-planner-shell > nav > div { display: flex; flex-wrap: wrap; gap: 0; padding-block: 0; }
+  .review-planner-shell > nav a { padding-inline: 6px; font-size: .75rem; }
+  .review-planner-shell > .review-page-main {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 0;
+    gap: 4px;
+    padding-block: 6px;
+  }
+  .review-planner-shell :is(.review-page-main, .review-embedded-studio) > * { margin-block: 0; }
+  .review-planner-shell .review-embedded-studio {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+    gap: 4px;
+  }
+  .review-planner-shell .review-page-stage { display: none; } /* The current route stays marked in the service nav. */
+  .review-planner-shell .review-embedded-studio [data-testid="section-review-shortcuts-planner"] {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+  .review-planner-shell .review-page-main > footer a { min-height: 24px; }
+  .review-planner-shell .review-embedded-studio > a { min-height: 32px; }
+  .review-planner-shell .review-embedded-frame {
+    flex: 1 1 0;
+    min-height: 0;
+    height: auto;
+    width: calc(100% + 24px);
+    max-width: none;
+    margin-inline: -12px;
+  }
+  .review-planner-shell .review-embedded-studio:has(.review-embedded-frame[data-ready="failed"]) .review-embedded-frame { display: none; }
+}
+
 @theme inline {
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));

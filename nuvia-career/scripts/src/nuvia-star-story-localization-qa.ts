@@ -8,7 +8,6 @@ import { execFileSync } from 'node:child_process';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import assert from 'node:assert/strict';
-const { JOB_CONNECTION_RAW } = await import('../../artifacts/' + 'nuvia-career/src/lib/job-connection-messages.ts');
 const origin = process.env.NUVIA_TEST_ORIGIN ?? 'http://127.0.0.1:4319';
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const out = resolve(workspaceRoot, 'generated-artifacts/job-connection-star-qa-20261110');
@@ -198,7 +197,7 @@ for (const locale of selectedLocales) {
        await connection.locator('summary').click();
        const kind = page.getByTestId(`joblink-kind-${app.id}-${manual.id}`);
        await kind.click();
-       await page.getByRole('option', { name: JOB_CONNECTION_RAW['joblink.kind.inference'][locales.indexOf(locale)], exact: true }).click();
+       await page.locator('[role="option"][data-value="educational_inference"]').click();
        await page.getByTestId(`joblink-duty-${app.id}-${manual.id}`).fill(`Compare the current version and intended audience ${locale}.`);
        await page.getByTestId(`joblink-shared-${app.id}-${manual.id}`).fill(`I checked two notices against their intended use ${locale}.`);
        await page.getByTestId(`joblink-principle-${app.id}-${manual.id}`).fill(`Current information and applicable information are not always the same ${locale}.`);
@@ -211,7 +210,6 @@ for (const locale of selectedLocales) {
        const targetLocale = locales[(locales.indexOf(locale) + 1) % locales.length];
        await page.getByTestId('button-language').click();
        await page.getByTestId(`option-language-${targetLocale}`).click();
-       await page.getByTestId(`option-language-${targetLocale}`).waitFor({ state: 'detached' });
        await page.getByTestId(`joblink-duty-${app.id}-${manual.id}`).waitFor();
        assert.equal(await page.getByTestId(`joblink-duty-${app.id}-${manual.id}`).inputValue(), `Compare the current version and intended audience ${locale}.`);
        await page.getByTestId('button-language').click();

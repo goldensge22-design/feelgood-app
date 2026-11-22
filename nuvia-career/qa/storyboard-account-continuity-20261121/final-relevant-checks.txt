@@ -1,0 +1,95 @@
+2026-11-21T06:20:08+00:00
+
+> @workspace/nuvia-career@0.0.0 typecheck /home/runner/workspace/artifacts/nuvia-career
+> tsc -p tsconfig.json --noEmit
+
+✔ only a confirmed excerpt enters the story; it is not an achieved result (1.991736ms)
+✔ original note revision change makes an earlier excerpt unavailable for new confirmation (0.408638ms)
+✔ changing adult public material does not change the youth text or the adult draft body (0.407127ms)
+✔ conflict recovery does not replace the saved planner or active story (0.743457ms)
+✔ LAB recovery keeps newer selection and saves separately reviewable sources (0.344315ms)
+✔ a response remains valid during edits and language changes in the same workspace (0.875141ms)
+✔ an outstanding reply cannot modify another account or a guest workspace (0.135869ms)
+✔ leaving and returning to the same identity still rejects the old session reply (0.108841ms)
+ℹ tests 8
+ℹ suites 0
+ℹ pass 8
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 196.554353
+
+> @workspace/nuvia-career@0.0.0 build /home/runner/workspace/artifacts/nuvia-career
+> vite build --config vite.config.ts
+
+vite v7.3.7 building client environment for production...
+transforming...
+src/components/ui/tooltip.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/select.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/label.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/sheet.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+src/components/ui/dropdown-menu.tsx (2:0): Error when using sourcemap for reporting an error: Can't resolve original location of error.
+✓ 3110 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/public/demo/review/studio-frame.html                      0.61 kB │ gzip:   0.45 kB
+dist/public/index.html                                         1.67 kB │ gzip:   0.74 kB
+dist/public/demo-info/zh-TW.html                               5.01 kB │ gzip:   2.54 kB
+dist/public/demo-info/zh-CN.html                               5.02 kB │ gzip:   2.53 kB
+dist/public/demo-info/en.html                                  5.21 kB │ gzip:   2.36 kB
+dist/public/demo-info/ja.html                                  5.37 kB │ gzip:   2.60 kB
+dist/public/demo-info/it.html                                  5.38 kB │ gzip:   2.41 kB
+dist/public/demo-info/ko.html                                  5.41 kB │ gzip:   2.56 kB
+dist/public/demo-info/index.html                               5.41 kB │ gzip:   2.56 kB
+dist/public/demo-info/es.html                                  5.43 kB │ gzip:   2.41 kB
+dist/public/demo-info/az.html                                  5.48 kB │ gzip:   2.49 kB
+dist/public/demo-info/fr.html                                  5.53 kB │ gzip:   2.44 kB
+dist/public/demo-info/vi.html                                  5.85 kB │ gzip:   2.54 kB
+dist/public/demo-info/ar.html                                  6.14 kB │ gzip:   2.57 kB
+dist/public/demo-info/ru.html                                  6.82 kB │ gzip:   2.76 kB
+dist/public/demo-info/mn.html                                  6.83 kB │ gzip:   2.71 kB
+dist/public/demo-info/th.html                                  7.73 kB │ gzip:   2.71 kB
+dist/public/demo-info/km.html                                  7.95 kB │ gzip:   2.74 kB
+dist/public/assets/review-studio-integration-BQifwGxg.css     40.47 kB │ gzip:   9.20 kB
+dist/public/assets/app-CERHZtU1.css                          152.36 kB │ gzip:  24.84 kB
+dist/public/assets/submission-CwUy93S4.js                      0.33 kB │ gzip:   0.25 kB
+dist/public/assets/reviewPlanner-Bo5cO7p1.js                   0.83 kB │ gzip:   0.57 kB
+dist/public/assets/preload-helper-DD1OZmLC.js                  1.82 kB │ gzip:   0.94 kB
+dist/public/assets/account-lab-material-Dpis_xHt.js            4.00 kB │ gzip:   1.98 kB
+dist/public/assets/account-planner--_wEPSQ0.js                 8.34 kB │ gzip:   3.85 kB
+dist/public/assets/storyboard-review-document-DiVZsOku.js     11.19 kB │ gzip:   7.85 kB
+dist/public/assets/review-studio-main-1Tv73Vf4.js             11.92 kB │ gzip:   4.38 kB
+dist/public/assets/purify.es-DlXLPG5w.js                      29.62 kB │ gzip:  11.44 kB
+dist/public/assets/hwpx-DscWuKPY.js                          100.04 kB │ gzip:  31.13 kB
+dist/public/assets/index.es-DGDsCSM_.js                      159.02 kB │ gzip:  52.98 kB
+dist/public/assets/html2canvas.esm-DXEQVQnt.js               201.04 kB │ gzip:  47.07 kB
+dist/public/assets/docx-CniypAQe.js                          362.13 kB │ gzip: 105.36 kB
+dist/public/assets/zh-CN-BS9890T2.js                         364.25 kB │ gzip: 129.37 kB
+dist/public/assets/zh-TW-BDaajyoR.js                         364.51 kB │ gzip: 129.44 kB
+dist/public/assets/account-enterprise-native-CC6BVA3I.js     376.77 kB │ gzip: 110.47 kB
+dist/public/assets/jspdf.es.min-DA0BfEck.js                  386.22 kB │ gzip: 125.02 kB
+dist/public/assets/ja-CGutJax5.js                            393.41 kB │ gzip: 132.38 kB
+dist/public/assets/en-C98hhipO.js                            393.45 kB │ gzip: 131.71 kB
+dist/public/assets/az-BwYwCX-h.js                            410.03 kB │ gzip: 136.12 kB
+dist/public/assets/it-CX2mb0HR.js                            410.91 kB │ gzip: 135.80 kB
+dist/public/assets/es-DWEoPULt.js                            412.43 kB │ gzip: 135.95 kB
+dist/public/assets/fr-DAUQPwT8.js                            424.81 kB │ gzip: 139.07 kB
+dist/public/assets/vi-DGTBb6uM.js                            432.80 kB │ gzip: 134.77 kB
+dist/public/assets/ar-B1BmWQ6g.js                            459.33 kB │ gzip: 140.67 kB
+dist/public/assets/mn-Cxx6_VOf.js                            498.56 kB │ gzip: 142.89 kB
+dist/public/assets/ru-BeMfIjLY.js                            517.41 kB │ gzip: 151.33 kB
+dist/public/assets/th-CQgMjDRW.js                            585.68 kB │ gzip: 149.07 kB
+dist/public/assets/km-5A6i-h9Q.js                            622.55 kB │ gzip: 150.29 kB
+dist/public/assets/review-studio-bridge-DdCPpthk.js          770.24 kB │ gzip: 231.50 kB
+dist/public/assets/app-CsadkXGD.js                         2,777.55 kB │ gzip: 760.10 kB
+dist/public/assets/review-studio-integration-CyKxlol_.js   2,990.51 kB │ gzip: 950.59 kB
+dist/public/assets/account-youth-native-BMUWE3Zq.js        3,058.38 kB │ gzip: 291.65 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 14.06s
+2026-11-21T06:20:33+00:00
+exit=0

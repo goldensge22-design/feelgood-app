@@ -1,0 +1,15 @@
+{
+  "name": "@workspace/career-documents",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./docx": "./src/docx.ts",
+    "./hwpx": "./src/hwpx.ts",
+    "./template": "./assets/skeleton.hwpx"
+  },
+  "dependencies": {
+    "docx": "^9.13.0",
+    "jszip": "^3.10.2"
+  }
+}

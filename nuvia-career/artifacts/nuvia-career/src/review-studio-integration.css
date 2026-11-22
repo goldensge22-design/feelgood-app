@@ -1,0 +1,42 @@
+.review-original-studio > #root > .pm-banner {
+  margin: 0;
+  border-radius: 0;
+}
+.review-studio-extra {
+  margin: .75rem 0;
+}
+.review-original-studio .review-studio-desk-slot {
+  grid-column: 1 / -1;
+  min-width: 0;
+}
+.review-original-studio .st-brand img {
+  width: 78px;
+  object-fit: contain;
+}
+.review-studio-extra button, .review-studio-extra summary {
+  min-height: 44px;
+}
+.review-studio-extra label {
+  min-width: 0;
+}
+.review-studio-extra textarea, .review-studio-extra input[type="date"] {
+  max-width: 100%;
+}
+.review-studio-suggestion {
+  margin-top: .75rem;
+  overflow-wrap: anywhere;
+}
+/* The original navigation stays fixed; keep keyboard/scroll targets clear of it in the frame. */
+html:has(.review-original-studio) { scroll-padding-block: 64px 108px; }
+.review-original-studio .pm-toast { pointer-events: none; }
+.review-original-studio .pm-toast button { pointer-events: auto; }
+
+/* The original mobile desk switches to one explicit track. Its placement
+   rules for desktop actions must not create a second or third implicit one. */
+@media (max-width: 767px) {
+  .review-original-studio .st-now .st-curfile:not(.empty) { grid-template-columns: minmax(0, 1fr); }
+  .review-original-studio .st-curfile :is(.st-start, .st-editor, .st-acts, .review-studio-desk-slot) { grid-column: 1 / -1; }
+  .review-original-studio .st-desk.desk { padding-inline: 6px; }
+  .review-original-studio .st-desk-body { padding-inline: 4px 10px; }
+  .review-original-studio .review-studio-extra textarea { word-break: keep-all; overflow-wrap: break-word; }
+}

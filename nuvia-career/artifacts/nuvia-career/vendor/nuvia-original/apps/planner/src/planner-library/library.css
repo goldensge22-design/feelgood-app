@@ -1,0 +1,8 @@
+.library{min-width:0;overflow-wrap:anywhere}.library label{display:block;margin-block:12px}.library select,.library textarea{width:100%;max-width:100%;min-width:0}.library textarea{min-height:100px}.library button{min-height:44px;white-space:normal;margin:4px;max-width:100%}.library button:focus-visible,.library select:focus-visible,.library textarea:focus-visible{outline:3px solid #2369b9;outline-offset:3px}.library article{border:1px solid #b8c6d5;border-radius:16px;padding:16px;margin-block:16px;min-width:0}.library-options{display:flex;flex-wrap:wrap;gap:8px}.library-options button{flex:1 1 180px}.library-options [aria-pressed=true]{outline:3px solid #2369b9}.library-context{border-inline-start:4px solid #7657c8;padding-inline-start:10px}@media(prefers-reduced-motion:reduce){.library *{animation:none!important;transition:none!important}}
+.st-curfile .library{grid-column:1/-1;min-width:0}
+.st-curfile:has(.library) :is(button,input,textarea,summary){scroll-margin-block:160px 180px}
+.st-root:has(.library)>.pm-toast{position:static}
+@media(max-width:767px){
+ .st-root .st-curfile:has(.library){grid-template-columns:minmax(0,1fr)}
+ .st-root .st-curfile:has(.library) :is(.st-start,.st-editor,.st-acts){grid-column:1/-1}
+}

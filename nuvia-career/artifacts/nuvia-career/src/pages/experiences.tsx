@@ -21,6 +21,9 @@ import { cn } from '@/lib/utils';
 import { invalidateJobConnectionReviews, metaOf, setExpMeta, setStarNotes, useSidecar, type ExperienceContext } from '@/lib/provenance';
 import { storyValues, type StarStoryValues } from '@/lib/star-story';
 import { StarStoryFields } from '@/components/provenance/star-story-fields';
+import { receivedExperienceMeta } from '@/lib/received-provenance';
+import { useExperienceFormDraft } from '@/hooks/use-experience-form-draft';
+import { experienceDraftText } from '@/lib/experience-form-draft-messages';
 
 const blank = (criterionIds: string[] = []): CareerExperience => ({
   id: uid('exp'), title: '', action: '', result: '', learning: '', strengths: [], criterionIds, confirmed: false, source: 'manual',
@@ -60,7 +63,7 @@ export function StrengthPicker({ value, onChange }: { value: string[]; onChange:
         const on = value.includes(s);
         return (
           <button key={s} type="button" aria-pressed={on} onClick={() => onChange(on ? value.filter((x) => x !== s) : [...value, s])}
-            className={cn('min-h-10 rounded-full border px-3 text-xs font-medium transition-colors', on ? 'border-blue bg-blue text-white' : 'hover:bg-muted')} data-testid={`toggle-strength-${s}`}>
+            className={cn('min-h-11 rounded-full border px-3 text-xs font-medium transition-colors', on ? 'border-blue bg-blue text-white' : 'hover:bg-muted')} data-testid={`toggle-strength-${s}`}>
             {t(strengthTranslationKey(s)) === strengthTranslationKey(s) ? s : t(strengthTranslationKey(s))}
           </button>
         );
@@ -85,29 +88,36 @@ export function CriterionPicker({ criteria, value, onChange }: { criteria: Caree
   );
 }
 
-function ExperienceDialog({ open, initial, initialStar, initialContext, criteria, onClose, onSave }: {
-  open: boolean; initial: CareerExperience | null; initialStar: StarStoryValues; initialContext: ExperienceContext; criteria: CareerCriterion[]; onClose: () => void; onSave: (e: CareerExperience, star: StarStoryValues, context: ExperienceContext) => boolean;
+function ExperienceDialog({ open, initial, initialStar, initialContext, criteria, onClose, onSave, draftScope, draftSlot }: {
+  open: boolean; initial: CareerExperience; initialStar: StarStoryValues; initialContext: ExperienceContext; criteria: CareerCriterion[]; onClose: () => void; onSave: (e: CareerExperience, star: StarStoryValues, context: ExperienceContext) => boolean; draftScope: string; draftSlot: string;
 }) {
-  const { t } = useI18n();
-  const [d, setD] = useState<CareerExperience>(initial ?? blank());
-  const [star, setStar] = useState<StarStoryValues>(initialStar);
-  const [context, setContext] = useState<ExperienceContext>(initialContext);
+  const { t, locale } = useI18n();
+  const { state, status } = useWorkspace();
+  const form = useExperienceFormDraft(draftScope, draftSlot, initial, initialStar, initialContext, state?.experiences ?? [], status === 'saved' || status === 'local');
+  const { experience: d, star, context, setField: set, setStar, setContext } = form;
   const [saveError, setSaveError] = useState(false);
-  useEffect(() => { if (initial) setD(initial); setContext(initialContext); }, [initial, initialContext]);
-  const set = <K extends keyof CareerExperience>(k: K, v: CareerExperience[K]) => setD((p) => ({ ...p, [k]: v }));
   return (
     <Dialog open={open} onOpenChange={(o) => !o && onClose()}>
-      <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-2xl">
-        <DialogHeader>
+      <DialogContent className="max-h-[92dvh] overflow-y-auto sm:max-w-2xl [&>button:last-child]:min-h-11 [&>button:last-child]:min-w-11">
+        <DialogHeader className="px-12">
           <DialogTitle>{initial && initial.title ? t('exp.edit') : t('exp.new')}</DialogTitle>
           <DialogDescription>{t('exp.formHelp')}</DialogDescription>
         </DialogHeader>
+        <p role="status" className="rounded-lg bg-muted p-3 text-xs leading-relaxed" data-testid="notice-experience-draft">{experienceDraftText(locale, 'note')}</p>
+        {form.error && <div role="alert" className="rounded-lg border border-destructive/40 p-3 text-sm text-destructive" data-testid="error-experience-draft">
+          {experienceDraftText(locale, form.error)}
+          <Button type="button" variant="outline" className="ms-2 min-h-11" onClick={form.retry}>{t('sb.retry')}</Button>
+        </div>}
+        {form.stale && <div role="alert" className="rounded-lg border p-3 text-sm">
+          {t('perm.changed')}
+          <Button type="button" variant="outline" className="ms-2 min-h-11" onClick={form.reviewSource}>{t('pv.reconfirm')}</Button>
+        </div>}
         <div className="space-y-4">
-          <div><Label htmlFor="exp-title">{t('exp.title')}</Label><Input id="exp-title" dir="auto" className="mt-1.5 min-h-11" maxLength={500} value={d.title} onChange={(e) => set('title', e.target.value)} placeholder={t('exp.titlePh')} data-testid="input-exp-title" /></div>
+          <div><Label htmlFor="exp-title">{t('exp.title')}</Label><Input id="exp-title" dir="auto" className="mt-1.5 min-h-11" maxLength={500} value={d.title} onChange={(e) => set('title', e.target.value)} onCompositionEnd={(e) => set('title', e.currentTarget.value)} placeholder={t('exp.titlePh')} data-testid="input-exp-title" /></div>
           {(['action', 'result', 'learning'] as const).map((k) => (
             <div key={k}><Label htmlFor={`exp-${k}`}>{t(`field.${k}`)}</Label>
               <p className="text-xs text-muted-foreground">{t(`field.${k}.help`)}</p>
-              <Textarea id={`exp-${k}`} dir="auto" rows={3} className="mt-1.5" maxLength={20000} value={d[k]} onChange={(e) => set(k, e.target.value)} data-testid={`input-exp-${k}`} /></div>
+              <Textarea id={`exp-${k}`} dir="auto" rows={3} className="mt-1.5" maxLength={20000} value={d[k]} onChange={(e) => set(k, e.target.value)} onCompositionEnd={(e) => set(k, e.currentTarget.value)} data-testid={`input-exp-${k}`} /></div>
           ))}
           <section className="space-y-3 rounded-xl border border-blue/20 bg-blue/5 p-4" data-testid="section-star-experience">
             <div>
@@ -120,8 +130,9 @@ function ExperienceDialog({ open, initial, initialStar, initialContext, criteria
           <div className="space-y-2">
             <label htmlFor="exp-context" className="text-sm font-medium">{t('joblink.contextTitle')}</label>
             <p className="text-xs leading-relaxed text-muted-foreground">{t('joblink.contextNote')}</p>
-            <select id="exp-context" value={context} onChange={(event) => setContext(event.target.value as ExperienceContext)}
+            <select id="exp-context" value={context} disabled={initialContext === 'synthetic_example' || !!(initial && receivedExperienceMeta(initial)?.experienceContext)} onChange={(event) => setContext(event.target.value as ExperienceContext)}
               className="min-h-11 w-full rounded-lg border bg-card px-3 text-sm" data-testid="select-exp-context">
+              {initialContext === 'synthetic_example' && <option value="synthetic_example">{t('joblink.context.synthetic')}</option>}
               {(['daily_activity', 'class_simulation', 'job_experience', 'unknown'] as const).map((value) => {
                 const key = value === 'daily_activity' ? 'daily' : value === 'class_simulation' ? 'classSimulation' : value === 'job_experience' ? 'jobExperience' : 'unknown';
                 return <option key={value} value={value}>{t(`joblink.context.${key}`)}</option>;
@@ -137,7 +148,7 @@ function ExperienceDialog({ open, initial, initialStar, initialContext, criteria
         </div>
         <DialogFooter className="gap-2">
           <Button variant="outline" className="min-h-11" onClick={onClose}>{t('common.cancel')}</Button>
-           <Button className="min-h-11" disabled={!d.title.trim()} onClick={() => { setSaveError(false); if (!onSave(d, star, context)) setSaveError(true); }} data-testid="button-save-exp">{t('common.save')}</Button>
+           <Button className="min-h-11" disabled={!d.title.trim() || form.stale} onClick={() => { setSaveError(false); if (!onSave(d, star, context)) setSaveError(true); else form.markSubmitted(); }} data-testid="button-save-exp">{t('common.save')}</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -146,7 +157,7 @@ function ExperienceDialog({ open, initial, initialStar, initialContext, criteria
 
 export default function ExperiencesPage() {
   const { t, locale } = useI18n();
-  const { data: sidecar, patch } = useSidecar();
+  const { data: sidecar, patch, ctx } = useSidecar();
   const { update, setSelectedExpId, selectedExpId } = useWorkspace();
   const ctext = useCriterionText();
   const search = useSearch();
@@ -154,6 +165,9 @@ export default function ExperiencesPage() {
   const params = useMemo(() => new URLSearchParams(search), [search]);
   const filter = params.get('criterion');
   const [editing, setEditing] = useState<CareerExperience | null>(null);
+  const editingOwner = useRef<string | null>(null);
+  const edit = (experience: CareerExperience) => { if (ctx) { editingOwner.current = ctx; setEditing(experience); } };
+  const activeEditing = editingOwner.current === ctx ? editing : null;
   const [deleting, setDeleting] = useState<CareerExperience | null>(null);
   const { toast } = useToast();
   const openedFromQuery = useRef(false);
@@ -161,17 +175,17 @@ export default function ExperiencesPage() {
   const [synOpen, setSynOpen] = useState(() => params.get('synthetic') === '1');
 
   useEffect(() => {
-    if (params.get('new') === '1' && !openedFromQuery.current) {
+    if (ctx && params.get('new') === '1' && !openedFromQuery.current) {
       openedFromQuery.current = true;
-      setEditing(blank(filter ? [filter] : []));
+      edit(blank(filter ? [filter] : []));
     }
-  }, [params, filter]);
+  }, [params, filter, ctx]);
 
   return (
     <div>
       <PageHeader eyebrow={t('exp.eyebrow')} title={t('nav.experiences')} description={t('exp.desc')}
         actions={<>
-          <Button className="min-h-11" onClick={() => setEditing(blank(filter ? [filter] : []))} data-testid="button-new-exp"><Plus className="h-4 w-4" /> {t('exp.new')}</Button>
+          <Button className="min-h-11" onClick={() => edit(blank(filter ? [filter] : []))} data-testid="button-new-exp"><Plus className="h-4 w-4" /> {t('exp.new')}</Button>
           <Link href="/activities" className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border bg-card px-4 text-sm font-medium hover:bg-muted" data-testid="link-from-activity"><RouteIcon className="h-4 w-4" /> {t('exp.fromActivity')}</Link>
           <Button variant="outline" className="min-h-11 border-primary/50 text-primary" aria-expanded={synOpen} onClick={() => setSynOpen((v) => !v)} data-testid="button-open-synthetic-preview"><FlaskConical className="h-4 w-4" /> {t('pv.open')}</Button>
         </>} />
@@ -193,7 +207,7 @@ export default function ExperiencesPage() {
               )}
               {list.length === 0 ? (
                 <EmptyState icon={Archive} title={t('exp.emptyTitle')} body={t('exp.emptyBody')}>
-                  <Button className="min-h-11" onClick={() => setEditing(blank(filter ? [filter] : []))} data-testid="button-empty-new-exp"><Plus className="h-4 w-4" /> {t('exp.directRecord')}</Button>
+                  <Button className="min-h-11" onClick={() => edit(blank(filter ? [filter] : []))} data-testid="button-empty-new-exp"><Plus className="h-4 w-4" /> {t('exp.directRecord')}</Button>
                   <Link href={filter ? `/activities?criterion=${filter}&new=1` : '/activities'} className="inline-flex min-h-11 items-center gap-1.5 rounded-lg border px-4 text-sm font-medium hover:bg-muted"><RouteIcon className="h-4 w-4" /> {t('exp.startActivity')}</Link>
                 </EmptyState>
               ) : (
@@ -229,7 +243,7 @@ export default function ExperiencesPage() {
                           {url && <a href={url} target="_blank" rel="noreferrer noopener" className="tap inline-flex items-center justify-center rounded-lg text-muted-foreground hover:bg-muted" aria-label={t('exp.openSource')}><ExternalLink className="h-4 w-4" /></a>}
                           <Button variant="ghost" size="icon" className="tap" aria-label={t('pv.details')} onClick={() => setDetailId(e.id)} data-testid={`button-detail-exp-${e.id}`}><Info className="h-4 w-4" /></Button>
                           <Button variant="ghost" className="tap" onClick={() => { setSelectedExpId(e.id); setLocation('/questions'); }} data-testid={`button-use-exp-${e.id}`}>{t('exp.useInQuestion')}</Button>
-                          <Button variant="ghost" size="icon" className="tap" aria-label={t('common.edit')} onClick={() => setEditing(e)} data-testid={`button-edit-exp-${e.id}`}><Pencil className="h-4 w-4" /></Button>
+                          <Button variant="ghost" size="icon" className="tap" aria-label={t('common.edit')} onClick={() => edit(e)} data-testid={`button-edit-exp-${e.id}`}><Pencil className="h-4 w-4" /></Button>
                           <Button variant="ghost" size="icon" className="tap text-destructive" aria-label={t('common.delete')} onClick={() => setDeleting(e)} data-testid={`button-delete-exp-${e.id}`}><Trash2 className="h-4 w-4" /></Button>
                         </div>
                         {usedIn > 0 && <p className="mt-1 text-[11px] text-muted-foreground">{t('exp.usedIn', { n: usedIn })}</p>}
@@ -238,9 +252,10 @@ export default function ExperiencesPage() {
                   })}
                 </div>
               )}
-              <ExperienceDialog key={editing?.id ?? 'closed'} open={!!editing} initial={editing}
-                initialStar={editing ? storyValues(editing, metaOf(sidecar, editing.id)) : { action: '', result: '', learning: '' }}
-                initialContext={editing ? metaOf(sidecar, editing.id).experienceContext ?? 'unknown' : 'unknown'}
+              {activeEditing && ctx && <ExperienceDialog key={`${ctx}:${activeEditing.id}`} open initial={activeEditing}
+                draftScope={ctx} draftSlot={state.experiences.some(e => e.id === activeEditing.id) ? activeEditing.id : 'new'}
+                initialStar={storyValues(activeEditing, metaOf(sidecar, activeEditing.id))}
+                initialContext={metaOf(sidecar, activeEditing.id).experienceContext ?? 'unknown'}
                 criteria={state.criteria} onClose={() => setEditing(null)}
                 onSave={(d, star, context) => {
                   const previous = storyValues(d, metaOf(sidecar, d.id));
@@ -268,7 +283,7 @@ export default function ExperiencesPage() {
                   setEditing(null);
                   toast({ title: t('common.saved') });
                   return true;
-                }} />
+                }} />}
               <AlertDialog open={!!deleting} onOpenChange={(o) => !o && setDeleting(null)}>
                 <AlertDialogContent>
                   <AlertDialogHeader>

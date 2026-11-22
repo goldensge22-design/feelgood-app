@@ -5,6 +5,7 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+import type { CareerExperienceActivityContext } from './careerExperienceActivityContext';
 import type { CareerExperiencePermissionStatus } from './careerExperiencePermissionStatus';
 import type { CareerExperienceSource } from './careerExperienceSource';
 
@@ -26,5 +27,8 @@ export interface CareerExperience {
   sourceId?: string;
   sourceUrl?: string;
   sourceVersion?: string;
+  activityContext?: CareerExperienceActivityContext;
+  /** @maxLength 160 */
+  plannerReference?: string;
   permissionStatus?: CareerExperiencePermissionStatus;
 }

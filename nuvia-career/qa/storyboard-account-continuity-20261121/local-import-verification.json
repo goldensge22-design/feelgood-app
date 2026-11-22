@@ -1,0 +1,3136 @@
+{
+  "verifiedAt": "2026-11-22T02:53:40.064824+00:00",
+  "githubBaseline": "38336db34bb4165ebf0101a98314accdeafc691b",
+  "replitSource": "fe7a9d313b4864e1e5d12a52964b7d10a9ef28d5",
+  "sourceFileCount": 857,
+  "exactSourceFilesMatched": 857,
+  "changedFiles": [
+    {
+      "path": "nuvia-career/artifacts/api-server/build.mjs",
+      "beforeSha256": "189e53e73c9cd37a9b97acb7b301da679028a8440a4d123132fa7a59ec542b10",
+      "afterSha256": "50e33ed388dbe3396309052c5af011fa1a34e0f26770fa9c1e8236f2aabe6d21"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/package.json",
+      "beforeSha256": "58437ec1a347128e7fd6abea405075afb0d311d747a500eae32f0cfddf19feab",
+      "afterSha256": "75673c311473849a8fab938bf9e5687a2fb804c2473c904a226e846537499dff"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-async.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "c4afc13b0a0f705b14c195b9906e9ca350425911dc78485c82341fcba5330a63"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-classroom-load.ts",
+      "beforeSha256": null,
+      "afterSha256": "ce374182695ac7503db17c2e0498bf0b53c0d52140824c60029005516f2ecb0f"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-errors.ts",
+      "beforeSha256": null,
+      "afterSha256": "1fa8363e4cee2b619eda7c5faeda34f4a7e4dd8657bfb32cefba456175ec0da4"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-input.ts",
+      "beforeSha256": null,
+      "afterSha256": "59f86a3bc884e09c5ac7465649334778b1604c3fa04f5a05cf48396872b7febf"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-live-check.ts",
+      "beforeSha256": null,
+      "afterSha256": "9f10758b9b6339bfb501f423cd499c8b837699c84b90b4ebe632365b278d2e3d"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-output.ts",
+      "beforeSha256": null,
+      "afterSha256": "9a503cd0b20808ae694a29350233996765f74945986d2cecb968c4aebd78d54d"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-queue.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "6053d9ef0277f9c5bcfb2936fa9e3f60a073469f726e4b40cb8b4390dfab19fb"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-queue.ts",
+      "beforeSha256": null,
+      "afterSha256": "677f0fdd42f3bb835b019eba542e0fdb198681559c1add705afdc39f7b00b0f9"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-settings.ts",
+      "beforeSha256": null,
+      "afterSha256": "a6f2b8679c36b86ead90c3239670c23e505234e4c89745540f59704c568bbb56"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-shared-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "a1f1c329ae10b27024b1c5120a41a700b555f5eb4f96fb7d1ed98ed2cf1233a4"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai-shared.ts",
+      "beforeSha256": null,
+      "afterSha256": "051da6e47a42cf41c6f989d5bf072980c0cb2373f25e41866aed0ba65b350a8d"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-ai.ts",
+      "beforeSha256": "b26292fc794c8256e54382c3487b846fc536344a7b5d73e1158c884fcdbe37cf",
+      "afterSha256": "5f3b27996d3e397c5110f4b5fc5589b74ae85fff86b2ad0aa9f17fe89b484a91"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-export.ts",
+      "beforeSha256": "be20a4900703e3cba9b9e1b4a0356702ec77eb862e64ba3ab3bfd129fa85c165",
+      "afterSha256": "a62330337fc2a4f875c76f83d2f36431a04e3bb1ff7a7af0dfd60429213a30f8"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-hwpx.ts",
+      "beforeSha256": "d1ad9cbfeeda1f4ec5b7504946d7c0d96bfbf73606cc6552a84ea2efe4a54ffe",
+      "afterSha256": "31e9a81c071b38356a65014f033707499d403ec08ee17f44280712bdcaa41a98"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-integrated.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "5471cbe5770f4b093a365f1a66c998262e38e4e7e9654d9dd7e0eaccb8bb6835"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-lab-evidence-quality.ts",
+      "beforeSha256": null,
+      "afterSha256": "60478c5034e2020c00d463cded841af176ebb31e715003c862e6e24ba6ea5273"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-lab-public-page.ts",
+      "beforeSha256": null,
+      "afterSha256": "4968b555a934d16736116e6dfa4ff554df15aa2fc5fb1772aa5aeb46493c9855"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-lab-web.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "a498c2dcdb01e1128b2f728950607eae9dd09b3aa9fd21b2a8e2e50aedfd13b6"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-lab-web.ts",
+      "beforeSha256": null,
+      "afterSha256": "a4d368c79c91df567d7eae792f46ff7f9e149eb4251045154c1df0e241aabca3"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/career-validation.ts",
+      "beforeSha256": "35880b4bd35661fcd9da975d79d6893a39a85a50c5d26ef2cf7c17524e82c40b",
+      "afterSha256": "4b1bb2eceed51a3500cf6b798db4b7d1abe390641c0ba61a32bc7cb7882c152b"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/review-story-ai.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "3977a2d1bcd46807e28f87059dc44e9f2ddd581b35e628261706d0fb3a3a0bc3"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/lib/review-story-ai.ts",
+      "beforeSha256": null,
+      "afterSha256": "661fcce14209ec59e929dfc779a453f87232255043575cb80897b7864002f624"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/routes/career-ai.ts",
+      "beforeSha256": "05d18c1016386aea4aa2558880c86b51ec1d18f94bea9b853d0ec74acc62bd87",
+      "afterSha256": "4dd0d9f69e0294b438d9f1adc23d1a4a24511833725401facae4a32fa22feb4f"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/routes/career-lab.ts",
+      "beforeSha256": null,
+      "afterSha256": "33de0053c5b694eb64264481581d5eeb6a573526006ce267f3e84eadbe3e45d1"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/routes/career.ts",
+      "beforeSha256": "4e06824c95c54bc3d008fa0fc6901cd270ffd0034eb81371107e154927f71777",
+      "afterSha256": "73cf921989e27a0eae25c8c24ab9276bc319140944b4cd2b2a1c9f4e9d958003"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/routes/index.ts",
+      "beforeSha256": "347653cd8410f2151967dc71d60852abfa2440271212e888d4aec3f9b53b6536",
+      "afterSha256": "58df7cce5226aa1e221694a8efd11119d6113b530034e6f73480bcdd83d9d840"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/routes/review-story.ts",
+      "beforeSha256": null,
+      "afterSha256": "bd84624f760af2f52241c5611e19d1c3c673e3fcb70ee2eea0f5775135a08fe1"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/vendor/enterprise-lab/aviation-scenario-context.ts",
+      "beforeSha256": null,
+      "afterSha256": "f95db234d4b4d3c7d87258420ab3f33f6ec3aa0c7d426e98729324d350df228d"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/vendor/enterprise-lab/catalogue.ts",
+      "beforeSha256": null,
+      "afterSha256": "8ac6a8b9172462ec2740c7dac878f0abe72b195b85da10528e0d631513915901"
+    },
+    {
+      "path": "nuvia-career/artifacts/api-server/src/vendor/enterprise-lab/scenario-engine.ts",
+      "beforeSha256": null,
+      "afterSha256": "df9a9fe5b9c248b1ade0bbbe87d513fe3f648cb9fb7da52604b8b88e6391d96f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/demo/review/studio-frame.html",
+      "beforeSha256": null,
+      "afterSha256": "36116d689eea5fbd5dc679806e7d02df98475d199010bcf099c654242e6fb1d8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/package.json",
+      "beforeSha256": "06e228d85ef39e74ec7ff52fb54dae1ef238c365e66cff2b0070824effc0a16d",
+      "afterSha256": "26808da2e9ad8621eb0200b626dd59c8ec4cc81386aa798e29d5c62571c52bd3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/catalogue-search.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "102191265a5d742ca8460fd3927567ac87cb324a858a52d2a4c863e77de2cd33"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/ar.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "3f50ca42e2e483d41e428134160a86a5ec480e88f9de195e4bb9295fcffbe1ea"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/az.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "274abdfa36461598ccdac76f6ce0c09b4783f221cb355c6a2179420cb253320c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/en.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "d169303bb5ad97d3dfd5966ffc29a3dc21264b168d2c87792d6ada1ade707f27"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/es.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "378e377386a2319c9d68cef67e0f93fc650c07ffdb45b8f31132654388d8cd2c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/fr.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "996b7844d1a3fd240a442e2b561aee52c59a2a1b1811154015d374946f550d89"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/it.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "85a091bddc5f7b3381c32e6ca29697627554ec92d7ec95b5f4723b1fa60cb519"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/ja.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "7b0d43e9fe09b84046a3822d87a0866bf4ce04021ceee3191391c28ca306bfdc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/km.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "0e84f8f39d9f0afba749799ab268450b6c6d802e308bd1dc634357b91ce3e41d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/ko.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "80e36b1d68ebd0e88895e2ec2f82820cfedecea3ef978b3b98d0877197c67c76"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/mn.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "d79ccb16ebacdffe428a554766eedcea8a64abe6676511fa3b5bee1f33acae70"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/ru.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "1b96a4f5d4429ea3f83a711e4f483112331e9d7c1f8c396a1629a5396a70aca4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/th.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "f5ba43b6d06f37f610bfc91faea8ac2f7a46600ceed374638b373023571a4ad9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/vi.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "018d924162f23b162e93fa8ea2413725820a0e3d4cf60cd7fda3286a6a501021"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/zh-CN.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "8ced0fe8675488cb083996d400d9a22307a40d263656b03d8aec8089391d4af4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/locales/zh-TW.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "98256a7c531e4368e7d463ae574edfe5af73bfcf9ac1f82af9b80afe57fa0864"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/career-lab-original/data/public-catalogue.json.gz",
+      "beforeSha256": null,
+      "afterSha256": "52d856052ba124a5085f739acf81b18852ed644859347544d65245bbbca5aebb"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/feelgood-brand-original.png",
+      "beforeSha256": null,
+      "afterSha256": "774f87264172f50ce5bbc753dbedd5c2e1668ac9b60c3c844d8865eb7ba13e6e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-home-192.png",
+      "beforeSha256": null,
+      "afterSha256": "7ed18e3243c97666551b9c4dd30c241441b26a4beabd1345b829e567cbe61c1e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-home-512.png",
+      "beforeSha256": null,
+      "afterSha256": "1ed8ead5655a0d447890afb1cd4c223357fb181750605c55f01571a49d8721ee"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-home-icon.svg",
+      "beforeSha256": null,
+      "afterSha256": "038c799336b50cf7dab64b1ed39ffe40f355c385cb2052b2405d8534c1189fa5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-home.webmanifest",
+      "beforeSha256": null,
+      "afterSha256": "92fea70f5089cf705b9355aff151b1500a76ffab9566535b7b1b60c4e9b3743c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-planner-192.png",
+      "beforeSha256": null,
+      "afterSha256": "8b37642e4c2ca59eda49a11a57da30af9e800b30f935ac3ae12217fec49f84d8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-planner-512.png",
+      "beforeSha256": null,
+      "afterSha256": "ffc9c10b5aa883fba47475870b62f34c6e68dc260726d39d1d7c17e0bb94c646"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-planner-icon.svg",
+      "beforeSha256": null,
+      "afterSha256": "da0ab108bf4126913b5a4dbeb45d3fd4736be4874ff6b739b6a5bd5facc179d4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/public/review-planner.webmanifest",
+      "beforeSha256": null,
+      "afterSha256": "5979120feabd77ee65191ef972d6fee0c7e7b8418287bf5801be38c281fd0e77"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/App.tsx",
+      "beforeSha256": "55afc2bc5bed07f6e2900bc6b28f252ed91cda6ae443b077bd0a4a36897a8f65",
+      "afterSha256": "5fa30c3aa5da086de1b6e440de9666b026ae61c493f6c82d8608674c0c0c1707"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-enterprise-native.tsx",
+      "beforeSha256": null,
+      "afterSha256": "5d847cd0717194632233b773bdf1a0279b264cf917bbdea7df7538d803e3d158"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-lab-material.tsx",
+      "beforeSha256": null,
+      "afterSha256": "40a861a9eb226763c1d6fc45f706c074711c3942f2a51ff917b0792ba014529d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-lab.tsx",
+      "beforeSha256": null,
+      "afterSha256": "7faeabc5279f92b1de13a72ab2cc197e5b5f4e2866f976b2b33f5b7465e81a17"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-planner.tsx",
+      "beforeSha256": null,
+      "afterSha256": "7eeb746aca80a8647e5e491460b0e7a3191b23afcbbb4f57a59edb2a9a37f8c8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-story.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b8f30609160580fe24c6f4d57002197c6e95a034591358553e5b288f10054d35"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/account-youth-native.tsx",
+      "beforeSha256": null,
+      "afterSha256": "fbfc0c8d82ea3e1c45acc4e0f6dfea4c8e7175b48a7db163240ef705e8848800"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/ai-writing-assistant.tsx",
+      "beforeSha256": "a199650a197e69811f579a17239a4bca5b71af8014e34656ae3a794f662a8657",
+      "afterSha256": "b72e427a4b1547222fd393a6a6fb3a8fbeab7e03c6f1490010f8e5d17b68df12"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/provenance/experience-detail.tsx",
+      "beforeSha256": "4f430a5163aa12f701acd446b3cd0eac383794f4d7387e94ee97177b36894cba",
+      "afterSha256": "6a85070e5b301c7b6c2c180c7df8d66dbbe44f9ff054a8f262358409f16b1993"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-activity-collection.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b660150e4eac48c829f131b6be77a5ac135d065aee6eab90532acda82d03e85d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-company-lab.tsx",
+      "beforeSha256": null,
+      "afterSha256": "272b025e0a0baf2d0d10dcc74f88d9a3c5b320a384d68ead53c9154d2de60405"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-daily-cards.tsx",
+      "beforeSha256": null,
+      "afterSha256": "409ba1ba406a554ccfde7a037bba003d45e89337678784f466e7101b78b82bca"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-data-controls.tsx",
+      "beforeSha256": null,
+      "afterSha256": "0daf9240872dea8b65c99aa459566df76c06cdbb87d9df7e0b80269bb8dfc7fd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-demo-view.tsx",
+      "beforeSha256": null,
+      "afterSha256": "282b1d250cb786a0583d6c28aab608f7c6245f7095bab553bd1e6fd64736374e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-everyday-run.tsx",
+      "beforeSha256": null,
+      "afterSha256": "9c6ab0c98de2425f3a7257b8bea71c6dcb2d1ca07edf859caa833692997ac0cf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-everyday-view.tsx",
+      "beforeSha256": null,
+      "afterSha256": "6ba5caf786c66b4305d679c6afdbd48ee166bc47260d08832c29161f4f924c42"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-home.tsx",
+      "beforeSha256": null,
+      "afterSha256": "5213ac2db3e0e8e13d5d9edb4d93e9260ce6dd49e0945fdc504de5db6f70a431"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-lab-evidence.tsx",
+      "beforeSha256": null,
+      "afterSha256": "4ce684f0838dacfd7476d79eafaa743a1f064b07e236e7e8465216955cb8072b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-lab-search.tsx",
+      "beforeSha256": null,
+      "afterSha256": "be6349050dde942e5fde07f2f9a13734472c72781732390f6c780aae1b23b1c8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-partner-postings.tsx",
+      "beforeSha256": null,
+      "afterSha256": "490f287b716b71dceb89df85473af3a00c403a0dbf69fd863905032f07058d67"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-planner-view.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2447a74d2e04ff2475d4aab69e5206311abf4be3e77b75fd530b3484f89fb5ce"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-shortcut-actions.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ab8d928a338361e33b82e9b6c36c595363fc41e91a92e43b791d37dff30e42bb"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-simple-story-ai.tsx",
+      "beforeSha256": null,
+      "afterSha256": "fc14f9fecbb073c748bf8d7685c217744d023ae64b51899a82665839fd856833"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-simple-story-layout.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1158446470c66dcf15aac4465ca890cfb330eb0b5d2dc933050087bc64d71cfe"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-simple-story.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b8ad54452fef8036f5b9a8054a7b42b41c2efb3af9077aac267757d47580365d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-story-assist.tsx",
+      "beforeSha256": null,
+      "afterSha256": "f7afcdf4a772a4b641ab65863f8a9b4f1d2ab84c229bd07f619ae0538d2098a1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-studio-frame.tsx",
+      "beforeSha256": null,
+      "afterSha256": "9c16672a080123b4e73b16506b01e92d69298773657a4ac30c3e9e22ac43335d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/review-youth-lab.tsx",
+      "beforeSha256": null,
+      "afterSha256": "6f59fe60cd08da7e34d5d6ab7ef2f6497c6a83a19bc9a989d7fc4846c2edc2e5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/shell.tsx",
+      "beforeSha256": "3fe86fa22e1532f42945827f6e7720dc6131c4b238c1442bbb5f95bac97b6900",
+      "afterSha256": "dc5ea0286d057e48a295cbab81ffda7b75b35086e432d7dbd7fbef81ccc97b4a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/storyboard-account-ai.tsx",
+      "beforeSha256": null,
+      "afterSha256": "221a3d06a6255dfafc1b3ce9fda703f543b72d87e00cf691ee7ff960c800d279"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/components/strength-dashboard.tsx",
+      "beforeSha256": null,
+      "afterSha256": "281785f55f9d5d3105eecffdbb2932a97fbf583f1539bde97ee8c91ba740d930"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/hooks/use-experience-form-draft.ts",
+      "beforeSha256": null,
+      "afterSha256": "6889ce3b3a9d0ed4aaf98f54715e755b30a50f326d62d4c5251a813294bec7b1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/index.css",
+      "beforeSha256": "4455523672363390dbfc363670dee484befa13085e3b4f67c3b4e6a3fa7628d2",
+      "afterSha256": "eda845bc0940b78d8d9d75f585ad925450856669e5749afc16b19e47988ba615"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/account-journey.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "2328d69848e85c8fbc0b937b38e551bce11af9ff2106af57f106cbae235d59af"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/account-journey.ts",
+      "beforeSha256": null,
+      "afterSha256": "51a2d53460d139afb9f73c121fea005923aede6243196446f8f13cc0e672e7a0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/account-lab-handoff.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "d32d86e5ba27d4f30bcbd4882af9c7398565a54c2abfc614bab796da2f337de1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/account-lab-handoff.ts",
+      "beforeSha256": null,
+      "afterSha256": "4d6601d9441a1d017d1537e5aba97ddd89f0fa65f3a6f81664b9e9e32b5dbf4e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-assistant-messages.ts",
+      "beforeSha256": "8f22af71dfb977c1d11c29dc7414b167d28e35b60886f16fdbf96a5ab9afeb54",
+      "afterSha256": "0c7c3cdb22b49829c70832938e1fd7dba1012b9adfb0f9fcf442b69418851c25"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-async-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "23de048f05d31e8242b280c464f82467c827df21921304ff759ed646c7b0d5b3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-capacity-messages.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "a95724cce37dd95acf0b33bc5a9b45ee35735634424e9ac9e24cdf65455718fa"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-capacity-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "b8b294ba66b490a734626d4f98f02c06f8331c83fd20bca664217fdb69ecbd6d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-job-client.ts",
+      "beforeSha256": null,
+      "afterSha256": "49c7a577bd0b8309dcd2cc478d7253a3e259bec7da46f3213c00ecac13b934b3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/ai-shared-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "26f07d2a4d9dfdd33dc6ffaa08099a79e0c0427d004927193c904d313bdb2d29"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/career.ts",
+      "beforeSha256": "7353f64ebf7228dfcc981a3683c8f4d61fe1186303174cd54c25a2d732f6dc11",
+      "afterSha256": "a6b689d13bbf61f05770afb1a1b9d512aee2f25efebdf9d73cceaf969f419fbd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/dashboard-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "eac69335de59cb5f5b29c8803f6c7fee8ac05e7d777d49f188d733c8dc8eadd0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/experience-form-draft-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "e08158ea806daeaf67d11d8116d473dd82edce1a6240a54b116d1322fc7f8bfe"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/experience-form-draft.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "99eb5828e64fc5a28b6e8f6bb5fa0d0ad607aa82aa6640360893e59aa5981062"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/experience-form-draft.ts",
+      "beforeSha256": null,
+      "afterSha256": "f7ed27936fe2d2ba140657d9a6f1d77a653bd38a4a85f6a8429eb5e82f61b202"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/i18n.tsx",
+      "beforeSha256": "b27bd82103414fbe309c15f5d91e872b91a88ef8f40660513a1baa685114050c",
+      "afterSha256": "3678e1add0f5c33661cb4120f13d9c850bdfae05abe64f683ad082d99f5c5e15"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/provenance.ts",
+      "beforeSha256": "e9decc89dd704508bfd0a0404e4ce2a142c1737a8754ffb6a28b894467ea233f",
+      "afterSha256": "5ad1d6955aec1ae76ecddbaa6f693d09234841e065687e7e7788302c7aad9124"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/public-demo.test.ts",
+      "beforeSha256": "a8e4795914adb2f75eda8a345d82095e10e3232a75c09129b69cb747d3a1c26d",
+      "afterSha256": "e8b648eab434803933b543cd4ba172a5bdfbe02ebd926fdd47ef499de80e237c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/public-demo.ts",
+      "beforeSha256": "f6df9dae1c3ec4d8ef4fa66fd05ce1457907a01162c27c199af6782d8dd1f7d5",
+      "afterSha256": "250fb7504e3172c49548b01ebdcb9e5457b62c3967f57b8d51d33ca250b4838d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/received-provenance.ts",
+      "beforeSha256": null,
+      "afterSha256": "f90b20072a21f5306d38d071ffb960857e4c5afc271fa8c3c3325a3025c671a9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-audience-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "b7c9ba80ef7c23f29585eae72fd535e59aa83788c77d0ea4313abb9eb44cef8b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-audience.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "8c7ec0c426c31306f9e4f08fdbfb16db8d6db1bf0baec986ff719458dcaae300"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-audience.ts",
+      "beforeSha256": null,
+      "afterSha256": "d8bd9112e6a5cd482a1d20c4e3badb2a6498f11bf61ae36549c0c26d35e33b52"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-central-contract.ts",
+      "beforeSha256": null,
+      "afterSha256": "60d106e8fac4d3b4a5e4356bc746ac7a8e0cc08e30a3051f0d7d33979bd02561"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-daily-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "028d750c21f6840e934bf5276ca00f612c6180f88fb9bf139e0edd9cbdb213f7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-daily-model.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "f0c55106dbc063d6de5131e10f081ceb29f30dcbce6665cdbcb5eb68ccf1fa19"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-daily-model.ts",
+      "beforeSha256": null,
+      "afterSha256": "a4401b323dff553997776ea49d224969277261bdbc42013cab922d48f8d08bef"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-demo-fixture.ts",
+      "beforeSha256": null,
+      "afterSha256": "5daf6e3f07fe684dcccacddf3f4e6aa7bf55711d1ce39b32d7475c981d018320"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-demo-state.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "3e16f241206835f5e013c9b7735af39228f665df6152bb413cbfd6d20a775fca"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-demo-state.ts",
+      "beforeSha256": null,
+      "afterSha256": "dccaf033720633e0565745dd669d4c9ffe05d7f21225aee3d9c5b2a347c98ed2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-device.ts",
+      "beforeSha256": null,
+      "afterSha256": "9926854b8d016ad6ad13e85d8e605e0b4a0280448c9194d08b44376e1db9bd6a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-everyday-model.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "76843957747563427bf665fccd461ae463defe9218c1b38d0c9f6e0f059b806b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-everyday-model.ts",
+      "beforeSha256": null,
+      "afterSha256": "6311e8e329938fd691407c3c1d1cb5326e446c8150184f6f3f35fa3a13c4d416"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-everyday-store.ts",
+      "beforeSha256": null,
+      "afterSha256": "933da3b95f01ee2df4ea557e8629b847518db581444394fed3e17b6d2da9a66c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-home-profile.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "731dcfe8f7e084ee74662d1565be6560a4f0aa99738886fbfd1d2e011494842a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-home-profile.ts",
+      "beforeSha256": null,
+      "afterSha256": "6b433e7d8f4428048d3004f96bd8a54bc59c9b4c0ee8645312e783cc5a268ad4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-install.ts",
+      "beforeSha256": null,
+      "afterSha256": "87debe0b4f327b741b103c5ff638222f4e740eddb773872b84edae890f980471"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-lab-analysis.ts",
+      "beforeSha256": null,
+      "afterSha256": "2ff6363006972665cad9c3771039a3c95e1a424fd5a98b5ac3ec54c7ef010b5f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-lab-reference.ts",
+      "beforeSha256": null,
+      "afterSha256": "93b94ce7c732adcf569b90f0be5e697f2bd006e6fa9b5ca8ac61c71c64bc9a9d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-lab-session.ts",
+      "beforeSha256": null,
+      "afterSha256": "ee31bb7b143112b5580187cd3ed20106ea8ab06b90fecf41cd0a09e7f0655910"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-partner-postings.ts",
+      "beforeSha256": null,
+      "afterSha256": "74954cab56880629aba42aa5c7121658ba5bd859c4719cf671574110a61af3cc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-planner-model.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "f32f39acc465653416db4f940320d5959e9267d7f9c79b4b36eec3c184a3cd42"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-planner-model.ts",
+      "beforeSha256": null,
+      "afterSha256": "68b418d5c2da05d9f00bee91667ad3cd5ccd45d7e38222d9ccad0161027a7f41"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-planner.ts",
+      "beforeSha256": null,
+      "afterSha256": "5dbf12a9deaf3adf31ab1653134aca78c9ed18c802c91890c193582d75d191f1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-shortcuts.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "08f98fa55ac2f208c9a25280480372918f29ce2a7583bc8d302a774d79cebff0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-shortcuts.ts",
+      "beforeSha256": null,
+      "afterSha256": "50a4f0c53c038424a1b6ec9466c2d3574d2d29046bb5bd79adaa35ca72d22fa7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-simple-story-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "e83ab4f9d95b9cb216ae5dde049eb535b4f58f7ad536c35e95d9d21d203114fd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-studio-bridge.ts",
+      "beforeSha256": null,
+      "afterSha256": "aaef55402a988eaeb1f266008167f926b51808c391454fe35c3b9df8d17eee85"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-trail.ts",
+      "beforeSha256": null,
+      "afterSha256": "5f20a954a1b6dd693d69734ae752c9c243ad55e6fa70f1a4f728d43dbb149fee"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/review-youth-story.ts",
+      "beforeSha256": null,
+      "afterSha256": "4215c01f18d72c4f698234716ee9ebb2e8e0a88519eb765a620ff6c51557d776"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/storyboard-export.ts",
+      "beforeSha256": null,
+      "afterSha256": "7cb5e424a57ba1b37367596cef48ce38ca4ccefb00ea4bcbe54e18a82bd8cd1c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/storyboard-messages.ts",
+      "beforeSha256": null,
+      "afterSha256": "0654ba0a482ac6c476dcaebdbff6566e4cff2cbaa948963aa4e27df26c6f8f09"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/storyboard-review-document.ts",
+      "beforeSha256": null,
+      "afterSha256": "b5c5accdf1bb7ad10757fd0788e68534ab88c271bdb780c65db870b0061ae4cb"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/storyboard.test.ts",
+      "beforeSha256": null,
+      "afterSha256": "5283fc008892fc5e6b2a5703c21e6b42cbc4e84827c358e7e011f7568efbefa1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/storyboard.ts",
+      "beforeSha256": null,
+      "afterSha256": "81c46ce2c0d5744449d9d2287588ce192859ccaf6c74936c3f3d6425cdfb22e9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/lib/workspace.tsx",
+      "beforeSha256": "c4811df092cd281d0eba140aefc42c6fe7abca4d4e062c241aecc730acf3b2c0",
+      "afterSha256": "dfd30d0a4c0817978e6bb36d63af8c285cc1baf925b1c920a981c6e4c54a5928"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/main.tsx",
+      "beforeSha256": "e7e03b61f962dc1787ea029d4941424475455366b5a4f079c8fcb4f5df4d076c",
+      "afterSha256": "0550bda5f4d69a74316c5df11e96c493a306908157e90d67573a50a230393cae"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/account-journey.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ce83baeb7a8af8697f572bf8e7686e013d4a7253edb57af70d6e63524d211cec"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/experiences.tsx",
+      "beforeSha256": "21890848284c5fb47e1a719e45a183b245ba78bf1ff7ba374b1098a261a03635",
+      "afterSha256": "f51a481defbbeeaedf6d95d04e4e26ff5138dd92162027cf7ebbbdd018fcaf0f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/export.tsx",
+      "beforeSha256": "0db986f540ebde30097654ddcfebb903d9f57a98413f2f8446698ea68cfeb9ea",
+      "afterSha256": "29c1bbaf46bf366760f2b37a3af1edac054bd303f559f388fd47809cc84d0d06"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/review-demo.tsx",
+      "beforeSha256": null,
+      "afterSha256": "03af69b7555983f1a07f5057f9c3e22e11a929074c3b09b82bffdd3c166da059"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/storyboard.tsx",
+      "beforeSha256": null,
+      "afterSha256": "58b24e5b51741757ae09b3a030aa068bce29ba84f5313d9537547ecf82585f90"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/pages/write.tsx",
+      "beforeSha256": "55fcb275303ba7b140421524a0611dd27e5866a054fb769effc826c8624b41d6",
+      "afterSha256": "ab4c16ee19bdcffea9091db8a803ff5da93a9ceb4d1d4c10051565bc9b02f2db"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/review-studio-bootstrap.ts",
+      "beforeSha256": null,
+      "afterSha256": "78f0e55f35a881bfdf9a1fc091cea280f04ec33936260ade405aaf5c43d2e0da"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/review-studio-integration.css",
+      "beforeSha256": null,
+      "afterSha256": "d97bc327ecfb7e707f7994fc563f8602296ce5a717a28fb30c9f4092d7e2e526"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/review-studio-main.tsx",
+      "beforeSha256": null,
+      "afterSha256": "cb723eb68b4ad8ec0fb0e13ad9e2a90287a0009ea642a6cb2929bc68bf1d71ca"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/error-boundary.tsx",
+      "beforeSha256": null,
+      "afterSha256": "922f375c34bac71c64e122d124e473236227b447ab096b317203080db046cd85"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/activity-support.tsx",
+      "beforeSha256": null,
+      "afterSha256": "f255e2f379a23e4f029d2607ba3c778028014c3b97630464d9d7efddc4a5a2d8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/ai-panel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "de80f6703fab9661e353f8d9842bc52552bfaeeb100371e1881e5428c934a0ce"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/bulk-university-catalogue.tsx",
+      "beforeSha256": null,
+      "afterSha256": "649be45566d941d9d4bbf5e6e029d029937130113de8ba02bfc00e568029f268"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/language-controls.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b6500e27512ab1afaa16e68fc3fe3c3b71c47589b28deb15dd0e6ad3f51fc0c4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/major-recommendations.tsx",
+      "beforeSha256": null,
+      "afterSha256": "5391ece8b2ad62f3f98d661477b1aabff9505917367178fe2884afa8808a8fc5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/practice-link-dialog.tsx",
+      "beforeSha256": null,
+      "afterSha256": "f385852c6ca8493fb1b0e46edf1701e66bfa7baca961f8361a836fedce80034b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/public-text.tsx",
+      "beforeSha256": null,
+      "afterSha256": "908986d181b16a04d40f9479049adb49cf558ce9122abfa0ef3e3bbc07ff489f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/shell.tsx",
+      "beforeSha256": null,
+      "afterSha256": "dc8a875f7536b7a47b0cf2c4440b00b40baaa9340cefdf7a13e55d04608670c7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/simulation-builder.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1b6525f9a048cd8b08cedd6c49c7f11c555e09248d4d281a96e46173e8e73e30"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/simulation-details.tsx",
+      "beforeSha256": null,
+      "afterSha256": "3387ec40e10f6fd685025c8b47a513367ead58fbf6c0c0d6aedccfd767395912"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/try-actions.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8b53b7ca6b8fc3f025bd03a08740c6510231dd48a102a2003d0269804c6c815a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/ui.tsx",
+      "beforeSha256": null,
+      "afterSha256": "943daf656e97613155c8c97c093ba7abb384123cab5a6000894a4b016fbf4b78"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/university-directory.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8f17bc3292a37e14e1fec55b672f5be52a35bfe4c9ff84dd0a382cdbe07dbc33"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/lab/university-explorer.tsx",
+      "beforeSha256": null,
+      "afterSha256": "463ae1d0f109091d0f84e3c60b4cdfeb0b675cf38ea1498cfecbefdde8785393"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/accordion.tsx",
+      "beforeSha256": null,
+      "afterSha256": "e8090bae2957bc4d44d1e2fcc674e3e8840ad1514e21930b7fdc7985de9d7990"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/alert-dialog.tsx",
+      "beforeSha256": null,
+      "afterSha256": "3b4d59ec6177e792492683960cf89a7e44daa06f5503cf0be338b9f00b199fcf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/alert.tsx",
+      "beforeSha256": null,
+      "afterSha256": "78a9effcbd856414c7a39a922cffcf64328280edfaf8ed67471781e5a7a6dd85"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/aspect-ratio.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2f5b0ed3cbcf84e526caad0c6b88d4457f8745a365c86cc74d924a1b6e013a36"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/avatar.tsx",
+      "beforeSha256": null,
+      "afterSha256": "14c594c41451b8cee44afd9da3de37596120134338665b425ed1354c71033fe5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/badge.tsx",
+      "beforeSha256": null,
+      "afterSha256": "5dfaa8467ebb5bea6e12809e09766d2088eff21b34750eff3fc174b18ca42068"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/breadcrumb.tsx",
+      "beforeSha256": null,
+      "afterSha256": "69f1d67f9dd01ee5bc472ff0efe43a73945db884b7fd3f8e0ab2595ee84556bd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/button-group.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8486b1d211471c897162e0980be0cfb3790c2a53f650d8eb64e7062550d3b1f6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/button.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2bf143dea9698adf67d8d3a08cbd3419951b96c5dbd07d6cc02cb0280d31d368"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/calendar.tsx",
+      "beforeSha256": null,
+      "afterSha256": "cc87fb8ffa7bcb9d0ff774544746adf570bdee55a742a8ccb4686dd4357a7054"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/card.tsx",
+      "beforeSha256": null,
+      "afterSha256": "041301560b7adc87812f9ac1b876d97b0b05c4d190f8d693e38c0e18cbb393e3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/carousel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "cc630942f4366782f78f5b0cd35fb2d6ceb06df7a3e57d74c8f5ff250a320ab0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/chart.tsx",
+      "beforeSha256": null,
+      "afterSha256": "7951c584e317882ff53878c50f3cf3e9b3b7e27c49224b986b5474b6e952dd6a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/checkbox.tsx",
+      "beforeSha256": null,
+      "afterSha256": "e9cb7a6e5e14c3732d24382cae2bcb2f0a9a71cd4502f3ba0a423c0de5686e85"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/collapsible.tsx",
+      "beforeSha256": null,
+      "afterSha256": "aedcd10b62404b39d8d5544c01fee90aa7b66e7280bb80a215601ad198a1b8fd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/command.tsx",
+      "beforeSha256": null,
+      "afterSha256": "4fca2b7cb0a4c00271ffecf2c76198e450680249872d840fd4a6020ae2a96812"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/context-menu.tsx",
+      "beforeSha256": null,
+      "afterSha256": "4244aec56eb9afe6aba2264de1c2f9e83a9e042a0188d33c0d70661cb723c251"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/dialog.tsx",
+      "beforeSha256": null,
+      "afterSha256": "eb7ea372edef3f5cf7ef75a4e1c4b465bfa4a40661233967fac753a7a36325df"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/drawer.tsx",
+      "beforeSha256": null,
+      "afterSha256": "eea19e71783f49936dad2b001e4258a6ea476897c794b1e0ad1d55f83145fb50"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/dropdown-menu.tsx",
+      "beforeSha256": null,
+      "afterSha256": "10255094eb85bf22bb183c0828d4c5728559df50957f36733e34686063eddae5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/empty.tsx",
+      "beforeSha256": null,
+      "afterSha256": "3dfdb71026bc0664c9798a1374f108175a5aeb1a9c0fa43eb3d33330819cfb74"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/field.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a4152c0414daa6666a344b3e60c488f16db46f40883bd91484d00c6bca32cc70"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/form.tsx",
+      "beforeSha256": null,
+      "afterSha256": "4229162c7ca307189e3fe0174c218f146c953385c6b144e77bcae6dc3ea2a09e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/hover-card.tsx",
+      "beforeSha256": null,
+      "afterSha256": "743cd2e16f75a79b65dcf88e920133366e5262cb2a522d2cf16f793650a64eb2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/input-group.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1082e40f9f1d6ec3f5057cae7d3efd02e04a3c24080f03fcbb45a6d508be92de"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/input-otp.tsx",
+      "beforeSha256": null,
+      "afterSha256": "46e21498f1656f4c081ad860961778a381bb2db1dc8c20ddf8bdbc3e0d8e7d8f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/input.tsx",
+      "beforeSha256": null,
+      "afterSha256": "124309527d56d742818f22fef7c421a18ac9b8b57611fd46f16664efbb73baaf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/item.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1993e51d1d86ff9f29b41715c5d2e9e7d9aea2f35dff0fb311f6b2c88410ba4d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/kbd.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1aaf6bde5c2ef9a12bba83b7003e471db03e3f89bc642b4c6715d4125e47d18f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/label.tsx",
+      "beforeSha256": null,
+      "afterSha256": "66157c1ddcc888887344741802821102ef626cdbea74b8f0f1111cc01c73a37f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/menubar.tsx",
+      "beforeSha256": null,
+      "afterSha256": "d20b445c8b88c3a899da6514f6d02e7cf12a28d3cc048d39741f5d8f49d782c7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/navigation-menu.tsx",
+      "beforeSha256": null,
+      "afterSha256": "0aabb3548d2ae3cb4fae8f0ef5280c9c8a399964491bd68801e46495ee974d18"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/pagination.tsx",
+      "beforeSha256": null,
+      "afterSha256": "24d90347d26578df973fa607c1c6b9da150a0e7d8eb1c9d0ed29be3923f1e953"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/popover.tsx",
+      "beforeSha256": null,
+      "afterSha256": "396bc52f2731fe7c97b50894a7144002659dea07f906e2051a5424b949b2868a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/progress.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2a7e8b037f6176ebfefaba1118d5eab7d165078f1157b378a394a54697bcb7b3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/radio-group.tsx",
+      "beforeSha256": null,
+      "afterSha256": "0ce46c91cbb47afa07abf8d6f8a4a6ff980b1a9b402418ea6ae4ff2a8a8b022b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/resizable.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8bf9b098e338eeacd82293aa1fa96e6e5b5126a10f26be5ea165cec185c419c5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/scroll-area.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a78acbc808bf20f722911c0106b62fbdd7f88025d843d513195f7e9961f3fd60"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/select.tsx",
+      "beforeSha256": null,
+      "afterSha256": "c321a4df601d169713b5982560158fa3d53ca808cddce53e2c54bdee427c7c6f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/separator.tsx",
+      "beforeSha256": null,
+      "afterSha256": "812b21292745ee1017ed609f3146e84846ad41006b8b72f770f0ea2f818e1ad7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/sheet.tsx",
+      "beforeSha256": null,
+      "afterSha256": "bb8c696396806e252ccf8400fc3fe4eabc042e0b6c31beff8ad789605ea98896"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/sidebar.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ff0589a8048f902e34d6d75c98c90c33e492af0a8f61620db3f676f94b833b85"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/skeleton.tsx",
+      "beforeSha256": null,
+      "afterSha256": "da7ea6a0e32874ef6d154476923e380308ac6f9db758b8e84b3995ccaa2a72fe"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/slider.tsx",
+      "beforeSha256": null,
+      "afterSha256": "9eb239586347011e01201c3f9470964d9c7af8d2649755026a2a5f0ea6c20bc0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/sonner.tsx",
+      "beforeSha256": null,
+      "afterSha256": "de5a5d9ae404545fcb0f21123530ffcf89d24a47812c70b3ca1376591e28dbdd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/spinner.tsx",
+      "beforeSha256": null,
+      "afterSha256": "12f7e23ca35b52dc3bfcfd259573f0c72a939d4e782edfcc8a5034d01fc2395f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/switch.tsx",
+      "beforeSha256": null,
+      "afterSha256": "c7e92f383fbf930729374f0982305d361fabf8abda29dd96eade285ff24b139e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/table.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ec555b5a32d292d5d1fa2784b179739c7026a4b84331bd3555068a70f9a6d188"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/tabs.tsx",
+      "beforeSha256": null,
+      "afterSha256": "e0293e0f12eb3d8c0a440f7df29bfb652efac0b9b2d39e37bc590e7cc5d1f99c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/textarea.tsx",
+      "beforeSha256": null,
+      "afterSha256": "e2a894ed9da2be1782a41dafc0b6d309ed8e89c56bbc0031abcc42bde82496ed"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/toast.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ebec68218b30402e0e84771e71175259bc8a34c26cf44b73f6e312c256999d7b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/toaster.tsx",
+      "beforeSha256": null,
+      "afterSha256": "955bece5ce1d1cd826539d1313134d9d7e715016f6aad5389ce5317691708f42"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/toggle-group.tsx",
+      "beforeSha256": null,
+      "afterSha256": "85ff6869768b96cbebbee73be577249c73dcecafea536cfe00ee45fc4bb21bd6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/toggle.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a0fcb7ccf30761aece7f9d0aa1a25b5c3f53a6f0e89cb26c2a85abdf3172305d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/components/ui/tooltip.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8506ac2076aba619f0508f0fa309479169ecdfd35890c80e06aaf506db65cb8d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/hooks/use-mobile.tsx",
+      "beforeSha256": null,
+      "afterSha256": "82bff42ff087bd5dc90a5d17609cc428b8688de92d1333073a839af5ad3c9cbd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/hooks/use-toast.ts",
+      "beforeSha256": null,
+      "afterSha256": "3a58399d1ea958d7c1b4fafc32214ac5816e05ed13a57c71107875b5c693d49f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/activity-assistance.ts",
+      "beforeSha256": null,
+      "afterSha256": "c7829dec7a10694384f7da972bad1e2a4a26d9988defecaf9a4a7b1ce1c73d2b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/ai.ts",
+      "beforeSha256": null,
+      "afterSha256": "43a15fdb4aa80c5aaaf12ab9da736fd23ff3c58c48d3a07a9ad7ad301c7959e7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/assistance-context.ts",
+      "beforeSha256": null,
+      "afterSha256": "08243acc8b6c8092e2e00552910b8e4f00c42e4758827ec4255617d4fef0ebec"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/bulk-catalogue.ts",
+      "beforeSha256": null,
+      "afterSha256": "3f51927451e523f4273fdf22cbc708bf855b6753dbd88b64f2108f8771883890"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/catalog.ts",
+      "beforeSha256": null,
+      "afterSha256": "d46171e679b294cdf2e0378b16d14852b40ae6b3084c1b01bcd6f5ed1b720ece"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/catalogue-language.ts",
+      "beforeSha256": null,
+      "afterSha256": "05b12d81bc1274fe3f4dabced63874a96bdb956ee33e520fdadbd0fe5af7a0a4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/catalogue-search.ts",
+      "beforeSha256": null,
+      "afterSha256": "9f42648f6d3a52f4b2b56dbb57fa7d6bcc09c4c4b9e6d457f10dfd6575f1ea0c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/bulk-concept-aliases.json",
+      "beforeSha256": null,
+      "afterSha256": "2700e82547fdf0d3552d60b5e1fc14aa1ad063b4b9ac71dcea9a38f84c48c5ba"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/bulk-filter-messages.json",
+      "beforeSha256": null,
+      "afterSha256": "73f9f02e5bd50ae3331ea357fb920c7b767c625cbf9da0520440b394de92b5a1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/catalogue-language-manifest.json",
+      "beforeSha256": null,
+      "afterSha256": "c695442267bd699ea0b3f2581595ad2bb331eacc9d0d5691126a6f488a0226c5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/catalogue-search-manifest.json",
+      "beforeSha256": null,
+      "afterSha256": "a2a778ad3de085146b65eaeaf774c183be8123add853c0cf5ca6435f072ab4fe"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/foreign-university-directory.json",
+      "beforeSha256": null,
+      "afterSha256": "12c4154fa76d61284d31590e839eac45399cb8c1d8251ebc0a0157a4ce41842e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/institution-search-aliases.json",
+      "beforeSha256": null,
+      "afterSha256": "1fff0a7b4ecded05525dd1cd45b62b423ffd7b91198c2637225441bbf9846512"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/university-directory.json",
+      "beforeSha256": null,
+      "afterSha256": "fee0b97f862c5380c5b1e66f1da325da261d1b6533401041c0ac94d6728c6df9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/data/verified-university-programs.json",
+      "beforeSha256": null,
+      "afterSha256": "59fa11653e897516db77450e2c80c71ee2a1caca0113002e250ea809b6f77810"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/demo.ts",
+      "beforeSha256": null,
+      "afterSha256": "cbca1e6645d317b1df78a0081b6a34c60d04f8167822565a64f06bf5e19f17a4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/i18n-runtime.ts",
+      "beforeSha256": null,
+      "afterSha256": "f3f4a55df03165f2e05ffffb68fb9edd225c1a3fabc1e10ab85b93c3fa1a836c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/languages.ts",
+      "beforeSha256": null,
+      "afterSha256": "c0368220adabc70baee1ae92e5c1aa0700e849f2c611d99e92f4740a21e6e2ff"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/links.ts",
+      "beforeSha256": null,
+      "afterSha256": "4721c1b9277e41d2bdc5af46ebf7a81d962005ef6ea3639b41f506b497b3dc1b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/locale.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ad881cf3d9f8273a246396647648153d32a4cfbef2db807b1ee5cb51ec0f92f0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/message-status.json",
+      "beforeSha256": null,
+      "afterSha256": "28f792c2cffe24e0a58fe6630188adc453b534faa420ea0ac6bf5054d66695cb"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/ar.json",
+      "beforeSha256": null,
+      "afterSha256": "6b21601eaf0836e0037c6715a1779ed60198e30debdc862a553c4cc152498abf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/az.json",
+      "beforeSha256": null,
+      "afterSha256": "5673cc7f451a139c5b76f7c8130ce02722c582af5720d51fa33b3e7d0d87c3c7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/en.json",
+      "beforeSha256": null,
+      "afterSha256": "0825cfd3eab1c9a4e923b27fa1b8a8a11d81272fa5dcf90f49050757769af315"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/es.json",
+      "beforeSha256": null,
+      "afterSha256": "d8970461595a01bd85e1cfc56cfc10b26b7273cec0620eb564142e3fe977e3b3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/fr.json",
+      "beforeSha256": null,
+      "afterSha256": "73769fc09fc26c2286dd8eead56ae3cc0640e99af4816dba202d33d485bf6f79"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/it.json",
+      "beforeSha256": null,
+      "afterSha256": "95728fd85c118b480418cc2eea9d6b0f6588f1354c1c3766ded5ffe3370440e4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/ja.json",
+      "beforeSha256": null,
+      "afterSha256": "629d6c621b089b5e530e38c8d95a68fea3ca64000cfb5418bc7e9b935752017e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/km.json",
+      "beforeSha256": null,
+      "afterSha256": "4e9836cba5d24d35b0f583b8b691c068b3fcabe80dff28e12327b8e0a96f6de6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/mn.json",
+      "beforeSha256": null,
+      "afterSha256": "6abe0ddfb98964ec877e6539f0dd88dff2a64db274f0403496a39287404970a6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/ru.json",
+      "beforeSha256": null,
+      "afterSha256": "fafecde32681b84da0c8cf708922af7cdd54dc060ce4c154536ba2c7ddbde521"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/th.json",
+      "beforeSha256": null,
+      "afterSha256": "b64fcbb3268777505d393ca494aeaaa1603c0037e2dc8975180a3386369724d5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/vi.json",
+      "beforeSha256": null,
+      "afterSha256": "84c8847607f9aab8248d26ec0e66d2b2bc93ed4b6f401e49c3ce2de27feea6b1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/zh-CN.json",
+      "beforeSha256": null,
+      "afterSha256": "0f01d737f8e38a0678c176a5215ea662085d9d0b668f3c661be58ff25391cb9d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/messages/zh-TW.json",
+      "beforeSha256": null,
+      "afterSha256": "c2f50c2b8d2390af1c058758b3f579dfb6ef6970fc05d825f28afb650fb7afd7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/official-operators.ts",
+      "beforeSha256": null,
+      "afterSha256": "b601234e3fc395273cf7b9e26643ce9a7c2a359b38fefab178fcd8faa2f6f97f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/practice.ts",
+      "beforeSha256": null,
+      "afterSha256": "00c5fcf0a273a85503a0766c6ac4be2c28c96b5df1d46318b7fef54b33545fdc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/recommendation-policy.ts",
+      "beforeSha256": null,
+      "afterSha256": "b3403a12dd3cf12d00e6699c8414195d09ff43e28128bf63c91f91d2d4fb8087"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/recommendations.ts",
+      "beforeSha256": null,
+      "afterSha256": "9ad7d87a50ecdd0c48f96ad2ba983187608b5d177f3856271db40b8ff972bdf0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/server-contract.ts",
+      "beforeSha256": null,
+      "afterSha256": "ea1ee8bec1d95fb0eeccc50c071eed7c3d4c3895f6541cf8619500e74cfab1e8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/store.tsx",
+      "beforeSha256": null,
+      "afterSha256": "73f7e89a8dd42a00dfb75513dad858dfeb25015637690843683ff803c647adfc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/story-template.ts",
+      "beforeSha256": null,
+      "afterSha256": "3ae6fe7ccf9ae3e9de942be7eb45838794f237cb285862800b19e7686e53c717"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/translation-contract.ts",
+      "beforeSha256": null,
+      "afterSha256": "81b41a18514339b70a1759c95d56731a6341f64850973bfd5eb035d62556948a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/types.ts",
+      "beforeSha256": null,
+      "afterSha256": "037a0cf11f7236687f3e5879a66b4d9e4f69acf7ca5b0598b743f8068c7d7df9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/universities.ts",
+      "beforeSha256": null,
+      "afterSha256": "9af0e940dd5e5a8d011d89503f55f62d0a82c61ab9345dfde0a4f5fdf71d7752"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/lib/utils.ts",
+      "beforeSha256": null,
+      "afterSha256": "afc0e1dc0e142d6b81f688d91087f81a4b2db4240cf70f55b6e5e4dcc199ebf1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/design.tsx",
+      "beforeSha256": null,
+      "afterSha256": "92e9779ff4b1d6467bcdf5d94cfab84d04eb20358b4c6218843064239e1f2cfc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/experiences.tsx",
+      "beforeSha256": null,
+      "afterSha256": "e8e8412e32d7af0d4a4952f78414e68ea83970e87b7b2c3e124f8b08df8ef623"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/explore.tsx",
+      "beforeSha256": null,
+      "afterSha256": "6fc930b97a756bb83f6543f0e499e60c3e588b4f9afcbb616b5a0d1c9fe3519e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/home.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a254a36700d44c9e1b57f8f698a631a9355f8db470282db8b7aa4618d3deb994"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/i18n-qa.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1899c4438f6c51bba2008ec053b4491c1dd2a5d79d8e95311d27a5d1d90f4483"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/interests.tsx",
+      "beforeSha256": null,
+      "afterSha256": "030fa1fdc5ddbb0128d8000ff662176edbac08db92a16a6ba7170d50b5c9588c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/majors.tsx",
+      "beforeSha256": null,
+      "afterSha256": "036083527982e1a063beb6f0f02973504a51c3284df666ff5343c97388cca638"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/map.tsx",
+      "beforeSha256": null,
+      "afterSha256": "d5adf72c1180b8c28cc433959937d0abe54bdc6257d8c1d32f386b3dbbe0b8d2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/not-found.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ac543a4857e6b03b538a56182b207bb9546ef204deafbc74d29a754f5f2440a2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/planner.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2d96d591a48544ac606ec4fa2a34121198181fd51b3be1320b40ff2a117161c9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/settings.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8567ec99cd7ca1b7cd3142d4a91b7042e36d6ef23a0be90c2eb71e036f5ace39"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/story.tsx",
+      "beforeSha256": null,
+      "afterSha256": "865f7ce3522f7afe29021d4a0c597fb199d755c733667b20d3377a2d3b415440"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/career-lab/pages/understand.tsx",
+      "beforeSha256": null,
+      "afterSha256": "6c2bbc06cd004583146fc21cd28b42742bca1ebe12bdafc0e97099454d5a9187"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/src/vendor/enterprise-lab/scenario-source-card-preview.tsx",
+      "beforeSha256": null,
+      "afterSha256": "5468e4017edaea8640771325db0daa85d2368f0ec0cea997c871088350592899"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/tsconfig.json",
+      "beforeSha256": "e0a2fd8a7f3bfc860ccab5623b1881e754eb02336612708ff8b59215e8c256c9",
+      "afterSha256": "4bb1650a2ff2bf7ce71361f9589a12e3093a53ad2a78e3b2278265e9a6ccec62"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/tsconfig.review-test.json",
+      "beforeSha256": null,
+      "afterSha256": "1d6a1bad037e0c00bfdc7720b70371f897543c66a2180fd8a50d0fa25abc9181"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/adaptive/CognitiveActivity.tsx",
+      "beforeSha256": null,
+      "afterSha256": "654aa8a774e39c4747365a92cdb5a90d005713d1618fb6ff21acd2015f76b460"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/adaptive/engine.ts",
+      "beforeSha256": null,
+      "afterSha256": "03655443e0c6bfe9e42fc066789ea6e01da3336535d5a2144572819f9dedcf0b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/adaptive/timeBlocks.ts",
+      "beforeSha256": null,
+      "afterSha256": "084769198fbbb0be24492cedc2339fcec2f4a293935b4a9984a5cdf5ac019d53"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/adaptive/workspace.ts",
+      "beforeSha256": null,
+      "afterSha256": "4dbc75ec365423213a11b99cf560e22685ec3ae94573c3a9c44ee991e457402b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/decision-live/DecisionLink.tsx",
+      "beforeSha256": null,
+      "afterSha256": "71a1bd14c355a5949213d6103517436d51f62376614afb050ff2e52a911dfa4b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/decision-live/LabRecordImport.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b947c4f6b6f8004902b7c1b7446775d7bf1bdf8afd6f4a67781ecbbd1bfb7aaf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/demo/assessment.ts",
+      "beforeSha256": null,
+      "afterSha256": "7dcc98c0c9bfdeab9ba4061a7deae1eef670ce53f17753bd86d2cd6591d22a1b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/demo/audiences.ts",
+      "beforeSha256": null,
+      "afterSha256": "33902dfeba43b859e5409b09c56b441d57410fc821467c54874f95b9ca7418a1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/demo/notice.css",
+      "beforeSha256": null,
+      "afterSha256": "1d777251ee11cb532915f07fbb8aa33173439b74c5b6674d046420e01dee175e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/demo/session.ts",
+      "beforeSha256": null,
+      "afterSha256": "e899ebd177bdfa0b1797a11b22cac811086041b7b945d5ab027fe853a86d961b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/enhancement/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "ec50cfb40e6180601eca3a959a6e0f9f2f90c1488e19993ea5546ae4fdc93cc7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/enhancement/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "ad93ea6b5c178c906bf5cfe739a2fd46354e7d4fa238b0fa407b4d5d09dd91f8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/enhancement/persistence.ts",
+      "beforeSha256": null,
+      "afterSha256": "8e43beb14b196bb5b042845abf7c0673a5d0eaf41ad53d3d50b02a9f1c469ecf"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/SummaryUI.tsx",
+      "beforeSha256": null,
+      "afterSha256": "47eba3e00c634e68992d7f3672e0472461746c597ac24a94398f3fcb2e62436e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "1d471ea7e1f6a206bae5283dfdec9b14832afb1801e3b5e943ce500046f0c47e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/i18n.ts",
+      "beforeSha256": null,
+      "afterSha256": "bfc7647ee5c735bfd2a0007d544f268598f1f511033ec558623e6c5a70e7397a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/ar.json",
+      "beforeSha256": null,
+      "afterSha256": "c5e28efc509c97f66be56626609e2eb678d29438a8a807e48ab4ae4496eb0cea"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/az.json",
+      "beforeSha256": null,
+      "afterSha256": "340752d0a50e912868b12e1f34580327e6dfb79276cf59c072bade92444ebeb1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/en.json",
+      "beforeSha256": null,
+      "afterSha256": "e1a04ab5ef4ba1aa8fe7343a06ac133f47b6503f738e3eb2920ea8fc6010c9f8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/es.json",
+      "beforeSha256": null,
+      "afterSha256": "61052ad016b90125c2ec666b99e3c65b9e120c2440898fdc9cadcb4b72ccec16"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/fr.json",
+      "beforeSha256": null,
+      "afterSha256": "9903c4107538efca268e1ca700bcaccb3088135a94c84e807413eb4bced65b45"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/it.json",
+      "beforeSha256": null,
+      "afterSha256": "d017877d2124a8f086e356045b2b12f68e2910216b16673d1f9d53351d6b84d6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/ja.json",
+      "beforeSha256": null,
+      "afterSha256": "59a7e1b109764d7b0dde15340b2c884a804b8879ee4ce53bfff910563ac53e91"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/km.json",
+      "beforeSha256": null,
+      "afterSha256": "9f84bbc2def846e9ab6c55c3b75558e925e106dff1403cd9b6feae4abd1fea62"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "57d7f9123c55abee1d3abe34aa0c891c24c6957bea179cbf957dae3f96d322f4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/mn.json",
+      "beforeSha256": null,
+      "afterSha256": "7e4378f17e14504f745232bf9aeee61b9643301e2226fc9a959c59fcd098b03e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/ru.json",
+      "beforeSha256": null,
+      "afterSha256": "d45b1fd1e50de619d1dabb96cdb1ae49e6bdd1f09843bbcb7f16340f4df8e58c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/th.json",
+      "beforeSha256": null,
+      "afterSha256": "d728c64e338e050ed2d51d1c38c12d4bbb7c8dc4d5b00417d1fdbce04bfde595"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/vi.json",
+      "beforeSha256": null,
+      "afterSha256": "9ff68bb9d2a6b0053abdcd6595d75dcd4b3441b86aa71838f735ede848c726a4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/zh-CN.json",
+      "beforeSha256": null,
+      "afterSha256": "e657dbaa82872605dfa0a55a918c5099342b47a54d227d370aa9a357c0b95088"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/locales/zh-TW.json",
+      "beforeSha256": null,
+      "afterSha256": "5024ccd9204ea3b87d31d139de939670b33491fdcf254826efc305cd2a47b481"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "ce514d2477a4d9bb64146c077c723ee8451212bfe600701f0155231504e91685"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/execution-summary/summary.css",
+      "beforeSha256": null,
+      "afterSha256": "590e3631560cdf6d75142ef37c68f8af8105bc26937b15cb563a095895a8607d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/shared/hub.d.mts",
+      "beforeSha256": null,
+      "afterSha256": "e3590d480a69e5ccf393f20f5fa7655c15ad40478c303c52212f8f777f309e22"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/shared/i18n.d.mts",
+      "beforeSha256": null,
+      "afterSha256": "237add45a17b87c945619c2b10ee26d5e0c58b7a084cf8729d539915f5907af1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/shared/i18n.mjs",
+      "beforeSha256": null,
+      "afterSha256": "a68d35d6b25a923e738ee3e6ede280eec8b5a5ed466201a5cdfb321d5e929251"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/shared/messages.mjs",
+      "beforeSha256": null,
+      "afterSha256": "b6c74491e1b1fe305199f46e4026aeb6685a101493507d2edb59acdb27706c55"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/ui/CareerFlowPanel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "6e0b39a0638f0931b83fda1bd66079d2c9501122618ec5f51210df11b8967f80"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/ui/FlowLocale.tsx",
+      "beforeSha256": null,
+      "afterSha256": "103a244593e7210dcef2a29fbc9ed91fbfd1dcb6cd6b679bfdf1ae49f48f0403"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/flow/ui/tab-draft.tsx",
+      "beforeSha256": null,
+      "afterSha256": "99a729faceb5e2c08cfd98d53c04ac886d05a8914226309ad3556443e33f7688"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/assessmentStore.ts",
+      "beforeSha256": null,
+      "afterSha256": "a07f0828b189846af6a9da23f4b5a953acd9a436ee97fa0922343e0f781df788"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/contractsBridge.ts",
+      "beforeSha256": null,
+      "afterSha256": "dc164a9dcbf4fb51c9d98cb059f95d5d1111b1f97c9e5355d24e621ed6803268"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/globalScope.ts",
+      "beforeSha256": null,
+      "afterSha256": "c66f9e95dd0ece363ee9b8d169df9bdaed091f63ea13a3f541f34200905c8684"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/labInbox.ts",
+      "beforeSha256": null,
+      "afterSha256": "e8449305118c76dedbe6128b364725ee0f0ae0ef2cf77f77e70cae36ac765e01"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/scenario-minutes.ts",
+      "beforeSha256": null,
+      "afterSha256": "acf2bb81198ebe44ed4963fbad758ce6730d0476de9ad742ce93beb27c525312"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/studioServer.ts",
+      "beforeSha256": null,
+      "afterSha256": "b852228fbe941211bb175242b19349e3b125d8b6ea03a1351fa771a144b39103"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/integration/types.ts",
+      "beforeSha256": null,
+      "afterSha256": "a58197c94de9554bb2c5ce563d6e54c59746045ad8c58fe1dba473c634c04a74"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/JobSnapshotReview.tsx",
+      "beforeSha256": null,
+      "afterSha256": "7bba120eba2651f34a6344153d889203d9dbd264d17cedc770379b93f83b7cbd"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/LabDailyUI.tsx",
+      "beforeSha256": null,
+      "afterSha256": "3405be1404d6a6bf4f5ee0429386f029885400875b4297aed319d13f29517fe0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/YouthHandoffReview.tsx",
+      "beforeSha256": null,
+      "afterSha256": "1b623c234ad73f3b06af264be2d47218814afd8f48ee925b856de2b5e82f95eb"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/adapter.ts",
+      "beforeSha256": null,
+      "afterSha256": "e8016044518b324bbdacc9fff368bd92ee076de5bda55cf98f3d7ff7910a2b38"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/canonical.ts",
+      "beforeSha256": null,
+      "afterSha256": "b1790fa06e99be5501f793ea597d94626cea09fa823e512b30e6bf3bc1d48812"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/contract.ts",
+      "beforeSha256": null,
+      "afterSha256": "ec3b2aaf6c7bded5cd2f376c728e3bea62d6d186d3ca40863c9b9a6f3de22d06"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/date-time.ts",
+      "beforeSha256": null,
+      "afterSha256": "3620aac641650049a7ecfd04f8ff9abeb23c963528c20f83d81f9f1d8e7404ad"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "a32ba89924f4e5ca43d250dc0f403d09bfb16e6a46dbe9635ddeed5d5c6a971e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/i18n.ts",
+      "beforeSha256": null,
+      "afterSha256": "e943a5967d4d26673d1ce793075782147124a029534d8e3f95d0bb10af3dfded"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/job-adapter.ts",
+      "beforeSha256": null,
+      "afterSha256": "cbc9213dab30e84e7c899c049621c3e8e6f97358e41b6eed365e9bcb6a84b744"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/job-contract.ts",
+      "beforeSha256": null,
+      "afterSha256": "d4fca4c41540986574f38416ab8937347d1addc59bb6e4ab8dfb560bcc3eb4f0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/job-review-locales.json",
+      "beforeSha256": null,
+      "afterSha256": "10b0aab8358ee43970c26ae566e97532b3586d2171d36803ff24d626327ea8c4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/job-review-warning.json",
+      "beforeSha256": null,
+      "afterSha256": "b84545abe199ddba4534fa76fc5daf9bc00718f2831c93bcd07f7a2cf323b23b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/lab-daily.css",
+      "beforeSha256": null,
+      "afterSha256": "88943b6294360d2431cff8c468addda4ea7f689188f89ce9caf9130a8c8646b7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/legacy-youth-archive.ts",
+      "beforeSha256": null,
+      "afterSha256": "47ff0f3eda056f338fd556254abd575342f28e679fc25c979b83d6ffd69a2693"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/ar.json",
+      "beforeSha256": null,
+      "afterSha256": "806c39fc61f592ef7bc055b5b7c5642bb87fd6af6bb9373dfdb870ccb899eee0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/az.json",
+      "beforeSha256": null,
+      "afterSha256": "604426f7aa953011245fb2b826760a1ad67eda6051e04cbd0c27a86b982b59b6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/en.json",
+      "beforeSha256": null,
+      "afterSha256": "dc51b92d00132323b4ef0da19f36817da59957fd4e777aaff049b0f29dd41c52"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/es.json",
+      "beforeSha256": null,
+      "afterSha256": "ec4562d299d8ab84029cdf251676d392b3440d845e46da79786d4df422a9ab18"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/fr.json",
+      "beforeSha256": null,
+      "afterSha256": "3af6f684a4410c9621fbd9a174a33fd236c8f4194d153e8102e3da4c22f033e1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/it.json",
+      "beforeSha256": null,
+      "afterSha256": "237e3ccc6c958a4e93ac336ee230c51dc31ee2e818ac95cb6c67639ae104ceb4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/ja.json",
+      "beforeSha256": null,
+      "afterSha256": "9e443d3d634a6fea7b5610594824f1f91f730a62fde736eb4d8773b62d9b8e62"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/km.json",
+      "beforeSha256": null,
+      "afterSha256": "fdcc7def717c0c71275fc310e334c6bbf823232cbb7704e1489180aac9b3e510"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "106dad766342d8e00e1dd19545e3e6c8f64015c09ec9aa32f12ed7a95d892b19"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/mn.json",
+      "beforeSha256": null,
+      "afterSha256": "aef1cda7dd6b2de3f6ba11baba4f9f3905ac0bf9a3c93055727891b146461313"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/ru.json",
+      "beforeSha256": null,
+      "afterSha256": "2b37bf70db0026fccbac69e9487096bd1ad10986cbc7b126b97620ced557b319"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/th.json",
+      "beforeSha256": null,
+      "afterSha256": "e1d2997779f5049c4ea754a924406a9e909c274d6a97ad3f11e6b7c3b96cfc11"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/vi.json",
+      "beforeSha256": null,
+      "afterSha256": "1845c8a1e50605ae092092732b5af6bf9833f26bf65d02ec3c2843967a93c3e3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/zh-CN.json",
+      "beforeSha256": null,
+      "afterSha256": "55e664520a6202556668665e6e98a040d0490cad71f6d2c38e4d4a8d993037e4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/locales/zh-TW.json",
+      "beforeSha256": null,
+      "afterSha256": "356296cb28975c33da80307618324ba65d2fcd65b91fd6f4f2bd42a60b661180"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "ad4ad1b66407ce6940468c7ce7f08a06e95a014dcb616bce3b02042db958ec2a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/policy.ts",
+      "beforeSha256": null,
+      "afterSha256": "de5085e6968c1b99edf249a7deab5fcec2f5e5858f7b545cf251e11e28be65a0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/lab-daily/youth-context.ts",
+      "beforeSha256": null,
+      "afterSha256": "0c269ddd74f0d02b8949e3651fa150e71f80430e6c49a77663cf9c7aebaa62e5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/library-public/policy.ts",
+      "beforeSha256": null,
+      "afterSha256": "815a2eea37ddcd173c70d4db564ebdc9e1b548018dd4e1cfef6b43af52e8a0b2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/library-public/state.ts",
+      "beforeSha256": null,
+      "afterSha256": "c9e8184381b462852017d8e6869da3a224ac290f598ab31cd4a353b7468fb8e9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/official/adaptive/brandAssets.ts",
+      "beforeSha256": null,
+      "afterSha256": "320403d36d0575686cd2e50864355e24850e8fc16584c0878b02e54520aeda67"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/official/adaptive/engine.ts",
+      "beforeSha256": null,
+      "afterSha256": "09db97ad8df298f455a6c14f1729d2a55d653d160eec92a557e27b5c2c62341e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/persistence/config.ts",
+      "beforeSha256": null,
+      "afterSha256": "fdbffb18a6280a4467dcb53c1bf164486dddd22fabae282b120eb1f8abb8c12c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/persistence/http.ts",
+      "beforeSha256": null,
+      "afterSha256": "3d4dcc7396b9c3ee3082f389924a52c6277c94f456a14b998166c9a1b3bfcc9e"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/persistence/redaction.ts",
+      "beforeSha256": null,
+      "afterSha256": "733bf9ad17c5d7bae105b24182688ed6f0c30b7a0e99766267aaa2e681f1ccfe"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/persistence/types.ts",
+      "beforeSha256": null,
+      "afterSha256": "cb0fe52796aeba613cd35f734e56065c36e4a029439295b17af1689ff0428222"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-lab/PlannerLabMount.tsx",
+      "beforeSha256": null,
+      "afterSha256": "ff4852ed200afe409edaa153966f6ae304ea893db673699ee29a431a766f7967"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-lab/PlannerLabRecommendations.tsx",
+      "beforeSha256": null,
+      "afterSha256": "c4fa78ab35f0242471ca1dddce4892910ab498f890e1f56c8804806edb0caf36"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-lab/planner-lab.css",
+      "beforeSha256": null,
+      "afterSha256": "2ea019ccf0453e2c5b5f2d1d4f5d3f5c38693eb6860794b9d6254896315aa6ef"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-lab/recommendation-poll.ts",
+      "beforeSha256": null,
+      "afterSha256": "74ae9f7a1d04ac31f95f96a679739106d5eeba781ffbb7c913b422777f1b8c55"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/LibraryUI.tsx",
+      "beforeSha256": null,
+      "afterSha256": "3d191611bfc4862f06a433cea459c09ece66d89ad80aabcc6a0405c73061824a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/cards.json",
+      "beforeSha256": null,
+      "afterSha256": "c62c291fb98c927e14ff0f205c013bf07fa20d207d0be6cded3f03772b9fa343"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/expansion/bindings.json",
+      "beforeSha256": null,
+      "afterSha256": "7cc5dff13785b59db36efdd934d2fabd327715becb4008b596bb699f86eb617b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/expansion/cards.json",
+      "beforeSha256": null,
+      "afterSha256": "7f6f8658d6de91608f23b481673a74e774d16498b7bb9d8dedd21cd21034efc5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/expansion/catalog.json",
+      "beforeSha256": null,
+      "afterSha256": "ad62d8160fe359bcb778e9a7b6ec8cfa46e1e57f311a0fe12d1aa945eb7294f8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/expansion/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "af6fd0a3407fc46c798f62fa724f2f673f7db5b3cb451d0985bc68181b7849d0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/catalog/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "8344a973734fdbbbad713ef76d79954e54c118a9442021adb4de5391dd668500"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "cbd381219a3ec5c98dace5c1a707879d287cc492701338cc321c0b18d9bf2cba"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/i18n.ts",
+      "beforeSha256": null,
+      "afterSha256": "4a051f9449b46fcfba20764b61a0130d0edccf85db5069af74908e6b83b750d6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/library.css",
+      "beforeSha256": null,
+      "afterSha256": "e571f9536141f3b1aebb6b345ae5f9072a8918d2abda7c8afd9ee6b465973e88"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "0fcf8c84f541ef5d6b9f94b11a3bd39ef72c37b6214c499ec2064e561cd80c5c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/planner-library/resources.json",
+      "beforeSha256": null,
+      "afterSha256": "2ec61c3768f6b5edf934ab5cff29e6fa78f76d8f6de8d9aa459aa2b8524362bc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/PracticeUI.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a748d681516348141b9ae1ae0ef0c96e0045793e014e1f42921624591b36d80a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/catalog.ts",
+      "beforeSha256": null,
+      "afterSha256": "df09cd7eb8ee0dcab3652a3ed32a310f3e231745dde224496ca03a7228b20c73"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/display.ts",
+      "beforeSha256": null,
+      "afterSha256": "8ec1acf6b9b4d4247c3262b3e824ca84594af3dd45a839f0ebdcddcff561238a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "810665ea755e0bf89234f0cba9ddff89a3099b5226788a6fefabadd47853e641"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/i18n.ts",
+      "beforeSha256": null,
+      "afterSha256": "150cfc631c8e92ee5744e98b0e4e8a4b1026afe6e611b1ed77d30c9c9bfd12ac"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/ar.json",
+      "beforeSha256": null,
+      "afterSha256": "59d58b5148974875b14f372a79895bff686fe7dc248eda03913ee47e5c5e35fc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/az.json",
+      "beforeSha256": null,
+      "afterSha256": "2d36097f3c17f601373bf9eca440affc5b175f35d4617769b18596476c7d6908"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/en.json",
+      "beforeSha256": null,
+      "afterSha256": "6106332834e8eec82c863c783114c17e7b3449c9ab1d7bc4e0db557f46a1ba8d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/es.json",
+      "beforeSha256": null,
+      "afterSha256": "da4ee38aa011e75209fdcbce71fb5c4bd5acfaa62dc42aeb8e88a0b2fe05aad3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/fr.json",
+      "beforeSha256": null,
+      "afterSha256": "0ae12c170f20f1b62d760b154f2b597ef7cc08afd7f595b4dc2f27383ef6de94"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/it.json",
+      "beforeSha256": null,
+      "afterSha256": "a9309dcb40cf2336629146f122b84f9b63b36f79d98f3ee1534b94d8b28a9ad8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/ja.json",
+      "beforeSha256": null,
+      "afterSha256": "1fdc05e29f5e5e976651f3875b77add4394e797720ec66bbfb905c6b1f2a570b"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/km.json",
+      "beforeSha256": null,
+      "afterSha256": "64c7f005447181c4d6f6c550d7af6bed660f7874e79fc6ccbc96d53d9d6c1da3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "391d6fab84830fb4b9abe0c652ffbed3757dea761e124273f83c0b2b298bac96"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/mn.json",
+      "beforeSha256": null,
+      "afterSha256": "3e32a358037d05aea944eae51866f6c2bdfe8f07b4ed2e8fc38d92a4092049f1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/ru.json",
+      "beforeSha256": null,
+      "afterSha256": "d02a57497497c55a2241b595f8bf5fc1cc795f453a2c8b8d9700a45d7d5c2617"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/th.json",
+      "beforeSha256": null,
+      "afterSha256": "5e455150ebcce5fa46db00c9cb5efdaa8618ba9aaf93fc2082986aeb3f6c2bba"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/vi.json",
+      "beforeSha256": null,
+      "afterSha256": "4bc52a7885de008c06fa39c4db09a1b260e9a750e70a0a4a7e34e9627cce0e63"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/zh-CN.json",
+      "beforeSha256": null,
+      "afterSha256": "64abba3b5e23b72494670d888c39a4039ddf48d3482e422b5ffdfaa56dc961b4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/locales/zh-TW.json",
+      "beforeSha256": null,
+      "afterSha256": "3a50574ba5930e16e2128244bf0a3f25fb93c48d0cabe5408c156c6046bd428a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "4967671b534ff1302e26dacd0915bb87ddf909e3cd5600b43b6d27e68aab5630"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/practice.css",
+      "beforeSha256": null,
+      "afterSha256": "5811bce5dd103a10e014f144fada5212c8d814c5c809e5f5a5d1aa995726c2d2"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/practice-recommendations/report.ts",
+      "beforeSha256": null,
+      "afterSha256": "2f508abdbc40783c47dacf091bd3bab9bb330a00fa6fbe81e11cd0c8f9577603"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio-main.tsx",
+      "beforeSha256": null,
+      "afterSha256": "593afbbd4606f0de35656b001b96dde05ed02d7916dc2861b0a28d1e1c581aa8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/Activity.tsx",
+      "beforeSha256": null,
+      "afterSha256": "93bcd51a158a52283af48d3924f3251fcb572740367a1cb045492335edfac76d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/AssessmentPanel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a272be6082058566d7e789a6ef04a421082623f7e3524025f1c776d5f439ffe5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/CardDetail.tsx",
+      "beforeSha256": null,
+      "afterSha256": "608ab556496fa0a8aaf78e1fba4683d41119f6831062c734c54e713680351da7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/DailyNote.tsx",
+      "beforeSha256": null,
+      "afterSha256": "42831515caf34683aac284a0f3ce4c5863a0d60b9b5c2ab839597ad658580d65"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/ExperienceReview.tsx",
+      "beforeSha256": null,
+      "afterSha256": "96f8097975688ca432631affafb304da131da321f51b2db7e6c1dbebea32ed57"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/GrowthPage.tsx",
+      "beforeSha256": null,
+      "afterSha256": "590b772441d11f999c36f5b2a1895fadf4e64d03f8e4d3ac5ae263061cbaf062"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/HelpView.tsx",
+      "beforeSha256": null,
+      "afterSha256": "a5ea0be28f5cff94fc79e2ea507a1c05b14294fd203995ec6b7e150a1b493fe5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/LabActivities.tsx",
+      "beforeSha256": null,
+      "afterSha256": "112d801ddd4c5ffc3d412ec8633709b2d1d1762e3fe42f678489538892e8ced9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/MonthPage.tsx",
+      "beforeSha256": null,
+      "afterSha256": "c5fda4a463a97141f64c73ce640cb138be1fc4e82cf67b3c94e241b0a868ec4c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/PersonalGuide.tsx",
+      "beforeSha256": null,
+      "afterSha256": "dac2db6751e8242daaa2491ee08e4e0cdd4918f61f835ee97697245c8524b8a8"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/ProfileControls.tsx",
+      "beforeSha256": null,
+      "afterSha256": "2196f633a1874aa268d2f2a6fe7d9af111561900cfc49589edb1bcb742609110"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/ReportPage.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8de1238614b52285a17e555d9000b93a3426146a8cd5041ebf82da0f4bb6b9f5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/ReviewPanel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "dd2e4a0e88f7fcb2acc969ea7e4088a861674678647c51d0dcd2832dfe3120aa"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/RoadmapPage.tsx",
+      "beforeSha256": null,
+      "afterSha256": "b468a3d99b2f956e3e3ce9228b3f57dd24ab892f82914f38e185250efb027c28"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/RunPanel.tsx",
+      "beforeSha256": null,
+      "afterSha256": "9aa3d15b6f0e31bc1f89504f7de1c6a8e9d5de2d48add079d611c014e2618583"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/SplitPlanner.tsx",
+      "beforeSha256": null,
+      "afterSha256": "49506614af35195b241d50f6aebd92464c1bbded2118f5868ed731bae453bd4f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/StudioApp.tsx",
+      "beforeSha256": null,
+      "afterSha256": "07019ff38a5e43e526498b856a80a00a621e8c9c75d18ea17c7e4d71a03217c6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/StudioPage.tsx",
+      "beforeSha256": null,
+      "afterSha256": "9def1c8b002f5a4ff27d8154f122ddfbda50448bf0317cacc6b79e93c5ff65c6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/SubjectSymbol.tsx",
+      "beforeSha256": null,
+      "afterSha256": "116b23fbc6921d9d34bd06fcc3f1361dc38249b0b91efb9f22329533e08ba364"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/TaskCreator.tsx",
+      "beforeSha256": null,
+      "afterSha256": "afca89f8d4709fa5f3cc0efa3e973f359956e55a1026e30dfb38a9103d6b5132"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/daily-note.css",
+      "beforeSha256": null,
+      "afterSha256": "404cc26d89b1e4db0f9da9b1fecab701cdd558bda6c00e80b65e2b379804640a"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/domain.ts",
+      "beforeSha256": null,
+      "afterSha256": "a11cc83a4556c7b1cf0ca45742e86c025cdeda8fd607ec2869185f5ccd949be6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/StudioDemoNotice.tsx",
+      "beforeSha256": null,
+      "afterSha256": "017453c15ca64b93371a9d7fe8de263a3d7eef0a0917af35b2d10ea1503db0c5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/assessment-labels.ts",
+      "beforeSha256": null,
+      "afterSha256": "a0e1b74f52c377153be7b8a915fe6d7170a086d58bfa7d8f9f6f45656403ee14"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/compiler.mjs",
+      "beforeSha256": null,
+      "afterSha256": "bb1306d326aa0738c4eaddb3eeba68a8b85274e8373d1bf78e7d78aa2307ef2f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/config.ts",
+      "beforeSha256": null,
+      "afterSha256": "d903cfbf784e5e4602a97de910de66e452534f15757cc7ccc654442357925ce0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/demo-copy.ts",
+      "beforeSha256": null,
+      "afterSha256": "4fda4d9ff7353063127f750367054b0daf72979f2a7561fbf2c1ddafa4a09124"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/demo-resources.ts",
+      "beforeSha256": null,
+      "afterSha256": "68b4b1d3370f869fdf7ebd2a2c07c190f101eff686722f57aa6f9deb244ad346"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/ar.json",
+      "beforeSha256": null,
+      "afterSha256": "453b63a348044ca39015c85a6fea4932fbc06152ae3129472198e18319cb08f9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/az.json",
+      "beforeSha256": null,
+      "afterSha256": "87b9c038e50a061994600f0ef3672e47f7c2ac5d6d4676783fcd51c2b21a3849"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/en.json",
+      "beforeSha256": null,
+      "afterSha256": "5731f007cb4d7c98acfc2313eaadc05818f7df6a3acf259cbfbe5b9a7aa0e5d4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/es.json",
+      "beforeSha256": null,
+      "afterSha256": "f2496e5df8c31d364df6b5890f3dcec845e71b6237677389b0251aeaca92824f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/fr.json",
+      "beforeSha256": null,
+      "afterSha256": "0ae1087c2c15723ff9bccd21c5fbab04ae925ef7655f8d84e960458c7a70b964"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/it.json",
+      "beforeSha256": null,
+      "afterSha256": "aa625b2086045546efa2c286547663f413c966b73edd31accec7881e1f0955ff"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/ja.json",
+      "beforeSha256": null,
+      "afterSha256": "2e495b6a4e5dfaf8f09c20bc05bc3c56df4a136981be3adb5e3fa9324af03da3"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/km.json",
+      "beforeSha256": null,
+      "afterSha256": "560895cadb0bd82a714f848a0d7c1d77a786c09adf4384519f8746bf9fe8605d"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/ko.json",
+      "beforeSha256": null,
+      "afterSha256": "8bb8583fc7d21081d9650247267ed0048d77878c2681506461c728f58018b499"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/mn.json",
+      "beforeSha256": null,
+      "afterSha256": "32d87ef620e32b99d2e678575a6586ccd6186df5029f2a0192ac2e245f28d9d0"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/ru.json",
+      "beforeSha256": null,
+      "afterSha256": "3a0d8847a1cf496bf42724982b670547d39612a7a683edea482a57d0616fb6b6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/th.json",
+      "beforeSha256": null,
+      "afterSha256": "4f53d37cab3d467f3a631bf2609521a8ceedff85dbb209301582d8adfbe86a52"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/vi.json",
+      "beforeSha256": null,
+      "afterSha256": "6a2e576aa23dccd5ab24b5e6fd1403ea24735e6885e35cab95e63a3218cb6b18"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/zh-CN.json",
+      "beforeSha256": null,
+      "afterSha256": "dc0e0f5047260e9828d84696752943c35dc4d82db434e6cee53181a94ec2c7e5"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/locales/zh-TW.json",
+      "beforeSha256": null,
+      "afterSha256": "f5a43dd59e7b8683601f215f6743bf4241ef38c1f1a7b8e903407829bc2d5d88"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/note-resources.json",
+      "beforeSha256": null,
+      "afterSha256": "a7dfa287aac76ac884e6ed6173b27446a17ad0a1b6750b3d101e58b3c152b8e9"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/i18n/runtime.ts",
+      "beforeSha256": null,
+      "afterSha256": "b93393fc5a1996e8695d5ed7bc7b1149f5d5c92399f67167af0a89e6eaa145e1"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/insight-report.ts",
+      "beforeSha256": null,
+      "afterSha256": "5415b26a0e715447110f6caa5f5a34c658a68f6a34a4232c26b9389967c5c7b6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/insights.ts",
+      "beforeSha256": null,
+      "afterSha256": "d470f873f97f2369d6743f099ec214343b51affc3f35c46af0c06fb50a8e7def"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/model.ts",
+      "beforeSha256": null,
+      "afterSha256": "d41bd4dfc317d2597613b3b05c709079c0e9b4d8e06550569cf666013dee1cc7"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/monthly.ts",
+      "beforeSha256": null,
+      "afterSha256": "c4b7ea29711737ff1ab54ea33c703d762bbec1b43abf9d35157c997455d95c35"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/notices.ts",
+      "beforeSha256": null,
+      "afterSha256": "7fa4160a73ae77c13384ffd98e5d07f817240e7aa3ccb26f96ff45fa97077a77"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/persistence.ts",
+      "beforeSha256": null,
+      "afterSha256": "c2c1745fbf52dd08ecaaa7384bac598b7545e0d89d6f275adb99f3d1039bda09"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/personal.css",
+      "beforeSha256": null,
+      "afterSha256": "91dd2848bbe50c68a60afce4a214686fa814bea4c5263a0df625329cb91f8188"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/report-time.ts",
+      "beforeSha256": null,
+      "afterSha256": "0b6287aa4a160f67982ed97eef519e1c520ec6a4f0281c835317d0a43b081794"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/report.ts",
+      "beforeSha256": null,
+      "afterSha256": "3d663f398808597df4f1b6b42aef40618957fc113868dda9e4c178363cb13d17"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/roadmap.ts",
+      "beforeSha256": null,
+      "afterSha256": "6391bcdfcc715009b4a5ddbca9c14e2f12a910f0a7996de820b4f029aac1441c"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/store.ts",
+      "beforeSha256": null,
+      "afterSha256": "06506f589aa5a81652f78e97f4fc542215b5dda7a257d03b887660cd6255d7ea"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/studio-logic.ts",
+      "beforeSha256": null,
+      "afterSha256": "b56bacff033aec8d70a12748e1f348917a2b0a84081418b3b5edc7d63a714b9f"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/studio-model.ts",
+      "beforeSha256": null,
+      "afterSha256": "ca9b47ec99baeafaac99700533eb3dbd88b63e293293865cc80e054d74eb8bb6"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/studio.css",
+      "beforeSha256": null,
+      "afterSha256": "7d27f9a013c8f116a7aaf52f364ee78be7d610ecdc86c8948b7593c966aca3fc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/task-copy.ts",
+      "beforeSha256": null,
+      "afterSha256": "f345d25049e2978e61e9c481d5af693444ad5c7970cae7da3fe0df0fd832e743"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/studio/task-plan.ts",
+      "beforeSha256": null,
+      "afterSha256": "5f6523750119dee4ca96a801a07a5871476787495b8517700c16891ad0c06663"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/timed-decision/ReviewLink.tsx",
+      "beforeSha256": null,
+      "afterSha256": "8e7c5f4b909f452bfc23228635572dfb5adaff1395b5bd4aaf37c5ca0f89c676"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/apps/planner/src/timed-decision/ko.ts",
+      "beforeSha256": null,
+      "afterSha256": "ab4d203eb90f5573af7cd9adbd15f8ed11467e1778b1735cfa7aba4f239cf2aa"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/packages/contracts/src/assessment.ts",
+      "beforeSha256": null,
+      "afterSha256": "6dcbbcdd573ab90b5291c5d23adf581685e4815c94842d869eabf1e2a9277455"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/packages/contracts/src/index.ts",
+      "beforeSha256": null,
+      "afterSha256": "9d9a18a1c06d265ea235d9b2e3920f714c1cf5d953906cec141effa3d28b2d89"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/packages/contracts/src/profile.ts",
+      "beforeSha256": null,
+      "afterSha256": "3d0c329ead47008d13f681a85d437a61de858aa8403b7c65dc6150fe211c5eb4"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vendor/nuvia-original/packages/contracts/src/validate.ts",
+      "beforeSha256": null,
+      "afterSha256": "428fb9a06d7fc22823f71e97617b30da8409b86e849cc2bd671569bb1c353ddc"
+    },
+    {
+      "path": "nuvia-career/artifacts/nuvia-career/vite.config.ts",
+      "beforeSha256": "39ee1a7d90ba0b1d5423f53b97ae31162b5ef60f60f4c4fc3039b29969c16573",
+      "afterSha256": "8394ad5e779787fe4fff8d5ce26b8642830e25c0e4bf4a2457ebf6e1b656657d"
+    },
+    {
+      "path": "nuvia-career/docs/NUVIA_ORIGINAL_APPS_ACCOUNT_INTEGRATION.md",
+      "beforeSha256": null,
+      "afterSha256": "c7e14989818e245a27279748aba879417187147109489eb1e364c7c596509708"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-account-integration-20261121.md",
+      "beforeSha256": null,
+      "afterSha256": "b1c9cfddfdc84ed803b109af2e6a1719119134b3caa9f7c46b704b34b42dd0ac"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-adult-thought-note-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "1b892dc92b6804e6d09d43b8bb71970a8fa46a08ecdb226045925d7287fbfe67"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-async-ai-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "91c823ea091820503b9a064728fa69961e1b04fa22c8acac381c2d63d0542b62"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-async-ai-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "1826cd39680e23ef54753889502f9561e112c8c241c863355ca15c097c374986"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-classroom-ai-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "70094dec076d08e7c0d7e3f6652f40700fbc9f028f2a227134a882ed8adeca5b"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-classroom-ai-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "cc5021c0511f71fedf0349d0c217bd60177745065aa45a02391432144782ee6e"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-daily-lab-feelgood-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "3339b7fa20bac57288b2e2b5e2f71fe049dfddad44a61d526c2b751812c803ed"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-experience-unsaved-input-fix.md",
+      "beforeSha256": null,
+      "afterSha256": "3da23b4c21fc12bc785ec9cc62b7767c7c61079382f840d30a13ac3f85a2145f"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-github-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "6028957d75d486570484dea2dbb6fdce3266d41d5e2ed156128d7c92c07a6f22"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-job-connection-handoff.md",
+      "beforeSha256": "0857ef67ae4cc9aa11f2b0a7392b142b3435ec0b441ef97f4e6989de49ebc1b0",
+      "afterSha256": "e76d2390bf05a5e9dbc0ac72127ba4d1f3948a3667ce5124cb05878343bfea82"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-planner-original-files.json",
+      "beforeSha256": null,
+      "afterSha256": "a3ce3895b81abee89e692cff13f4593237463b03eecc29e3ea12faca12643252"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-public-demo-readiness.md",
+      "beforeSha256": null,
+      "afterSha256": "9fc1b32487d01f7cbb1e84d4229b7a803501efb5d4e7619bad2e42fb70ace26a"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-review-audience-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "0d1a86a526164da9497081a1bb48465cf79c62340b452dffb18c0c715a767edb"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-review-demo-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "e62add79007e4442e83e10cb197cee59c14000c427fa3f316380181ee8cfbf7b"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-review-device-data-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "a38ae43529530ca553d3306a73d3ec164eeaef46cb6d999d88c6675d7c5bc695"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-review-gpt-lab-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "12bff0970205a7bf6f53e33bb470ea00855b2eaea8c42fc06efaa65ccd340099"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-review-simple-story-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "7ee5c1b550b3095956bff0a34e22971e3c91959f382db6de248df0117628d6b3"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-dashboard-current-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "7b650c76886a5174db881f8585d9834b887a2b2397dfde28ba88d33ef77e99ff"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-dashboard-current-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "e24fd1a3f3963e0d4ee763567a0c1338f46b0b31d946f6dfec178612b1a32b3d"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-dashboard-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "57f32568e71282401adef9d6a5e302dc16c6615e2caa02253e3149a3873497a7"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-dashboard-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "e8c10ce12f7f0e5e758fdfc6d8a6013ab20a1389048c4510ba7f6aa44b051e87"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-storyboard-handoff.md",
+      "beforeSha256": null,
+      "afterSha256": "9f8dcab30d262c42540792843a317a7f429c09f2e59dff4c41e43a7d40184f91"
+    },
+    {
+      "path": "nuvia-career/docs/nuvia-strength-storyboard-qa.md",
+      "beforeSha256": null,
+      "afterSha256": "b78284e0929342016482790a907eae39c774b0bf20d193ba725db8c29f27fb93"
+    },
+    {
+      "path": "nuvia-career/lib/api-client-react/src/generated/api.schemas.ts",
+      "beforeSha256": "1b7b341eca1799ff3567b855c007bfc6425f88ec58c9ac0dc87c1252bce8b780",
+      "afterSha256": "d74e117f9144a4422033829cd3568a86876d0352a489726d32694e840a127f43"
+    },
+    {
+      "path": "nuvia-career/lib/api-client-react/src/generated/api.ts",
+      "beforeSha256": "7d7ebb799c46f5266bd79c43a2d7e7cbad0e1c96d3050cadc3b55400447d26be",
+      "afterSha256": "dfe3a1a7fbba1c2a79b987511836e44c8692c5f1d7976c0ac98cfa047a1f855d"
+    },
+    {
+      "path": "nuvia-career/lib/api-spec/openapi.yaml",
+      "beforeSha256": "bd25c1e35be89b3d0f61594dbcd5a1d2cf5d97b09e0338979a0067853bdaf394",
+      "afterSha256": "90a34939673ad3c051f323208363415988bab0cda48927b7d9cc0f2a9d7052bf"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/api.ts",
+      "beforeSha256": "d05fee553b728e140419ff839a72591ccdaeb00b994bf1eb2db87015136beb78",
+      "afterSha256": "735bb661ca4e6e79a254831b87e6fb643c85cd96f2255558153cd155dc78e163"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerAiJobStatus.ts",
+      "beforeSha256": null,
+      "afterSha256": "7a4b84a6046aec9aa57b459231868a707bdc45c47eee1b848566896fccf7a12f"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerAiJobStatusState.ts",
+      "beforeSha256": null,
+      "afterSha256": "6bf3d836b7f33a5cdde5d4005ab893e684afd3aa751348df6c19106cf2a6915d"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerApplication.ts",
+      "beforeSha256": "a74b79fe48b8b9da6e48d21c146a351ace6881d749087dad8c422a009fce8381",
+      "afterSha256": "b1ce3542b0196bad1b8b8b582f47fb9acf34b9923ebcba4a57fb9de50fcb960e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerApplicationIntegratedAudience.ts",
+      "beforeSha256": null,
+      "afterSha256": "72956ab3f9cb94ac41ada5a2c7180d600bf5102c3cb3f0e9c22fe1f6ee431c41"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerExperience.ts",
+      "beforeSha256": "03e0f5d55e2c8f9612ef7779cec057d5f25d8ab3a324933bc27bbc4db5068933",
+      "afterSha256": "74e0ad87ba8cb02e7e5067be0e37ad4d515d7564aecb82c634caa21f095157e3"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerExperienceActivityContext.ts",
+      "beforeSha256": null,
+      "afterSha256": "19bbf004349ac524198d34be9e0a1cafbe2226b22f55ccc95fad935b854debf3"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerIntegratedSource.ts",
+      "beforeSha256": null,
+      "afterSha256": "15230da41180282eb7f6c210df5bc9a4e87926479e0e14dad56de0a509688a70"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerIntegratedWorkspace.ts",
+      "beforeSha256": null,
+      "afterSha256": "8f33dd509f7c59318b86bccbbb5a57206ac5c63260b85617de5230d6435e8f3a"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerIntegratedWorkspaceAudience.ts",
+      "beforeSha256": null,
+      "afterSha256": "36167033f65d365e052d3e88a37b5b8e736d096c08ddcdf336d583ff5afd63c0"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabEvidence.ts",
+      "beforeSha256": null,
+      "afterSha256": "55194ceb23fad842dbdf13d069accf67df7e21abacf17a9baf96748dc6f31c62"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabEvidenceCategory.ts",
+      "beforeSha256": null,
+      "afterSha256": "aa217ea0c128da646be742350e88dbc6773f0067533e78fb7513853d33ef4e17"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabEvidenceKeywordOrigin.ts",
+      "beforeSha256": null,
+      "afterSha256": "5d368ebc35838e18ceb47dd71add79030605f73616209c68d112e039b7a92575"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabEvidenceKind.ts",
+      "beforeSha256": null,
+      "afterSha256": "e9cd75329e7592b072434e0d96010ae300ae982571af6f07a7b200db0eaa0053"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabHandoff.ts",
+      "beforeSha256": null,
+      "afterSha256": "ec786bff8027b18461ebaff19dbdb1f43985c03ea3cc1144dcb4d9e7fc81e8a4"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabHandoffAudience.ts",
+      "beforeSha256": null,
+      "afterSha256": "c2cfd127233ae26d9837422d24e2f920ccecda1fff148d009fd90be573f9a843"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabHandoffPurpose.ts",
+      "beforeSha256": null,
+      "afterSha256": "facf3c4df45777df428c0f0f99675a8e167b564ec758b4d41078130f21b8b4df"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabJob.ts",
+      "beforeSha256": null,
+      "afterSha256": "38cca1cbf74638713baa471bcfdfe4b2d838916447b724577d066214e4cf558c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabJobState.ts",
+      "beforeSha256": null,
+      "afterSha256": "c1631942beae3a8ae95ec1ab5645a6de99b645e75a57d46965e3fd2b3671f2ab"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabMaterial.ts",
+      "beforeSha256": null,
+      "afterSha256": "42400f5e548137ee2ff534a3f26e1f46de68bbf5ae24d930c1ba5e8a0dc7dca6"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabQuery.ts",
+      "beforeSha256": null,
+      "afterSha256": "2bbe8807c755e1bf3c9bd4e3f5f9f6946b1a5d6da887d92044c95abb1cd4312e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabResults.ts",
+      "beforeSha256": null,
+      "afterSha256": "217582d1d42df95aa0e77fd600c9a99969fded398a9384114d2ae62a40a00d5a"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerLabResultsMode.ts",
+      "beforeSha256": null,
+      "afterSha256": "d9281b1fdcac820c6cf4a5c2221ef5c1454097d816db0fe691c548e4860a712c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/careerState.ts",
+      "beforeSha256": "d0573ae0dfa45cccc53d4a81b9cef691485dea00cc8397b088514fb85b5fcf42",
+      "afterSha256": "0232de3f452e4235cb2bac2e5d751aacebeef8c4364edb95e08105f7853a826d"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/getOriginalEnterprise200.ts",
+      "beforeSha256": null,
+      "afterSha256": "8e3fb96ed479812a66b38bf5b56a6a539a7f6fff8c5f3b37c54d76d1e6d8151e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/index.ts",
+      "beforeSha256": "04ed2700f0b4262c0cc766eea52fcd3ce0c328bfb19f98f779d9d30c42f49681",
+      "afterSha256": "2eac7026186e0afae21f184b5929215e1d9e461d9f4b4dd7947fff6bf13cef5c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/originalEnterpriseScenarioRequest.ts",
+      "beforeSha256": null,
+      "afterSha256": "448bafde6b3a7fa8a67b086f74330633da3d57f9a48154ec87e2aa223fa1ad3c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/previewOriginalEnterpriseScenario200.ts",
+      "beforeSha256": null,
+      "afterSha256": "383e48544a1c8bfb0389b21ecb690a9ad58efb4af6bd29dc111ccb04bdcd4de7"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryEvidence.ts",
+      "beforeSha256": null,
+      "afterSha256": "eacfa3485d53b2ca280ad794eded7fbe0d5acaf50f7bb63df33e85ba5be7ce7c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryEvidenceKind.ts",
+      "beforeSha256": null,
+      "afterSha256": "40e5dc5fc4298a6c8e7a1d1071b388b2155e6581887a4020b3813f7f5da9fe63"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryInput.ts",
+      "beforeSha256": null,
+      "afterSha256": "56f2836b9e58cc7539c152ef5ed9d9d8d3b166562ad38c6bb34ec138bd1275bb"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryInputKind.ts",
+      "beforeSha256": null,
+      "afterSha256": "99c809944839c3142566045826c426c7263243aa1415fc25d95a9e84bc6b881b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryJob.ts",
+      "beforeSha256": null,
+      "afterSha256": "cdab2923588d04272e26d8f66eb95cfbd35902c7429832837eda4be9b130df1b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStoryJobState.ts",
+      "beforeSha256": null,
+      "afterSha256": "8d8e3ac94c0221831506b17139b5b1649e3267639a7d756d44f56441dbb75405"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/generated/types/reviewStorySuggestion.ts",
+      "beforeSha256": null,
+      "afterSha256": "dec70e64faae66ebd497f176a55bf9df9fe598af58a817870b2fb37dea16daef"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/index.ts",
+      "beforeSha256": "effb7d33b5df99004c9b1a840944516ca3ad65cbcd3ae2fcc717c505814ce039",
+      "afterSha256": "68c2ff4f5e5817fd2438155f4724da8ed0ec18f2bf5be1ed02d6030931352e71"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/card-planner.ts",
+      "beforeSha256": null,
+      "afterSha256": "db807bf35e310d3df3b8a9c10e7039b68820b38876d413b07e68b520116857f4"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/index.ts",
+      "beforeSha256": null,
+      "afterSha256": "159bc3a04d5c716963bb82ad5325220396e5ac5bad4eb60f564829b557eeb02c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-disclosure.ts",
+      "beforeSha256": null,
+      "afterSha256": "8c0c45d99340333a9f47ee418a6417ab3133784488264e4d07080744d5d3d923"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales.ts",
+      "beforeSha256": null,
+      "afterSha256": "fb45c4560b5e23a8cf9c2351b3cda170e26578b75e7891b22d30acb1adc21181"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/ar.ts",
+      "beforeSha256": null,
+      "afterSha256": "e766b9998a31f1e39dcb803a9d1f1eed1d81f67ef3c253967f08ff083e8e3fbb"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/az.ts",
+      "beforeSha256": null,
+      "afterSha256": "27bb85f18172f6abfbf6c5129c8acacb7e2c478ca1913aa3157f34ac454732a6"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/en.ts",
+      "beforeSha256": null,
+      "afterSha256": "3d46ea81ed239031fe66f4e20e0a33c8a9c4f7f5dd688b36bcf5e8915fe7ac1b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/es.ts",
+      "beforeSha256": null,
+      "afterSha256": "59be2a3e7996a6d6ce721ed105ccdf0d40ef705c18b3714352bf5806a560553b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/fr.ts",
+      "beforeSha256": null,
+      "afterSha256": "0979476bff556aca890cb6973b5a9b847188f13088d9867b5f979e919c3c0159"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/it.ts",
+      "beforeSha256": null,
+      "afterSha256": "15fe7f4bea00d40c83e31482b68785925fed38adcdef944b45b096afc80223fa"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/ja.ts",
+      "beforeSha256": null,
+      "afterSha256": "14ae8aff8f788fffb0a429b022e4eec4835abf4aaec06c84c540a7d6721d20c7"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/km.ts",
+      "beforeSha256": null,
+      "afterSha256": "4af201f1b7df78c04a872b3781d00793f2bea6568ac12cef6338899c8f13737b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/ko.ts",
+      "beforeSha256": null,
+      "afterSha256": "3e7e83462d478d90083a5b2a075cd3d6d17194a110ff5953ecaef4b7e6ac6c5b"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/mn.ts",
+      "beforeSha256": null,
+      "afterSha256": "df64adaaaa49e1e4006d169b919b20e0790df3860b12ee7447176add44dce78f"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/ru.ts",
+      "beforeSha256": null,
+      "afterSha256": "66bcc144845ecd25a683d5ca1c29590ea3d32e7e704168e692f667852ce8add3"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/th.ts",
+      "beforeSha256": null,
+      "afterSha256": "3f801edf47d66fa979d61341a358e2629de6aff70b7c010990092e4fb5f46888"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/vi.ts",
+      "beforeSha256": null,
+      "afterSha256": "79b67102daf188698e8a312d427063188cee340645289ba55cb5637d0fb5b16e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/zh-CN.ts",
+      "beforeSha256": null,
+      "afterSha256": "6d4551035684bc9ad4d6eeb05f576a91a7f6dedf0be8a571040dfebc837b76cc"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-locales/zh-TW.ts",
+      "beforeSha256": null,
+      "afterSha256": "bccc8e87afba6268159eecbb4b7ba05175570ba58f71fb338a7ea3245cd34d8c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-model.ts",
+      "beforeSha256": null,
+      "afterSha256": "e1725a2675097aa5fcef9d361577143a66df613e009379f47d60b400e2f30c81"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-occupation-locales.ts",
+      "beforeSha256": null,
+      "afterSha256": "1d57e4181eb4a01097be56a1bf6a428ae115adb4c10dfff412fe459b71be4875"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-occupation-packets.ts",
+      "beforeSha256": null,
+      "afterSha256": "397935919aba4149e9784fb42f1cd363dc9c0098d00865480ee4cb1a345f0cb3"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-occupations.ts",
+      "beforeSha256": null,
+      "afterSha256": "38d29402db4a41fc6066e81e04b29c48304388cf47468032ddb3e4a4a659a48a"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales.ts",
+      "beforeSha256": null,
+      "afterSha256": "01757398686f6bcd7683f7a9f0018b79681ff7cd8fc514ba4d9704943953a299"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/ar.ts",
+      "beforeSha256": null,
+      "afterSha256": "86f86fe15d37d712348ca31343d440c691a47aad61abdc051df2187153103c86"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/az.ts",
+      "beforeSha256": null,
+      "afterSha256": "333c045f08bf2b3faef5dcf3fa08c971468cca865db48583bb50e0b2949c1a2d"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/es.ts",
+      "beforeSha256": null,
+      "afterSha256": "d7c291e3a2eb13b14a8199aab32dcbc3397865d13f5f546eaf6b3a6b629ac95e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/fr.ts",
+      "beforeSha256": null,
+      "afterSha256": "358fb841143d6c46027f9b0254c1a27d9188e5482d6db8b3a3f558597f1e57b8"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/it.ts",
+      "beforeSha256": null,
+      "afterSha256": "65ae759c6bea1b5c2762f9811c4a6a187781fed59be6b3ada1fb71b62ac0e6a7"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/ja.ts",
+      "beforeSha256": null,
+      "afterSha256": "ec3999641029ccc3fb5b0e2d9c030bd39c9d5d8d5db7b3c5fdb654314a9ff40e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/km.ts",
+      "beforeSha256": null,
+      "afterSha256": "c3e5844c20edb4bcf932af173f738b90fa4398d31fe90b2bdce460badeb57079"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/mn.ts",
+      "beforeSha256": null,
+      "afterSha256": "78fb7d358f0bd28984edca40c9de945a12c40073b6a9fc56708bb2ebb2f042f2"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/ru.ts",
+      "beforeSha256": null,
+      "afterSha256": "505e86d2f64b7182523ccc48d714bb175afc0a35210c47972b3a1f251736696e"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/th.ts",
+      "beforeSha256": null,
+      "afterSha256": "1df680488bd3680a346a977a460a692dc72dbeead73a51e1312c6ed00a8882b8"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/vi.ts",
+      "beforeSha256": null,
+      "afterSha256": "6c09e9fb22b84872e3d6352e653f9ff9bd051d42c5409c26a9bb18ae17177176"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/zh-CN.ts",
+      "beforeSha256": null,
+      "afterSha256": "e3b0f1f24aa3761be79ae6b96429afbf7e83ba7298f96cbc39fcff12e7a33a36"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-locales/zh-TW.ts",
+      "beforeSha256": null,
+      "afterSha256": "6fd41b0186a4fc0676a79106c6579b847f78730a4a226163044db09b52beba23"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packet-text.ts",
+      "beforeSha256": null,
+      "afterSha256": "a7cb22cba848067ce31eac2673610e1468c54db5a4e5ee6a8e75d4f1e7efcb5c"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/scenario-packets.ts",
+      "beforeSha256": null,
+      "afterSha256": "97a74d4c04ca23643602bb63321012443c591c58d5ebba0902dc1b3f95806ac9"
+    },
+    {
+      "path": "nuvia-career/lib/api-zod/src/vendor/enterprise-lab/timed-decision.ts",
+      "beforeSha256": null,
+      "afterSha256": "a0e44ca1cc69ed10d198b14d9d711e42410d70ba4a9308571def370ded47b5e5"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/assets/LICENSE-python-hwpx.txt",
+      "beforeSha256": null,
+      "afterSha256": "fee6f3e30bfe064913de5de0bbe42e1fb2467958ee458199a192bde5e36c0875"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/assets/README.md",
+      "beforeSha256": null,
+      "afterSha256": "dd224e60357dd074ab761975d38a78423c33f18468cabcf10f837ed8f888fe6c"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/assets/skeleton.hwpx",
+      "beforeSha256": null,
+      "afterSha256": "c91fb77a9933a3e5645a25778e2d2b99e98137ed99572a5d1dd29ef0c0fd4c98"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/package.json",
+      "beforeSha256": null,
+      "afterSha256": "90819716ca60565538c11d59bdfd4fec4d0c3f185c509bb8340016655993b97a"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/src/docx.ts",
+      "beforeSha256": null,
+      "afterSha256": "5b54aaedc5e9bd5a89197982b86105e39f98ad5f511442f8dd477188b0c47eab"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/src/hwpx.ts",
+      "beforeSha256": null,
+      "afterSha256": "fd76d0e75ef19a1d124e88cadc519c3f472217e84579b3aa9f18c3b09e8e838e"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/src/submission.ts",
+      "beforeSha256": null,
+      "afterSha256": "952f003a098dbd7241ff60e9ef4441863dd541a27b6efe6478fe70fa993a1676"
+    },
+    {
+      "path": "nuvia-career/lib/career-documents/tsconfig.json",
+      "beforeSha256": null,
+      "afterSha256": "bb52c0e8b13e658570a208d946cb874fdf2b8d990f7c228f96fb24254c9c5a95"
+    },
+    {
+      "path": "nuvia-career/lib/db/src/schema/career-ai.ts",
+      "beforeSha256": null,
+      "afterSha256": "79d9464d4dee3ef0aa49ab4d0b1f842e4d980f83a929f5952ebe10ad46f5547a"
+    },
+    {
+      "path": "nuvia-career/lib/db/src/schema/index.ts",
+      "beforeSha256": "040f6ee3286f379323749f307de249ac873bf009ab1540060410a4af530a717e",
+      "afterSha256": "df37aff58e319eab76c0e64e7a771c113af100fbf949b3e99d1c4eacd7a5c1c8"
+    },
+    {
+      "path": "nuvia-career/pnpm-lock.yaml",
+      "beforeSha256": "5d5992cbd0b8bb41be81073af5b2082845d9b982183275b3ab667ace7ec6ee8f",
+      "afterSha256": "54bb693013d4d327d0ab86566333f0fa5fc8ad5fa85a7c050c08ff0a324e268d"
+    },
+    {
+      "path": "nuvia-career/scripts/post-merge.sh",
+      "beforeSha256": null,
+      "afterSha256": "b9e43e43dcbacd4bd26b84d68dd616270a6aacbd51ab25a2f6b1b81484eadc37"
+    },
+    {
+      "path": "nuvia-career/scripts/src/hello.ts",
+      "beforeSha256": null,
+      "afterSha256": "9a865c3de9900891e697e1ee8632dd565ce69bd7cb6b610e48b26bc0ee9e81e9"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-prepare-github.ts",
+      "beforeSha256": null,
+      "afterSha256": "f1e01da2c67e874cceb0980b4d633f4d8ba8dc4c3a65195566d0cebf81533b1f"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-adult-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "5c7f757055d275c4e2820f25bf6014a2dd12f8d8549a36d6d43d10ec61f91c44"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-audience-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "cc6e0386cbfd89758639bda19196d3eaa4cc77b9933f293d76dbf8c949e185aa"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-daily-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "27d6bf194a89a20f120b3b3e71eca46da5681770f80b1c218b31a59513e647ef"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-demo-download-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "ac4eeb589b9cfeba7265b9a585747b403f1a2581d69ff4760145f634239d94ae"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-demo-journey-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "6c0d975b78b0e2ee6252d1f565a29c54cd20f889426879d668cc389cb8782a71"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-device-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "7e507329a2f3eef56aee099b3a821efbda05472053b5dca6c575ab1958076b92"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-lab-live-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "9b3a6329d171c20bb03aa7259f4e6612739ca02cdd09884d1077d87d2c2d9f6f"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-planner-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "6506f6f6e02ce4a80057cbb3671e8ecc565311e7038bd7139d4443116d205c0b"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-review-shortcut-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "2536bc8a0b4e947fc36691f0e88297d6129be5ec76bf1becc616cac361ed3cc1"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-simple-story-browser-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "7b6d94e416be61545c56b69564bae08924379ed41cf7036ccef9f6b9f40945f9"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-simple-story-live-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "46e4d8b7b240396ec9c0b18b66efcaa54683e28306ceb2b2edbaf201da38ee7b"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-localization-document-qa.ts",
+      "beforeSha256": "7b2d57412320a48de4d55e576bdd19f00d2a9b5958cb144ef8f514d4cf5d213e",
+      "afterSha256": "f13aa8f16429b24a7c74c325c359bff915f591b99c65258563c8e5fcb09dd7f7"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-star-story-localization-qa.ts",
+      "beforeSha256": "6073a21607fdabac5be4e7a5b2c5a9d815cfec91d989a8ba792136df7223c9cd",
+      "afterSha256": "b55e9022f8f8d4abd88f2c12eb4d5db5efecc676739dbbdb9b02b8e52dd4c8d3"
+    },
+    {
+      "path": "nuvia-career/scripts/src/nuvia-storyboard-managed-ai-qa.ts",
+      "beforeSha256": null,
+      "afterSha256": "d3674c1f34879dbe3ec910cd878ece5035764d04ae68a74aa8c2ff531103f75e"
+    },
+    {
+      "path": "nuvia-career/scripts/src/package-nuvia-classroom.py",
+      "beforeSha256": null,
+      "afterSha256": "6afda3e2d630770d9964eb2d77cdb8b6f1c8a7725170d4c19cbb4e83375337e5"
+    },
+    {
+      "path": "nuvia-career/scripts/src/package-story-dashboard.py",
+      "beforeSha256": null,
+      "afterSha256": "f3b7bac1318e8379bbf9998a903ee8d227bd814097c0f28f80267c39bc20df90"
+    },
+    {
+      "path": "nuvia-career/scripts/tsconfig.nuvia-review-qa.json",
+      "beforeSha256": null,
+      "afterSha256": "fdeda923369647e2cd823e8c99b306869623528c68552628587ed2e462056fc9"
+    },
+    {
+      "path": "nuvia-career/tsconfig.json",
+      "beforeSha256": "8883c5dbf9e073ef0c7e91769b3e4abccca022df69b62fa7518d73e1512b37ef",
+      "afterSha256": "094e2e0095755106a85711673301a21aecc69f39688e83ba8d786087c5896708"
+    }
+  ],
+  "archiveSha256": "fa269379eb79a6bc992950ec51774d9a1fc9c8b486e13d3bf6cd583ddd0225ca",
+  "qaArchiveSha256": "883c573fe8b5649b6289c167d87471970b20b3e55295458f2033a0ff92a53b74",
+  "scope": "Latest Replit snapshot + original scoped Korean development QA evidence; no product edits or local full QA rerun; central integration and production QA remain separate",
+  "protected": "main, other programs, prior QA records and local handoff docs are not removed",
+  "previousPatchBaselines": "8dcc40a/f70499a Replit patches are not directly applied to this GitHub baseline",
+  "originalProtectedRulesVerifiedBeforeDocumentationAppend": 3,
+  "documentationAppend": "Added latest storyboard precedence to AGENTS.md; original rule text retained; AI personalization and company sharing documents byte-equivalent to baseline."
+}

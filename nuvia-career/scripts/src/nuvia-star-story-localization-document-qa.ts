@@ -7,7 +7,7 @@ import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const workspaceRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-const out = resolve(workspaceRoot, 'generated-artifacts/job-connection-star-qa-20261110');
+const out = resolve(workspaceRoot, 'generated-artifacts/star-story-localization-qa');
 const locales = ['ko', 'en', 'ja', 'zh-CN', 'zh-TW', 'mn', 'th', 'vi', 'ar', 'ru', 'km', 'es', 'fr', 'it', 'az'];
 const questions: Record<string, string> = {
   ko: '지원 동기를 말씀해 주세요.', en: 'Why do you want to join this company?', ja: '志望動機を教えてください。',

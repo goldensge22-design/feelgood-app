@@ -1324,11 +1324,15 @@ const AI_CONNECTION: Record<string, string> = {
   az: 'AI bağlantısı qurulmalıdır. Birbaşa yazma və əvvəlki yadda saxlama funksiyası işləməyə davam edir.',
 };
 
+import { capacityMessage } from './ai-capacity-messages';
+
 export function aiTranslator(
   locale: string,
   base: (key: string, vars?: Record<string, string | number>) => string,
 ) {
   return (key: string, vars?: Record<string, string | number>) => {
+    const capacity = capacityMessage(locale, key);
+    if (capacity) return capacity;
     if (key.startsWith('ai.sourceValue.')) return base(`expsrc.${key.slice('ai.sourceValue.'.length)}`, vars);
     if (key.startsWith('ai.cardValue.')) return base(`pv.ct.${key.slice('ai.cardValue.'.length)}`, vars);
     if (key.startsWith('ai.contextValue.')) {

@@ -11,7 +11,8 @@
     "moduleResolution": "bundler",
     "types": ["node", "vite/client"],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@nuvia/contracts": ["./vendor/nuvia-original/packages/contracts/src/index.ts"]
     }
   },
   "references": [

@@ -12,7 +12,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
 import { I18nProvider, useI18n } from '@/lib/i18n';
-import { WorkspaceProvider } from '@/lib/workspace';
+import { ReviewWorkspaceProvider, WorkspaceProvider } from '@/lib/workspace';
 import { AppShell, LanguageSwitcher } from '@/components/shell';
 import OverviewPage from '@/pages/overview';
 import CriteriaPage from '@/pages/criteria';
@@ -24,7 +24,11 @@ import VersionsPage from '@/pages/versions';
 import ExportPage from '@/pages/export';
 import ConnectionsPage from '@/pages/connections';
 import JourneyPage from '@/pages/journey';
-import { PUBLIC_DEMO } from '@/lib/public-demo';
+import StoryboardPage from '@/pages/storyboard';
+import ReviewDemoPage from '@/pages/review-demo';
+import { PUBLIC_DEMO, REVIEW_DEMO } from '@/lib/public-demo';
+import { ReviewAiAccount, ReviewLabSession } from '@/lib/review-lab-session';
+import { AccountJourney } from '@/pages/account-journey';
 
 const queryClient = new QueryClient({ defaultOptions: { queries: { refetchOnWindowFocus: false } } });
 
@@ -43,10 +47,6 @@ const authLocales = { ko: koKR, en: enUS, ja: jaJP, 'zh-CN': zhCN, 'zh-TW': zhTW
 
 function stripBase(path: string): string {
   return basePath && path.startsWith(basePath) ? path.slice(basePath.length) || '/' : path;
-}
-
-if (!clerkPubKey) {
-  throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in .env file');
 }
 
 const clerkAppearance = {
@@ -123,7 +123,16 @@ function AuthFrame({ children }: { children: ReactNode }) {
 }
 
 function SignInPage() {
-  return <AuthFrame><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`} /></AuthFrame>;
+  const {locale}=useI18n();
+  const query=new URLSearchParams(useSearch());
+  const reviewReturn=query.get('review-story')==='1'?'storyboard':query.get('review-lab')==='1'?'lab':null;
+  const accountReturn = accountReturnPath(query.get('account'));
+  return <AuthFrame><SignIn routing="path" path={`${basePath}/sign-in`} signUpUrl={`${basePath}/sign-up`}
+    forceRedirectUrl={reviewReturn?`${basePath}/demo/review/${reviewReturn}?labAccount=1&lang=${encodeURIComponent(locale)}`:
+      accountReturn?`${basePath}${accountReturn}?lang=${encodeURIComponent(locale)}`:undefined}/></AuthFrame>;
+}
+function accountReturnPath(value:string|null) {
+  return value&&/^(?:home|report|lab(?:\/(?:interests|explore|majors|design|practice|planner|experience|experiences))?|planner|storyboard)$/.test(value)?`/${value}`:null;
 }
 
 function SignUpPage() {
@@ -146,9 +155,9 @@ function ClerkQueryClientCacheInvalidator() {
 }
 
 function HomeRoute() {
-  const { isLoaded, isSignedIn } = useAuth();
   const search = useSearch();
-  if (!PUBLIC_DEMO && isLoaded && isSignedIn && !new URLSearchParams(search).has('view')) return <Redirect to="/experiences" />;
+  // Default home is the Strength Storyboard; the old overview stays at /?view=summary.
+  if (!new URLSearchParams(search).has('view')) return <Redirect to={`/storyboard${search ? `?${search}` : ''}`} />;
   return <OverviewPage />;
 }
 
@@ -157,27 +166,33 @@ function RoutedErrorBoundary({ children }: { children: ReactNode }) {
   return <ErrorBoundary resetKey={location}>{children}</ErrorBoundary>;
 }
 
+function LegacyRoutes({account=false}:{account?:boolean}) {
+  return <RoutedErrorBoundary><Switch>
+    <Route path="/" component={HomeRoute} />
+    <Route path="/experiences" component={ExperiencesPage} />
+    <Route path="/criteria" component={CriteriaPage} />
+    <Route path="/questions" component={QuestionsPage} />
+    <Route path="/write" component={WritePage} />
+    <Route path="/versions" component={VersionsPage} />
+    <Route path="/export" component={ExportPage} />
+    <Route path="/journey" component={JourneyPage} />
+    <Route path="/connections" component={ConnectionsPage} />
+    <Route path="/activities" component={ActivitiesPage} />
+    <Route path={account?'/storyboard/legacy':'/storyboard'}><StoryboardPage /></Route>
+    <Route component={NotFound} />
+  </Switch></RoutedErrorBoundary>;
+}
 function AppRoutes() {
   const { userId, isLoaded } = useAuth();
+  const [path]=useLocation();
+  const {locale}=useI18n();
+  if(!PUBLIC_DEMO&&!isLoaded)return <p role="status" className="p-4">{locale==='ko'?'로그인 상태 확인 중…':'Checking sign-in…'}</p>;
+  if(!PUBLIC_DEMO&&!userId&&path!=='/storyboard'&&accountReturnPath(path.slice(1)))
+    return <Redirect to={`/sign-in?account=${encodeURIComponent(path.slice(1))}&lang=${encodeURIComponent(locale)}`}/>;
   return (
     <WorkspaceProvider key={PUBLIC_DEMO ? 'public-demo' : !isLoaded ? 'pending' : userId ?? 'public'}>
-      <AppShell>
-        <RoutedErrorBoundary>
-          <Switch>
-            <Route path="/" component={HomeRoute} />
-            <Route path="/experiences" component={ExperiencesPage} />
-            <Route path="/criteria" component={CriteriaPage} />
-            <Route path="/questions" component={QuestionsPage} />
-            <Route path="/write" component={WritePage} />
-            <Route path="/versions" component={VersionsPage} />
-            <Route path="/export" component={ExportPage} />
-            <Route path="/journey" component={JourneyPage} />
-            <Route path="/connections" component={ConnectionsPage} />
-            <Route path="/activities" component={ActivitiesPage} />
-            <Route component={NotFound} />
-          </Switch>
-        </RoutedErrorBoundary>
-      </AppShell>
+      {!PUBLIC_DEMO&&userId ? <RoutedErrorBoundary><AccountJourney legacy={<LegacyRoutes account/>}/></RoutedErrorBoundary>
+        : <AppShell><LegacyRoutes/></AppShell>}
     </WorkspaceProvider>
   );
 }
@@ -186,6 +201,7 @@ function ClerkProviderWithRoutes() {
   const [, setLocation] = useLocation();
   const { t, locale } = useI18n();
   const authLocale = authLocales[locale];
+  if (!clerkPubKey) throw new Error('Missing VITE_CLERK_PUBLISHABLE_KEY in .env file');
   return (
     <ClerkProvider
       publishableKey={clerkPubKey}
@@ -216,11 +232,40 @@ function ClerkProviderWithRoutes() {
   );
 }
 
+function ReviewLabAuthentication({children}:{children:ReactNode}) {
+  const {getToken,isLoaded,isSignedIn,userId}=useAuth();
+  const account=isLoaded&&isSignedIn?userId??null:null;
+  return <ReviewAiAccount.Provider value={account}><ReviewLabSession.Provider value={account?getToken:null}>{children}</ReviewLabSession.Provider></ReviewAiAccount.Provider>;
+}
+function optedInToReviewSearch(){
+  if(!REVIEW_DEMO)return false;
+  const explicit=new URLSearchParams(window.location.search).get('labAccount')==='1';
+  try{
+    // Remember only the opt-in, not a session or account identity. Clerk still checks actual auth.
+    if(explicit)sessionStorage.setItem('nuvia-review-gpt-search-opt-in','1');
+    return explicit||sessionStorage.getItem('nuvia-review-gpt-search-opt-in')==='1';
+  }catch{return explicit;}
+}
+const reviewNeedsClerk=optedInToReviewSearch();
+function ReviewSession({children}:{children:ReactNode}) {
+  // Login is opt-in for LAB search. It does not sign in or promote any synthetic demo record.
+  if(!reviewNeedsClerk||!clerkPubKey)return children;
+  return <ClerkProvider publishableKey={clerkPubKey} proxyUrl={clerkProxyUrl}>
+    <ReviewLabAuthentication>{children}</ReviewLabAuthentication>
+  </ClerkProvider>;
+}
 function App() {
   return (
     <I18nProvider>
-      <WouterRouter base={`${basePath}${PUBLIC_DEMO ? '/demo' : ''}`}>
-        <ClerkProviderWithRoutes />
+      <WouterRouter base={`${basePath}${REVIEW_DEMO ? '/demo/review' : PUBLIC_DEMO ? '/demo' : ''}`}>
+        {REVIEW_DEMO ? (
+          <QueryClientProvider client={queryClient}>
+            <TooltipProvider>
+              <ReviewSession><ReviewWorkspaceProvider><RoutedErrorBoundary><ReviewDemoPage /></RoutedErrorBoundary></ReviewWorkspaceProvider></ReviewSession>
+              <Toaster />
+            </TooltipProvider>
+          </QueryClientProvider>
+        ) : <ClerkProviderWithRoutes />}
       </WouterRouter>
     </I18nProvider>
   );

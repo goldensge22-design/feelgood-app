@@ -166,7 +166,7 @@ export interface ReportView {
   title: string;
   major: string;
   isExample: boolean;
-  jobs: { title: string; reason: string }[];
+  jobs: { title: string; reason: string; rank?: number | string }[];
 }
 
 const str = (v: unknown) => (typeof v === 'string' ? v : '');
@@ -194,6 +194,7 @@ export function readReport(report: unknown): ReportView | null {
         return {
           title: str(o.title) || str(o.name) || str(o.job),
           reason: str(o.reason) || str(o.description) || str(o.why),
+          ...(typeof o.rank === 'string' || (typeof o.rank === 'number' && Number.isFinite(o.rank)) ? { rank: o.rank as number | string } : {}),
         };
       })
     : [];
@@ -205,6 +206,20 @@ export function mergeAsDraft(server: CareerState, local: CareerState) {
   const out: CareerState = JSON.parse(JSON.stringify(server));
   let added = 0;
   const same = (a: unknown, b: unknown) => JSON.stringify(a) === JSON.stringify(b);
+  if(local.integrated?.youthLab&&local.integrated.youthLab!==out.integrated?.youthLab){
+    out.integrated={...out.integrated,youthLabRecovery:local.integrated.youthLab};
+  }
+  const handoffs=[...(out.integrated?.labHandoffs??[])];
+  for(const candidate of local.integrated?.labHandoffs??[]){
+    const i=handoffs.findIndex(h=>h.id===candidate.id);
+    if(i<0&&handoffs.length<100)handoffs.push(candidate);
+    else if(i>=0){
+      const latest=handoffs[i];
+      // Removal is a tombstone: a stale edit cannot silently reauthorize the source.
+      handoffs[i]={...latest,revokedAt:latest.revokedAt??candidate.revokedAt,plannerCardId:latest.plannerCardId??candidate.plannerCardId};
+    }
+  }
+  if(handoffs.length)out.integrated={...out.integrated,labHandoffs:handoffs};
 
   const activityMap = new Map<string, string>();
   const experienceMap = new Map<string, string>();
@@ -246,6 +261,20 @@ export function mergeAsDraft(server: CareerState, local: CareerState) {
   }
   out.criteria = unionCriteria(out.criteria, local.criteria);
   if (!out.selectedJob && local.selectedJob) out.selectedJob = local.selectedJob;
+  if (local.integrated?.planner && local.integrated.planner !== out.integrated?.planner) {
+    // Keep both working copies. Recovery must not overwrite the saved workbench.
+    out.integrated = { ...out.integrated, plannerRecovery: local.integrated.planner };
+  }
+  const otherInterest = local.integrated?.youthInterest;
+  if (otherInterest && otherInterest !== out.integrated?.youthInterest) {
+    out.integrated = {...out.integrated,recoveredYouthInterests:
+      Array.from(new Set([otherInterest,...(out.integrated?.recoveredYouthInterests??[])])).slice(0,50)};
+  }
+  const otherCompany = local.integrated?.companySource;
+  if (otherCompany && !same(otherCompany,out.integrated?.companySource)) {
+    out.integrated = {...out.integrated,recoveredCompanySources:
+      [otherCompany,...(out.integrated?.recoveredCompanySources??[]).filter(x=>!same(x,otherCompany))].slice(0,50)};
+  }
   return { state: out, added };
 }
 

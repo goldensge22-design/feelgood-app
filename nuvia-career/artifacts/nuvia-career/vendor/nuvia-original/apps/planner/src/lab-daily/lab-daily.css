@@ -1,0 +1,15 @@
+.ld{min-width:0;margin-block:12px;padding:12px;border:1px dashed currentColor;border-radius:8px;display:grid;gap:10px}
+.ld h3,.ld h4,.ld p{margin:0;overflow-wrap:anywhere}
+.ld-virtual{padding:8px 10px;border-inline-start:4px solid #b45309;background:rgba(180,83,9,.1)}
+.ld-note{opacity:.8;font-size:.9em}
+.ld-row{display:flex;flex-wrap:wrap;gap:8px}
+.ld button{min-block-size:44px;max-inline-size:100%;overflow-wrap:anywhere}
+.ld-info{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;margin:0}
+.ld-info dt{font-weight:600;margin-block-start:6px}.ld-info dd{margin:0;overflow-wrap:anywhere}
+.ld-list{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.ld-card{border:1px solid currentColor;border-radius:8px;padding:10px;display:grid;gap:8px;min-width:0}
+.ld-form{display:grid;gap:8px}.ld-form label{display:grid;gap:4px;min-width:0}.ld-form input{min-block-size:44px;inline-size:100%;box-sizing:border-box}
+.ld-meta{font-size:.9em;opacity:.85}
+.ld details,.ld pre{min-inline-size:0;max-inline-size:100%;overflow-wrap:anywhere}
+.ld details label{display:grid;gap:4px;min-inline-size:0}
+.ld textarea{box-sizing:border-box;inline-size:100%;min-block-size:120px;max-inline-size:100%}

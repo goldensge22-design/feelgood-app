@@ -5,6 +5,7 @@ import { defineConfig } from 'vite';
 
 import runtimeErrorOverlay from '@replit/vite-plugin-runtime-error-modal';
 import { publicGuidePlugin } from './public-guide';
+import studioI18n from './vendor/nuvia-original/apps/planner/src/studio/i18n/compiler.mjs';
 
 const rawPort = process.env.PORT;
 
@@ -32,6 +33,7 @@ export default defineConfig({
   base: basePath,
   plugins: [
     publicGuidePlugin(basePath),
+    studioI18n(),
     react(),
     tailwindcss({ optimize: false }),
     runtimeErrorOverlay(),
@@ -52,6 +54,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(import.meta.dirname, 'src'),
+      '@nuvia/contracts': path.resolve(import.meta.dirname,'vendor/nuvia-original/packages/contracts/src/index.ts'),
       '@assets': path.resolve(
         import.meta.dirname,
         '..',
@@ -65,6 +68,10 @@ export default defineConfig({
   build: {
     outDir: path.resolve(import.meta.dirname, 'dist/public'),
     emptyOutDir: true,
+    rollupOptions: { input: {
+      app:path.resolve(import.meta.dirname,'index.html'),
+      reviewPlanner:path.resolve(import.meta.dirname,'demo/review/studio-frame.html'),
+    } },
   },
   server: {
     port,

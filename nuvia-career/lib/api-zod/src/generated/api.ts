@@ -8,6 +8,97 @@
 import * as zod from 'zod';
 
 
+/**
+ * Signed-in, opt-in search for public company and job sources; never accepts assessment or activity data.
+ */
+export const searchCareerLabBodyCompanyMax = 100;
+
+export const searchCareerLabBodyJobMax = 100;
+
+export const searchCareerLabBodyUrlMax = 500;
+
+
+
+export const SearchCareerLabBody = zod.object({
+  "company": zod.string().max(searchCareerLabBodyCompanyMax),
+  "job": zod.string().max(searchCareerLabBodyJobMax),
+  "url": zod.string().max(searchCareerLabBodyUrlMax).optional()
+})
+
+export const SearchCareerLabResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['pending', 'completed', 'failed']),
+  "error": zod.string().optional(),
+  "result": zod.object({
+  "mode": zod.enum(['gpt-web', 'curated']),
+  "retrievedAt": zod.string(),
+  "version": zod.string(),
+  "materials": zod.array(zod.object({
+  "id": zod.string(),
+  "company": zod.string(),
+  "job": zod.string(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "category": zod.enum(['overview', 'philosophy', 'values', 'talent', 'environment', 'duties', 'required', 'preferred', 'skills']),
+  "keyword": zod.string(),
+  "keywordOrigin": zod.enum(['official_named', 'ai_interpretation']).optional().describe('Absent on legacy or curated evidence. AI summaries are not officially named company values.'),
+  "sourceSection": zod.string().optional().describe('Section label copied from the source when available.'),
+  "excerpt": zod.string(),
+  "url": zod.string(),
+  "source": zod.string(),
+  "kind": zod.enum(['company', 'role', 'posting'])
+}))
+}))
+}).optional()
+})
+
+
+export const GetCareerLabJobParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const GetCareerLabJobResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['pending', 'completed', 'failed']),
+  "error": zod.string().optional(),
+  "result": zod.object({
+  "mode": zod.enum(['gpt-web', 'curated']),
+  "retrievedAt": zod.string(),
+  "version": zod.string(),
+  "materials": zod.array(zod.object({
+  "id": zod.string(),
+  "company": zod.string(),
+  "job": zod.string(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string(),
+  "category": zod.enum(['overview', 'philosophy', 'values', 'talent', 'environment', 'duties', 'required', 'preferred', 'skills']),
+  "keyword": zod.string(),
+  "keywordOrigin": zod.enum(['official_named', 'ai_interpretation']).optional().describe('Absent on legacy or curated evidence. AI summaries are not officially named company values.'),
+  "sourceSection": zod.string().optional().describe('Section label copied from the source when available.'),
+  "excerpt": zod.string(),
+  "url": zod.string(),
+  "source": zod.string(),
+  "kind": zod.enum(['company', 'role', 'posting'])
+}))
+}))
+}).optional()
+})
+
+
+/**
+ * Authenticated read of the original Enterprise LAB's reference catalogue; not a live vacancy feed.
+ */
+export const GetOriginalEnterpriseResponse = zod.record(zod.string(), zod.unknown())
+
+
+/**
+ * Generate an original rule-based practice preview for a signed-in account; does not record execution or call AI.
+ */
+export const PreviewOriginalEnterpriseScenarioBody = zod.record(zod.string(), zod.unknown())
+
+export const PreviewOriginalEnterpriseScenarioResponse = zod.record(zod.string(), zod.unknown())
+
+
 export const GetCareerOverviewResponse = zod.object({
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -28,7 +119,159 @@ export const GetCareerOverviewResponse = zod.object({
 })
 
 
+/**
+ * Authenticated, explicitly consented writing help for selected review material. No account workspace or database writes.
+ */
+export const startReviewStoryBodyEvidenceItemIdRegExp = new RegExp('^[ARC][1-9]$');
+export const startReviewStoryBodyEvidenceItemTitleMax = 180;
+
+export const startReviewStoryBodyEvidenceItemTextMax = 1200;
+
+export const startReviewStoryBodyEvidenceMax = 6;
+
+export const startReviewStoryBodyBodyMax = 10000;
+
+export const startReviewStoryBodyThoughtMax = 500;
+
+
+
+export const StartReviewStoryBody = zod.object({
+  "kind": zod.enum(['generate', 'refine']),
+  "consent": zod.boolean(),
+  "evidence": zod.array(zod.object({
+  "id": zod.string().regex(startReviewStoryBodyEvidenceItemIdRegExp),
+  "kind": zod.enum(['activity', 'reflection', 'report', 'company']),
+  "title": zod.string().min(1).max(startReviewStoryBodyEvidenceItemTitleMax),
+  "text": zod.string().min(1).max(startReviewStoryBodyEvidenceItemTextMax)
+})).min(1).max(startReviewStoryBodyEvidenceMax),
+  "body": zod.string().max(startReviewStoryBodyBodyMax),
+  "thought": zod.string().max(startReviewStoryBodyThoughtMax)
+})
+
+export const startReviewStoryResponseResultTextMax = 900;
+
+export const startReviewStoryResponseResultConnectionMax = 350;
+
+export const startReviewStoryResponseResultUsedMax = 6;
+
+export const startReviewStoryResponseResultMissingMax = 220;
+
+
+
+export const StartReviewStoryResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['pending', 'completed', 'failed']),
+  "error": zod.string().optional(),
+  "result": zod.object({
+  "text": zod.string().max(startReviewStoryResponseResultTextMax),
+  "connection": zod.string().max(startReviewStoryResponseResultConnectionMax),
+  "used": zod.array(zod.string()).max(startReviewStoryResponseResultUsedMax),
+  "missing": zod.string().max(startReviewStoryResponseResultMissingMax)
+}).optional()
+})
+
+
+export const GetReviewStoryParams = zod.object({
+  "id": zod.coerce.string()
+})
+
+export const getReviewStoryResponseResultTextMax = 900;
+
+export const getReviewStoryResponseResultConnectionMax = 350;
+
+export const getReviewStoryResponseResultUsedMax = 6;
+
+export const getReviewStoryResponseResultMissingMax = 220;
+
+
+
+export const GetReviewStoryResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['pending', 'completed', 'failed']),
+  "error": zod.string().optional(),
+  "result": zod.object({
+  "text": zod.string().max(getReviewStoryResponseResultTextMax),
+  "connection": zod.string().max(getReviewStoryResponseResultConnectionMax),
+  "used": zod.array(zod.string()).max(getReviewStoryResponseResultUsedMax),
+  "missing": zod.string().max(getReviewStoryResponseResultMissingMax)
+}).optional()
+})
+
+
 export const getCareerExampleResponseSelectedJobMax = 500;
+
+export const getCareerExampleResponseIntegratedYouthStoryIdMax = 100;
+
+export const getCareerExampleResponseIntegratedAdultStoryIdMax = 100;
+
+export const getCareerExampleResponseIntegratedYouthInterestMax = 300;
+
+export const getCareerExampleResponseIntegratedRecoveredYouthInterestsItemMax = 300;
+
+export const getCareerExampleResponseIntegratedRecoveredYouthInterestsMax = 50;
+
+export const getCareerExampleResponseIntegratedCompanySourceCompanyMax = 300;
+
+export const getCareerExampleResponseIntegratedCompanySourceJobMax = 300;
+
+export const getCareerExampleResponseIntegratedCompanySourceKeywordMax = 300;
+
+export const getCareerExampleResponseIntegratedCompanySourceExcerptMax = 1200;
+
+export const getCareerExampleResponseIntegratedCompanySourceUrlMax = 2000;
+
+export const getCareerExampleResponseIntegratedCompanySourceObservedAtMax = 80;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemCompanyMax = 300;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemJobMax = 300;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemKeywordMax = 300;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemExcerptMax = 1200;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemUrlMax = 2000;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesItemObservedAtMax = 80;
+
+export const getCareerExampleResponseIntegratedRecoveredCompanySourcesMax = 50;
+
+export const getCareerExampleResponseIntegratedPlannerMax = 700000;
+
+export const getCareerExampleResponseIntegratedPlannerRecoveryMax = 700000;
+
+export const getCareerExampleResponseIntegratedYouthLabMax = 460000;
+
+export const getCareerExampleResponseIntegratedYouthLabRecoveryMax = 460000;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemIdMin = 5;
+export const getCareerExampleResponseIntegratedLabHandoffsItemIdMax = 100;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemSourceIdMax = 180;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemSourceVersionMax = 180;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemTitleMax = 150;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemExcerptMax = 1200;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemKeywordMax = 300;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemCompanyMax = 180;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemJobMax = 180;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemSourceSnapshotMax = 26000;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemUrlMax = 2000;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemApprovedAtMax = 64;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemRevokedAtMax = 64;
+
+export const getCareerExampleResponseIntegratedLabHandoffsItemPlannerCardIdMax = 100;
+
+export const getCareerExampleResponseIntegratedLabHandoffsMax = 100;
 
 export const getCareerExampleResponseCriteriaMax = 200;
 
@@ -41,6 +284,8 @@ export const getCareerExampleResponseExperiencesItemActionMax = 20000;
 export const getCareerExampleResponseExperiencesItemResultMax = 20000;
 
 export const getCareerExampleResponseExperiencesItemLearningMax = 20000;
+
+export const getCareerExampleResponseExperiencesItemPlannerReferenceMax = 160;
 
 export const getCareerExampleResponseExperiencesMax = 500;
 
@@ -83,12 +328,62 @@ export const getCareerExampleResponseApplicationsItemWritingLanguageMax = 100;
 
 export const getCareerExampleResponseApplicationsItemTextMax = 100000;
 
+export const getCareerExampleResponseApplicationsItemIntegratedThoughtMax = 5000;
+
+export const getCareerExampleResponseApplicationsItemIntegratedEvidenceItemMax = 1000;
+
+export const getCareerExampleResponseApplicationsItemIntegratedEvidenceMax = 20;
+
 export const getCareerExampleResponseApplicationsMax = 200;
 
 
 
 export const GetCareerExampleResponse = zod.object({
   "selectedJob": zod.string().max(getCareerExampleResponseSelectedJobMax),
+  "integrated": zod.object({
+  "audience": zod.enum(['youth', 'adult']).optional(),
+  "youthStoryId": zod.string().max(getCareerExampleResponseIntegratedYouthStoryIdMax).optional(),
+  "adultStoryId": zod.string().max(getCareerExampleResponseIntegratedAdultStoryIdMax).optional(),
+  "youthInterest": zod.string().max(getCareerExampleResponseIntegratedYouthInterestMax).optional(),
+  "recoveredYouthInterests": zod.array(zod.string().max(getCareerExampleResponseIntegratedRecoveredYouthInterestsItemMax)).max(getCareerExampleResponseIntegratedRecoveredYouthInterestsMax).optional(),
+  "companySource": zod.object({
+  "company": zod.string().max(getCareerExampleResponseIntegratedCompanySourceCompanyMax),
+  "job": zod.string().max(getCareerExampleResponseIntegratedCompanySourceJobMax),
+  "keyword": zod.string().max(getCareerExampleResponseIntegratedCompanySourceKeywordMax),
+  "excerpt": zod.string().max(getCareerExampleResponseIntegratedCompanySourceExcerptMax),
+  "url": zod.string().max(getCareerExampleResponseIntegratedCompanySourceUrlMax),
+  "observedAt": zod.string().max(getCareerExampleResponseIntegratedCompanySourceObservedAtMax)
+}).optional(),
+  "recoveredCompanySources": zod.array(zod.object({
+  "company": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemCompanyMax),
+  "job": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemJobMax),
+  "keyword": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemKeywordMax),
+  "excerpt": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemExcerptMax),
+  "url": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemUrlMax),
+  "observedAt": zod.string().max(getCareerExampleResponseIntegratedRecoveredCompanySourcesItemObservedAtMax)
+})).max(getCareerExampleResponseIntegratedRecoveredCompanySourcesMax).optional(),
+  "planner": zod.string().max(getCareerExampleResponseIntegratedPlannerMax).optional(),
+  "plannerRecovery": zod.string().max(getCareerExampleResponseIntegratedPlannerRecoveryMax).optional(),
+  "youthLab": zod.string().max(getCareerExampleResponseIntegratedYouthLabMax).optional(),
+  "youthLabRecovery": zod.string().max(getCareerExampleResponseIntegratedYouthLabRecoveryMax).optional(),
+  "labHandoffs": zod.array(zod.object({
+  "id": zod.string().min(getCareerExampleResponseIntegratedLabHandoffsItemIdMin).max(getCareerExampleResponseIntegratedLabHandoffsItemIdMax),
+  "audience": zod.enum(['youth', 'adult']),
+  "sourceId": zod.string().min(1).max(getCareerExampleResponseIntegratedLabHandoffsItemSourceIdMax),
+  "sourceVersion": zod.string().min(1).max(getCareerExampleResponseIntegratedLabHandoffsItemSourceVersionMax),
+  "title": zod.string().min(1).max(getCareerExampleResponseIntegratedLabHandoffsItemTitleMax),
+  "excerpt": zod.string().min(1).max(getCareerExampleResponseIntegratedLabHandoffsItemExcerptMax),
+  "keyword": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemKeywordMax),
+  "purpose": zod.enum(['exploration', 'simulation']),
+  "company": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemCompanyMax).optional(),
+  "job": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemJobMax).optional(),
+  "sourceSnapshot": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemSourceSnapshotMax).optional(),
+  "url": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemUrlMax).optional(),
+  "approvedAt": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemApprovedAtMax),
+  "revokedAt": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemRevokedAtMax).optional(),
+  "plannerCardId": zod.string().max(getCareerExampleResponseIntegratedLabHandoffsItemPlannerCardIdMax).optional()
+})).max(getCareerExampleResponseIntegratedLabHandoffsMax).optional()
+}).optional(),
   "report": zod.record(zod.string(), zod.unknown()).nullable(),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -113,6 +408,8 @@ export const GetCareerExampleResponse = zod.object({
   "sourceId": zod.string().optional(),
   "sourceUrl": zod.string().optional(),
   "sourceVersion": zod.string().optional(),
+  "activityContext": zod.enum(['self_reported', 'thought_exercise']).optional(),
+  "plannerReference": zod.string().max(getCareerExampleResponseExperiencesItemPlannerReferenceMax).optional(),
   "permissionStatus": zod.enum(['current', 'changed', 'deleted', 'revoked', 'unverified']).optional()
 })).max(getCareerExampleResponseExperiencesMax),
   "activities": zod.array(zod.object({
@@ -141,12 +438,88 @@ export const GetCareerExampleResponse = zod.object({
   "writingLanguage": zod.string().max(getCareerExampleResponseApplicationsItemWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(getCareerExampleResponseApplicationsItemTextMax)
+  "text": zod.string().max(getCareerExampleResponseApplicationsItemTextMax),
+  "integratedThought": zod.string().max(getCareerExampleResponseApplicationsItemIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(getCareerExampleResponseApplicationsItemIntegratedEvidenceItemMax)).max(getCareerExampleResponseApplicationsItemIntegratedEvidenceMax).optional()
 })).max(getCareerExampleResponseApplicationsMax)
 })
 
 
 export const getCareerWorkspaceResponseStateSelectedJobMax = 500;
+
+export const getCareerWorkspaceResponseStateIntegratedYouthStoryIdMax = 100;
+
+export const getCareerWorkspaceResponseStateIntegratedAdultStoryIdMax = 100;
+
+export const getCareerWorkspaceResponseStateIntegratedYouthInterestMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsItemMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsMax = 50;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceCompanyMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceJobMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceKeywordMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceExcerptMax = 1200;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceUrlMax = 2000;
+
+export const getCareerWorkspaceResponseStateIntegratedCompanySourceObservedAtMax = 80;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemCompanyMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemJobMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemKeywordMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemExcerptMax = 1200;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemUrlMax = 2000;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemObservedAtMax = 80;
+
+export const getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesMax = 50;
+
+export const getCareerWorkspaceResponseStateIntegratedPlannerMax = 700000;
+
+export const getCareerWorkspaceResponseStateIntegratedPlannerRecoveryMax = 700000;
+
+export const getCareerWorkspaceResponseStateIntegratedYouthLabMax = 460000;
+
+export const getCareerWorkspaceResponseStateIntegratedYouthLabRecoveryMax = 460000;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMin = 5;
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMax = 100;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceIdMax = 180;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceVersionMax = 180;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemTitleMax = 150;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemExcerptMax = 1200;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemKeywordMax = 300;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemCompanyMax = 180;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemJobMax = 180;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceSnapshotMax = 26000;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemUrlMax = 2000;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemApprovedAtMax = 64;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemRevokedAtMax = 64;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsItemPlannerCardIdMax = 100;
+
+export const getCareerWorkspaceResponseStateIntegratedLabHandoffsMax = 100;
 
 export const getCareerWorkspaceResponseStateCriteriaMax = 200;
 
@@ -159,6 +532,8 @@ export const getCareerWorkspaceResponseStateExperiencesItemActionMax = 20000;
 export const getCareerWorkspaceResponseStateExperiencesItemResultMax = 20000;
 
 export const getCareerWorkspaceResponseStateExperiencesItemLearningMax = 20000;
+
+export const getCareerWorkspaceResponseStateExperiencesItemPlannerReferenceMax = 160;
 
 export const getCareerWorkspaceResponseStateExperiencesMax = 500;
 
@@ -201,6 +576,12 @@ export const getCareerWorkspaceResponseStateApplicationsItemWritingLanguageMax =
 
 export const getCareerWorkspaceResponseStateApplicationsItemTextMax = 100000;
 
+export const getCareerWorkspaceResponseStateApplicationsItemIntegratedThoughtMax = 5000;
+
+export const getCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceItemMax = 1000;
+
+export const getCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceMax = 20;
+
 export const getCareerWorkspaceResponseStateApplicationsMax = 200;
 
 
@@ -209,6 +590,50 @@ export const GetCareerWorkspaceResponse = zod.object({
   "revision": zod.number().int(),
   "state": zod.object({
   "selectedJob": zod.string().max(getCareerWorkspaceResponseStateSelectedJobMax),
+  "integrated": zod.object({
+  "audience": zod.enum(['youth', 'adult']).optional(),
+  "youthStoryId": zod.string().max(getCareerWorkspaceResponseStateIntegratedYouthStoryIdMax).optional(),
+  "adultStoryId": zod.string().max(getCareerWorkspaceResponseStateIntegratedAdultStoryIdMax).optional(),
+  "youthInterest": zod.string().max(getCareerWorkspaceResponseStateIntegratedYouthInterestMax).optional(),
+  "recoveredYouthInterests": zod.array(zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsItemMax)).max(getCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsMax).optional(),
+  "companySource": zod.object({
+  "company": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceCompanyMax),
+  "job": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceJobMax),
+  "keyword": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceKeywordMax),
+  "excerpt": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceExcerptMax),
+  "url": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceUrlMax),
+  "observedAt": zod.string().max(getCareerWorkspaceResponseStateIntegratedCompanySourceObservedAtMax)
+}).optional(),
+  "recoveredCompanySources": zod.array(zod.object({
+  "company": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemCompanyMax),
+  "job": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemJobMax),
+  "keyword": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemKeywordMax),
+  "excerpt": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemExcerptMax),
+  "url": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemUrlMax),
+  "observedAt": zod.string().max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemObservedAtMax)
+})).max(getCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesMax).optional(),
+  "planner": zod.string().max(getCareerWorkspaceResponseStateIntegratedPlannerMax).optional(),
+  "plannerRecovery": zod.string().max(getCareerWorkspaceResponseStateIntegratedPlannerRecoveryMax).optional(),
+  "youthLab": zod.string().max(getCareerWorkspaceResponseStateIntegratedYouthLabMax).optional(),
+  "youthLabRecovery": zod.string().max(getCareerWorkspaceResponseStateIntegratedYouthLabRecoveryMax).optional(),
+  "labHandoffs": zod.array(zod.object({
+  "id": zod.string().min(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMin).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMax),
+  "audience": zod.enum(['youth', 'adult']),
+  "sourceId": zod.string().min(1).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceIdMax),
+  "sourceVersion": zod.string().min(1).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceVersionMax),
+  "title": zod.string().min(1).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemTitleMax),
+  "excerpt": zod.string().min(1).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemExcerptMax),
+  "keyword": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemKeywordMax),
+  "purpose": zod.enum(['exploration', 'simulation']),
+  "company": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemCompanyMax).optional(),
+  "job": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemJobMax).optional(),
+  "sourceSnapshot": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceSnapshotMax).optional(),
+  "url": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemUrlMax).optional(),
+  "approvedAt": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemApprovedAtMax),
+  "revokedAt": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemRevokedAtMax).optional(),
+  "plannerCardId": zod.string().max(getCareerWorkspaceResponseStateIntegratedLabHandoffsItemPlannerCardIdMax).optional()
+})).max(getCareerWorkspaceResponseStateIntegratedLabHandoffsMax).optional()
+}).optional(),
   "report": zod.record(zod.string(), zod.unknown()).nullable(),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -233,6 +658,8 @@ export const GetCareerWorkspaceResponse = zod.object({
   "sourceId": zod.string().optional(),
   "sourceUrl": zod.string().optional(),
   "sourceVersion": zod.string().optional(),
+  "activityContext": zod.enum(['self_reported', 'thought_exercise']).optional(),
+  "plannerReference": zod.string().max(getCareerWorkspaceResponseStateExperiencesItemPlannerReferenceMax).optional(),
   "permissionStatus": zod.enum(['current', 'changed', 'deleted', 'revoked', 'unverified']).optional()
 })).max(getCareerWorkspaceResponseStateExperiencesMax),
   "activities": zod.array(zod.object({
@@ -261,7 +688,10 @@ export const GetCareerWorkspaceResponse = zod.object({
   "writingLanguage": zod.string().max(getCareerWorkspaceResponseStateApplicationsItemWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(getCareerWorkspaceResponseStateApplicationsItemTextMax)
+  "text": zod.string().max(getCareerWorkspaceResponseStateApplicationsItemTextMax),
+  "integratedThought": zod.string().max(getCareerWorkspaceResponseStateApplicationsItemIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(getCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceItemMax)).max(getCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceMax).optional()
 })).max(getCareerWorkspaceResponseStateApplicationsMax)
 }),
   "savedAt": zod.string()
@@ -271,6 +701,79 @@ export const GetCareerWorkspaceResponse = zod.object({
 export const saveCareerWorkspaceBodyRevisionMin = 0;
 
 export const saveCareerWorkspaceBodyStateSelectedJobMax = 500;
+
+export const saveCareerWorkspaceBodyStateIntegratedYouthStoryIdMax = 100;
+
+export const saveCareerWorkspaceBodyStateIntegratedAdultStoryIdMax = 100;
+
+export const saveCareerWorkspaceBodyStateIntegratedYouthInterestMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredYouthInterestsItemMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredYouthInterestsMax = 50;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceCompanyMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceJobMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceKeywordMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceExcerptMax = 1200;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceUrlMax = 2000;
+
+export const saveCareerWorkspaceBodyStateIntegratedCompanySourceObservedAtMax = 80;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemCompanyMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemJobMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemKeywordMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemExcerptMax = 1200;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemUrlMax = 2000;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemObservedAtMax = 80;
+
+export const saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesMax = 50;
+
+export const saveCareerWorkspaceBodyStateIntegratedPlannerMax = 700000;
+
+export const saveCareerWorkspaceBodyStateIntegratedPlannerRecoveryMax = 700000;
+
+export const saveCareerWorkspaceBodyStateIntegratedYouthLabMax = 460000;
+
+export const saveCareerWorkspaceBodyStateIntegratedYouthLabRecoveryMax = 460000;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemIdMin = 5;
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemIdMax = 100;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceIdMax = 180;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceVersionMax = 180;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemTitleMax = 150;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemExcerptMax = 1200;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemKeywordMax = 300;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemCompanyMax = 180;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemJobMax = 180;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceSnapshotMax = 26000;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemUrlMax = 2000;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemApprovedAtMax = 64;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemRevokedAtMax = 64;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemPlannerCardIdMax = 100;
+
+export const saveCareerWorkspaceBodyStateIntegratedLabHandoffsMax = 100;
 
 export const saveCareerWorkspaceBodyStateCriteriaMax = 200;
 
@@ -283,6 +786,8 @@ export const saveCareerWorkspaceBodyStateExperiencesItemActionMax = 20000;
 export const saveCareerWorkspaceBodyStateExperiencesItemResultMax = 20000;
 
 export const saveCareerWorkspaceBodyStateExperiencesItemLearningMax = 20000;
+
+export const saveCareerWorkspaceBodyStateExperiencesItemPlannerReferenceMax = 160;
 
 export const saveCareerWorkspaceBodyStateExperiencesMax = 500;
 
@@ -325,6 +830,12 @@ export const saveCareerWorkspaceBodyStateApplicationsItemWritingLanguageMax = 10
 
 export const saveCareerWorkspaceBodyStateApplicationsItemTextMax = 100000;
 
+export const saveCareerWorkspaceBodyStateApplicationsItemIntegratedThoughtMax = 5000;
+
+export const saveCareerWorkspaceBodyStateApplicationsItemIntegratedEvidenceItemMax = 1000;
+
+export const saveCareerWorkspaceBodyStateApplicationsItemIntegratedEvidenceMax = 20;
+
 export const saveCareerWorkspaceBodyStateApplicationsMax = 200;
 
 
@@ -333,6 +844,50 @@ export const SaveCareerWorkspaceBody = zod.object({
   "revision": zod.number().int().min(saveCareerWorkspaceBodyRevisionMin),
   "state": zod.object({
   "selectedJob": zod.string().max(saveCareerWorkspaceBodyStateSelectedJobMax),
+  "integrated": zod.object({
+  "audience": zod.enum(['youth', 'adult']).optional(),
+  "youthStoryId": zod.string().max(saveCareerWorkspaceBodyStateIntegratedYouthStoryIdMax).optional(),
+  "adultStoryId": zod.string().max(saveCareerWorkspaceBodyStateIntegratedAdultStoryIdMax).optional(),
+  "youthInterest": zod.string().max(saveCareerWorkspaceBodyStateIntegratedYouthInterestMax).optional(),
+  "recoveredYouthInterests": zod.array(zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredYouthInterestsItemMax)).max(saveCareerWorkspaceBodyStateIntegratedRecoveredYouthInterestsMax).optional(),
+  "companySource": zod.object({
+  "company": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceCompanyMax),
+  "job": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceJobMax),
+  "keyword": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceKeywordMax),
+  "excerpt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceExcerptMax),
+  "url": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceUrlMax),
+  "observedAt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedCompanySourceObservedAtMax)
+}).optional(),
+  "recoveredCompanySources": zod.array(zod.object({
+  "company": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemCompanyMax),
+  "job": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemJobMax),
+  "keyword": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemKeywordMax),
+  "excerpt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemExcerptMax),
+  "url": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemUrlMax),
+  "observedAt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesItemObservedAtMax)
+})).max(saveCareerWorkspaceBodyStateIntegratedRecoveredCompanySourcesMax).optional(),
+  "planner": zod.string().max(saveCareerWorkspaceBodyStateIntegratedPlannerMax).optional(),
+  "plannerRecovery": zod.string().max(saveCareerWorkspaceBodyStateIntegratedPlannerRecoveryMax).optional(),
+  "youthLab": zod.string().max(saveCareerWorkspaceBodyStateIntegratedYouthLabMax).optional(),
+  "youthLabRecovery": zod.string().max(saveCareerWorkspaceBodyStateIntegratedYouthLabRecoveryMax).optional(),
+  "labHandoffs": zod.array(zod.object({
+  "id": zod.string().min(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemIdMin).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemIdMax),
+  "audience": zod.enum(['youth', 'adult']),
+  "sourceId": zod.string().min(1).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceIdMax),
+  "sourceVersion": zod.string().min(1).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceVersionMax),
+  "title": zod.string().min(1).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemTitleMax),
+  "excerpt": zod.string().min(1).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemExcerptMax),
+  "keyword": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemKeywordMax),
+  "purpose": zod.enum(['exploration', 'simulation']),
+  "company": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemCompanyMax).optional(),
+  "job": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemJobMax).optional(),
+  "sourceSnapshot": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemSourceSnapshotMax).optional(),
+  "url": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemUrlMax).optional(),
+  "approvedAt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemApprovedAtMax),
+  "revokedAt": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemRevokedAtMax).optional(),
+  "plannerCardId": zod.string().max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsItemPlannerCardIdMax).optional()
+})).max(saveCareerWorkspaceBodyStateIntegratedLabHandoffsMax).optional()
+}).optional(),
   "report": zod.record(zod.string(), zod.unknown()).nullable(),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -357,6 +912,8 @@ export const SaveCareerWorkspaceBody = zod.object({
   "sourceId": zod.string().optional(),
   "sourceUrl": zod.string().optional(),
   "sourceVersion": zod.string().optional(),
+  "activityContext": zod.enum(['self_reported', 'thought_exercise']).optional(),
+  "plannerReference": zod.string().max(saveCareerWorkspaceBodyStateExperiencesItemPlannerReferenceMax).optional(),
   "permissionStatus": zod.enum(['current', 'changed', 'deleted', 'revoked', 'unverified']).optional()
 })).max(saveCareerWorkspaceBodyStateExperiencesMax),
   "activities": zod.array(zod.object({
@@ -385,12 +942,88 @@ export const SaveCareerWorkspaceBody = zod.object({
   "writingLanguage": zod.string().max(saveCareerWorkspaceBodyStateApplicationsItemWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(saveCareerWorkspaceBodyStateApplicationsItemTextMax)
+  "text": zod.string().max(saveCareerWorkspaceBodyStateApplicationsItemTextMax),
+  "integratedThought": zod.string().max(saveCareerWorkspaceBodyStateApplicationsItemIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(saveCareerWorkspaceBodyStateApplicationsItemIntegratedEvidenceItemMax)).max(saveCareerWorkspaceBodyStateApplicationsItemIntegratedEvidenceMax).optional()
 })).max(saveCareerWorkspaceBodyStateApplicationsMax)
 })
 })
 
 export const saveCareerWorkspaceResponseStateSelectedJobMax = 500;
+
+export const saveCareerWorkspaceResponseStateIntegratedYouthStoryIdMax = 100;
+
+export const saveCareerWorkspaceResponseStateIntegratedAdultStoryIdMax = 100;
+
+export const saveCareerWorkspaceResponseStateIntegratedYouthInterestMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsItemMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsMax = 50;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceCompanyMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceJobMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceKeywordMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceExcerptMax = 1200;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceUrlMax = 2000;
+
+export const saveCareerWorkspaceResponseStateIntegratedCompanySourceObservedAtMax = 80;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemCompanyMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemJobMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemKeywordMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemExcerptMax = 1200;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemUrlMax = 2000;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemObservedAtMax = 80;
+
+export const saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesMax = 50;
+
+export const saveCareerWorkspaceResponseStateIntegratedPlannerMax = 700000;
+
+export const saveCareerWorkspaceResponseStateIntegratedPlannerRecoveryMax = 700000;
+
+export const saveCareerWorkspaceResponseStateIntegratedYouthLabMax = 460000;
+
+export const saveCareerWorkspaceResponseStateIntegratedYouthLabRecoveryMax = 460000;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMin = 5;
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMax = 100;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceIdMax = 180;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceVersionMax = 180;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemTitleMax = 150;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemExcerptMax = 1200;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemKeywordMax = 300;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemCompanyMax = 180;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemJobMax = 180;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceSnapshotMax = 26000;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemUrlMax = 2000;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemApprovedAtMax = 64;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemRevokedAtMax = 64;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemPlannerCardIdMax = 100;
+
+export const saveCareerWorkspaceResponseStateIntegratedLabHandoffsMax = 100;
 
 export const saveCareerWorkspaceResponseStateCriteriaMax = 200;
 
@@ -403,6 +1036,8 @@ export const saveCareerWorkspaceResponseStateExperiencesItemActionMax = 20000;
 export const saveCareerWorkspaceResponseStateExperiencesItemResultMax = 20000;
 
 export const saveCareerWorkspaceResponseStateExperiencesItemLearningMax = 20000;
+
+export const saveCareerWorkspaceResponseStateExperiencesItemPlannerReferenceMax = 160;
 
 export const saveCareerWorkspaceResponseStateExperiencesMax = 500;
 
@@ -445,6 +1080,12 @@ export const saveCareerWorkspaceResponseStateApplicationsItemWritingLanguageMax 
 
 export const saveCareerWorkspaceResponseStateApplicationsItemTextMax = 100000;
 
+export const saveCareerWorkspaceResponseStateApplicationsItemIntegratedThoughtMax = 5000;
+
+export const saveCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceItemMax = 1000;
+
+export const saveCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceMax = 20;
+
 export const saveCareerWorkspaceResponseStateApplicationsMax = 200;
 
 
@@ -453,6 +1094,50 @@ export const SaveCareerWorkspaceResponse = zod.object({
   "revision": zod.number().int(),
   "state": zod.object({
   "selectedJob": zod.string().max(saveCareerWorkspaceResponseStateSelectedJobMax),
+  "integrated": zod.object({
+  "audience": zod.enum(['youth', 'adult']).optional(),
+  "youthStoryId": zod.string().max(saveCareerWorkspaceResponseStateIntegratedYouthStoryIdMax).optional(),
+  "adultStoryId": zod.string().max(saveCareerWorkspaceResponseStateIntegratedAdultStoryIdMax).optional(),
+  "youthInterest": zod.string().max(saveCareerWorkspaceResponseStateIntegratedYouthInterestMax).optional(),
+  "recoveredYouthInterests": zod.array(zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsItemMax)).max(saveCareerWorkspaceResponseStateIntegratedRecoveredYouthInterestsMax).optional(),
+  "companySource": zod.object({
+  "company": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceCompanyMax),
+  "job": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceJobMax),
+  "keyword": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceKeywordMax),
+  "excerpt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceExcerptMax),
+  "url": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceUrlMax),
+  "observedAt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedCompanySourceObservedAtMax)
+}).optional(),
+  "recoveredCompanySources": zod.array(zod.object({
+  "company": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemCompanyMax),
+  "job": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemJobMax),
+  "keyword": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemKeywordMax),
+  "excerpt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemExcerptMax),
+  "url": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemUrlMax),
+  "observedAt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesItemObservedAtMax)
+})).max(saveCareerWorkspaceResponseStateIntegratedRecoveredCompanySourcesMax).optional(),
+  "planner": zod.string().max(saveCareerWorkspaceResponseStateIntegratedPlannerMax).optional(),
+  "plannerRecovery": zod.string().max(saveCareerWorkspaceResponseStateIntegratedPlannerRecoveryMax).optional(),
+  "youthLab": zod.string().max(saveCareerWorkspaceResponseStateIntegratedYouthLabMax).optional(),
+  "youthLabRecovery": zod.string().max(saveCareerWorkspaceResponseStateIntegratedYouthLabRecoveryMax).optional(),
+  "labHandoffs": zod.array(zod.object({
+  "id": zod.string().min(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMin).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemIdMax),
+  "audience": zod.enum(['youth', 'adult']),
+  "sourceId": zod.string().min(1).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceIdMax),
+  "sourceVersion": zod.string().min(1).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceVersionMax),
+  "title": zod.string().min(1).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemTitleMax),
+  "excerpt": zod.string().min(1).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemExcerptMax),
+  "keyword": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemKeywordMax),
+  "purpose": zod.enum(['exploration', 'simulation']),
+  "company": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemCompanyMax).optional(),
+  "job": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemJobMax).optional(),
+  "sourceSnapshot": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemSourceSnapshotMax).optional(),
+  "url": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemUrlMax).optional(),
+  "approvedAt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemApprovedAtMax),
+  "revokedAt": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemRevokedAtMax).optional(),
+  "plannerCardId": zod.string().max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsItemPlannerCardIdMax).optional()
+})).max(saveCareerWorkspaceResponseStateIntegratedLabHandoffsMax).optional()
+}).optional(),
   "report": zod.record(zod.string(), zod.unknown()).nullable(),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -477,6 +1162,8 @@ export const SaveCareerWorkspaceResponse = zod.object({
   "sourceId": zod.string().optional(),
   "sourceUrl": zod.string().optional(),
   "sourceVersion": zod.string().optional(),
+  "activityContext": zod.enum(['self_reported', 'thought_exercise']).optional(),
+  "plannerReference": zod.string().max(saveCareerWorkspaceResponseStateExperiencesItemPlannerReferenceMax).optional(),
   "permissionStatus": zod.enum(['current', 'changed', 'deleted', 'revoked', 'unverified']).optional()
 })).max(saveCareerWorkspaceResponseStateExperiencesMax),
   "activities": zod.array(zod.object({
@@ -505,7 +1192,10 @@ export const SaveCareerWorkspaceResponse = zod.object({
   "writingLanguage": zod.string().max(saveCareerWorkspaceResponseStateApplicationsItemWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(saveCareerWorkspaceResponseStateApplicationsItemTextMax)
+  "text": zod.string().max(saveCareerWorkspaceResponseStateApplicationsItemTextMax),
+  "integratedThought": zod.string().max(saveCareerWorkspaceResponseStateApplicationsItemIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(saveCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceItemMax)).max(saveCareerWorkspaceResponseStateApplicationsItemIntegratedEvidenceMax).optional()
 })).max(saveCareerWorkspaceResponseStateApplicationsMax)
 }),
   "savedAt": zod.string()
@@ -527,6 +1217,12 @@ export const getCareerVersionsResponseApplicationWritingLanguageMax = 100;
 
 export const getCareerVersionsResponseApplicationTextMax = 100000;
 
+export const getCareerVersionsResponseApplicationIntegratedThoughtMax = 5000;
+
+export const getCareerVersionsResponseApplicationIntegratedEvidenceItemMax = 1000;
+
+export const getCareerVersionsResponseApplicationIntegratedEvidenceMax = 20;
+
 
 
 export const GetCareerVersionsResponseItem = zod.object({
@@ -544,7 +1240,10 @@ export const GetCareerVersionsResponseItem = zod.object({
   "writingLanguage": zod.string().max(getCareerVersionsResponseApplicationWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(getCareerVersionsResponseApplicationTextMax)
+  "text": zod.string().max(getCareerVersionsResponseApplicationTextMax),
+  "integratedThought": zod.string().max(getCareerVersionsResponseApplicationIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(getCareerVersionsResponseApplicationIntegratedEvidenceItemMax)).max(getCareerVersionsResponseApplicationIntegratedEvidenceMax).optional()
 }),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -589,6 +1288,12 @@ export const createCareerVersionResponseApplicationWritingLanguageMax = 100;
 
 export const createCareerVersionResponseApplicationTextMax = 100000;
 
+export const createCareerVersionResponseApplicationIntegratedThoughtMax = 5000;
+
+export const createCareerVersionResponseApplicationIntegratedEvidenceItemMax = 1000;
+
+export const createCareerVersionResponseApplicationIntegratedEvidenceMax = 20;
+
 
 
 export const CreateCareerVersionResponse = zod.object({
@@ -606,7 +1311,10 @@ export const CreateCareerVersionResponse = zod.object({
   "writingLanguage": zod.string().max(createCareerVersionResponseApplicationWritingLanguageMax),
   "experienceIds": zod.array(zod.string()),
   "criterionIds": zod.array(zod.string()),
-  "text": zod.string().max(createCareerVersionResponseApplicationTextMax)
+  "text": zod.string().max(createCareerVersionResponseApplicationTextMax),
+  "integratedThought": zod.string().max(createCareerVersionResponseApplicationIntegratedThoughtMax).optional(),
+  "integratedAudience": zod.enum(['youth', 'adult']).optional(),
+  "integratedEvidence": zod.array(zod.string().max(createCareerVersionResponseApplicationIntegratedEvidenceItemMax)).max(createCareerVersionResponseApplicationIntegratedEvidenceMax).optional()
 }),
   "criteria": zod.array(zod.object({
   "id": zod.string(),
@@ -644,7 +1352,7 @@ export const ExportCareerDocumentResponse = zod.unknown()
 
 
 /**
- * Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+ * Uses only explicitly selected fields. Account-bound encrypted results are reused for up to five hours in shared PostgreSQL. Durable HMAC-keyed dispatch records and shared limits prevent automatic duplicate generation across workers and restarts. Uncertain dispatches are not automatically reclaimed. No plaintext prompts or originals are stored in coordination tables.
  * @summary Generate consented, account-scoped writing assistance
  */
 export const requestCareerAiAssistanceBodyLocaleMax = 20;
@@ -868,6 +1576,488 @@ export const RequestCareerAiAssistanceResponse = zod.object({
   "confidence": zod.enum(['tentative', 'repeated'])
 })).max(requestCareerAiAssistanceResponseVoiceRulesMax),
   "notice": zod.string().max(requestCareerAiAssistanceResponseNoticeMax)
+})
+
+
+/**
+ * @summary Accept consented AI work without holding a long HTTP connection
+ */
+export const CreateCareerAiJobHeader = zod.object({
+  "X-Career-AI-Client": zod.string().uuid().optional()
+})
+
+export const createCareerAiJobBodyLocaleMax = 20;
+
+export const createCareerAiJobBodyWritingLanguageMax = 100;
+
+export const createCareerAiJobBodySourceFingerprintMax = 200;
+
+export const createCareerAiJobBodyCoachPromptMax = 2000;
+
+export const createCareerAiJobBodyApplicationCompanyMax = 500;
+
+export const createCareerAiJobBodyApplicationJobMax = 500;
+
+export const createCareerAiJobBodyApplicationQuestionMax = 5000;
+
+export const createCareerAiJobBodyApplicationBodyMax = 20000;
+
+export const createCareerAiJobBodyStrengthsItemNameMax = 200;
+
+export const createCareerAiJobBodyStrengthsItemInterpretationMax = 2000;
+
+export const createCareerAiJobBodyStrengthsItemRecommendationReasonMax = 2000;
+
+export const createCareerAiJobBodyStrengthsMax = 4;
+
+export const createCareerAiJobBodyExperiencesItemTitleMax = 500;
+
+export const createCareerAiJobBodyExperiencesItemSourceMax = 100;
+
+export const createCareerAiJobBodyExperiencesItemSourceVersionMax = 200;
+
+export const createCareerAiJobBodyExperiencesItemSourceTitleMax = 500;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSourceTitleMax = 500;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSourceCompanyMax = 500;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSourceJobMax = 500;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSourceVersionMax = 200;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSourceAsOfMax = 100;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSpecificDutyMax = 2000;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionSharedActionMax = 2000;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionLearnedPrincipleMax = 2000;
+
+export const createCareerAiJobBodyExperiencesItemJobConnectionFutureApplicationMax = 2000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsSituationMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsRoleGoalMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsActionMax = 5000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsSelectionReasonMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsChangedMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsResultMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsLearningMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsResultEvidenceMax = 3000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsSupportProvidedMax = 2000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsIndependentStepsItemMax = 1000;
+
+export const createCareerAiJobBodyExperiencesItemFieldsIndependentStepsMax = 20;
+
+export const createCareerAiJobBodyExperiencesMax = 10;
+
+export const createCareerAiJobBodyUserAnswersItemQuestionMax = 1000;
+
+export const createCareerAiJobBodyUserAnswersItemAnswerMax = 3000;
+
+export const createCareerAiJobBodyUserAnswersMax = 12;
+
+export const createCareerAiJobBodyVoiceSourcesItemTextMax = 5000;
+
+export const createCareerAiJobBodyVoiceSourcesMax = 6;
+
+export const createCareerAiJobBodyVoiceRulesItemAspectMax = 100;
+
+export const createCareerAiJobBodyVoiceRulesItemRuleMax = 1000;
+
+export const createCareerAiJobBodyVoiceRulesMax = 20;
+
+
+
+export const CreateCareerAiJobBody = zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "locale": zod.string().max(createCareerAiJobBodyLocaleMax),
+  "writingLanguage": zod.string().max(createCareerAiJobBodyWritingLanguageMax),
+  "sourceFingerprint": zod.string().min(1).max(createCareerAiJobBodySourceFingerprintMax),
+  "confirmed": zod.boolean(),
+  "factsConfirmed": zod.boolean(),
+  "coachPrompt": zod.string().max(createCareerAiJobBodyCoachPromptMax),
+  "application": zod.object({
+  "company": zod.string().max(createCareerAiJobBodyApplicationCompanyMax),
+  "job": zod.string().max(createCareerAiJobBodyApplicationJobMax),
+  "question": zod.string().max(createCareerAiJobBodyApplicationQuestionMax),
+  "body": zod.string().max(createCareerAiJobBodyApplicationBodyMax)
+}),
+  "strengths": zod.array(zod.object({
+  "name": zod.string().max(createCareerAiJobBodyStrengthsItemNameMax),
+  "interpretation": zod.string().max(createCareerAiJobBodyStrengthsItemInterpretationMax),
+  "recommendationReason": zod.string().max(createCareerAiJobBodyStrengthsItemRecommendationReasonMax)
+})).max(createCareerAiJobBodyStrengthsMax),
+  "experiences": zod.array(zod.object({
+  "title": zod.string().max(createCareerAiJobBodyExperiencesItemTitleMax),
+  "nature": zod.enum(['actual', 'simulation', 'unconfirmed']),
+  "context": zod.enum(['daily_activity', 'class_simulation', 'job_experience', 'synthetic_example', 'unknown']),
+  "cardType": zod.union([zod.literal('daily_application'),zod.literal('job_scenario'),zod.literal(null)]).nullable(),
+  "source": zod.string().max(createCareerAiJobBodyExperiencesItemSourceMax),
+  "sourceVersion": zod.string().max(createCareerAiJobBodyExperiencesItemSourceVersionMax),
+  "sourceTitle": zod.string().max(createCareerAiJobBodyExperiencesItemSourceTitleMax),
+  "jobConnection": zod.object({
+  "sourceKind": zod.enum(['official_material', 'job_posting', 'company_public', 'educational_inference', 'unverified']),
+  "sourceTitle": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSourceTitleMax),
+  "sourceCompany": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSourceCompanyMax),
+  "sourceJob": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSourceJobMax),
+  "sourceVersion": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSourceVersionMax),
+  "sourceAsOf": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSourceAsOfMax),
+  "specificDuty": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSpecificDutyMax),
+  "sharedAction": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionSharedActionMax),
+  "learnedPrinciple": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionLearnedPrincipleMax),
+  "futureApplication": zod.string().max(createCareerAiJobBodyExperiencesItemJobConnectionFutureApplicationMax),
+  "reviewed": zod.boolean()
+}).nullable(),
+  "fields": zod.object({
+  "situation": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsSituationMax),
+  "roleGoal": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsRoleGoalMax),
+  "action": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsActionMax),
+  "selectionReason": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsSelectionReasonMax),
+  "changed": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsChangedMax),
+  "result": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsResultMax),
+  "learning": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsLearningMax),
+  "resultEvidence": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsResultEvidenceMax),
+  "supportProvided": zod.string().max(createCareerAiJobBodyExperiencesItemFieldsSupportProvidedMax),
+  "independentSteps": zod.array(zod.string().max(createCareerAiJobBodyExperiencesItemFieldsIndependentStepsItemMax)).max(createCareerAiJobBodyExperiencesItemFieldsIndependentStepsMax)
+})
+})).max(createCareerAiJobBodyExperiencesMax),
+  "userAnswers": zod.array(zod.object({
+  "question": zod.string().max(createCareerAiJobBodyUserAnswersItemQuestionMax),
+  "answer": zod.string().max(createCareerAiJobBodyUserAnswersItemAnswerMax)
+})).max(createCareerAiJobBodyUserAnswersMax),
+  "voiceSources": zod.array(zod.object({
+  "text": zod.string().max(createCareerAiJobBodyVoiceSourcesItemTextMax),
+  "kind": zod.enum(['user_original', 'user_edited'])
+})).max(createCareerAiJobBodyVoiceSourcesMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(createCareerAiJobBodyVoiceRulesItemAspectMax),
+  "rule": zod.string().max(createCareerAiJobBodyVoiceRulesItemRuleMax),
+  "enabled": zod.boolean()
+})).max(createCareerAiJobBodyVoiceRulesMax)
+})
+
+export const createCareerAiJobResponseResponseSourceFingerprintMax = 200;
+
+export const createCareerAiJobResponseResponseCoachQuestionMax = 2000;
+
+export const createCareerAiJobResponseResponseCandidatesItemTextMax = 5000;
+
+export const createCareerAiJobResponseResponseCandidatesItemRationaleMax = 2000;
+
+export const createCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax = 500;
+
+export const createCareerAiJobResponseResponseCandidatesItemSourceFactsMax = 10;
+
+export const createCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax = 1000;
+
+export const createCareerAiJobResponseResponseCandidatesItemCautionMax = 1000;
+
+export const createCareerAiJobResponseResponseCandidatesMax = 3;
+
+export const createCareerAiJobResponseResponseFeedbackItemCategoryMax = 100;
+
+export const createCareerAiJobResponseResponseFeedbackItemNoteMax = 1000;
+
+export const createCareerAiJobResponseResponseFeedbackItemEvidenceMax = 500;
+
+export const createCareerAiJobResponseResponseFeedbackMax = 12;
+
+export const createCareerAiJobResponseResponseVoiceRulesItemAspectMax = 100;
+
+export const createCareerAiJobResponseResponseVoiceRulesItemRuleMax = 1000;
+
+export const createCareerAiJobResponseResponseVoiceRulesItemExampleMax = 500;
+
+export const createCareerAiJobResponseResponseVoiceRulesMax = 12;
+
+export const createCareerAiJobResponseResponseNoticeMax = 1000;
+
+
+
+export const CreateCareerAiJobResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['queued', 'running', 'complete', 'failed', 'uncertain', 'cancelled']),
+  "pollAfterMs": zod.number().int(),
+  "elapsedMs": zod.number(),
+  "queuedMs": zod.number(),
+  "response": zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "sourceFingerprint": zod.string().max(createCareerAiJobResponseResponseSourceFingerprintMax),
+  "coachQuestion": zod.string().max(createCareerAiJobResponseResponseCoachQuestionMax),
+  "candidates": zod.array(zod.object({
+  "text": zod.string().max(createCareerAiJobResponseResponseCandidatesItemTextMax),
+  "rationale": zod.string().max(createCareerAiJobResponseResponseCandidatesItemRationaleMax),
+  "sourceFacts": zod.array(zod.string().max(createCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax)).max(createCareerAiJobResponseResponseCandidatesItemSourceFactsMax),
+  "strengthConnection": zod.string().max(createCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax),
+  "caution": zod.string().max(createCareerAiJobResponseResponseCandidatesItemCautionMax)
+})).max(createCareerAiJobResponseResponseCandidatesMax),
+  "feedback": zod.array(zod.object({
+  "category": zod.string().max(createCareerAiJobResponseResponseFeedbackItemCategoryMax),
+  "note": zod.string().max(createCareerAiJobResponseResponseFeedbackItemNoteMax),
+  "evidence": zod.string().max(createCareerAiJobResponseResponseFeedbackItemEvidenceMax)
+})).max(createCareerAiJobResponseResponseFeedbackMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(createCareerAiJobResponseResponseVoiceRulesItemAspectMax),
+  "rule": zod.string().max(createCareerAiJobResponseResponseVoiceRulesItemRuleMax),
+  "example": zod.string().max(createCareerAiJobResponseResponseVoiceRulesItemExampleMax),
+  "confidence": zod.enum(['tentative', 'repeated'])
+})).max(createCareerAiJobResponseResponseVoiceRulesMax),
+  "notice": zod.string().max(createCareerAiJobResponseResponseNoticeMax)
+}).optional(),
+  "error": zod.string().optional()
+})
+
+
+/**
+ * @summary Recover an accepted request even if its acknowledgement was lost
+ */
+export const GetCareerAiJobByClientParams = zod.object({
+  "clientId": zod.coerce.string()
+})
+
+export const getCareerAiJobByClientResponseResponseSourceFingerprintMax = 200;
+
+export const getCareerAiJobByClientResponseResponseCoachQuestionMax = 2000;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemTextMax = 5000;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemRationaleMax = 2000;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemSourceFactsItemMax = 500;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemSourceFactsMax = 10;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemStrengthConnectionMax = 1000;
+
+export const getCareerAiJobByClientResponseResponseCandidatesItemCautionMax = 1000;
+
+export const getCareerAiJobByClientResponseResponseCandidatesMax = 3;
+
+export const getCareerAiJobByClientResponseResponseFeedbackItemCategoryMax = 100;
+
+export const getCareerAiJobByClientResponseResponseFeedbackItemNoteMax = 1000;
+
+export const getCareerAiJobByClientResponseResponseFeedbackItemEvidenceMax = 500;
+
+export const getCareerAiJobByClientResponseResponseFeedbackMax = 12;
+
+export const getCareerAiJobByClientResponseResponseVoiceRulesItemAspectMax = 100;
+
+export const getCareerAiJobByClientResponseResponseVoiceRulesItemRuleMax = 1000;
+
+export const getCareerAiJobByClientResponseResponseVoiceRulesItemExampleMax = 500;
+
+export const getCareerAiJobByClientResponseResponseVoiceRulesMax = 12;
+
+export const getCareerAiJobByClientResponseResponseNoticeMax = 1000;
+
+
+
+export const GetCareerAiJobByClientResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['queued', 'running', 'complete', 'failed', 'uncertain', 'cancelled']),
+  "pollAfterMs": zod.number().int(),
+  "elapsedMs": zod.number(),
+  "queuedMs": zod.number(),
+  "response": zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "sourceFingerprint": zod.string().max(getCareerAiJobByClientResponseResponseSourceFingerprintMax),
+  "coachQuestion": zod.string().max(getCareerAiJobByClientResponseResponseCoachQuestionMax),
+  "candidates": zod.array(zod.object({
+  "text": zod.string().max(getCareerAiJobByClientResponseResponseCandidatesItemTextMax),
+  "rationale": zod.string().max(getCareerAiJobByClientResponseResponseCandidatesItemRationaleMax),
+  "sourceFacts": zod.array(zod.string().max(getCareerAiJobByClientResponseResponseCandidatesItemSourceFactsItemMax)).max(getCareerAiJobByClientResponseResponseCandidatesItemSourceFactsMax),
+  "strengthConnection": zod.string().max(getCareerAiJobByClientResponseResponseCandidatesItemStrengthConnectionMax),
+  "caution": zod.string().max(getCareerAiJobByClientResponseResponseCandidatesItemCautionMax)
+})).max(getCareerAiJobByClientResponseResponseCandidatesMax),
+  "feedback": zod.array(zod.object({
+  "category": zod.string().max(getCareerAiJobByClientResponseResponseFeedbackItemCategoryMax),
+  "note": zod.string().max(getCareerAiJobByClientResponseResponseFeedbackItemNoteMax),
+  "evidence": zod.string().max(getCareerAiJobByClientResponseResponseFeedbackItemEvidenceMax)
+})).max(getCareerAiJobByClientResponseResponseFeedbackMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(getCareerAiJobByClientResponseResponseVoiceRulesItemAspectMax),
+  "rule": zod.string().max(getCareerAiJobByClientResponseResponseVoiceRulesItemRuleMax),
+  "example": zod.string().max(getCareerAiJobByClientResponseResponseVoiceRulesItemExampleMax),
+  "confidence": zod.enum(['tentative', 'repeated'])
+})).max(getCareerAiJobByClientResponseResponseVoiceRulesMax),
+  "notice": zod.string().max(getCareerAiJobByClientResponseResponseNoticeMax)
+}).optional(),
+  "error": zod.string().optional()
+})
+
+
+/**
+ * @summary Read only the authenticated owner's accepted job
+ */
+export const getCareerAiJobPathIdRegExp = new RegExp('^[a-f0-9]{64}$');
+
+
+export const GetCareerAiJobParams = zod.object({
+  "id": zod.coerce.string().regex(getCareerAiJobPathIdRegExp)
+})
+
+export const getCareerAiJobResponseResponseSourceFingerprintMax = 200;
+
+export const getCareerAiJobResponseResponseCoachQuestionMax = 2000;
+
+export const getCareerAiJobResponseResponseCandidatesItemTextMax = 5000;
+
+export const getCareerAiJobResponseResponseCandidatesItemRationaleMax = 2000;
+
+export const getCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax = 500;
+
+export const getCareerAiJobResponseResponseCandidatesItemSourceFactsMax = 10;
+
+export const getCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax = 1000;
+
+export const getCareerAiJobResponseResponseCandidatesItemCautionMax = 1000;
+
+export const getCareerAiJobResponseResponseCandidatesMax = 3;
+
+export const getCareerAiJobResponseResponseFeedbackItemCategoryMax = 100;
+
+export const getCareerAiJobResponseResponseFeedbackItemNoteMax = 1000;
+
+export const getCareerAiJobResponseResponseFeedbackItemEvidenceMax = 500;
+
+export const getCareerAiJobResponseResponseFeedbackMax = 12;
+
+export const getCareerAiJobResponseResponseVoiceRulesItemAspectMax = 100;
+
+export const getCareerAiJobResponseResponseVoiceRulesItemRuleMax = 1000;
+
+export const getCareerAiJobResponseResponseVoiceRulesItemExampleMax = 500;
+
+export const getCareerAiJobResponseResponseVoiceRulesMax = 12;
+
+export const getCareerAiJobResponseResponseNoticeMax = 1000;
+
+
+
+export const GetCareerAiJobResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['queued', 'running', 'complete', 'failed', 'uncertain', 'cancelled']),
+  "pollAfterMs": zod.number().int(),
+  "elapsedMs": zod.number(),
+  "queuedMs": zod.number(),
+  "response": zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "sourceFingerprint": zod.string().max(getCareerAiJobResponseResponseSourceFingerprintMax),
+  "coachQuestion": zod.string().max(getCareerAiJobResponseResponseCoachQuestionMax),
+  "candidates": zod.array(zod.object({
+  "text": zod.string().max(getCareerAiJobResponseResponseCandidatesItemTextMax),
+  "rationale": zod.string().max(getCareerAiJobResponseResponseCandidatesItemRationaleMax),
+  "sourceFacts": zod.array(zod.string().max(getCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax)).max(getCareerAiJobResponseResponseCandidatesItemSourceFactsMax),
+  "strengthConnection": zod.string().max(getCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax),
+  "caution": zod.string().max(getCareerAiJobResponseResponseCandidatesItemCautionMax)
+})).max(getCareerAiJobResponseResponseCandidatesMax),
+  "feedback": zod.array(zod.object({
+  "category": zod.string().max(getCareerAiJobResponseResponseFeedbackItemCategoryMax),
+  "note": zod.string().max(getCareerAiJobResponseResponseFeedbackItemNoteMax),
+  "evidence": zod.string().max(getCareerAiJobResponseResponseFeedbackItemEvidenceMax)
+})).max(getCareerAiJobResponseResponseFeedbackMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(getCareerAiJobResponseResponseVoiceRulesItemAspectMax),
+  "rule": zod.string().max(getCareerAiJobResponseResponseVoiceRulesItemRuleMax),
+  "example": zod.string().max(getCareerAiJobResponseResponseVoiceRulesItemExampleMax),
+  "confidence": zod.enum(['tentative', 'repeated'])
+})).max(getCareerAiJobResponseResponseVoiceRulesMax),
+  "notice": zod.string().max(getCareerAiJobResponseResponseNoticeMax)
+}).optional(),
+  "error": zod.string().optional()
+})
+
+
+/**
+ * @summary Cancel undispatched work; dispatched work may still be billed and finish
+ */
+export const cancelCareerAiJobPathIdRegExp = new RegExp('^[a-f0-9]{64}$');
+
+
+export const CancelCareerAiJobParams = zod.object({
+  "id": zod.coerce.string().regex(cancelCareerAiJobPathIdRegExp)
+})
+
+export const cancelCareerAiJobResponseResponseSourceFingerprintMax = 200;
+
+export const cancelCareerAiJobResponseResponseCoachQuestionMax = 2000;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemTextMax = 5000;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemRationaleMax = 2000;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax = 500;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemSourceFactsMax = 10;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax = 1000;
+
+export const cancelCareerAiJobResponseResponseCandidatesItemCautionMax = 1000;
+
+export const cancelCareerAiJobResponseResponseCandidatesMax = 3;
+
+export const cancelCareerAiJobResponseResponseFeedbackItemCategoryMax = 100;
+
+export const cancelCareerAiJobResponseResponseFeedbackItemNoteMax = 1000;
+
+export const cancelCareerAiJobResponseResponseFeedbackItemEvidenceMax = 500;
+
+export const cancelCareerAiJobResponseResponseFeedbackMax = 12;
+
+export const cancelCareerAiJobResponseResponseVoiceRulesItemAspectMax = 100;
+
+export const cancelCareerAiJobResponseResponseVoiceRulesItemRuleMax = 1000;
+
+export const cancelCareerAiJobResponseResponseVoiceRulesItemExampleMax = 500;
+
+export const cancelCareerAiJobResponseResponseVoiceRulesMax = 12;
+
+export const cancelCareerAiJobResponseResponseNoticeMax = 1000;
+
+
+
+export const CancelCareerAiJobResponse = zod.object({
+  "id": zod.string(),
+  "state": zod.enum(['queued', 'running', 'complete', 'failed', 'uncertain', 'cancelled']),
+  "pollAfterMs": zod.number().int(),
+  "elapsedMs": zod.number(),
+  "queuedMs": zod.number(),
+  "response": zod.object({
+  "task": zod.enum(['coach', 'draft', 'voice', 'analyze']),
+  "sourceFingerprint": zod.string().max(cancelCareerAiJobResponseResponseSourceFingerprintMax),
+  "coachQuestion": zod.string().max(cancelCareerAiJobResponseResponseCoachQuestionMax),
+  "candidates": zod.array(zod.object({
+  "text": zod.string().max(cancelCareerAiJobResponseResponseCandidatesItemTextMax),
+  "rationale": zod.string().max(cancelCareerAiJobResponseResponseCandidatesItemRationaleMax),
+  "sourceFacts": zod.array(zod.string().max(cancelCareerAiJobResponseResponseCandidatesItemSourceFactsItemMax)).max(cancelCareerAiJobResponseResponseCandidatesItemSourceFactsMax),
+  "strengthConnection": zod.string().max(cancelCareerAiJobResponseResponseCandidatesItemStrengthConnectionMax),
+  "caution": zod.string().max(cancelCareerAiJobResponseResponseCandidatesItemCautionMax)
+})).max(cancelCareerAiJobResponseResponseCandidatesMax),
+  "feedback": zod.array(zod.object({
+  "category": zod.string().max(cancelCareerAiJobResponseResponseFeedbackItemCategoryMax),
+  "note": zod.string().max(cancelCareerAiJobResponseResponseFeedbackItemNoteMax),
+  "evidence": zod.string().max(cancelCareerAiJobResponseResponseFeedbackItemEvidenceMax)
+})).max(cancelCareerAiJobResponseResponseFeedbackMax),
+  "voiceRules": zod.array(zod.object({
+  "aspect": zod.string().max(cancelCareerAiJobResponseResponseVoiceRulesItemAspectMax),
+  "rule": zod.string().max(cancelCareerAiJobResponseResponseVoiceRulesItemRuleMax),
+  "example": zod.string().max(cancelCareerAiJobResponseResponseVoiceRulesItemExampleMax),
+  "confidence": zod.enum(['tentative', 'repeated'])
+})).max(cancelCareerAiJobResponseResponseVoiceRulesMax),
+  "notice": zod.string().max(cancelCareerAiJobResponseResponseNoticeMax)
+}).optional(),
+  "error": zod.string().optional()
 })
 
 

@@ -3,7 +3,12 @@ import { KEYS } from '@/lib/career';
 import { MESSAGES, PARTIAL } from '@/lib/messages';
 import { PROV_MESSAGES, PROV_PARTIAL } from '@/lib/provenance-messages';
 import { STAR_MESSAGES, STAR_PARTIAL } from '@/lib/star-story-messages';
-import { clientStorage } from '@/lib/public-demo';
+import { SB_MESSAGES, SB_PARTIAL } from '@/lib/storyboard-messages';
+import { DB_MESSAGES, DB_PARTIAL } from '@/lib/dashboard-messages';
+import { clientStorage, REVIEW_DEMO } from '@/lib/public-demo';
+import { DAILY_MESSAGES } from '@/lib/review-daily-messages';
+import { SIMPLE_STORY } from '@/lib/review-simple-story-messages';
+import { AUDIENCE_MESSAGES } from '@/lib/review-audience-messages';
 
 export const LOCALES = [
   { id: 'ko', name: '한국어' },
@@ -80,6 +85,14 @@ export function I18nProvider({ children }: { children: ReactNode }) {
   const dir = locale === 'ar' ? 'rtl' : 'ltr';
 
   useEffect(() => {
+    if (!REVIEW_DEMO || !resolveLocale(new URLSearchParams(window.location.search).get('lang'))) return;
+    try {
+      const target=clientStorage(KEYS.locale);
+      target.storage.setItem(target.key, locale);
+    } catch { /* language can still be shown for this visit */ }
+  }, []);
+
+  useEffect(() => {
     document.documentElement.lang = locale;
     document.documentElement.dir = dir;
   }, [locale, dir]);
@@ -96,11 +109,11 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
   const t = useCallback(
     (key: string, vars?: Vars) => {
-      const entry = STAR_MESSAGES[key] ?? MESSAGES[key] ?? PROV_MESSAGES[key];
+      const entry = AUDIENCE_MESSAGES[key] ?? SIMPLE_STORY[key] ?? DAILY_MESSAGES[key] ?? DB_MESSAGES[key] ?? SB_MESSAGES[key] ?? STAR_MESSAGES[key] ?? MESSAGES[key] ?? PROV_MESSAGES[key];
       let s: string;
       if (locale === 'ko') s = entry?.[0] ?? key;
       else if (locale === 'en') s = entry?.[1] ?? key;
-        else s = STAR_PARTIAL[locale]?.[key] ?? PARTIAL[locale]?.[key] ?? PROV_PARTIAL[locale]?.[key] ?? entry?.[1] ?? key; // never Korean fallback
+        else s = DB_PARTIAL[locale]?.[key] ?? SB_PARTIAL[locale]?.[key] ?? STAR_PARTIAL[locale]?.[key] ?? PARTIAL[locale]?.[key] ?? PROV_PARTIAL[locale]?.[key] ?? entry?.[1] ?? key; // never Korean fallback
       if (vars) for (const [k, v] of Object.entries(vars)) s = s.split(`{${k}}`).join(String(v));
       return s;
     },

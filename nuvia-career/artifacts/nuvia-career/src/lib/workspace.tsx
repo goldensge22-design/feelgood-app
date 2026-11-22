@@ -1,6 +1,9 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useAuth } from '@clerk/react';
-import { PUBLIC_DEMO, localWorkspaceMode } from '@/lib/public-demo';
+import { PUBLIC_DEMO, REVIEW_DEMO, localWorkspaceMode } from '@/lib/public-demo';
+import { REVIEW_OVERVIEW, reviewWorkspace } from '@/lib/review-demo-fixture';
+import { reviewCardExperience } from '@/lib/review-planner-model';
+import { useReviewPlanner } from '@/lib/review-planner';
 import { useQueryClient } from '@tanstack/react-query';
 import {
   useGetCareerOverview,
@@ -14,6 +17,7 @@ import {
   getGetCareerVersionsQueryKey,
   useCreateCareerVersion,
   type CareerOverview,
+  type CareerExperience,
   type CareerState,
   type CareerVersion,
 } from '@workspace/api-client-react';
@@ -36,6 +40,7 @@ interface WorkspaceCtx {
   state: CareerState | null;
   loadError: boolean;
   retryLoad: () => void;
+  refreshGeneration: number;
   update: (fn: (s: CareerState) => CareerState) => void;
   status: SaveStatus;
   savedAt: string | null;
@@ -61,6 +66,24 @@ const Ctx = createContext<WorkspaceCtx | null>(null);
 
 export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const auth = useAuth();
+  return <WorkspaceState auth={auth}>{children}</WorkspaceState>;
+}
+
+/** The isolated review journey doesn't instantiate an authentication provider. */
+export function ReviewWorkspaceProvider({ children }: { children: ReactNode }) {
+  const { book } = useReviewPlanner();
+  const reviewExperiences = useMemo(() => Object.values(book.cards).flatMap((card) => {
+    const record = reviewCardExperience(card);
+    return record ? [record] : [];
+  }), [book.cards]);
+  return <WorkspaceState auth={{ isLoaded: true, isSignedIn: false, userId: null }} reviewExperiences={reviewExperiences}>{children}</WorkspaceState>;
+}
+
+function WorkspaceState({ auth, children, reviewExperiences }: {
+  auth: Pick<ReturnType<typeof useAuth>, 'isLoaded' | 'isSignedIn' | 'userId'>;
+  children: ReactNode;
+  reviewExperiences?: CareerExperience[];
+}) {
   const { isLoaded, isSignedIn, userId } = PUBLIC_DEMO
     ? { isLoaded: true, isSignedIn: false, userId: null }
     : auth;
@@ -84,6 +107,7 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   }, []);
   const [status, setStatus] = useState<SaveStatus>('loading');
   const [savedAt, setSavedAt] = useState<string | null>(null);
+  const [refreshGeneration, setRefreshGeneration] = useState(0);
   const [recovery, setRecovery] = useState<Recovery | null>(null);
   const [localVersions, setLocalVersions] = useState<CareerVersion[]>([]);
   const [selectedAppId, setSelectedAppIdRaw] = useState<string | null>(null);
@@ -123,9 +147,9 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   const mounted = useRef(true);
   useEffect(() => { mounted.current = true; return () => { mounted.current = false; if (timer.current) window.clearTimeout(timer.current); }; }, []);
 
-  const overviewQ = useGetCareerOverview({ query: { queryKey: getGetCareerOverviewQueryKey(), staleTime: 300_000 } });
+  const overviewQ = useGetCareerOverview({ query: { enabled: !REVIEW_DEMO, queryKey: getGetCareerOverviewQueryKey(), staleTime: 300_000 } });
   const exampleQ = useGetCareerExample({
-    query: { enabled: mode === 'demo', queryKey: getGetCareerExampleQueryKey(), staleTime: Infinity },
+    query: { enabled: mode === 'demo' && !REVIEW_DEMO, queryKey: getGetCareerExampleQueryKey(), staleTime: Infinity },
   });
   const wsQ = useGetCareerWorkspace({
     query: {
@@ -171,15 +195,15 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     }
     if (mode === 'demo') {
       const saved = loadJSON<unknown>(KEYS.demo);
-      const st = isCareerState(saved) ? saved : exampleQ.data ?? null;
+      const st = isCareerState(saved) ? saved : REVIEW_DEMO ? reviewWorkspace() : exampleQ.data ?? null;
       if (!st) { setStateBoth(null); setStatus('loading'); return; }
-      if (!isCareerState(saved)) saveJSON(KEYS.demo, st);
+      const stored = isCareerState(saved) || saveJSON(KEYS.demo, st);
       initKey.current = ctxKey;
       initGeneration.current = scope.current.capture();
       setStateBoth(st);
       restoreSelection(st);
       setLocalVersions(loadJSON<CareerVersion[]>(KEYS.demoVersions) ?? []);
-      setStatus('local');
+      setStatus(stored ? 'local' : 'error');
       setSavedAt(null);
       return;
     }
@@ -293,19 +317,22 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     conflictRef.current = false;
     dirtyRef.current = false;
     setStateBoth(server.state);
+    setRefreshGeneration(x => x+1);
     setSavedAt(server.savedAt);
     setStatus('saved');
     if (userRef.current) removeKey(KEYS.recovery(userRef.current));
   }, [fetchServer, setStateBoth]);
 
   const recoverAsDraft = useCallback(async () => {
-    const local = stateRef.current;
     const server = await fetchServer();
+    // Read the current edit after the network response: the user may have kept typing.
+    const local = stateRef.current;
     revRef.current = server.revision;
     conflictRef.current = false;
     if (!local) { setStateBoth(server.state); setStatus('saved'); return 0; }
     const merged = mergeAsDraft(server.state, local);
     setStateBoth(merged.state);
+    setRefreshGeneration(x => x+1);
     dirtyRef.current = true;
     if (userRef.current) saveJSON(KEYS.recovery(userRef.current), { baseRevision: server.revision, state: merged.state, at: Date.now() });
     setStatus('dirty');
@@ -317,7 +344,8 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
     if (!recovery) return;
     const rec = recovery;
     setRecovery(null);
-    update((cur) => (rec.baseRevision === revRef.current ? rec.state : mergeAsDraft(cur, rec.state).state));
+    update((cur) => (!dirtyRef.current && rec.baseRevision === revRef.current ? rec.state : mergeAsDraft(cur, rec.state).state));
+    setRefreshGeneration(x => x+1);
   }, [recovery, update]);
 
   const discardRecovery = useCallback(() => {
@@ -411,19 +439,25 @@ export function WorkspaceProvider({ children }: { children: ReactNode }) {
   }, [mode, versionsQ.data, localVersions]);
 
   const loadError = mode === 'account' ? wsQ.isError && !state : mode === 'demo' ? exampleQ.isError && !state : false;
+  // Review-only view: the card book stays the sole persisted source for actual
+  // demo entries. Legacy stored drafts and the previous demo sample are kept.
+  const viewState = useMemo(() => state && reviewExperiences
+    ? { ...state, experiences: [...state.experiences, ...reviewExperiences] }
+    : state, [state, reviewExperiences]);
 
   const value: WorkspaceCtx = {
     mode,
     setLocalMode,
     authLoaded: isLoaded,
     userId: userId ?? null,
-    overview: overviewQ.data,
+    overview: REVIEW_DEMO ? REVIEW_OVERVIEW : overviewQ.data,
     overviewLoading: overviewQ.isLoading,
     overviewError: overviewQ.isError,
-    retryOverview: () => void overviewQ.refetch(),
-    state: initKey.current === ctxKey ? state : null,
+    retryOverview: () => { if (!REVIEW_DEMO) void overviewQ.refetch(); },
+    state: initKey.current === ctxKey ? viewState : null,
     loadError,
-    retryLoad: () => void (mode === 'account' ? wsQ.refetch() : exampleQ.refetch()),
+    retryLoad: () => { if (!REVIEW_DEMO) void (mode === 'account' ? wsQ.refetch() : exampleQ.refetch()); },
+    refreshGeneration,
     update,
     status,
     savedAt,

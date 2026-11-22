@@ -1,0 +1,11 @@
+.st-daily-note{margin-block:12px;border:1px solid #d4cbbd;border-radius:8px;background:#fffaf0;color:#192b46;box-shadow:0 3px 0 #e1d8ca;max-width:100%;overflow-wrap:anywhere}
+.st-note-toggle{width:100%;text-align:start;background:transparent;border:0;padding:10px 16px;font-weight:700;min-height:44px}
+.st-note-body{padding:0 16px 16px}
+.st-daily-note label{display:grid;gap:8px;margin-block:12px}
+.st-daily-note textarea,.st-daily-note select{width:100%;max-width:100%;box-sizing:border-box;font:inherit;min-height:44px}
+.st-daily-note textarea{resize:vertical;line-height:1.6}
+.st-daily-note button,.st-daily-note summary{min-height:44px;white-space:normal;overflow-wrap:anywhere}
+.st-daily-note summary{cursor:pointer;display:list-item;align-content:center}
+.st-daily-note :focus-visible{outline:3px solid #2865ad;outline-offset:3px}
+.st-daily-note blockquote{margin:12px 0;white-space:pre-wrap}
+@media print{.st-daily-note{display:none!important}}

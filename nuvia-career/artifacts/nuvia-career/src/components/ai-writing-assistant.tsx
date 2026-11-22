@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { AlertCircle, Check, ChevronDown, CircleHelp, GitCompareArrows, RotateCcw, Send, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -31,7 +31,7 @@ ai.saveRule, ai.confirmRule, ai.editRule, ai.resetRules, ai.noRules, ai.closeCom
 import { normalizeAiPurpose } from '@/lib/ai-response';
 
 export type AIWritingAction = 'coach' | 'draft' | 'voice' | 'analyze';
-export type AIWritingFailure = 'timeout' | 'rate_limited' | 'failed' | 'cancelled' | 'unconfigured' | 'stale';
+export type AIWritingFailure = 'timeout' | 'rate_limited' | 'failed' | 'cancelled' | 'unconfigured' | 'stale' | 'provider_busy' | 'usage_limit' | 'local_limit' | 'uncertain' | 'input_limit' | 'queue_full' | 'coordination_wait' | 'coordination_unavailable' | 'result_expired' | 'pending_storage_failed';
 export type AIWritingStatus = 'idle' | 'unavailable' | 'loading' | AIWritingFailure;
 export type ApplyChoice = 'replace' | 'append';
 
@@ -200,6 +200,10 @@ export interface AIWritingAssistantProps {
   styleRules?: AIWritingStyleRule[];
   answers?: AIWritingAnswer[];
   onRequest: (action: AIWritingAction, payload: AIWritingPayload, signal: AbortSignal) => Promise<AIWritingResponse>;
+  resumeKey?: string;
+  onResume?: (signal: AbortSignal) => Promise<AIWritingResponse>;
+  resumeExperienceIds?: string[];
+  onCancelRequest?: () => void;
   onApply: (candidate: AIWritingCandidate, choice: ApplyChoice) => void;
   onRestorePriorBody: () => void;
   onSaveStyleRules: (rules: AIWritingStyleRule[]) => boolean;
@@ -260,6 +264,7 @@ export function AIWritingAssistant({
   t, application, strengths, experiences, voiceExamples = [], availability = true, loading = false, contextKey, history = [],
   error = null, response, styleRules = [], answers = [], onRequest, onApply, onRestorePriorBody,
   onSaveStyleRules, onConfirmStyleRule, onClearStyleRules, onSaveAnswer, onSaveVoiceExample,
+  resumeKey, onResume, resumeExperienceIds, onCancelRequest,
 }: AIWritingAssistantProps) {
   const [selectedFields, setSelectedFields] = useState<Set<SelectionKey>>(() => new Set());
   const [action, setAction] = useState<AIWritingAction>('coach');
@@ -279,6 +284,8 @@ export function AIWritingAssistant({
   const [factsReviewed, setFactsReviewed] = useState(false);
   const [responseExperienceIds, setResponseExperienceIds] = useState<string[]>([]);
   const controllerRef = useRef<AbortController | null>(null);
+  const resumeRef = useRef(onResume);
+  resumeRef.current = onResume;
   const timeoutRef = useRef<number | null>(null);
   const requestSelectionKey = useRef('');
   const sourceContextRef = useRef(contextKey);
@@ -297,10 +304,29 @@ export function AIWritingAssistant({
     }
   }, [response]);
 
-  useEffect(() => () => {
+  useLayoutEffect(() => () => {
     controllerRef.current?.abort();
     if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
   }, []);
+  useEffect(() => {
+    if (!resumeKey || !resumeRef.current || controllerRef.current) return;
+    const controller = new AbortController();
+    controllerRef.current = controller;
+    setRequestStatus('loading'); setResult(null);
+    void resumeRef.current(controller.signal).then(data => {
+      if (!controller.signal.aborted) {
+        setResult(data); setResponseExperienceIds(resumeExperienceIds ?? []); setRequestStatus('idle');
+      }
+    }).catch((e: { code?: string }) => {
+      if (!controller.signal.aborted) setRequestStatus(e.code === 'STALE' ? 'stale' : e.code === 'CANCELLED'
+        ? 'cancelled' : e.code === 'AI_UNCERTAIN' ? 'uncertain' : e.code === 'AI_USAGE_LIMIT'
+          ? 'usage_limit' : e.code === 'AI_CLASS_LIMIT' || e.code === 'AI_LOCAL_LIMIT' ? 'local_limit'
+            : e.code === 'AI_NOT_CONFIGURED' || e.code === 'AI_MODEL_CONFIG' ? 'unconfigured'
+              : e.code === 'AI_PROVIDER_BUSY' ? 'provider_busy'
+                : e.code === 'AI_RESULT_EXPIRED' ? 'result_expired' : 'failed');
+    }).finally(() => { if (controllerRef.current === controller) controllerRef.current = null; });
+    return () => { controller.abort(); if (controllerRef.current === controller) controllerRef.current = null; };
+  }, [resumeKey]);
 
   useEffect(() => {
     if (previousSelectionKey.current === currentSelectionKey) return;
@@ -446,13 +472,8 @@ export function AIWritingAssistant({
     setResult(null);
     setSelectedCandidate(null);
     setCompareIds([]);
-    const timeoutId = window.setTimeout(() => {
-      if (!controller.signal.aborted) {
-        setRequestStatus('timeout');
-        controller.abort();
-      }
-    }, 45_000);
-    timeoutRef.current = timeoutId;
+    // Accepted work is polled with short per-HTTP deadlines; ordinary queueing
+    // has no client-side total deadline and must not become a timeout failure.
     try {
       const payload = makePayload(requestAction);
       const data = await onRequest(requestAction, payload, controller.signal);
@@ -465,14 +486,21 @@ export function AIWritingAssistant({
       const failure = caught as { code?: string; status?: number; data?: { error?: string } };
       const code = failure?.code ?? failure?.data?.error;
       const httpStatus = failure?.status;
-      setRequestStatus(code === 'TIMEOUT' || code === 'AI_TIMEOUT' || httpStatus === 504 ? 'timeout'
+      setRequestStatus(code === 'AI_PENDING_SAVE_FAILED' ? 'pending_storage_failed' : code === 'AI_COORDINATION_WAIT' ? 'coordination_wait'
+        : code === 'AI_COORDINATION_UNAVAILABLE' ? 'coordination_unavailable'
+          : code === 'AI_RESULT_EXPIRED' ? 'result_expired'
+            : code === 'AI_UNCERTAIN' || code === 'AI_TIMEOUT' || code === 'AI_UPSTREAM_FAILED' ? 'uncertain'
+        : code === 'AI_USAGE_LIMIT' ? 'usage_limit'
+          : code === 'AI_LOCAL_LIMIT' || code === 'AI_CLASS_LIMIT' ? 'local_limit'
+            : code === 'AI_PROVIDER_BUSY' ? 'provider_busy'
+              : code === 'AI_QUEUE_FULL' ? 'queue_full'
+              : code === 'AI_INPUT_LIMIT' || code === 'REQUEST_TOO_LARGE' || httpStatus === 413 ? 'input_limit'
+                : code === 'TIMEOUT' || httpStatus === 504 ? 'timeout'
         : code === 'CANCELLED' ? 'cancelled'
           : code === 'STALE' ? 'stale'
-            : code === 'AI_NOT_CONFIGURED' ? 'unconfigured'
+            : code === 'AI_NOT_CONFIGURED' || code === 'AI_MODEL_CONFIG' ? 'unconfigured'
               : code === 'RATE_LIMITED' || code === 'AI_RATE_LIMITED' || httpStatus === 429 ? 'rate_limited' : 'failed');
     } finally {
-      window.clearTimeout(timeoutId);
-      if (timeoutRef.current === timeoutId) timeoutRef.current = null;
       if (controllerRef.current === controller) {
         requestSelectionKey.current = '';
         controllerRef.current = null;
@@ -483,6 +511,7 @@ export function AIWritingAssistant({
   const cancel = () => {
     if (!controllerRef.current) return;
     controllerRef.current.abort();
+    onCancelRequest?.();
     controllerRef.current = null;
     if (timeoutRef.current !== null) window.clearTimeout(timeoutRef.current);
     timeoutRef.current = null;
@@ -497,16 +526,28 @@ export function AIWritingAssistant({
   };
 
   const ruleCandidates = voiceCandidates;
+  const retryable = ['failed', 'rate_limited', 'provider_busy', 'queue_full', 'coordination_wait', 'coordination_unavailable'].includes(status);
+  const isFailure = retryable || ['usage_limit', 'uncertain', 'input_limit', 'local_limit', 'timeout'].includes(status);
   const statusKey: Record<AIWritingStatus, string> = {
     idle: 'ai.noResponse',
     unavailable: 'ai.unavailable',
-    loading: 'ai.loading',
+    loading: 'ai.capacityWaiting',
     cancelled: 'ai.cancelled',
     timeout: 'ai.timeout',
     rate_limited: 'ai.rateLimited',
     failed: 'ai.failed',
     unconfigured: 'ai.connectionRequired',
     stale: 'ai.stale',
+    provider_busy: 'ai.providerBusy',
+    usage_limit: 'ai.usageLimit',
+    local_limit: 'ai.localLimit',
+    uncertain: 'ai.uncertain',
+    input_limit: 'ai.inputLimit',
+    queue_full: 'ai.queueFull',
+    coordination_wait: 'ai.coordinationWait',
+    coordination_unavailable: 'ai.coordinationUnavailable',
+    result_expired: 'ai.resultExpired',
+    pending_storage_failed: 'ai.pendingStorageFailed',
   };
 
   return (
@@ -517,6 +558,7 @@ export function AIWritingAssistant({
           <div className="min-w-0 flex-1">
             <h2 className="text-sm font-semibold">{t('ai.title')}</h2>
             <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{t('ai.subtitle')}</p>
+            <p className="mt-2 text-xs leading-relaxed text-muted-foreground" data-testid="ai-capacity-privacy">{t('ai.cachePrivacy')}</p>
           </div>
         </div>
       </header>
@@ -697,10 +739,10 @@ export function AIWritingAssistant({
         </section>
 
         {status !== 'idle' && (
-          <div className={`flex gap-2 rounded-lg p-3 text-xs leading-relaxed ${status === 'failed' || status === 'rate_limited' || status === 'timeout' ? 'bg-destructive/5 text-destructive' : 'bg-muted/50 text-muted-foreground'}`} role={status === 'failed' || status === 'rate_limited' || status === 'timeout' ? 'alert' : 'status'} aria-live="polite" data-testid={`status-ai-${status}`}>
+          <div className={`flex gap-2 rounded-lg p-3 text-xs leading-relaxed ${isFailure ? 'bg-destructive/5 text-destructive' : 'bg-muted/50 text-muted-foreground'}`} role={isFailure ? 'alert' : 'status'} aria-live="polite" data-testid={`status-ai-${status}`}>
             {status === 'loading' ? <span className="h-4 w-4 shrink-0 animate-pulse rounded-full bg-blue/30" aria-hidden="true" /> : <AlertCircle className="h-4 w-4 shrink-0" aria-hidden="true" />}
             <span>{t(statusKey[status])}</span>
-            {(status === 'failed' || status === 'rate_limited' || status === 'timeout') && <Button type="button" variant="ghost" className="ml-auto min-h-11 shrink-0" disabled={!canRequest} onClick={() => void request(action)} data-testid="button-ai-retry">{t('ai.retry')}</Button>}
+            {retryable && <Button type="button" variant="ghost" className="ml-auto min-h-11 shrink-0" disabled={!canRequest} onClick={() => void request(action)} data-testid="button-ai-retry">{t('ai.retry')}</Button>}
           </div>
         )}
 

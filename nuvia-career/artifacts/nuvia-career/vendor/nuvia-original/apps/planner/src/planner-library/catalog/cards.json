@@ -1,0 +1,506 @@
+[
+  {
+    "id": "daily-sequence",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "sequence",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-sequence.title",
+      "scenarioKey": "library.card.daily-sequence.scenario",
+      "goalKey": "library.card.daily-sequence.goal",
+      "promptKeys": [
+        "library.card.daily-sequence.prompt.1",
+        "library.card.daily-sequence.prompt.2",
+        "library.card.daily-sequence.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-sequence.example",
+      "completionKey": "library.card.daily-sequence.completion",
+      "noticeKey": "library.card.daily-sequence.notice"
+    },
+    "evidenceFields": [
+      "ordered_steps",
+      "progress_mark"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "daily-adapt",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "adapt",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-adapt.title",
+      "scenarioKey": "library.card.daily-adapt.scenario",
+      "goalKey": "library.card.daily-adapt.goal",
+      "promptKeys": [
+        "library.card.daily-adapt.prompt.1",
+        "library.card.daily-adapt.prompt.2",
+        "library.card.daily-adapt.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-adapt.example",
+      "completionKey": "library.card.daily-adapt.completion",
+      "noticeKey": "library.card.daily-adapt.notice"
+    },
+    "evidenceFields": [
+      "observed_change",
+      "alternative_options",
+      "chosen_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "daily-verify",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "verify",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-verify.title",
+      "scenarioKey": "library.card.daily-verify.scenario",
+      "goalKey": "library.card.daily-verify.goal",
+      "promptKeys": [
+        "library.card.daily-verify.prompt.1",
+        "library.card.daily-verify.prompt.2",
+        "library.card.daily-verify.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-verify.example",
+      "completionKey": "library.card.daily-verify.completion",
+      "noticeKey": "library.card.daily-verify.notice"
+    },
+    "evidenceFields": [
+      "known_facts",
+      "unknown_facts",
+      "verification_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "daily-compare",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "compare",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-compare.title",
+      "scenarioKey": "library.card.daily-compare.scenario",
+      "goalKey": "library.card.daily-compare.goal",
+      "promptKeys": [
+        "library.card.daily-compare.prompt.1",
+        "library.card.daily-compare.prompt.2",
+        "library.card.daily-compare.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-compare.example",
+      "completionKey": "library.card.daily-compare.completion",
+      "noticeKey": "library.card.daily-compare.notice"
+    },
+    "evidenceFields": [
+      "criteria",
+      "comparison",
+      "choice_reason"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "daily-communicate",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "communicate",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-communicate.title",
+      "scenarioKey": "library.card.daily-communicate.scenario",
+      "goalKey": "library.card.daily-communicate.goal",
+      "promptKeys": [
+        "library.card.daily-communicate.prompt.1",
+        "library.card.daily-communicate.prompt.2",
+        "library.card.daily-communicate.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-communicate.example",
+      "completionKey": "library.card.daily-communicate.completion",
+      "noticeKey": "library.card.daily-communicate.notice"
+    },
+    "evidenceFields": [
+      "message",
+      "confirmation_question"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "daily-resume",
+    "version": "1.0.0",
+    "kind": "daily",
+    "behaviorId": "resume",
+    "contextId": null,
+    "audiences": [
+      "middle",
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.daily-resume.title",
+      "scenarioKey": "library.card.daily-resume.scenario",
+      "goalKey": "library.card.daily-resume.goal",
+      "promptKeys": [
+        "library.card.daily-resume.prompt.1",
+        "library.card.daily-resume.prompt.2",
+        "library.card.daily-resume.prompt.3"
+      ],
+      "exampleKey": "library.card.daily-resume.example",
+      "completionKey": "library.card.daily-resume.completion",
+      "noticeKey": "library.card.daily-resume.notice"
+    },
+    "evidenceFields": [
+      "return_location",
+      "next_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-aviation-verify",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "verify",
+    "contextId": "aviation-security",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "safety-sensitive",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-aviation-verify.title",
+      "scenarioKey": "library.card.job-aviation-verify.scenario",
+      "goalKey": "library.card.job-aviation-verify.goal",
+      "promptKeys": [
+        "library.card.job-aviation-verify.prompt.1",
+        "library.card.job-aviation-verify.prompt.2",
+        "library.card.job-aviation-verify.prompt.3"
+      ],
+      "exampleKey": "library.card.job-aviation-verify.example",
+      "completionKey": "library.card.job-aviation-verify.completion",
+      "noticeKey": "library.card.job-aviation-verify.notice"
+    },
+    "evidenceFields": [
+      "known_facts",
+      "unknown_facts",
+      "verification_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-office-sequence",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "sequence",
+    "contextId": "office-project",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-office-sequence.title",
+      "scenarioKey": "library.card.job-office-sequence.scenario",
+      "goalKey": "library.card.job-office-sequence.goal",
+      "promptKeys": [
+        "library.card.job-office-sequence.prompt.1",
+        "library.card.job-office-sequence.prompt.2",
+        "library.card.job-office-sequence.prompt.3"
+      ],
+      "exampleKey": "library.card.job-office-sequence.example",
+      "completionKey": "library.card.job-office-sequence.completion",
+      "noticeKey": "library.card.job-office-sequence.notice"
+    },
+    "evidenceFields": [
+      "ordered_steps",
+      "progress_mark"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-it-adapt",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "adapt",
+    "contextId": "it-service",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-it-adapt.title",
+      "scenarioKey": "library.card.job-it-adapt.scenario",
+      "goalKey": "library.card.job-it-adapt.goal",
+      "promptKeys": [
+        "library.card.job-it-adapt.prompt.1",
+        "library.card.job-it-adapt.prompt.2",
+        "library.card.job-it-adapt.prompt.3"
+      ],
+      "exampleKey": "library.card.job-it-adapt.example",
+      "completionKey": "library.card.job-it-adapt.completion",
+      "noticeKey": "library.card.job-it-adapt.notice"
+    },
+    "evidenceFields": [
+      "observed_change",
+      "alternative_options",
+      "chosen_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-service-communicate",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "communicate",
+    "contextId": "customer-service",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-service-communicate.title",
+      "scenarioKey": "library.card.job-service-communicate.scenario",
+      "goalKey": "library.card.job-service-communicate.goal",
+      "promptKeys": [
+        "library.card.job-service-communicate.prompt.1",
+        "library.card.job-service-communicate.prompt.2",
+        "library.card.job-service-communicate.prompt.3"
+      ],
+      "exampleKey": "library.card.job-service-communicate.example",
+      "completionKey": "library.card.job-service-communicate.completion",
+      "noticeKey": "library.card.job-service-communicate.notice"
+    },
+    "evidenceFields": [
+      "message",
+      "confirmation_question"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-logistics-resume",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "resume",
+    "contextId": "logistics-operations",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-logistics-resume.title",
+      "scenarioKey": "library.card.job-logistics-resume.scenario",
+      "goalKey": "library.card.job-logistics-resume.goal",
+      "promptKeys": [
+        "library.card.job-logistics-resume.prompt.1",
+        "library.card.job-logistics-resume.prompt.2",
+        "library.card.job-logistics-resume.prompt.3"
+      ],
+      "exampleKey": "library.card.job-logistics-resume.example",
+      "completionKey": "library.card.job-logistics-resume.completion",
+      "noticeKey": "library.card.job-logistics-resume.notice"
+    },
+    "evidenceFields": [
+      "return_location",
+      "next_action"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  },
+  {
+    "id": "job-media-compare",
+    "version": "1.0.0",
+    "kind": "job-simulation",
+    "behaviorId": "compare",
+    "contextId": "media-planning",
+    "audiences": [
+      "high",
+      "university-adult"
+    ],
+    "status": "draft",
+    "visibility": "internal-design",
+    "risk": "general",
+    "source": {
+      "kind": "authored-design-example",
+      "officialReferences": [],
+      "reviewedBy": null,
+      "reviewedAt": null,
+      "reviewDueAt": null
+    },
+    "text": {
+      "titleKey": "library.card.job-media-compare.title",
+      "scenarioKey": "library.card.job-media-compare.scenario",
+      "goalKey": "library.card.job-media-compare.goal",
+      "promptKeys": [
+        "library.card.job-media-compare.prompt.1",
+        "library.card.job-media-compare.prompt.2",
+        "library.card.job-media-compare.prompt.3"
+      ],
+      "exampleKey": "library.card.job-media-compare.example",
+      "completionKey": "library.card.job-media-compare.completion",
+      "noticeKey": "library.card.job-media-compare.notice"
+    },
+    "evidenceFields": [
+      "criteria",
+      "comparison",
+      "choice_reason"
+    ],
+    "personalization": "existing-pass-adapter-not-behavior-equals-pass",
+    "completion": "user-confirmed-action-evidence-not-timer",
+    "countsAsRealWorkExperience": false
+  }
+]

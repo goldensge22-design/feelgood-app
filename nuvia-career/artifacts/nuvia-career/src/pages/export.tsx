@@ -11,6 +11,7 @@ import { AppTabs, useSelectedApp } from '@/pages/questions';
 import { countChars } from '@/lib/career';
 import type { CareerState } from '@workspace/api-client-react';
 import { FactChecklist } from '@/components/provenance/fact-checklist';
+import { REVIEW_DEMO } from '@/lib/public-demo';
 
 type Format = 'txt' | 'docx' | 'hwpx';
 type Result = { kind: 'ok' | 'fail'; format: string; message: string } | null;
@@ -37,7 +38,7 @@ function ExportPanel({ app, state }: { app: CareerApplication; state: CareerStat
     if (!ready) return;
     setBusy(format); setResult(null);
     try {
-      const res = await fetch('/api/career/export', { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload(format)) });
+      const res = await fetch('/api/career/export', { method: 'POST', credentials: REVIEW_DEMO ? 'omit' : 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload(format)) });
       if (!res.ok) throw new Error(String(res.status));
       const blob = await res.blob();
       const url = URL.createObjectURL(blob);

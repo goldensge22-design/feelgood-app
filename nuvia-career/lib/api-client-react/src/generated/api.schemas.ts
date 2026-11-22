@@ -5,6 +5,268 @@
  * API specification
  * OpenAPI spec version: 0.1.0
  */
+export interface CareerLabQuery {
+  /** @maxLength 100 */
+  company: string;
+  /** @maxLength 100 */
+  job: string;
+  /** @maxLength 500 */
+  url?: string;
+}
+
+export type ReviewStoryEvidenceKind = typeof ReviewStoryEvidenceKind[keyof typeof ReviewStoryEvidenceKind];
+
+
+export const ReviewStoryEvidenceKind = {
+  activity: 'activity',
+  reflection: 'reflection',
+  report: 'report',
+  company: 'company',
+} as const;
+
+export interface ReviewStoryEvidence {
+  /** @pattern ^[ARC][1-9]$ */
+  id: string;
+  kind: ReviewStoryEvidenceKind;
+  /**
+     * @minLength 1
+     * @maxLength 180
+     */
+  title: string;
+  /**
+     * @minLength 1
+     * @maxLength 1200
+     */
+  text: string;
+}
+
+export type ReviewStoryInputKind = typeof ReviewStoryInputKind[keyof typeof ReviewStoryInputKind];
+
+
+export const ReviewStoryInputKind = {
+  generate: 'generate',
+  refine: 'refine',
+} as const;
+
+export interface ReviewStoryInput {
+  kind: ReviewStoryInputKind;
+  consent: boolean;
+  /**
+     * @minItems 1
+     * @maxItems 6
+     */
+  evidence: ReviewStoryEvidence[];
+  /** @maxLength 10000 */
+  body: string;
+  /** @maxLength 500 */
+  thought: string;
+}
+
+export interface ReviewStorySuggestion {
+  /** @maxLength 900 */
+  text: string;
+  /** @maxLength 350 */
+  connection: string;
+  /** @maxItems 6 */
+  used: string[];
+  /** @maxLength 220 */
+  missing: string;
+}
+
+export type ReviewStoryJobState = typeof ReviewStoryJobState[keyof typeof ReviewStoryJobState];
+
+
+export const ReviewStoryJobState = {
+  pending: 'pending',
+  completed: 'completed',
+  failed: 'failed',
+} as const;
+
+export interface ReviewStoryJob {
+  id: string;
+  state: ReviewStoryJobState;
+  error?: string;
+  result?: ReviewStorySuggestion;
+}
+
+export type CareerLabEvidenceCategory = typeof CareerLabEvidenceCategory[keyof typeof CareerLabEvidenceCategory];
+
+
+export const CareerLabEvidenceCategory = {
+  overview: 'overview',
+  philosophy: 'philosophy',
+  values: 'values',
+  talent: 'talent',
+  environment: 'environment',
+  duties: 'duties',
+  required: 'required',
+  preferred: 'preferred',
+  skills: 'skills',
+} as const;
+
+/**
+ * Absent on legacy or curated evidence. AI summaries are not officially named company values.
+ */
+export type CareerLabEvidenceKeywordOrigin = typeof CareerLabEvidenceKeywordOrigin[keyof typeof CareerLabEvidenceKeywordOrigin];
+
+
+export const CareerLabEvidenceKeywordOrigin = {
+  official_named: 'official_named',
+  ai_interpretation: 'ai_interpretation',
+} as const;
+
+export type CareerLabEvidenceKind = typeof CareerLabEvidenceKind[keyof typeof CareerLabEvidenceKind];
+
+
+export const CareerLabEvidenceKind = {
+  company: 'company',
+  role: 'role',
+  posting: 'posting',
+} as const;
+
+export interface CareerLabEvidence {
+  id: string;
+  category: CareerLabEvidenceCategory;
+  keyword: string;
+  /** Absent on legacy or curated evidence. AI summaries are not officially named company values. */
+  keywordOrigin?: CareerLabEvidenceKeywordOrigin;
+  /** Section label copied from the source when available. */
+  sourceSection?: string;
+  excerpt: string;
+  url: string;
+  source: string;
+  kind: CareerLabEvidenceKind;
+}
+
+export interface CareerLabMaterial {
+  id: string;
+  company: string;
+  job: string;
+  evidence: CareerLabEvidence[];
+}
+
+export type CareerLabResultsMode = typeof CareerLabResultsMode[keyof typeof CareerLabResultsMode];
+
+
+export const CareerLabResultsMode = {
+  'gpt-web': 'gpt-web',
+  curated: 'curated',
+} as const;
+
+export interface CareerLabResults {
+  mode: CareerLabResultsMode;
+  retrievedAt: string;
+  version: string;
+  materials: CareerLabMaterial[];
+}
+
+export type CareerLabJobState = typeof CareerLabJobState[keyof typeof CareerLabJobState];
+
+
+export const CareerLabJobState = {
+  pending: 'pending',
+  completed: 'completed',
+  failed: 'failed',
+} as const;
+
+export interface CareerLabJob {
+  id: string;
+  state: CareerLabJobState;
+  error?: string;
+  result?: CareerLabResults;
+}
+
+export type CareerAiJobStatusState = typeof CareerAiJobStatusState[keyof typeof CareerAiJobStatusState];
+
+
+export const CareerAiJobStatusState = {
+  queued: 'queued',
+  running: 'running',
+  complete: 'complete',
+  failed: 'failed',
+  uncertain: 'uncertain',
+  cancelled: 'cancelled',
+} as const;
+
+export type CareerAiAssistResponseTask = typeof CareerAiAssistResponseTask[keyof typeof CareerAiAssistResponseTask];
+
+
+export const CareerAiAssistResponseTask = {
+  coach: 'coach',
+  draft: 'draft',
+  voice: 'voice',
+  analyze: 'analyze',
+} as const;
+
+export type CareerAiAssistResponseVoiceRulesItemConfidence = typeof CareerAiAssistResponseVoiceRulesItemConfidence[keyof typeof CareerAiAssistResponseVoiceRulesItemConfidence];
+
+
+export const CareerAiAssistResponseVoiceRulesItemConfidence = {
+  tentative: 'tentative',
+  repeated: 'repeated',
+} as const;
+
+export type CareerAiAssistResponseCandidatesItem = {
+  /** @maxLength 5000 */
+  text: string;
+  /** @maxLength 2000 */
+  rationale: string;
+  /**
+     * @maxItems 10
+     * @items.maxLength 500
+     */
+  sourceFacts: string[];
+  /** @maxLength 1000 */
+  strengthConnection: string;
+  /** @maxLength 1000 */
+  caution: string;
+};
+
+export type CareerAiAssistResponseFeedbackItem = {
+  /** @maxLength 100 */
+  category: string;
+  /** @maxLength 1000 */
+  note: string;
+  /** @maxLength 500 */
+  evidence: string;
+};
+
+export type CareerAiAssistResponseVoiceRulesItem = {
+  /** @maxLength 100 */
+  aspect: string;
+  /** @maxLength 1000 */
+  rule: string;
+  /** @maxLength 500 */
+  example: string;
+  confidence: CareerAiAssistResponseVoiceRulesItemConfidence;
+};
+
+export interface CareerAiAssistResponse {
+  task: CareerAiAssistResponseTask;
+  /** @maxLength 200 */
+  sourceFingerprint: string;
+  /** @maxLength 2000 */
+  coachQuestion: string;
+  /** @maxItems 3 */
+  candidates: CareerAiAssistResponseCandidatesItem[];
+  /** @maxItems 12 */
+  feedback: CareerAiAssistResponseFeedbackItem[];
+  /** @maxItems 12 */
+  voiceRules: CareerAiAssistResponseVoiceRulesItem[];
+  /** @maxLength 1000 */
+  notice: string;
+}
+
+export interface CareerAiJobStatus {
+  id: string;
+  state: CareerAiJobStatusState;
+  pollAfterMs: number;
+  elapsedMs: number;
+  queuedMs: number;
+  response?: CareerAiAssistResponse;
+  error?: string;
+}
+
 export type CareerCriterionSourceType = typeof CareerCriterionSourceType[keyof typeof CareerCriterionSourceType];
 
 
@@ -65,6 +327,119 @@ export interface CareerOverview {
  */
 export type CareerStateReport = { [key: string]: unknown } | null;
 
+export type CareerIntegratedWorkspaceAudience = typeof CareerIntegratedWorkspaceAudience[keyof typeof CareerIntegratedWorkspaceAudience];
+
+
+export const CareerIntegratedWorkspaceAudience = {
+  youth: 'youth',
+  adult: 'adult',
+} as const;
+
+export interface CareerIntegratedSource {
+  /** @maxLength 300 */
+  company: string;
+  /** @maxLength 300 */
+  job: string;
+  /** @maxLength 300 */
+  keyword: string;
+  /** @maxLength 1200 */
+  excerpt: string;
+  /** @maxLength 2000 */
+  url: string;
+  /** @maxLength 80 */
+  observedAt: string;
+}
+
+export type CareerLabHandoffAudience = typeof CareerLabHandoffAudience[keyof typeof CareerLabHandoffAudience];
+
+
+export const CareerLabHandoffAudience = {
+  youth: 'youth',
+  adult: 'adult',
+} as const;
+
+export type CareerLabHandoffPurpose = typeof CareerLabHandoffPurpose[keyof typeof CareerLabHandoffPurpose];
+
+
+export const CareerLabHandoffPurpose = {
+  exploration: 'exploration',
+  simulation: 'simulation',
+} as const;
+
+export interface CareerLabHandoff {
+  /**
+     * @minLength 5
+     * @maxLength 100
+     */
+  id: string;
+  audience: CareerLabHandoffAudience;
+  /**
+     * @minLength 1
+     * @maxLength 180
+     */
+  sourceId: string;
+  /**
+     * @minLength 1
+     * @maxLength 180
+     */
+  sourceVersion: string;
+  /**
+     * @minLength 1
+     * @maxLength 150
+     */
+  title: string;
+  /**
+     * @minLength 1
+     * @maxLength 1200
+     */
+  excerpt: string;
+  /** @maxLength 300 */
+  keyword: string;
+  purpose: CareerLabHandoffPurpose;
+  /** @maxLength 180 */
+  company?: string;
+  /** @maxLength 180 */
+  job?: string;
+  /** @maxLength 26000 */
+  sourceSnapshot?: string;
+  /** @maxLength 2000 */
+  url?: string;
+  /** @maxLength 64 */
+  approvedAt: string;
+  /** @maxLength 64 */
+  revokedAt?: string;
+  /** @maxLength 100 */
+  plannerCardId?: string;
+}
+
+export interface CareerIntegratedWorkspace {
+  audience?: CareerIntegratedWorkspaceAudience;
+  /** @maxLength 100 */
+  youthStoryId?: string;
+  /** @maxLength 100 */
+  adultStoryId?: string;
+  /** @maxLength 300 */
+  youthInterest?: string;
+  /**
+     * @maxItems 50
+     * @items.maxLength 300
+     */
+  recoveredYouthInterests?: string[];
+  companySource?: CareerIntegratedSource;
+  /** @maxItems 50 */
+  recoveredCompanySources?: CareerIntegratedSource[];
+  /** @maxLength 700000 */
+  planner?: string;
+  /** @maxLength 700000 */
+  plannerRecovery?: string;
+  /** @maxLength 460000 */
+  youthLab?: string;
+  /** @maxLength 460000 */
+  youthLabRecovery?: string;
+  /** @maxItems 100 */
+  labHandoffs?: CareerLabHandoff[];
+}
+
 export type CareerExperienceSource = typeof CareerExperienceSource[keyof typeof CareerExperienceSource];
 
 
@@ -73,6 +448,14 @@ export const CareerExperienceSource = {
   local_activity: 'local_activity',
   planner: 'planner',
   example: 'example',
+} as const;
+
+export type CareerExperienceActivityContext = typeof CareerExperienceActivityContext[keyof typeof CareerExperienceActivityContext];
+
+
+export const CareerExperienceActivityContext = {
+  self_reported: 'self_reported',
+  thought_exercise: 'thought_exercise',
 } as const;
 
 export type CareerExperiencePermissionStatus = typeof CareerExperiencePermissionStatus[keyof typeof CareerExperiencePermissionStatus];
@@ -104,6 +487,9 @@ export interface CareerExperience {
   sourceId?: string;
   sourceUrl?: string;
   sourceVersion?: string;
+  activityContext?: CareerExperienceActivityContext;
+  /** @maxLength 160 */
+  plannerReference?: string;
   permissionStatus?: CareerExperiencePermissionStatus;
 }
 
@@ -146,6 +532,14 @@ export interface CareerActivity {
   learning: string;
 }
 
+export type CareerApplicationIntegratedAudience = typeof CareerApplicationIntegratedAudience[keyof typeof CareerApplicationIntegratedAudience];
+
+
+export const CareerApplicationIntegratedAudience = {
+  youth: 'youth',
+  adult: 'adult',
+} as const;
+
 export interface CareerApplication {
   /** @maxLength 100 */
   id: string;
@@ -167,11 +561,20 @@ export interface CareerApplication {
   criterionIds: string[];
   /** @maxLength 100000 */
   text: string;
+  /** @maxLength 5000 */
+  integratedThought?: string;
+  integratedAudience?: CareerApplicationIntegratedAudience;
+  /**
+     * @maxItems 20
+     * @items.maxLength 1000
+     */
+  integratedEvidence?: string[];
 }
 
 export interface CareerState {
   /** @maxLength 500 */
   selectedJob: string;
+  integrated?: CareerIntegratedWorkspace;
   /** @nullable */
   report: CareerStateReport;
   /** @maxItems 200 */
@@ -183,6 +586,8 @@ export interface CareerState {
   /** @maxItems 200 */
   applications: CareerApplication[];
 }
+
+export interface OriginalEnterpriseScenarioRequest { [key: string]: unknown }
 
 export interface CareerWorkspace {
   revision: number;
@@ -436,76 +841,11 @@ export interface CareerAiAssistInput {
   voiceRules: CareerAiAssistInputVoiceRulesItem[];
 }
 
-export type CareerAiAssistResponseTask = typeof CareerAiAssistResponseTask[keyof typeof CareerAiAssistResponseTask];
-
-
-export const CareerAiAssistResponseTask = {
-  coach: 'coach',
-  draft: 'draft',
-  voice: 'voice',
-  analyze: 'analyze',
-} as const;
-
-export type CareerAiAssistResponseCandidatesItem = {
-  /** @maxLength 5000 */
-  text: string;
-  /** @maxLength 2000 */
-  rationale: string;
-  /**
-     * @maxItems 10
-     * @items.maxLength 500
-     */
-  sourceFacts: string[];
-  /** @maxLength 1000 */
-  strengthConnection: string;
-  /** @maxLength 1000 */
-  caution: string;
-};
-
-export type CareerAiAssistResponseFeedbackItem = {
-  /** @maxLength 100 */
-  category: string;
-  /** @maxLength 1000 */
-  note: string;
-  /** @maxLength 500 */
-  evidence: string;
-};
-
-export type CareerAiAssistResponseVoiceRulesItemConfidence = typeof CareerAiAssistResponseVoiceRulesItemConfidence[keyof typeof CareerAiAssistResponseVoiceRulesItemConfidence];
-
-
-export const CareerAiAssistResponseVoiceRulesItemConfidence = {
-  tentative: 'tentative',
-  repeated: 'repeated',
-} as const;
-
-export type CareerAiAssistResponseVoiceRulesItem = {
-  /** @maxLength 100 */
-  aspect: string;
-  /** @maxLength 1000 */
-  rule: string;
-  /** @maxLength 500 */
-  example: string;
-  confidence: CareerAiAssistResponseVoiceRulesItemConfidence;
-};
-
-export interface CareerAiAssistResponse {
-  task: CareerAiAssistResponseTask;
-  /** @maxLength 200 */
-  sourceFingerprint: string;
-  /** @maxLength 2000 */
-  coachQuestion: string;
-  /** @maxItems 3 */
-  candidates: CareerAiAssistResponseCandidatesItem[];
-  /** @maxItems 12 */
-  feedback: CareerAiAssistResponseFeedbackItem[];
-  /** @maxItems 12 */
-  voiceRules: CareerAiAssistResponseVoiceRulesItem[];
-  /** @maxLength 1000 */
-  notice: string;
-}
-
 export interface HealthStatus {
   status: string;
 }
+
+export type GetOriginalEnterprise200 = { [key: string]: unknown };
+
+export type PreviewOriginalEnterpriseScenario200 = { [key: string]: unknown };
 

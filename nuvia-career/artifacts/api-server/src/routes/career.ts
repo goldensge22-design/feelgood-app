@@ -4,7 +4,10 @@ import {
   GetCareerOverviewResponse, GetCareerExampleResponse, GetCareerWorkspaceResponse,
   SaveCareerWorkspaceBody, SaveCareerWorkspaceResponse, CreateCareerVersionBody,
   CreateCareerVersionResponse, GetCareerVersionsResponse, ExportCareerDocumentBody,
+  enterpriseScenario,
 } from "@workspace/api-zod";
+import {generateScenarioDocuments} from "../vendor/enterprise-lab/scenario-engine";
+import {companies as enterpriseCompanies,jobs as enterpriseJobs,relations as enterpriseRelations} from "../vendor/enterprise-lab/catalogue";
 import { careerOverview, exampleCareerState } from "../lib/career-data";
 import { CareerValidationError, validateCareerState } from "../lib/career-validation";
 import { submissionDocx, submissionText } from "../lib/career-export";
@@ -78,6 +81,18 @@ router.use("/career", (req, res, next) => {
 
 router.get("/career/workspace", async (_req, res): Promise<void> => {
   res.json(GetCareerWorkspaceResponse.parse(await readWorkspace(res.locals.ownerId)));
+});
+
+router.get("/career/original-enterprise",(_req,res)=>{
+  res.json({companies:enterpriseCompanies,jobs:enterpriseJobs,relations:enterpriseRelations,sourceVersion:"d1a2c35a911341db617167837484c97e02ab5619"});
+});
+router.post("/career/original-enterprise",(req,res)=>{
+  const input=enterpriseScenario.scenarioInputSchema.safeParse(req.body);
+  if(!input.success||input.data.timedDecision||input.data.type==="bundle"){
+    res.status(400).json({error:"UNSUPPORTED_SCENARIO"});return;
+  }
+  const company=enterpriseCompanies.find(c=>c.id===input.data.companyId);
+  res.json({card:generateScenarioDocuments(input.data,company)[0]});
 });
 
 router.put("/career/workspace", async (req, res): Promise<void> => {

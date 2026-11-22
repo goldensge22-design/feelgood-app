@@ -11,6 +11,83 @@ tags:
   - name: health
     description: Health operations
 paths:
+  /career/lab-search:
+    post:
+      operationId: searchCareerLab
+      description: Signed-in, opt-in search for public company and job sources; never accepts assessment or activity data.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerLabQuery"
+      responses:
+        "202":
+          description: Existing or newly accepted LAB search
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerLabJob"
+        "400":
+          description: Invalid input
+        "401":
+          description: Authentication required
+        "429":
+          description: Rate or capacity limit
+        "503":
+          description: Search provider unavailable
+        "502":
+          description: Unverified or failed provider response
+        "504":
+          description: Provider timeout
+  /career/lab-search/{id}:
+    get:
+      operationId: getCareerLabJob
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Status of a search owned by the signed-in user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerLabJob"
+        "401":
+          description: Authentication required
+        "404":
+          description: Search expired or not accessible
+  /career/original-enterprise:
+    get:
+      operationId: getOriginalEnterprise
+      description: Authenticated read of the original Enterprise LAB's reference catalogue; not a live vacancy feed.
+      responses:
+        "200":
+          description: Reference organizations and roles with source citations
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
+    post:
+      operationId: previewOriginalEnterpriseScenario
+      description: Generate an original rule-based practice preview for a signed-in account; does not record execution or call AI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/OriginalEnterpriseScenarioRequest"
+      responses:
+        "200":
+          description: Original scenario document
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties: true
   /career/overview:
     get:
       operationId: getCareerOverview
@@ -21,6 +98,38 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CareerOverview"
+  /career/review-story:
+    post:
+      operationId: startReviewStory
+      description: Authenticated, explicitly consented writing help for selected review material. No account workspace or database writes.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReviewStoryInput"
+      responses:
+        "202":
+          description: Accepted or reused writing request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewStoryJob"
+  /career/review-story/{id}:
+    get:
+      operationId: getReviewStory
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: Status of the signed-in user's writing request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewStoryJob"
   /career/example:
     get:
       operationId: getCareerExample
@@ -114,7 +223,7 @@ paths:
     post:
       operationId: requestCareerAiAssistance
       summary: Generate consented, account-scoped writing assistance
-      description: Uses only the explicitly selected fields in the request. The request and response are not persisted by the server.
+      description: Uses only explicitly selected fields. Account-bound encrypted results are reused for up to five hours in shared PostgreSQL. Durable HMAC-keyed dispatch records and shared limits prevent automatic duplicate generation across workers and restarts. Uncertain dispatches are not automatically reclaimed. No plaintext prompts or originals are stored in coordination tables.
       requestBody:
         required: true
         content:
@@ -135,9 +244,101 @@ paths:
         "409":
           description: The user's consent confirmation is missing
         "429":
-          description: Account or provider rate limit reached
+          description: AI_LOCAL_LIMIT or AI_CLASS_LIMIT (app limits), AI_PROVIDER_BUSY (transient provider rate), AI_USAGE_LIMIT (provider quota or billing); Retry-After header when known.
         "503":
-          description: Managed AI is not configured or temporarily unavailable
+          description: AI_NOT_CONFIGURED, AI_MODEL_CONFIG, AI_QUEUE_FULL, or AI_COORDINATION_UNAVAILABLE. DB/configuration failures never fall back to uncoordinated generation. Writing and saving remain available. A 409 AI_COORDINATION_WAIT retains the request for status recheck; 410 AI_RESULT_EXPIRED does not authorize regeneration.
+        "413":
+          description: AI_INPUT_LIMIT or REQUEST_TOO_LARGE. Select less context; original records are unchanged.
+        "504":
+          description: AI_UNCERTAIN or AI_TIMEOUT. No automatic timeout retry; identical ambiguous requests are held to prevent repeat charges.
+  /career/ai-jobs:
+    post:
+      operationId: createCareerAiJob
+      summary: Accept consented AI work without holding a long HTTP connection
+      parameters:
+        - in: header
+          name: X-Career-AI-Client
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CareerAiAssistInput"
+      responses:
+        "202":
+          description: Accepted or reused, no automatic duplicate generation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerAiJobStatus"
+        "401":
+          description: Authentication required
+        "409":
+          description: Consent or facts confirmation required
+        "429":
+          description: Shared admission limit
+        "503":
+          description: Coordination unavailable; no uncoordinated fallback
+  /career/ai-jobs/by-client/{clientId}:
+    get:
+      operationId: getCareerAiJobByClient
+      summary: Recover an accepted request even if its acknowledgement was lost
+      parameters:
+        - in: path
+          name: clientId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Authenticated owner's accepted job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerAiJobStatus"
+        "404":
+          description: No matching accepted job for this owner
+  /career/ai-jobs/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema:
+          type: string
+          pattern: "^[a-f0-9]{64}$"
+    get:
+      operationId: getCareerAiJob
+      summary: Read only the authenticated owner's accepted job
+      responses:
+        "200":
+          description: Queued/running is normal progress; poll automatically
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerAiJobStatus"
+        "401":
+          description: Authentication required
+        "404":
+          description: Unknown or another owner's job
+        "503":
+          description: Temporary coordination outage; retain ticket and reconnect
+    delete:
+      operationId: cancelCareerAiJob
+      summary: Cancel undispatched work; dispatched work may still be billed and finish
+      responses:
+        "200":
+          description: Current state, never automatically regenerates a dispatched job
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CareerAiJobStatus"
+        "401":
+          description: Authentication required
+        "404":
+          description: Unknown or another owner's job
   /healthz:
     get:
       operationId: healthCheck
@@ -153,6 +354,126 @@ paths:
                 $ref: "#/components/schemas/HealthStatus"
 components:
   schemas:
+    CareerLabQuery:
+      type: object
+      additionalProperties: false
+      required: [company, job]
+      properties:
+        company: { type: string, maxLength: 100 }
+        job: { type: string, maxLength: 100 }
+        url: { type: string, maxLength: 500 }
+    ReviewStoryEvidence:
+      type: object
+      additionalProperties: false
+      required: [id, kind, title, text]
+      properties:
+        id: { type: string, pattern: '^[ARC][1-9]$' }
+        kind: { type: string, enum: [activity, reflection, report, company] }
+        title: { type: string, minLength: 1, maxLength: 180 }
+        text: { type: string, minLength: 1, maxLength: 1200 }
+    ReviewStoryInput:
+      type: object
+      additionalProperties: false
+      required: [kind, consent, evidence, body, thought]
+      properties:
+        kind: { type: string, enum: [generate, refine] }
+        consent: { type: boolean }
+        evidence:
+          type: array
+          minItems: 1
+          maxItems: 6
+          items:
+            $ref: "#/components/schemas/ReviewStoryEvidence"
+        body: { type: string, maxLength: 10000 }
+        thought: { type: string, maxLength: 500 }
+    ReviewStorySuggestion:
+      type: object
+      required: [text, connection, used, missing]
+      properties:
+        text: { type: string, maxLength: 900 }
+        connection: { type: string, maxLength: 350 }
+        used:
+          type: array
+          maxItems: 6
+          items: { type: string }
+        missing: { type: string, maxLength: 220 }
+    ReviewStoryJob:
+      type: object
+      required: [id, state]
+      properties:
+        id: { type: string }
+        state: { type: string, enum: [pending, completed, failed] }
+        error: { type: string }
+        result:
+          $ref: "#/components/schemas/ReviewStorySuggestion"
+    CareerLabEvidence:
+      type: object
+      required: [id, category, keyword, excerpt, url, source, kind]
+      properties:
+        id: { type: string }
+        category: { type: string, enum: [overview, philosophy, values, talent, environment, duties, required, preferred, skills] }
+        keyword: { type: string }
+        keywordOrigin:
+          type: string
+          enum: [official_named, ai_interpretation]
+          description: Absent on legacy or curated evidence. AI summaries are not officially named company values.
+        sourceSection:
+          type: string
+          description: Section label copied from the source when available.
+        excerpt: { type: string }
+        url: { type: string }
+        source: { type: string }
+        kind: { type: string, enum: [company, role, posting] }
+    CareerLabMaterial:
+      type: object
+      required: [id, company, job, evidence]
+      properties:
+        id: { type: string }
+        company: { type: string }
+        job: { type: string }
+        evidence:
+          type: array
+          items:
+            $ref: "#/components/schemas/CareerLabEvidence"
+    CareerLabResults:
+      type: object
+      required: [mode, retrievedAt, version, materials]
+      properties:
+        mode: { type: string, enum: [gpt-web, curated] }
+        retrievedAt: { type: string }
+        version: { type: string }
+        materials:
+          type: array
+          items:
+            $ref: "#/components/schemas/CareerLabMaterial"
+    CareerLabJob:
+      type: object
+      required: [id, state]
+      properties:
+        id: { type: string }
+        state: { type: string, enum: [pending, completed, failed] }
+        error: { type: string }
+        result:
+          $ref: "#/components/schemas/CareerLabResults"
+    CareerAiJobStatus:
+      type: object
+      required: [id, state, pollAfterMs, elapsedMs, queuedMs]
+      properties:
+        id:
+          type: string
+        state:
+          type: string
+          enum: [queued, running, complete, failed, uncertain, cancelled]
+        pollAfterMs:
+          type: integer
+        elapsedMs:
+          type: number
+        queuedMs:
+          type: number
+        response:
+          $ref: "#/components/schemas/CareerAiAssistResponse"
+        error:
+          type: string
     CareerOverview:
       type: object
       required: [criteria, integrations]
@@ -199,6 +520,8 @@ components:
       required: [selectedJob, experiences, activities, applications, criteria, report]
       properties:
         selectedJob: { type: string, maxLength: 500 }
+        integrated:
+          $ref: "#/components/schemas/CareerIntegratedWorkspace"
         report:
           type: [object, "null"]
           additionalProperties: true
@@ -222,6 +545,63 @@ components:
           maxItems: 200
           items:
             $ref: "#/components/schemas/CareerApplication"
+    CareerIntegratedWorkspace:
+      type: object
+      properties:
+        audience: { type: string, enum: [youth, adult] }
+        youthStoryId: { type: string, maxLength: 100 }
+        adultStoryId: { type: string, maxLength: 100 }
+        youthInterest: { type: string, maxLength: 300 }
+        recoveredYouthInterests:
+          type: array
+          maxItems: 50
+          items: { type: string, maxLength: 300 }
+        companySource:
+          $ref: "#/components/schemas/CareerIntegratedSource"
+        recoveredCompanySources:
+          type: array
+          maxItems: 50
+          items: { $ref: "#/components/schemas/CareerIntegratedSource" }
+        planner: { type: string, maxLength: 700000 }
+        plannerRecovery: { type: string, maxLength: 700000 }
+        youthLab: { type: string, maxLength: 460000 }
+        youthLabRecovery: { type: string, maxLength: 460000 }
+        labHandoffs:
+          type: array
+          maxItems: 100
+          items: { $ref: "#/components/schemas/CareerLabHandoff" }
+    OriginalEnterpriseScenarioRequest:
+      type: object
+      additionalProperties: true
+    CareerLabHandoff:
+      type: object
+      required: [id, audience, sourceId, sourceVersion, title, excerpt, keyword, purpose, approvedAt]
+      properties:
+        id: { type: string, minLength: 5, maxLength: 100 }
+        audience: { type: string, enum: [youth, adult] }
+        sourceId: { type: string, minLength: 1, maxLength: 180 }
+        sourceVersion: { type: string, minLength: 1, maxLength: 180 }
+        title: { type: string, minLength: 1, maxLength: 150 }
+        excerpt: { type: string, minLength: 1, maxLength: 1200 }
+        keyword: { type: string, maxLength: 300 }
+        purpose: { type: string, enum: [exploration, simulation] }
+        company: { type: string, maxLength: 180 }
+        job: { type: string, maxLength: 180 }
+        sourceSnapshot: { type: string, maxLength: 26000 }
+        url: { type: string, maxLength: 2000 }
+        approvedAt: { type: string, maxLength: 64 }
+        revokedAt: { type: string, maxLength: 64 }
+        plannerCardId: { type: string, maxLength: 100 }
+    CareerIntegratedSource:
+      type: object
+      required: [company, job, keyword, excerpt, url, observedAt]
+      properties:
+        company: { type: string, maxLength: 300 }
+        job: { type: string, maxLength: 300 }
+        keyword: { type: string, maxLength: 300 }
+        excerpt: { type: string, maxLength: 1200 }
+        url: { type: string, maxLength: 2000 }
+        observedAt: { type: string, maxLength: 80 }
     CareerExperience:
       type: object
       required: [id, title, action, result, learning, strengths, criterionIds, confirmed, source]
@@ -244,6 +624,10 @@ components:
         sourceId: { type: string }
         sourceUrl: { type: string }
         sourceVersion: { type: string }
+        activityContext:
+          type: string
+          enum: [self_reported, thought_exercise]
+        plannerReference: { type: string, maxLength: 160 }
         permissionStatus:
           type: string
           enum: [current, changed, deleted, revoked, unverified]
@@ -287,6 +671,12 @@ components:
           type: array
           items: { type: string }
         text: { type: string, maxLength: 100000 }
+        integratedThought: { type: string, maxLength: 5000 }
+        integratedAudience: { type: string, enum: [youth, adult] }
+        integratedEvidence:
+          type: array
+          maxItems: 20
+          items: { type: string, maxLength: 1000 }
     CareerWorkspace:
       type: object
       required: [revision, state, savedAt]

@@ -118,7 +118,7 @@ globalThis.__dirname = __bannerPath.dirname(globalThis.__filename);
     `,
     },
   });
-  await cp(path.resolve(artifactDir, "src/lib/assets"), path.resolve(distDir, "assets"), { recursive: true });
+  await cp(path.resolve(artifactDir, "../../lib/career-documents/assets"), path.resolve(distDir, "assets"), { recursive: true });
 }
 
 buildAll().catch((err) => {

@@ -1,0 +1,85 @@
+{
+  "upstreamRepository": "FEELGOOD-Co-LTD/nuvia",
+  "upstreamCommit": "7b5219839c9a2adb7294901ba72629b22c0c01d7",
+  "scope": "Byte comparison of the 195 files present in the review app's vendored studio subset. The other 575 archive files are outside the copied subset.",
+  "upstreamArtifactFiles": 770,
+  "unchangedCopiedFiles": 180,
+  "modifiedCopiedFiles": [
+    {
+      "path": "apps/planner/src/enhancement/persistence.ts",
+      "upstreamSha256": "0fc08ba697b8a85ecf222390eb0bcc01d38984123cd159e7a0350d17235be467",
+      "reviewSha256": "8e43beb14b196bb5b042845abf7c0673a5d0eaf41ad53d3d50b02a9f1c469ecf"
+    },
+    {
+      "path": "apps/planner/src/execution-summary/model.ts",
+      "upstreamSha256": "e851a438c4400b30fdf22ef8a26f9be5f53a88db20eeeccf9aeecf38ba9ee730",
+      "reviewSha256": "ce514d2477a4d9bb64146c077c723ee8451212bfe600701f0155231504e91685"
+    },
+    {
+      "path": "apps/planner/src/lab-daily/contract.ts",
+      "upstreamSha256": "18fefd593680987cf6aa70c6c30aed7ae3147ded3fa86a308deab1743faf467a",
+      "reviewSha256": "ec3b2aaf6c7bded5cd2f376c728e3bea62d6d186d3ca40863c9b9a6f3de22d06"
+    },
+    {
+      "path": "apps/planner/src/lab-daily/job-contract.ts",
+      "upstreamSha256": "235fbe358d2b649b8db957fb829da299314b265b9322bc9ac539d28e5ae22d24",
+      "reviewSha256": "d4fca4c41540986574f38416ab8937347d1addc59bb6e4ab8dfb560bcc3eb4f0"
+    },
+    {
+      "path": "apps/planner/src/lab-daily/legacy-youth-archive.ts",
+      "upstreamSha256": "9a652f136afab1a0f9f21592744e70a682778edebf8fe4ae0d6e97c14f603122",
+      "reviewSha256": "47ff0f3eda056f338fd556254abd575342f28e679fc25c979b83d6ffd69a2693"
+    },
+    {
+      "path": "apps/planner/src/lab-daily/model.ts",
+      "upstreamSha256": "8401faa16c687b8529ec52e7d92f29b42fa714f9034f21375702ad430786c5dc",
+      "reviewSha256": "ad4ad1b66407ce6940468c7ce7f08a06e95a014dcb616bce3b02042db958ec2a"
+    },
+    {
+      "path": "apps/planner/src/planner-library/model.ts",
+      "upstreamSha256": "edbe7ebcdfc8d579dcd70469390e5988cb389483b5120f5c6cf1d2b1eded77f3",
+      "reviewSha256": "0fcf8c84f541ef5d6b9f94b11a3bd39ef72c37b6214c499ec2064e561cd80c5c"
+    },
+    {
+      "path": "apps/planner/src/practice-recommendations/model.ts",
+      "upstreamSha256": "37fe9745a7014e976735222ccdbda1c2993cd78e0f0c90a5f6fcc9649f0e92ef",
+      "reviewSha256": "4967671b534ff1302e26dacd0915bb87ddf909e3cd5600b43b6d27e68aab5630"
+    },
+    {
+      "path": "apps/planner/src/studio/AssessmentPanel.tsx",
+      "upstreamSha256": "403a028dbae3850c133e53c7a7504f5f469a6e315bc6972d560fb8beed80deb1",
+      "reviewSha256": "a272be6082058566d7e789a6ef04a421082623f7e3524025f1c776d5f439ffe5"
+    },
+    {
+      "path": "apps/planner/src/studio/StudioApp.tsx",
+      "upstreamSha256": "b4a6ffb281cf1695aa146ee2267d7c06e749652b8cee5d3b295ac7c1b16770e4",
+      "reviewSha256": "f4f827c061886075892302c656d9688f81e300e9c8afecc6631bfbd29e598c4f"
+    },
+    {
+      "path": "apps/planner/src/studio/StudioPage.tsx",
+      "upstreamSha256": "99f305360ab318636063345bc1e30435b4d8ada802a7f023db210c0b4b14b5fe",
+      "reviewSha256": "9def1c8b002f5a4ff27d8154f122ddfbda50448bf0317cacc6b79e93c5ff65c6"
+    },
+    {
+      "path": "apps/planner/src/studio/insights.ts",
+      "upstreamSha256": "f75510b023a2a34642c188554491fa6cdd823e8c2cad86f17d06cfb10da1908e",
+      "reviewSha256": "d470f873f97f2369d6743f099ec214343b51affc3f35c46af0c06fb50a8e7def"
+    },
+    {
+      "path": "apps/planner/src/studio/persistence.ts",
+      "upstreamSha256": "d8fdd44f25066b48a848a2f12473c203f96c1cfcf3666fed2a5f15306ca8297a",
+      "reviewSha256": "c2c1745fbf52dd08ecaaa7384bac598b7545e0d89d6f275adb99f3d1039bda09"
+    },
+    {
+      "path": "apps/planner/src/studio/store.ts",
+      "upstreamSha256": "b75b6e151e731ae3a6934c5a12cf748fd8577e96b199cfda2b23e21ee76ad0fd",
+      "reviewSha256": "09b8f26f21d40ad37d01e77672c82868e3b079bf82346bb029de24df0f069f19"
+    },
+    {
+      "path": "apps/planner/src/studio/studio-model.ts",
+      "upstreamSha256": "1555364e983e8c9ed9e2bd075bace43d8260b6031a10b14bda17d8b4969573ce",
+      "reviewSha256": "ca9b47ec99baeafaac99700533eb3dbd88b63e293293865cc80e054d74eb8bb6"
+    }
+  ],
+  "upstreamArchiveSha256": "fd857364c8153b86d05e48c4bc6dbfc5479db1692e662978008c47dfd71892fe"
+}
