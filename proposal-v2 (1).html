@@ -145,6 +145,25 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .school-classroom-panel .univ-tool-card{border:1px solid #dce4f1;box-shadow:0 8px 20px rgba(28,53,91,.08);}
 .school-classroom-panel .univ-tool-card p + p{margin-top:8px;}
 .school-classroom-panel .univ-tool-card a{margin-top:14px;}
+.classroom-illustration{
+  margin:0 0 22px;overflow:hidden;border:1px solid #dce4f1;border-radius:20px;
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#dce4f1;
+}
+.classroom-scene{display:grid;grid-template-rows:auto 1fr;min-width:0;margin:0;background:#fff;}
+.classroom-scene img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;object-position:center;}
+.classroom-scene:first-child img{object-position:left;}
+.classroom-scene:last-child img{object-position:right;}
+.classroom-scene figcaption{display:grid;}
+.classroom-scene span{
+  display:grid;place-items:center;padding:12px 8px;background:#f1f5fc;color:var(--navy);
+  text-align:center;font-size:clamp(.75rem,1.45vw,1rem);font-weight:800;overflow-wrap:anywhere;
+}
+.classroom-scene:nth-child(2) span{background:#fff2d9;}
+@media(max-width:480px){
+  .classroom-illustration{grid-template-columns:1fr;}
+  .classroom-scene{grid-template-columns:42% minmax(0,1fr);grid-template-rows:auto;}
+  .classroom-scene span{font-size:.95rem;}
+}
 .univ-video-cta{justify-self:center;}
 .univ-video-cta[hidden]{display:none;}
 .univ-outcome .univ-demo-link{flex-shrink:1;overflow-wrap:anywhere;text-align:center;}
@@ -1560,7 +1579,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div class="sh">
     <div class="sec-tag">School Proposal</div>
     <h2 class="sec-title" data-i18n="school_title">학교 제안 요약</h2>
-    <p class="sec-sub" data-i18n="school_sub">기존 창체·인성교육을 데이터 기반 개인 맞춤 시스템으로 업그레이드합니다. 정규수업 없이 의무시수만으로 운영 가능합니다.</p>
+    <p class="sec-sub" data-i18n="school_sub">K-PASS·D-CAS 결과를 학교 수업과 연결합니다. 학생은 NUVIA PLANNER로 과제를 계획하고, 중·고등학생은 진로 LAB에서 관심 분야를 탐색합니다.</p>
   </div>
   <section class="university-proposal-panel" id="universityProposalPanel" hidden aria-labelledby="universityProposalTitle">
     <div class="univ-proposal-head">
@@ -1616,6 +1635,11 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div id="generalSchoolProposal">
   <section class="school-classroom-panel" aria-label="학교 수업" data-i18n-aria-label="school_classroom_title">
     <div class="sh"><h3 class="sec-title" data-i18n="school_classroom_title">학교 수업에서 쓰는 플래너와 진로 LAB</h3></div>
+    <div class="classroom-illustration" dir="ltr">
+      <figure class="classroom-scene"><img src="proposal/images/school-classroom-journey.png" alt="" width="724" height="724" loading="lazy" decoding="async"><figcaption><span dir="auto" data-i18n="nv_cl_i1_tag">중·고등학생 · 진로 LAB</span></figcaption></figure>
+      <figure class="classroom-scene"><img src="proposal/images/school-classroom-journey.png" alt="" width="724" height="724" loading="lazy" decoding="async"><figcaption><span dir="auto">NUVIA PLANNER</span></figcaption></figure>
+      <figure class="classroom-scene"><img src="proposal/images/school-classroom-journey.png" alt="" width="724" height="724" loading="lazy" decoding="async"><figcaption><span dir="auto" data-i18n="nv_planner_axis_check">CHECK · 점검</span></figcaption></figure>
+    </div>
     <div class="univ-workbench">
       <article class="univ-tool-card">
         <h3>NUVIA PLANNER</h3>
@@ -1628,6 +1652,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         <p data-i18n="nv_cl_i1_p">관심 지도 · 분야 비교 · 다음 탐색 계획</p>
         <p data-i18n="nv_cl_i1_out">→ PLANNER의 후속 탐색 과제로 연결</p>
         <a class="univ-demo-link" href="https://likely-impressive-hexadecimal.replit.app/explore" target="_blank" rel="noopener noreferrer" data-i18n="career_demo_btn">진로탐색 LAB 데모 체험하기 →</a>
+      </article>
+      <article class="univ-tool-card">
+        <h3>NUVIA KIDS</h3>
+        <p data-i18n="nv_prod_r1_c3">유아 · 초등 중심</p>
+        <p data-i18n="nv_prod_r1_c2">게임으로 기초 인지과정 연습</p>
+        <a class="univ-demo-link" href="https://kill-builder-play.lovable.app/" target="_blank" rel="noopener noreferrer" data-i18n="kids_demo_btn">NUVIA KIDS 데모 체험하기 →</a>
+      </article>
+      <article class="univ-tool-card">
+        <h3 data-i18n="nv_cl_flow_s5_h">AI 자소서</h3>
+        <p data-i18n="gp_prod_ai_c3">고등학생 · 대학생 · 취업준비생</p>
+        <p data-i18n="gp_prod_ai_c2">경험 근거를 질문으로 구체화하고 직접 수정</p>
+        <a class="univ-demo-link" href="https://heavenly-wilted-constants.replit.app/demo/write?lang=ko" target="_blank" rel="noopener noreferrer" data-ai-personal-statement-demo data-i18n="ai_demo_btn">AI 자기소개서 데모 체험하기 →</a>
       </article>
     </div>
   </section>
@@ -1694,28 +1730,17 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="school-case-message" data-i18n="case_message">검사 결과가 반편성, 학생 지원, 수업 설계, 상담과 성장 기록에 연결될 때 학교가 실제로 사용할 수 있는 데이터가 됩니다.</p>
     <p class="case-disclaimer" data-i18n="case_disclaimer">대시보드는 교육적 선별과 지원을 돕는 참고 도구이며 의학적 진단이나 자동 의사결정을 대신하지 않습니다. 반편성과 생활기록부 반영은 학교 기준과 교사의 검토를 거쳐야 합니다.</p>
   </section>
-  <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_entry_title">학교 진입 경로</h3></div>
-  <div class="prow mb40">
-    <div class="pstep"><div class="num" data-i18n="school_s1_num">1순위</div><h4 data-i18n="school_s1_h">인성교육 의무시수</h4><p data-i18n="school_s1_p">창의적 체험활동 연 204시간</p></div>
-    <div class="parr">→</div>
-    <div class="pstep"><div class="num" data-i18n="school_s2_num">2순위</div><h4 data-i18n="school_s2_h">방과후학교</h4><p data-i18n="school_s2_p">선택형 프로그램 운영</p></div>
-    <div class="parr">→</div>
-    <div class="pstep"><div class="num" data-i18n="school_s3_num">3순위</div><h4 data-i18n="school_s3_h">조례·종례 루틴</h4><p data-i18n="school_s3_p">매일 10분 MindCompass</p></div>
-    <div class="parr">→</div>
-    <div class="pstep" style="border-top:4px solid var(--gold);"><div class="num" data-i18n="school_s4_num">결과</div><h4 data-i18n="school_s4_h">학생 성장 데이터</h4><p data-i18n="school_s4_p">학기별 리포트 자동 생성</p></div>
-  </div>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="school_pkg_title">도입 패키지</h3></div>
   <table class="ptbl mb40">
     <thead><tr><th data-i18n="school_th1">패키지</th><th data-i18n="school_th2">포함 내용</th><th data-i18n="school_th3">도입 비용</th></tr></thead>
     <tbody>
       <tr><td><span class="pbadge" data-i18n="school_p1_name">검사만</span></td><td data-i18n="school_p1_desc">K-PASS / D-CAS 검사 진행 (결과 리포트 포함)</td><td><strong data-i18n="school_p1_price">협의</strong></td></tr>
-      <tr><td><span class="pbadge" data-i18n="school_p2_name">검사 + 프로그램 제작</span></td><td data-i18n="school_p2_desc">검사 진행 + 학교 맞춤 AI 프로그램 설계 제작 + 플랫폼 이용</td><td><strong data-i18n="school_p2_price">협의</strong></td></tr>
-      <tr><td><span class="pbadge" data-i18n="school_p3_name">검사 + 예시 프로그램</span></td><td data-i18n="school_p3_desc">검사 진행 + 기존 예시 프로그램 그대로 운영</td><td><strong data-i18n="school_p3_price">협의</strong></td></tr>
+      <tr><td><span class="pbadge" data-i18n="school_p3_name">검사 + 수업 프로그램</span></td><td data-i18n="school_p3_desc">검사 후 학년과 수업 목표에 맞춰 NUVIA PLANNER, 진로 LAB 등 기존 프로그램 활용</td><td><strong data-i18n="school_p3_price">협의</strong></td></tr>
     </tbody>
   </table>
   <div style="background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.3);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:var(--textm);line-height:1.9;">
     <strong style="color:var(--gold);" data-i18n="school_guide_title">💡 안내</strong><br>
-    <span data-i18n="school_guide_body">세부 비용은 운영 인원, 도입 기능과 커스터마이징 범위를 확인한 후 협의하여 안내합니다.</span>
+    <span data-i18n="school_guide_body">세부 비용은 참여 인원, 선택한 프로그램과 운영 범위에 따라 협의합니다.</span>
   </div>
   </div>
   <div style="display:flex;gap:14px;flex-wrap:wrap;">
@@ -2966,7 +2991,7 @@ document.getElementById('universityProposalPanel').hidden = !isUniversityProposa
 document.getElementById('generalSchoolProposal').hidden = isUniversityProposal;
 document.getElementById('universityVideoCta').hidden = !isUniversityProposal;
 </script>
-<script src="proposal-v2/i18n/manifest.js?v=20261125-3"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261125-4"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
