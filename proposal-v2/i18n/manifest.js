@@ -6,7 +6,8 @@
   "promoVideos": {
     "ko": "proposal/videos/feelgood-promo-ko.mp4",
     "en": "proposal/videos/feelgood-promo-en.mp4",
-    "university": "proposal/videos/feelgood-university-job-analysis.mp4"
+    "university-ko": "proposal/videos/feelgood-university-job-analysis-ko.mp4",
+    "university-en": "proposal/videos/feelgood-university-job-analysis-en.mp4"
   },
   "promoVideoLanguage": {
     "ko": "ko"

@@ -1629,23 +1629,12 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <p class="sec-sub" data-i18n="test_intro_sub">K-PASS · D-CAS 인지 프로파일링 시스템을 영상으로 한눈에 확인하세요.</p>
   </div>
   <div class="vfull mb32">
-    <a href="#" id="vid0-link" target="_blank" class="vthumb-link">
-      <div class="vthumb-wrap">
-        <img id="vid0-thumb" src="" alt="" class="vthumb-img">
-        <div class="vplay-overlay">
-          <div class="vplay-btn"><svg viewBox="0 0 68 48" width="68" height="48"><path d="M66.5 7.7c-.8-2.9-3-5.1-5.9-5.9C55.8 0 34 0 34 0S12.2 0 7.4 1.8C4.5 2.6 2.3 4.8 1.5 7.7 0 12.5 0 24 0 24s0 11.5 1.5 16.3c.8 2.9 3 5.1 5.9 5.9C12.2 48 34 48 34 48s21.8 0 26.6-1.8c2.9-.8 5.1-3 5.9-5.9C68 35.5 68 24 68 24s0-11.5-1.5-16.3z" fill="#ff0000"/><path d="M45 24 27 14v20" fill="#fff"/></svg></div>
-          <span class="vwatch-txt" data-i18n="test_ytwatch">YouTube에서 보기</span>
-        </div>
-      </div>
-    </a>
+    <div class="vthumb-wrap" style="width:100%;min-width:0;">
+      <video id="assessmentPromoVideo" controls playsinline preload="metadata" style="display:block;width:100%;height:auto;aspect-ratio:16/9;" data-i18n-aria-label="hero_video_aria" aria-label="FeelGood promotional film"></video>
+    </div>
     <div class="vinfo">
-      <div class="vlbl" data-i18n="test_vid0_lbl">🎮 검사 시연</div>
-      <h4 data-i18n="test_vid0_title">K-PASS 게임 검사 시연</h4>
-      <p data-i18n="test_vid0_desc">실제 게임형 검사 진행 화면. 아동이 흥미롭게 참여하는 과정을 확인하세요.</p>
-      <a id="vid0-ytbtn" href="#" target="_blank" class="vyt-btn">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="#ff0000"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6a3 3 0 0 0-2.1 2.1C0 8.1 0 12 0 12s0 3.9.5 5.8a3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1C24 15.9 24 12 24 12s0-3.9-.5-5.8z"/><path d="M9.8 15.5V8.5l6.2 3.5-6.2 3.5z" fill="#fff"/></svg>
-        <span data-i18n="test_ytbtn">YouTube에서 보기 →</span>
-      </a>
+      <h4 data-i18n="hero_video_title">필굿을 영상으로 만나보세요</h4>
+      <p data-i18n="hero_video_desc">인지검사에서 맞춤교육과 진로·직무까지 이어지는 필굿의 시스템을 소개합니다.</p>
     </div>
   </div>
   <div class="sh"><h3 class="sec-title" style="font-size:1.35rem;" data-i18n="test_video_title">방송 &amp; 시연 영상</h3></div>
@@ -3142,16 +3131,23 @@ function updateHeroPromoVideo(lang) {
   var languageMap = I18N_CONFIG.promoVideoLanguage || {};
   var audience = new URLSearchParams(window.location.search).get('audience');
   var videoLanguage = audience === 'university'
-    ? 'university'
+    ? (lang === 'ko' ? 'university-ko' : 'university-en')
     : (languageMap[lang] || I18N_CONFIG.defaultPromoVideoLanguage || 'en');
   var nextSource = configuredVideos[videoLanguage];
+  var assessmentVideo = document.getElementById('assessmentPromoVideo');
+  if (assessmentVideo && nextSource && assessmentVideo.dataset.currentSource !== nextSource) {
+    assessmentVideo.pause();
+    assessmentVideo.dataset.currentSource = nextSource;
+    assessmentVideo.src = nextSource;
+    assessmentVideo.load();
+  }
   var kicker = document.getElementById('heroPromoKicker');
   if (languageLabel) {
-    languageLabel.textContent = videoLanguage === 'university'
+    languageLabel.textContent = videoLanguage.indexOf('university-') === 0
       ? 'UNIVERSITY VIDEO'
       : (videoLanguage === 'ko' ? 'KOREAN VIDEO' : 'ENGLISH VIDEO');
   }
-  if (kicker) kicker.textContent = videoLanguage === 'university' ? 'UNIVERSITY CAREER FILM' : 'FEELGOOD BRAND FILM';
+  if (kicker) kicker.textContent = videoLanguage.indexOf('university-') === 0 ? 'UNIVERSITY CAREER FILM' : 'FEELGOOD BRAND FILM';
   if (!nextSource || video.dataset.currentSource === nextSource) return;
 
   video.pause();
@@ -3181,7 +3177,7 @@ function updateHeroPromoVideo(lang) {
 var INTRO_VIDEO_FALLBACK = '0D2frmT02BU';
 
 function updateVideos(lang) {
-  var vids = ['vid0','vid1','vid3'];
+  var vids = ['vid1','vid3'];
   vids.forEach(function(v) {
     var key = 'test_' + v + '_id';
     var id = LANG[lang][key];
