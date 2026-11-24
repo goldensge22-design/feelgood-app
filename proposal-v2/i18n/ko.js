@@ -1048,5 +1048,17 @@ window.LANG.ko = {
   "hero_video_desc": "인지검사에서 맞춤교육과 진로·직무까지 이어지는 필굿의 시스템을 소개합니다.",
   "hero_video_pending": "홍보영상을 불러오는 중입니다",
   "hero_video_aria": "FeelGood 홍보영상",
-  "nv_verify_test": "검사"
+  "nv_verify_test": "검사",
+  "univ_nav_school": "🎓 대학교 제안",
+  "univ_video_title": "대학교 진로·직무 설계를 영상으로 만나보세요",
+  "univ_video_desc": "D-CAS에서 강점 스토리보드, PLANNER, 직무 경험과 AI 자소서까지 이어지는 대학생 성장 경로를 소개합니다.",
+  "univ_title": "검사 결과를 강점의 이야기로,<br>강점의 이야기를 실행의 근거로",
+  "univ_lede": "D-CAS 결과를 읽는 데서 끝내지 않습니다. 학생은 자신의 강점이 드러난 경험을 스토리보드로 구조화하고, NUVIA PLANNER에서 다음 행동과 회고를 기록해 취업 준비에 활용할 수 있는 근거를 만듭니다.",
+  "univ_story_title": "강점 스토리보드",
+  "univ_story_p": "강점이 실제로 드러난 경험을 장면·역할·행동·배움의 흐름으로 시각화합니다.",
+  "univ_story_c1": "검사에서 발견한 나의 인지강점",
+  "univ_story_c2": "강점이 드러난 수업·팀·프로젝트 장면",
+  "univ_story_c3": "내가 맡은 역할과 실제로 한 행동",
+  "univ_story_c4": "배운 점과 다음에 시도할 행동",
+  "univ_planner_cta": "대학생용 PLANNER 체험"
 };

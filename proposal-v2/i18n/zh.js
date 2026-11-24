@@ -1048,5 +1048,17 @@ window.LANG["zh"] = {
   "hero_video_desc": "了解 FeelGood 如何将认知测评与个性化教育、升学及职业准备相连接。",
   "hero_video_pending": "正在加载品牌影片",
   "hero_video_aria": "FeelGood 品牌影片",
-  "nv_verify_test": "评估"
+  "nv_verify_test": "评估",
+  "univ_nav_school": "🎓 大学方案",
+  "univ_video_title": "通过视频了解大学生涯与职业设计",
+  "univ_video_desc": "介绍从 D-CAS、优势故事板、PLANNER 到岗位体验与 AI 自我介绍的大学生成长路径。",
+  "univ_title": "把测评结果变成优势故事，<br>把优势故事变成行动证据",
+  "univ_lede": "不止于阅读 D-CAS 报告。学生把优势真实出现的经历整理成故事板，并在 NUVIA PLANNER 中记录下一步行动与反思，形成可用于就业准备的证据。",
+  "univ_story_title": "优势故事板",
+  "univ_story_p": "按照场景、角色、行动与学习收获的顺序，将优势真实发挥的经历可视化。",
+  "univ_story_c1": "测评发现的我的认知优势",
+  "univ_story_c2": "优势出现的课堂、团队或项目场景",
+  "univ_story_c3": "我承担的角色与实际采取的行动",
+  "univ_story_c4": "我的收获与下一步要尝试的行动",
+  "univ_planner_cta": "体验大学生版 PLANNER"
 };

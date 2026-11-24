@@ -1048,5 +1048,17 @@ window.LANG["vi"] = {
   "hero_video_desc": "Xem cách FeelGood kết nối đánh giá nhận thức với giáo dục cá nhân hóa và chuẩn bị nghề nghiệp, việc làm.",
   "hero_video_pending": "Đang tải video giới thiệu",
   "hero_video_aria": "Video giới thiệu FeelGood",
-  "nv_verify_test": "Đánh giá"
+  "nv_verify_test": "Đánh giá",
+  "univ_nav_school": "🎓 Đề xuất cho đại học",
+  "univ_video_title": "Xem hành trình thiết kế nghề nghiệp đại học qua video",
+  "univ_video_desc": "Giới thiệu lộ trình phát triển của sinh viên từ D-CAS, Bảng câu chuyện thế mạnh, PLANNER đến trải nghiệm công việc và Bài tự giới thiệu AI.",
+  "univ_title": "Biến kết quả đánh giá thành câu chuyện thế mạnh,<br>và câu chuyện thành bằng chứng hành động",
+  "univ_lede": "Hành trình không dừng ở việc đọc báo cáo D-CAS. Sinh viên cấu trúc những trải nghiệm thể hiện thế mạnh thành bảng câu chuyện, rồi ghi lại hành động tiếp theo và suy ngẫm trong NUVIA PLANNER để tạo bằng chứng dùng cho chuẩn bị nghề nghiệp.",
+  "univ_story_title": "Bảng câu chuyện thế mạnh",
+  "univ_story_p": "Trực quan hóa trải nghiệm nơi thế mạnh thực sự xuất hiện theo trình tự bối cảnh, vai trò, hành động và bài học.",
+  "univ_story_c1": "Thế mạnh nhận thức của tôi được phát hiện qua đánh giá",
+  "univ_story_c2": "Bối cảnh lớp học, nhóm hoặc dự án nơi thế mạnh xuất hiện",
+  "univ_story_c3": "Vai trò tôi đảm nhận và hành động tôi thực sự làm",
+  "univ_story_c4": "Điều tôi học được và hành động tiếp theo sẽ thử",
+  "univ_planner_cta": "Trải nghiệm PLANNER cho sinh viên"
 };

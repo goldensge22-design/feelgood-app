@@ -1048,5 +1048,17 @@ window.LANG["it"] = {
   "hero_video_desc": "Scopri come FeelGood collega la valutazione cognitiva all’educazione personalizzata e alla preparazione alla carriera e al lavoro.",
   "hero_video_pending": "Caricamento del video di presentazione",
   "hero_video_aria": "Video di presentazione FeelGood",
-  "nv_verify_test": "Valutazione"
+  "nv_verify_test": "Valutazione",
+  "univ_nav_school": "🎓 Proposta universitaria",
+  "univ_video_title": "Scopri in video il percorso di progettazione della carriera",
+  "univ_video_desc": "Presentiamo il percorso di crescita dello studente: da D-CAS e Storyboard dei punti di forza a PLANNER, esperienza lavorativa e Presentazione personale con IA.",
+  "univ_title": "Trasformiamo i risultati in una storia di punti di forza<br>e la storia in prove di azione",
+  "univ_lede": "Il percorso non termina con la lettura del rapporto D-CAS. Lo studente struttura in uno storyboard le esperienze in cui sono emersi i suoi punti di forza e registra azioni e riflessioni in NUVIA PLANNER, creando prove utili alla preparazione professionale.",
+  "univ_story_title": "Storyboard dei punti di forza",
+  "univ_story_p": "Visualizza un’esperienza reale attraverso la sequenza situazione, ruolo, azione e apprendimento.",
+  "univ_story_c1": "I miei punti di forza cognitivi rilevati dalla valutazione",
+  "univ_story_c2": "La situazione in classe, nel team o nel progetto in cui sono emersi",
+  "univ_story_c3": "Il ruolo che ho assunto e le azioni svolte realmente",
+  "univ_story_c4": "Ciò che ho imparato e la prossima azione da provare",
+  "univ_planner_cta": "Prova PLANNER per studenti universitari"
 };

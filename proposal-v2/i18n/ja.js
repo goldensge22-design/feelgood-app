@@ -1048,5 +1048,17 @@ window.LANG["ja"] = {
   "hero_video_desc": "認知検査から個別最適な教育、進路・職業準備までをつなぐ FeelGood の仕組みをご紹介します。",
   "hero_video_pending": "紹介動画を読み込んでいます",
   "hero_video_aria": "FeelGood 紹介動画",
-  "nv_verify_test": "評価"
+  "nv_verify_test": "評価",
+  "univ_nav_school": "🎓 大学向け提案",
+  "univ_video_title": "大学のキャリア・職務設計を動画でご覧ください",
+  "univ_video_desc": "D-CASから強みストーリーボード、PLANNER、職務体験、AI自己PRへつながる大学生の成長経路を紹介します。",
+  "univ_title": "検査結果を強みの物語へ、<br>強みの物語を行動の根拠へ",
+  "univ_lede": "D-CASの結果を読むだけで終わりません。学生は強みが表れた経験をストーリーボードで構造化し、NUVIA PLANNERに次の行動と振り返りを記録して、就職準備に活用できる根拠を作ります。",
+  "univ_story_title": "強みストーリーボード",
+  "univ_story_p": "強みが実際に表れた経験を、場面・役割・行動・学びの流れで可視化します。",
+  "univ_story_c1": "検査で見つかった自分の認知的な強み",
+  "univ_story_c2": "強みが表れた授業・チーム・プロジェクトの場面",
+  "univ_story_c3": "自分が担った役割と実際に行った行動",
+  "univ_story_c4": "学んだことと次に試す行動",
+  "univ_planner_cta": "大学生向けPLANNERを体験"
 };

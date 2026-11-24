@@ -1048,5 +1048,17 @@ window.LANG.en = {
   "hero_video_desc": "See how FeelGood connects cognitive assessment with personalized education and career and job preparation.",
   "hero_video_pending": "Loading the brand film",
   "hero_video_aria": "FeelGood brand film",
-  "nv_verify_test": "Assessment"
+  "nv_verify_test": "Assessment",
+  "univ_nav_school": "🎓 University Proposal",
+  "univ_video_title": "See the university career-design journey",
+  "univ_video_desc": "Discover the student growth path from D-CAS to the Strengths Storyboard, PLANNER, job experience, and the AI Personal Statement.",
+  "univ_title": "Turn assessment results into a strengths story,<br>and the story into evidence of action",
+  "univ_lede": "The journey does not end with reading a D-CAS report. Students structure experiences where their strengths appeared in a storyboard, then record next actions and reflections in NUVIA PLANNER to build evidence they can use in career preparation.",
+  "univ_story_title": "Strengths Storyboard",
+  "univ_story_p": "Visualize an experience where strengths appeared through the sequence of scene, role, action, and learning.",
+  "univ_story_c1": "My cognitive strengths identified by the assessment",
+  "univ_story_c2": "A class, team, or project scene where they appeared",
+  "univ_story_c3": "The role I took and the actions I actually performed",
+  "univ_story_c4": "What I learned and the next action I will try",
+  "univ_planner_cta": "Try the university PLANNER"
 };

@@ -1048,5 +1048,17 @@ window.LANG["zh-TW"] = {
   "hero_video_desc": "了解 FeelGood 如何將認知評估與個人化教育、升學及職涯準備相連結。",
   "hero_video_pending": "正在載入品牌影片",
   "hero_video_aria": "FeelGood 品牌影片",
-  "nv_verify_test": "评估"
+  "nv_verify_test": "评估",
+  "univ_nav_school": "🎓 大學方案",
+  "univ_video_title": "透過影片了解大學生涯與職務設計",
+  "univ_video_desc": "介紹從 D-CAS、優勢故事板、PLANNER 到職務體驗與 AI 自我介紹的大學生成長路徑。",
+  "univ_title": "把評估結果變成優勢故事，<br>把優勢故事變成行動證據",
+  "univ_lede": "不只停留在閱讀 D-CAS 報告。學生把優勢實際出現的經驗整理成故事板，並在 NUVIA PLANNER 中記錄下一步行動與反思，形成可用於就業準備的證據。",
+  "univ_story_title": "優勢故事板",
+  "univ_story_p": "依照情境、角色、行動與學習收穫的順序，將優勢實際發揮的經驗視覺化。",
+  "univ_story_c1": "評估發現的我的認知優勢",
+  "univ_story_c2": "優勢出現的課堂、團隊或專案情境",
+  "univ_story_c3": "我承擔的角色與實際採取的行動",
+  "univ_story_c4": "我的收穫與下一步要嘗試的行動",
+  "univ_planner_cta": "體驗大學生版 PLANNER"
 };

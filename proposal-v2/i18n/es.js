@@ -1048,5 +1048,17 @@ window.LANG["es"] = {
   "hero_video_desc": "Descubre cómo FeelGood conecta la evaluación cognitiva con la educación personalizada y la preparación profesional y laboral.",
   "hero_video_pending": "Cargando el video de presentación",
   "hero_video_aria": "Video de presentación de FeelGood",
-  "nv_verify_test": "Evaluación"
+  "nv_verify_test": "Evaluación",
+  "univ_nav_school": "🎓 Propuesta universitaria",
+  "univ_video_title": "Conoce en vídeo el diseño de carrera universitaria",
+  "univ_video_desc": "Presentamos la ruta de crecimiento del estudiante desde D-CAS y el Guion de Fortalezas hasta PLANNER, la experiencia laboral y la Presentación Personal con IA.",
+  "univ_title": "Convertimos los resultados en una historia de fortalezas<br>y la historia en evidencia de acción",
+  "univ_lede": "El recorrido no termina al leer el informe D-CAS. El estudiante estructura en un guion las experiencias donde aparecieron sus fortalezas y registra acciones y reflexiones en NUVIA PLANNER para crear evidencias útiles en su preparación profesional.",
+  "univ_story_title": "Guion de Fortalezas",
+  "univ_story_p": "Visualiza una experiencia real mediante la secuencia de contexto, función, acción y aprendizaje.",
+  "univ_story_c1": "Mis fortalezas cognitivas identificadas en la evaluación",
+  "univ_story_c2": "La situación de clase, equipo o proyecto donde aparecieron",
+  "univ_story_c3": "La función que asumí y las acciones que realicé",
+  "univ_story_c4": "Lo que aprendí y la siguiente acción que intentaré",
+  "univ_planner_cta": "Probar PLANNER para universitarios"
 };

@@ -1048,5 +1048,17 @@ window.LANG["az"] = {
   "hero_video_desc": "FeelGood-un koqnitiv qiymətləndirməni fərdiləşdirilmiş təhsil, karyera və iş hazırlığı ilə necə əlaqələndirdiyinə baxın.",
   "hero_video_pending": "Təqdimat videosu yüklənir",
   "hero_video_aria": "FeelGood təqdimat videosu",
-  "nv_verify_test": "Assessment"
+  "nv_verify_test": "Assessment",
+  "univ_nav_school": "🎓 Universitet təklifi",
+  "univ_video_title": "Universitet karyera dizaynını videoda izləyin",
+  "univ_video_desc": "D-CAS-dan Güclü tərəflər ssenarisi, PLANNER, iş təcrübəsi və AI şəxsi təqdimatına qədər tələbə inkişaf yolunu təqdim edirik.",
+  "univ_title": "Qiymətləndirmə nəticələrini güclü tərəflər hekayəsinə,<br>hekayəni isə fəaliyyət sübutuna çeviririk",
+  "univ_lede": "Proses D-CAS hesabatını oxumaqla bitmir. Tələbə güclü tərəflərinin göründüyü təcrübələri ssenaridə qurur, sonra NUVIA PLANNER-də növbəti addımları və düşüncələrini qeyd edərək karyera hazırlığında istifadə olunan sübut yaradır.",
+  "univ_story_title": "Güclü tərəflər ssenarisi",
+  "univ_story_p": "Güclü tərəflərin real göründüyü təcrübəni vəziyyət, rol, fəaliyyət və öyrənmə ardıcıllığında vizuallaşdırır.",
+  "univ_story_c1": "Qiymətləndirmədə aşkar olunan idrak güclü tərəflərim",
+  "univ_story_c2": "Güclü tərəflərin göründüyü dərs, komanda və ya layihə vəziyyəti",
+  "univ_story_c3": "Üzərimə götürdüyüm rol və həqiqətən etdiyim fəaliyyətlər",
+  "univ_story_c4": "Öyrəndiklərim və sınayacağım növbəti addım",
+  "univ_planner_cta": "Universitet PLANNER-ini sına"
 };

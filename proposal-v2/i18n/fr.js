@@ -1048,5 +1048,17 @@ window.LANG["fr"] = {
   "hero_video_desc": "Découvrez comment FeelGood relie l’évaluation cognitive à l’éducation personnalisée et à la préparation aux études et à l’emploi.",
   "hero_video_pending": "Chargement de la vidéo de présentation",
   "hero_video_aria": "Vidéo de présentation FeelGood",
-  "nv_verify_test": "Évaluation"
+  "nv_verify_test": "Évaluation",
+  "univ_nav_school": "🎓 Proposition universitaire",
+  "univ_video_title": "Découvrez en vidéo le parcours de conception de carrière",
+  "univ_video_desc": "Du D-CAS au Scénario des forces, à PLANNER, à l’expérience métier et à la Présentation personnelle avec IA : découvrez le parcours de progression de l’étudiant.",
+  "univ_title": "Transformer les résultats en histoire de forces,<br>puis l’histoire en preuves d’action",
+  "univ_lede": "Le parcours ne s’arrête pas à la lecture du rapport D-CAS. L’étudiant structure dans un scénario les expériences où ses forces se sont manifestées, puis consigne ses prochaines actions et réflexions dans NUVIA PLANNER afin de créer des preuves utiles à sa préparation professionnelle.",
+  "univ_story_title": "Scénario des forces",
+  "univ_story_p": "Visualiser une expérience réelle selon la séquence contexte, rôle, action et apprentissage.",
+  "univ_story_c1": "Mes forces cognitives révélées par l’évaluation",
+  "univ_story_c2": "La situation de cours, d’équipe ou de projet où elles sont apparues",
+  "univ_story_c3": "Le rôle que j’ai assumé et les actions réellement menées",
+  "univ_story_c4": "Ce que j’ai appris et la prochaine action à essayer",
+  "univ_planner_cta": "Essayer PLANNER pour étudiants"
 };
