@@ -106,6 +106,32 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .snum{font-family:'Montserrat',sans-serif;font-size:2.4rem;font-weight:900;color:var(--gold);line-height:1;}
 .slbl{font-size:.74rem;opacity:.62;margin-top:5px;}
 
+/* ── Home promotion film ── */
+.hero-promo-card{display:grid;grid-template-columns:minmax(210px,.72fr) minmax(0,1.28fr);gap:18px;
+  align-items:center;margin:28px auto 30px;padding:18px;border:1px solid rgba(255,255,255,.22);
+  border-radius:22px;background:rgba(12,31,61,.38);box-shadow:0 18px 44px rgba(9,23,48,.22);
+  backdrop-filter:blur(12px);text-align:left;}
+.hero-promo-copy{padding:8px 6px;}
+.hero-promo-copy .promo-kicker{display:block;margin-bottom:8px;color:var(--gold);font-family:'Montserrat',sans-serif;
+  font-size:.65rem;font-weight:900;letter-spacing:1.8px;}
+.hero-promo-copy h2{margin-bottom:8px;color:#fff;font-size:clamp(1.05rem,2vw,1.35rem);line-height:1.35;}
+.hero-promo-copy p{margin:0;color:rgba(255,255,255,.73);font-size:.78rem;line-height:1.65;}
+.hero-promo-media{position:relative;overflow:hidden;aspect-ratio:16/9;border:1px solid rgba(255,255,255,.22);
+  border-radius:15px;background:linear-gradient(135deg,#142d55,#364b7f 58%,#7166a4);}
+.hero-promo-video{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s;}
+.hero-promo-video.is-ready{opacity:1;}
+.hero-promo-pending{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:9px;padding:20px;text-align:center;background:radial-gradient(circle at 50% 42%,rgba(74,126,200,.28),transparent 48%);}
+.hero-promo-pending[hidden]{display:none;}
+.hero-promo-pending .promo-play{display:grid;width:50px;height:50px;place-items:center;border:1px solid rgba(255,255,255,.46);
+  border-radius:50%;background:rgba(255,255,255,.13);color:#fff;font-size:1.1rem;box-shadow:0 8px 24px rgba(0,0,0,.2);}
+.hero-promo-pending strong{color:#fff;font-size:.83rem;line-height:1.45;}
+.hero-promo-language{color:#ffcc72;font-family:'Montserrat',sans-serif;font-size:.6rem;font-weight:900;letter-spacing:1.3px;}
+@media(max-width:700px){
+  .hero-promo-card{grid-template-columns:1fr;padding:14px;text-align:center;}
+  .hero-promo-copy{padding:4px 4px 0;}
+}
+
 /* ── Common ── */
 .sec-tag{display:inline-block;background:rgba(74,126,200,.13);color:var(--blue);
   font-size:.7rem;font-weight:700;letter-spacing:2px;padding:5px 14px;border-radius:20px;
@@ -1395,6 +1421,21 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <div class="hb1"></div>
     <div class="hb2"></div>
     <div class="hi">
+      <div class="hero-promo-card" aria-label="FeelGood 홍보영상" data-i18n-aria-label="hero_video_aria">
+        <div class="hero-promo-copy">
+          <span class="promo-kicker" id="heroPromoKicker">FEELGOOD BRAND FILM</span>
+          <h2 data-i18n="hero_video_title">필굿을 영상으로 만나보세요</h2>
+          <p data-i18n="hero_video_desc">인지검사에서 맞춤교육과 진로·직무까지 이어지는 필굿의 시스템을 소개합니다.</p>
+        </div>
+        <div class="hero-promo-media">
+          <video id="heroPromoVideo" class="hero-promo-video" controls playsinline preload="metadata" data-i18n-aria-label="hero_video_aria" aria-label="FeelGood 홍보영상"></video>
+          <div class="hero-promo-pending" id="heroPromoPending">
+            <span class="promo-play" aria-hidden="true">▶</span>
+            <strong data-i18n="hero_video_pending">홍보영상을 불러오는 중입니다</strong>
+            <span class="hero-promo-language" id="heroPromoLanguage">KOREAN VIDEO</span>
+          </div>
+        </div>
+      </div>
       <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
       <img class="hero-logo" src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" alt="FeelGood">
       <h1 data-i18n="hero_h1">뇌 과학 기반 · 첨단 맞춤 교육 실현 시스템</h1>
@@ -1736,11 +1777,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         </div>
       </div>
       <div class="act-card">
-        <div class="act-record-visual" role="img" aria-label="한서대학교 항공보안학과 진로·직무 검사 및 특강" data-i18n-aria-label="track_u7_title">
-          <span class="record-mark" data-i18n="track_u7_date">2026 · OCTOBER</span>
-          <strong>D-CAS<br>CAREER &amp; JOB</strong>
-          <span>FeelGood × University</span>
-        </div>
+        <div class="act-img"><img src="proposal/images/hanseo-career-camp-blurred.png" alt="한서대학교 항공보안학과 진로·직무 검사 및 특강" data-i18n-alt="track_u7_title" loading="lazy"></div>
         <div class="act-info">
           <div class="act-title" data-i18n="track_u7_title">한서대학교 항공보안학과 진로·직무 검사 및 특강</div>
           <div class="act-desc" data-i18n="track_u7_desc">2026년 10월 · D-CAS 기반 인지특성 검사와 진로·직무 결과 활용 특강 진행</div>
@@ -2766,7 +2803,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20261031-1"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261125-1"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -2864,6 +2901,7 @@ function setLang(lang) {
   const sel = document.getElementById('langSelect');
   if (sel) sel.value = lang;
   applyKoOnly(lang);
+  updateHeroPromoVideo(lang);
   updateVideos(lang);
   updateReportLinks(lang);
   updateMobileTocLabel(HASH_SECTIONS[window.location.hash.replace(/^#/, '').toLowerCase()] || 'home');
@@ -3088,6 +3126,51 @@ function syncSectionFromLocation(options) {
   show(id, {updateHistory: false, scroll: true, instant: options.instant !== false});
 }
 
+
+// ── 표지 홍보영상: 한국어는 한국어판, 나머지 언어는 영어판 ───────
+function updateHeroPromoVideo(lang) {
+  var video = document.getElementById('heroPromoVideo');
+  var pending = document.getElementById('heroPromoPending');
+  var languageLabel = document.getElementById('heroPromoLanguage');
+  if (!video) return;
+
+  var configuredVideos = I18N_CONFIG.promoVideos || {};
+  var languageMap = I18N_CONFIG.promoVideoLanguage || {};
+  var audience = new URLSearchParams(window.location.search).get('audience');
+  var videoLanguage = audience === 'university'
+    ? 'university'
+    : (languageMap[lang] || I18N_CONFIG.defaultPromoVideoLanguage || 'en');
+  var nextSource = configuredVideos[videoLanguage];
+  var kicker = document.getElementById('heroPromoKicker');
+  if (languageLabel) {
+    languageLabel.textContent = videoLanguage === 'university'
+      ? 'UNIVERSITY VIDEO'
+      : (videoLanguage === 'ko' ? 'KOREAN VIDEO' : 'ENGLISH VIDEO');
+  }
+  if (kicker) kicker.textContent = videoLanguage === 'university' ? 'UNIVERSITY CAREER FILM' : 'FEELGOOD BRAND FILM';
+  if (!nextSource || video.dataset.currentSource === nextSource) return;
+
+  video.pause();
+  video.classList.remove('is-ready');
+  if (pending) pending.hidden = false;
+  video.dataset.currentSource = nextSource;
+  video.src = nextSource;
+  video.load();
+}
+
+(function bindHeroPromoVideo() {
+  var video = document.getElementById('heroPromoVideo');
+  var pending = document.getElementById('heroPromoPending');
+  if (!video) return;
+  video.addEventListener('loadedmetadata', function () {
+    video.classList.add('is-ready');
+    if (pending) pending.hidden = true;
+  });
+  video.addEventListener('error', function () {
+    video.classList.remove('is-ready');
+    if (pending) pending.hidden = false;
+  });
+})();
 
 // ── 비디오 URL 동적 업데이트 ─────────────────────────────────────
 // 소개 영상 기본값 — 언어별 i18n 의 test_vid0_id 가 없을 때 사용

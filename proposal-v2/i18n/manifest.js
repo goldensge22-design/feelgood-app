@@ -2,7 +2,16 @@
 // To add a language: add one entry here and create the matching <code>.js file.
 (function loadProposalLanguages(document) {
   var config = {
-  "assetVersion": "20261031-1",
+  "assetVersion": "20261125-1",
+  "promoVideos": {
+    "ko": "proposal/videos/feelgood-promo-ko.mp4",
+    "en": "proposal/videos/feelgood-promo-en.mp4",
+    "university": "proposal/videos/feelgood-university-job-analysis.mp4"
+  },
+  "promoVideoLanguage": {
+    "ko": "ko"
+  },
+  "defaultPromoVideoLanguage": "en",
   "languages": [
     {
       "code": "ko",

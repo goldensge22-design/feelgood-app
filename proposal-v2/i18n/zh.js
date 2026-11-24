@@ -1044,5 +1044,9 @@ window.LANG["zh"] = {
   "career_demo_qr": "打开职业探索 LAB 演示二维码",
   "ai_demo_btn": "体验 AI 个人陈述演示 →",
   "ai_demo_qr": "打开 AI 个人陈述演示二维码",
+  "hero_video_title": "通过品牌影片了解 FeelGood",
+  "hero_video_desc": "了解 FeelGood 如何将认知测评与个性化教育、升学及职业准备相连接。",
+  "hero_video_pending": "正在加载品牌影片",
+  "hero_video_aria": "FeelGood 品牌影片",
   "nv_verify_test": "评估"
 };

@@ -1044,5 +1044,9 @@ window.LANG["ja"] = {
   "career_demo_qr": "Career Exploration LAB デモ QR を開く",
   "ai_demo_btn": "AI Personal Statement デモを体験してください →",
   "ai_demo_qr": "AI Personal Statement デモ QR を開きます",
+  "hero_video_title": "紹介動画で FeelGood をご覧ください",
+  "hero_video_desc": "認知検査から個別最適な教育、進路・職業準備までをつなぐ FeelGood の仕組みをご紹介します。",
+  "hero_video_pending": "紹介動画を読み込んでいます",
+  "hero_video_aria": "FeelGood 紹介動画",
   "nv_verify_test": "評価"
 };

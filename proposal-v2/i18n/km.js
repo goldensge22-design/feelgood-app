@@ -1044,5 +1044,9 @@ window.LANG["km"] = {
   "career_demo_qr": "បើកការរុករកអាជីព LAB ការបង្ហាញ QR",
   "ai_demo_btn": "ទទួលបានបទពិសោធន៍ AI ការបង្ហាញសេចក្តីថ្លែងការណ៍ផ្ទាល់ខ្លួន →",
   "ai_demo_qr": "បើកការបង្ហាញ AI Personal Statement demo QR",
+  "hero_video_title": "ស្គាល់ FeelGood តាមរយៈវីដេអូណែនាំ",
+  "hero_video_desc": "ស្វែងយល់ពីរបៀបដែល FeelGood ភ្ជាប់ការវាយតម្លៃសមត្ថភាពយល់ដឹងទៅនឹងការអប់រំផ្ទាល់ខ្លួន និងការត្រៀមអាជីពនិងការងារ។",
+  "hero_video_pending": "កំពុងផ្ទុកវីដេអូណែនាំ",
+  "hero_video_aria": "វីដេអូណែនាំ FeelGood",
   "nv_verify_test": "ការវាយតម្លៃ"
 };

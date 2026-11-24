@@ -1044,5 +1044,9 @@ window.LANG["vi"] = {
   "career_demo_qr": "Mở QR demo Khám phá nghề nghiệp LAB",
   "ai_demo_btn": "Trải nghiệm bản demo Tuyên bố cá nhân AI →",
   "ai_demo_qr": "Mở bản demo Tuyên bố cá nhân AI QR",
+  "hero_video_title": "Khám phá FeelGood qua video giới thiệu",
+  "hero_video_desc": "Xem cách FeelGood kết nối đánh giá nhận thức với giáo dục cá nhân hóa và chuẩn bị nghề nghiệp, việc làm.",
+  "hero_video_pending": "Đang tải video giới thiệu",
+  "hero_video_aria": "Video giới thiệu FeelGood",
   "nv_verify_test": "Đánh giá"
 };

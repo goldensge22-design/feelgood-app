@@ -1044,5 +1044,9 @@ window.LANG.en = {
   "career_demo_qr": "Open the Career Exploration LAB demo QR",
   "ai_demo_btn": "Experience the AI Personal Statement demo →",
   "ai_demo_qr": "Open the AI Personal Statement demo QR",
+  "hero_video_title": "Meet FeelGood in our brand film",
+  "hero_video_desc": "See how FeelGood connects cognitive assessment with personalized education and career and job preparation.",
+  "hero_video_pending": "Loading the brand film",
+  "hero_video_aria": "FeelGood brand film",
   "nv_verify_test": "Assessment"
 };

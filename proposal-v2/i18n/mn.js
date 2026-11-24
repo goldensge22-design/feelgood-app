@@ -1044,5 +1044,9 @@ window.LANG["mn"] = {
   "career_demo_qr": "Career Exploration LAB demo QR-г нээнэ үү",
   "ai_demo_btn": "AI Хувийн мэдэгдлийн демо хувилбарыг үзээрэй →",
   "ai_demo_qr": "AI Хувийн мэдэгдлийн QR-г нээнэ үү",
+  "hero_video_title": "FeelGood-ийг танилцуулга видеогоор үзээрэй",
+  "hero_video_desc": "FeelGood танин мэдэхүйн үнэлгээг хувь хүнд тохирсон боловсрол, мэргэжил болон ажилд бэлтгэх үйл явцтай хэрхэн холбодгийг үзнэ үү.",
+  "hero_video_pending": "Танилцуулга видеог ачаалж байна",
+  "hero_video_aria": "FeelGood танилцуулга видео",
   "nv_verify_test": "Үнэлгээ"
 };

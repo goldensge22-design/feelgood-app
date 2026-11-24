@@ -1044,5 +1044,9 @@ window.LANG["it"] = {
   "career_demo_qr": "Apri il QR demo della demo Career Exploration LAB",
   "ai_demo_btn": "Prova la demo della dichiarazione personale AI →",
   "ai_demo_qr": "Apri il QR demo della dichiarazione personale AI",
+  "hero_video_title": "Scopri FeelGood nel video di presentazione",
+  "hero_video_desc": "Scopri come FeelGood collega la valutazione cognitiva all’educazione personalizzata e alla preparazione alla carriera e al lavoro.",
+  "hero_video_pending": "Caricamento del video di presentazione",
+  "hero_video_aria": "Video di presentazione FeelGood",
   "nv_verify_test": "Valutazione"
 };

@@ -1044,5 +1044,9 @@ window.LANG["az"] = {
   "career_demo_qr": "Karyera Kəşfiyyatı LAB demo QR-ni açın",
   "ai_demo_btn": "AI Şəxsi Bəyanat demosunu təcrübədən keçirin →",
   "ai_demo_qr": "AI Şəxsi Bəyanat demo QR-ni açın",
+  "hero_video_title": "FeelGood-u təqdimat videosunda tanıyın",
+  "hero_video_desc": "FeelGood-un koqnitiv qiymətləndirməni fərdiləşdirilmiş təhsil, karyera və iş hazırlığı ilə necə əlaqələndirdiyinə baxın.",
+  "hero_video_pending": "Təqdimat videosu yüklənir",
+  "hero_video_aria": "FeelGood təqdimat videosu",
   "nv_verify_test": "Assessment"
 };
