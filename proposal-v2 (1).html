@@ -138,6 +138,24 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 
 /* ── University proposal journey (audience=university only) ── */
 .university-proposal-panel[hidden]{display:none!important;}
+.univ-flow-step p + p{margin-top:6px;}
+.univ-outcome small + small{margin-top:8px;}
+.school-classroom-panel{margin:0 0 32px;}
+.school-classroom-panel .univ-workbench{margin-bottom:0;}
+.school-classroom-panel .univ-tool-card{border:1px solid #dce4f1;box-shadow:0 8px 20px rgba(28,53,91,.08);}
+.school-classroom-panel .univ-tool-card p + p{margin-top:8px;}
+.school-classroom-panel .univ-tool-card a{margin-top:14px;}
+.univ-video-cta{justify-self:center;}
+.univ-video-cta[hidden]{display:none;}
+.univ-outcome .univ-demo-link{flex-shrink:1;overflow-wrap:anywhere;text-align:center;}
+.univ-design-flow.univ-five-steps{grid-template-columns:repeat(5,minmax(0,1fr));}
+@media(max-width:1100px){
+  .univ-design-flow.univ-five-steps{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .univ-five-steps .univ-flow-step:nth-child(even)::after{display:none;}
+}
+@media(max-width:600px){
+  .univ-design-flow.univ-five-steps{grid-template-columns:1fr;}
+}
 .university-proposal-panel{position:relative;overflow:hidden;margin:0 0 38px;padding:36px;
   border:1px solid rgba(90,126,188,.22);border-radius:28px;color:#fff;
   background:linear-gradient(142deg,#102b51 0%,#1d3f70 56%,#514985 100%);
@@ -1514,6 +1532,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
             <span class="hero-promo-language" id="heroPromoLanguage">KOREAN VIDEO</span>
           </div>
         </div>
+        <a class="univ-demo-link univ-video-cta" id="universityVideoCta" href="#school" onclick="show('school');return false;" data-i18n="univ_nav_school" hidden>🎓 대학교 제안</a>
       </div>
       <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
       <img class="hero-logo" src="https://goldensge22-design.github.io/feelgood-app/proposal/images/img-01.png" alt="FeelGood">
@@ -1550,17 +1569,18 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <p data-i18n="univ_lede">D-CAS 결과를 읽는 데서 끝내지 않습니다. 학생은 자신의 강점이 드러난 경험을 스토리보드로 구조화하고, NUVIA PLANNER에서 다음 행동과 회고를 기록해 취업 준비에 활용할 수 있는 근거를 만듭니다.</p>
     </div>
 
-    <div class="univ-design-flow" role="list" data-i18n-aria-label="nv_cl_flow_aria" aria-label="진로캠프 취업 준비 흐름">
+    <div class="univ-design-flow univ-five-steps" role="list" data-i18n-aria-label="nv_cl_flow_aria" aria-label="진로캠프 취업 준비 흐름">
       <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">01</span><b>D-CAS</b><p data-i18n="nv_cl_flow_s1_p">강점과 지원 포인트, 직무 탐색 후보 확인</p></article>
       <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">02</span><b data-i18n="univ_story_title">강점 스토리보드</b><p data-i18n="univ_story_p">강점이 실제로 드러난 경험을 장면·역할·행동·배움의 흐름으로 시각화합니다.</p></article>
       <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">03</span><b>NUVIA PLANNER</b><p data-i18n="nv_cl_flow_s2_p">첫 행동과 완료 기준을 정하고 실행·수정 기록</p></article>
-      <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">04</span><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></article>
+      <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">04</span><b data-i18n="nv_cl_i2_tag">대학생 · 학과별 직무 LAB</b><p data-i18n="nv_cl_i2_h">학과와 연결된 업무 과제를 수행하며 나의 강점과 필요한 지원을 확인합니다</p></article>
+      <article class="univ-flow-step" role="listitem"><span class="univ-flow-no">05</span><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></article>
     </div>
 
     <div class="univ-workbench">
       <article class="univ-tool-card storyboard">
         <div class="univ-tool-card-head"><span class="univ-tool-icon" aria-hidden="true">✦</span><div><h3 data-i18n="univ_story_title">강점 스토리보드</h3><p data-i18n="univ_story_p">강점이 실제로 드러난 경험을 장면·역할·행동·배움의 흐름으로 시각화합니다.</p></div></div>
-        <div class="univ-storyboard-preview" aria-hidden="true">
+        <div class="univ-storyboard-preview">
           <div class="univ-story-node"><span>01 · SIGNAL</span><b data-i18n="univ_story_c1">검사에서 발견한 나의 인지강점</b></div>
           <div class="univ-story-node"><span>02 · SCENE</span><b data-i18n="univ_story_c2">강점이 드러난 수업·팀·프로젝트 장면</b></div>
           <div class="univ-story-node"><span>03 · ACTION</span><b data-i18n="univ_story_c3">내가 맡은 역할과 실제로 한 행동</b></div>
@@ -1570,7 +1590,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
       <article class="univ-tool-card planner">
         <div class="univ-tool-card-head"><span class="univ-tool-icon" aria-hidden="true">✓</span><div><h3 data-i18n="nv_cl_flow_s2_h">NUVIA PLANNER</h3><p data-i18n="nv_cl_flow_s2_p">첫 행동과 완료 기준을 정하고 실행·수정 기록</p></div></div>
-        <div class="univ-planner-preview" aria-hidden="true">
+        <div class="univ-planner-preview">
           <div class="univ-planner-bar"><b>MY WEEK</b><span data-i18n="biz2_flow3_h">NUVIA PLANNER</span></div>
           <div class="univ-planner-item"><i>1</i><b data-i18n="biz2_flow3_p">목표·행동·수정·완료 기록을 축적</b></div>
           <div class="univ-planner-item"><i>2</i><b data-i18n="nv_cl_flow_s4_p">상황·행동·조정·결과의 사실 근거 정리</b></div>
@@ -1583,14 +1603,32 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <h3 data-i18n="nv_cl_flow_h">검사 결과를 취업 준비의 연결된 기록으로 만듭니다</h3>
       <div class="univ-phase-grid">
         <article class="univ-phase"><span>BEFORE</span><b data-i18n="nv_cl_flow_s1_h">D-CAS 결과지</b><p data-i18n="nv_cl_flow_s1_p">강점과 지원 포인트, 직무 탐색 후보 확인</p></article>
-        <article class="univ-phase"><span>LAB</span><b data-i18n="nv_cl_flow_s3_h">기업 LAB</b><p data-i18n="nv_cl_flow_s3_p">직무역량을 관찰 행동과 확인 방법으로 이해</p></article>
+        <article class="univ-phase"><span>LAB</span><b data-i18n="nv_cl_i2_tag">대학생 · 학과별 직무 LAB</b><p data-i18n="nv_cl_i2_p">직무 산출물 · 수행 근거 · 포트폴리오</p><p data-i18n="nv_cl_i2_out">→ PLANNER의 포트폴리오 정리로 연결</p></article>
         <article class="univ-phase"><span>AFTER</span><b data-i18n="nv_cl_flow_s5_h">AI 자소서</b><p data-i18n="nv_cl_flow_s5_p">학생이 쓴 초안을 질문으로 구체화하고 V1·V2 비교</p></article>
       </div>
     </div>
 
     <div class="univ-outcome">
-      <div><strong data-i18n="nv_cl_flow_uni_h">대학에 남는 결과</strong><small data-i18n="nv_cl_flow_note">AI는 학생이 확인한 사실을 정리하고 질문을 제안합니다. 모의 활동과 실제 경험을 구분하며, 검사 결과만으로 채용 적합성이나 합격을 결정하지 않습니다.</small></div>
+      <div><strong data-i18n="nv_cl_flow_uni_h">대학에 남는 결과</strong><small data-i18n="nv_cl_flow_uni_p">학생별 결과지, 활동 산출물, 자기소개서 수정본과 7일·30일 후속 계획</small><small data-i18n="nv_cl_flow_note">AI는 학생이 확인한 사실을 정리하고 질문을 제안합니다. 모의 활동과 실제 경험을 구분하며, 검사 결과만으로 채용 적합성이나 합격을 결정하지 않습니다.</small></div>
       <a class="univ-demo-link" href="https://impassioned-windy-hardware.replit.app/studio.html?demo=university" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo data-i18n="univ_planner_cta">대학생용 PLANNER 체험</a>
+    </div>
+  </section>
+  <div id="generalSchoolProposal">
+  <section class="school-classroom-panel" aria-label="학교 수업" data-i18n-aria-label="school_classroom_title">
+    <div class="sh"><h3 class="sec-title" data-i18n="school_classroom_title">학교 수업에서 쓰는 플래너와 진로 LAB</h3></div>
+    <div class="univ-workbench">
+      <article class="univ-tool-card">
+        <h3>NUVIA PLANNER</h3>
+        <p data-i18n="school_planner_class">수업 과제를 작은 단계로 나누고, 학생이 이번 주 첫 행동과 완료 기준을 정합니다. 실행한 뒤에는 무엇이 도움이 됐는지 돌아보고 다음 계획을 수정합니다.</p>
+        <a class="univ-demo-link" href="https://impassioned-windy-hardware.replit.app/studio.html" target="_blank" rel="noopener noreferrer" data-i18n="planner_demo_btn">NUVIA PLANNER 데모 체험하기 →</a>
+      </article>
+      <article class="univ-tool-card">
+        <h3 data-i18n="nv_cl_i1_tag">중·고등학생 · 진로 LAB</h3>
+        <p data-i18n="nv_cl_i1_h">관심 분야를 직접 경험하며 나에게 맞는 탐색 방법을 찾습니다</p>
+        <p data-i18n="nv_cl_i1_p">관심 지도 · 분야 비교 · 다음 탐색 계획</p>
+        <p data-i18n="nv_cl_i1_out">→ PLANNER의 후속 탐색 과제로 연결</p>
+        <a class="univ-demo-link" href="https://likely-impressive-hexadecimal.replit.app/explore" target="_blank" rel="noopener noreferrer" data-i18n="career_demo_btn">진로탐색 LAB 데모 체험하기 →</a>
+      </article>
     </div>
   </section>
   <div class="pb mb32">
@@ -1678,6 +1716,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   <div style="background:rgba(245,166,35,.08);border:1.5px solid rgba(245,166,35,.3);border-radius:14px;padding:16px 20px;margin-bottom:24px;font-size:.88rem;color:var(--textm);line-height:1.9;">
     <strong style="color:var(--gold);" data-i18n="school_guide_title">💡 안내</strong><br>
     <span data-i18n="school_guide_body">세부 비용은 운영 인원, 도입 기능과 커스터마이징 범위를 확인한 후 협의하여 안내합니다.</span>
+  </div>
   </div>
   <div style="display:flex;gap:14px;flex-wrap:wrap;">
     <button class="btn-navy" onclick="show('test')" data-i18n="school_btn_test">🧬 검사 소개 보기</button>
@@ -2252,9 +2291,9 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
   <!-- ============ NUVIA CAREER LAB ============ -->
   <div class="cl-section">
-    <span class="cl-badge" data-i18n="gp_cl_badge">NEW · 기업 직무탐색 LAB</span>
-    <h3 class="cl-title" data-i18n="gp_cl_title">기업 직무탐색 LAB</h3>
-    <p class="cl-lede" data-i18n="gp_cl_lede">기업이 실제로 확인하는 직무 행동을 이해하고, 학과·관심 분야와 연결된 업무형 프로젝트를 수행합니다. 검사 결과는 활동 지원에 활용하고, 수행 근거는 경험카드와 AI 자소서로 이어집니다.</p>
+    <span class="cl-badge">NUVIA CAREER LAB</span>
+    <h3 class="cl-title" data-i18n="nv_cl_title">인지특성에 맞춘 진로 · 직무 캠프</h3>
+    <p class="cl-lede" data-i18n="nv_cl_lede">학생이 정보를 이해하고, 판단하고, 행동하는 방식까지 수업에 반영합니다. 검사 결과가 활동 방식으로, 체험 기록이 다음 실천으로 이어집니다.</p>
 
     <div class="cl-intro-grid">
       <div class="cl-intro-card">
@@ -2921,7 +2960,13 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   </div>
 </div>
 
-<script src="proposal-v2/i18n/manifest.js?v=20261125-2"></script>
+<script>
+const isUniversityProposal = new URLSearchParams(window.location.search).get('audience') === 'university';
+document.getElementById('universityProposalPanel').hidden = !isUniversityProposal;
+document.getElementById('generalSchoolProposal').hidden = isUniversityProposal;
+document.getElementById('universityVideoCta').hidden = !isUniversityProposal;
+</script>
+<script src="proposal-v2/i18n/manifest.js?v=20261125-3"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -3254,15 +3299,11 @@ function updateHeroPromoVideo(lang) {
 
   var configuredVideos = I18N_CONFIG.promoVideos || {};
   var languageMap = I18N_CONFIG.promoVideoLanguage || {};
-  var audience = new URLSearchParams(window.location.search).get('audience');
-  var isUniversity = audience === 'university';
+  var isUniversity = isUniversityProposal;
   var audienceText = function (key, fallbackKey) {
     return (LANG[lang] && LANG[lang][key] !== undefined) ? LANG[lang][key]
       : (LANG.en[key] !== undefined ? LANG.en[key] : LANG.ko[fallbackKey || key]);
   };
-  document.body.classList.toggle('audience-university', isUniversity);
-  var universityPanel = document.getElementById('universityProposalPanel');
-  if (universityPanel) universityPanel.hidden = !isUniversity;
   if (isUniversity) {
     document.querySelectorAll('[data-i18n="nav_school"], [data-i18n="univ_nav_school"]').forEach(function (el) {
       el.setAttribute('data-i18n', 'univ_nav_school');
