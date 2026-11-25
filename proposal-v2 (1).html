@@ -145,6 +145,26 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 .school-classroom-panel .univ-tool-card{border:1px solid #dce4f1;box-shadow:0 8px 20px rgba(28,53,91,.08);}
 .school-classroom-panel .univ-tool-card p + p{margin-top:8px;}
 .school-classroom-panel .univ-tool-card a{margin-top:14px;}
+.proposal-walkthrough{
+  margin:0 0 32px;padding:clamp(14px,3vw,30px);border:1px solid #dce4f1;
+  border-radius:22px;background:#fff;color:var(--navy);
+}
+.proposal-walkthrough h2{margin:0 0 14px;font-size:clamp(1.3rem,2.6vw,1.9rem);}
+.proposal-walkthrough video{
+  display:block;width:100%;aspect-ratio:16/9;border-radius:14px;background:#102b51;
+}
+.walkthrough-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 8px;}
+.walkthrough-actions a{white-space:normal;overflow-wrap:anywhere;text-align:center;min-width:0;}
+.walkthrough-login{margin:0 0 18px;color:var(--textm);}
+.walkthrough-captures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;}
+.walkthrough-captures figure{min-width:0;margin:0;overflow:hidden;border:1px solid #dce4f1;border-radius:14px;background:#f2f5fb;}
+.walkthrough-captures a{display:block;background:#fff;}
+.walkthrough-captures img{display:block;width:100%;height:clamp(160px,24vw,300px);object-fit:contain;}
+.walkthrough-captures figcaption{padding:10px 12px;font-weight:800;overflow-wrap:anywhere;}
+@media(max-width:600px){
+  .walkthrough-captures{grid-template-columns:1fr;}
+  .walkthrough-captures img{height:280px;}
+}
 .classroom-illustration{
   margin:0 0 22px;overflow:hidden;border:1px solid #dce4f1;border-radius:20px;
   display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#dce4f1;
@@ -1581,6 +1601,21 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <h2 class="sec-title" data-i18n="school_title">학교 제안 요약</h2>
     <p class="sec-sub" data-i18n="school_sub">K-PASS·D-CAS 결과를 학교 수업과 연결합니다. 학생은 NUVIA PLANNER로 과제를 계획하고, 중·고등학생은 진로 LAB에서 관심 분야를 탐색합니다.</p>
   </div>
+  <section class="proposal-walkthrough" aria-labelledby="proposalWalkthroughTitle">
+    <h2 id="proposalWalkthroughTitle" data-i18n="walkthrough_video">데모 영상 보기</h2>
+    <video id="proposalWalkthroughVideo" controls playsinline preload="none" data-i18n-aria-label="walkthrough_video" aria-label="데모 영상 보기"></video>
+    <div class="walkthrough-actions">
+      <a class="btn-navy" id="walkthroughProgram" target="_blank" rel="noopener noreferrer" data-i18n="walkthrough_program">프로그램 체험</a>
+      <a class="btn-navy" id="walkthroughReport" target="_blank" rel="noopener noreferrer" data-i18n="walkthrough_report">결과지 체험</a>
+      <a class="btn-ol" href="https://nuvia.feel-good.io/programs/planner/launch?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo>NUVIA PLANNER</a>
+    </div>
+    <p class="walkthrough-login" data-i18n="walkthrough_login">프로그램과 플래너에 접속할 때 로그인이 필요할 수 있습니다.</p>
+    <div class="walkthrough-captures">
+      <figure><a target="_blank" rel="noopener noreferrer"><img alt="" loading="lazy" decoding="async" data-i18n-alt="walkthrough_report"></a><figcaption data-i18n="walkthrough_report">결과지 체험</figcaption></figure>
+      <figure><a target="_blank" rel="noopener noreferrer"><img alt="" loading="lazy" decoding="async" data-i18n-alt="nv_cl_i1_tag"></a><figcaption data-i18n="nv_cl_i1_tag">중·고등학생 · 진로 LAB</figcaption></figure>
+      <figure><a target="_blank" rel="noopener noreferrer"><img alt="NUVIA PLANNER" loading="lazy" decoding="async"></a><figcaption>NUVIA PLANNER</figcaption></figure>
+    </div>
+  </section>
   <section class="university-proposal-panel" id="universityProposalPanel" hidden aria-labelledby="universityProposalTitle">
     <div class="univ-proposal-head">
       <span class="univ-proposal-kicker" data-i18n="nv_cl_flow_tag">CAREER EVIDENCE FLOW</span>
@@ -1629,7 +1664,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
 
     <div class="univ-outcome">
       <div><strong data-i18n="nv_cl_flow_uni_h">대학에 남는 결과</strong><small data-i18n="nv_cl_flow_uni_p">학생별 결과지, 활동 산출물, 자기소개서 수정본과 7일·30일 후속 계획</small><small data-i18n="nv_cl_flow_note">AI는 학생이 확인한 사실을 정리하고 질문을 제안합니다. 모의 활동과 실제 경험을 구분하며, 검사 결과만으로 채용 적합성이나 합격을 결정하지 않습니다.</small></div>
-      <a class="univ-demo-link" href="https://impassioned-windy-hardware.replit.app/studio.html?demo=university" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo data-i18n="univ_planner_cta">대학생용 PLANNER 체험</a>
+      <a class="univ-demo-link" href="https://nuvia.feel-good.io/programs/planner/launch?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo data-i18n="univ_planner_cta">대학생용 PLANNER 체험</a>
     </div>
   </section>
   <div id="generalSchoolProposal">
@@ -1644,7 +1679,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
       <article class="univ-tool-card">
         <h3>NUVIA PLANNER</h3>
         <p data-i18n="school_planner_class">수업 과제를 작은 단계로 나누고, 학생이 이번 주 첫 행동과 완료 기준을 정합니다. 실행한 뒤에는 무엇이 도움이 됐는지 돌아보고 다음 계획을 수정합니다.</p>
-        <a class="univ-demo-link" href="https://impassioned-windy-hardware.replit.app/studio.html" target="_blank" rel="noopener noreferrer" data-i18n="planner_demo_btn">NUVIA PLANNER 데모 체험하기 →</a>
+        <a class="univ-demo-link" href="https://nuvia.feel-good.io/programs/planner/launch?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo>NUVIA PLANNER</a>
       </article>
       <article class="univ-tool-card">
         <h3 data-i18n="nv_cl_i1_tag">중·고등학생 · 진로 LAB</h3>
@@ -2991,13 +3026,58 @@ document.getElementById('universityProposalPanel').hidden = !isUniversityProposa
 document.getElementById('generalSchoolProposal').hidden = isUniversityProposal;
 document.getElementById('universityVideoCta').hidden = !isUniversityProposal;
 </script>
-<script src="proposal-v2/i18n/manifest.js?v=20261125-4"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261125-5"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
 // ── 언어 적용 ────────────────────────────────────────────────────
 const I18N_CONFIG = window.PROPOSAL_I18N_CONFIG || {languages: []};
 const LANGUAGE_META = Object.fromEntries(I18N_CONFIG.languages.map(language => [language.code, language]));
+const walkthrough = isUniversityProposal ? {
+  audience: 'Adult',
+  program: 'https://nuvia.feel-good.io/lab/company/',
+  report: 'https://heavenly-wilted-constants.replit.app/demo',
+  labLabel: 'nv_cl_i2_tag',
+} : {
+  audience: 'Youth',
+  program: 'https://likely-impressive-hexadecimal.replit.app/explore',
+  report: 'result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/teen.work.html',
+  labLabel: 'nv_cl_i1_tag',
+};
+const walkthroughCaptures = document.querySelectorAll('.walkthrough-captures figure');
+walkthroughCaptures[1].querySelector('img').dataset.i18nAlt = walkthrough.labLabel;
+walkthroughCaptures[1].querySelector('figcaption').dataset.i18n = walkthrough.labLabel;
+
+function updateProposalWalkthrough(lang) {
+  const isKorean = lang === 'ko';
+  const variant = isKorean ? 'KO' : 'EN';
+  const asset = `FeelGood_NUVIA_${walkthrough.audience}_Walkthrough_${variant}_v4`;
+  const video = document.getElementById('proposalWalkthroughVideo');
+  const source = `proposal/videos/${asset}.mp4`;
+  if (video.getAttribute('src') !== source) {
+    video.pause();
+    video.poster = `proposal/images/${asset}.jpg`;
+    video.src = source;
+  }
+
+  const capturePrefix = `walkthrough-${walkthrough.audience.toLowerCase()}`;
+  const reportCapture = isUniversityProposal ? `report-${isKorean ? 'ko' : 'en'}` : 'report';
+  [reportCapture, 'lab', 'planner'].forEach((capture, index) => {
+    const path = `proposal/images/${capturePrefix}-${capture}.png`;
+    const figure = walkthroughCaptures[index];
+    figure.querySelector('a').href = path;
+    figure.querySelector('img').src = path;
+  });
+
+  const code = LANGUAGE_META[lang]?.dashboardCode || lang;
+  const program = new URL(walkthrough.program);
+  program.searchParams.set('lang', code);
+  document.getElementById('walkthroughProgram').href = program.href;
+  const report = new URL(walkthrough.report, window.location.href);
+  report.searchParams.set('lang', isUniversityProposal ? code : lang);
+  document.getElementById('walkthroughReport').href = report.href;
+}
+
 function availableLangs() {
   return I18N_CONFIG.languages.map(language => language.code).filter(code => window.LANG && window.LANG[code]);
 }
@@ -3089,6 +3169,7 @@ function setLang(lang) {
   const sel = document.getElementById('langSelect');
   if (sel) sel.value = lang;
   applyKoOnly(lang);
+  updateProposalWalkthrough(lang);
   updateHeroPromoVideo(lang);
   updateVideos(lang);
   updateReportLinks(lang);
@@ -3261,6 +3342,7 @@ function setTocOpen(open) {
 function show(id, options) {
   options = options || {};
   if (SECTIONS.indexOf(id) < 0) id = 'home';
+  if (id !== 'school') document.getElementById('proposalWalkthroughVideo').pause();
   SECTIONS.forEach(s => {
     const sec = document.getElementById('sec-' + s);
     if (sec) sec.classList.toggle('active', s === id);
