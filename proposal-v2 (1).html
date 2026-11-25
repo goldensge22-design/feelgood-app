@@ -155,7 +155,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
 }
 .walkthrough-actions{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 8px;}
 .walkthrough-actions a{white-space:normal;overflow-wrap:anywhere;text-align:center;min-width:0;}
-.walkthrough-login{margin:0 0 18px;color:var(--textm);}
 .walkthrough-captures{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:18px;}
 .walkthrough-captures figure{min-width:0;margin:0;overflow:hidden;border:1px solid #dce4f1;border-radius:14px;background:#f2f5fb;}
 .walkthrough-captures a{display:block;background:#fff;}
@@ -1605,11 +1604,9 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
     <h2 id="proposalWalkthroughTitle" data-i18n="walkthrough_video">데모 영상 보기</h2>
     <video id="proposalWalkthroughVideo" controls playsinline preload="none" data-i18n-aria-label="walkthrough_video" aria-label="데모 영상 보기"></video>
     <div class="walkthrough-actions">
-      <a class="btn-navy" id="walkthroughProgram" target="_blank" rel="noopener noreferrer" data-i18n="walkthrough_program">프로그램 체험</a>
       <a class="btn-navy" id="walkthroughReport" target="_blank" rel="noopener noreferrer" data-i18n="walkthrough_report">결과지 체험</a>
       <a class="btn-ol" href="https://nuvia.feel-good.io/programs/planner/launch?lang=ko" target="_blank" rel="noopener noreferrer" data-enterprise-planner-demo>NUVIA PLANNER</a>
     </div>
-    <p class="walkthrough-login" data-i18n="walkthrough_login">프로그램과 플래너에 접속할 때 로그인이 필요할 수 있습니다.</p>
     <div class="walkthrough-captures">
       <figure><a target="_blank" rel="noopener noreferrer"><img alt="" loading="lazy" decoding="async" data-i18n-alt="walkthrough_report"></a><figcaption data-i18n="walkthrough_report">결과지 체험</figcaption></figure>
       <figure><a target="_blank" rel="noopener noreferrer"><img alt="" loading="lazy" decoding="async" data-i18n-alt="nv_cl_i1_tag"></a><figcaption data-i18n="nv_cl_i1_tag">중·고등학생 · 진로 LAB</figcaption></figure>
@@ -1687,12 +1684,6 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
         <p data-i18n="nv_cl_i1_p">관심 지도 · 분야 비교 · 다음 탐색 계획</p>
         <p data-i18n="nv_cl_i1_out">→ PLANNER의 후속 탐색 과제로 연결</p>
         <a class="univ-demo-link" href="https://likely-impressive-hexadecimal.replit.app/explore" target="_blank" rel="noopener noreferrer" data-i18n="career_demo_btn">진로탐색 LAB 데모 체험하기 →</a>
-      </article>
-      <article class="univ-tool-card">
-        <h3>NUVIA KIDS</h3>
-        <p data-i18n="nv_prod_r1_c3">유아 · 초등 중심</p>
-        <p data-i18n="nv_prod_r1_c2">게임으로 기초 인지과정 연습</p>
-        <a class="univ-demo-link" href="https://kill-builder-play.lovable.app/" target="_blank" rel="noopener noreferrer" data-i18n="kids_demo_btn">NUVIA KIDS 데모 체험하기 →</a>
       </article>
       <article class="univ-tool-card">
         <h3 data-i18n="nv_cl_flow_s5_h">AI 자소서</h3>
@@ -3026,7 +3017,7 @@ document.getElementById('universityProposalPanel').hidden = !isUniversityProposa
 document.getElementById('generalSchoolProposal').hidden = isUniversityProposal;
 document.getElementById('universityVideoCta').hidden = !isUniversityProposal;
 </script>
-<script src="proposal-v2/i18n/manifest.js?v=20261125-5"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261125-6"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -3035,12 +3026,10 @@ const I18N_CONFIG = window.PROPOSAL_I18N_CONFIG || {languages: []};
 const LANGUAGE_META = Object.fromEntries(I18N_CONFIG.languages.map(language => [language.code, language]));
 const walkthrough = isUniversityProposal ? {
   audience: 'Adult',
-  program: 'https://nuvia.feel-good.io/lab/company/',
   report: 'https://heavenly-wilted-constants.replit.app/demo',
   labLabel: 'nv_cl_i2_tag',
 } : {
   audience: 'Youth',
-  program: 'https://likely-impressive-hexadecimal.replit.app/explore',
   report: 'result-reports/dcas81/unpacked/APPLIED_FULL/DCAS_TEEN/teen.work.html',
   labLabel: 'nv_cl_i1_tag',
 };
@@ -3070,9 +3059,6 @@ function updateProposalWalkthrough(lang) {
   });
 
   const code = LANGUAGE_META[lang]?.dashboardCode || lang;
-  const program = new URL(walkthrough.program);
-  program.searchParams.set('lang', code);
-  document.getElementById('walkthroughProgram').href = program.href;
   const report = new URL(walkthrough.report, window.location.href);
   report.searchParams.set('lang', isUniversityProposal ? code : lang);
   document.getElementById('walkthroughReport').href = report.href;
