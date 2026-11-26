@@ -67,7 +67,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   background:radial-gradient(circle,rgba(245,166,35,.16),transparent 70%);pointer-events:none;}
 .hb2{position:absolute;bottom:-100px;left:-100px;width:420px;height:420px;border-radius:50%;
   background:radial-gradient(circle,rgba(74,126,200,.18),transparent 70%);pointer-events:none;}
-.hi{width:100%;text-align:center;padding:130px 6vw 80px;position:relative;z-index:1;max-width:1120px;margin:0 auto;}
+.hi{width:100%;text-align:center;padding:clamp(16px,4vh,38px) 6vw 80px;position:relative;z-index:1;max-width:1120px;margin:0 auto;}
 .hero-badge{display:inline-block;background:rgba(245,166,35,.18);border:1px solid rgba(245,166,35,.42);
   color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:2.5px;
   padding:6px 20px;border-radius:20px;margin-bottom:32px;text-transform:uppercase;}
@@ -688,7 +688,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
   .toc-overlay.open{opacity:1;pointer-events:auto;}
   .ntabs li a{min-height:48px;font-size:.84rem;}
   .ps{min-height:calc(100vh - 114px);padding:34px 5vw 54px;scroll-margin-top:114px;}
-  #sec-home .hi{padding:72px 1.5vw 64px;}
+  #sec-home .hi{padding:12px 1.5vw 64px;}
   .case-dashboard-card{grid-template-columns:1fr;gap:16px;padding:13px;}
   .case-benefit-grid{grid-template-columns:1fr 1fr;}
   .dashboard-domain-grid{grid-template-columns:1fr 1fr;}
@@ -3328,6 +3328,7 @@ function setTocOpen(open) {
 function show(id, options) {
   options = options || {};
   if (SECTIONS.indexOf(id) < 0) id = 'home';
+  if (id !== 'home') document.getElementById('heroPromoVideo').pause();
   if (id !== 'school') document.getElementById('proposalWalkthroughVideo').pause();
   SECTIONS.forEach(s => {
     const sec = document.getElementById('sec-' + s);
@@ -3372,14 +3373,10 @@ function show(id, options) {
   }
 }
 
-function syncSectionFromLocation(options) {
-  options = options || {};
+function syncSectionFromLocation() {
   const hash = window.location.hash.replace(/^#/, '').toLowerCase();
   const id = HASH_SECTIONS[hash] || 'home';
-  if (!hash && options.replaceDefault) {
-    window.history.replaceState({section: 'home'}, '', '#home');
-  }
-  show(id, {updateHistory: false, scroll: true, instant: options.instant !== false});
+  show(id, {updateHistory: false, instant: true});
 }
 
 
@@ -3599,15 +3596,17 @@ window.addEventListener('resize', function () {
 });
 
 // ── 초기화 ───────────────────────────────────────────────────────
+window.history.replaceState({section: 'home'}, '', '#home');
 buildLangSelect();
 setLang(currentLang);
-syncSectionFromLocation({replaceDefault: true, instant: true});
-window.addEventListener('popstate', function () {
-  syncSectionFromLocation({instant: true});
+show('home', {updateHistory: false, instant: true});
+const openingVideo = document.getElementById('heroPromoVideo');
+openingVideo.muted = true;
+openingVideo.play().catch(function () {
+  // If autoplay is blocked, the native play button remains available.
 });
-window.addEventListener('hashchange', function () {
-  syncSectionFromLocation({instant: true});
-});
+window.addEventListener('popstate', syncSectionFromLocation);
+window.addEventListener('hashchange', syncSectionFromLocation);
 // footer 로고 = nav 로고와 동일
 (function(){
   var navImg = document.querySelector('.nav-logo img');
