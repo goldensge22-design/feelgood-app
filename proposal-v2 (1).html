@@ -121,6 +121,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:999;height:62px;
   box-shadow:0 16px 36px rgba(4,15,36,.28);}
 .hero-promo-video{display:block;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .25s;}
 .hero-promo-video.is-ready{opacity:1;}
+.hero-promo-sound{justify-self:center;padding:10px 18px;border:1px solid #ffcc72;border-radius:999px;
+  color:#fff;background:#19345c;font:inherit;font-size:.88rem;font-weight:700;cursor:pointer;}
+.hero-promo-sound[hidden]{display:none;}
+.hero-promo-sound:hover,.hero-promo-sound:focus-visible{color:#162f55;background:#ffcc72;}
 .hero-promo-pending{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:9px;padding:20px;text-align:center;background:radial-gradient(circle at 50% 42%,rgba(74,126,200,.28),transparent 48%);}
 .hero-promo-pending[hidden]{display:none;}
@@ -1570,6 +1574,7 @@ html[dir="rtl"] .lang-select{padding:5px 14px 5px 30px;background-position:left 
             <span class="hero-promo-language" id="heroPromoLanguage">KOREAN VIDEO</span>
           </div>
         </div>
+        <button class="hero-promo-sound" id="heroPromoSound" type="button" data-i18n="hero_video_sound" hidden>처음부터 소리 켜고 재생</button>
         <a class="univ-demo-link univ-video-cta" id="universityVideoCta" href="#school" onclick="show('school');return false;" data-i18n="univ_nav_school" hidden>🎓 대학교 제안</a>
       </div>
       <div class="hero-badge">EduTech FeelGood · K-PASS / D-CAS</div>
@@ -3017,7 +3022,7 @@ document.getElementById('universityProposalPanel').hidden = !isUniversityProposa
 document.getElementById('generalSchoolProposal').hidden = isUniversityProposal;
 document.getElementById('universityVideoCta').hidden = !isUniversityProposal;
 </script>
-<script src="proposal-v2/i18n/manifest.js?v=20261127-5"></script>
+<script src="proposal-v2/i18n/manifest.js?v=20261127-6"></script>
 <script>
 // 번역 데이터와 언어 설정은 proposal-v2/i18n/에서 관리합니다.
 
@@ -3463,14 +3468,31 @@ function updateHeroPromoVideo(lang) {
 (function bindHeroPromoVideo() {
   var video = document.getElementById('heroPromoVideo');
   var pending = document.getElementById('heroPromoPending');
+  var sound = document.getElementById('heroPromoSound');
   if (!video) return;
+  function syncSoundButton() {
+    sound.hidden = !video.classList.contains('is-ready') || (!video.muted && video.volume > 0);
+  }
   video.addEventListener('loadedmetadata', function () {
     video.classList.add('is-ready');
     if (pending) pending.hidden = true;
+    syncSoundButton();
   });
   video.addEventListener('error', function () {
     video.classList.remove('is-ready');
     if (pending) pending.hidden = false;
+    syncSoundButton();
+  });
+  video.addEventListener('emptied', syncSoundButton);
+  video.addEventListener('volumechange', syncSoundButton);
+  sound.addEventListener('click', function () {
+    video.currentTime = 0;
+    video.volume = 1;
+    video.muted = false;
+    video.play().catch(function () {
+      video.muted = true;
+      syncSoundButton();
+    });
   });
 })();
 
@@ -3601,9 +3623,12 @@ buildLangSelect();
 setLang(currentLang);
 show('home', {updateHistory: false, instant: true});
 const openingVideo = document.getElementById('heroPromoVideo');
-openingVideo.muted = true;
-openingVideo.play().catch(function () {
-  // If autoplay is blocked, the native play button remains available.
+openingVideo.play().catch(function (error) {
+  if (error.name !== 'NotAllowedError' || !document.getElementById('sec-home').classList.contains('active')) return;
+  openingVideo.muted = true;
+  openingVideo.play().catch(function () {
+    // The sound button and native controls remain available.
+  });
 });
 window.addEventListener('popstate', syncSectionFromLocation);
 window.addEventListener('hashchange', syncSectionFromLocation);

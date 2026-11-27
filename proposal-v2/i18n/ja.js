@@ -1046,6 +1046,7 @@ window.LANG["ja"] = {
   "hero_video_title": "紹介動画で FeelGood をご覧ください",
   "hero_video_desc": "認知検査から個別最適な教育、進路・職業準備までをつなぐ FeelGood の仕組みをご紹介します。",
   "hero_video_pending": "紹介動画を読み込んでいます",
+  "hero_video_sound": "最初から音声付きで再生",
   "hero_video_aria": "FeelGood 紹介動画",
   "nv_verify_test": "評価",
   "univ_nav_school": "🎓 大学向け提案",

@@ -1046,6 +1046,7 @@ window.LANG.en = {
   "hero_video_title": "Meet FeelGood in our brand film",
   "hero_video_desc": "See how FeelGood connects cognitive assessment with personalized education and career and job preparation.",
   "hero_video_pending": "Loading the brand film",
+  "hero_video_sound": "Play from the start with sound",
   "hero_video_aria": "FeelGood brand film",
   "nv_verify_test": "Assessment",
   "univ_nav_school": "🎓 University Proposal",

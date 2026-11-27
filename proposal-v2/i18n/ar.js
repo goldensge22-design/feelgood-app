@@ -1046,6 +1046,7 @@ window.LANG["ar"] = {
   "hero_video_title": "تعرّف على FeelGood من خلال الفيديو التعريفي",
   "hero_video_desc": "تعرّف على كيفية ربط FeelGood بين التقييم المعرفي والتعليم المخصص والاستعداد للمسار المهني والعمل.",
   "hero_video_pending": "جارٍ تحميل الفيديو التعريفي",
+  "hero_video_sound": "تشغيل من البداية مع الصوت",
   "hero_video_aria": "فيديو FeelGood التعريفي",
   "nv_verify_test": "تقدير",
   "univ_nav_school": "🎓 مقترح للجامعة",

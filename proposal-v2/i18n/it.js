@@ -1046,6 +1046,7 @@ window.LANG["it"] = {
   "hero_video_title": "Scopri FeelGood nel video di presentazione",
   "hero_video_desc": "Scopri come FeelGood collega la valutazione cognitiva all’educazione personalizzata e alla preparazione alla carriera e al lavoro.",
   "hero_video_pending": "Caricamento del video di presentazione",
+  "hero_video_sound": "Riproduci dall’inizio con audio",
   "hero_video_aria": "Video di presentazione FeelGood",
   "nv_verify_test": "Valutazione",
   "univ_nav_school": "🎓 Proposta universitaria",

@@ -1046,6 +1046,7 @@ window.LANG["km"] = {
   "hero_video_title": "ស្គាល់ FeelGood តាមរយៈវីដេអូណែនាំ",
   "hero_video_desc": "ស្វែងយល់ពីរបៀបដែល FeelGood ភ្ជាប់ការវាយតម្លៃសមត្ថភាពយល់ដឹងទៅនឹងការអប់រំផ្ទាល់ខ្លួន និងការត្រៀមអាជីពនិងការងារ។",
   "hero_video_pending": "កំពុងផ្ទុកវីដេអូណែនាំ",
+  "hero_video_sound": "ចាក់ពីដើមដោយបើកសំឡេង",
   "hero_video_aria": "វីដេអូណែនាំ FeelGood",
   "nv_verify_test": "ការវាយតម្លៃ",
   "univ_nav_school": "🎓 សំណើសម្រាប់សាកលវិទ្យាល័យ",

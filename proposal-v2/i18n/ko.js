@@ -1046,6 +1046,7 @@ window.LANG.ko = {
   "hero_video_title": "필굿을 영상으로 만나보세요",
   "hero_video_desc": "인지검사에서 맞춤교육과 진로·직무까지 이어지는 필굿의 시스템을 소개합니다.",
   "hero_video_pending": "홍보영상을 불러오는 중입니다",
+  "hero_video_sound": "처음부터 소리 켜고 재생",
   "hero_video_aria": "FeelGood 홍보영상",
   "nv_verify_test": "검사",
   "univ_nav_school": "🎓 대학교 제안",

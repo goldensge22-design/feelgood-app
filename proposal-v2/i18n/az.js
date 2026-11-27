@@ -1046,6 +1046,7 @@ window.LANG["az"] = {
   "hero_video_title": "FeelGood-u təqdimat videosunda tanıyın",
   "hero_video_desc": "FeelGood-un koqnitiv qiymətləndirməni fərdiləşdirilmiş təhsil, karyera və iş hazırlığı ilə necə əlaqələndirdiyinə baxın.",
   "hero_video_pending": "Təqdimat videosu yüklənir",
+  "hero_video_sound": "Əvvəldən səslə oynat",
   "hero_video_aria": "FeelGood təqdimat videosu",
   "nv_verify_test": "Assessment",
   "univ_nav_school": "🎓 Universitet təklifi",

@@ -1046,6 +1046,7 @@ window.LANG["vi"] = {
   "hero_video_title": "Khám phá FeelGood qua video giới thiệu",
   "hero_video_desc": "Xem cách FeelGood kết nối đánh giá nhận thức với giáo dục cá nhân hóa và chuẩn bị nghề nghiệp, việc làm.",
   "hero_video_pending": "Đang tải video giới thiệu",
+  "hero_video_sound": "Phát lại từ đầu có âm thanh",
   "hero_video_aria": "Video giới thiệu FeelGood",
   "nv_verify_test": "Đánh giá",
   "univ_nav_school": "🎓 Đề xuất cho đại học",

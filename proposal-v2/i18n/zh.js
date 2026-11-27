@@ -1046,6 +1046,7 @@ window.LANG["zh"] = {
   "hero_video_title": "通过品牌影片了解 FeelGood",
   "hero_video_desc": "了解 FeelGood 如何将认知测评与个性化教育、升学及职业准备相连接。",
   "hero_video_pending": "正在加载品牌影片",
+  "hero_video_sound": "从头有声播放",
   "hero_video_aria": "FeelGood 品牌影片",
   "nv_verify_test": "评估",
   "univ_nav_school": "🎓 大学方案",

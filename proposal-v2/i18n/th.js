@@ -1046,6 +1046,7 @@ window.LANG["th"] = {
   "hero_video_title": "รู้จัก FeelGood ผ่านวิดีโอแนะนำ",
   "hero_video_desc": "ดูว่า FeelGood เชื่อมการประเมินการรู้คิดกับการศึกษาเฉพาะบุคคลและการเตรียมความพร้อมด้านอาชีพและงานอย่างไร",
   "hero_video_pending": "กำลังโหลดวิดีโอแนะนำ",
+  "hero_video_sound": "เล่นตั้งแต่ต้นพร้อมเสียง",
   "hero_video_aria": "วิดีโอแนะนำ FeelGood",
   "nv_verify_test": "การประเมิน",
   "univ_nav_school": "🎓 ข้อเสนอสำหรับมหาวิทยาลัย",
