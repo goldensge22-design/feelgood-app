@@ -1,0 +1,23 @@
+import { assert, context, goto, output, check, finish, noOverflow } from './nuvia-browser-utils.mjs';
+const c = await context(360);
+const p = await c.newPage();
+await check('review-evidence-only-dedicated-space-and-not-print', async () => {
+  await goto(p, '/?lang=ko');
+  assert.equal(await p.getByTestId('text-evidence').count(), 0);
+  assert.ok(!(await p.locator('body').innerText()).includes('browser groups PASS'));
+  await goto(p, '/review?lang=ko');
+  const evidence = p.getByTestId('text-evidence');
+  await evidence.waitFor();
+  assert.ok((await evidence.innerText()).includes('55 browser groups PASS'));
+  assert.ok(!(await evidence.innerText()).includes('not executed'));
+  assert.ok((await p.getByTestId('row-check-chk.locales').innerText()).includes('부분'));
+  assert.ok((await p.getByTestId('row-check-chk.real').innerText()).includes('없음'));
+  await noOverflow(p);
+  await evidence.scrollIntoViewIfNeeded();
+  await p.waitForTimeout(500);
+  await p.screenshot({ path: `${output}/review-evidence-360.png` });
+  await p.emulateMedia({ media: 'print' });
+  assert.equal(await evidence.isVisible(), false);
+  await p.emulateMedia({ media: 'screen' });
+});
+await finish('review-isolation');
