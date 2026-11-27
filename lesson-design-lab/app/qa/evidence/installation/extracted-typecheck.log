@@ -1,0 +1,8 @@
+
+> teacher-lesson-lab-handoff@0.0.0 typecheck /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff
+> node handoff/run.mjs typecheck
+
+
+> @workspace/teacher-lesson-lab@0.0.0 typecheck /tmp/lesson-lab-star-handoff-verification/teacher-lesson-lab-handoff/artifacts/teacher-lesson-lab
+> tsc -p tsconfig.json --noEmit
+

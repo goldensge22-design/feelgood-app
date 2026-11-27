@@ -1,0 +1,393 @@
+{
+  "version": "1.5-star",
+  "generatedAt": "2026-11-07T15:42:18.157Z",
+  "sourceSha256": "a03ba2bb733698ca39d11f94aca2a8c2d43ae18d094faf09a9f838016f2d7c3c",
+  "passed": 675,
+  "failed": 0,
+  "suites": [
+    {
+      "name": "core",
+      "passed": 28,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:25.022Z"
+    },
+    {
+      "name": "legacy",
+      "passed": 21,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:26.182Z"
+    },
+    {
+      "name": "existing-browser",
+      "passed": 11,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:43.830Z"
+    },
+    {
+      "name": "language-regression",
+      "passed": 203,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:27.394Z"
+    },
+    {
+      "name": "u09-regression",
+      "passed": 212,
+      "failed": 0,
+      "completedAt": "2026-11-07T15:40:28.678Z"
+    },
+    {
+      "name": "new-logic",
+      "passed": 44,
+      "failed": 0,
+      "started": "2026-11-07T15:40:28.891Z",
+      "ended": "2026-11-07T15:40:30.026Z"
+    },
+    {
+      "name": "new-browser",
+      "passed": 45,
+      "failed": 0,
+      "started": "2026-11-07T15:40:43.936Z",
+      "ended": "2026-11-07T15:41:24.694Z"
+    },
+    {
+      "name": "star-logic",
+      "passed": 64,
+      "failed": 0,
+      "started": "2026-11-07T15:40:30.206Z",
+      "ended": "2026-11-07T15:40:31.389Z"
+    },
+    {
+      "name": "star-browser",
+      "passed": 47,
+      "failed": 0,
+      "started": "2026-11-07T15:41:24.808Z",
+      "ended": "2026-11-07T15:42:10.349Z"
+    }
+  ],
+  "languages": [
+    {
+      "lang": "ko",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "en",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "ja",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "zh-CN",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "zh-TW",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "mn",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "th",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "vi",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "ar",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "ru",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "km",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "es",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "fr",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "it",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    },
+    {
+      "lang": "az",
+      "ui": "pass",
+      "preservation": "pass",
+      "print": "pass"
+    }
+  ],
+  "pdfs": {
+    "freshBaseline": {
+      "newSummaryPdfs": [
+        {
+          "lang": "ko",
+          "file": "ko-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "en",
+          "file": "en-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "ja",
+          "file": "ja-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "zh-CN",
+          "file": "zh-CN-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "zh-TW",
+          "file": "zh-TW-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "mn",
+          "file": "mn-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "th",
+          "file": "th-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "vi",
+          "file": "vi-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "ar",
+          "file": "ar-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "ru",
+          "file": "ru-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "km",
+          "file": "km-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "es",
+          "file": "es-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "fr",
+          "file": "fr-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "it",
+          "file": "it-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        },
+        {
+          "lang": "az",
+          "file": "az-result-summary.pdf",
+          "pages": 1,
+          "expectedRevision": 6,
+          "ok": true
+        }
+      ],
+      "existingScenarioPdfs": [
+        {
+          "file": "main-class-blank.pdf",
+          "pages": 90
+        },
+        {
+          "file": "main-private-comparison.pdf",
+          "pages": 1
+        },
+        {
+          "file": "main-one-student-mixed.pdf",
+          "pages": 5
+        }
+      ],
+      "totalPdfs": 18,
+      "totalPages": 111
+    },
+    "star": {
+      "files": 18,
+      "pages": 221,
+      "items": [
+        {
+          "file": "star-worksheets-ko.pdf",
+          "pages": 9,
+          "textCharacters": 4306
+        },
+        {
+          "file": "star-worksheets-en.pdf",
+          "pages": 10,
+          "textCharacters": 7242
+        },
+        {
+          "file": "star-worksheets-ja.pdf",
+          "pages": 9,
+          "textCharacters": 4233
+        },
+        {
+          "file": "star-worksheets-zh-CN.pdf",
+          "pages": 9,
+          "textCharacters": 3842
+        },
+        {
+          "file": "star-worksheets-zh-TW.pdf",
+          "pages": 9,
+          "textCharacters": 3864
+        },
+        {
+          "file": "star-worksheets-mn.pdf",
+          "pages": 10,
+          "textCharacters": 7188
+        },
+        {
+          "file": "star-worksheets-th.pdf",
+          "pages": 10,
+          "textCharacters": 6843
+        },
+        {
+          "file": "star-worksheets-vi.pdf",
+          "pages": 10,
+          "textCharacters": 7437
+        },
+        {
+          "file": "star-worksheets-ar.pdf",
+          "pages": 10,
+          "textCharacters": 22351
+        },
+        {
+          "file": "star-worksheets-ru.pdf",
+          "pages": 10,
+          "textCharacters": 7344
+        },
+        {
+          "file": "star-worksheets-km.pdf",
+          "pages": 10,
+          "textCharacters": 7110
+        },
+        {
+          "file": "star-worksheets-es.pdf",
+          "pages": 10,
+          "textCharacters": 7667
+        },
+        {
+          "file": "star-worksheets-fr.pdf",
+          "pages": 10,
+          "textCharacters": 8020
+        },
+        {
+          "file": "star-worksheets-it.pdf",
+          "pages": 10,
+          "textCharacters": 7632
+        },
+        {
+          "file": "star-worksheets-az.pdf",
+          "pages": 10,
+          "textCharacters": 7145
+        },
+        {
+          "file": "star-mixed-a5-ko.pdf",
+          "pages": 23,
+          "textCharacters": 12349
+        },
+        {
+          "file": "star-mixed-a5-en.pdf",
+          "pages": 26,
+          "textCharacters": 20588
+        },
+        {
+          "file": "star-mixed-a5-ar.pdf",
+          "pages": 26,
+          "textCharacters": 64447
+        }
+      ]
+    }
+  },
+  "limits": [
+    "Local virtual students only; no external AI/planner/authentication integration",
+    "Technical checks, not native-speaker semantic approval",
+    "No whole-output visual approval or physical printer test",
+    "Windows/macOS native runtime not tested"
+  ],
+  "screenshots": [
+    "desktop-coach.png",
+    "mobile-en.png",
+    "mobile-ar.png"
+  ]
+}

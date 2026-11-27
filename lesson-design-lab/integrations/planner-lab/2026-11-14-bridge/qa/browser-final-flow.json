@@ -1,0 +1,26 @@
+{
+  "date": "2026-11-14",
+  "environment": "loopback synthetic QA; no production account changes",
+  "finalImplementation": true,
+  "steps": [
+    "개인 공간·캠프 코드 없는 이용 표시 확인",
+    "원본 합성 직무 목록 중 항공교통물류 선택",
+    "LAB 추가 카드 요청·후보 표시 확인",
+    "후보 1개 선택·플래너 서버 등록 확인",
+    "우선순위·최초 판단·실제 행동·결과·느낌 직접 입력",
+    "10분 시작·저장 성공 및 시작 직후 10분 표시 확인",
+    "새로고침 후 저장 활동 목록에서 같은 활동 재선택",
+    "이전 기록과 타이머 복원 확인",
+    "자유 메모 수정·재저장 확인"
+  ],
+  "serverEndpointsObserved200": [
+    "GET /api/planner/lab/context",
+    "GET /api/planner/lab/activities",
+    "POST /api/planner/lab/recommendations",
+    "POST /api/planner/lab/select",
+    "POST /api/planner/lab/activities/:id/answers",
+    "GET /api/planner/lab/activities/:id"
+  ],
+  "evidence": "browser-saved-final.png",
+  "notVerified": ["actual LAB provider", "production SSO", "production database", "legacy calendar integration", "AI essay"]
+}

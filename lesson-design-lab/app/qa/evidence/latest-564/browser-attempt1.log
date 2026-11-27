@@ -1,0 +1,16 @@
+PASS actual results screen preserves empty first/middle ranks
+PASS teacher sees previous full report cards and original material basis revision
+PASS single UI save 81 keeps latest inputs and all existing documents/V1/V2
+PASS save 81: navigation/reload preserves current revision and history
+PASS single UI save 82 keeps latest inputs and all existing documents/V1/V2
+PASS save 82: navigation/reload preserves current revision and history
+PASS blocked storage changes neither committed memory nor current/history, retains latest draft and error
+PASS reload after failed save retains old committed report plus unsaved new input
+PASS retry commits current/history together exactly once, existing versions and originals unchanged
+PASS invalid score cannot add history or replace current report
+PASS ko: actual history UI/ranks, original documents and V1/V2 preserved after language change + reload
+Error: Timeout !!document.querySelector('[data-testid="button-final-studio-print"]')
+    at wait (file:///home/runner/workspace/artifacts/teacher-lesson-lab/scripts/browser-report-history-checks.mjs:13:130)
+    at async click (file:///home/runner/workspace/artifacts/teacher-lesson-lab/scripts/browser-report-history-checks.mjs:16:24)
+    at async file:///home/runner/workspace/artifacts/teacher-lesson-lab/scripts/browser-report-history-checks.mjs:80:36
+12 browser checks; 1 failed; 0 PDFs
