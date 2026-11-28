@@ -1,9 +1,9 @@
 {
-  "version": 3,
-  "checkedAt": "2026-11-28T16:45:11.0553598+09:00",
-  "status": "PARTIAL_COMPLETE_CLEANUP_RUNNING_EXPLORER_CANCEL_STUCK",
+  "version": 4,
+  "checkedAt": "2026-11-28T17:26:54.9653754+09:00",
+  "status": "VERIFIED_SELECTED_DEVELOPMENT_MOVES_COMPLETE_60_PERCENT_TARGET_NOT_MET",
   "authorization": "2026-11-28: 최소 항목을 남기고 외장 이동 완료 요청. 결과지 관련 로컬 작업 폴더 전체 이동 추가 승인.",
-  "ruleChange": "C_DRIVE_STORAGE_RULES.md v1.1: verified preservation does not require permanent duplicate storage on C. Local AGENTS.md references this policy. Policy GitHub commit 7264982a2c8664a7c443fc9d2b9edc3a7260fd47.",
+  "ruleChange": "C_DRIVE_STORAGE_RULES.md v1.2: keep individual-folder moves, preserve the central worktrees path, verify actual GitHub storage then remove C duplicates no longer needed for current work. Policy GitHub commit 144728b7d15d4526c60310a2fa0495fc1f0d6b2f. Local AGENTS.md references this policy; other existing uncommitted changes were preserved.",
   "completed": [
     {
       "source": "%USERPROFILE%/.codex/worktrees/dcas81-unique-names",
@@ -696,10 +696,10 @@
       "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/pnpm",
       "files": 58471,
       "bytes": 885316589,
+      "at": "2026-11-28T16:44:26.8145623+09:00",
       "sha256Verified": true,
       "junctionVerified": true,
-      "cOriginalRemoved": true,
-      "at": "2026-11-28T16:44:26.8145623+09:00"
+      "cOriginalRemoved": true
     },
     {
       "source": "%USERPROFILE%/.codex/worktrees/nuvia-planner-pass-integration",
@@ -710,9 +710,197 @@
       "rootJunctionVerified": true,
       "cOriginalRemoved": true,
       "at": "2026-11-28T16:07:46.3081874+09:00"
-    }
-  ],
-  "verifiedCopiesPendingSwitch": [
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Temp/nuvia-storyboard-private-build-4166a1b",
+      "destination": "G:/C_Archive_20261128/DevelopmentTemp/nuvia-storyboard-private-build-4166a1b",
+      "files": 3959,
+      "bytes": 99251669,
+      "at": "2026-11-28T07:51:08.3542872Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/university-film-20261125",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/university-film-20261125",
+      "files": 423,
+      "bytes": 228053490,
+      "at": "2026-11-28T07:54:14.5868317Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/hanseo-film-upgrade-20261125",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/hanseo-film-upgrade-20261125",
+      "files": 566,
+      "bytes": 146242631,
+      "at": "2026-11-28T07:54:17.2815295Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/hanseo-report-20261123",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/hanseo-report-20261123",
+      "files": 7,
+      "bytes": 145970621,
+      "at": "2026-11-28T07:54:18.4238247Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/korean-buyer-film-20261125",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/korean-buyer-film-20261125",
+      "files": 573,
+      "bytes": 113464337,
+      "at": "2026-11-28T07:54:21.1980755Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/pdf",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/pdf",
+      "files": 21,
+      "bytes": 27353608,
+      "at": "2026-11-28T07:54:22.3786108Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/proposal-common-video-20261126",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/proposal-common-video-20261126",
+      "files": 88,
+      "bytes": 19695130,
+      "at": "2026-11-28T07:54:24.0338293Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/personal-statement-ui-2026-10-23",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/personal-statement-ui-2026-10-23",
+      "files": 4,
+      "bytes": 4397423,
+      "at": "2026-11-28T07:54:25.1101019Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/proposal-flow-demo",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/proposal-flow-demo",
+      "files": 100,
+      "bytes": 10183498,
+      "at": "2026-11-28T07:54:26.406919Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/output/private-story-output-20261124",
+      "destination": "G:/C_Archive_20261128/PreviousOutputArtifacts/private-story-output-20261124",
+      "files": 28,
+      "bytes": 1895237,
+      "at": "2026-11-28T07:54:27.6784011Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Temp/nuvia-company-lab-qa-builder-20261128",
+      "destination": "G:/C_Archive_20261128/DevelopmentTemp/nuvia-company-lab-qa-builder-20261128",
+      "files": 3998,
+      "bytes": 148358537,
+      "at": "2026-11-28T07:55:57.9550344Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Temp/nuvia-stage-picker-9XRe",
+      "destination": "G:/C_Archive_20261128/DevelopmentTemp/nuvia-stage-picker-9XRe",
+      "files": 162,
+      "bytes": 25958815,
+      "at": "2026-11-28T07:56:03.4153298Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Temp/planner-launch-subject-build",
+      "destination": "G:/C_Archive_20261128/DevelopmentTemp/planner-launch-subject-build",
+      "files": 127,
+      "bytes": 10348279,
+      "at": "2026-11-28T07:56:05.7419835Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/npm-cache",
+      "destination": "G:/C_Archive_20261128/UserDevelopmentCaches/npm-cache",
+      "files": 1575,
+      "bytes": 145749144,
+      "at": "2026-11-28T07:56:31.4195567Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/pip",
+      "destination": "G:/C_Archive_20261128/UserDevelopmentCaches/pip",
+      "files": 12,
+      "bytes": 67173057,
+      "at": "2026-11-28T07:56:37.7344839Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/planner-activity-writing-fix",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/planner-activity-writing-fix",
+      "files": 185239,
+      "bytes": 4526355118,
+      "at": "2026-11-28T07:56:41.5668417Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/pnpm-cache",
+      "destination": "G:/C_Archive_20261128/UserDevelopmentCaches/pnpm-cache",
+      "files": 631,
+      "bytes": 248778695,
+      "at": "2026-11-28T07:56:50.9734651Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/pnpm/store",
+      "destination": "G:/C_Archive_20261128/UserDevelopmentCaches/pnpm/store",
+      "files": 92491,
+      "bytes": 1096864435,
+      "at": "2026-11-28T17:20:32.6726063+09:00",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Temp/nuvia-storyboard-release-candidate-20261127",
+      "destination": "G:/C_Archive_20261128/DevelopmentTemp/nuvia-storyboard-release-candidate-20261127",
+      "files": 151188,
+      "bytes": 1954224553,
+      "at": "2026-11-28T17:25:07.7652802+09:00",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
     {
       "source": "feelgood-app/.report-stage",
       "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/FinalVerified/.report-stage",
@@ -722,11 +910,25 @@
       "manifest": "final-ProjectArtifacts-.report-stage-relocation-manifest.jsonl",
       "sha256Verified": true,
       "sourceChangeChecksPassed": true,
-      "cOriginalRemoved": false,
-      "blocker": "Verified external copy and child junctions retained; nuvia-top5 C backup cleanup is running. Remaining report directories and whole-root finalization are pending.",
-      "status": "C_DUPLICATE_REMOVAL_RUNNING"
+      "cOriginalRemoved": true,
+      "status": "ALL_FILE_BYTES_EXTERNAL",
+      "remainingPhysicalFiles": 0,
+      "remainingPhysicalFileBytes": 0,
+      "rootJunctionVerified": true,
+      "completedAt": "2026-11-28T16:51:28.1777633+09:00"
+    },
+    {
+      "source": "feelgood-app/output/disk-cleanup-20261128",
+      "destination": "G:/C_Archive_20261128/CleanupEvidence/disk-cleanup-20261128-final",
+      "files": 285,
+      "bytes": 553348239,
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true,
+      "at": "2026-11-28T17:25:53.6424019+09:00"
     }
   ],
+  "verifiedCopiesPendingSwitch": [],
   "manifestSHA256": {
     "final-ProjectArtifacts-.report-stage-relocation-manifest.jsonl": "7CFE6E950D625F943FFFC9D2DC51816B860450CAE980F5CDB19BA3558F4B458C",
     "final-CodexAssets-visualizations-relocation-manifest.jsonl": "CC61B30C8AB34A231F1F5E673621E75DD909C51EBF74BDCA53A8DB079F270DE6",
@@ -765,9 +967,9 @@
       }
     ],
     "latestTopLevelCheck": {
-      "count": 40,
+      "count": 60,
       "unavailable": 0,
-      "checkedAt": "2026-11-28T16:43:27.2241019+09:00"
+      "checkedAt": "2026-11-28T17:25:35.5882121+09:00"
     }
   },
   "oneTimeFinalizer": {
@@ -817,12 +1019,13 @@
     "category": "Inactive OneDrive diagnostic logs older than two days"
   },
   "capacity": {
-    "checkedAt": "2026-11-28T16:45:11.0553598+09:00",
+    "checkedAt": "2026-11-28T17:26:54.9653754+09:00",
     "totalGiB": 203.69823837280273,
-    "freeGiB": 67.03376007080078,
-    "freePercent": 32.90836514163539,
+    "freeGiB": 75.01114654541016,
+    "usedGiB": 128.68709182739258,
+    "freePercent": 36.824641756659126,
     "targetFreePercent": 60,
-    "additionalGiBToTarget": 55.18518295288085,
+    "additionalGiBToTarget": 47.207796478271476,
     "targetAchieved": false,
     "minimalStateComplete": false
   },
@@ -831,7 +1034,7 @@
     "destination": "F:/C_Archive_20261128",
     "samePhysicalUSBDrive": true,
     "displayedPercent": 3,
-    "status": "CANCEL_REQUESTED_STILL_CANCELLING",
+    "status": "CANCELLED_BY_USER_AUTHORIZED_EXPLORER_RESTART",
     "observedItem": "IdleDevelopment/nuvia-history-2-5d/feelgood-app/nuvia-history-annual/node_modules",
     "observedItemWasDanglingJunction": true,
     "splitFolderRecovery": {
@@ -843,8 +1046,11 @@
       "partialFArchiveRetained": true
     },
     "explorerRestartRequested": true,
-    "explorerRestartPermission": "PENDING_USER_REPLY",
-    "computerRestartPerformed": false
+    "explorerRestartPermission": "APPROVED_BY_USER_AND_EXECUTED",
+    "computerRestartPerformed": false,
+    "explorerRestartCompleted": true,
+    "stuckCopyWindowAbsentVerified": true,
+    "restartVerifiedAt": "2026-11-28T16:50:08.8294511+09:00"
   },
   "windowsComponentCleanup": {
     "Status": "COMPLETE",
@@ -857,19 +1063,45 @@
     "FinishedAt": "2026-11-28T16:40:09.3123482+09:00",
     "CFreeAfter": 70940188672
   },
-  "pendingFileCopy": {
-    "source": "%USERPROFILE%/.codex/worktrees/planner-activity-writing-fix",
-    "destination": "G:/C_Archive_20261128/IdleDevelopment/planner-activity-writing-fix",
-    "status": "COPYING_AND_VERIFYING",
-    "lastObservedVerifiedFiles": 170000,
-    "totalFiles": 185239,
-    "cOriginalRemoved": false
-  },
   "constraints": {
     "pagefile": "System-managed; approximately 25.46 GiB. Peak/current commit exceeds physical RAM; not disabled or arbitrarily reduced.",
     "compactOS": "Already compressed.",
     "systemSamsungModels": "No move performed: Windows administrator consent dialog was cancelled by the user.",
     "systemPartitions": "No partition deletion or resizing performed.",
-    "activeApplications": "Not forcibly closed. Explorer restart awaits a separate user answer."
+    "activeApplications": "Only Windows Explorer was restarted with explicit user approval. Other user applications were not forcibly closed. Own file-migration workers were replaced by verified resumable cleanup."
+  },
+  "centralWorktreeRoot": {
+    "userChoice": "Keep individual-folder moves; delete C duplicates after actual GitHub storage verification.",
+    "changed": false,
+    "preparedAlternativeRemoved": true,
+    "recurringCleanupDaemonInstalled": false
+  },
+  "approvalReviewOutcomes": [
+    {
+      "action": "Nine output folders C-copy cleanup",
+      "initialResult": "Rejected pending individual preservation evidence",
+      "resolution": "All nine folders copied and SHA256-verified individually; subsequent review approved cleanup, and C duplicate removal completed."
+    },
+    {
+      "action": "Change central .codex/worktrees path",
+      "initialResult": "Rejected pending explicit approval",
+      "resolution": "User chose individual-folder moves. Central path stayed unchanged and preparation-only copies/link objects were removed without deleting target data."
+    }
+  ],
+  "remainingScope": {
+    "selectedFileMovesComplete": true,
+    "fileCopyOrCleanupWorkersStillRunning": false,
+    "retainedUnverifiedBackupFilesInFinalTwoMoves": 0,
+    "centralWorktreeRootUnchanged": true,
+    "systemSamsungModels": "Not moved: earlier administrator consent was cancelled by the user.",
+    "sixtyPercentTarget": "Not met. No claim that the whole C drive has reached its minimum possible footprint.",
+    "currentRuntimeState": "Windows/drivers, current development/document tools, active workspace files and actively written app history/databases remain on C."
+  },
+  "evidenceArchive": {
+    "path": "G:/C_Archive_20261128/CleanupEvidence/disk-cleanup-20261128-final",
+    "oldPathConnected": true,
+    "filesVerified": 285,
+    "bytes": 553348239,
+    "cDuplicateRemoved": true
   }
 }
