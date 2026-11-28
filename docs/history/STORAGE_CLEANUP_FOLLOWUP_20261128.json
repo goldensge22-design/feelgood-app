@@ -1,8 +1,8 @@
 {
-  "version": 3,
+  "version": 4,
   "date": "2026-11-28",
-  "ruleChange": "규칙 변경 없음. 이번 추가 정리는 앱 유지·파일 정리로 한정.",
-  "status": "CACHE_CLEANUP_COMPLETE_ONEDRIVE_DEHYDRATION_PENDING",
+  "ruleChange": "규칙 변경 없음. 현재 작업은 2025년 이전 제안서·이미지 등 보관, 2026년 작업 제외",
+  "status": "RESIDENT_OLD_WORK_ARCHIVED_CLOUD_ONLY_ARCHIVE_BLOCKED_BY_TIMEOUT",
   "previousAppCleanup": {
     "version": 1,
     "date": "2026-11-28",
@@ -37,10 +37,10 @@
     "netAdditionalFreeGiB": 4.971,
     "externalArchiveVerified": true
   },
-  "totalFreeGiB": 84.159,
-  "totalFreePercent": 41.316,
+  "totalFreeGiB": 84.123,
+  "totalFreePercent": 41.298,
   "targetFreePercent": 60,
-  "additionalGiBRequired": 38.06,
+  "additionalGiBRequired": 38.096,
   "detailedEvidence": "Private file manifests and hashes remain on approved external storage. User paths, conversation identifiers, project names and original data are excluded from this summary.",
   "productionCodeChanged": false,
   "deploymentPerformed": false,
@@ -55,5 +55,20 @@
     "otherWindowsTempAndErrorReportCandidatesGiB": 0.022,
     "ruleChange": "규칙 변경 없음; 앱 유지·파일만 정리",
     "note": "OneDrive Files On-Demand unpin requests remain pending; no reclaimed capacity is attributed to them."
+  },
+  "pre2026Archive": {
+    "candidateFiles": 3669,
+    "candidateBytes": 21024696666,
+    "candidateAllocatedBytes": 122907890,
+    "externalVerifiedFiles": 10,
+    "externalVerifiedBytes": 120810738,
+    "residentBytesAfterUnpin": 120810738,
+    "sourceFilesDeleted": 0,
+    "applicationsRemoved": 0,
+    "workFrom2026Excluded": true,
+    "phoneVirtualFilesExcluded": true,
+    "cloudOnlyTest": "Download timed out; source unchanged",
+    "oneDriveUI": "Looking for changes; sync pending",
+    "completion": "Partial external archive only. Remaining cloud-only files have not been archived; no recovered space is attributed to pending unpin requests."
   }
 }
