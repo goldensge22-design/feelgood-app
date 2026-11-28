@@ -1,9 +1,9 @@
 {
-  "version": 1,
-  "checkedAt": "2026-11-28T15:20:47.7357853+09:00",
-  "status": "AWAITING_NORMAL_APP_EXIT",
+  "version": 2,
+  "checkedAt": "2026-11-28T16:02:22.5069725+09:00",
+  "status": "PARTIAL_COMPLETE_REPORT_DUPLICATE_REMOVAL_RUNNING",
   "authorization": "2026-11-28: 최소 항목을 남기고 외장 이동 완료 요청. 결과지 관련 로컬 작업 폴더 전체 이동 추가 승인.",
-  "ruleChange": "없음. 결과지 내용·원본·미커밋 수정 보존 규칙 유지.",
+  "ruleChange": "C_DRIVE_STORAGE_RULES.md v1.1: verified preservation does not require permanent duplicate storage on C. Local AGENTS.md references this policy. Policy GitHub commit 7264982a2c8664a7c443fc9d2b9edc3a7260fd47.",
   "completed": [
     {
       "source": "%USERPROFILE%/.codex/worktrees/dcas81-unique-names",
@@ -31,6 +31,42 @@
       "sha256Verified": true,
       "junctionVerified": true,
       "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/proposal-common-film-1126",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/FinalVerified/proposal-common-film-1126",
+      "files": 1264,
+      "bytes": 1682432435,
+      "preservedLinks": 0,
+      "manifest": "final-proposal-common-film-1126-relocation-manifest.jsonl",
+      "sha256Verified": true,
+      "sourceChangeChecksPassed": true,
+      "cOriginalRemoved": true,
+      "remainingPhysicalFileBytes": 0,
+      "rootJunctionVerified": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/visualizations",
+      "destination": "G:/C_Archive_20261128/GeneratedAssets/FinalVerified/visualizations",
+      "files": 47237,
+      "bytes": 1700344776,
+      "preservedLinks": 1798,
+      "manifest": "final-CodexAssets-visualizations-relocation-manifest.jsonl",
+      "sha256Verified": true,
+      "sourceChangeChecksPassed": true,
+      "cOriginalRemoved": true,
+      "remainingPhysicalFileBytes": 0,
+      "rootJunctionVerified": false
+    },
+    {
+      "junctionVerified": true,
+      "sha256Verified": true,
+      "files": 2401,
+      "cOriginalRemoved": true,
+      "unchangedHead": "fc97bb2d3c048b8eb23090e559c0a0fd63285fd9",
+      "bytes": 4047366310,
+      "source": "feelgood-app/.git/objects",
+      "destination": "G:/C_Archive_20261128/GitObjectStorage/objects"
     }
   ],
   "verifiedCopiesPendingSwitch": [
@@ -44,31 +80,8 @@
       "sha256Verified": true,
       "sourceChangeChecksPassed": true,
       "cOriginalRemoved": false,
-      "blocker": "Windows denied directory rename while apps retain directory handles."
-    },
-    {
-      "source": "%USERPROFILE%/.codex/worktrees/proposal-common-film-1126",
-      "destination": "G:/C_Archive_20261128/IdleDevelopment/FinalVerified/proposal-common-film-1126",
-      "files": 1264,
-      "bytes": 1682432435,
-      "preservedLinks": 0,
-      "manifest": "final-proposal-common-film-1126-relocation-manifest.jsonl",
-      "sha256Verified": true,
-      "sourceChangeChecksPassed": true,
-      "cOriginalRemoved": false,
-      "blocker": "Windows denied directory rename while apps retain directory handles."
-    },
-    {
-      "source": "%USERPROFILE%/.codex/visualizations",
-      "destination": "G:/C_Archive_20261128/GeneratedAssets/FinalVerified/visualizations",
-      "files": 47237,
-      "bytes": 1700344776,
-      "preservedLinks": 1798,
-      "manifest": "final-CodexAssets-visualizations-relocation-manifest.jsonl",
-      "sha256Verified": true,
-      "sourceChangeChecksPassed": true,
-      "cOriginalRemoved": false,
-      "blocker": "Windows denied directory rename while apps retain directory handles."
+      "blocker": "No longer waiting for application exit. External content verified; child junctions installed; exact verified C backup file deletion is running. Whole-root completion is not yet verified.",
+      "status": "C_DUPLICATE_REMOVAL_RUNNING"
     }
   ],
   "manifestSHA256": {
@@ -94,20 +107,11 @@
     "legacyHArchive": "H: is not mounted. Pre-existing nested H: links were preserved and excluded from availability claims."
   },
   "oneTimeFinalizer": {
-    "status": "WAITING_FOR_NORMAL_APP_EXIT",
-    "processAliveAtCheck": true,
-    "waitDeadline": "2026-11-28T17:09:00.4362413+09:00",
-    "trigger": "Codex and ChatGPT exit normally and active migration processes finish.",
-    "scope": [
-      ".report-stage",
-      "proposal-common-film-1126",
-      "visualizations"
-    ],
-    "safety": "Recheck source/target metadata against verified SHA256 manifests; verify changes; retain source on error; preserve original paths via junctions.",
-    "statusFile": "output/disk-cleanup-20261128/finish-on-app-exit-status.json",
-    "completionFile": "output/disk-cleanup-20261128/이동완료.txt",
     "forcedAppTermination": false,
-    "recurringAutomation": false
+    "recurringAutomation": false,
+    "reason": "Replaced by granular path redirection without forcing applications to exit.",
+    "status": "CANCELLED",
+    "checkedAt": "2026-11-28T15:24:00.8385457+09:00"
   },
   "preservation": {
     "sourceContentsChanged": false,
@@ -117,5 +121,47 @@
     "productionDeploymentPerformed": false,
     "githubSourceCoverage": "전체 결과지 원본의 GitHub 동일성은 이번 작업에서 전수 검증하지 않음. 원본 전체 외장 보존 및 SHA256 대조를 이동 근거로 사용.",
     "githubEvidenceScope": "이 기록은 비민감 정리·검증 증거만 보존. 개인 자료 및 원본 파일별 목록은 로컬 감사 폴더에 보관."
+  },
+  "optionalApps": {
+    "physicalBinaryReclamation": "Not equated with logical package sizes; actual volume free space measured separately.",
+    "backup": "G:/C_Archive_20261128/OptionalAppBackups",
+    "userAuthorization": "No additional programs to retain beyond Windows/drivers and current development/document essentials.",
+    "runningAppsRetained": [
+      "SamsungNotes",
+      "SmartThingsWindows"
+    ],
+    "removedCurrentUserRegistration": [
+      "Microsoft.XboxSpeechToTextOverlay",
+      "SAMSUNGELECTRONICSCO.LTD.SamsungStudioForGalleryU",
+      "SAMSUNGELECTRONICSCO.LTD.SamsungWelcome",
+      "Microsoft.XboxIdentityProvider",
+      "Microsoft.Xbox.TCUI",
+      "SAMSUNGELECTRONICSCO.LTD.Bixby",
+      "SAMSUNGELECTRONICSCO.LTD.SamsungStudio",
+      "SAMSUNGELECTRONICSCO.LTD.PCGallery",
+      "FluidTouchPteLtd.NoteshelfSamsung",
+      "Clipchamp.Clipchamp",
+      "Microsoft.XboxGamingOverlay",
+      "Microsoft.GamingApp"
+    ],
+    "dataSHA256RecheckedBeforeUninstall": true
+  },
+  "regenerableCleanup": {
+    "removedFiles": 2232,
+    "removedLogicalBytes": 1736056626,
+    "userDocumentsOrSyncSettingsDeleted": false,
+    "category": "Inactive OneDrive diagnostic logs older than two days"
+  },
+  "capacity": {
+    "estimateIsNotGuaranteed": true,
+    "totalGiB": 203.7,
+    "usedGiB": 147.08,
+    "freeGiB": 56.62,
+    "estimatedFreeGiBAfterRemainingCandidates": [
+      60,
+      70
+    ],
+    "minimalStateComplete": false,
+    "checkedAt": "2026-11-28T16:02:22.8770950+09:00"
   }
 }
