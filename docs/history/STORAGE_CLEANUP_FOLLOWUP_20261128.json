@@ -1,8 +1,8 @@
 {
-  "version": 2,
+  "version": 3,
   "date": "2026-11-28",
   "ruleChange": "규칙 변경 없음. 이번 추가 정리는 앱 유지·파일 정리로 한정.",
-  "status": "FILE_ONLY_CLEANUP_COMPLETE_TARGET_NOT_MET",
+  "status": "CACHE_CLEANUP_COMPLETE_ONEDRIVE_DEHYDRATION_PENDING",
   "previousAppCleanup": {
     "version": 1,
     "date": "2026-11-28",
@@ -37,11 +37,23 @@
     "netAdditionalFreeGiB": 4.971,
     "externalArchiveVerified": true
   },
-  "totalFreeGiB": 83.972,
-  "totalFreePercent": 41.224,
+  "totalFreeGiB": 84.159,
+  "totalFreePercent": 41.316,
   "targetFreePercent": 60,
-  "additionalGiBRequired": 38.247,
+  "additionalGiBRequired": 38.06,
   "detailedEvidence": "Private file manifests and hashes remain on approved external storage. User paths, conversation identifiers, project names and original data are excluded from this summary.",
   "productionCodeChanged": false,
-  "deploymentPerformed": false
+  "deploymentPerformed": false,
+  "latestCacheCleanup": {
+    "applicationsRemoved": 0,
+    "verifiedArchivedCacheFiles": 3339,
+    "verifiedArchivedCacheBytes": 271077343,
+    "oneDriveInSyncFilesRequested": 245,
+    "oneDriveRequestedBytes": 918977568,
+    "oneDriveOnlineOnlyVerified": 0,
+    "oneDriveSpaceNotYetReclaimed": true,
+    "otherWindowsTempAndErrorReportCandidatesGiB": 0.022,
+    "ruleChange": "규칙 변경 없음; 앱 유지·파일만 정리",
+    "note": "OneDrive Files On-Demand unpin requests remain pending; no reclaimed capacity is attributed to them."
+  }
 }
