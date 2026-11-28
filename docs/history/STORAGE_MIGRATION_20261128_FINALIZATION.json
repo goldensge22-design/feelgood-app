@@ -1,7 +1,7 @@
 {
-  "version": 2,
-  "checkedAt": "2026-11-28T16:02:22.5069725+09:00",
-  "status": "PARTIAL_COMPLETE_REPORT_DUPLICATE_REMOVAL_RUNNING",
+  "version": 3,
+  "checkedAt": "2026-11-28T16:45:11.0553598+09:00",
+  "status": "PARTIAL_COMPLETE_CLEANUP_RUNNING_EXPLORER_CANCEL_STUCK",
   "authorization": "2026-11-28: 최소 항목을 남기고 외장 이동 완료 요청. 결과지 관련 로컬 작업 폴더 전체 이동 추가 승인.",
   "ruleChange": "C_DRIVE_STORAGE_RULES.md v1.1: verified preservation does not require permanent duplicate storage on C. Local AGENTS.md references this policy. Policy GitHub commit 7264982a2c8664a7c443fc9d2b9edc3a7260fd47.",
   "completed": [
@@ -10,6 +10,7 @@
       "destination": "G:/C_Archive_20261128/IdleDevelopment/dcas81-unique-names",
       "files": 490,
       "bytes": 227911583,
+      "at": "2026-11-28T05:53:15.8225492Z",
       "sha256Verified": true,
       "junctionVerified": true,
       "cOriginalRemoved": true
@@ -19,6 +20,7 @@
       "destination": "G:/C_Archive_20261128/GeneratedAssets/FinalVerified/archived_sessions",
       "files": 5,
       "bytes": 96063799,
+      "at": "2026-11-28T05:55:23.0248748Z",
       "sha256Verified": true,
       "junctionVerified": true,
       "cOriginalRemoved": true
@@ -28,6 +30,7 @@
       "destination": "G:/C_Archive_20261128/OldChatHistory/2026/FinalVerified/10",
       "files": 182,
       "bytes": 457999002,
+      "at": "2026-11-28T05:58:25.0504719Z",
       "sha256Verified": true,
       "junctionVerified": true,
       "cOriginalRemoved": true
@@ -59,14 +62,654 @@
       "rootJunctionVerified": false
     },
     {
-      "junctionVerified": true,
-      "sha256Verified": true,
-      "files": 2401,
-      "cOriginalRemoved": true,
-      "unchangedHead": "fc97bb2d3c048b8eb23090e559c0a0fd63285fd9",
-      "bytes": 4047366310,
       "source": "feelgood-app/.git/objects",
-      "destination": "G:/C_Archive_20261128/GitObjectStorage/objects"
+      "destination": "G:/C_Archive_20261128/GitObjectStorage/objects",
+      "files": 2401,
+      "bytes": 4047366310,
+      "at": "2026-11-28T06:42:21.128025Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-home-age-cards",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-home-age-cards",
+      "files": 132785,
+      "bytes": 2221392012,
+      "at": "2026-11-28T03:39:01.1159278Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-journey-save-qa",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-journey-save-qa",
+      "files": 15274,
+      "bytes": 2178509504,
+      "at": "2026-11-28T03:41:38.7361403Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/generated_images",
+      "destination": "G:/C_Archive_20261128/GeneratedAssets/generated_images",
+      "files": 168,
+      "bytes": 328048724,
+      "at": "2026-11-28T03:43:46.6050423Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/tmp",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/tmp",
+      "files": 5233,
+      "bytes": 666330660,
+      "at": "2026-11-28T03:46:28.4100048Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-timed-validation-final",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-timed-validation-final",
+      "files": 1647,
+      "bytes": 99130077,
+      "at": "2026-11-28T04:47:54.1561928Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-timed-validation-ko-v2",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-timed-validation-ko-v2",
+      "files": 828,
+      "bytes": 76407806,
+      "at": "2026-11-28T04:48:01.0317354Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-timed-validation-ko",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-timed-validation-ko",
+      "files": 841,
+      "bytes": 29478705,
+      "at": "2026-11-28T04:48:04.8157242Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-timed-validation-15lang-v1",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-timed-validation-15lang-v1",
+      "files": 1647,
+      "bytes": 99117214,
+      "at": "2026-11-28T04:48:16.8651639Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-timed-pnpm-store",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-timed-pnpm-store",
+      "files": 20909,
+      "bytes": 309363361,
+      "at": "2026-11-28T04:50:14.0504531Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.pnpm-store",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.pnpm-store",
+      "files": 1,
+      "bytes": 8192,
+      "at": "2026-11-28T04:50:17.1560123Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/history-v12-age-demo",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/history-v12-age-demo",
+      "files": 1234,
+      "bytes": 512021625,
+      "at": "2026-11-28T04:50:54.44556Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-age-comparison-demo",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-age-comparison-demo",
+      "files": 1263,
+      "bytes": 515704940,
+      "at": "2026-11-28T04:51:17.2965695Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-contract-demo",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-contract-demo",
+      "files": 1116,
+      "bytes": 499681512,
+      "at": "2026-11-28T04:51:38.2622793Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-month01-demo",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-month01-demo",
+      "files": 1302,
+      "bytes": 533675169,
+      "at": "2026-11-28T04:52:00.0561981Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-scene-demo-v2",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-scene-demo-v2",
+      "files": 1122,
+      "bytes": 499698026,
+      "at": "2026-11-28T04:52:20.3574905Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-story-demo",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-story-demo",
+      "files": 1177,
+      "bytes": 529691678,
+      "at": "2026-11-28T04:52:42.9605492Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-annual-engine",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-annual-engine",
+      "files": 1074,
+      "bytes": 492712267,
+      "at": "2026-11-28T04:53:07.7707859Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-history-2-5d",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-history-2-5d",
+      "files": 1424,
+      "bytes": 687408909,
+      "at": "2026-11-28T04:53:40.0965674Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/enterprise-ebook-delivery",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/enterprise-ebook-delivery",
+      "files": 660,
+      "bytes": 238936566,
+      "at": "2026-11-28T04:53:50.6319356Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-family-integration-handoff",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-family-integration-handoff",
+      "files": 1086,
+      "bytes": 255218644,
+      "at": "2026-11-28T04:54:04.2627474Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-planner-recovery",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-planner-recovery",
+      "files": 367,
+      "bytes": 166261184,
+      "at": "2026-11-28T04:54:08.7813663Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/handoff-review",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/handoff-review",
+      "files": 339,
+      "bytes": 5376319,
+      "at": "2026-11-28T04:55:59.8903439Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/career-exploration-lab-handoff",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/career-exploration-lab-handoff",
+      "files": 999,
+      "bytes": 128917027,
+      "at": "2026-11-28T04:56:07.7030679Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/proposal-deploy",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/proposal-deploy",
+      "files": 208,
+      "bytes": 162691827,
+      "at": "2026-11-28T04:56:20.6875083Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/proposal-dashboard-live",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/proposal-dashboard-live",
+      "files": 276,
+      "bytes": 165305094,
+      "at": "2026-11-28T04:56:27.1748974Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/.github-lab-qa-upload-20261110",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/.github-lab-qa-upload-20261110",
+      "files": 135,
+      "bytes": 255167923,
+      "at": "2026-11-28T04:56:33.44002Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/tmp",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/tmp",
+      "files": 506,
+      "bytes": 514640459,
+      "at": "2026-11-28T04:56:59.4044088Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/output",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/output",
+      "files": 31462,
+      "bytes": 671265955,
+      "at": "2026-11-28T05:01:19.7194723Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-career-review-qa15",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-career-review-qa15",
+      "files": 55248,
+      "bytes": 1355343263,
+      "at": "2026-11-28T05:18:12.7502043Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-storyboard-release-qa",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-storyboard-release-qa",
+      "files": 4043,
+      "bytes": 105659539,
+      "at": "2026-11-28T05:21:42.2284701Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-studio-career-review-qa15",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-studio-career-review-qa15",
+      "files": 1486,
+      "bytes": 178318299,
+      "at": "2026-11-28T05:22:25.5808558Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-studio-final",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-studio-final",
+      "files": 874,
+      "bytes": 174601236,
+      "at": "2026-11-28T05:22:46.6159974Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "feelgood-app/.planner-daily-note-demo",
+      "destination": "G:/C_Archive_20261128/PreviousDevelopmentArtifacts/.planner-daily-note-demo",
+      "files": 5996,
+      "bytes": 222629276,
+      "at": "2026-11-28T05:24:05.5891202Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/planner-studio-sync-20261121",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/planner-studio-sync-20261121",
+      "files": 11695,
+      "bytes": 441938496,
+      "at": "2026-11-28T05:25:28.5031545Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/OneDrive/문서/ChatGPT/D-CAS 기업 직무 탐색LAB/outputs",
+      "destination": "G:/C_Archive_20261128/PreviousLABArtifacts/outputs",
+      "files": 130504,
+      "bytes": 6018844988,
+      "at": "2026-11-28T05:31:30.093513Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/proposal-live",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/proposal-live",
+      "files": 221,
+      "bytes": 162974086,
+      "at": "2026-11-28T07:05:27.1530088Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/proposal-english-audio",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/proposal-english-audio",
+      "files": 715,
+      "bytes": 335047978,
+      "at": "2026-11-28T07:05:41.5875956Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/npm-cache",
+      "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/npm-cache",
+      "files": 1441,
+      "bytes": 223364711,
+      "at": "2026-11-28T07:06:08.4060702Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/pip",
+      "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/pip",
+      "files": 517,
+      "bytes": 266104192,
+      "at": "2026-11-28T07:06:22.4062561Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/pnpm-cache",
+      "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/pnpm-cache",
+      "files": 1001,
+      "bytes": 424152420,
+      "at": "2026-11-28T07:06:39.2702319Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/ms-playwright",
+      "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/ms-playwright",
+      "files": 606,
+      "bytes": 752827832,
+      "at": "2026-11-28T07:07:23.508584Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-monthly-growth-qa",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-monthly-growth-qa",
+      "files": 4034,
+      "bytes": 105559575,
+      "at": "2026-11-28T07:07:28.7862731Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-regression-qa-20261122",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-regression-qa-20261122",
+      "files": 6013,
+      "bytes": 262053516,
+      "at": "2026-11-28T07:08:44.0307141Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/03",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/03",
+      "files": 17,
+      "bytes": 2335813,
+      "at": "2026-11-28T07:11:20.7154538Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/04",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/04",
+      "files": 7,
+      "bytes": 2438258,
+      "at": "2026-11-28T07:11:22.6318045Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/05",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/05",
+      "files": 13,
+      "bytes": 1424093,
+      "at": "2026-11-28T07:11:24.5579583Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/07",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/07",
+      "files": 7,
+      "bytes": 894886,
+      "at": "2026-11-28T07:11:27.751372Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/08",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/08",
+      "files": 6,
+      "bytes": 627639,
+      "at": "2026-11-28T07:11:30.3324893Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/10",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/10",
+      "files": 61,
+      "bytes": 12640087,
+      "at": "2026-11-28T07:11:32.5047939Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/11",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/11",
+      "files": 33,
+      "bytes": 5558080,
+      "at": "2026-11-28T07:11:34.2269005Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/12",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/12",
+      "files": 68,
+      "bytes": 10986595,
+      "at": "2026-11-28T07:11:37.3576382Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/13",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/13",
+      "files": 23,
+      "bytes": 203037589,
+      "at": "2026-11-28T07:13:14.5762702Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/14",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/14",
+      "files": 30,
+      "bytes": 6223875,
+      "at": "2026-11-28T07:13:16.1844316Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/15",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/15",
+      "files": 55,
+      "bytes": 56083111,
+      "at": "2026-11-28T07:13:19.5635372Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/16",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/16",
+      "files": 14,
+      "bytes": 25981945,
+      "at": "2026-11-28T07:13:25.9477295Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/17",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/17",
+      "files": 73,
+      "bytes": 16105339,
+      "at": "2026-11-28T07:13:29.7752143Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/18",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/18",
+      "files": 32,
+      "bytes": 5893877,
+      "at": "2026-11-28T07:13:31.3584347Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/21",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/21",
+      "files": 35,
+      "bytes": 42154974,
+      "at": "2026-11-28T07:13:33.0456167Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/23",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/23",
+      "files": 55,
+      "bytes": 70768400,
+      "at": "2026-11-28T07:13:39.2989602Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/.codex/sessions/2026/11/24",
+      "destination": "G:/C_Archive_20261128/OldChatHistory/2026/11/24",
+      "files": 33,
+      "bytes": 239981657,
+      "at": "2026-11-28T07:14:55.9575705Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Publishers/3c1yjt4zspk6g/visionai",
+      "destination": "G:/C_Archive_20261128/OptionalAIModels/User/visionai",
+      "files": 22,
+      "bytes": 981574386,
+      "at": "2026-11-28T07:19:35.8133907Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Publishers/3c1yjt4zspk6g/smartengine",
+      "destination": "G:/C_Archive_20261128/OptionalAIModels/User/smartengine",
+      "files": 57,
+      "bytes": 762938897,
+      "at": "2026-11-28T07:20:28.0421066Z",
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true
+    },
+    {
+      "source": "%USERPROFILE%/AppData/Local/Packages/OpenAI.Codex_2p2nqsd0c76g0/LocalCache/Local/pnpm",
+      "destination": "G:/C_Archive_20261128/CodexDevelopmentCaches/pnpm",
+      "files": 58471,
+      "bytes": 885316589,
+      "sha256Verified": true,
+      "junctionVerified": true,
+      "cOriginalRemoved": true,
+      "at": "2026-11-28T16:44:26.8145623+09:00"
+    },
+    {
+      "source": "%USERPROFILE%/.codex/worktrees/nuvia-planner-pass-integration",
+      "destination": "G:/C_Archive_20261128/IdleDevelopment/nuvia-planner-pass-integration",
+      "files": 369,
+      "bytes": 166433035,
+      "sha256Verified": true,
+      "rootJunctionVerified": true,
+      "cOriginalRemoved": true,
+      "at": "2026-11-28T16:07:46.3081874+09:00"
     }
   ],
   "verifiedCopiesPendingSwitch": [
@@ -80,7 +723,7 @@
       "sha256Verified": true,
       "sourceChangeChecksPassed": true,
       "cOriginalRemoved": false,
-      "blocker": "No longer waiting for application exit. External content verified; child junctions installed; exact verified C backup file deletion is running. Whole-root completion is not yet verified.",
+      "blocker": "Verified external copy and child junctions retained; nuvia-top5 C backup cleanup is running. Remaining report directories and whole-root finalization are pending.",
       "status": "C_DUPLICATE_REMOVAL_RUNNING"
     }
   ],
@@ -104,7 +747,28 @@
     "contentModified": false,
     "topLevelJunctionTargetsChecked": 31,
     "unavailableAfterRepair": 0,
-    "legacyHArchive": "H: is not mounted. Pre-existing nested H: links were preserved and excluded from availability claims."
+    "legacyHArchive": "H: is not mounted. Pre-existing nested H: links were preserved and excluded from availability claims.",
+    "additionalDownloadFolders": [
+      {
+        "alias": "G:/C_Archive_20261128/DownloadedAssets",
+        "target": "F:/C_Archive_20261128/DownloadedAssets",
+        "files": 1,
+        "allHashesMatched": true,
+        "filesDeleted": 0
+      },
+      {
+        "alias": "G:/C_Archive_20261128/DownloadedDevelopmentPackages",
+        "target": "F:/C_Archive_20261128/DownloadedDevelopmentPackages",
+        "files": 18,
+        "allHashesMatched": true,
+        "filesDeleted": 0
+      }
+    ],
+    "latestTopLevelCheck": {
+      "count": 40,
+      "unavailable": 0,
+      "checkedAt": "2026-11-28T16:43:27.2241019+09:00"
+    }
   },
   "oneTimeFinalizer": {
     "forcedAppTermination": false,
@@ -153,15 +817,59 @@
     "category": "Inactive OneDrive diagnostic logs older than two days"
   },
   "capacity": {
-    "estimateIsNotGuaranteed": true,
-    "totalGiB": 203.7,
-    "usedGiB": 147.08,
-    "freeGiB": 56.62,
-    "estimatedFreeGiBAfterRemainingCandidates": [
-      60,
-      70
-    ],
-    "minimalStateComplete": false,
-    "checkedAt": "2026-11-28T16:02:22.8770950+09:00"
+    "checkedAt": "2026-11-28T16:45:11.0553598+09:00",
+    "totalGiB": 203.69823837280273,
+    "freeGiB": 67.03376007080078,
+    "freePercent": 32.90836514163539,
+    "targetFreePercent": 60,
+    "additionalGiBToTarget": 55.18518295288085,
+    "targetAchieved": false,
+    "minimalStateComplete": false
+  },
+  "explorerMove": {
+    "source": "G:/C_Archive_20261128",
+    "destination": "F:/C_Archive_20261128",
+    "samePhysicalUSBDrive": true,
+    "displayedPercent": 3,
+    "status": "CANCEL_REQUESTED_STILL_CANCELLING",
+    "observedItem": "IdleDevelopment/nuvia-history-2-5d/feelgood-app/nuvia-history-annual/node_modules",
+    "observedItemWasDanglingJunction": true,
+    "splitFolderRecovery": {
+      "folder": "nuvia-history-2-5d",
+      "restoredMissingFiles": 151,
+      "verifiedFiles": 1424,
+      "hashMismatches": 0,
+      "filesDeleted": 0,
+      "partialFArchiveRetained": true
+    },
+    "explorerRestartRequested": true,
+    "explorerRestartPermission": "PENDING_USER_REPLY",
+    "computerRestartPerformed": false
+  },
+  "windowsComponentCleanup": {
+    "Status": "COMPLETE",
+    "StartedAt": "2026-11-28T16:25:23.636384+09:00",
+    "Command": "DISM /Online /Cleanup-Image /StartComponentCleanup",
+    "ResetBase": false,
+    "RestartRequested": false,
+    "CFreeBefore": 66004193280,
+    "ExitCode": 0,
+    "FinishedAt": "2026-11-28T16:40:09.3123482+09:00",
+    "CFreeAfter": 70940188672
+  },
+  "pendingFileCopy": {
+    "source": "%USERPROFILE%/.codex/worktrees/planner-activity-writing-fix",
+    "destination": "G:/C_Archive_20261128/IdleDevelopment/planner-activity-writing-fix",
+    "status": "COPYING_AND_VERIFYING",
+    "lastObservedVerifiedFiles": 170000,
+    "totalFiles": 185239,
+    "cOriginalRemoved": false
+  },
+  "constraints": {
+    "pagefile": "System-managed; approximately 25.46 GiB. Peak/current commit exceeds physical RAM; not disabled or arbitrarily reduced.",
+    "compactOS": "Already compressed.",
+    "systemSamsungModels": "No move performed: Windows administrator consent dialog was cancelled by the user.",
+    "systemPartitions": "No partition deletion or resizing performed.",
+    "activeApplications": "Not forcibly closed. Explorer restart awaits a separate user answer."
   }
 }
